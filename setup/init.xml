@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<binding fileName="modules/notification/persistentdocument/import/notification_binding.xml" />
+	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+
+	<systemfolder module="list" relatedmodule="catalog">
+		<staticlist listid="modules_catalog/pricesorting"
+			description="&amp;modules.catalog.list.pricesorting-description;"
+			label="&amp;modules.catalog.list.pricesorting;">			
+			<staticitem value="10" label="&amp;modules.catalog.frontoffice.priceRange10;" />
+			<staticitem value="50" label="&amp;modules.catalog.frontoffice.priceRange50;" />
+			<staticitem value="100" label="&amp;modules.catalog.frontoffice.priceRange100;" />
+			<staticitem value="200" label="&amp;modules.catalog.frontoffice.priceRange200;" />
+			<staticitem value="500" label="&amp;modules.catalog.frontoffice.priceRange500;" />
+			<staticitem value="501" label="&amp;modules.catalog.frontoffice.priceRangeMore;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/discounttypes"
+			description="&amp;modules.catalog.bo.general.Discount-types-list-description;"
+			label="&amp;modules.catalog.bo.general.Discount-types-list;">			
+			<staticitem value="price" label="&amp;modules.catalog.bo.general.Discount-types-price;" />
+			<staticitem value="percentage" label="&amp;modules.catalog.bo.general.Discount-types-percentage;" />
+			<staticitem value="value" label="&amp;modules.catalog.bo.general.Discount-types-value;" />
+		</staticlist>
+				
+		<staticlist listid="modules_catalog/discounttypesshort"
+			description="&amp;modules.catalog.bo.general.Discount-types-short-list-description;"
+			label="&amp;modules.catalog.bo.general.Discount-types-short-list;">			
+			<staticitem value="percentage" label="&amp;modules.catalog.bo.general.Discount-types-percentage;" />
+			<staticitem value="value" label="&amp;modules.catalog.bo.general.Discount-types-value;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/currencycode"
+			description="&amp;modules.catalog.bo.general.Currency-code-list-description;"
+			label="&amp;modules.catalog.bo.general.Currency-code-list;">
+			<staticitem value="EUR" label="€" />
+			<staticitem value="GBP" label="£" />
+			<staticitem value="CHF" label="F" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/currencyposition"
+			description="&amp;modules.catalog.bo.general.Currency-position-list-description;"
+			label="&amp;modules.catalog.bo.general.Currency-position-list;">			
+			<staticitem value="left" label="&amp;modules.catalog.bo.general.Currency-position-left;" />
+			<staticitem value="right" label="&amp;modules.catalog.bo.general.Currency-position-right;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/weightunits"
+			description="&amp;modules.catalog.bo.general.Weight-units-list-desc;"
+			label="&amp;modules.catalog.bo.general.Weight-units-list-label;">			
+			<staticitem value="mg" label="&amp;modules.catalog.frontoffice.weight-unit-mg-label;" />
+			<staticitem value="g" label="&amp;modules.catalog.frontoffice.weight-unit-g-label;" />
+			<staticitem value="kg" label="&amp;modules.catalog.frontoffice.weight-unit-kg-label;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/searchdisplaymodes"
+			description="&amp;modules.catalog.bo.general.Search-modes-list-desc;"
+			label="&amp;modules.catalog.bo.general.Search-modes-list-label;">			
+			<staticitem value="all" label="&amp;modules.catalog.frontoffice.Search-all;" />
+			<staticitem value="products" label="&amp;modules.catalog.frontoffice.Search-products;" />
+			<staticitem value="others" label="&amp;modules.catalog.frontoffice.Search-others;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/taxcode"
+			description="&amp;modules.catalog.bo.general.Taxcode;"
+			label="&amp;modules.catalog.bo.general.Taxcode;">			
+			<staticitem value="0" label="&amp;modules.catalog.bo.general.No-tax;" />
+			<staticitem value="1" label="19.6 %" />
+			<staticitem value="2" label="5.5 %" />
+			<staticitem value="3" label="8.5 %" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/crosssellingtypes"
+			description="&amp;modules.catalog.bo.lists.cross-selling-types.description;"
+			label="&amp;modules.catalog.bo.lists.cross-selling-types.label;">			
+			<staticitem value="complementary" label="&amp;modules.catalog.bo.lists.cross-selling-types.Complementary;" />
+			<staticitem value="upsell" label="&amp;modules.catalog.bo.lists.cross-selling-types.Upsell;" />
+			<staticitem value="similar" label="&amp;modules.catalog.bo.lists.cross-selling-types.Similar;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/crosssellingsortby"
+			description="&amp;modules.catalog.bo.lists.cross-selling-sortby.description;"
+			label="&amp;modules.catalog.bo.lists.cross-selling-sortby.label;">			
+			<staticitem value="fieldorder" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Fieldorder;" />
+			<staticitem value="random" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Random;" />
+		</staticlist>
+		
+		<dynamiclist listid="modules_catalog/productsuggestionfeeders"
+			label="Méthodes de suggestion des produits" description="Liste des méthodes de suggestion des produits.">
+		</dynamiclist>
+		
+		<staticlist listid="modules_catalog/displaymode"
+			description="&amp;modules.catalog.frontoffice.List-displaymode;"
+			label="&amp;modules.catalog.frontoffice.List-displaymode;">
+			
+			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
+			<staticitem value="table" label="&amp;modules.catalog.frontoffice.List-table;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/productpromotion"
+			description="&amp;modules.catalog.frontoffice.Productpromotion-displaymode;"
+			label="&amp;modules.catalog.frontoffice.Productpromotion-displaymode;">
+			<staticitem value="random" label="&amp;modules.catalog.frontoffice.Productpromotion-random;" />
+			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/pricemodes"
+			description="Modes de saisie des prix"
+			label="Liste des modes de saisies des prix en bakcoffice.">
+			<staticitem value="btoc" label="TTC" />
+			<staticitem value="btob" label="Hors taxes" />
+		</staticlist>	
+	</systemfolder>
+		
+	<systemfolder module="notification" relatedmodule="catalog">
+		<notification
+			label="Alerte concernant le stock"
+			codename="modules_catalog/stockalert"
+			template="default"
+			availableparameters="{label}, {description}, {threshold}"
+			subject="Alerte concernant le stock du produit &quot;{label}&quot;"
+			header="Bonjour,"
+			body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." 
+			footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change."
+			/>
+	</systemfolder>
+	
+	<rootfolder module="media">
+		<folder byLabel="Catalogue">
+			<media path="modules/catalog/setup/default-visuals/default-detail-visual.png"
+				byLabel="Visuel par défaut de détail de produit" title="Visuel non-disponible" id="default-detail-visual" />
+			<media path="modules/catalog/setup/default-visuals/default-list-visual.png"
+				byLabel="Visuel par défaut de liste de produit" title="Visuel non-disponible" id="default-list-visual" />
+		</folder>
+	</rootfolder>
+	
+	<rootfolder module="preferences">
+		<catalogpreferences 
+			defaultDetailVisual-refid="default-detail-visual" 
+			defaultListVisual-refid="default-list-visual" />
+	</rootfolder>	
+			
+	<rootfolder module="catalog">
+		<attributefolder />
+		<shopfolder />
+	</rootfolder>
+</script>

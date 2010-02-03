@@ -1,0 +1,54 @@
+.detailproduct{
+	max-width: 300px;
+	max-height: 300px;
+}
+.subdetailproduct{
+	max-width: 246px;
+	max-height: 246px;
+}
+.big-picture{
+	max-width: 640px;
+	max-height: 480px;
+}
+.brandrandompic{
+	max-width: 72px;
+	max-height: 52px;
+}
+.pic200x200{
+	max-width: 200px;
+	max-height: 200px;
+}
+.shelfListArray{
+	max-width: 120px/*@var catalogshelfpicwidth*/;
+	max-height: 120px/*@var catalogshelfpicheight*/;
+}
+.pic120x120{
+	max-width: 120px/*@var catalogshelfpicwidth*/;
+	max-height: 120px/*@var catalogshelfpicheight*/;
+}
+.pic35x35{
+	max-width: 35px;
+	max-height: 35px;
+}
+.pic45x45{
+	max-width: 45px;
+	max-height: 45px;
+}
+.pic80x80{
+	max-width: 80px;
+	max-height: 80px;
+}
+.productList{
+	max-width: 63px;
+	max-height: 63px;
+	border: 0;
+}
+.list{
+	max-width: 63px;
+	max-height: 63px;
+	border: 0;
+}
+.cartdetailproduct{
+	max-width: 50px;
+	max-height: 50px;
+}

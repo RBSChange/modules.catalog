@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<panels>
+	<panel name="resume"/>
+	<panel name="properties"/>
+	<panel name="publication"/>
+	<panel name="localization" />
+	<panel name="history"/>
+	<panel name="create"/>
+	
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				this.addTab('prices', '&modules.catalog.bo.doceditor.tab.Prices;', 'price');
+			]]></constructor>
+		</javascript>
+	</xul>	 	
+</panels>

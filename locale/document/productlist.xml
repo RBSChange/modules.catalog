@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="document-name">
+    <locale lang="fr">liste de produits</locale>
+    <locale lang="de">Produktliste</locale>
+  </entity>
+  <entity id="edition-form-title">
+    <locale lang="fr">propriétés d'une liste de produits</locale>
+    <locale lang="de">Eigenschaften Produktliste</locale>
+  </entity>
+  <entity id="label">
+    <locale lang="fr">libellé</locale>
+    <locale lang="en">label</locale>
+    <locale lang="de">Name</locale>
+  </entity>
+  <entity id="label-help">
+    <locale lang="fr">libellé</locale>
+    <locale lang="en">label</locale>
+    <locale lang="de">Name</locale>
+  </entity>
+  <entity id="product">
+    <locale lang="fr">produits</locale>
+    <locale lang="de">Produkte</locale>
+  </entity>
+  <entity id="product-help">
+    <locale lang="fr">produits</locale>
+    <locale lang="de">Produkte</locale>
+  </entity>
+</localization>

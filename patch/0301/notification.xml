@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/notification/persistentdocument/import/notification_binding.xml" />
+
+	<systemfolder module="notification" relatedmodule="catalog">
+		<notification
+			label="Alerte concernant le stock"
+			codename="modules_catalog/stockalert"
+			template="default"
+			availableparameters="{label}, {description}, {threshold}"
+			subject="Alerte concernant le stock du produit &quot;{label}&quot;"
+			header="Bonjour,"
+			body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." 
+			footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change."
+			/>
+	</systemfolder>
+</script>

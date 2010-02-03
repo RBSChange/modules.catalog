@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="edition-form-title">
+		<locale lang="fr">propriétés de la boutique</locale>
+		<locale lang="en">shop properties</locale>
+	</entity>
+	<entity id="document-name">
+		<locale lang="fr">boutique</locale>
+		<locale lang="en">shop</locale>
+	</entity>
+	<entity id="label">
+		<locale lang="fr">libellé</locale>
+		<locale lang="en">label</locale>
+	</entity>
+	<entity id="label-help">
+		<locale lang="fr">libellé de la boutique</locale>
+		<locale lang="en">shop label</locale>
+	</entity>
+	<entity id="description">
+		<locale lang="fr">description</locale>
+		<locale lang="en">description</locale>
+	</entity>
+	<entity id="description-help">
+		<locale lang="fr">description de la boutique</locale>
+		<locale lang="en">shop description</locale>
+	</entity>
+	<entity id="topic">
+		<locale lang="fr">rubrique associée</locale>
+		<locale lang="en">related topic</locale>
+	</entity>
+	<entity id="topic-help">
+		<locale lang="fr">rubrique associée</locale>
+		<locale lang="en">related topic</locale>
+	</entity>
+	<entity id="topShelf">
+		<locale lang="fr">rayons</locale>
+		<locale lang="en">shelves</locale>
+	</entity>
+	<entity id="topShelf-help">
+		<locale lang="fr">rayons de premier niveau de la boutique</locale>
+		<locale lang="en">top shelves of the shop</locale>
+	</entity>
+	<entity id="shippingZone">
+		<locale lang="fr">zone de livraison</locale>
+		<locale lang="en">shipping zone</locale>
+	</entity>
+	<entity id="shippingZone-help">
+		<locale lang="fr">zone de livraison; sélectionner une zone dans les ressources.</locale>
+		<locale lang="en">shipping zone; select a zone from the resource tree.</locale>
+	</entity>
+	<entity id="billingZone">
+		<locale lang="fr">zone de facturation</locale>
+		<locale lang="en">billing zone</locale>
+	</entity>
+	<entity id="billingZone-help">
+		<locale lang="fr">zone de facturation; sélectionner une zone dans les ressources.</locale>
+		<locale lang="en">billing zone</locale>
+	</entity>
+	<entity id="currencyCode">
+		<locale lang="fr">devise</locale>
+		<locale lang="en">currency</locale>
+	</entity>
+	<entity id="currencyCode-help">
+		<locale lang="fr">devise : €, $, £, ...</locale>
+		<locale lang="en">currency: €, $, £, ...</locale>
+	</entity>
+	<entity id="currencyPosition">
+		<locale lang="fr">position du symbole</locale>
+		<locale lang="en">symbol position</locale>
+	</entity>
+	<entity id="currencyPosition-help">
+		<locale lang="fr">lors de l'affichage, le symbole peut être placé à gauche ou à droite du montant.</locale>
+		<locale lang="en">when displaying a price, the currency symbol may be place at the left or at the right of the amount.</locale>
+	</entity>
+	<entity id="displayPriceWithTax">
+		<locale lang="fr">afficher le prix TTC</locale>
+		<locale lang="en">display price with taxes</locale>
+	</entity>
+	<entity id="displayPriceWithTax-help">
+		<locale lang="fr">indique si le prix TTC devra être affiché dans ce catalogue.</locale>
+		<locale lang="en">indicates whether the tax-included price should be displayed in this catalog.</locale>
+	</entity>
+	<entity id="displayPriceWithoutTax">
+		<locale lang="fr">afficher le prix HT</locale>
+		<locale lang="en">display price without taxes</locale>
+	</entity>
+	<entity id="displayPriceWithoutTax-help">
+		<locale lang="fr">indique si le prix HT devra être affiché dans ce catalogue.</locale>
+		<locale lang="en">indicates whether the price without tax should be displayed in this catalog.</locale>
+	</entity>
+	<entity id="defaultDetailVisual">
+		<locale lang="fr">visuel produit par défaut</locale>
+		<locale lang="en">default product visual</locale>
+	</entity>
+	<entity id="defaultDetailVisual-help">
+		<locale lang="fr">visuel produit par défaut en mode détail (affichage d'une fiche produit).</locale>
+		<locale lang="en">default product visual in detail mode.</locale>
+	</entity>
+	<entity id="defaultListVisual">
+		<locale lang="fr">visuel produit par défaut (mode liste)</locale>
+		<locale lang="en">default product visual (list mode)</locale>
+	</entity>
+	<entity id="defaultListVisual-help">
+		<locale lang="fr">visuel produit par défaut en mode liste (liste de produits).</locale>
+		<locale lang="en">default product visual in list mode.</locale>
+	</entity>
+	<entity id="startpublicationdate">
+		<locale lang="fr">début de publication</locale>
+	</entity>
+	<entity id="endpublicationdate">
+		<locale lang="fr">fin de publication</locale>
+	</entity>
+	<entity id="mount-parent">
+		<locale lang="fr">point de montage</locale>
+	</entity>
+	<entity id="mount-parent-help">
+		<locale lang="fr">rubrique ou site dans lequel cette boutique doit apparaître.</locale>
+	</entity>
+	<entity id="displayOutOfStock">
+		<locale lang="fr">afficher les produits épuisés</locale>
+		<locale lang="en">display products out of stock</locale>
+	</entity>
+	<entity id="displayAOutOfStock-help">
+		<locale lang="fr">si vous cochez oui, les produits en rupture de stock seront affichés comme les autres produits.</locale>
+		<locale lang="en">display products out of stock.</locale>
+	</entity>
+	<entity id="allowOrderOutOfStock">
+		<locale lang="fr">commande des produits épuisés</locale>
+		<locale lang="en">enable out of stock products order</locale>
+	</entity>
+	<entity id="allowOrderOutOfStock-help">
+		<locale lang="fr">cocher oui, permettra aux clients de commander les produits en rupture de stock.</locale>
+		<locale lang="en">enable out of stock products order.</locale>
+	</entity>
+	<entity id="pageTitle">
+		<locale lang="fr">titre de la page</locale>
+	</entity>
+	<entity id="pageTitle-help">
+		<locale lang="fr">titre de la page utilisable dans les métas de la page d'accueil de la boutique.</locale>
+	</entity>
+	<entity id="pageDescription">
+		<locale lang="fr">description de la page</locale>
+	</entity>
+	<entity id="pageDescription-help">
+		<locale lang="fr">description de la page tilisable dans les métas de la page d'accueil de la boutique.</locale>
+	</entity>
+	<entity id="pageKeywords">
+		<locale lang="fr">mots-clés de la page</locale>
+	</entity>
+	<entity id="pageKeywords-help">
+		<locale lang="fr">mots-clés de la page tilisable dans les métas de la page d'accueil de la boutique.</locale>
+	</entity>
+	<entity id="priceMode">
+		<locale lang="fr">mode de saisie des prix</locale>
+	</entity>
+	<entity id="priceMode-help">
+		<locale lang="fr">Indiquez ici dans quel mode vous voulez saisir les prix pour cette boutique. Attention, cette propriété ne peut être définie qu'à la création et ne peut plus être modifiée par après.</locale>
+	</entity>
+		
+	<entity id="exception.publication-period-conflict">
+		<locale lang="fr">pour un même site, il ne peut y avoir qu'une seule boutique valide sur une période donnée.</locale>
+	</entity>
+	<entity id="exception.mount-parent-required">
+		<locale lang="fr">une boutique doit obligatoirement avoir un point de montage.</locale>
+	</entity>
+	<entity id="exception.mount-parent-bad-type">
+		<locale lang="fr">le point de montage d'une boutique doit obligatoirement être un site ou une rubrique.</locale>
+	</entity>
+</localization>

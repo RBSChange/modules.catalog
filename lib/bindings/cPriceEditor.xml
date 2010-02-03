@@ -1,0 +1,675 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="cPriceField" extends="form.cField#cDoubleField">
+		<content>
+			<children/>
+			<xul:vbox>
+				<xul:hbox xbl:inherits="context,spellcheck" flex="1" align="center">
+					<xul:textbox size="5" anonid="internalcontrol" xbl:inherits="disabled,size,tabindex,accesskey" />
+					<xul:spinbuttons anonid="buttons" xbl:inherits="disabled,hidden=hidespinbuttons" style="margin-left:-5px;margin-top:3px;margin-bottom:3px;" />
+					<xul:label xbl:inherits="value=currency" />
+					<xul:label xbl:inherits="value=mode" />
+					<xul:toolbar>
+						<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" 
+							xbl:inherits="hidden=hidehelp" 
+							oncommand="dispatchFieldEvent('fieldHelp');"/>
+					</xul:toolbar>
+				</xul:hbox>
+			</xul:vbox>
+		</content>
+		<implementation>
+			<method name="setInitialValue">
+				<parameter name="val" />
+				<body><![CDATA[
+					if (val.length > 1 && val.charAt(0) == '{')
+					{
+						var jsonVal = wCore.parseJSON(val);
+						this.setAttribute('currency', jsonVal.currency);
+						this.setAttribute('mode', jsonVal.mode);
+						var fval = this.fixString(jsonVal.value);
+					}
+					else
+					{
+						var fval = this.fixString(val);
+					}
+
+					this.setAttribute("initialvalue", fval);
+					this.internalControl.value = fval;
+					if (this.modified)
+					{
+						this.removeAttribute("modified");
+						this.dispatchFieldEvent('fieldRestored');						
+					}
+					
+					var errorMessage = this.checkRequired(fval);
+					this.setValidity(errorMessage);
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	<binding id="cDiscountHelper">
+		<content>
+			<xul:spacer />
+			<xul:hbox align="center">
+				<xul:box><xul:cfield anonid="mType" name="mType" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/discounttypes" initialvalue="price" /></xul:box>
+				<xul:box><xul:cfield anonid="mValue" name="mValue" fieldtype="double" disabled="true" hidehelp="true" /></xul:box>
+				<xul:button anonid="mUpdate" disabled="true" label="Mettre à jour le prix" oncommand="update();" image="{HttpHost}/icons/small/check.png" />
+				<xul:button anonid="mCancel" disabled="true" label="Annuler" oncommand="cancel();" image="{HttpHost}/icons/small/undo.png" />
+			</xul:hbox>
+		</content>
+		<implementation>
+			<method name="update">
+				<body><![CDATA[
+					var discountType = document.getAnonymousElementByAttribute(this, 'anonid', 'mType').value;
+					var discountValue = document.getAnonymousElementByAttribute(this, 'anonid', 'mValue').value;
+					var valueField = document.getElementById('catalog_price_boValue');
+					
+					var value = valueField.value;
+					var description = '';
+					switch (discountType)
+					{
+						case 'percentage' :
+							value -= (value*discountValue)/100;
+							description = '-' + discountValue + '%';
+							break;
+							
+						case 'value' :
+							value -= discountValue;
+							description = '-' + discountValue + valueField.getAttribute('currency');
+							break;
+					}
+					value = Math.round(100*value)/100;
+					document.getElementById('catalog_price_boDiscountValue').value = value;
+					document.getElementById('catalog_price_discountDetail').value = description;
+					this.cancel();
+				]]></body>
+			</method>
+			
+			<method name="cancel">
+				<body><![CDATA[
+					document.getAnonymousElementByAttribute(this, 'anonid', 'mType').value = 'price';
+				]]></body>
+			</method>
+		
+			<method name="onTypeChanged">
+				<body><![CDATA[
+					try
+					{
+						var mType = document.getAnonymousElementByAttribute(this, 'anonid', 'mType');
+						var mValue = document.getAnonymousElementByAttribute(this, 'anonid', 'mValue');
+						var mCancel = document.getAnonymousElementByAttribute(this, 'anonid', 'mCancel');
+						
+						if (mType.value != 'price')
+						{
+							mCancel.removeAttribute('disabled');
+							mValue.removeAttribute('disabled');
+							
+						}
+						else
+						{
+							mCancel.setAttribute('disabled', 'true');
+							mValue.value = '';
+							mValue.setAttribute('disabled', 'true');
+						}
+					}
+					catch (e)
+					{
+						wCore.error('cDiscountHelper.onTypeChanged', [], e);
+					}
+				]]></body>
+			</method>
+			
+			<method name="onValueChanged">
+				<body><![CDATA[
+					try
+					{
+						var mValue = document.getAnonymousElementByAttribute(this, 'anonid', 'mValue');
+						var mUpdate = document.getAnonymousElementByAttribute(this, 'anonid', 'mUpdate');
+						
+						if (mValue.value)
+						{
+							mUpdate.removeAttribute('disabled');
+						}
+						else
+						{
+							mUpdate.setAttribute('disabled', 'true');
+						}
+					}
+					catch (e)
+					{
+						wCore.error('onValueChanged.onValueChanged', [], e);
+					}
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>			
+			<handler event="fieldChanged"><![CDATA[
+				if (event.originalTarget.name == 'mType')
+				{
+					this.onTypeChanged();
+				}
+				else if (event.originalTarget.name == 'mValue')
+				{
+					this.onValueChanged();
+				}
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldModified"><![CDATA[
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldRestored"><![CDATA[
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+	</binding>
+	
+	<binding id="cPricesPanel" extends="layout.cDocumentEditor#cDocumentEditorPanelFields">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:box>
+					<xul:grid flex="1">
+						<xul:columns>
+							<xul:column />
+							<xul:column flex="1" />
+						</xul:columns>
+						<xul:rows>
+							<xul:row>
+								<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Shop;" />
+								<xul:cfield anonid="field_shop" name="shop" fieldtype="dropdownlist" hidehelp="true" />
+							</xul:row>
+							<xul:row>
+								<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Date;" />
+								<xul:cfield anonid="field_date" name="date" fieldtype="datetime" hidehelp="true" hidetime="true" />
+							</xul:row>
+							<xul:row anonid="row_targetType">
+								<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Target-type;" />
+								<xul:cfield anonid="field_targetType" name="targetType" fieldtype="dropdownlist" hidehelp="true" />
+							</xul:row>
+							<xul:row anonid="row_targetId">
+								<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Target-id;" />
+								<xul:cfield anonid="field_targetId" name="targetId" fieldtype="dropdownlist" hidehelp="true" disabled="true" />
+							</xul:row>
+						</xul:rows>
+					</xul:grid>
+				</xul:box>
+				<xul:box flex="1">
+					<xul:cpriceslist anonid="pricelist" flex="1" />
+				</xul:box>
+			</xul:vbox>
+		</content>
+		<implementation>	
+			<field name="mFieldNames">['shop', 'date', 'targetType', 'targetId']</field>
+			
+			<constructor><![CDATA[
+				// Datepicker requires an id.
+				var rand = Math.round(Math.random() * 100000); 
+				document.getAnonymousElementByAttribute(this, 'anonid', 'field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);
+
+				// Check customer module existence.
+				var controller = document.getElementById("wcontroller");
+    			if (!controller.checkModuleVersion('customer', '3.0.0'))
+				{
+					document.getAnonymousElementByAttribute(this, 'anonid', 'row_targetType').setAttribute('collapsed', 'true');
+					document.getAnonymousElementByAttribute(this, 'anonid', 'row_targetId').setAttribute('collapsed', 'true');
+				}			
+			]]></constructor>
+			
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					var parameters = {
+						action: 'InitializePricesPanel',
+						cmpref: this.documentEditor.documentid, 
+						lang : this.documentEditor.documentInfos.vo
+					};
+					
+					var pricelist = document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist');
+					if (pricelist.hasAttribute('shop'))
+					{
+						parameters.shop = pricelist.getAttribute('shop');
+					}
+					if (pricelist.hasAttribute('date'))
+					{
+						parameters.date = pricelist.getAttribute('date');
+					}
+					if (pricelist.hasAttribute('targetType'))
+					{
+						parameters.targetType = pricelist.getAttribute('targetType');
+					}
+					if (pricelist.hasAttribute('targetId'))
+					{
+						parameters.targetId = pricelist.getAttribute('targetId');
+					}
+
+					return parameters;
+				]]></body>
+			</method>
+												
+			<method name="fireInitializeComplete">
+				<parameter name="result" />
+				<body><![CDATA[
+					document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist').setAttribute('productId', this.documentEditor.documentid);
+					
+					var shops = result.contents.shops
+					var shop;
+					var shopNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_shop');
+					shopNode.removeItems();
+					for (var i in shops)
+					{
+						shop = shops[i];
+						shopNode.appendItem(shop.label, shop.id);
+						shopNode.setAttribute('contains', shop.contains ? 'true' : 'false');
+						shopNode.setAttribute('published', shop.published ? 'true' : 'false');
+					}
+					
+					var targetTypes = result.contents.targetTypes;
+					var targetType;
+					var targetTypeNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_targetType');
+					targetTypeNode.removeItems();
+					for (var i in targetTypes)
+					{
+						targetType = targetTypes[i];
+						targetTypeNode.appendItem(targetType.label, targetType.value);
+					}
+				
+					this.setInitialValues(this.fields, result.contents);					
+					this.loadTargetsList();
+										
+					var pricelist = document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist');
+					pricelist.setAttribute('shop', result.contents.shop);
+					pricelist.setAttribute('date', result.contents.date);
+					pricelist.setAttribute('targetType', result.contents.targetType);
+					pricelist.setAttribute('targetId', result.contents.targetId);
+					pricelist.refresh();
+					
+					this.mInitialized = true;
+					this.fireEvent("panelInitializeComplete");
+					this.gotoTop();
+				]]></body>
+			</method>
+
+			<method name="loadTargetsList">
+				<body><![CDATA[
+					var shopNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_shop');
+					var targetTypeNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_targetType');
+					var parameters = {shopId: shopNode.value, targetType: targetTypeNode.value};					
+					var me = this;
+					var callBack = function(result) { me.updateTargetsList(result);	};
+					wCore.executeJSON('catalog', 'LoadPriceTargetList', parameters, callBack, true);
+				]]></body>
+			</method>
+
+			<method name="updateTargetsList">
+				<parameter name="result" />
+				<body><![CDATA[
+					wCore.debug("cPricesPanel.updateTargetsList");
+					try
+					{
+						if (result.status === 'OK')
+						{	
+							var targetIdNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_targetId');
+							targetIdNode.value = null;
+							targetIdNode.removeItems();
+							if (result.contents.canChoose)
+							{
+								targetIdNode.removeAttribute('disabled');
+								var items = result.contents.nodes;
+								var item;
+								for (var i = 0; i < items.length; i++)
+								{
+									item = items[i];
+									targetIdNode.appendItem(item.label, item.id);
+								}
+							}
+							else
+							{
+								targetIdNode.setAttribute('disabled', true);
+								document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist').refresh();
+							}
+						}
+						else
+						{
+							wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cPricesList.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+			
+			<property name="modified">
+				<getter><![CDATA[return false;]]></getter>
+				<setter><![CDATA[;]]></setter>
+			</property>
+		</implementation>
+		<handlers>
+			<handler event="fieldChanged"><![CDATA[
+				var pricelist = document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist');
+				pricelist.setAttribute(event.originalTarget.getAttribute('name'), event.originalTarget.value);
+				if (event.originalTarget.getAttribute('anonid') == 'field_targetType')
+				{
+					this.loadTargetsList();
+				}
+				else
+				{
+					pricelist.refresh();
+				}
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+	</binding>
+	
+	<binding id="cPricesList" extends="modules.catalog.cPriceEditor#cBaseListForEditor">
+		<resources>
+			<stylesheet src="modules.uixul.cEditorGrid" />
+			<stylesheet src="modules.catalog.cEditorList" />
+		</resources>
+		<implementation>
+			<constructor><![CDATA[
+				this.sortOnColId = 'thresholdMin';
+			]]></constructor>
+			
+			<property name="searchParameters" readonly="true">
+				<getter><![CDATA[
+					var targetId;
+					switch (this.getAttribute('targetType'))
+					{
+						case 'all':
+							targetId = null;
+							break;
+							
+						case 'shop':
+							targetId = 0;
+							break;
+							
+						default:
+							targetId = this.getAttribute('targetId');
+							break;
+					}
+					return {productId: this.getAttribute('productId'), shopId: this.getAttribute('shop'), date: this.getAttribute('date'), targetId: targetId};
+				]]></getter>
+			</property>
+			
+			<property name="loadAction" readonly="true">
+				<getter><![CDATA[return 'LoadPricesList';]]></getter>
+			</property>
+			
+			<property name="loadModule" readonly="true">
+				<getter><![CDATA[return 'catalog';]]></getter>
+			</property>
+			
+			<method name="addItem">
+				<parameter name="jsnode" />
+				<body><![CDATA[
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.setAttribute('documentId', jsnode.id);
+					 
+					var cell = row.appendChild(document.createElement('toolbar'));
+					cell.setAttribute('class', 'actions');
+					
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'edit');
+					button.setAttribute('documentId', jsnode.id);
+					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Edit;");
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'delete');
+					button.setAttribute('documentId', jsnode.id);
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Delete;");
+					 
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.valueWithTax);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.isDiscount);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.targetLabel);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.thresholdMin);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.startpublicationdate);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.endpublicationdate);
+
+					
+					
+
+					this.getElementByAnonId('document-rows').appendChild(row);
+				]]></body>
+			</method>
+			
+			<method name="createNew">
+				<body><![CDATA[
+					wCore.debug('cPricesList.createNew');
+					var productId = this.getAttribute('productId');
+					var shopId = this.getAttribute('shop');
+					var targetId = this.getAttribute('targetId');
+					var uri = ['catalog', 'createPriceFromProduct', 'modules_catalog_price', productId, shopId, targetId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			<method name="edit">
+				<parameter name="id" />
+				<body><![CDATA[
+					wCore.debug('cPricesList.edit('+id+')');
+					var uri = ['catalog', 'openDocument', 'modules_catalog_price', id, 'properties'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			<method name="delete">
+				<parameter name="id" />
+				<body><![CDATA[
+					wCore.debug('cPricesList.delete('+id+')');
+					if (confirm("&modules.catalog.bo.doceditor.panel.prices.Confirm-delete-price;"))
+					{
+						var me = this;
+						var callBack = function(result) { me.refresh();	};
+						wCore.executeJSON('catalog', 'DeleteJSON', {cmpref: id, lang: Context.W_LANG}, callBack, true);
+					}
+				]]></body>
+			</method>
+		</implementation>
+
+		<content>
+			<xul:vbox flex="1">
+				<xul:toolbar anonid="result-toolbar">
+					<xul:toolbarbutton action="create" anonid="button-new" image="{HttpHost}/icons/small/add.png" label="&amp;modules.catalog.bo.doceditor.panel.prices.New;" />
+					<xul:spacer flex="1" />
+					<xul:label anonid="result-count" />
+				</xul:toolbar>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:grid flex="1">
+						<xul:columns>
+							<xul:column />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+							<xul:column flex="3" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+						</xul:columns>
+						<xul:rows anonid="document-rows">
+							<xul:row class="head">
+								<xul:label anonid="actionsColumn"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-actions;" />
+								<xul:label sortonfield="valueWithTax" anonid="valueColumn"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-value;" />
+								<xul:label sortonfield="oldValueWithTax" anonid="isDiscountColumn"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-is-discount;" />
+								<xul:label sortonfield="targetId" anonid="TargetColumn"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-target;" />
+								<xul:label sortonfield="thresholdMin" anonid="thresholdMin" sortDirection="asc"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-threshold-min;" />
+								<xul:label sortonfield="document_startpublicationdate" anonid="startpublicationdateColumn"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-start-publication-date;" />
+								<xul:label sortonfield="document_endpublicationdate" anonid="endpublicationdateColumn"
+									value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-end-publication-date;" />
+							</xul:row>
+						</xul:rows>
+					</xul:grid>
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+	</binding>
+	
+	<binding id="cBaseListForEditor">
+		<resources>
+			<stylesheet src="modules.catalog.cEditorList" />
+		</resources>
+		<implementation>
+			<field name="sortOnColId">null</field>
+			<field name="mLoadingRequest">null</field>
+			<field name="limit">100</field>
+		
+			<constructor><![CDATA[
+				wCore.debug("cBaseListForEditor.constructor");
+			]]></constructor>
+			
+			<method name="getElementByAnonId">
+				<parameter name="id"/>
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, "anonid", id);
+				]]></body>
+			</method>
+			
+			<method name="handleSort">
+				<parameter name="node" />
+				<body><![CDATA[
+					wCore.debug('[cBaseListForEditor.handleSort] '+node.getAttribute('anonid'));
+					if (node.getAttribute('anonid') == this.sortOnColId)
+					{
+						var dir = (node.getAttribute('sortDirection') == 'asc') ? 'desc' : 'asc';
+						node.setAttribute('sortDirection', dir);
+					}
+					else
+					{
+						this.getElementByAnonId(this.sortOnColId).removeAttribute('sortDirection');
+						this.sortOnColId = node.getAttribute('anonid');
+						node.setAttribute('sortDirection', 'asc');
+					}
+					this.refresh();
+				]]></body>
+			</method>
+						
+			<method name="cleanList">
+				<body><![CDATA[
+					var rows = this.getElementByAnonId('document-rows');
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					{
+						rows.removeChild(rows.lastChild);
+					}
+				]]></body>
+			</method>
+				
+			<method name="refresh">
+				<body><![CDATA[
+					if (this.mLoadingRequest !== null)
+					{
+						wCore.debug('[cBaseListForEditor.refresh] Already refreshing.');
+						return;
+					}
+					var sortingNode = this.getElementByAnonId(this.sortOnColId);
+					var parameters = this.searchParameters;					
+					parameters['sortOnField'] = sortingNode.getAttribute('sortonfield');
+					parameters['sortDirection'] = sortingNode.getAttribute('sortDirection');
+					parameters['limit'] = this.limit;
+					parameters['lang'] = Context.W_LANG;
+					
+					var me = this;
+					var callBack = function(result) { me.updateResults(result);	};
+					this.mLoadingRequest = wCore.executeJSON(this.loadModule, this.loadAction, parameters, callBack, true);
+				]]></body>
+			</method>	
+			
+			<method name="updateResults">
+				<parameter name="result" />
+				<body><![CDATA[
+					wCore.debug("cBaseListForEditor.updateResults");
+					try
+					{
+						this.mLoadingRequest = null;					
+						if (result.status === 'OK')
+						{	
+							this.cleanList()
+							var contents = result.contents;
+							this.addResultInfos(contents);
+							for (var i = 0; i < contents.nodes.length; i++)
+							{
+								this.addItem(contents.nodes[i]);
+							}
+						}
+						else
+						{
+							wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cBaseListForEditor.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+			
+			<method name="addResultInfos">
+				<parameter name="result" />
+				<body><![CDATA[							
+					var node = this.getElementByAnonId('result-count');
+					var totalResultsCount = result.totalCount;
+					var resultsCount = result.count;
+					if (resultsCount == 0)
+					{
+						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.NoResults;");
+					}
+					else if (resultsCount == totalResultsCount)
+					{
+						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.SearchResultCountLabel;" + " " + totalResultsCount);
+					}
+					else
+					{
+						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.FirstHundred;" + " (" +"&amp;modules.uixul.bo.general.search.TotalSearchResultCountLabel;" + totalResultsCount + " )");
+					}
+				]]></body>
+			</method>
+		</implementation>	
+		<handlers>		
+			<handler event="click" button="0" clickcount="1"><![CDATA[
+				var target = event.originalTarget;
+				if (target.localName == 'label' && target.hasAttribute('sortonfield'))
+				{
+					this.handleSort(target);
+					return;
+				}
+				else if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
+				{
+					switch (target.getAttribute('action'))
+					{
+						case 'create':
+							this.createNew();
+							break;
+						
+						case 'edit':
+							this.edit(target.getAttribute('documentId'));
+							break;
+						case 'editPrice':
+							this.editPrice(target.getAttribute('documentId'));
+							break;
+						
+						case 'delete':
+							this.delete(target.getAttribute('documentId'));
+							break;
+					}
+					return;
+				}
+			]]></handler>
+		</handlers>
+	</binding>
+</bindings>

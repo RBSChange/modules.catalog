@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="document-name">
+    <locale lang="fr">préférence</locale>
+    <locale lang="de">Präferenzen</locale>
+  </entity>
+  <entity id="edition-form-title">
+    <locale lang="fr">préférences du module Catalogue</locale>
+    <locale lang="en">Catalog settings</locale>
+    <locale lang="de">Präferenzen des Moduls Katalog</locale>
+  </entity>
+  <entity id="defaultDetailVisual">
+    <locale lang="fr">illustration par défaut</locale>
+    <locale lang="en">default detail picture</locale>
+    <locale lang="de">Standardabbildung</locale>
+  </entity>
+  <entity id="defaultDetailVisual-help">
+    <locale lang="fr">illustration affichée dans la page de détail du produit</locale>
+    <locale lang="en">detail picture displayed in the product detail page</locale>
+    <locale lang="de">Abbildung auf der Produktdetailseite</locale>
+  </entity>
+  <entity id="defaultProductsPerPage">
+    <locale lang="fr">nombre de produits par page</locale>
+    <locale lang="de">Anzahl Produkte pro Seite</locale>
+  </entity>
+  <entity id="defaultProductsPerPage-help">
+    <locale lang="fr">nombre de produits affichés par défaut par page dans les listes de produits.</locale>
+    <locale lang="de">Standardanzahl in der Produktliste angezeigter Produkte pro Seite.</locale>
+  </entity>
+  <entity id="defaultListVisual">
+    <locale lang="fr">vignette par défaut</locale>
+    <locale lang="en">default list picture</locale>
+    <locale lang="de">Standardvignette</locale>
+  </entity>
+  <entity id="defaultListVisual-help">
+    <locale lang="fr">vignette affichée dans une liste de produits.</locale>
+    <locale lang="en">list picture displayed in product lists.</locale>
+    <locale lang="de">In einer Produktliste angezeigte Vignette.</locale>
+  </entity>
+  <entity id="newProductsCount">
+    <locale lang="fr">nombre de produits nouveaux</locale>
+    <locale lang="en">new products count</locale>
+    <locale lang="de">Anzahl neue Produkte</locale>
+  </entity>
+  <entity id="newProductsCount-help">
+    <locale lang="fr">indique le nombre de produits considérés comme nouveaux pour les animations commerciales automatiques.</locale>
+    <locale lang="en">new products count for automatic sale animations.</locale>
+    <locale lang="de">Gibt die Anzahl der für automatische Verkaufsaktionen als neu angesehenen Produkte an.</locale>
+  </entity>
+  <entity id="stockAlertNotificationUser">
+    <locale lang="fr">destinataires des notifications liées aux stocks</locale>
+    <locale lang="en">stock notifications recipients</locale>
+  </entity>
+  <entity id="stockAlertThreshold">
+    <locale lang="fr">seuil d'alerte de stock</locale>
+  </entity>
+  <entity id="stockAlertThreshold-help">
+    <locale lang="fr">quantité de stock par défaut en dessous de laquelle une alerte doit être envoyée. Cette propriété peut être redéfinie localement sur chaque produit.</locale>
+  </entity>
+  <entity id="enableComments">
+    <locale lang="fr">activer les commentaires</locale>
+    <locale lang="en">enable comments</locale>
+  </entity>
+  <entity id="enableComments-help">
+    <locale lang="fr">activer ou non les commentaires sur les produits.</locale>
+  </entity>
+  <entity id="synchronizeComplementary">
+    <locale lang="fr">syncrhoniser les complémentaires</locale>
+  </entity>
+  <entity id="synchronizeComplementary-help">
+    <locale lang="fr">en activant cette option, ajouter un produit A comme complémentaire d'un produit B fera également automatiquement l'ajout inverse : le produit B comme complémentaire du produit A.</locale>
+  </entity>
+  <entity id="synchronizeSimilar">
+    <locale lang="fr">syncrhoniser les similaires</locale>
+  </entity>
+  <entity id="synchronizeSimilar-help">
+    <locale lang="fr">en activant cette option, ajouter un produit A comme similaire à un produit B fera également automatiquement l'ajout inverse : le produit B comme similaure au produit A.</locale>
+  </entity>
+  <entity id="suggestComplementaryFeederClass">
+    <locale lang="fr">suggestion de complémentaires</locale>
+  </entity>
+  <entity id="suggestComplementaryFeederClass-help">
+    <locale lang="fr">en activant cette option, une bouton apparaitra à côté du champ "produits complementaires" permettant de suggérer des produits.</locale>
+  </entity>
+  <entity id="suggestSimilarFeederClass">
+    <locale lang="fr">suggestion de similaires</locale>
+  </entity>
+  <entity id="suggestSimilarFeederClass-help">
+    <locale lang="fr">en activant cette option, une bouton apparaitra à côté du champ "produits similaires" permettant de suggérer des produits.</locale>
+  </entity>
+  <entity id="suggestUpsellFeederClass">
+    <locale lang="fr">suggestion de gamme supérieure</locale>
+  </entity>
+  <entity id="suggestUpsellFeederClass-help">
+    <locale lang="fr">en activant cette option, une bouton apparaitra à côté du champ "produits de gamme supérieure" permettant de suggérer des produits.</locale>
+  </entity>
+  <entity id="section.cross-selling">
+    <locale lang="fr">produits croisés</locale>
+  </entity>
+</localization>

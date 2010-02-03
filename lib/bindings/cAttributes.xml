@@ -1,0 +1,829 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" 
+	xmlns:xbl="http://www.mozilla.org/xbl" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="cAttributesDef"  extends="form.cField#cAbstractField">
+
+		<implementation>
+			<field name="mValue">null</field>
+			<field name="mSortOnColId">null</field>
+			<field name="mModified">false</field>
+					
+			<field name="mRows">null</field>
+									
+			<property name="rows" readonly="true">
+				<getter><![CDATA[
+					if (this.mRows === null) 
+					{
+						this.mRows = this.getElementByAnonId('document-rows');
+					}
+					return this.mRows;
+				]]></getter>
+			</property>
+			
+			<method name="setInitialValue">
+				<parameter name="val" />
+				<body><![CDATA[
+					var fval = this.fixString(val);
+					this.setAttribute("initialvalue", fval);
+					if (fval != '')
+					{
+						this.mValue = wCore.parseJSON(fval);
+					}
+					else
+					{
+						this.mValue = null;
+					}
+					this.removeAttribute("modified");
+					this.mModified = false;
+					this.onLoad();
+				]]></body>
+			</method>
+			
+			<property name="value">
+				<getter><![CDATA[
+					if (this.mValue != null)
+					{
+						return wCore.stringifyJSON(this.mValue);
+					}
+					return '';
+				]]></getter>
+				<setter><![CDATA[
+					var fval = this.fixString(val);
+					if (fval != '')
+					{
+						this.mValue = wCore.parseJSON(fval);
+					}
+					else
+					{
+						this.mValue = null;
+					}
+					this.onLoad();
+				]]></setter>
+			</property>
+						
+			<method name="reset">
+				<body><![CDATA[
+					if (this.mModified)
+					{
+						this.setInitialValue(this.initialvalue);
+						this.valueChanged();
+					}
+				]]></body>
+			</method>
+				
+			<constructor><![CDATA[
+				this.setAttribute("valid", "true");
+				this.setInitialValue(this.initialvalue);
+			]]></constructor>
+	
+			<method name="valueChanged">
+				<body><![CDATA[	
+					wCore.debug('valueChanged: ' + this.mModified);	
+					if (this.mModified)
+					{
+						if (!this.modified) 
+						{
+							wCore.debug('valueChanged: dispatchFieldEvent fieldModified');	
+							this.setAttribute("modified", "true");
+							this.dispatchFieldEvent('fieldModified');
+						}
+					}
+					else
+					{
+						if (this.modified) 
+						{
+							wCore.debug('valueChanged: dispatchFieldEvent fieldRestored');	
+							this.removeAttribute("modified");
+							this.dispatchFieldEvent('fieldRestored');
+						}			
+					}
+					this.dispatchFieldEvent('fieldChanged');
+				]]></body>
+			</method>
+			
+			<method name="focus">
+				<body><![CDATA[
+					wCore.debug('NO FOCUS');
+				]]></body>
+			</method>			
+		
+			<method name="cleanList">
+				<body><![CDATA[
+					var rows = this.rows;
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					{
+						rows.removeChild(rows.lastChild);
+					}
+				]]></body>
+			</method>
+			
+				
+			<method name="onLoad">
+				<body><![CDATA[
+					this.cleanList();
+					if (this.mValue != null)
+					{
+						if (this.mSortOnColId)
+						{
+							var col = this.getElementByAnonId(this.mSortOnColId);
+							this.orderRows(col.getAttribute('sortonfield'), col.getAttribute('sortDirection'));
+						}
+					
+						for (var i = 0; i < this.mValue.length; i++)
+						{
+							var item = this.mValue[i];
+							this.addItem(item);
+						}
+					}
+				]]></body>
+			</method>				
+
+			<method name="orderRows">
+				<parameter name="fieldName" />
+				<parameter name="direction" />
+				<body><![CDATA[		
+				 var asc = direction === "asc";
+				 var name = fieldName;
+				 this.mValue.sort(function(a, b) {
+				 	if (a[name] == b[name]) {return 0;} 
+				 	else if (a[name] < b[name]) {return asc ? -1 : 1;}
+				 	else {return asc ? 1 : -1;}
+				 });
+				]]></body>
+			</method>	
+								
+			<method name="addItem">
+				<parameter name="jsnode" />
+				<body><![CDATA[
+					var rows = this.rows;
+					var idx = rows.childNodes.length;
+					
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.itemData = jsnode;
+					row.idx = idx;
+					 
+					var cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.label);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.code);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.type);
+					
+					cell = row.appendChild(document.createElement('toolbar'));
+					cell.setAttribute('class', 'actions');
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'edit');
+					button.setAttribute('idx', idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('label', "&modules.uixul.bo.actions.Edit;");
+										
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'delete');
+					button.setAttribute('idx', idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+
+					rows.appendChild(row);
+				]]></body>
+			</method>
+			
+			<method name="handleSort">
+				<parameter name="node" />
+				<body><![CDATA[
+					if (node.getAttribute('anonid') == this.mSortOnColId)
+					{
+						var dir = (node.getAttribute('sortDirection') == 'asc') ? 'desc' : 'asc';
+						node.setAttribute('sortDirection', dir);
+					}
+					else
+					{
+						if (this.mSortOnColId)
+						{
+							this.getElementByAnonId(this.mSortOnColId).removeAttribute('sortDirection');
+						}
+						this.mSortOnColId = node.getAttribute('anonid');
+						node.setAttribute('sortDirection', 'asc');
+					}
+					this.onLoad();
+				]]></body>
+			</method>
+			
+			<method name="edit">
+				<parameter name="idx" />
+				<body><![CDATA[
+					var row = this.rows.childNodes[idx];
+					while (row.lastChild) {row.removeChild(row.lastChild);};		
+					this.toEditrow(row);
+				]]></body>
+			</method>
+			
+			<method name="delete">
+				<parameter name="idx" />
+				<body><![CDATA[
+					if (confirm("&modules.catalog.bo.doceditor.attrdef.Confirm-delete;"))
+					{
+						var idxVal = idx - 1;					
+						if (this.mValue != null && idxVal < this.mValue.length)
+						{
+							var newValue = [];
+							for (var i = 0; i < this.mValue.length; i++)
+							{
+								if (i != idxVal) {newValue.push(this.mValue[i]);}
+							}
+							this.mValue = newValue;
+							this.mModified = true;
+							this.valueChanged();
+						}
+						this.onLoad();
+					}
+				]]></body>
+			</method>
+			
+			<method name="save">
+				<parameter name="idx" />
+				<body><![CDATA[
+					var row = this.rows.childNodes[idx];
+					var idxVal = idx - 1;
+					var jsnode = row.itemData;
+					jsnode.label = row.childNodes[0].value;
+					jsnode.code = row.childNodes[1].value;
+					jsnode.type = row.childNodes[2].value;
+					this.updateValue(jsnode, idxVal);
+				]]></body>
+			</method>		
+
+			<method name="updateValue">
+				<parameter name="jsnode" />
+				<parameter name="idxVal" />
+				<body><![CDATA[
+					if (this.mValue === null)
+					{
+						this.mValue = [jsnode];
+					}
+					else if (idxVal >= this.mValue.length)
+					{
+						this.mValue.push(jsnode);
+					}
+					else
+					{
+						var newValue = [];
+						for (var i = 0; i < this.mValue.length; i++)
+						{
+							newValue.push(i == idxVal ? jsnode : this.mValue[i]);
+						}
+						this.mValue = newValue;
+					}
+					this.mModified = true;
+					this.valueChanged();
+					this.onLoad();
+				]]></body>
+			</method>	
+
+			<method name="create">
+				<body><![CDATA[
+					var rows = this.rows;
+					var idx = rows.childNodes.length;
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.itemData = {code:'', label:'', type:'text'};
+					row.idx = idx;
+					this.toEditrow(row);
+					rows.appendChild(row);
+				]]></body>
+			</method>
+
+			<method name="toEditrow">
+				<parameter name="row" />
+				<body><![CDATA[
+					var tb = row.appendChild(document.createElement('textbox'));
+					tb.setAttribute('value', row.itemData.label);
+					
+					tb = row.appendChild(document.createElement('textbox'));
+					tb.setAttribute('value', row.itemData.code);
+					
+					var radiogroup = document.createElement('radiogroup');
+					var rad = radiogroup.appendChild(document.createElement('radio'));
+					rad.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Type-text;"); 
+					rad.setAttribute('value', 'text');
+					rad = radiogroup.appendChild(document.createElement('radio'));
+					rad.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Type-numeric;"); 
+					rad.setAttribute('value', 'numeric');
+					radiogroup.setAttribute('orient', 'horizontal');
+					radiogroup.setAttribute('value', row.itemData.type);
+					row.appendChild(radiogroup);
+					
+					var  toolbar = row.appendChild(document.createElement('toolbar'));
+					toolbar.setAttribute('class', 'actions');
+					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'save');
+					button.setAttribute('idx', row.idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Action-save;");
+										
+					button = toolbar.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'delete');
+					button.setAttribute('idx', row.idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+				]]></body>
+			</method>								
+		</implementation>
+		
+		<handlers>		
+			<handler event="command"><![CDATA[
+				var target = event.originalTarget;
+				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
+				{
+					switch (target.getAttribute('action'))
+					{						
+						case 'edit':
+							this.edit(target.getAttribute('idx'));
+							break;	
+						case 'delete':
+							this.delete(target.getAttribute('idx'));
+							break;
+						case 'save':
+							this.save(target.getAttribute('idx'));
+							break;
+						case 'create':
+							this.create();
+							break;
+					}
+					return;
+				}
+			]]></handler>
+			
+			<handler event="click" button="0" clickcount="1"><![CDATA[
+				var target = event.originalTarget;
+				if (target.localName == 'label' && target.hasAttribute('sortonfield'))
+				{
+					this.handleSort(target);
+					return;
+				}
+			]]></handler>
+		</handlers>	
+		<resources>
+			<stylesheet src="modules.uixul.cEditorGrid" />
+		</resources>		
+		<content>
+			<xul:vbox flex="1">				
+					<xul:grid flex="1">
+						<xul:columns>
+							<xul:column flex="3" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+						</xul:columns>
+						<xul:rows anonid="document-rows">
+							<xul:row class="head">
+								<xul:label sortonfield="label" anonid="label" 
+									value="&amp;modules.catalog.bo.doceditor.attrdef.LabelColumn;" />
+								<xul:label sortonfield="code" anonid="codeColumn"
+									value="&amp;modules.catalog.bo.doceditor.attrdef.CodeColumn;" />
+								<xul:label sortonfield="type" anonid="typeColumn"
+									value="&amp;modules.catalog.bo.doceditor.attrdef.TypeColumn;" />
+								<xul:label anonid="actionsColumn"
+									value="&amp;modules.catalog.bo.doceditor.attrdef.ActionsColumn;" />
+							</xul:row>
+						</xul:rows>
+					</xul:grid>
+					<xul:toolbar>
+						<xul:toolbarbutton action="create" anonid="button-new" 
+						label="&amp;modules.catalog.bo.doceditor.attrdef.Action-create;" 
+						image="{HttpHost}/icons/small/add.png"  />
+					</xul:toolbar>	
+					<xul:spacer />
+				<children/>
+			</xul:vbox>		
+		</content>	
+	</binding>
+	
+	<binding id="cAttributes" extends="form.cField#cAbstractField">
+		<implementation>
+			<field name="mValue">null</field>
+			<field name="mDefinition">null</field>
+			<field name="mSortOnColId">null</field>
+			<field name="mModified">false</field>
+					
+			<field name="mRows">null</field>
+									
+			<property name="rows" readonly="true">
+				<getter><![CDATA[
+					if (this.mRows === null) 
+					{
+						this.mRows = this.getElementByAnonId('document-rows');
+					}
+					return this.mRows;
+				]]></getter>
+			</property>
+			
+			<method name="setInitialValue">
+				<parameter name="val" />
+				<body><![CDATA[
+					var fval = this.fixString(val);
+					this.setAttribute("initialvalue", fval);
+					if (fval != '')
+					{
+						var json = wCore.parseJSON(fval);
+						this.mValue = json.attrVal ? json.attrVal : {};
+						this.mDefinition = {};
+						if (json.attrDef !== null)
+						{
+							for (var i = 0; i < json.attrDef.length; i++)
+							{
+								var def = json.attrDef[i];
+								this.mDefinition[def.code] = def;
+							}
+							this.removeAttribute('hide-list');
+							this.setAttribute('hide-empty-msg', true);
+						}
+						else
+						{
+							this.setAttribute('hide-list', true);
+							this.removeAttribute('hide-empty-msg');
+						}
+					}
+					else
+					{
+						this.mValue = {};
+						this.mDefinition = {};
+						this.setAttribute('hide-list', true);
+						this.removeAttribute('hide-empty-msg');
+					}
+					this.removeAttribute("modified");
+					this.mModified = false;
+					this.onLoad();
+				]]></body>
+			</method>
+			
+			<property name="value">
+				<getter><![CDATA[
+					if (this.mValue != null)
+					{
+						return wCore.stringifyJSON(this.mValue);
+					}
+					return '';
+				]]></getter>
+				<setter><![CDATA[
+					var fval = this.fixString(val);
+					if (fval != '')
+					{
+						this.mValue = wCore.parseJSON(fval);
+					}
+					else
+					{
+						this.mValue = {};
+					}
+					this.onLoad();
+				]]></setter>
+			</property>
+						
+			<method name="reset">
+				<body><![CDATA[
+					if (this.mModified)
+					{
+						this.setInitialValue(this.initialvalue);
+						this.valueChanged();
+					}
+				]]></body>
+			</method>
+				
+			<constructor><![CDATA[
+				this.setAttribute("valid", "true");
+				this.setInitialValue(this.initialvalue);
+			]]></constructor>
+	
+			<method name="valueChanged">
+				<body><![CDATA[	
+					wCore.debug('valueChanged: ' + this.mModified);	
+					if (this.mModified)
+					{
+						if (!this.modified) 
+						{
+							wCore.debug('valueChanged: dispatchFieldEvent fieldModified');	
+							this.setAttribute("modified", "true");
+							this.dispatchFieldEvent('fieldModified');
+						}
+					}
+					else
+					{
+						if (this.modified) 
+						{
+							wCore.debug('valueChanged: dispatchFieldEvent fieldRestored');	
+							this.removeAttribute("modified");
+							this.dispatchFieldEvent('fieldRestored');
+						}			
+					}
+					this.dispatchFieldEvent('fieldChanged');
+				]]></body>
+			</method>
+			
+			<method name="focus">
+				<body><![CDATA[
+					wCore.debug("No FOCUS");
+				]]></body>
+			</method>			
+		
+			<method name="cleanList">
+				<body><![CDATA[
+					var rows = this.rows;
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					{
+						rows.removeChild(rows.lastChild);
+					}
+				]]></body>
+			</method>
+			
+
+			<method name="hasAllAttributes">
+				<body><![CDATA[
+					for (var code in this.mDefinition)
+					{
+						if (!(code in this.mValue)) {return false;}
+					}
+					return true;
+				]]></body>
+			</method>
+							
+			<method name="onLoad">
+				<body><![CDATA[
+					this.cleanList();
+					var values = [];
+					for (var code in this.mValue)
+					{
+						var def = this.mDefinition[code];		
+						values.push({code: code, label: def.label, type: def.type, value: this.mValue[code]});					
+					}
+					
+					if (this.mSortOnColId)
+					{
+						var col = this.getElementByAnonId(this.mSortOnColId);
+						values = this.orderRows(values, col.getAttribute('sortonfield'), col.getAttribute('sortDirection'));
+					}
+					
+					for (var i = 0; i < values.length; i++)
+					{
+						var item = values[i];
+						this.addItem(item);
+					}
+					
+					this.getElementByAnonId('button-new').hidden = this.hasAllAttributes();			
+				]]></body>
+			</method>				
+
+			<method name="orderRows">
+				<parameter name="values" />
+				<parameter name="fieldName" />
+				<parameter name="direction" />
+				<body><![CDATA[
+				 var asc = direction === "asc";
+				 var name = fieldName;
+				 values.sort(function(a, b) {
+				 	if (a[name] == b[name]) {return 0;} 
+				 	else if (a[name] < b[name]) {return asc ? -1 : 1;}
+				 	else {return asc ? 1 : -1;}
+				 });
+				 return values;
+				]]></body>
+			</method>	
+				
+			<method name="createCodeSelector">
+				<body><![CDATA[
+					var menulist = document.createElement('menulist');
+					var menupopup = menulist.appendChild(document.createElement('menupopup'));
+					for (var code in this.mDefinition)
+					{
+						if (!(code in this.mValue))
+						{
+							var menuitem = menupopup.appendChild(document.createElement('menuitem'));
+							menuitem.setAttribute('label', this.mDefinition[code].label);
+							menuitem.setAttribute('value', code);
+						}
+					}
+					return menulist;
+				]]></body>
+			</method>
+										
+			<method name="addItem">
+				<parameter name="jsnode" />
+				<body><![CDATA[
+					var rows =  this.rows;
+					var idx = rows.childNodes.length;
+					
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.itemData = jsnode;
+					row.idx = idx;
+					 
+					var cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.label);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.value);
+					
+					cell = row.appendChild(document.createElement('toolbar'));
+					cell.setAttribute('class', 'actions');
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'edit');
+					button.setAttribute('idx', idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('label', "&modules.uixul.bo.actions.Edit;");
+										
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'delete');
+					button.setAttribute('idx', idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+
+					rows.appendChild(row);
+				]]></body>
+			</method>
+						
+			<method name="edit">
+				<parameter name="idx" />
+				<body><![CDATA[
+					var row = this.rows.childNodes[idx];
+					while (row.lastChild) {row.removeChild(row.lastChild);};		
+					this.toEditrow(row);
+				]]></body>
+			</method>
+			
+			<method name="delete">
+				<parameter name="idx" />
+				<body><![CDATA[
+					if (confirm("&modules.catalog.bo.doceditor.attr.Confirm-delete;"))
+					{
+						var row = this.rows.childNodes[idx];
+						var code = row.itemData.code;
+						if (code in this.mValue)
+						{
+							delete this.mValue[code];
+							this.mModified = true;
+							this.valueChanged();
+						}
+						this.onLoad();
+					}
+				]]></body>
+			</method>
+			
+			<method name="save">
+				<parameter name="idx" />
+				<body><![CDATA[
+					var row = this.rows.childNodes[idx];
+					var idxVal = idx - 1;
+					var code = row.itemData.code;
+					if (code == '') {code = row.childNodes[0].value;}
+					var value = row.childNodes[1].value;
+					if (!(code in this.mValue) || !(this.mValue[code] == value))
+					{
+						this.mValue[code] = value;
+						this.mModified = true;
+						this.valueChanged();
+					}
+					this.onLoad();
+				]]></body>
+			</method>		
+
+			<method name="create">
+				<body><![CDATA[
+					var rows = this.rows;
+					var idx = rows.childNodes.length;
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.itemData = {code:'', label:'', type: 'text', value:''};
+					row.idx = idx;
+					this.toEditrow(row);
+					rows.appendChild(row);
+				]]></body>
+			</method>
+											
+			<method name="toEditrow">
+				<parameter name="row" />
+				<body><![CDATA[				
+					if (row.itemData.code == '')
+					{
+						var cs = row.appendChild(this.createCodeSelector());
+					}
+					else
+					{
+						var cell = row.appendChild(document.createElement('label'));
+						cell.setAttribute('value', row.itemData.label);
+					}
+					
+					var tb = row.appendChild(document.createElement('textbox'));
+					tb.setAttribute('value', row.itemData.value);	
+											
+					var  toolbar = row.appendChild(document.createElement('toolbar'));
+					toolbar.setAttribute('class', 'actions');
+					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'save');
+					button.setAttribute('idx', row.idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('label', "&modules.catalog.bo.doceditor.attr.action-save;");
+										
+					button = toolbar.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'delete');
+					button.setAttribute('idx', row.idx);
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+				]]></body>
+			</method>	
+			
+			
+			<method name="handleSort">
+				<parameter name="node" />
+				<body><![CDATA[
+					if (node.getAttribute('anonid') == this.mSortOnColId)
+					{
+						var dir = (node.getAttribute('sortDirection') == 'asc') ? 'desc' : 'asc';
+						node.setAttribute('sortDirection', dir);
+					}
+					else
+					{
+						if (this.mSortOnColId)
+						{
+							this.getElementByAnonId(this.mSortOnColId).removeAttribute('sortDirection');
+						}
+						this.mSortOnColId = node.getAttribute('anonid');
+						node.setAttribute('sortDirection', 'asc');
+					}
+					this.onLoad();
+				]]></body>
+			</method>
+										
+		</implementation>
+		<handlers>		
+			<handler event="command"><![CDATA[
+				var target = event.originalTarget;
+				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
+				{
+					switch (target.getAttribute('action'))
+					{						
+						case 'edit':
+							this.edit(target.getAttribute('idx'));
+							break;	
+						case 'delete':
+							this.delete(target.getAttribute('idx'));
+							break;
+						case 'save':
+							this.save(target.getAttribute('idx'));
+							break;
+						case 'create':
+							this.create();
+							break;
+					}
+					return;
+				}
+			]]></handler>
+			
+			<handler event="click" button="0" clickcount="1"><![CDATA[
+				var target = event.originalTarget;
+				if (target.localName == 'label' && target.hasAttribute('sortonfield'))
+				{
+					this.handleSort(target);
+					return;
+				}
+			]]></handler>
+		</handlers>	
+		<resources>
+			<stylesheet src="modules.uixul.cEditorGrid" />
+		</resources>		
+		<content>
+			<xul:vbox flex="1">	
+				<xul:vbox flex="1" xbl:inherits="hidden=hide-list">				
+						<xul:grid flex="1">
+							<xul:columns>
+								<xul:column flex="3" />
+								<xul:column flex="1" />
+								<xul:column flex="1" />
+							</xul:columns>
+							<xul:rows anonid="document-rows">
+								<xul:row class="head">
+									<xul:label sortonfield="label" anonid="label" 
+										value="&amp;modules.catalog.bo.doceditor.attr.LabelColumn;" />
+									<xul:label anonid="valueColumn"
+										value="&amp;modules.catalog.bo.doceditor.attr.ValueColumn;" />
+									<xul:label anonid="actionsColumn"
+										value="&amp;modules.catalog.bo.doceditor.attr.ActionsColumn;" />
+								</xul:row>
+							</xul:rows>
+						</xul:grid>
+						<xul:toolbar>
+							<xul:toolbarbutton action="create" anonid="button-new" 
+							label="&amp;modules.catalog.bo.doceditor.attr.Action-create;" 
+							image="{HttpHost}/icons/small/add.png"  />
+						</xul:toolbar>	
+						<xul:spacer />
+					<children/>
+				</xul:vbox>		
+				<xul:description xbl:inherits="hidden=hide-empty-msg">&amp;modules.catalog.bo.doceditor.attr.No-attributes-msg;</xul:description>
+			</xul:vbox>
+		</content>		
+	</binding>
+</bindings>

@@ -1,0 +1,31 @@
+<tal:block tal:condition="shelves">
+	<h2 class="title" tal:content="currentShelf/getLabel" />
+	
+	<div class="shelves-display">	
+		<ol class="table-view">
+			<li tal:repeat="item shelves">
+				<ul class="sub-list">
+					<li tal:condition="item/getVisual">
+						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;">
+							<img change:media="document item/getVisual; format 'modules.catalog.frontoffice/pic200x200'" />
+						</a>
+					</li>
+					<li>
+						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;" tal:content="item/getLabel" />
+						<br/>
+						<tal:block tal:condition="configuration/getDisplayshelvesdescription" tal:content="item/getShortDescription" />						
+					</li>
+					<li tal:condition="configuration/getDisplaysubshelves">
+						<form tal:define="subShelves item/getPublishedSubShelves" tal:condition="php: count(subShelves) GT 0" method="post" tal:attributes="action redirectFormAction">
+							<label class="invisible" for="second-level-shelf-${repeat/item/index}" i18n:translate="&modules.catalog.frontoffice.GoToSubshelf;" />
+							<select name="subRef" id="second-level-shelf-${repeat/item/index}" class="textfield">
+								<option tal:repeat="subItem subShelves" tal:attributes="value subItem/getId" tal:content="subItem/getLabel" />
+							</select>
+							<input class="button" type="submit" value="ok" alt="ok" title="ok" />
+						</form>
+					</li>
+				</ul>
+			</li>			
+		</ol>		
+	</div>
+</tal:block>

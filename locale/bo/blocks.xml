@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="Dashboardstock.title">
+		<locale lang="fr">produits en rupture de stock</locale>
+	</entity>
+	<entity id="productpromotion">
+		<locale lang="fr">Mise en avant de produits</locale>
+		<locale lang="en">Product promotion</locale>
+	</entity>
+</localization>

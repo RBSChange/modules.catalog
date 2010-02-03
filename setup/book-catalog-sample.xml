@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<!-- 
+		WARNING: before importing this file, import catalog/default.xml 
+	-->
+	<binding fileName="modules/generic/persistentdocument/import/generic_binding.xml" />
+	<binding fileName="modules/brand/persistentdocument/import/brand_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<binding fileName="modules/website/persistentdocument/import/website_binding.xml" />
+	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
+	
+	<rootfolder module="media">
+		<folder byLabel="Médias liés à l'exemple de catalogue de livres">
+			<media path="modules/catalog/setup/book-catalog-sample/L1-1.jpg" byLabel="Windows Vista et Internet pour les Nuls (avant)" id="V-L1-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/L1-2.jpg" byLabel="Windows Vista et Internet pour les Nuls (arrière)" id="V-L1-2" />
+			<media path="modules/catalog/setup/book-catalog-sample/L2-1.jpg" byLabel="Mac OS X Leopard pour les Nuls (avant)" id="V-L2-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/L2-2.jpg" byLabel="Mac OS X Leopard pour les Nuls (arrière)" id="V-L2-2" />
+			<media path="modules/catalog/setup/book-catalog-sample/L3-1.jpg" byLabel="Debian Lenny (avant)" id="V-L3-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/L4-1.jpg" byLabel="Réussir son site Web avec XHTML et CSS (avant)" id="V-L4-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/L5-1.jpg" byLabel="Symfony : Mieux développer en PHP avec Symfony 1.2 et doctrine (avant)" id="V-L5-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/L6-1.jpg" byLabel="Zend Framework : Bien développer en PHP (avant)" id="V-L6-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/D150.jpg" byLabel="Acer Aspire One D150-0BW" id="V-D150-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/MacBook.jpg" byLabel="Apple MacBook Core 2 Duo 2 GHz" id="V-MacBook-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/SpinPoint.jpg" byLabel="Samsung SpinPoint F1 Desktop Class HD103UJ" id="V-SpinPoint-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/LCDPhilips.jpg" byLabel="Philips - 220E1SB - Moniteur LCD 22 pouces" id="V-LCDPhilips-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/NC10.jpg" byLabel="Samsung - NC10 XI0V 1270N" id="V-NC10-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/ergoweb.jpg" byLabel="Ergonomie Web : Pour des sites web efficaces (Broché)" id="V-ergoweb-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/AcerNotebook.jpg" byLabel="Aspire One A150-Aw" id="V-AcerNotebook-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/SamsungNotebook.jpg" byLabel="Samsung - NC10 - Mini Notebook" id="V-SamsungNotebook-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/AcerPort.jpg" byLabel="Acer - Aspire 7730ZG-343G16MN" id="V-AcerPort-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/HPPort.jpg" byLabel="HP Pavilion dv6-1140ef Entertainment" id="V-HPPort-1" />
+			<media path="modules/catalog/setup/book-catalog-sample/LifeCam.jpg" byLabel="Microsoft - LifeCam VX-3000 - Webcam" id="V-LifeCam-1" />
+				
+			<media path="modules/catalog/setup/book-catalog-sample/photo-informatique.jpg" byLabel="Rayon informatique" id="photo-informatique" />
+			<media path="modules/catalog/setup/book-catalog-sample/photo-os.jpg" byLabel="Rayon système d'exploitation" id="photo-os" />
+			<media path="modules/catalog/setup/book-catalog-sample/photo-materiel.jpg" byLabel="Rayon materiel" id="photo-materiel" />
+			<media path="modules/catalog/setup/book-catalog-sample/photo-internet.jpg" byLabel="Rayon internet" id="photo-internet" />
+		</folder>
+	</rootfolder>
+	
+	<rootfolder module="brand">
+		<folder byLabel="Marques liées à l'exemple de catalogue d'informatique">
+			<folder byLabel="Livres">
+				<brand byLabel="Editions Générales First" id="brand1" />
+				<brand byLabel="Eyrolles" id="brand2" />
+			</folder>
+			<folder byLabel="Matériel">
+				<brand byLabel="Acer" id="brand3" />
+				<brand byLabel="Apple" id="brand4" />
+				<brand byLabel="Samsung" id="brand5" />
+				<brand byLabel="Philips" id="brand6" />
+				<brand byLabel="HP" id="brand7" />
+				<brand byLabel="Microsoft" id="brand8" />
+			</folder>
+		</folder>
+	</rootfolder>
+	
+	<rootfolder module="catalog">
+		<topshelf label="Livres" visual-refid="photo-informatique" id="r1">
+			<shelf label="Systèmes d'exploitation" visual-refid="photo-os" id="r1-1" />
+			<shelf label="Internet" visual-refid="photo-internet" id="r1-2" />
+		</topshelf>
+		<topshelf label="Matériel" visual-refid="photo-materiel" id="r2" />
+		
+		<shopfolder byLabel="Boutiques">
+			<shop byLabel="Boutique" id="shop" topShelf-refids="r1,r2" />
+		</shopfolder>
+	</rootfolder>
+	
+	<simpleproduct label="Windows Vista et Internet pour les Nuls" shelf-refids="r1-1" codeReference="L1" id="product1" visual-refid="V-L1-1" additionnalVisual-refids="V-L1-2" brand-refid="brand1" stockQuantity="30" description="&lt;p&gt;de Andy Rathbone (Auteur), John-R Levine (Auteur), Margaret Levine Young (Auteur), Carol Baroudi (Auteur)&lt;/p&gt;
+&lt;p&gt;Un nouveau matériel ou un nouveau logiciel vient de débarquer dans votre vie et vous n'avez pas de temps à perdre pour en apprendre l'utilisation. Deux solutions s'offrent à vous, attendre un miracle, solution peu probable, ou faire confiance à votre Mégapoche qui vous donnera toutes les informations essentielles pour démarrer un apprentissage efficace dans la joie et la bonne humeur ! Pour tout savoir sur Windows Vista et Internet ! Windows Vista et Internet Mégapoche Pour les Nuls va vous donner en quelques 700 pages tous les outils qui vous permettront de maîtriser Windows et Internet comme un virtuose. La première partie est consacrée au coeur du PC Windows Vista vous y apprendrez tout ce qu'il faut savoir pour bien utiliser votre PC et ses périphériques. La deuxième partie vous fera partir pour une croisière à la découverte du monde merveilleux d'Internet.&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="16.06" oldValue="16.90" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Mac OS X Leopard pour les Nuls" shelf-refids="r1-1" codeReference="L2" id="product2" visual-refid="V-L2-1" additionnalVisual-refids="V-L2-2" brand-refid="brand1" stockQuantity="40" description="&lt;p&gt;de Bob LeVitus (Auteur), Françoise Otwaschkau (Traduction)&lt;/p&gt;
+&lt;p&gt;Un nouveau matériel ou un nouveau logiciel vient de débarquer dans votre vie et vous n'avez pas de temps à perdre pour en apprendre l'utilisation. Deux solutions s'offrent à vous, attendre un miracle, solution peu probable, ou faire confiance à cette nouvelle collection de livres de poche qui vous donnera toutes les informations essentielles afin de démarrer un apprentissage efficace dans la joie et la bonne humeur! Avec ce livre entre les mains, vous maîtriserez Mac OS X Leopard comme un pro, que vous soyez un vieux routard de la famille Mac ou un nouveau membre du club. Ne croyez pas que le léopard se laisse facilement dompter, mais Mac OS X Leopard pour les Nuls est là, et il va faire de vous un dompteur émérite. Vous saurez installer Mac OS X, utiliser le nouveau Finder, configurer vos connexions Internet, installer de nouveaux périphériques, et bien plus encore !&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="11.31" oldValue="11.90" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Debian Lenny" shelf-refids="r1-1" codeReference="L3" id="product3" visual-refid="V-L3-1" brand-refid="brand2" stockQuantity="15" description="&lt;p&gt;de Raphaël Hertzog (Auteur), Roland Mas (Auteur)&lt;/p&gt;
+&lt;p&gt;Debian GNU/Linux, distribution Linux non commerciale extrêmement populaire, est réputée pour sa fiabilité et sa richesse. Créée et maintenue par un impressionnant réseau de plusieurs milliers de développeurs dans le monde, elle a pour principes l'engagement vis-à-vis de ses utilisateurs et la qualité. Ses technologies aident un nombre toujours croissant d'administrateurs, notamment par le biais de la distribution dérivée Ubuntu. Ce cahier de l'Admin entièrement revu pour Debian Lenny perpétue le succès des premières éditions : accessible à tous, il fournit les connaissances indispensables pour qui souhaite devenir un administrateur Debian GNU/Linux efficace et indépendant. Il traite des méthodes que tout administrateur Linux compétent maîtrise, depuis l'installation et la mise à jour du système jusqu'à la création de paquetages et la compilation d'un noyau Linux, en passant par la supervision, la sauvegarde et les migrations, sans oublier des techniques avancées telles que la mise en place de SELinux pour sécuriser des services, l'automatisation des installations ou encore la virtualisation avec Xen.&lt;/p&gt;
+&lt;p&gt;Biographie de l'auteur&lt;/p&gt;
+&lt;p&gt;Raphaël Hertzog est ingénieur en informatique diplômé de l'INSA de Lyon et développeur Debian depuis 1997. Fondateur de Freexian, première SSII spécialisée dans Debian GNU/Linux, il est l'un des contributeurs français majeurs participant à ce projet Linux.
+Développeur Debian depuis 2000, développeur et mainteneur du logiciel libre FusionForge (ex-Gforge), Roland Mas est consultant indépendant spécialisé dans l'installation et la migration de systèmes Debian GNU/Linux et la mise en place d'outils de travail collaboratifs.&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="37.91" oldValue="39.90" discountDetail="5%" />
+	</simpleproduct>
+
+	<simpleproduct label="Réussir son site Web avec XHTML et CSS" shelf-refids="r1-2" codeReference="L4" id="product4" visual-refid="V-L4-1" brand-refid="brand2" stockQuantity="62" description="&lt;p&gt;de Mathieu Nebra (Auteur), Laurent Denis (Préface)&lt;/p&gt;
+&lt;p&gt;Acquérez tout de suite les bons réflexes des webmestres. Concevez une charte graphique souple et élégante grâce aux feuilles de style CSS. Apprenez à bien baliser vos pages en XHTML. Rendez vos pages accessibles depuis tous les navigateurs et toutes les plates-formes (y compris mobiles). Optimisez vos images pour un chargement rapide Interagissez avec vos visiteurs grâce aux formulaires. Choisissez votre nom de domaine (com, net, fr, org) et trouvez l'hébergement adapté. Familiarisez-vous avec le fonctionnement des robots d'indexation pour accroître la visibilité de votre site.&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="23.75" oldValue="25.00" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Symfony : Mieux développer en PHP avec Symfony 1.2 et doctrine" shelf-refids="r1-2" codeReference="L5" id="product5" visual-refid="V-L5-1" brand-refid="brand2" stockQuantity="1" description="&lt;p&gt;de Potencier Hamon (Auteur)&lt;/p&gt;
+&lt;p&gt;Reconnu dans le monde pour sa puissance et son élégance, Symfony est issu de plus de dix ans de savoir-faire. Le framework open source de Sensio fédère une très forte communauté de développeurs PHP professionnels. Il leur offre des outils et un environnement MVC pour créer des applications web robustes, maintenables et évolutives. Au fil d'une démarche rigoureuse et d'un exemple concret d'application web 2.0, ce cahier décrit le bon usage des outils Symfony mis à la disposition du développeur : de l'architecture MVC et autres design patterns à l'abstraction de base de données et au mapping objet-relationnel avec Doctrine, en passant par les tests unitaires et fonctionnels, la gestion des URL, des formulaires ou du cache, l'internationalisation ou encore la génération des interfaces d'administration...&lt;/p&gt;
+&lt;p&gt;Biographie de l'auteur&lt;/p&gt;
+&lt;p&gt;Fabien Potencier est ingénieur civil des Mines de Nancy et diplômé du mastère Entrepreneurs à HEC. Il a créé le framework Symfony dont il est le développeur principal. Co-fondateur de Sensio, il dirige Sensio Labs, agence spécialisée dans les technologies Open Source. Diplômé d'une licence spécialisée en développement informatique, Hugo Hamon a rejoint Sensio Labs en tant que développeur web. Passionné par PHP, il a fondé le site Apprendre-PHP.com et promeut le langage en milieu professionnel en s'investissant dans l'AFUP et dans la communauté Symfony.&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="37.05" oldValue="39.00" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Zend Framework : Bien développer en PHP" shelf-refids="r1-2" codeReference="L6" id="product6" visual-refid="V-L6-1" brand-refid="brand2" stockQuantity="5" description="&lt;p&gt;de Julien Pauli (Auteur), Guillaume Ponçon (Auteur)&lt;/p&gt;
+&lt;p&gt;En imposant des règles strictes de gestion de code et en offrant une très riche bibliothèque de composants prêts à l'emploi, le framework PHP 5 Zend Framework guide le développeur web dans l'industrialisation de ses développements, afin d'en garantir la fiabilité, l'évolutivité et la facilité de maintenance. Cet ouvrage présente les meilleures pratiques de développement web avec PHP 5 et le Zend Framework : design patterns, MVC, base de données, sécurité, interopérabilité, tests unitaires, gestion des flux et des sessions, etc. Non sans rappeler les prérequis techniques et théoriques à l'utilisation du framework, l'ouvrage aidera tant les développeurs débutants en PHP que les chefs de projets ou architectes aguerris souhaitant l'utiliser en entreprise.&lt;/p&gt;
+&lt;p&gt;Biographie de l'auteur&lt;/p&gt;
+&lt;p&gt;Architecte certifié PHP et Zend Framework, Julien Pauli est responsable du pôle Zend Framework/PHP chez Anaska (groupe Alter Way). Contributeur de la première heure au framework en collaboration avec Zend Technologies, conférencier et membre de l'AFUP, il publie des articles sur PHP dans la presse. Fondateur et gérant de la société OpenStates (partenaire Zend Technologies et Anaska), Guillaume Ponçon intervient depuis plus de sept ans auprès de grands comptes sur de nombreuses missions d'expertise, de conseil et de formation PHP. Ingénieur EPITA, expert certifié PHP et Zend Framework, il est aussi spécialiste des systèmes Unix/Linux et pratique Java et C/C++. Très impliqué dans la communauté PHP, avec la présidence de l'AFUP en 2007-2008 et la création de la Web TV PHPTV, il est l'auteur de l'ouvrage Best practices PHP 5 et coauteur du Mémento PHP et SQL aux éditions Eyrolles.&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="37.05" oldValue="39.00" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Ergonomie Web : Pour des sites web efficaces (Broché)" shelf-refids="r1-2" codeReference="000000-10" id="product12" visual-refid="V-ergoweb-1" brand-refid="brand2" stockQuantity="1" description="&lt;p&gt;de Amélie Boucher (Auteur), Elie Sloïm (Préface)&lt;/p&gt;
+&lt;p&gt;Quelles règles pour séduire et fidéliser votre internaute ? Tout site Internet doit réussir le pari difficile de satisfaire ses visiteurs. Mais comment connaître ces derniers ? Comment se mettre à leur place ? Comment concevoir un site si agréable et efficace qu'il donne envie d'y rester et d'y revenir ? Grâce aux conseils pratiques et méthodologiques de cette nouvelle édition, qui tient compte de l'évolution du Web avec plus de 50 nouveaux exemples, comprenez et appliquez l'ergonomie web sur le terrain !&lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="30.40" oldValue="32.00" discountDetail="5%" />
+	</simpleproduct>
+	
+	<simpleproduct label="Acer Aspire One D150-0BW" shelf-refids="r2" codeReference="D150" id="product7" visual-refid="V-D150-1" brand-refid="brand3" stockQuantity="50" description="&lt;p&gt;Acer ne fait pas dans le détail. Après avoir commercialisé en octobre dernier pas moins de neuf modèles de mini-PC portables (au format 8,9 pouces), le fabricant en sort trois autres. La nouveauté ? Le format: il s'agit de modèles de 10,1 pouces (25,65 cm). Ce n'est donc pas la révolution, mais ce 1,2 pouce supplémentaire (1 pouce = 2,54 cm) apporte un meilleur confort tant pour saisir des textes que pour consulter les données à l'écran. &lt;/p&gt;">
+		<price shop-refid="shop" taxCode="2" value="284.05" oldValue="299" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Samsung SpinPoint F1 Desktop Class HD103UJ" shelf-refids="r2" codeReference="000000-2" id="product9" visual-refid="V-SpinPoint-1" brand-refid="brand5" stockQuantity="70" description="&lt;p&gt;MacBook est l'ordinateur portable Mac le plus élaboré et le plus économique à ce jour vous permet de bénéficier d'une architecture rapide comme l'éclair, conditionnée dans un superbe design à un prix inférieur que celui des autres modèles plus lents et moins séduisants du marché. C'est comme si vous achetiez une voiture de sport au prix d'un scooter. &lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Samsung SpinPoint F1 Desktop Class HD103UJ - disque dur - 1 To - SATA-300 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type: &lt;/strong&gt; Disque dur - interne &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Facteur de forme: &lt;/strong&gt; 3.5 pouces x 1/3H &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Dimensions (LxPxH): &lt;/strong&gt; 10.2 cm x 14.7 cm x 2.6 cm &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Poids: &lt;/strong&gt; 0,65 kg &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Capacité: &lt;/strong&gt; 1 To &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type d'interface: &lt;/strong&gt; Serial ATA-300 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Débit de transfert de données: &lt;/strong&gt; 300 Mo par seconde &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="77.06" />
+	</simpleproduct>
+	<simpleproduct label="Apple MacBook Core 2 Duo 2 GHz" shelf-refids="r2" codeReference="000000-1" id="product8" visual-refid="V-MacBook-1" brand-refid="brand4" stockQuantity="50" description="&lt;p&gt;Support d'interface en série ATA 3,0 Gbps. Contrôle FOD dynamique avancé pour une meilleure intégrité des donnéesFonctionnalité NCQ (Native Command Queuing) SATANoiseGuard. Amélioration de la stabilité d'enregistrement en température accrue avec PMR. Compensation intelligente des perturbations externesGestion d'alimentation SATA lancée par le périphérique. SilentSeekPerformances améliorées grâce au micrologiciel. Fonctionnalité de gestion acoustique automatique ATA. &lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Apple MacBook Core 2 Duo 2 GHz - 13.3 pouces TFT &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Dimensions (LxPxH): &lt;/strong&gt; 32.5 cm x 22.7 cm x 2.4 cm &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Poids: &lt;/strong&gt; 2 kg &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Localisation: &lt;/strong&gt; Français &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de système: &lt;/strong&gt; Ordinateur portable &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Périphériques intégrés: &lt;/strong&gt; Haut-parleurs stéréo, antenne LAN sans fil, antenne Bluetooth &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Processeur: &lt;/strong&gt; Intel Core 2 Duo 2 GHz ( à deux noyaux ) &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Mémoire cache: &lt;/strong&gt; 3 Mo - L2 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; RAM: &lt;/strong&gt; 2 Go (installé) à 4 Go (maximum) - DDR3 SDRAM - 1066 MHz - PC3-8500 ( 2 x 1 Go ) &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Disque dur: &lt;/strong&gt; 160 Go - Serial ATA-150 - 5400 tours par minute &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="993.07" />
+	</simpleproduct>
+	<simpleproduct label="Philips - 220E1SB - Moniteur LCD 22 pouces" shelf-refids="r2" codeReference="000000-3" id="product10" visual-refid="V-LCDPhilips-1" brand-refid="brand6" stockQuantity="50" description="&lt;p&gt;Profitez de cet écran large 16/9 doté d'un grand nombre de fonctionnalités et d'une superbe finition glossy, et ce à un coût raisonnable. &lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Philips - 220E1SB &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type: &lt;/strong&gt; Moniteur LCD &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Ecran: &lt;/strong&gt; 22 pouces &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type d'écran: &lt;/strong&gt; TFT - LCD &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Format d'image: &lt;/strong&gt; 16/9 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Format SmartContrast (dynamique): &lt;/strong&gt; 8000:1 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Luminosité: &lt;/strong&gt; 300 cd/m² &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Affichage multilingue à l'écran: &lt;/strong&gt; Anglais, Français, Allemand, Italien, Russe, Chinois simplifié, Espagnol, Portugais, Turc &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Inclinaison: &lt;/strong&gt; -5 à 20 degrés &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="137.75" oldValue="153.05" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Samsung - NC10 XI0V 1270N" shelf-refids="r2" codeReference="000000-4" id="product11" visual-refid="V-NC10-1" brand-refid="brand5" stockQuantity="70" description="&lt;p&gt;Ultra-fin, ultra-léger et super design, le netbook NC10 XIOV 1270 N de Samsung est une solution informatique polyvalente qui va satisfaire l'usager nomade que vous êtes. Soussa superbe robe noire, se cachent un processeur Atom N270,cadencé à 1,6 GHz&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Samsung - NC10 XI0V 1270N - 10.2 pouces WSVGA - Atom N270 - HDD 160 Go - 1024 Mo - XP Home - Noir &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de produit: &lt;/strong&gt; Notebook &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Système d'exploitation: &lt;/strong&gt; Windows XP Edition Familiale Authentique &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Technologie: &lt;/strong&gt; Technologie processeur intel Atom &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Processeur: &lt;/strong&gt; Processeur Intel Atom N270 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Fréquence: &lt;/strong&gt; 1,6 GHz &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Chipset: &lt;/strong&gt; Intel 945GSE + ICH7M &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; FSB: &lt;/strong&gt; 533 MHz &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Mémoire cache L2: &lt;/strong&gt; 512 Ko &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="353.12" />
+	</simpleproduct>
+	<simpleproduct label="Aspire One A150-Aw" shelf-refids="r2" codeReference="000000-5" id="product13" visual-refid="V-AcerNotebook-1" brand-refid="brand3" stockQuantity="70" description="&lt;p&gt;Acer redéfinit la connectivité mobile grâce à l'Aspire one, son netbook révolutionnaire qui regorge de plaisir et de fonctions puissantes dans un tout petit format de 8,9 pouces. Un démarrage rapide en 15 secondes. Vous pouvez commencer à utiliser votre Aspire one 15 secondes seulement après l'avoir allumé (avec la version LinpusTM Linux® Lite). C'est ce que l'on appelle un démarrage des plus rapides.&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; Démarrage rapide en 15 secondes&lt;/li&gt;
+	&lt;li&gt; Ports SDTM, MMC, MS, MS PRO, xD &lt;/li&gt;
+	&lt;li&gt; Webcam intégrée &lt;/li&gt;
+	&lt;li&gt; Ecran 8,9 pouces &lt;/li&gt;
+	&lt;li&gt; WLAN : Acer InviLink 802.11b/g Wi-Fi &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="179.99" />
+	</simpleproduct>
+	<simpleproduct label="Samsung - NC10 - Mini Notebook" shelf-refids="r2" codeReference="000000-6" id="product14" visual-refid="V-SamsungNotebook-1" brand-refid="brand5" stockQuantity="70" description="&lt;p&gt;Le NC10 n'est pas un netbook comme les autres. Il est équipé d'un écran 10.2 pouces à technologie LED et d'une batterie 6 cellules le dotant d'une autonomie proche de 6h! Son design est ultra soigné, digne de Samsung. Grâce au plus petit processeur Intel à faible consommation, l'Intel Atom, le NC10 offre de hautes performances tout en ayant un poids et une taille réduits.&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Samsung - NC10&lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de produit: &lt;/strong&gt; Mini Notebook &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Système d'exploitation: &lt;/strong&gt; Windows XP Edition Familiale Authentique&lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Technologie: &lt;/strong&gt; Processeur Intel Atom &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Processeur: &lt;/strong&gt; Processeur Intel Atom N270&lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Ecran: &lt;/strong&gt; 10.2 pouces &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Samsung - NC10&lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Résolution: &lt;/strong&gt; WSVGA &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="350.07" oldValue="368.49" discountDetail="5%" />
+	</simpleproduct>
+	<simpleproduct label="Acer - Aspire 7730ZG-343G16MN" shelf-refids="r2" codeReference="000000-8" id="product15" visual-refid="V-AcerPort-1" brand-refid="brand3" stockQuantity="70" description="&lt;p&gt;L'Aspire 7730ZG est le portable idéal pour le divertissement! Il possède un grand écran de 17 pouces et le design Gemstone noir et bleu nuit glossy pour le châssis extérieur, un intérieur gris perle et un contour d'écran noir glossy.&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Acer Aspire 7730ZG-343G16Mn - Pentium Dual Core T3400 2.16 GHz &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Dimensions (LxPxH): &lt;/strong&gt; 44.1 cm x 30 cm x 4.4 cm &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Poids: &lt;/strong&gt; 4,1 kg &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de système: &lt;/strong&gt; Ordinateur portable &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Périphériques intégrés: &lt;/strong&gt; Haut-parleurs stéréo, Subwoofer, antenne LAN sans fil &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Processeur: &lt;/strong&gt; Intel Pentium Dual Core T3400 / 2.16 GHz ( à deux noyaux ) &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Mémoire cache: &lt;/strong&gt; 1Mo - L2 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; RAM: &lt;/strong&gt; 3 Go &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="533.51" />
+	</simpleproduct>
+	<simpleproduct label="HP Pavilion dv6-1140ef Entertainment" shelf-refids="r2" codeReference="000000-7" id="product16" visual-refid="V-HPPort-1" brand-refid="brand7" stockQuantity="70" description="&lt;p&gt;Disponible avec deux superbes finitions, cet ordinateur portable 15,6 pouces est votre partenaire idéal assurant divertissement, communication et mobilité.&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; HP Pavilion dv6-1140ef Entertainment - Core 2 Duo P7450 2.13 GHz - 15.6 pouces TFT &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Dimensions (LxPxH): &lt;/strong&gt; 37.9 cm x 25.8 cm x 4.1 cm &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Poids: &lt;/strong&gt; 3,1 kg &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de système: &lt;/strong&gt; Ordinateur portable &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Périphériques intégrés: &lt;/strong&gt; Haut-parleurs stéréo, antenne LAN sans fil &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Processeur: &lt;/strong&gt; Intel Core 2 Duo P7450 / 2.13 GHz ( à deux noyaux ) &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Mémoire cache: &lt;/strong&gt; 3Mo - L2 &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; RAM: &lt;/strong&gt; 4 Go &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="959.99" />
+	</simpleproduct>
+	<simpleproduct label="Microsoft LifeCam VX-3000 - Webcam" shelf-refids="r2" codeReference="000000-9" id="product17" visual-refid="V-LifeCam-1" brand-refid="brand8" stockQuantity="70" description="&lt;p&gt;Avec la LifeCam VX-3000, une webcam optimisée pour Windows Live Messenger, profitez d'une qualité vidéo et sonore supérieure et accédez au monde de la photo Haute Définition.La LifeCam VX-3000 de Microsoft est plus qu'une simple webcam c'est avant tout un produit optimisé pour Windows Live Messenger, le leader de la messagerie instantanée. N'oublions pas non plus les fonctionnalités inédites telles que le Tableau de bord LifeCam qui vous permet de contrôler les paramètres de votre LifeCam depuis Windows Live Messenger et d'y insérer des effets vidéo.Bénéficiez en outre d'une qualité vidéo incroyable, d'un micro intégré unidirectionnel avec réducteur acoustique de bruit et du logiciel de suivi du visage: dialoguez ainsi dans les meilleures conditions. Et même lorsqu'il fait sombre, votre LifeCam sait s'adapter et vous offrir une image de qualité!&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt; &lt;strong&gt; Description du produit: &lt;/strong&gt; Microsoft LifeCam VX-3000 - Webcam &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Caméra: &lt;/strong&gt; Couleur &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de capteurs optiques: &lt;/strong&gt; CMOS 307 200 pixels &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Type de système: &lt;/strong&gt; Webcam &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Réglage de la mise au point: &lt;/strong&gt; Manuel &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Interface: &lt;/strong&gt; USB &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Prise en charge audio: &lt;/strong&gt; Microphone intégré &lt;/li&gt;
+	&lt;li&gt; &lt;strong&gt; Caractèristique: &lt;/strong&gt; Technologie de suivi du visage automatique &lt;/li&gt;
+&lt;/ul&gt;">
+		<price shop-refid="shop" taxCode="2" value="21.99" />
+	</simpleproduct>
+</script>

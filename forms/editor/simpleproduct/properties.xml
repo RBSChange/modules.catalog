@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.general.General">
+		<field name="label" />
+		<field name="codeReference" />
+		<field name="description" />
+		<field name="visual" allowfile="true" mediafoldername="Inbox" />
+		<field name="brand" />
+		<field name="shelf" allow="modules_catalog_shelf,modules_catalog_topshelf" required="true" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Validity-dates" class="toggle" hidden="true">
+		<field name="startpublicationdate" />
+		<field name="endpublicationdate" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Stock-information" class="toggle" hidden="true">
+		<field name="stockQuantity" />
+		<field name="stockAlertThreshold" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
+		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
+		<field name="complementary" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+		<field name="similar" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+		<field name="upsell" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
+		<field name="pageTitle" />
+		<field name="pageDescription" />
+		<field name="pageKeywords" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
+		<fieldinput name="attributesJSON" type="attributeslist"/>
+	</section>
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				this.extendMethod("fireInitializeComplete", this.fireInitializeCompleteExtend);
+			]]></constructor>
+
+			<method name="fireInitializeCompleteExtend">
+				<parameter name="result" />
+				<body><![CDATA[
+					try
+					{
+						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_complementary');
+						this.setAttributesForSuggestions(field, result.contents.suggestComplementaryFeederClass);
+						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_similar');
+						this.setAttributesForSuggestions(field, result.contents.suggestSimilarFeederClass);
+						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_upsell');
+						this.setAttributesForSuggestions(field, result.contents.suggestUpsellFeederClass);
+					}
+					catch (e)
+					{
+						wCore.error("simpleproduct.propertiespanel.fireInitializeCompleteExtend", [], e);
+					}
+				]]></body>
+			</method>
+
+			<method name="setAttributesForSuggestions">
+				<parameter name="field" />
+				<parameter name="feederClass" />
+				<body><![CDATA[
+					var productId = this.documentEditor.documentid;
+					wCore.debug('setAttributesForSuggestions feederClass = '+feederClass);
+					if (productId && feederClass && feederClass != 'none')
+					{
+						field.setAttribute('productId', productId);
+						field.setAttribute('defaultFeederClass', feederClass);
+						field.setAttribute('hideSuggestionButton', false);
+					}
+					else
+					{
+						field.removeAttribute('productId');
+						field.removeAttribute('defaultFeederClass');
+						field.setAttribute('hideSuggestionButton', true);
+					}
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
+</panel>

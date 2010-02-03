@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<rights>
+	<actions>
+		<document name="rootfolder" />
+		<document name="comment">
+			<action name="Validate" />
+		</document>
+		<document name="attributefolder" />
+		<document name="shelf" />
+		<document name="simpleproduct" />
+		<document name="declinedproduct" />
+		<document name="productdeclination" />
+		<document name="paymentfilter" />
+		<document name="shippingfilter" />
+		<document name="topshelf" />
+		<document name="price" />
+		<document name="shop" />
+		<document name="shopfolder" />
+	</actions>
+	<roles>
+		<role name="Admin">
+			<permission name="*" />
+			<permission name="LoadPermissions.*" />
+			<permission name="SavePermissions.*" />
+			<permission name="GetPreferencesDocument" />
+			<permission name="EditLocale" />
+		</role>
+		<role name="Writer" extend="Guest">
+			<permission name="Order" />
+			<permission name="Move.*" />
+			<permission name="Load.*" />
+			<permission name="Rename.*" />
+			<permission name="PutInTrash.*" />
+			<permission name="Delete.*" />
+			<permission name="Insert.*" />
+			<permission name="Update.*" />
+			<permission name="LoadTags" />
+		</role>
+		<role name="Translator" extend="Guest">
+			<permission name="Load.*" />
+			<permission name="LoadForTranslation.*" />
+			<permission name="UpdateTranslation.*" />
+		</role>
+		<role name="Validator">
+			<permission name="Load.*" />
+			<permission name="Validate.comment" />
+			<permission name="Activate.*" />
+			<permission name="Deactivated.*" />
+			<permission name="ReActivate.*" />
+			<permission name="Cancel.*" />
+		</role>
+		<role name="Guest" extend="User">
+			<permission name="Enabled" />
+		</role>
+		<role name="User">
+			<permission name="List.*" />
+		</role>
+	</roles>
+</rights>

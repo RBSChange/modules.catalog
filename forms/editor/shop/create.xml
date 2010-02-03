@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.general.General">
+		<field name="label" />
+		<field name="mountParentId" type="document" allow="modules_website_website,modules_website_topic"
+			moduleselector="website" required="true" labeli18n="modules.catalog.document.shop.Mount-parent"
+			shorthelp="&amp;modules.catalog.document.shop.Mount-parent-help;" />
+		<field name="topShelf" />
+		<field name="displayOutOfStock" />
+		<field name="allowOrderOutOfStock" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Zones">
+		<field name="shippingZone" />
+		<field name="billingZone" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Currency">
+		<field name="currencyCode" />
+		<field name="currencyPosition" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Prices">
+		<field name="priceMode" />
+		<field name="displayPriceWithTax" />
+		<field name="displayPriceWithoutTax" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Validity-dates">
+		<field name="startpublicationdate" />
+		<field name="endpublicationdate" />
+	</section>
+	<xul>
+		<javascript>
+			<field name="mOutOfStockFieldsInitialized">false</field>
+			
+			<constructor><![CDATA[
+				// Out of stock fields.
+				var me = this;
+				this.addEventListener('panelInitializeComplete', function () { me.updateOutOfStockFields(); }, true);
+			]]></constructor>
+			
+			<method name="updateOutOfStockFields">
+				<body><![CDATA[
+					try
+					{
+						wCore.debug('updateOutOfStockFields');
+						var displayField = this.fields.displayOutOfStock;
+						var allowOrderField = this.fields.allowOrderOutOfStock;
+						
+						if (!this.mOutOfStockFieldsInitialized)
+						{
+							this.mOutOfStockFieldsInitialized = true;
+							wCore.debug('updateOutOfStockFields: addEventListener');
+							var me = this;
+							displayField.addEventListener('fieldChanged', function () { me.updateOutOfStockFields(); }, false);
+						}
+												
+						if (displayField.value == 'true')
+						{
+							wCore.debug('updateOutOfStockFields: value=true');
+							allowOrderField.disabled = false;
+						}
+						else
+						{
+							wCore.debug('updateOutOfStockFields: value!=true');
+							allowOrderField.disabled = true;
+							allowOrderField.value = 'false';
+						}
+					}
+					catch (e)
+					{
+						wCore.error('catalog.updateOutOfStockFields', [], e);
+					}
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
+</panel>

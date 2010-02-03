@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+	<entity id="metas.title">
+		<locale lang="fr">Titre de la fiche produit courante</locale>
+	</entity>
+	<entity id="metas.description">
+		<locale lang="fr">Description de la fiche produit courante</locale>
+	</entity>
+	<entity id="metas.keywords">
+		<locale lang="fr">Mots-clés de la fiche produit courante</locale>
+	</entity>
+	<entity id="activatezoom">
+		<locale lang="fr">activer le zoom</locale>
+	</entity>
+	<entity id="activatezoom-help">
+		<locale lang="fr">activer ou non le zoom sur les visuels.</locale>
+	</entity>
+	<entity id="showshareblock">
+		<locale lang="fr">partage de liens</locale>
+	</entity>
+	<entity id="showshareblock-help">
+		<locale lang="fr">afficher ou non le bloc de partage de liens.</locale>
+	</entity>
+	<entity id="displaypricewithtax">
+		<locale lang="fr">afficher les prix TTC</locale>
+	</entity>
+	<entity id="displaypricewithtax-help">
+		<locale lang="fr">afficher ou non les prix TTC.</locale>
+	</entity>
+	<entity id="displaypricewithouttax">
+		<locale lang="fr">afficher les prix hors taxe</locale>
+	</entity>
+	<entity id="displaypricewithouttax-help">
+		<locale lang="fr">afficher ou non les prix hors taxe.</locale>
+	</entity>
+	
+	<entity id="as-in-shop">
+		<locale lang="fr">Comme spécifié dans la boutique</locale>
+	</entity>
+	<entity id="yes">
+		<locale lang="fr">Oui</locale>
+	</entity>
+	<entity id="no">
+		<locale lang="fr">Non</locale>
+	</entity>
+</localization>

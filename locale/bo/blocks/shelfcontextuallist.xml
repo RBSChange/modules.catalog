@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+	<entity id="displaysubshelves">
+		<locale lang="fr">afficher les sous-rayons</locale>
+	</entity>
+	<entity id="displaysubshelves-help">
+		<locale lang="fr">activer ou non l'affichage de la liste de sélection d'un sous-rayon d'un rayon.</locale>
+	</entity>
+	<entity id="displayshelvesdescription">
+		<locale lang="fr">afficher la description</locale>
+	</entity>
+	<entity id="displayshelvesdescription-help">
+		<locale lang="fr">activer ou non l'affichage de la description d'un rayon.</locale>
+	</entity>
+	<entity id="metas.title">
+		<locale lang="fr">Titre du rayon courant</locale>
+	</entity>
+	<entity id="metas.description">
+		<locale lang="fr">Description du rayon courant</locale>
+	</entity>
+	<entity id="metas.keywords">
+		<locale lang="fr">Mots-clés du rayon courant</locale>
+	</entity>
+</localization>

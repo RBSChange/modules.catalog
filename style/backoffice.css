@@ -1,0 +1,36 @@
+treechildren::-moz-tree-image(modules_catalog_shopfolder){
+	list-style-image: url(/icons/small/folder.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_shop){
+	list-style-image: url(/icons/small/gold.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_topshelf){
+	list-style-image: url(/icons/small/folders-stack.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_shelf){
+	list-style-image: url(/icons/small/folder-closed.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_declinedproduct){
+	list-style-image: url(/icons/small/declinedproduct.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_productdeclination){
+	list-style-image: url(/icons/small/product.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_simpleproduct){
+	list-style-image: url(/icons/small/simpleproduct.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_price){
+	list-style-image: url(/icons/small/currency-euro.png) ;
+}
+treechildren::-moz-tree-image(modules_catalog_shippingfilter){
+	list-style-image: url(/icons/small/shipping.png);
+}
+treechildren::-moz-tree-image(modules_catalog_paymentfilter){
+	list-style-image: url(/icons/small/currency-euro.png);
+}
+treechildren::-moz-tree-image(modules_catalog_attributefolder){
+	list-style-image: url(/icons/small/blueprint.png);
+}
+treechildren::-moz-tree-image(modules_catalog_preferences){
+	list-style-image: url(/icons/small/catalog.png);
+}

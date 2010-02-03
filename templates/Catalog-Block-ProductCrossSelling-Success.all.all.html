@@ -1,0 +1,28 @@
+<div class="product-crossselling">
+	<h3 change:h="" tal:content="title" />
+
+	<div class="shelves-display"> 
+		<ol class="table-view">
+			<li tal:repeat="relatedProduct relatedProducts">
+				<ul class="sub-list" tal:define="price php: relatedProduct.getPrice(shop, customer)">			
+					<li tal:define="visual php: relatedProduct.getDefaultVisual(shop)" tal:condition="visual">
+						<a change:link="document relatedProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
+					</li>
+					<li>
+						<h4 class="title"><a class="link" change:link="document relatedProduct" tal:content="relatedProduct/getLabel" /></h4>
+					</li>
+					<li tal:condition="price/isDiscount">
+						<span class="price"><del tal:content="price/getFormattedOldValueWithTax" /></span>
+					</li>
+					<li>
+						<span class="price" tal:content="price/getFormattedValueWithTax" />
+					</li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+	
+	<ul class="mini-navigation" tal:condition="hrefToAll">
+		<li><a href="${hrefToAll}" class="link" change:translate="&modules.catalog.frontoffice.cross-selling-list;" /></li>
+	</ul>
+</div>

@@ -1,0 +1,10 @@
+toolbar[anonid="result-toolbar"]
+{
+	margin-top: 20px;
+	padding: 2px 5px;
+}
+label[anonid="result-count"]
+{
+	font-weight: bold;
+	font-style: italic;
+}

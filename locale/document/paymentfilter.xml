@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="document-name">
+		<locale lang="fr">filtre de paiement</locale>
+	</entity>
+	<entity id="label">
+		<locale lang="fr">libellé</locale>
+		<locale lang="en">label</locale>
+	</entity>
+	<entity id="shop">
+		<locale lang="fr">boutique</locale>
+		<locale lang="en">shop</locale>
+	</entity>
+	<entity id="connector">
+		<locale lang="fr">Connecteur bancaire</locale>
+	</entity>
+	<entity id="query">
+		<locale lang="fr">Conditions d'application</locale>
+	</entity>
+</localization>

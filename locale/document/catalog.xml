@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="document-name">
+    <locale lang="fr">catalogue</locale>
+    <locale lang="en">catalog</locale>
+    <locale lang="de">Katalog</locale>
+  </entity>
+  <entity id="edition-form-title">
+    <locale lang="fr">propriétés du catalogue</locale>
+    <locale lang="en">catalog properties</locale>
+    <locale lang="de">Katalogeigenschaften</locale>
+  </entity>
+  <entity id="label">
+    <locale lang="fr">libellé</locale>
+    <locale lang="en">label</locale>
+    <locale lang="de">Name</locale>
+  </entity>
+  <entity id="label-help">
+    <locale lang="fr">libellé du catalogue</locale>
+    <locale lang="en">catalog label</locale>
+    <locale lang="de">Katalogname</locale>
+  </entity>
+  <entity id="description">
+    <locale lang="fr">description</locale>
+    <locale lang="en">description</locale>
+    <locale lang="de">Beschreibung</locale>
+  </entity>
+  <entity id="description-help">
+    <locale lang="fr">description du catalogue</locale>
+    <locale lang="en">catalog description</locale>
+    <locale lang="de">Katalogbeschreibung</locale>
+  </entity>
+  <entity id="topic">
+    <locale lang="fr">rubrique associée</locale>
+    <locale lang="en">related topic</locale>
+    <locale lang="de">assoziierte Rubrik</locale>
+  </entity>
+  <entity id="topic-help">
+    <locale lang="fr">rubrique associée</locale>
+    <locale lang="en">related topic</locale>
+    <locale lang="de">assoziierte Rubrik</locale>
+  </entity>
+  <entity id="shippingZone">
+    <locale lang="fr">zone de livraison</locale>
+    <locale lang="en">shipping zone</locale>
+    <locale lang="de">Lieferzone</locale>
+  </entity>
+  <entity id="shippingZone-help">
+    <locale lang="fr">zone de livraison; sélectionner une zone dans les ressources.</locale>
+    <locale lang="en">shipping zone; select a zone from the resource tree.</locale>
+    <locale lang="de">Lieferzone; eine Zone in den Ressourcen selektieren.</locale>
+  </entity>
+  <entity id="billingZone">
+    <locale lang="fr">zone de facturation</locale>
+    <locale lang="en">billing zone</locale>
+    <locale lang="de">Abrechnungszone</locale>
+  </entity>
+  <entity id="billingZone-help">
+    <locale lang="fr">zone de facturation; sélectionner une zone dans les ressources.</locale>
+    <locale lang="en">billing zone</locale>
+    <locale lang="de">Abrechnungszone; eine Zone in den Ressourcen selektieren.</locale>
+  </entity>
+  <entity id="isDefaultCatalog">
+    <locale lang="fr">catalogue par défaut</locale>
+    <locale lang="en">default catalog</locale>
+    <locale lang="de">Standardkatalog</locale>
+  </entity>
+  <entity id="isDefaultCatalog-help">
+    <locale lang="fr">le catalogue par défaut est le catalogue utilisé dans les pages hors catalogue. Il ne peut y avoir qu'un seul catalogue par défaut par site web.</locale>
+    <locale lang="en">the default catalog is the one used inside pages outside any catalog. There can only be one default catalog per website.</locale>
+    <locale lang="de">Der Standardkatalog wird in den Seiten ausserhalb des Katalogs verwendet. Pro Webseite kann es nur einen Standardkatalog geben.</locale>
+  </entity>
+  <entity id="currencyCode">
+    <locale lang="fr">devise</locale>
+    <locale lang="en">currency</locale>
+    <locale lang="de">Währung</locale>
+  </entity>
+  <entity id="currencyCode-help">
+    <locale lang="fr">devise : €, $, £, ...</locale>
+    <locale lang="en">currency: €, $, £, ...</locale>
+    <locale lang="de">Währung: €, $, £, ...</locale>
+  </entity>
+  <entity id="currencyPosition">
+    <locale lang="fr">position du symbole</locale>
+    <locale lang="en">symbol position</locale>
+    <locale lang="de">Symbolposition</locale>
+  </entity>
+  <entity id="currencyPosition-help">
+    <locale lang="fr">lors de l'affichage, le symbole peut être placé à gauche ou à droite du montant.</locale>
+    <locale lang="en">when displaying a price, the currency symbol may be place at the left or at the right of the amount.</locale>
+    <locale lang="de">Bei Anzeige, kann das Symbol links oder rechts des Wertes stehen.</locale>
+  </entity>
+  <entity id="displayPrice">
+    <locale lang="fr">afficher le prix TTC</locale>
+    <locale lang="en">display price with taxes</locale>
+    <locale lang="de">Anzeige Preis inkl. Steuern</locale>
+  </entity>
+  <entity id="displayPrice-help">
+    <locale lang="fr">indique si le prix TTC devra être affiché dans ce catalogue.</locale>
+    <locale lang="en">indicates whether the tax-included price should be displayed in this catalog.</locale>
+    <locale lang="de">Gibt an, ob der Preis inkl. Steuern in diesem Katalog angezeigt werden soll.</locale>
+  </entity>
+  <entity id="displayPriceWithoutTax">
+    <locale lang="fr">afficher le prix HT</locale>
+    <locale lang="en">display price without taxes</locale>
+    <locale lang="de">Anzeige Nettopreis</locale>
+  </entity>
+  <entity id="displayPriceWithoutTax-help">
+    <locale lang="fr">indique si le prix HT devra être affiché dans ce catalogue.</locale>
+    <locale lang="en">indicates whether the price without tax should be displayed in this catalog.</locale>
+    <locale lang="de">Gibt an, ob der Nettopreis in diesem Katalog angezeigt werden soll.</locale>
+  </entity>
+  <entity id="defaultDetailVisual">
+    <locale lang="fr">visuel produit par défaut</locale>
+    <locale lang="en">default product visual</locale>
+    <locale lang="de">Abbildung Standardprodukt</locale>
+  </entity>
+  <entity id="defaultDetailVisual-help">
+    <locale lang="fr">visuel produit par défaut en mode détail (affichage d'une fiche produit).</locale>
+    <locale lang="en">default product visual in detail mode.</locale>
+    <locale lang="de">Abbildung Standardprodukt im detaillierten Modus (Anzeige eines Produktblatts)</locale>
+  </entity>
+  <entity id="defaultListVisual">
+    <locale lang="fr">visuel produit par défaut (mode liste)</locale>
+    <locale lang="en">default product visual (list mode)</locale>
+    <locale lang="de">Abbildung Standardprodukt (Listenmodus)</locale>
+  </entity>
+  <entity id="defaultListVisual-help">
+    <locale lang="fr">visuel produit par défaut en mode liste (liste de produits).</locale>
+    <locale lang="en">default product visual in list mode.</locale>
+    <locale lang="de">Abbildung Standardprodukt Listenmodus (Produktliste)</locale>
+  </entity>
+  <entity id="compile-catalog-description">
+    <locale lang="fr">Pour des raisons de performances, toutes les données du catalogue (rayons, produits, prix, etc) doivent être compilées. Cette action, qui peut prendre beaucoup de temps en fonction de la volumétrie du catalogue, est nécessaire si des changements ont été apportés au catalogue ou aux rayons.</locale>
+    <locale lang="en"/>
+    <locale lang="de">Aus Leistungsgründen, müssen alle Daten des Katalogs (Regale, Produkte, Preise, etc) ausgefüllt werden. Diese Aktion, dessen Zeitaufwand entsprechend der Volumetrie des Katalogs variiert, ist bei Änderungen im Katalog oder in den Regalen nötig.</locale>
+  </entity>
+  <entity id="start-compilation">
+    <locale lang="fr">démarrer la compilation</locale>
+    <locale lang="en"/>
+    <locale lang="de">Ausfüllen starten</locale>
+  </entity>
+  <entity id="compiling-shelf">
+    <locale lang="fr">compilation du rayon</locale>
+    <locale lang="en"/>
+    <locale lang="de">Regal ausfüllen</locale>
+  </entity>
+  <entity id="stop-compilation">
+    <locale lang="fr">arrêter la compilation</locale>
+    <locale lang="en"/>
+    <locale lang="de">Ausfüllen beenden</locale>
+  </entity>
+  <entity id="compilation-aborted-by-user">
+    <locale lang="fr">la compilation a été annulée.</locale>
+    <locale lang="en"/>
+    <locale lang="de">Ausfüllen abgebrochen.</locale>
+  </entity>
+  <entity id="compilation-failed">
+    <locale lang="fr">erreur durant la compilation</locale>
+    <locale lang="en"/>
+    <locale lang="de">Fehler beim ausfüllen</locale>
+  </entity>
+  <entity id="compilation-success">
+    <locale lang="fr">compilation terminée avec succès.</locale>
+    <locale lang="en"/>
+    <locale lang="de">Ausfüllen erfolgreich beendet.</locale>
+  </entity>
+</localization>

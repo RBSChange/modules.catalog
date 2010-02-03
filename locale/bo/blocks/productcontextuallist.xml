@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="activatecomparison">
+    <locale lang="fr">activer la comparaison</locale>
+    <locale lang="de">Vergleich aktivieren</locale>
+  </entity>
+  <entity id="activatecomparison-help">
+    <locale lang="fr">activer ou non la comparaison de produits.</locale>
+    <locale lang="de">Produktvergleich aktivieren JA/NEIN.</locale>
+  </entity>
+  <entity id="activatequantityselection">
+    <locale lang="fr">sélection de quantité</locale>
+    <locale lang="de">Mengenselektion</locale>
+  </entity>
+  <entity id="activatequantityselection-help">
+    <locale lang="fr">activer ou non la sélection de quantité pour l'ajout au panier.</locale>
+    <locale lang="de">Mengenselektion für im Warenkorb hinzufügen aktivieren JA/NEIN.</locale>
+  </entity>
+  <entity id="displayavailability">
+    <locale lang="fr">afficher la disponibilité</locale>
+    <locale lang="de">Verfügbarkeit anzeigen</locale>
+  </entity>
+  <entity id="displayavailability-help">
+    <locale lang="fr">afficher ou non la disponibilité des produits.</locale>
+    <locale lang="de">Verfügbarkeit der Produkte anzeigen JA/NEIN.</locale>
+  </entity>
+  <entity id="displayratingaverage">
+    <locale lang="fr">afficher la note</locale>
+  </entity>
+  <entity id="displayratingaverage-help">
+    <locale lang="fr">afficher ou non la note des produits.</locale>
+  </entity>
+  <entity id="displayratingaverage">
+    <locale lang="fr">afficher la note</locale>
+  </entity>
+  <entity id="displayratingaverage-help">
+    <locale lang="fr">afficher ou non la note des produits.</locale>
+  </entity>
+  <entity id="showshareblock">
+    <locale lang="fr">activer le partage de liens</locale>
+  </entity>
+  <entity id="showshareblock-help">
+    <locale lang="fr">activer ou non les icônes de paratage de liens</locale>
+  </entity>
+  <entity id="displaysortmenu">
+    <locale lang="fr">afficher le menu de tri</locale>
+    <locale lang="de">Sortiermenü anzeigen</locale>
+  </entity>
+  <entity id="displaysortmenu-help">
+    <locale lang="fr">afficher ou non le menu de tri des produits.</locale>
+    <locale lang="de">Sortiermenü der Produkte anzeigen JA/NEIN.</locale>
+  </entity>
+  <entity id="displaydisplayMode">
+    <locale lang="fr">sélection du mode d'affichage</locale>
+    <locale lang="de">Selektion des Anzeigemodus</locale>
+  </entity>
+  <entity id="displaydisplayMode-help">
+    <locale lang="fr">activer ou non la sélection du mode d'affichage de la liste des produits.</locale>
+    <locale lang="de">Selektion des Anzeigemodus der Produktliste aktivieren JA/NEIN.</locale>
+  </entity>
+  <entity id="displaydiscountfilter">
+    <locale lang="fr">filtrage par promotions</locale>
+  </entity>
+  <entity id="displaydiscountfilter-help">
+    <locale lang="fr">activer ou non l'option de filtrage par promotions.</locale>
+  </entity>
+  <entity id="displaybrandorder">
+    <locale lang="fr">tri par marques</locale>
+    <locale lang="de">Nach Marken sortieren</locale>
+  </entity>
+  <entity id="displaybrandorder-help">
+    <locale lang="fr">activer ou non le tri de produits par marque.</locale>
+    <locale lang="de">Produkte nach Marken sortieren aktivieren JA/NEIN.</locale>
+  </entity>
+  <entity id="displaynbresultsperpage">
+    <locale lang="fr">nombre de produits par page</locale>
+    <locale lang="de">Anzahl Produkte pro Seite</locale>
+  </entity>
+  <entity id="displaynbresultsperpage-help">
+    <locale lang="fr">activer ou non la sélection du nombre de produits affichés par page.</locale>
+    <locale lang="de">Anzahl angezeigter Produkte pro Seite aktivieren JA/NEIN.</locale>
+  </entity>
+  <entity id="displayaddtocart">
+    <locale lang="fr">ajout au panier</locale>
+  </entity>
+  <entity id="displayaddtocart-help">
+    <locale lang="fr">activer ou non le bouton d'ajout au panier</locale>
+  </entity>
+  <entity id="showaddtofavorite">
+    <locale lang="fr">ajout aux produits favoris</locale>
+  </entity>
+  <entity id="showaddtofavorite-help">
+    <locale lang="fr">activer ou non le bouton d'ajout aux produits favoris</locale>
+  </entity>
+  <entity id="displayproductdescription">
+    <locale lang="fr">description du produit</locale>
+  </entity>
+  <entity id="displayproductdescription-help">
+    <locale lang="fr">activer ou non l'affichage de la description des produits</locale>
+  </entity>
+  <entity id="displayproductpicto">
+    <locale lang="fr">pictogrammes</locale>
+  </entity>
+  <entity id="displayproductpicto-help">
+    <locale lang="fr">activer ou non l'affichage des pictogrammes des produits</locale>
+  </entity>
+  <entity id="displaymode">
+    <locale lang="fr">mode d'affichage</locale>
+  </entity>
+  <entity id="displaymode-help">
+    <locale lang="fr">choisissez ici le mode d'affichage par défaut</locale>
+  </entity>
+  <entity id="metas.title">
+    <locale lang="fr">Titre du rayon courant</locale>
+  </entity>
+  <entity id="metas.description">
+    <locale lang="fr">Description du rayon courant</locale>
+  </entity>
+  <entity id="metas.keywords">
+    <locale lang="fr">Mots-clés du rayon courant</locale>
+  </entity>
+</localization>

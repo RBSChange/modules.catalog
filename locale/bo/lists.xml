@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="cross-selling-types.label">
+		<locale lang="fr">types d'association</locale>
+	</entity>
+	<entity id="cross-selling-types.description">
+		<locale lang="fr">types d'association entre les produits associés</locale>
+	</entity>
+	<entity id="cross-selling-types.complementary">
+		<locale lang="fr">produits complémentaires</locale>
+	</entity>
+	<entity id="cross-selling-types.upSell">
+		<locale lang="fr">produits de gamme supérieure</locale>
+	</entity>
+	<entity id="cross-selling-types.similar">
+		<locale lang="fr">produits similaires</locale>
+	</entity>
+	
+	<entity id="cross-selling-sortby.label">
+		<locale lang="fr">tri des produits associés</locale>
+	</entity>
+	<entity id="cross-selling-sortby.description">
+		<locale lang="fr">différents types de tri des produits associés</locale>
+	</entity>
+	<entity id="cross-selling-sortby.fieldOrder">
+		<locale lang="fr">ordre du backoffice</locale>
+	</entity>
+	<entity id="cross-selling-sortby.random">
+		<locale lang="fr">ordre aléatoire</locale>
+	</entity>
+	
+	<entity id="product-suggestion-feeder.none">
+		<locale lang="fr">aucun</locale>
+	</entity>
+</localization>

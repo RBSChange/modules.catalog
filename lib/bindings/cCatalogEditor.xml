@@ -1,0 +1,773 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="cResumeUrlrewritingByShopSection" extends="layout.cDocumentEditor#cResumeSection">
+		<implementation>
+			<method name="setValues">
+				<parameter name="values" />
+				<body><![CDATA[
+					var propertyValues = values[this.name];
+					if (propertyValues)
+					{
+						var property;
+						for (var i = 0; i < propertyValues.length; i++)
+						{
+							values = propertyValues[i];
+							property = this.childNodes[i];
+							if (property == null)
+							{
+								property = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'xul:cproperty');
+								this.appendChild(property);
+							}
+							else
+							{
+								property.removeAttribute('collapsed');
+							}
+							
+							if (values.class == 'link')
+							{
+								property.setAttribute('class', 'link');
+								property.setAttribute('label', values.label);
+								property.setAttribute('linklabel', values.href);
+								property.setAttribute('href', values.href);
+								property.removeAttribute('value');
+							}
+							else
+							{
+								property.removeAttribute('class');
+								property.setAttribute('label', values.label);
+								property.removeAttribute('linklabel');
+								property.removeAttribute('href');
+								property.setAttribute('value', values.href);
+							}
+						}
+						while (property = this.childNodes[i])
+						{
+							property.setAttribute('collapsed', 'true');
+							i++;
+						}
+						this.removeAttribute("hidden");
+					}
+					else
+					{
+						//this.setAttribute("hidden", true);
+					}		
+				]]></body>
+			</method>		
+		</implementation>
+	</binding>
+	
+	<!-- Product suggestions. -->
+	
+	<binding id="cProductSuggestionField" extends="form.cField#cDocumentArrayField">
+		<content>
+			<xul:hbox xbl:inherits="context" flex="1">
+				<xul:listbox anonid="internalcontrol" rows="5" seltype="single" width="200"
+					xbl:inherits="disabled,tabindex,accesskey,rows,width=editwidth"
+					ondragenter="document.getBindingParent(this).dragEnter(event)"
+					ondragover="document.getBindingParent(this).dragOver(event)"
+					ondrop="document.getBindingParent(this).drop(event)" /> 
+				<xul:toolbar orient="vertical">
+					<xul:toolbarbutton anonid="deletebutton" 
+						image="chrome://global/skin/icons/error-16.png" disabled="true" 
+						xbl:inherits="disabled" 
+						oncommand="document.getBindingParent(this).removeItem();"/>					
+					<xul:toolbarbutton anonid="moveup" disabled="true" xbl:inherits="disabled,hidden=hideorder" 
+						tooltiptext="&amp;modules.generic.backoffice.Move-up;" 
+						image="{HttpHost}/icons/small/arrow-up-blue.png" 
+						oncommand="document.getBindingParent(this).moveSelection(-1);" />
+					<xul:toolbarbutton anonid="movedown" disabled="true" xbl:inherits="disabled,hidden=hideorder" 
+						tooltiptext="&amp;modules.generic.backoffice.Move-down;" 
+						image="{HttpHost}/icons/small/arrow-down-blue.png" 
+						oncommand="document.getBindingParent(this).moveSelection(+1);" />
+						
+					<xul:toolbarbutton anonid="selectorbutton" image="{HttpHost}/icons/small/folder.png" xbl:inherits="disabled" 
+						oncommand="document.getBindingParent(this).openRessourceDialog();"/>
+													
+					<xul:toolbarbutton anonid="uploadbutton" hidden="true" xbl:inherits="disabled" tooltiptext="&amp;modules.uixul.bo.filePicker.BrowseEllipsis;" 
+						image="{HttpHost}/icons/small/shadow/folder_add.png" 
+						oncommand="document.getBindingParent(this).openFilePicker()" />							
+				 </xul:toolbar>
+				 <xul:toolbar orient="vertical">								
+					<xul:toolbarbutton image="{HttpHost}/icons/small/wand.png" 
+						tooltiptext="&amp;modules.catalog.bo.doceditor.Suggest-products;" xbl:inherits="hidden=hideSuggestionButton" 
+						oncommand="openSuggestionDialog();"/>
+					<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" 
+						oncommand="dispatchFieldEvent('fieldHelp');"/>
+				 </xul:toolbar>
+			</xul:hbox>
+			<children/>
+		</content>
+		
+		<implementation>
+			<method name="openSuggestionDialog">
+				<body><![CDATA[
+					var wmodule = this.parentNode;
+				 	while (wmodule && wmodule.tagName != 'wmodule')
+				 	{
+				 		wmodule = wmodule.parentNode;
+				 	}
+				 	if (!wmodule)
+				 	{
+				 		return ;
+				 	}
+				 	var params = { alreadySelectedIds: this.value , productId: this.getAttribute('productId'), field: this, defaultMaxResults: 20, defaultFeederClass: this.getAttribute('defaultFeederClass') };
+	   				wmodule.getController().openModalDialog(this, 'productSuggestion', params);
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	<binding id="cProductSuggestionDialog" extends="core.wDialog#wDialog">
+		<resources>
+			<stylesheet src="modules.uixul.cEditorGrid" />
+		</resources>
+				
+		<implementation>
+			<field name="mLoadingRequest">null</field>
+			<field name="mCheckboxes">[]</field>
+		
+			<constructor><![CDATA[
+				wCore.debug('cProductSuggestionDialog.constructor');
+			]]></constructor>
+
+			<method name="getElementByAnonId">
+				<parameter name="id"/>
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, 'anonid', id);
+				]]></body>
+			</method>
+									
+			<method name="onInitialize">
+				<body><![CDATA[
+					this.resizeTo(window.innerWidth-100, window.innerHeight-100);
+					
+					var node = document.getAnonymousElementByAttribute(this, 'anonid', 'field_maxResults');
+					node.value = this.parameters.defaultMaxResults;
+					
+					var node = document.getAnonymousElementByAttribute(this, 'anonid', 'field_feederClass');
+					node.value = this.parameters.defaultFeederClass;
+				]]></body>
+			</method>
+
+			<method name="search">
+				<body><![CDATA[
+					if (this.mLoadingRequest !== null)
+					{
+						wCore.debug('[cProductSuggestionDialog.search] Already searching.');
+						return;
+					}
+					var maxResultsField = document.getAnonymousElementByAttribute(this, 'anonid', 'field_maxResults');
+					var feederClassField = document.getAnonymousElementByAttribute(this, 'anonid', 'field_feederClass');
+					var parameters = {
+						productId: this.parameters.productId,
+						alreadySelectedIds: this.parameters.alreadySelectedIds,
+						maxResults: maxResultsField.value,
+						feederClass: feederClassField.value
+					};
+					
+					var me = this;
+					var callBack = function(result) { me.updateResults(result);	};
+					this.mLoadingRequest = wCore.executeJSON('catalog', 'LoadProductSuggestions', parameters, callBack, true);
+				]]></body>
+			</method>
+			
+			<method name="updateResults">
+				<parameter name="result" />
+				<body><![CDATA[
+					wCore.debug('cProductSuggestionDialog.updateResults');
+					try
+					{
+						this.mLoadingRequest = null;					
+						if (result.status === 'OK')
+						{	
+							this.cleanList()
+							var contents = result.contents;
+							for (var i = 0; i < contents.nodes.length; i++)
+							{
+								this.addItem(contents.nodes[i]);
+							}
+						}
+						else
+						{
+							wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cComplementaryDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+			
+			<method name="addItem">
+				<parameter name="jsnode" />
+				<body><![CDATA[
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.setAttribute('documentId', jsnode.id);
+										
+					var cell = row.appendChild(document.createElement('toolbar'));
+					cell.setAttribute('class', 'actions');
+					var checkbox = cell.appendChild(document.createElement('checkbox'));
+					checkbox.setAttribute('checked', 'false');
+					checkbox.setAttribute('label', jsnode.label);
+					checkbox.setAttribute('src', '{HttpHost}/icons/small/'+jsnode.icon+'.png');
+					checkbox.setAttribute('value', jsnode.id);
+					this.mCheckboxes.push(checkbox);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.codeReference);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.weight);
+
+					this.getElementByAnonId('document-rows').appendChild(row);
+				]]></body>
+			</method>
+			
+			<method name="cleanList">
+				<body><![CDATA[
+					var rows = this.getElementByAnonId('document-rows');
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					{
+						rows.removeChild(rows.lastChild);
+					}
+					this.mCheckboxes = [];
+				]]></body>
+			</method>
+								
+			<method name="selectAll">
+				<parameter name="id" />
+				<body><![CDATA[
+					wCore.debug('cProductSuggestionDialog.selectAll');
+					try
+					{
+						var checkboxes = this.mCheckboxes;
+						wCore.debug('cProductSuggestionDialog.selectAll : checkboxes.length = ' + checkboxes.length);
+						for (var i = 0; i < checkboxes.length; i++)
+						{
+							checkboxes[i].checked = true;
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cComplementaryDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+			
+			<method name="unselectAll">
+				<parameter name="id" />
+				<body><![CDATA[
+					wCore.debug('cProductSuggestionDialog.unselectAll');
+					try
+					{
+						var checkboxes = this.mCheckboxes;
+						for (var i = 0; i < checkboxes.length; i++)
+						{
+							checkboxes[i].checked = false;
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cComplementaryDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+
+			<method name="addSelection">
+				<body><![CDATA[
+					wCore.debug('cProductSuggestionDialog.addSelection');
+					try
+					{
+						var checkboxes = this.mCheckboxes;
+						var currentValue = this.parameters.field.value;
+						var ids = currentValue.length ? currentValue.split(',') : [];
+						for (var i = 0; i < checkboxes.length; i++)
+						{
+							var checkbox = checkboxes[i];
+							var id = checkbox.getAttribute('value');
+							if (checkbox.checked && currentValue.indexOf(id) == -1)
+							{
+								ids.push(id);
+							}
+						}
+						this.parameters.field.value = ids.join(',');						
+						this.closeDialog(true);
+					}
+					catch (e)
+					{
+						wCore.error("cComplementaryDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+
+			<method name="closeDialog">
+				<parameter name="refesh" />
+				<body><![CDATA[
+					this.controller.closeModalDialog(true);
+					if (refesh && this.sender && 'refresh' in this.sender)
+					{
+						this.sender.refresh();	
+					}
+				]]></body>
+			</method>
+		</implementation>
+		
+		<content>
+			<xul:vbox flex="1">
+				<xul:hbox class="wizardTitle" >
+					<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Title;" />
+					<xul:spacer flex="1" />
+					<xul:toolbarbutton image="{HttpHost}/icons/small/delete.png" oncommand="closeDialog(false);" />
+				</xul:hbox>
+				<xul:spacer height="5px" />
+				<xul:hbox align="center">
+					<xul:label value="Méthode" />
+					<xul:cfield anonid="field_feederClass" name="feederClass" fieldtype="dropdownlist" listid="modules_catalog/productsuggestionfeeders" hidehelp="true" />
+					<xul:label value="Nombre maximum de résultats" />
+					<xul:cfield anonid="field_maxResults" name="maxResults" fieldtype="integer" hidehelp="true" />
+					<xul:toolbarbutton oncommand="search();" image="{HttpHost}/icons/small/search.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Search;" />
+					<xul:spacer flex="1" />
+				</xul:hbox>
+				<xul:spacer height="5px" />
+				<xul:toolbar anonid="result-toolbar">
+					<xul:toolbarbutton oncommand="selectAll();" image="{HttpHost}/icons/small/check-box-check.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Check-all;" />
+					<xul:toolbarbutton oncommand="unselectAll();" image="{HttpHost}/icons/small/check-box-uncheck.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Uncheck-all;" />
+					<xul:spacer flex="1" />
+				</xul:toolbar>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:grid flex="1">
+						<xul:columns>
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+						</xul:columns>
+						<xul:rows anonid="document-rows">
+							<xul:row class="head">
+								<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Column-label;" />
+								<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Column-codeReference;" />
+								<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Column-weight;" />
+							</xul:row>
+						</xul:rows>
+					</xul:grid>
+				</xul:scrollbox>
+				<xul:hbox>
+					<xul:button image="{HttpHost}/icons/small/check.png" oncommand="addSelection();" label="&amp;modules.uixul.bo.dialog.Apply;" />
+				</xul:hbox>
+			</xul:vbox>
+		</content>
+	</binding>
+	
+	<!-- Declinations. -->
+	
+	<binding id="cDeclinationsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanel">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:cdeclinationslist anonid="declinationlist" flex="1" />
+			</xul:vbox>
+		</content>
+		<implementation>	
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					return {
+						action: 'InitializeDeclinationsPanel',
+						cmpref: this.documentEditor.documentid, 
+						lang : this.documentEditor.documentInfos.vo
+					};
+				]]></body>
+			</method>
+												
+			<method name="fireInitializeComplete">
+				<parameter name="result" />
+				<body><![CDATA[
+					var list = document.getAnonymousElementByAttribute(this, 'anonid', 'declinationlist');
+					list.setAttribute('productId', this.documentEditor.documentid);
+					list.refresh();
+					
+					this.mInitialized = true;
+					this.fireEvent("panelInitializeComplete");
+					this.gotoTop();
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	<binding id="cDeclinationsList">
+		<resources>
+			<stylesheet src="modules.uixul.cEditorGrid" />
+			<stylesheet src="modules.catalog.cEditorList" />
+		</resources>
+	
+		<implementation>
+			<field name="mLoadingRequest">null</field>
+			<field name="mGrid">null</field>
+			<field name="mFirstId">null</field>
+			
+			<constructor><![CDATA[
+				this.mGrid = this.getElementByAnonId('grid');
+				
+				var me = this;
+				this.mGrid.addEventListener("dragstart", function (event) {me.onDragStart(event);}, false);
+				this.mGrid.addEventListener("dragenter", function (event) {me.onDragEnter(event);}, false);
+				this.mGrid.addEventListener("dragover", function (event) {me.onDragOver(event);}, false);
+				this.mGrid.addEventListener("drop", function (event) {me.onDrop(event);}, false);
+				this.mGrid.addEventListener("dragend", function (event) {me.onDragEnd(event);}, false);
+				this.mGrid.addEventListener("dragleave", function (event) {me.onDragLeave(event);}, false);
+			]]></constructor>
+			
+			<method name="getTargetedRow">
+				<parameter name="event" />			
+				<body><![CDATA[
+					var node = event.target;
+					//wCore.debug('getTargetedRow tagName = '+node.tagName);
+					while (node && node.tagName != 'row' && node.tagName != 'xul:row')
+					{
+						node = node.parentNode;
+					}
+					return node;
+				]]></body>
+			</method>
+			
+			<method name="isRowValidForEvent">
+				<parameter name="row" />			
+				<parameter name="event" />			
+				<body><![CDATA[
+					var movedId = event.dataTransfer.getData('movedId');
+					return (row !== null && ((row.getAttribute('class') == 'head' && this.mFirstId != movedId) || (row.hasAttribute('documentId') && row.getAttribute('documentId') != movedId)));
+				]]></body>
+			</method>
+			
+			<method name="onDragStart">
+				<parameter name="event" />			
+				<body><![CDATA[			
+					//wCore.debug('onDragStart');
+					var row = this.getTargetedRow(event);
+					if (row !== null && row.hasAttribute('documentId'))
+					{
+						event.dataTransfer.effectAllowed='move';
+						event.dataTransfer.setData('movedId', row.getAttribute('documentId'));
+						event.dataTransfer.setDragImage(event.target,0,0);
+						return true;
+					}
+					return false;
+				]]></body>
+			</method>	
+			
+			<method name="onDragEnter">
+				<parameter name="event" />		
+				<body><![CDATA[
+					//wCore.debug('onDragEnter');
+					var row = this.getTargetedRow(event);
+					if (this.isRowValidForEvent(row, event))
+					{
+						row.setAttribute('dragAfter', 'true');
+					}
+				]]></body>	
+			</method>				
+							
+			<method name="onDragLeave">
+				<parameter name="event" />			
+				<body><![CDATA[
+					//wCore.debug('onDragLeave');
+					var row = this.getTargetedRow(event);
+					if (this.isRowValidForEvent(row, event))
+					{
+						row.removeAttribute('dragAfter');
+					}
+				]]></body>	
+			</method>	
+									
+			<method name="onDragOver">
+				<parameter name="event" />			
+				<body><![CDATA[
+					//wCore.debug('onDragOver');
+					var row = this.getTargetedRow(event);
+					if (this.isRowValidForEvent(row, event))
+					{
+						//wCore.debug('onDragOver afterId = ' + row.getAttribute('documentId') + ', movedId = '+ movedId);
+						event.preventDefault();
+						return true;
+					}
+					return false;
+				]]></body>	
+			</method>	
+						
+			<method name="onDrop">
+				<parameter name="event" />			
+				<body><![CDATA[
+					event.stopPropagation();
+					
+					var movedId = event.dataTransfer.getData('movedId');
+					
+					var row = this.getTargetedRow(event);
+					if (row !== null && row.getAttribute('class') == 'head' && this.mFirstId != movedId)
+					{
+						var afterId = null;
+						var beforeId = this.mFirstId;
+					}
+					else if (row !== null && row.hasAttribute('documentId') && row.getAttribute('documentId') != movedId)
+					{
+						var afterId = row.getAttribute('documentId');
+						var beforeId = null;
+					}
+					else
+					{
+						return;
+					}
+					wCore.debug('onDrop beforeId = ' + beforeId + ', afterId = ' + afterId + ', movedId = ' + event.dataTransfer.getData('movedId'));
+					
+					var parameters = {cmpref: [movedId], destref: this.getAttribute('productId'), beforeid: beforeId, afterid: afterId};
+					
+					var result = wCore.executeJSON('catalog', 'Move', parameters, null, true);
+					//result = result['contents'];
+					this.refresh();
+					
+					return false;
+				]]></body>	
+			</method>
+			
+			<method name="onDragEnd">
+				<parameter name="event" />			
+				<body><![CDATA[
+					wCore.debug('onDragEnd');
+					return true;
+				]]></body>	
+			</method>
+						
+			<method name="addItem">
+				<parameter name="jsnode" />
+				<body><![CDATA[
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.setAttribute('documentId', jsnode.id);
+					
+					var cell = row.appendChild(document.createElement('toolbar'));
+					cell.setAttribute('class', 'actions');
+					
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'edit');
+					button.setAttribute('documentId', jsnode.id);
+					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Edit;");
+					
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'delete');
+					button.setAttribute('documentId', jsnode.id);
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Delete;");
+					
+					var button = cell.appendChild(document.createElement('toolbarbutton'));
+					button.setAttribute('action', 'editPrice');
+					button.setAttribute('documentId', jsnode.id);
+					button.setAttribute('image', '{HttpHost}/icons/small/price.png');
+					button.setAttribute('tooltiptext', "&amp;modules.catalog.bo.doceditor.panel.declinations.Prices;");
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.label);
+					if (!jsnode.langAvailable)
+					{
+						cell.setAttribute('class', 'lang-unavailable');
+					}
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.codeReference);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.stockQuantity);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.stockLevel);
+
+					this.getElementByAnonId('document-rows').appendChild(row);
+				]]></body>
+			</method>
+			
+			<method name="createNew">
+				<body><![CDATA[
+					wCore.debug('cDeclinationList.createNew');
+					var productId = this.getAttribute('productId');
+					var shopId = this.getAttribute('shop');
+					var targetId = this.getAttribute('targetId');
+					var uri = ['catalog', 'createDeclinationFromProduct', 'modules_catalog_productdeclination', productId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="edit">
+				<parameter name="id" />
+				<body><![CDATA[
+					wCore.debug('cDeclinationList.edit('+id+')');
+					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', id, 'properties'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="editPrice">
+				<parameter name="id" />
+				<body><![CDATA[
+					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', id, 'prices'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="delete">
+				<parameter name="id" />
+				<body><![CDATA[
+					wCore.debug('cDeclinationList.delete('+id+')');
+					if (confirm("&modules.catalog.bo.doceditor.panel.declinations.Confirm-delete-declination;"))
+					{
+						var me = this;
+						var callBack = function(result) { me.refresh();	};
+						wCore.executeJSON('catalog', 'DeleteJSON', {cmpref: id, lang: Context.W_LANG}, callBack, true);
+					}
+				]]></body>
+			</method>
+			
+			<method name="getElementByAnonId">
+				<parameter name="id"/>
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, "anonid", id);
+				]]></body>
+			</method>
+			
+			<method name="cleanList">
+				<body><![CDATA[
+					var rows = this.getElementByAnonId('document-rows');
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					{
+						rows.removeChild(rows.lastChild);
+					}
+				]]></body>
+			</method>
+				
+			<method name="refresh">
+				<body><![CDATA[
+					if (this.mLoadingRequest !== null)
+					{
+						wCore.debug('[cDeclinationsList.refresh] Already refreshing.');
+						return;
+					}
+					var parameters = {productId: this.getAttribute('productId'), lang: Context.W_LANG};
+					
+					var me = this;
+					var callBack = function(result) { me.updateResults(result);	};
+					this.mLoadingRequest = wCore.executeJSON('catalog', 'LoadDeclinationsList', parameters, callBack, true);
+				]]></body>
+			</method>	
+			
+			<method name="updateResults">
+				<parameter name="result" />
+				<body><![CDATA[
+					wCore.debug("cDeclinationsList.updateResults");
+					try
+					{
+						this.mLoadingRequest = null;					
+						if (result.status === 'OK')
+						{	
+							this.cleanList()
+							var contents = result.contents;
+							this.addResultInfos(contents);
+							if (contents.nodes.length > 0)
+							{
+								this.mFirstId = contents.nodes[0].id;
+								for (var i = 0; i < contents.nodes.length; i++)
+								{
+									this.addItem(contents.nodes[i]);
+								}
+							}
+						}
+						else
+						{
+							wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cDeclinationsList.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+			
+			<method name="addResultInfos">
+				<parameter name="result" />
+				<body><![CDATA[							
+					var node = this.getElementByAnonId('result-count');
+					var totalResultsCount = result.totalCount;
+					var resultsCount = result.count;
+					if (resultsCount == 0)
+					{
+						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.NoResults;");
+					}
+					else if (resultsCount == totalResultsCount)
+					{
+						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.SearchResultCountLabel;" + " " + totalResultsCount);
+					}
+					else
+					{
+						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.FirstHundred;" + " (" +"&amp;modules.uixul.bo.general.search.TotalSearchResultCountLabel;" + totalResultsCount + " )");
+					}
+				]]></body>
+			</method>
+		</implementation>
+			
+		<handlers>		
+			<handler event="click" button="0" clickcount="1"><![CDATA[
+				var target = event.originalTarget;
+				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
+				{
+					switch (target.getAttribute('action'))
+					{
+						case 'create':
+							this.createNew();
+							break;
+						
+						case 'edit':
+							this.edit(target.getAttribute('documentId'));
+							break;
+							
+						case 'editPrice':
+							this.editPrice(target.getAttribute('documentId'));
+							break;
+						
+						case 'delete':
+							this.delete(target.getAttribute('documentId'));
+							break;
+					}
+					return;
+				}
+			]]></handler>
+		</handlers>
+		
+		<content>
+			<xul:vbox flex="1">
+				<xul:toolbar anonid="result-toolbar">
+					<xul:toolbarbutton action="create" anonid="button-new" image="{HttpHost}/icons/small/add.png" label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;" />
+					<xul:spacer flex="1" />
+					<xul:label anonid="result-count" />
+				</xul:toolbar>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:grid flex="1" anonid="grid">
+						<xul:columns>
+							<xul:column  />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+							<xul:column flex="1" />
+						</xul:columns>
+						<xul:rows anonid="document-rows">
+							<xul:row class="head">
+								<xul:label anonid="actionsColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-actions;" />
+								<xul:label anonid="labelColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-label;" />
+								<xul:label anonid="codeReferenceColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-codeReference;" />
+								<xul:label anonid="stockQuantityColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockQuantity;" />
+								<xul:label anonid="stockLevelColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockLevel;" />
+							</xul:row>
+						</xul:rows>
+					</xul:grid>
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+	</binding>
+</bindings>

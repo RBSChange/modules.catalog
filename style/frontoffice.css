@@ -1,0 +1,439 @@
+.products-display{
+	background-color: #eee/*@var displayfilterbgcolor*/;
+}
+.shelves-display ol.table-view li{
+	width: 251px/*@var catalogshelfwidth*/;
+	margin-bottom: 10px/*@var catalogshelfmgbottom*/;
+	margin-right: 5px/*@var catalogshelfmgright*/;
+	margin-left: 5px/*@var catalogshelfmgleft*/;
+	background-color: #eee/*@var catalogshelfbgcolor*/;
+}
+.priceht{
+	color: red/*@var catalogpricehtfgcolor*/;
+}
+.priceoffer{
+	color: red/*@var catalogpriceofferfgcolor*/;
+}
+.pricettc{
+	color: green/*@var catalogpricettcfgcolor*/;
+}
+.modules-catalog-choosearticles ol.table-view li ul li.article-ref{
+	background-color: #b9c101/*@var formbuttonbgcolor*/;
+	color: #696a12/*@var formbuttonfgcolor*/;
+	font-weight: bold;
+}
+ul.ecom-menu li{
+	background-image: url(/media/frontoffice/pucenav.gif) /*@var navbullet*/;
+	background-position: 0px 7px;
+	padding-left: 10px/*@var navpdleft*/;
+}
+ul.ecom-menu li.current{
+	color: #051865/*@var navcurrentcolor*/;
+}
+.product-pics{
+	background-color: #f1f1f1/*@var productcardpicsbgcolor*/;
+	text-align: center;
+	padding-top: 10px/*@var productcardpicspdtop*/;
+	padding-bottom: 10px/*@var productcardpicspdbottom*/;
+}
+.altpics{
+	margin-top: 12px;
+	text-align: center;
+}
+ul.product-altpics li{
+	margin-right: 6px;
+}
+ul.product-altpics li a img{
+	margin-bottom: 6px;
+}
+form.product-form{
+	font-size: 1.1em;
+}
+form.product-form fieldset{
+	background-color: #f1f1f1/*@var productcardinfofieldsetbgcolor*/;
+}
+form.product-form ol li label{
+	width: 48%;
+	text-align: right;
+}
+.availability{
+	font-size: 1.3em/*@var productcardavlbtextsize*/;
+	text-align: center;
+	font-weight: bold;
+	color: red/*@var productcardavlbfgcolor*/;
+}
+ul.product-price{
+	text-align: center;
+}
+.availability,ul.product-price{
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #e1e1e1;
+}
+ul.product-price li del{
+	font-size: 1.1em/*@var productcardstrikepricetextsize*/;
+	font-weight: normal;
+	color: red/*@var productcardstrikepricefgcolor*/;
+}
+ul.product-price li strong{
+	font-size: 3em/*@var productcardpricetextsize*/;
+	font-weight: bold;
+	color: green/*@var productcardpricefgcolor*/;
+}
+ul.product-price li span{
+	font-size: 1.1em/*@var productcarddiscounttextsize*/;
+	font-weight: normal;
+	color: fuchsia/*@var productcarddiscountfgcolor*/;
+}
+ul.ecom-menu li{
+	background-repeat: no-repeat;
+}
+ul.ecom-menu li.current{
+	font-weight: bold;
+}
+ul.ecom-menu li.current ul{
+	font-weight: normal;
+}
+ul.ecom-menu li a{
+	text-decoration: none;
+}
+ul.ecom-menu li a:hover{
+	text-decoration: underline;
+}
+.products-display{
+	clear: both;
+	width: 100%;
+	float: left;
+	display: block;
+	margin-bottom: 20px;
+}
+.products-display div{
+	padding: 2%;
+}
+.products-display ol li{
+	display: inline;
+	margin-right: 2px;
+}
+.products-display ol li select{
+	width: 17%;
+}
+.shelves-display ol.table-view li{
+	text-align: center;
+	padding: 6px;
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	zoom: 1;
+}
+.shelves-display ol.table-view li form select.textfield{
+	width: 70%;
+}
+.shelves-display ol.table-view li ul li{
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+.shelves-display ol.table-view input.button{
+	margin-top: 2px;
+}
+.shelves-title input.textfield{
+	margin-bottom: 4px;
+}
+.comparebutton{
+	display: block;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+span.small{
+	font-size: 0.7em;
+}
+.price,.priceht,.priceoffer,.pricettc{
+	font-weight: bold;
+	white-space: nowrap;
+}
+.priceoffer{
+	font-size: 1.4em;
+}
+.invisible{
+	display: none;
+}
+div.modules-catalog .error,div.modules-catalog .success{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+div.zoomdiv{
+	z-index: 10000000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 280px;
+	height: 220px;
+	background: #ffffff;
+	border: 1px solid #CCCCCC;
+	display: none;
+	text-align: center;
+	overflow: hidden;
+}
+div.jqZoomPup{
+	z-index: 10000000;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50px;
+	height: 50px;
+	background: #fff;
+	border: 1px solid #945C74;
+	opacity: 0.5;
+	cursor: move;
+}
+div.zoomdiv{
+	margin-left: -32px;
+}
+.modules-catalog-choosearticles ol.table-view li{
+	width: 48%;
+	padding: 0.5%;
+	margin: 1% 0.5%;
+	text-align: center;
+}
+.modules-catalog-choosearticles ol.table-view li ul{
+	padding: 6px;
+}
+.modules-catalog-choosearticles ol.table-view li ul li{
+	width: 100%;
+	text-align: left;
+}
+.modules-catalog-choosearticles ol.table-view li ul li.quantity{
+	text-align: center;
+}
+.modules-catalog-choosearticles ol.table-view li ul li.article-ref{
+	padding: 3px 0;
+	margin-bottom: 6px;
+}
+.animation-normal .content,.discount-normal .content,.gift-normal .content,.heart-normal .content,.limited-normal .content,.new-normal .content,.operation-normal .content,.random-normal .content,.sell-normal .content,.top10-normal .content,.animation-home .content,.discount-home .content,.gift-home .content,.heart-home .content,.limited-home .content,.new-home .content,.operation-home .content,.random-home .content,.sell-home .content,.top10-home .content,.animation-small .content,.discount-small .content,.gift-small .content,.heart-small .content,.limited-small .content,.new-small .content,.operation-small .content,.random-small .content,.sell-small .content,.top10-small .content{
+	width: 100%;
+	padding: 0;
+}
+.animation-normal ul,.discount-normal ul,.gift-normal ul,.heart-normal ul,.limited-normal ul,.new-normal ul,.operation-normal ul,.random-normal ul,.sell-normal ul,.top10-normal ul,.animation-home ul,.discount-home ul,.gift-home ul,.heart-home ul,.limited-home ul,.new-home ul,.operation-home ul,.random-home ul,.sell-home ul,.top10-home ul,.animation-small ul,.discount-small ul,.gift-small ul,.heart-small ul,.limited-small ul,.new-small ul,.operation-small ul,.random-small ul,.sell-small ul,.top10-small ul{
+	padding: 10px;
+}
+p.all-products{
+	padding: 0 10px 10px 10px;
+	text-align: right;
+}
+.modules-catalog ul.mini-navigation li{
+	display: inline;
+}
+.discount-normal,.discount-small,.discount-home{
+	color: #000/*@var animdiscountfgcolor*/;
+	margin-bottom: 16px/*@var animdiscountmgbottom*/;
+}
+.discount-normal .content,.discount-small .content,.discount-home .content{
+	background-color: #eeeeee/*@var animdiscountbgcolor*/;
+}
+.discount-normal .content a.link,.discount-small .content a.link,.discount-home .content a.link{
+	color: #000/*@var animdiscountlinkcolor*/;
+}
+.discount-normal .content a.link:hover,.discount-small .content a.link:hover,.discount-home .content a.link:hover{
+	color: #fff/*@var animdiscountlinkhovercolor*/;
+}
+.discount-normal h3.title,.discount-small h3.title,.discount-home h3.title{
+	color: #fff/*@var animdiscounttitlefgcolor*/;
+	background-color: #a60000/*@var animdiscounttitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animdiscounttitlepd*/;
+}
+.gift-normal,.gift-small,.gift-home{
+	color: #000/*@var animgiftfgcolor*/;
+	margin-bottom: 16px/*@var animgiftmgbottom*/;
+}
+.gift-normal .content,.gift-small .content,.gift-home .content{
+	background-color: #eeeeee/*@var animgiftbgcolor*/;
+}
+.gift-normal .content a.link,.gift-small .content a.link,.gift-home .content a.link{
+	color: #000/*@var animgiftlinkcolor*/;
+}
+.gift-normal .content a.link:hover,.gift-small .content a.link:hover,.gift-home .content a.link:hover{
+	color: #fff/*@var animgiftlinkhovercolor*/;
+}
+.gift-normal h3.title,.gift-small h3.title,.gift-home h3.title{
+	color: #fff/*@var animgifttitlefgcolor*/;
+	background-color: #a60000/*@var animgifttitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animgifttitlepd*/;
+}
+.heart-normal,.heart-small,.heart-home{
+	color: #000/*@var animheartfgcolor*/;
+	margin-bottom: 16px/*@var animheartmgbottom*/;
+}
+.heart-normal .content,.heart-small .content,.heart-home .content{
+	background-color: #eeeeee/*@var animheartbgcolor*/;
+}
+.heart-normal .content a.link,.heart-small .content a.link,.heart-home .content a.link{
+	color: #000/*@var animheartlinkcolor*/;
+}
+.heart-normal .content a.link:hover,.heart-small .content a.link:hover,.heart-home .content a.link:hover{
+	color: #fff/*@var animheartlinkhovercolor*/;
+}
+.heart-normal h3.title,.heart-small h3.title,.heart-home h3.title{
+	color: #fff/*@var animhearttitlefgcolor*/;
+	background-color: #a60000/*@var animhearttitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animhearttitlepd*/;
+}
+.limited-normal,.limited-small,.limited-home{
+	color: #000/*@var animlimitedfgcolor*/;
+	margin-bottom: 16px/*@var animlimitedmgbottom*/;
+}
+.limited-normal .content,.limited-small .content,.limited-home .content{
+	background-color: #eeeeee/*@var animlimitedbgcolor*/;
+}
+.limited-normal .content a.link,.limited-small .content a.link,.limited-home .content a.link{
+	color: #000/*@var animlimitedlinkcolor*/;
+}
+.limited-normal .content a.link:hover,.limited-small .content a.link:hover,.limited-home .content a.link:hover{
+	color: #fff/*@var animlimitedlinkhovercolor*/;
+}
+.limited-normal h3.title,.limited-small h3.title,.limited-home h3.title{
+	color: #fff/*@var animlimitedtitlefgcolor*/;
+	background-color: #a60000/*@var animlimitedtitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animlimitedtitlepd*/;
+}
+.new-normal,.new-small,.new-home{
+	color: #000/*@var animnewfgcolor*/;
+	margin-bottom: 16px/*@var animnewmgbottom*/;
+}
+.new-normal .content,.new-small .content,.new-home .content{
+	background-color: #eeeeee/*@var animnewbgcolor*/;
+}
+.new-normal .content a.link,.new-small .content a.link,.new-home .content a.link{
+	color: #000/*@var animnewlinkcolor*/;
+}
+.new-normal .content a.link:hover,.new-small .content a.link:hover,.new-home .content a.link:hover{
+	color: #fff/*@var animnewlinkhovercolor*/;
+}
+.new-normal h3.title,.new-small h3.title,.new-home h3.title{
+	color: #fff/*@var animnewtitlefgcolor*/;
+	background-color: #a60000/*@var animnewtitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animnewtitlepd*/;
+}
+.operation-normal,.operation-small,.operation-home{
+	color: #000/*@var animoperationfgcolor*/;
+	margin-bottom: 16px/*@var animoperationmgbottom*/;
+}
+.operation-normal .content,.operation-small .content,.operation-home .content{
+	background-color: #eeeeee/*@var animoperationbgcolor*/;
+}
+.operation-normal .content a.link,.operation-small .content a.link,.operation-home .content a.link{
+	color: #000/*@var animoperationlinkcolor*/;
+}
+.operation-normal .content a.link:hover,.operation-small .content a.link:hover,.operation-home .content a.link:hover{
+	color: #fff/*@var animoperationlinkhovercolor*/;
+}
+.operation-normal h3.title,.operation-small h3.title,.operation-home h3.title{
+	color: #fff/*@var animoperationtitlefgcolor*/;
+	background-color: #a60000/*@var animoperationtitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animoperationtitlepd*/;
+}
+.sell-normal,.sell-small,.sell-home{
+	color: #000/*@var animsellfgcolor*/;
+	margin-bottom: 16px/*@var animsellmgbottom*/;
+}
+.sell-normal .content,.sell-small .content,.sell-home .content{
+	background-color: #eeeeee/*@var animsellbgcolor*/;
+}
+.sell-normal .content a.link,.sell-small .content a.link,.sell-home .content a.link{
+	color: #000/*@var animselllinkcolor*/;
+}
+.sell-normal .content a.link:hover,.sell-small .content a.link:hover,.sell-home .content a.link:hover{
+	color: #fff/*@var animselllinkhovercolor*/;
+}
+.sell-normal h3.title,.sell-small h3.title,.sell-home h3.title{
+	color: #fff/*@var animselltitlefgcolor*/;
+	background-color: #a60000/*@var animselltitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animselltitlepd*/;
+}
+.top10-normal,.top10-small,.top10-home{
+	color: #000/*@var animtopfgcolor*/;
+	margin-bottom: 16px/*@var animtopmgbottom*/;
+}
+.top10-normal .content,.top10-small .content,.top10-home .content{
+	background-color: #eeeeee/*@var animtopbgcolor*/;
+}
+.top10-normal .content a.link,.top10-small .content a.link,.top10-home .content a.link{
+	color: #000/*@var animtoplinkcolor*/;
+}
+.top10-normal .content a.link:hover,.top10-small .content a.link:hover,.top10-home .content a.link:hover{
+	color: #fff/*@var animtoplinkhovercolor*/;
+}
+.top10-normal h3.title,.top10-small h3.title,.top10-home h3.title{
+	color: #fff/*@var animtoptitlefgcolor*/;
+	background-color: #a60000/*@var animtoptitlebgcolor*/;
+	margin: 0;
+	padding: 10px/*@var animtoptitlepd*/;
+}
+.product-ref,ul.associated-pictograms,form.product-form fieldset,ul.product-price,.availability,.product-description{
+	margin-bottom: 6px;
+}
+.modules-sodilog-product h1.title{
+	margin-bottom: 6px;
+}
+ul.associated-pictograms li{
+	padding-right: 6px;
+	display: inline;
+}
+form.product-form fieldset{
+	padding-left: 6px;
+	padding-right: 6px;
+}
+form.product-form ol li{
+	padding-top: 6px;
+	padding-bottom: 6px;
+	text-align: left;
+	clear: both;
+}
+form.product-form ol li label{
+	padding-right: 6px;
+	float: left;
+}
+input.quantity{
+	width: 30px;
+}
+.availability{
+	padding-bottom: 2px;
+}
+ul.product-price{
+	width: 100%;
+}
+ul.product-price li{
+	padding-right: 10px;
+}
+.altpics{
+	float: left;
+	width: 100%;
+}
+ul.product-altpics li{
+	display: inline;
+}
+p.buttons{
+	clear: both;
+	text-align: center;
+}
+p.buttons input.button{
+	color: #ffffff;
+}
+.product-list-description{
+	margin-bottom: 10px;
+}
+
+@import url(/modules/catalog/style/frontoffice.trident.4.css);
+@import url(/modules/catalog/style/frontoffice.trident.5.css);
+@import url(/modules/catalog/style/frontoffice.gecko.2.css);
+@import url(/modules/catalog/style/frontoffice.gecko.all.css);
+@import url(/modules/catalog/style/frontoffice.khtml.all.css);
+@import url(/modules/catalog/style/frontoffice.trident.all.css);

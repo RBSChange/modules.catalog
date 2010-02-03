@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">
+		<field name="shopId" type="document" moduleselector="catalog" allow="modules_catalog_shop"
+			hidehelp="true" />
+		<field name="taxCode" />
+		<field name="boValue" type="price" required="true"
+			labeli18n="modules.catalog.document.price.Value" hidehelp="true">
+			<constraint name="min" parameter="0" />
+		</field>
+		<field name="ecoTax" />
+		<field name="startpublicationdate" />
+		<field name="endpublicationdate" />
+	</section>
+	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Discount">
+		<row class="discountHelper" />
+		<field name="boDiscountValue" type="price"
+			labeli18n="modules.catalog.document.price.DiscountValue" hidehelp="true">
+			<constraint name="min" parameter="0" />
+		</field>
+		<field name="discountDetail" />
+	</section>
+	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Restrictions">
+		<field name="thresholdMin" />
+		<field name="target" type="document" moduleselector="customer"
+			allow="modules_customer_customer,modules_customer_tarifcustomergroup"
+			labeli18n="modules.catalog.document.price.TargetId" hidehelp="true" />
+	</section>
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				// Check customer module existence.
+				var controller = document.getElementById("wcontroller");
+    			if (!controller.checkModuleVersion('customer', '3.0.0'))
+				{
+					document.getAnonymousElementByAttribute(this, 'anonid', 'row_target').setAttribute('collapsed', 'true');
+				}
+			]]></constructor>
+		
+			<method name="prepareInitializeValues">
+				<parameter name="attributes" />
+				<body><![CDATA[
+					var editor = this.documentEditor;
+					if (editor.hasAttribute('shopId'))
+					{
+						attributes.shopId = editor.getAttribute('shopId');
+						editor.removeAttribute('shopId');
+					}
+					if (editor.hasAttribute('targetId'))
+					{
+						attributes.targetId = editor.getAttribute('targetId');
+						editor.removeAttribute('targetId');
+					}
+				]]></body>				
+			</method>
+			<method name="preparePropertiesValues">
+				<parameter name="attributes" />
+				<body><![CDATA[
+					var fields = this.fields;
+					attributes['shopId'] = fields.shopId.value;
+					attributes['target'] = fields.target.value;
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
+</panel>

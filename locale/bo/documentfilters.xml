@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+	<entity id="query-on-product">
+		<locale lang="fr">produits satisfaisant l'ensemble des critères suivants</locale>
+	</entity>
+</localization>

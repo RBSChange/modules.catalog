@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="block-label">
+		<locale lang="fr">produits associées</locale>
+		<locale lang="en">related products</locale>
+	</entity>
+	<entity id="cmpref">
+		<locale lang="fr">Document lié</locale>
+		<locale lang="en">linked document</locale>
+	</entity>
+	<entity id="cmpref-help">
+		<locale lang="fr">Document lié</locale>
+		<locale lang="en">linked document</locale>
+	</entity>
+	<entity id="type">
+		<locale lang="fr">type d'association</locale>
+		<locale lang="en">relation type</locale>
+	</entity>
+	<entity id="type-help">
+		<locale lang="fr">type d'association entre les produits</locale>
+	</entity>
+	<entity id="sortBy">
+		<locale lang="fr">trier par</locale>
+		<locale lang="en">sort by</locale>
+	</entity>
+	<entity id="sortBy-help">
+		<locale lang="fr">mode de tri des produits affichés</locale>
+	</entity>
+	<entity id="maxDisplayed">
+		<locale lang="fr">nombre maximal affiché</locale>
+	</entity>
+	<entity id="maxDisplayed-help">
+		<locale lang="fr">nombre maximal de produits affichés</locale>
+	</entity>
+	<entity id="addLinkToAll">
+		<locale lang="fr">lien vers la liste complète</locale>
+	</entity>
+	<entity id="addLinkToAll-help">
+		<locale lang="fr">ajouter le lien vers la liste complète des produits</locale>
+	</entity>
+</localization>

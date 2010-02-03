@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.doceditor.Common-properties">
+		<section labeli18n="modules.catalog.bo.general.General">
+			<field name="label" />
+			<field name="codeReference" />
+			<field name="description" />
+			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+			<field name="brand" />
+		</section>
+		<section labeli18n="modules.catalog.bo.general.Validity-dates">
+			<field name="startpublicationdate" />
+			<field name="endpublicationdate" />
+		</section>
+	</section>
+	<section labeli18n="modules.catalog.bo.doceditor.First-declination">
+		<field name="declinationLabel0" type="text" required="true"
+			labeli18n="modules.catalog.document.productdeclination.Label"
+			shorthelp="&amp;modules.catalog.document.productdeclination.Label-help;" />
+		<field name="declinationCodeReference0" type="text" required="true"
+			labeli18n="modules.catalog.document.productdeclination.CodeReference"
+			shorthelp="&amp;modules.catalog.document.productdeclination.CodeReference-help;" />
+		<field name="declinationVisual0" type="document" allow="modules_media_media"
+			moduleselector="media" labeli18n="modules.catalog.document.productdeclination.Visual"
+			shorthelp="&amp;modules.catalog.document.productdeclination.Visual-help;" />
+		<field name="declinationStockQuantity0" type="integer" labeli18n="modules.catalog.document.productdeclination.StockQuantity"
+			shorthelp="&amp;modules.catalog.document.productdeclination.StockQuantity-help;">
+			<constraint name="min" parameter="0" />
+		</field>
+	</section>
+	<section labeli18n="modules.catalog.bo.doceditor.Additional-declination">
+		<label value="&amp;modules.catalog.bo.doceditor.Additional-declination-description;" />
+	</section>
+</panel>

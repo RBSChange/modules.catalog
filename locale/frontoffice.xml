@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="fullProductName">
+    <locale lang="fr">{product} de {brand}</locale>
+    <locale lang="en">{product} by {brand}</locale>
+    <locale lang="de">{product} von {brand}</locale>
+  </entity>
+  <entity id="price">
+    <locale lang="fr">prix</locale>
+    <locale lang="en">price</locale>
+    <locale lang="de">Preis</locale>
+  </entity>
+  <entity id="priceht">
+    <locale lang="fr">prix HT</locale>
+    <locale lang="en">price HT</locale>
+    <locale lang="de">Nettopreis</locale>
+  </entity>
+  <entity id="pricettc">
+    <locale lang="fr">prix TTC</locale>
+    <locale lang="en">price TTC</locale>
+    <locale lang="de">Preis inkl. Steuern</locale>
+  </entity>
+  <entity id="ht">
+    <locale lang="fr">HT</locale>
+    <locale lang="en">HT</locale>
+    <locale lang="de">Netto</locale>
+  </entity>
+  <entity id="labelQuantity">
+    <locale lang="fr">à partir de {threshold}</locale>
+    <locale lang="en">from {threshold}</locale>
+    <locale lang="de">ab {threshold}</locale>
+  </entity>
+  <entity id="old-price">
+    <locale lang="fr">ancien prix</locale>
+    <locale lang="en">old price</locale>
+    <locale lang="de">alter Preis</locale>
+  </entity>
+  <entity id="new-price">
+    <locale lang="fr">nouveau prix</locale>
+    <locale lang="en">new price</locale>
+    <locale lang="de">neuer Preis</locale>
+  </entity>
+  <entity id="ttc">
+    <locale lang="fr">TTC</locale>
+    <locale lang="en">TTC</locale>
+    <locale lang="de">inkl. Steuern</locale>
+  </entity>
+  <entity id="linkLabelForgiveRating">
+    <locale lang="fr">Donnez votre avis !</locale>
+    <locale lang="en">Give your opinion!</locale>
+    <locale lang="de">Ihre Meinung ist gefragt!</locale>
+  </entity>
+  <entity id="usersRating">
+    <locale lang="fr">les avis des internautes</locale>
+    <locale lang="en">users' rating</locale>
+    <locale lang="de">Meinung der Benutzer</locale>
+  </entity>
+  <entity id="comment">
+    <locale lang="fr">{count} commentaire</locale>
+    <locale lang="en">{count} comment</locale>
+    <locale lang="de">{count} Kommentar</locale>
+  </entity>
+  <entity id="comments">
+    <locale lang="fr">{count} commentaires</locale>
+    <locale lang="en">{count} comments</locale>
+    <locale lang="de">{count} Kommentare</locale>
+  </entity>
+  <entity id="reflabel">
+    <locale lang="fr">réf :</locale>
+    <locale lang="en">ref :</locale>
+    <locale lang="de">Ref:</locale>
+  </entity>
+  <entity id="fromPrice">
+    <locale lang="fr">à partir de :</locale>
+    <locale lang="en">from</locale>
+    <locale lang="de">ab:</locale>
+  </entity>
+  <entity id="available">
+    <locale lang="fr">disponible</locale>
+    <locale lang="en">available</locale>
+    <locale lang="de">verfügbar</locale>
+  </entity>
+  <entity id="nomination">
+    <locale lang="fr">Désignation</locale>
+    <locale lang="en">Designation</locale>
+    <locale lang="de">Bezeichnung</locale>
+  </entity>
+  <entity id="availability">
+    <locale lang="fr">disponibilité</locale>
+    <locale lang="en">availability</locale>
+    <locale lang="de">Verfügbarkeit</locale>
+  </entity>
+  <entity id="rating-average">
+    <locale lang="fr">note</locale>
+    <locale lang="en">rating</locale>
+  </entity>
+  <entity id="no-rating-yet">
+    <locale lang="fr">-</locale>
+    <locale lang="en">-</locale>
+  </entity>
+  <entity id="product-selection">
+    <locale lang="fr">sélection des produits</locale>
+    <locale lang="en">product selection</locale>
+    <locale lang="de">Produktauswahl</locale>
+  </entity>
+  <entity id="product-visual">
+    <locale lang="fr">visuel</locale>
+    <locale lang="en">visual</locale>
+    <locale lang="de">Abbildung</locale>
+  </entity>
+  <entity id="product-add-to-cart">
+    <locale lang="fr">ajout des produits au panier</locale>
+    <locale lang="en">add products to cart</locale>
+    <locale lang="de">Produkte in den Warenkorb legen</locale>
+  </entity>
+  <entity id="opinion">
+    <locale lang="fr">avis</locale>
+    <locale lang="en">opinion</locale>
+    <locale lang="de">Meinung</locale>
+  </entity>
+  <entity id="new">
+    <locale lang="fr">nouveauté</locale>
+    <locale lang="en">new</locale>
+    <locale lang="de">Neuheit</locale>
+  </entity>
+  <entity id="animation">
+    <locale lang="fr">coup de coeur</locale>
+    <locale lang="de">Unsere Auswahl</locale>
+  </entity>
+  <entity id="titlelinkdetailproduct">
+    <locale lang="fr">voir la fiche de {name}</locale>
+    <locale lang="de">Detail von {name} anzeigen</locale>
+  </entity>
+  <entity id="labellinkdetailproduct">
+    <locale lang="fr">Voir la fiche</locale>
+    <locale lang="de">Detail anzeigen</locale>
+  </entity>
+  <entity id="seemore">
+    <locale lang="fr">voir</locale>
+    <locale lang="en">see more</locale>
+    <locale lang="de">anzeigen</locale>
+  </entity>
+  <entity id="list.summary">
+    <locale lang="fr">liste des produits de type {name}</locale>
+    <locale lang="de">Auflistung Produkttyp {name}</locale>
+  </entity>
+  <entity id="netsurferopinion">
+    <locale lang="fr">les avis des internautes</locale>
+    <locale lang="de">Die Meinungen der Benutzer</locale>
+  </entity>
+  <entity id="informationsOfBrand">
+    <locale lang="fr">tous les articles de cette marque</locale>
+    <locale lang="de">Alle Artikel dieser Marke</locale>
+  </entity>
+  <entity id="linkLabelForSearchBrandInShelf">
+    <locale lang="fr">dans cette rubrique</locale>
+    <locale lang="de">in dieser Rubrik</locale>
+  </entity>
+  <entity id="linkLabelForSearchBrandInWebSite">
+    <locale lang="fr">dans tout le site</locale>
+    <locale lang="de">in der ganzen Webseite</locale>
+  </entity>
+  <entity id="linkLabelForRecomandProduct">
+    <locale lang="fr">Faire découvrir à un(e) ami(e)</locale>
+    <locale lang="de">Einem/-er Freund/-in empfehlen</locale>
+  </entity>
+  <entity id="pageTitleForRecomandProduct">
+    <locale lang="fr">Recommander le produit {name}</locale>
+    <locale lang="de">Das Produkt empfehlen</locale>
+  </entity>
+  <entity id="pleaseFillInTheFormBelow">
+    <locale lang="fr">Veuillez remplir le formulaire ci-dessous</locale>
+    <locale lang="de">Bitte füllen Sie folgendes Formular aus</locale>
+  </entity>
+  <entity id="titleForSearchBrandInShelf">
+    <locale lang="fr">rechercher tous les articles de cette marque dans cette rubrique</locale>
+    <locale lang="de">Alle Artikel dieser Marke in dieser Rubrik suchen</locale>
+  </entity>
+  <entity id="titleForSearchBrandInWebSite">
+    <locale lang="fr">rechercher tous les articles de cette marque dans tout le site</locale>
+    <locale lang="de">Alle Artikel dieser Marke in der ganzen Webseite suchen</locale>
+  </entity>
+  <entity id="crossSelling.title">
+    <locale lang="fr">Produits associés</locale>
+    <locale lang="de">assoziierte Produkte</locale>
+  </entity>
+  <entity id="cross-selling-list">
+    <locale lang="fr">tous les produits</locale>
+  </entity>
+  <entity id="cross-selling-complementary">
+    <locale lang="fr">produits complémentaires à {productLink}</locale>
+  </entity>
+  <entity id="cross-selling-similar">
+    <locale lang="fr">produits similaires à {productLink}</locale>
+  </entity>
+  <entity id="cross-selling-upsell">
+    <locale lang="fr">produits de gamme supérieure pour {productLink}</locale>
+  </entity>
+  <entity id="productJustAdded">
+    <locale lang="fr">produit ajouté au panier</locale>
+    <locale lang="de">Produkt in den Warenkorb legen</locale>
+  </entity>
+  <entity id="oneProduct">
+    <locale lang="fr">produit</locale>
+    <locale lang="en">product</locale>
+    <locale lang="de">Produkt</locale>
+  </entity>
+  <entity id="someProducts">
+    <locale lang="fr">produits</locale>
+    <locale lang="en">products</locale>
+    <locale lang="de">Produkte</locale>
+  </entity>
+  <entity id="productsTitle">
+    <locale lang="fr">les produits</locale>
+    <locale lang="en">products</locale>
+    <locale lang="de">die Produkte</locale>
+  </entity>
+  <entity id="priceRange10">
+    <locale lang="fr">10 € et moins</locale>
+    <locale lang="en">10 € and lower</locale>
+    <locale lang="de">bis zu 10 €</locale>
+  </entity>
+  <entity id="priceRange50">
+    <locale lang="fr">de 10 à 50 €</locale>
+    <locale lang="en">from 10 to 50 €</locale>
+    <locale lang="de">zwischen 10 und 50 €</locale>
+  </entity>
+  <entity id="priceRange100">
+    <locale lang="fr">de 50 à 100 €</locale>
+    <locale lang="en">from 50 to 100 €</locale>
+    <locale lang="de">zwischen 50 und 100 €</locale>
+  </entity>
+  <entity id="priceRange200">
+    <locale lang="fr">de 100 à 200 €</locale>
+    <locale lang="en">from 100 to 200 €</locale>
+    <locale lang="de">zwischen 100 und 200 €</locale>
+  </entity>
+  <entity id="priceRange500">
+    <locale lang="fr">de 200 à 500 €</locale>
+    <locale lang="en">from 200 to 500 €</locale>
+    <locale lang="de">zwischen 200 und 500 €</locale>
+  </entity>
+  <entity id="priceRangeMore">
+    <locale lang="fr">supérieur à 500 €</locale>
+    <locale lang="en">greater than 500 €</locale>
+    <locale lang="de">500 € und mehr</locale>
+  </entity>
+  <entity id="universe">
+    <locale lang="fr">univers</locale>
+    <locale lang="en">universe</locale>
+    <locale lang="de">Universum</locale>
+  </entity>
+  <entity id="brand">
+    <locale lang="fr">marque</locale>
+    <locale lang="en">brand</locale>
+    <locale lang="de">Marke</locale>
+  </entity>
+  <entity id="searchAll">
+    <locale lang="fr">tout</locale>
+    <locale lang="en">all</locale>
+    <locale lang="de">Alles</locale>
+  </entity>
+  <entity id="searchProducts">
+    <locale lang="fr">produits</locale>
+    <locale lang="en">products</locale>
+    <locale lang="de">Produkte</locale>
+  </entity>
+  <entity id="searchArticles">
+    <locale lang="fr">articles</locale>
+    <locale lang="en">articles</locale>
+    <locale lang="de">Artikel</locale>
+  </entity>
+  <entity id="byBrand">
+    <locale lang="fr">par marque</locale>
+    <locale lang="en">by brand</locale>
+    <locale lang="de">nach Marke</locale>
+  </entity>
+  <entity id="byUniverse">
+    <locale lang="fr">par univers</locale>
+    <locale lang="en">by universe</locale>
+    <locale lang="de">nach Universum</locale>
+  </entity>
+  <entity id="byPrice">
+    <locale lang="fr">par prix</locale>
+    <locale lang="en">by price</locale>
+    <locale lang="de">nach Preis</locale>
+  </entity>
+  <entity id="TitleHrefAddToCart">
+    <locale lang="fr">Ajouter le produit sélectionné à votre panier d'articles</locale>
+    <locale lang="de">selektiertes Produkt in Ihren Artikelwarenkorb legen</locale>
+  </entity>
+  <entity id="LabelHrefAddToCart">
+    <locale lang="fr">Ajouter à mon panier</locale>
+    <locale lang="en">Add to cart</locale>
+    <locale lang="de">in meinen Warenkorb legen</locale>
+  </entity>
+  <entity id="LabelEcoTaxe">
+    <locale lang="fr">dont</locale>
+    <locale lang="en">including</locale>
+    <locale lang="de">davon</locale>
+  </entity>
+  <entity id="EcoTaxe">
+    <locale lang="fr">Eco-Participation</locale>
+    <locale lang="en">Eco-Participation</locale>
+    <locale lang="de">Ökosteuer</locale>
+  </entity>
+  <entity id="fromPrice">
+    <locale lang="fr">à partir de :</locale>
+    <locale lang="en">from</locale>
+  </entity>
+  <entity id="normalPrice">
+    <locale lang="fr">prix normal :</locale>
+    <locale lang="en">normal price:</locale>
+    <locale lang="de">Normalpreis:</locale>
+  </entity>
+  <entity id="reducePrice">
+    <locale lang="fr">prix réduit :</locale>
+    <locale lang="en">reduce price:</locale>
+    <locale lang="de">Rabattpreis:</locale>
+  </entity>
+  <entity id="titleChooseReference">
+    <locale lang="fr">afficher la référence :</locale>
+    <locale lang="en">display reference:</locale>
+    <locale lang="de">Referenz anzeigen:</locale>
+  </entity>
+  <entity id="reloadReference">
+    <locale lang="fr">Voir</locale>
+    <locale lang="en">see</locale>
+    <locale lang="de">Anzeigen</locale>
+  </entity>
+  <entity id="titleHrefAddToCart">
+    <locale lang="fr">ajouter le produit sélectionné à votre panier d'articles</locale>
+    <locale lang="en">add this product to your cart</locale>
+    <locale lang="de">selektiertes Produkt in Ihren Artikelwarenkorb legen</locale>
+  </entity>
+  <entity id="labelHrefAddToCart">
+    <locale lang="fr">ajouter au panier</locale>
+    <locale lang="en">add to cart</locale>
+    <locale lang="de">in den Warenkorb legen</locale>
+  </entity>
+  <entity id="rating-anchor-text">
+    <locale lang="fr">Voir l'avis</locale>
+    <locale lang="de">Meinung anzeigen</locale>
+  </entity>
+  <entity id="rating-anchor-text1">
+    <locale lang="fr">Voir les</locale>
+    <locale lang="de">Die anzeigen</locale>
+  </entity>
+  <entity id="rating-anchor-text2">
+    <locale lang="fr">avis</locale>
+    <locale lang="de">Meinung</locale>
+  </entity>
+  <entity id="from-brand">
+    <locale lang="fr">de {name}</locale>
+    <locale lang="de">von {name}</locale>
+  </entity>
+  <entity id="dispo-red">
+    <locale lang="fr">non disponible</locale>
+    <locale lang="en">not available</locale>
+    <locale lang="de">nicht verfügbar</locale>
+  </entity>
+  <entity id="dispo-orange">
+    <locale lang="fr">peu en stock</locale>
+    <locale lang="en">more than some products in stock</locale>
+    <locale lang="de">wenig auf Lager</locale>
+  </entity>
+  <entity id="dispo-green">
+    <locale lang="fr">en stock</locale>
+    <locale lang="en">available</locale>
+    <locale lang="de">auf Lager</locale>
+  </entity>
+  <entity id="dispo-green">
+    <locale lang="fr">en stock</locale>
+    <locale lang="en">available</locale>
+  </entity>
+  <entity id="compare">
+    <locale lang="fr">comparer</locale>
+    <locale lang="en">compare</locale>
+    <locale lang="de">vergleichen</locale>
+  </entity>
+  <entity id="select">
+    <locale lang="fr">sélectionner</locale>
+    <locale lang="en">select</locale>
+    <locale lang="de">selektieren</locale>
+  </entity>
+  <entity id="idees">
+    <locale lang="fr">Idées</locale>
+    <locale lang="de">Ideen</locale>
+  </entity>
+  <entity id="deco">
+    <locale lang="fr">DECO</locale>
+    <locale lang="de">DEKO</locale>
+  </entity>
+  <entity id="a">
+    <locale lang="fr">A</locale>
+    <locale lang="de">A</locale>
+  </entity>
+  <entity id="associer">
+    <locale lang="fr">ASSOCIER</locale>
+    <locale lang="de">ASSOZIIEREN</locale>
+  </entity>
+  <entity id="kitTitleDiscount">
+    <locale lang="fr">Ensemble composé</locale>
+    <locale lang="en">buy the kit</locale>
+    <locale lang="de">Set</locale>
+  </entity>
+  <entity id="presentKit">
+    <locale lang="fr">Voici la sélection de produits qui constituent votre ensemble :</locale>
+    <locale lang="de">Hier die Selektion der Produkte, die Ihr Ganzes zusammenstellen</locale>
+  </entity>
+  <entity id="TotalPrice">
+    <locale lang="fr">prix total :</locale>
+    <locale lang="en">total price:</locale>
+    <locale lang="de">Gesamtpreis:</locale>
+  </entity>
+  <entity id="explainKit">
+    <locale lang="fr">Choisissez un ou plusieurs produits à modifier dans les listes déroulantes ci-dessous :</locale>
+    <locale lang="de">Wählen Sie eines oder mehrere zu ändernde Produkte aus der unten angezeigten Drop-Down Liste</locale>
+  </entity>
+  <entity id="modify">
+    <locale lang="fr">Modifier</locale>
+    <locale lang="de">Ändern</locale>
+  </entity>
+<!-- Referencing service -->
+  <entity id="compare-page-title">
+    <locale lang="fr">Comparatif de {shelfLabel} : {websiteLabel}</locale>
+    <locale lang="de">Vergleich zwischen {shelfLabel}:{websiteLabel}</locale>
+  </entity>
+  <entity id="compare-page-description">
+    <locale lang="fr">Comparatif de {shelfLabel} : {productsLabels}</locale>
+    <locale lang="de">Vergleich zwischen {shelfLabel}:{productsLabels}</locale>
+  </entity>
+  <entity id="search-result-page-title">
+    <locale lang="fr">Résultat de recherche pour {terms} : {websiteLabel}</locale>
+    <locale lang="de">Suchergebnisse für {terms}:{websiteLabel}</locale>
+  </entity>
+  <entity id="search-result-page-description">
+    <locale lang="fr">Résultat de recherche pour {terms} : {productsLabels}</locale>
+    <locale lang="de">Suchergebnisse für {terms}:{productsLabels}</locale>
+  </entity>
+  <entity id="ref-detail">
+    <locale lang="fr">{reference} : {designation}</locale>
+    <locale lang="de">{reference}:{designation}</locale>
+  </entity>
+  <entity id="make-larger">
+    <locale lang="fr">agrandir</locale>
+    <locale lang="de">vergrössern</locale>
+  </entity>
+  <entity id="detail-reference">
+    <locale lang="fr">référence</locale>
+    <locale lang="de">Referenz</locale>
+  </entity>
+  <entity id="detail-quantity">
+    <locale lang="fr">quantité</locale>
+    <locale lang="de">Menge</locale>
+  </entity>
+  <entity id="detail-declinations">
+    <locale lang="fr">déclinaisons</locale>
+  </entity>
+  <entity id="level-available">
+    <locale lang="fr">Disponible</locale>
+    <locale lang="en">available</locale>
+    <locale lang="de">Verfügbar</locale>
+  </entity>
+  <entity id="level-unavailable">
+    <locale lang="fr">indisponible</locale>
+    <locale lang="en">unavailable</locale>
+    <locale lang="de">nicht verfügbar</locale>
+  </entity>
+  <entity id="level-few-in-stock">
+    <locale lang="fr">peu de stock</locale>
+    <locale lang="en">few stock</locale>
+    <locale lang="de">wenig auf Lager</locale>
+  </entity>
+  <entity id="list-display">
+    <locale lang="fr">affichage</locale>
+    <locale lang="en">display</locale>
+    <locale lang="de">Ansicht</locale>
+  </entity>
+  <entity id="list-filter">
+    <locale lang="fr">filtrage</locale>
+    <locale lang="en">filtering</locale>
+  </entity>
+  <entity id="list-sorting">
+    <locale lang="fr">tri</locale>
+    <locale lang="en">sorting</locale>
+  </entity>
+  <entity id="list-displaymode">
+    <locale lang="fr">mode d'affichage</locale>
+    <locale lang="en">display</locale>
+    <locale lang="de">Anzeigemodus</locale>
+  </entity>
+  <entity id="list-list">
+    <locale lang="fr">liste</locale>
+    <locale lang="en">list</locale>
+    <locale lang="de">Liste</locale>
+  </entity>
+  <entity id="list-table">
+    <locale lang="fr">table</locale>
+    <locale lang="en">table</locale>
+    <locale lang="de">Verzeichnis</locale>
+  </entity>
+  <entity id="list-only-discounts">
+    <locale lang="fr">promotions seulement</locale>
+    <locale lang="en">only discounts</locale>
+  </entity>
+  <entity id="list-only-available">
+    <locale lang="fr">disponible seulement</locale>
+    <locale lang="en">only available</locale>
+  </entity>
+  <entity id="list-rating-average">
+    <locale lang="fr">par note</locale>
+    <locale lang="en">by rating</locale>
+  </entity>
+  <entity id="list-rating-average-increase">
+    <locale lang="fr">croissante</locale>
+    <locale lang="en">increase</locale>
+  </entity>
+  <entity id="list-rating-average-decrease">
+    <locale lang="fr">décroissante</locale>
+    <locale lang="en">decrease</locale>
+  </entity>
+  <entity id="list-price">
+    <locale lang="fr">par prix</locale>
+    <locale lang="en">price</locale>
+    <locale lang="de">nach Preis</locale>
+  </entity>
+  <entity id="list-price-increase">
+    <locale lang="fr">du - cher au + cher</locale>
+    <locale lang="en">increase</locale>
+    <locale lang="de">aufsteigend</locale>
+  </entity>
+  <entity id="list-price-decrease">
+    <locale lang="fr">du + cher au - cher</locale>
+    <locale lang="en">decrease</locale>
+    <locale lang="de">absteigend</locale>
+  </entity>
+  <entity id="list-brand">
+    <locale lang="fr">par marque</locale>
+    <locale lang="en">brand</locale>
+    <locale lang="de">anach Marke</locale>
+  </entity>
+  <entity id="list-brand-az">
+    <locale lang="fr">de A à Z</locale>
+    <locale lang="en">increase</locale>
+    <locale lang="de">von A bis Z</locale>
+  </entity>
+  <entity id="list-brand-za">
+    <locale lang="fr">de Z à A</locale>
+    <locale lang="en">decrease</locale>
+    <locale lang="de">von Z bis A</locale>
+  </entity>
+  <entity id="list-offer">
+    <locale lang="fr">par promotion</locale>
+    <locale lang="en">offer</locale>
+    <locale lang="de">nach Sonderangebot</locale>
+  </entity>
+  <entity id="offer">
+    <locale lang="fr">promotion</locale>
+    <locale lang="en">offer</locale>
+    <locale lang="de">Sonderangebot</locale>
+  </entity>
+  <entity id="list-offer-first">
+    <locale lang="fr">en premier</locale>
+    <locale lang="en">first</locale>
+    <locale lang="de">zu Erst</locale>
+  </entity>
+  <entity id="list-offer-last">
+    <locale lang="fr">en dernier</locale>
+    <locale lang="en">last</locale>
+    <locale lang="de">zu Letzt</locale>
+  </entity>
+  <entity id="list-nbarticles">
+    <locale lang="fr">nb articles / page</locale>
+    <locale lang="en">nb articles / page</locale>
+    <locale lang="de">Anzahl Artikel / Seite</locale>
+  </entity>
+  <entity id="nbproducts">
+    <locale lang="fr">nombre de produits par page</locale>
+    <locale lang="de">Anzahl Produkte pro Seite</locale>
+  </entity>
+  <entity id="add-to-cart-button">
+    <locale lang="fr">ajouter à mon panier</locale>
+  </entity>
+  <entity id="add-to-cart-help">
+    <locale lang="fr">cochez les cases des produits à ajouter au panier.</locale>
+  </entity>
+  <entity id="add-to-cart-success-one">
+    <locale lang="fr">le produit {label} a bien été ajouté à votre panier.</locale>
+  </entity>
+  <entity id="add-to-cart-success-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} ont bien été ajoutés à votre panier.</locale>
+  </entity>
+  <entity id="add-to-cart-error-one">
+    <locale lang="fr">le produit {label} n'a pas pu être ajouté à votre panier.</locale>
+  </entity>
+  <entity id="add-to-cart-error-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} n'ont pas pu être ajoutés à votre panier.</locale>
+  </entity>
+  <entity id="error-not-available-one">
+    <locale lang="fr">le produit {label} n'est plus disponible.</locale>
+    <locale lang="de">Das Produkt {label} ist nicht mehr verfügbar.</locale>
+  </entity>
+  <entity id="error-not-available-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} ne sont plus disponibles.</locale>
+    <locale lang="de">Die Produkte {firstLabels} und {lastLabel} sind nicht mehr verfügbar.</locale>
+  </entity>
+  <entity id="need-article-selection-one">
+    <locale lang="fr">le produit {label} comporte plusieurs références disponibles, choisissez celle qui vous intéresse.</locale>
+    <locale lang="de">Das Produkt {label} beinhaltet mehrere verfügbare Referenzen, wählen Sie die, die Sie interessiert.</locale>
+  </entity>
+  <entity id="need-article-selection-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} comportent plusieurs références disponibles, choisissez celles qui vous intéressent.</locale>
+    <locale lang="de">Die Produkte {firstLabels} und {lastLabel} beinhalten mehrere verfügbaren Referenzen, wählen Sie die, die Sie interessieren.</locale>
+  </entity>
+  <entity id="automatically-selected-article-one">
+    <locale lang="fr">la référence précédemment sélectionnée pour le produit {label} n'est plus disponible. Une référence disponible a donc été sélectionnée à la place.</locale>
+    <locale lang="de">Die eher selektierte Referenz für das Produkt {label} ist nicht mehr verfügbar. Eine verfügbare Referenz ist daher an dessen Stelle selektiert worden.</locale>
+  </entity>
+  <entity id="automatically-selected-article-several">
+    <locale lang="fr">les références précédemment sélectionnées pour les produits {firstLabels} et {lastLabel} ne sont plus disponibles. Des références disponibles ont donc été sélectionnées à la place.</locale>
+    <locale lang="de">Die eher selektierten Referenzen für die Produkte {firstLabel} und {lastLabel} sind nicht mehr verfügbar. Verfügbare Referenzen sind daher an deren Stelle selektiert worden.</locale>
+  </entity>
+  <entity id="Select-articles-title">
+    <locale lang="fr">Sélection des articles</locale>
+    <locale lang="de">Artikel Selektion</locale>
+  </entity>
+  <entity id="compare-label">
+    <locale lang="fr">produits comparés</locale>
+    <locale lang="de">verglichene Produkte</locale>
+  </entity>
+  <entity id="back">
+    <locale lang="fr">retour</locale>
+    <locale lang="de">zurück</locale>
+  </entity>
+  <entity id="print">
+    <locale lang="fr">imprimer</locale>
+    <locale lang="de">drucken</locale>
+  </entity>
+  <entity id="list-check-compare">
+    <locale lang="fr">cochez cette case pour comparer le produit -nom du produit-</locale>
+    <locale lang="de">dieses Feld ankreuzen um das Produkt -Produktname- zu vergleichen</locale>
+  </entity>
+  <entity id="GoToSubshelf">
+    <locale lang="fr">aller à</locale>
+    <locale lang="en">go to</locale>
+    <locale lang="de">weiter zu</locale>
+  </entity>
+  <entity id="product-family">
+    <locale lang="fr">famille de produits</locale>
+    <locale lang="de">Produktfamilie</locale>
+  </entity>
+  <entity id="add-to-list">
+    <locale lang="fr">ajouter à mes produits favoris</locale>
+    <locale lang="de">Zu meinen Favoriten hinzufügen</locale>
+  </entity>
+  <entity id="product-added-to-list">
+    <locale lang="fr">produit ajouté aux favoris</locale>
+    <locale lang="de">Zu den Favoriten hinzugefügt</locale>
+  </entity>
+  <entity id="product-removed-from-list">
+    <locale lang="fr">le produit a bien été retiré de la liste.</locale>
+    <locale lang="de">Das Produkt ist aus der Liste gelöscht worden.</locale>
+  </entity>
+  <entity id="add-to-favorite-button">
+    <locale lang="fr">ajouter à mes produits favoris</locale>
+  </entity>
+  <entity id="add-to-favorite-help">
+    <locale lang="fr">cochez les cases des produits à ajouter à mes produits favoris.</locale>
+  </entity>
+  <entity id="add-to-favorite-success-one">
+    <locale lang="fr">le produit {label} a bien été ajouté à mes produits favoris.</locale>
+  </entity>
+  <entity id="add-to-favorite-success-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} ont bien été ajoutés à mes produits favoris.</locale>
+  </entity>
+  <entity id="add-to-favorite-error-one">
+    <locale lang="fr">le produit {label} n'a pas pu être ajouté à mes produits favoris.</locale>
+  </entity>
+  <entity id="add-to-favorite-error-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} n'ont pas pu être ajoutés à mes produits favoris.</locale>
+  </entity>
+  <entity id="remove-from-list-button">
+    <locale lang="fr">retirer de la liste</locale>
+  </entity>
+  <entity id="remove-from-list-help">
+    <locale lang="fr">cochez les cases des produits à retirer de la liste.</locale>
+  </entity>
+  <entity id="remove-from-list-success-one">
+    <locale lang="fr">le produit {label} a bien été retiré de la liste.</locale>
+  </entity>
+  <entity id="remove-from-list-success-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} ont bien été retirés de la liste.</locale>
+  </entity>
+  <entity id="remove-from-list-error-one">
+    <locale lang="fr">le produit {label} n'a pas pu être retiré de la liste.</locale>
+  </entity>
+  <entity id="remove-from-list-error-several">
+    <locale lang="fr">les produits {firstLabels} et {lastLabel} n'ont pas pu être retirés de la liste.</locale>
+  </entity>
+  <entity id="cart-added-to-list">
+    <locale lang="fr">les produits de votre panier ont bien été ajouté à la liste.</locale>
+    <locale lang="de">Die Produkte Ihres Warenkorbes wurden in die Liste aufgenommen.</locale>
+  </entity>
+  <entity id="warning-list-not-persisted">
+    <locale lang="fr">attention, vous n'êtes actuellement pas connecté sur votre compte client, cette liste de produits favoris ne sera donc pas sauvegardée. Pour la sauvegarder, il vous suffit de vous connecter à votre compte client ou de vous en créer un si vous n'en avez pas encore.</locale>
+    <locale lang="de">Achtung, Sie sind momentan nicht in Ihrem Kundenkonto eingeloggt, diese Favoritenliste wird daher nicht gespeichert. Um sie zu speichern, loggen Sie sich in Ihr Kundenkonto ein oder erstellen Sie eines, wenn Sie noch keines besitzen.</locale>
+  </entity>
+  <entity id="my-favorite-products">
+    <locale lang="fr">mes produits favoris</locale>
+    <locale lang="de">Meine Favoriten</locale>
+  </entity>
+  <entity id="remaining-stock">
+    <locale lang="fr">stock restant : {current} sur {initial}</locale>
+    <locale lang="de">Restlager: {current} von {initial}</locale>
+  </entity>
+  <entity id="no-product-to-display">
+    <locale lang="fr">il n'y a aucun produit à afficher.</locale>
+  </entity>
+<!-- Weight units -->
+  <entity id="weight-unit-mg-label">
+    <locale lang="fr">mg</locale>
+    <locale lang="de">mg</locale>
+  </entity>
+  <entity id="weight-unit-mg-singular">
+    <locale lang="fr">{weight}mg</locale>
+    <locale lang="de">{weight}mg</locale>
+  </entity>
+  <entity id="weight-unit-mg-plural">
+    <locale lang="fr">{weight}mg</locale>
+    <locale lang="de">{weight}mg</locale>
+  </entity>
+  <entity id="weight-unit-g-label">
+    <locale lang="fr">g</locale>
+    <locale lang="de">g</locale>
+  </entity>
+  <entity id="weight-unit-g-singular">
+    <locale lang="fr">{weight}g</locale>
+    <locale lang="de">{weight}g</locale>
+  </entity>
+  <entity id="weight-unit-g-plural">
+    <locale lang="fr">{weight}g</locale>
+    <locale lang="de">{weight}g</locale>
+  </entity>
+  <entity id="weight-unit-kg-label">
+    <locale lang="fr">kg</locale>
+    <locale lang="de">Kg</locale>
+  </entity>
+  <entity id="weight-unit-kg-singular">
+    <locale lang="fr">{weight}kg</locale>
+    <locale lang="de">{weight}Kg</locale>
+  </entity>
+  <entity id="weight-unit-kg-plural">
+    <locale lang="fr">{weight}kg</locale>
+    <locale lang="de">{weight}Kg</locale>
+  </entity>
+<!-- Search result block -->
+  <entity id="by-key-words">
+    <locale lang="fr">par mots clés</locale>
+    <locale lang="de">nach Stichwörter</locale>
+  </entity>
+  <entity id="by-brands">
+    <locale lang="fr">par marques</locale>
+    <locale lang="de">nach Marken</locale>
+  </entity>
+  <entity id="by-shelves">
+    <locale lang="fr">par rayons</locale>
+    <locale lang="de">nach Regalen</locale>
+  </entity>
+  <entity id="refine-search">
+    <locale lang="fr">affinez votre recherche</locale>
+    <locale lang="de">Suche verfeinern</locale>
+  </entity>
+  <entity id="results-filter">
+    <locale lang="fr">filtrer les résultats</locale>
+    <locale lang="de">Ergebnisse filtern</locale>
+  </entity>
+  <entity id="see-others">
+    <locale lang="fr">voir les autres résultats</locale>
+    <locale lang="fr">see other results</locale>
+    <locale lang="de">die Anderen Ergebnisse anzeigen</locale>
+  </entity>
+  <entity id="search-all">
+    <locale lang="fr">produits et articles</locale>
+    <locale lang="de">Produkte und Artikel</locale>
+  </entity>
+  <entity id="search-products">
+    <locale lang="fr">produits</locale>
+    <locale lang="de">Produkte</locale>
+  </entity>
+  <entity id="search-others">
+    <locale lang="fr">articles</locale>
+    <locale lang="de">Artikel</locale>
+  </entity>
+<!-- Stock gauge -->
+  <entity id="Stock-gauge-5">
+    <locale lang="fr">stock à 90%</locale>
+    <locale lang="de">Lager zu 90%</locale>
+  </entity>
+  <entity id="Stock-gauge-4">
+    <locale lang="fr">stock à 70%</locale>
+    <locale lang="de">Lager zu 70%</locale>
+  </entity>
+  <entity id="Stock-gauge-3">
+    <locale lang="fr">stock à 50%</locale>
+    <locale lang="de">Lager zu 50%</locale>
+  </entity>
+  <entity id="Stock-gauge-2">
+    <locale lang="fr">stock à 30%</locale>
+    <locale lang="de">Lager zu 30%</locale>
+  </entity>
+  <entity id="Stock-gauge-1">
+    <locale lang="fr">stock à 10%</locale>
+    <locale lang="de">Lager zu 10%</locale>
+  </entity>
+  <entity id="Stock-gauge-0">
+    <locale lang="fr">stock presque épuisés</locale>
+    <locale lang="de">Lager fast leer</locale>
+  </entity>
+<!-- Comments -->
+  <entity id="comment-this-product">
+    <locale lang="fr">vous n'avez pas encore commenté ce produit !</locale>
+  </entity>
+  <entity id="list-displaymode">
+    <locale lang="fr">mode d'affichage</locale>
+    <locale lang="en">display</locale>
+  </entity>
+  <entity id="list-list">
+    <locale lang="fr">liste</locale>
+    <locale lang="en">list</locale>
+  </entity>
+  <entity id="list-table">
+    <locale lang="fr">table</locale>
+    <locale lang="en">table</locale>
+  </entity>
+  <entity id="productpromotion-label">
+    <locale lang="fr">Notre sélection</locale>
+    <locale lang="en">Our selection</locale>
+  </entity>
+  <entity id="productpromotion-random">
+    <locale lang="fr">Aléatoire</locale>
+    <locale lang="en">Random</locale>
+  </entity>
+  <entity id="productpromotion-list">
+    <locale lang="fr">Voir tous les produits</locale>
+    <locale lang="en">See all products</locale>
+  </entity>
+  <entity id="go-to-primary-shelf">
+    <locale lang="fr">Voir les produits du rayon {shelfLabel}</locale>
+  </entity>
+</localization>

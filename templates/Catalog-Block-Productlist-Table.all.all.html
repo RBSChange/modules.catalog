@@ -1,0 +1,106 @@
+<tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
+
+<h2 tal:condition="blockTitle" id="product-list-title" change:h="" tal:content="blockTitle" />
+
+<div tal:condition="blockDescription" class="product-list-description" tal:content="blockDescription" />
+
+<tal:block tal:condition="displayConfig/showSortMenu" change:include="module 'catalog'; template 'Catalog-Inc-ProductListOrderOptions'; type 'html'; displayConfig displayConfig; valueSortOption valueSortOption;"/>
+
+<ul change:errors="" />
+<ul change:messages="" />
+
+<div tal:condition="not:products" change:translate="&modules.catalog.frontoffice.No-product-to-display;" />
+<div tal:condition="products" class="products-list-list">
+	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'" />
+	<form action="#product-list-title" method="post" style="clear:both">
+		<table border="0" class="normal">
+			<thead>
+				<tr>
+					<th tal:condition="displayConfig/showCheckboxes" class="first"><span class="invisible" change:translate="&modules.catalog.frontoffice.Product-selection;"/></th>
+					<th><span class="invisible" change:translate="&modules.catalog.frontoffice.Product-visual;"/></th>
+					<th change:translate="&modules.catalog.frontoffice.Nomination;" />
+					<th tal:condition="displayConfig/showRatingAverage" change:translate="&modules.catalog.frontoffice.Rating-average;" />
+					<th tal:condition="displayConfig/showAvailability" change:translate="&modules.catalog.frontoffice.Availability;" />
+					<th tal:condition="displayConfig/showPricesWithoutTax">
+						<abbr change:i18nattr="title &modules.order.frontoffice.unitprice-without-tax; currency shop/getCurrency" change:translate="&modules.order.frontoffice.unitprice-without-tax-abr;; currency shop/getCurrency" />
+					</th>
+					<th tal:condition="displayConfig/showPricesWithTax">
+						<abbr change:i18nattr="title &modules.order.frontoffice.unitprice-with-tax; currency shop/getCurrency" change:translate="&modules.order.frontoffice.unitprice-with-tax-abr;; currency shop/getCurrency" />
+					</th>
+					<tal:block tal:condition="displayConfig/showAddToCart">
+						<th tal:condition="displayConfig/showQuantitySelector" change:translate="&modules.catalog.frontoffice.Detail-quantity;" />
+						<th class="last"><span class="invisible" change:translate="&modules.catalog.frontoffice.Product-add-to-cart;"/></th>
+					</tal:block>
+				</tr>
+			</thead>
+			<tbody>
+				<tal:block tal:repeat="product products">
+					<tr class="product-line row-${repeat/product/odd}" tal:define="price php: product.getPrice(shop, customer); id product/getId">
+						<td tal:condition="displayConfig/showCheckboxes" tal:define="global name string:catalogParam[selected_product][$id]">
+							<label class="invisible" tal:attributes="for name" change:translate="&modules.catalog.frontoffice.List-check-compare;" />
+							<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id name; name name; value id" type="checkbox"/>
+							<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id name; name name; value id" type="checkbox"/>
+						</td>
+						<td>
+							<a change:link="document product" class="link" tal:attributes="title product/getLinkTitle" >
+								<img change:media="document php: product.getDefaultVisual(shop); format 'modules.catalog.frontoffice/list'" />
+							</a>
+						</td>
+						<td>
+							<ul>
+								<li><a change:link="document product" tal:attributes="title product/getLinkTitle" tal:content="product/getLabel" /></li>
+								<li tal:condition="product/getBrand" change:translate="&modules.catalog.frontoffice.from-brand;;name product/getBrandLabel;" />
+								<tal:block tal:condition="displayConfig/showProductDescription">
+									<li tal:condition="product/getShortDescription" tal:content="product/getShortDescription" />
+								</tal:block>
+								<tal:block tal:condition="displayConfig/showProductPictograms">
+									<li tal:condition="product/getPictogramCount">
+										<ul class="product-pictos">
+											<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram" /></li>
+										</ul>
+									</li>	
+								</tal:block>					
+							</ul>
+						</td>
+						<td tal:condition="displayConfig/showRatingAverage" tal:content="product/getFormattedRatingAverage" />
+						<td tal:condition="displayConfig/showAvailability" tal:content="product/getAvailability" />
+						<td class="priceht" tal:condition="displayConfig/showPricesWithoutTax">
+							<tal:block tal:condition="price/isDiscount">
+								<del tal:content="price/getFormattedOldValueWithoutTax" />
+								<br />			
+							</tal:block>
+							<tal:block tal:replace="price/getFormattedValueWithoutTax" />			
+						</td>
+						<td class="pricettc" tal:condition="displayConfig/showPricesWithTax">
+							<tal:block tal:condition="price/isDiscount">
+								<del tal:content="price/getFormattedOldValueWithTax" />
+								<br />		
+							</tal:block>
+							<tal:block tal:replace="price/getFormattedValueWithTax" />
+						</td>
+						<tal:block tal:condition="displayConfig/showAddToCart">		
+							<td tal:condition="displayConfig/showQuantitySelector">
+								<tal:block tal:condition="php: product.canBeOrdered(shop)">
+									<label class="invisible" for="catalogParam[quantities][${id}]" change:translate="&modules.catalog.frontoffice.Detail-quantityLabel;" />
+				                	<input class="textfield quantity-selector" type="text" size="3" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
+								</tal:block>
+							</td>
+							<td>
+								<tal:block tal:condition="php: product.canBeOrdered(shop)">
+									<input type="submit" name="catalogParam[addToCart][${id}]" class="button" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart;" />
+								</tal:block>
+							</td>
+						</tal:block>
+					</tr>
+				</tal:block>
+			</tbody>
+		</table>
+		<div class="comparebutton" tal:repeat="button displayConfig/globalButtons">
+			<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
+		</div>
+	</form>
+</div>
+
+<div class="pagination" tal:condition="products">
+	<div change:paginator="products"/>
+</div>

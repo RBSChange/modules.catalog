@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
+	
+	<rootfolder module="media">
+		<folder byLabel="Catalogue">
+			<media path="modules/catalog/setup/default-visuals/default-detail-visual.png"
+				byLabel="Visuel par défaut de détail de produit" title="Visuel non-disponible" id="default-detail-visual" />
+			<media path="modules/catalog/setup/default-visuals/default-list-visual.png"
+				byLabel="Visuel par défaut de liste de produit" title="Visuel non-disponible" id="default-list-visual" />
+		</folder>
+	</rootfolder>
+	
+	<rootfolder module="preferences">
+		<catalogpreferences 
+			defaultDetailVisual-refid="default-detail-visual" 
+			defaultListVisual-refid="default-list-visual" />
+	</rootfolder>	
+</script>

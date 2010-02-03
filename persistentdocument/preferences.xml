@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
+	model-version="1.0" icon="catalog" publish-on-day-change="false" has-url="false" 
+	backoffice-indexable="false">
+	<properties>
+		<add name="label" default-value="preferences" />
+		<add name="defaultDetailVisual" type="modules_media/media" min-occurs="1" />
+		<add name="defaultListVisual" type="modules_media/media" min-occurs="1" />
+		<add name="defaultProductsPerPage" type="Integer" min-occurs="1" default-value="10">
+			<constraints>min:1;max:50</constraints>
+		</add>
+		<add name="newProductsCount" type="Integer" min-occurs="1" default-value="10" />
+		<add name="stockAlertThreshold" type="Double" default-value="0" preserve-old-value="true" />
+		<add name="stockAlertNotificationUser" type="modules_users/backenduser" max-occurs="-1" />
+		<add name="enableComments" type="Boolean" min-occurs="1" default-value="true" />
+		<add name="synchronizeComplementary" type="Boolean" default-value="true" />
+		<add name="synchronizeSimilar" type="Boolean" default-value="true" />
+		<add name="suggestComplementaryFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<add name="suggestSimilarFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<add name="suggestUpsellFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+	</properties>
+	<statuses default="PUBLICATED" />
+</document>

@@ -1,0 +1,20 @@
+<table border="0" cellspacing="10">
+	<tbody>
+		<tr tal:define="price php: product.getPrice(shop, customer); id product/getId">
+			<td width="75" valign="top" align="right">
+				<strong tal:content="price/getFormattedValueWithTax" />
+				<tal:block tal:condition="price/isDiscount">
+					<br />
+					<del tal:content="price/getFormattedOldValueWithTax" />		
+				</tal:block>
+				<img change:media="document php: product.getDefaultVisual(shop); format 'modules.catalog.frontoffice/list'" />
+			</td>
+			<td valign="top">
+				<strong>${product/getLabel}</strong>		
+				<tal:block tal:condition="product/getBrand"> [<i>${product/getBrandLabel}</i>]</tal:block>
+				<br />	
+				<p tal:condition="product/getDescription" tal:replace="product/getDescriptionAsHTML"></p>
+			</td>
+		</tr>
+	</tbody>
+</table>

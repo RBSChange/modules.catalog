@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="product-list">
+    <locale lang="fr">liste des produits</locale>
+    <locale lang="de">Produktliste</locale>
+  </entity>
+  <entity id="product-detail">
+    <locale lang="fr">détail d'un produit</locale>
+    <locale lang="de">Produktdetail</locale>
+  </entity>
+  <entity id="compare-page">
+    <locale lang="fr">comparer des produits</locale>
+    <locale lang="de">Produkte vergleichen</locale>
+  </entity>
+  <entity id="recommand-product-page">
+    <locale lang="fr">recommander un produit</locale>
+    <locale lang="de">Ein Produkt empfehlen</locale>
+  </entity>
+  <entity id="shelf-list">
+    <locale lang="fr">liste des rayons</locale>
+    <locale lang="de">Regalliste</locale>
+  </entity>
+  <entity id="favorite-product-list">
+    <locale lang="fr">liste des produits favoris</locale>
+    <locale lang="en">favorite product list</locale>
+  </entity>
+  <entity id="cross-selling-list">
+    <locale lang="fr">liste des produits associés</locale>
+  </entity>
+</localization>

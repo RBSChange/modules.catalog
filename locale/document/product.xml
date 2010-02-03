@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="edition-form-title">
+    <locale lang="fr">propriétés de la fiche produit</locale>
+    <locale lang="en">product properties</locale>
+    <locale lang="de">Eigenschaften Produktblatt</locale>
+  </entity>
+  <entity id="document-name">
+    <locale lang="fr">fiche produit</locale>
+    <locale lang="en">product</locale>
+    <locale lang="de">Produktblatt</locale>
+  </entity>
+  <entity id="startpublicationdate">
+    <locale lang="fr">début de parution</locale>
+    <locale lang="de">Veröffentlichungsanfang</locale>
+  </entity>
+  <entity id="startpublicationdate-help">
+    <locale lang="fr">date de début de parution de la fiche produit</locale>
+    <locale lang="de">Anfangsdatum Veröffentlichung Produktblatt</locale>
+  </entity>
+  <entity id="endpublicationdate">
+    <locale lang="fr">fin de parution</locale>
+    <locale lang="de">Veröffentlichungsende</locale>
+  </entity>
+  <entity id="endpublicationdate-help">
+    <locale lang="fr">date de fin de parution de la fiche produit</locale>
+    <locale lang="de">Enddatum Veröffentlichung Produktblatt</locale>
+  </entity>
+  <entity id="label">
+    <locale lang="fr">libellé</locale>
+    <locale lang="de">Name</locale>
+  </entity>
+  <entity id="label-help">
+    <locale lang="fr">libellé du produit qui apparaît dans le catalogue sur le site web</locale>
+    <locale lang="de">Name des im Katalog auf der Webseite vorkommendes Regal</locale>
+  </entity>
+  <entity id="codeReference">
+    <locale lang="fr">code référence</locale>
+    <locale lang="en">reference code</locale>
+  </entity>
+  <entity id="codeReference-help">
+    <locale lang="fr">code référence</locale>
+    <locale lang="en">reference code</locale>
+  </entity>
+  <entity id="visual">
+    <locale lang="fr">visuel</locale>
+    <locale lang="de">Abbildung</locale>
+  </entity>
+  <entity id="visual-help">
+    <locale lang="fr">image à sélectionner depuis les ressources.</locale>
+    <locale lang="de">Abbildung; Bild aus den Ressourcen zu selektieren.</locale>
+  </entity>
+  <entity id="additionnalVisual">
+    <locale lang="fr">visuels additionnels</locale>
+    <locale lang="de">zusätzliche Abbildungen</locale>
+  </entity>
+  <entity id="additionnalVisual-help">
+    <locale lang="fr">visuels additionnels; images à sélectionner depuis les ressources.</locale>
+    <locale lang="de">zusätzliche Abbildungen; Bilder aus den Ressourcen zu selektieren.</locale>
+  </entity>
+  <entity id="pictogram">
+    <locale lang="fr">pictogrammes</locale>
+    <locale lang="de">Piktogramme</locale>
+  </entity>
+  <entity id="pictogram-help">
+    <locale lang="fr">pictogrammes affichés dans le détail de la fiche produit indiquant une promotion, une nouveauté, etc.</locale>
+    <locale lang="de">Im Produktblattdetail angezeigte Piktogramme, die auf ein Sinderangebot, eine Neuheit, etc. hinweisen.</locale>
+  </entity>
+  <entity id="alternativeProduct">
+    <locale lang="fr">produits alternatifs</locale>
+    <locale lang="de">Alternative Produkte</locale>
+  </entity>
+  <entity id="alternativeProduct-help">
+    <locale lang="fr">produits alternatifs; à sélectionner depuis les ressources.</locale>
+    <locale lang="de">Alternative Produkte; aus den Ressourcen zu selektieren.</locale>
+  </entity>
+  <entity id="brand">
+    <locale lang="fr">marque</locale>
+    <locale lang="de">Marke</locale>
+  </entity>
+  <entity id="brand-help">
+    <locale lang="fr">marque; à sélectionner depuis les ressources.</locale>
+    <locale lang="de">Marke; aus den Ressourcen zu selektieren.</locale>
+  </entity>
+  <entity id="articleId">
+    <locale lang="fr">article</locale>
+  </entity>
+  <entity id="articleId-help">
+    <locale lang="fr">article, à sélectionner depuis les ressources.</locale>
+  </entity>
+  <entity id="description">
+    <locale lang="fr">description</locale>
+    <locale lang="de">Artikel, aus den Ressourcen zu selektieren.</locale>
+  </entity>
+  <entity id="description-help">
+    <locale lang="fr">description du rayon</locale>
+    <locale lang="de">Beschreibung des Regals</locale>
+  </entity>
+  <entity id="crossSelling">
+    <locale lang="fr">produits croisés</locale>
+    <locale lang="de">Cross-Selling</locale>
+  </entity>
+  <entity id="crossSelling-help">
+    <locale lang="fr">liste de produits croisés (cross-selling)</locale>
+    <locale lang="de">Cross-Selling Liste (Cross-Selling)</locale>
+  </entity>
+  <entity id="pageTitle">
+    <locale lang="fr">titre de la page</locale>
+    <locale lang="de">Seitentitel</locale>
+  </entity>
+  <entity id="pageTitle-help">
+    <locale lang="fr">titre de la page</locale>
+    <locale lang="de">Seitentitel</locale>
+  </entity>
+  <entity id="pageDescription">
+    <locale lang="fr">description de la page</locale>
+    <locale lang="de">Seitenbeschreibung</locale>
+  </entity>
+  <entity id="pageDescription-help">
+    <locale lang="fr">description de la page</locale>
+    <locale lang="de">Seitenbeschreibung</locale>
+  </entity>
+  <entity id="pageKeywords">
+    <locale lang="fr">mots-clés de la page</locale>
+    <locale lang="de">Seitenstichpunkte</locale>
+  </entity>
+  <entity id="pageKeywords-help">
+    <locale lang="fr">mots-clés de la page</locale>
+    <locale lang="de">Seitenstichpunkte</locale>
+  </entity>
+  <entity id="price">
+    <locale lang="fr">prix</locale>
+    <locale lang="en">price</locale>
+    <locale lang="de">Preis</locale>
+  </entity>
+  <entity id="parent-shelf">
+    <locale lang="fr">rayon</locale>
+    <locale lang="en">shelf</locale>
+    <locale lang="de">Regal</locale>
+  </entity>
+  <entity id="brandLabel">
+    <locale lang="fr">marque</locale>
+    <locale lang="de">Marke</locale>
+  </entity>
+  <entity id="brandLabel-help">
+    <locale lang="fr">marque</locale>
+    <locale lang="de">Marke</locale>
+  </entity>
+  <entity id="labelForUrl">
+    <locale lang="fr">libellé dans l'URL</locale>
+    <locale lang="en">label in URL</locale>
+    <locale lang="de">Name in der URL</locale>
+  </entity>
+  <entity id="shelf">
+    <locale lang="fr">rayons</locale>
+  </entity>
+  <entity id="shelf-help">
+    <locale lang="fr">sélectionnez ici les rayons qui contiennent ce produit. Le premier rayon de la liste est son rayon primaire.</locale>
+  </entity>
+</localization>

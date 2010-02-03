@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/website/persistentdocument/import/website_binding.xml" />
+	<binding fileName="modules/generic/persistentdocument/import/generic_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<binding fileName="modules/zone/persistentdocument/import/zone_binding.xml" />
+	
+	<zone byCode="FR" id="zoneFR" />
+
+	<website byTag="default_modules_website_default-website" template="tplTwo">
+		<shop label="Boutique" shippingZone-refid="zoneFR" billingZone-refid="zoneFR" currencyCode="EUR"
+				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false" />
+				
+		<topic byLabel="Boutique" id="ShopTopic">
+			<page label="Contenu du rayon" isIndexPage="true" navigationVisibility="hidden">
+				<tag name="functional_catalog_product-list" />
+				<tag name="functional_catalog_shelf-list" />
+				<changecontent for="content-block">
+					<changeblock type="modules_catalog_shelfContextualList" />
+					<changeblock type="modules_catalog_productContextualList" />
+				</changecontent>
+			</page>
+			<page label="Détail d'une fiche produit" navigationVisibility="hidden">
+				<tag name="functional_catalog_product-detail" />
+				<changecontent for="content-block">
+					<changeblock type="modules_catalog_product" />
+					<changeblock type="modules_catalog_productCrossSelling" __type="complementary" __maxdisplayed="2" />
+					<changeblock type="modules_catalog_productCrossSelling" __type="similar" __maxdisplayed="2" />
+					<changeblock type="modules_catalog_productCrossSelling" __type="upsell" __maxdisplayed="2" />
+					<changeblock type="modules_catalog_comments" />
+				</changecontent>
+			</page>
+			<page label="Liste des produits assoicés" navigationVisibility="hidden">
+				<tag name="functional_catalog_crosssellinglist-page" />
+				<changecontent for="content-block">
+					<changeblock type="modules_catalog_productCrossSellingList" />
+				</changecontent>
+			</page>
+		</topic>
+		
+		<topic byLabel="Outils" label="Outils">
+			<page label="Mes produits favoris">
+				<tag name="contextual_website_website_modules_catalog_favorite-product-list" />
+				<changecontent for="content-block">
+					<changeblock type="modules_catalog_FavoriteProductList" />
+				</changecontent>
+			</page>
+		</topic>
+		
+		<menus>
+			<menu byTag="contextual_website_website_menu-main">
+				<menuitempage pageid="ShopTopic" />
+			</menu>
+		</menus>
+	</website>
+</script>

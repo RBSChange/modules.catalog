@@ -1,0 +1,20 @@
+Hot to use them functionnal tests?
+**********************************
+
+You have to launch SeleniumRC server on a machine connected to the network (this
+machine is called "proxy").
+
+You can find SeleniumRC server at the following address:
+http://www.openqa.org/selenium-rc/download.action
+
+The proxy needs to have the required browsers installed. This can be your
+developement machine.
+
+Launch SeleniumRC server:
+cd the/path/where/is/selenium-rc-server
+java -jar selenium-server.jar
+
+It should listen to port 4444 and witing for requests.
+
+Then you can laucnh the functionnal tests just like you would launch unit tests:
+change test modules/MODULE/tests/functionnal/your-functionnal-test.php

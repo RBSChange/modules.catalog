@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="common-properties">
+		<locale lang="fr">propriétés communes</locale>
+		<locale lang="en">common properties</locale>
+	</entity>
+	<entity id="first-declination">
+		<locale lang="fr">première déclinaison</locale>
+		<locale lang="en">first declination</locale>
+	</entity>
+	<entity id="second-declination">
+		<locale lang="fr">deuxième déclinaison</locale>
+		<locale lang="en">second declination</locale>
+	</entity>
+	<entity id="url-for-website">
+		<locale lang="fr">URL pour le site {website}</locale>
+		<locale lang="en">URL for website {website}</locale>
+	</entity>
+	<entity id="additional-declination-description">
+		<locale lang="fr">vous pourrez ajouter d'autres déclinaisons par la suite.</locale>
+	</entity>
+	
+	<entity id="fieldsgroup.amount-tax-validity">
+		<locale lang="fr">montant, taxes et validité</locale>
+	</entity>
+	<entity id="fieldsgroup.discount">
+		<locale lang="fr">promotion</locale>
+	</entity>
+	<entity id="fieldsgroup.restrictions">
+		<locale lang="fr">restrictions d'application</locale>
+	</entity>
+	
+	<entity id="tab.prices">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">prices</locale>
+	</entity>
+	<entity id="panel.prices.new">
+		<locale lang="fr">ajouter un prix</locale>
+		<locale lang="en">add new price</locale>
+	</entity>
+	<entity id="panel.prices.shop">
+		<locale lang="fr">choix de la boutique</locale>
+	</entity>
+	<entity id="panel.prices.date">
+		<locale lang="fr">afficher les prix valables à la date</locale>
+	</entity>
+	<entity id="panel.prices.target-type">
+		<locale lang="fr">afficher</locale>
+	</entity>
+	<entity id="panel.prices.target-id">
+		<locale lang="fr">groupe tarifaire/client</locale>
+	</entity>
+	<entity id="panel.prices.type-shop">
+		<locale lang="fr">prix boutique</locale>
+	</entity>
+	<entity id="panel.prices.type-group">
+		<locale lang="fr">prix par groupe</locale>
+	</entity>
+	<entity id="panel.prices.type-customer">
+		<locale lang="fr">prix par client</locale>
+	</entity>
+	<entity id="panel.prices.type-all">
+		<locale lang="fr">tous les prix</locale>
+	</entity>
+	<entity id="panel.prices.column-value">
+		<locale lang="fr">montant</locale>
+	</entity>
+	<entity id="panel.prices.column-is-discount">
+		<locale lang="fr">promo</locale>
+	</entity>
+	<entity id="panel.prices.column-target">
+		<locale lang="fr">groupe tarifaire/client</locale>
+	</entity>
+	<entity id="panel.prices.column-threshold-min">
+		<locale lang="fr">seuil de quantité</locale>
+	</entity>
+	<entity id="panel.prices.column-start-publication-date">
+		<locale lang="fr">début de validité</locale>
+	</entity>
+	<entity id="panel.prices.column-end-publication-date">
+		<locale lang="fr">fin de validité</locale>
+	</entity>
+	<entity id="panel.prices.column-actions">
+		<locale lang="fr">actions</locale>
+	</entity>
+	<entity id="panel.prices.Confirm-delete-price">
+		<locale lang="fr">confirmez-vous la suppression de ce prix ?</locale>
+	</entity>
+	
+	<entity id="tab.declinations">
+		<locale lang="fr">déclinaisons</locale>
+		<locale lang="en">declinations</locale>
+	</entity>
+	<entity id="panel.declinations.new">
+		<locale lang="fr">ajouter une déclinaison</locale>
+		<locale lang="en">add new declination</locale>
+	</entity>
+	<entity id="panel.declinations.column-label">
+		<locale lang="fr">libellé</locale>
+	</entity>
+	<entity id="panel.declinations.column-codereference">
+		<locale lang="fr">code référence</locale>
+	</entity>
+	<entity id="panel.declinations.column-stockquantity">
+		<locale lang="fr">quantité en stock</locale>
+	</entity>
+	<entity id="panel.declinations.column-stocklevel">
+		<locale lang="fr">niveau de stock</locale>
+	</entity>
+	<entity id="panel.declinations.column-actions">
+		<locale lang="fr">actions</locale>
+	</entity>
+	<entity id="panel.declinations.Confirm-delete-declination">
+		<locale lang="fr">confirmez-vous la suppression de cette déclinaison ?</locale>
+	</entity>
+	<entity id="panel.declinations.prices">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">prices</locale>
+	</entity>
+	
+	<entity id="attrdef.confirm-delete">
+		<locale lang="fr">Etes vous sur de vouloir supprimer cette attribut ?</locale>
+	</entity>
+
+	<entity id="attrdef.action-save">
+		<locale lang="fr">Sauvegarder</locale>
+	</entity>
+		
+	<entity id="attrdef.Type-text">
+		<locale lang="fr">Texte</locale>
+	</entity>
+	<entity id="attrdef.Type-numeric">
+		<locale lang="fr">Numerique</locale>
+	</entity>
+
+	<entity id="attrdef.labelColumn">
+		<locale lang="fr">Libellé</locale>
+	</entity>
+	<entity id="attrdef.codeColumn">
+		<locale lang="fr">Code</locale>
+	</entity>
+	<entity id="attrdef.typeColumn">
+		<locale lang="fr">type</locale>
+	</entity>
+	<entity id="attrdef.actionsColumn">
+		<locale lang="fr">Actions</locale>
+	</entity>
+	<entity id="attrdef.action-create">
+		<locale lang="fr">Ajouter un attribut</locale>
+	</entity>
+	
+	<!-- modules.catalog.bo.doceditor. -->
+	
+	<entity id="attr.confirm-delete">
+		<locale lang="fr">Etes-vous sur de vouloir supprimer cette attribut ?</locale>
+	</entity>
+	<entity id="attr.action-save">
+		<locale lang="fr">Sauvegarder</locale>
+	</entity>
+	<entity id="attr.labelColumn">
+		<locale lang="fr">Libellé</locale>
+	</entity>
+	<entity id="attr.valueColumn">
+		<locale lang="fr">Valeur</locale>
+	</entity>
+	<entity id="attr.actionsColumn">
+		<locale lang="fr">Actions</locale>
+	</entity>
+	<entity id="attr.action-create">
+		<locale lang="fr">Ajouter un attribut</locale>
+	</entity>
+	<entity id="attr.no-attributes-msg">
+		<locale lang="fr">Veuillez d'abord définir des attributs étendus en éditant le dossier "Attributs" du module catalogue.</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.title">
+		<locale lang="fr">suggestion de produits</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.check-all">
+		<locale lang="fr">sélectionner tout</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.uncheck-all">
+		<locale lang="fr">dé-sélectionner tout</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.column-selection">
+		<locale lang="fr">sélection</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.column-label">
+		<locale lang="fr">libellé</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.column-codeReference">
+		<locale lang="fr">référence</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.column-weight">
+		<locale lang="fr">pertinence</locale>
+	</entity>
+	<entity id="dialog.product-suggestion.search">
+		<locale lang="fr">rechercher</locale>
+	</entity>
+	<entity id="additional-declination">
+		<locale lang="fr">déclinaisons additionnelles</locale>
+	</entity>
+</localization>

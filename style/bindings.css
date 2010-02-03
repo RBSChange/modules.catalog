@@ -1,0 +1,36 @@
+cfield[fieldtype="price"]{
+	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPriceField);
+}
+cdocumenteditor row[class="discountHelper"]{
+	-moz-binding: url(binding:modules.catalog.cPriceEditor#cDiscountHelper);
+}
+cdocumenteditor cpricespanel{
+	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesPanel);
+}
+cdocumenteditor cpriceslist{
+	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesList);
+}
+cdocumenteditor cdeclinationspanel{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cDeclinationsPanel);
+}
+cdocumenteditor cdeclinationslist{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cDeclinationsList);
+}
+cdocumenteditor#edt_catalog_simpleproduct cresumesection[sectionname="urlrewriting"],
+cdocumenteditor#edt_catalog_declinedproduct cresumesection[sectionname="urlrewriting"],
+cdocumenteditor#edt_catalog_shelf cresumesection[sectionname="urlrewriting"],
+cdocumenteditor#edt_catalog_topshelf cresumesection[sectionname="urlrewriting"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cResumeUrlrewritingByShopSection);
+}
+cdocumenteditor cfield[fieldtype="productSuggestion"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cProductSuggestionField);
+}
+wdialog[template="productSuggestion"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cProductSuggestionDialog);
+}
+cdocumenteditor#edt_catalog_attributefolder cfield[fieldtype="attributesdeflist"]{
+	-moz-binding: url(binding:modules.catalog.cAttributes#cAttributesDef);
+}
+cdocumenteditor#edt_catalog_simpleproduct cfield[fieldtype="attributeslist"]{
+	-moz-binding: url(binding:modules.catalog.cAttributes#cAttributes);
+}

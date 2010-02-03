@@ -1,0 +1,8 @@
+<div class="CrossSellingBlockPic"><a change:link="document item" tal:attributes="title item/getLinkTitle;"><img change:media="document item/getDefaultListVisualId; format 'modules.catalog.frontoffice/productList'" /></a></div>
+<div class="CrossSellingBlockProductLabel"> 
+	<a change:link="document item" tal:attributes="title item/getLinkTitle;" tal:content="item/getLabelWithRef"/>
+</div>
+<div class="CrossSellingBlockProductInfo" tal:content="item/getTemplateDescription" />
+<div>&nbsp;</div>
+<div class="CrossSellingBlockSee">&gt; <a change:link="document item" tal:attributes="title item/getLinkTitle" i18n:translate="&modules.catalog.frontoffice.labellinkdetailproduct;" /></div>
+<div class="CrossSellingBlockText" />

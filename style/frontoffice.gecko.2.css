@@ -1,0 +1,5 @@
+.shelves-display ol.table-view ul.sub-list li{
+	display: block;
+	position: relative;
+	z-index: 100;
+}

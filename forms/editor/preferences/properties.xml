@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.general.General">
+		<field name="defaultDetailVisual" />
+		<field name="defaultListVisual" />
+		<field name="defaultProductsPerPage" />
+		<field name="newProductsCount" />
+		<field name="stockAlertThreshold" />
+		<field name="stockAlertNotificationUser" hidehelp="true" />
+		<field name="enableComments" />
+	</section>
+	<section labeli18n="modules.catalog.document.preferences.section.Cross-selling">
+		<field name="synchronizeComplementary" />
+		<field name="synchronizeSimilar" />
+		<field name="suggestComplementaryFeederClass" />
+		<field name="suggestSimilarFeederClass" />
+		<field name="suggestUpsellFeederClass" />
+	</section>
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				// Check comment module existence.
+				var controller = document.getElementById("wcontroller");
+    			if (!controller.checkModuleVersion('comment', '3.0.0'))
+				{
+					document.getAnonymousElementByAttribute(this, 'anonid', 'row_enableComments').setAttribute('collapsed', 'true');
+				}
+			]]></constructor>
+		</javascript>
+	</xul>
+</panel>

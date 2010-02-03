@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization extend="modules.catalog.bo.blocks.productcontextuallist">
+	<entity id="label">
+		<locale lang="fr">intitulé</locale>
+		<locale lang="en">label</locale>
+	</entity>
+	<entity id="label-help">
+		<locale lang="fr">intitulé du bloc utilisé sur le site</locale>
+		<locale lang="en">label</locale>
+	</entity>
+	<entity id="products">
+		<locale lang="fr">produits à afficher</locale>
+		<locale lang="en">products</locale>
+	</entity>
+	<entity id="products-help">
+		<locale lang="fr">produits à afficher</locale>
+		<locale lang="en">products</locale>
+	</entity>
+	<entity id="destinationpage">
+		<locale lang="fr">page de destination</locale>
+		<locale lang="en">destination page</locale>
+	</entity>
+	<entity id="destinationpage-help">
+		<locale lang="fr">page de destination pouvant contenir la liste complète des produits mis en avant</locale>
+		<locale lang="en">destination page</locale>
+	</entity>
+	<entity id="mode">
+		<locale lang="fr">mode d'affichage</locale>
+		<locale lang="en">display mode</locale>
+	</entity>
+	<entity id="mode-help">
+		<locale lang="fr">mode d'affichage</locale>
+		<locale lang="en">display mode</locale>
+	</entity>
+</localization>

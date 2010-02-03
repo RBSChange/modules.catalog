@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<tags>
+	<tag label="&amp;modules.catalog.bo.tags.Product-list;" icon="list-block">functional_catalog_product-list</tag>
+	<tag label="&amp;modules.catalog.bo.tags.Product-detail;" icon="product">functional_catalog_product-detail</tag>
+	<tag label="&amp;modules.catalog.bo.tags.Shelf-list;" icon="list-block">functional_catalog_shelf-list</tag>
+	<tag label="&amp;modules.catalog.bo.tags.Cross-selling-list;" icon="list-block">functional_catalog_crosssellinglist-page</tag>
+	<tag label="&amp;modules.catalog.bo.tags.Recommand-product-page;" icon="mail">contextual_website_website_modules_catalog_recommand-product-page</tag>
+	<tag label="&amp;modules.catalog.bo.tags.Favorite-product-list;" icon="list-block">contextual_website_website_modules_catalog_favorite-product-list</tag>
+</tags>

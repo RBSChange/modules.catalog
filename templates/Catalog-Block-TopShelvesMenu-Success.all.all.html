@@ -1,0 +1,13 @@
+<div class="ecom-block">
+	<h3 class="title" tal:content="shop/getLabel" />
+	<div class="content">
+		<ul class="ecom-menu">
+			<div change:menu="menuObject menu; itemName item; maxLevel maxlevel; skipMasterUL true; liCurrentClass current; liInPathClass current">
+				<a tal:condition="not: repeat/item/isCurrent" change:menuitem="item" />
+				<tal:block tal:condition="repeat/item/isCurrent">
+					<strong><a change:menuitem="item" /></strong>
+				</tal:block>
+			</div>
+		</ul>
+	</div>
+</div>

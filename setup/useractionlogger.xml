@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+  <binding fileName="modules/useractionlogger/persistentdocument/import/useractionlogger_binding.xml"/>
+  <actiondef modulename="catalog" actionname="insert.paymentfilter" label="modules.catalog.bo.useractionlogger.insert-paymentfilter"/>
+  <actiondef modulename="catalog" actionname="insert.shippingfilter" label="modules.catalog.bo.useractionlogger.insert-shippingfilter"/>
+  <actiondef modulename="catalog" actionname="update.shop" label="modules.catalog.bo.useractionlogger.update-shop"/>
+  <actiondef modulename="catalog" actionname="update.shippingfilter" label="modules.catalog.bo.useractionlogger.update-shippingfilter"/>
+  <actiondef modulename="catalog" actionname="deactivated.simpleproduct" label="modules.catalog.bo.useractionlogger.deactivated-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="reactivate.simpleproduct" label="modules.catalog.bo.useractionlogger.reactivate-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="update.simpleproduct" label="modules.catalog.bo.useractionlogger.update-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="insert.shop" label="modules.catalog.bo.useractionlogger.insert-shop"/>
+  <actiondef modulename="catalog" actionname="insert.price" label="modules.catalog.bo.useractionlogger.insert-price"/>
+  <actiondef modulename="catalog" actionname="update.topshelf" label="modules.catalog.bo.useractionlogger.update-topshelf"/>
+  <actiondef modulename="catalog" actionname="update.attributefolder" label="modules.catalog.bo.useractionlogger.update-attributefolder"/>
+  <actiondef modulename="catalog" actionname="update.preferences" label="modules.catalog.bo.useractionlogger.update-preferences"/>
+  <actiondef modulename="catalog" actionname="insert.productdeclination" label="modules.catalog.bo.useractionlogger.insert-productdeclination"/>
+  <actiondef modulename="catalog" actionname="insert.shelf" label="modules.catalog.bo.useractionlogger.insert-shelf"/>
+  <actiondef modulename="catalog" actionname="insert.simpleproduct" label="modules.catalog.bo.useractionlogger.insert-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="delete.shippingfilter" label="modules.catalog.bo.useractionlogger.delete-shippingfilter"/>
+  <actiondef modulename="catalog" actionname="delete.paymentfilter" label="modules.catalog.bo.useractionlogger.delete-paymentfilter"/>
+  <actiondef modulename="catalog" actionname="update.productdeclination" label="modules.catalog.bo.useractionlogger.update-productdeclination"/>
+  <actiondef modulename="catalog" actionname="update.price" label="modules.catalog.bo.useractionlogger.update-price"/>
+  <actiondef modulename="catalog" actionname="delete.price" label="modules.catalog.bo.useractionlogger.delete-price"/>
+  <actiondef modulename="catalog" actionname="move.simpleproduct" label="modules.catalog.bo.useractionlogger.move-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="delete.shop" label="modules.catalog.bo.useractionlogger.delete-shop"/>
+  <actiondef modulename="catalog" actionname="insert.topshelf" label="modules.catalog.bo.useractionlogger.insert-topshelf"/>
+  <actiondef modulename="catalog" actionname="update.paymentfilter" label="modules.catalog.bo.useractionlogger.update-paymentfilter"/>
+  <actiondef modulename="catalog" actionname="insert.declinedproduct" label="modules.catalog.bo.useractionlogger.insert-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="update.declinedproduct" label="modules.catalog.bo.useractionlogger.update-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="move.declinedproduct" label="modules.catalog.bo.useractionlogger.move-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="move.productdeclination" label="modules.catalog.bo.useractionlogger.move-productdeclination"/>
+  <actiondef modulename="catalog" actionname="duplicate.simpleproduct" label="modules.catalog.bo.useractionlogger.duplicate-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="delete.shelf" label="modules.catalog.bo.useractionlogger.delete-shelf"/>
+  <actiondef modulename="catalog" actionname="delete.simpleproduct" label="modules.catalog.bo.useractionlogger.delete-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="delete.declinedproduct" label="modules.catalog.bo.useractionlogger.delete-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="delete.topshelf" label="modules.catalog.bo.useractionlogger.delete-topshelf"/>
+  <actiondef modulename="catalog" actionname="updatetranslation.topshelf" label="modules.catalog.bo.useractionlogger.updatetranslation-topshelf"/>
+  <actiondef modulename="catalog" actionname="deletelocalization.topshelf" label="modules.catalog.bo.useractionlogger.deletelocalization-topshelf"/>
+  <actiondef modulename="catalog" actionname="updatetranslation.simpleproduct" label="modules.catalog.bo.useractionlogger.updatetranslation-simpleproduct"/>
+</script>
