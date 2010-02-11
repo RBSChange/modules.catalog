@@ -309,6 +309,18 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preInsert($document, $parentNodeId)
+	{
+		parent::preInsert($document, $parentNodeId);
+		
+		$document->setInsertInTree(false);
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_price $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void

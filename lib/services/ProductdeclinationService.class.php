@@ -63,19 +63,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	{
 		return $document->getDocumentService()->getDisplayableCrossSelling($document, $shop, $type, $sortBy);
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
-	 * @return void
-	 */
-	protected function preInsert($document, $parentNodeId)
-	{
-		parent::preInsert($document, $parentNodeId);
-		
-		$document->setInsertInTree(false);
-	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
