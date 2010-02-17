@@ -13,7 +13,7 @@ class catalog_BlockProductCrossSellingAction extends website_BlockAction
 	 * @return String
 	 */
 	function execute($request, $response)
-	{
+	{		
 		if ($this->isInBackoffice())
 		{
 			return website_BlockView::NONE;
@@ -24,6 +24,15 @@ class catalog_BlockProductCrossSellingAction extends website_BlockAction
     	{
     		$product = $product->getRelatedDeclinedProduct();
     	}
+    	
+	    if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
+	    {
+	    	if ($product !== null)
+	    	{
+	    		Framework::error(__METHOD__ . ' Invalid product type');
+	    	}
+	    	return website_BlockView::NONE;
+	    }
     	$configuration = $this->getConfiguration();
     	$relatedProducts = $product->getDisplayableCrossSelling($shop, $configuration->getType(), $configuration->getSortby());
     	
