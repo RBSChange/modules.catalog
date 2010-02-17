@@ -115,12 +115,20 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 * @return void
 	 */
 	protected function postSave($document, $parentNodeId = null)
-	{
+	{	
 		parent::postSave($document, $parentNodeId);
 		
 		// Handle stock alerts.
 		$stockServie = catalog_StockService::getInstance();
 		$stockServie->handleStockAlert($document);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 */
+	protected function onShelfPropertyModified($document)
+	{
+		//TODO productdeclination do not update shelfCount
 	}
 	
 	/**
@@ -149,6 +157,15 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			$declinedProduct->getDocumentService()->publishIfPossible($declinedProduct->getId());
 		}
 		parent::publicationStatusChanged($document, $oldPublicationStatus, $params);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param String $oldPublicationStatus
+	 */
+	protected function refreshShelfPublishedDocumentCount($document, $oldPublicationStatus)
+	{
+		//TODO Product declination is not in a shelf
 	}
 	
 	/**
