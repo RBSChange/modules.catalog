@@ -5,15 +5,6 @@
  */
 class catalog_persistentdocument_productdeclination extends catalog_persistentdocument_productdeclinationbase implements catalog_StockableDocument
 {
-	/**
-	 * Get the indexable document
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return indexer_IndexedDocument
-	 */
-	public function getIndexedDocumentForShop($shop)
-	{
-		return null;
-	}
 	
 	/**
 	 * @return catalog_persistentdocument_declinedproduct
@@ -30,6 +21,25 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		return $this->getRelatedDeclinedProduct();
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isCompilable()
+	{
+		return false;
+	}
+	
+	/**
+	 * Get the indexable document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return indexer_IndexedDocument
+	 */
+	public function getIndexedDocumentForShop($shop)
+	{
+		return null;
+	}
+	
 	
 	/**
 	 * @return String

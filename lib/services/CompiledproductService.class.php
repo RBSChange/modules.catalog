@@ -526,6 +526,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	private function generate($product, $topic)
 	{
+		if (!$product->isCompilable()) {return;}
 		$lang = RequestContext::getInstance()->getLang();
 		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
 			->add(Restrictions::eq('topicId', $topic->getId()))

@@ -239,6 +239,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}	
 	
 	/**
+	 * @return boolean
+	 */
+	public function isCompilable()
+	{
+		return true;
+	}
+	
+	/**
 	 * @return catalog_persistentdocument_product
 	 */
 	public function getProductToCompile()

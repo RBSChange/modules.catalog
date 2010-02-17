@@ -16,8 +16,11 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 		if ($primaryShelf !== null && $primaryShelf->getId() == $this->getShelfId())
 		{
 			$indexDocument = $product->getIndexedDocumentForShop($this->getShop());
-			$indexDocument->setId($this->getId());
-			return $indexDocument;
+			if ($indexDocument !== null)
+			{
+				$indexDocument->setId($this->getId());
+				return $indexDocument;
+			}
 		}
 		return null;
 	}
