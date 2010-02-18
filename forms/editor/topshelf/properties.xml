@@ -6,8 +6,8 @@
 		<field name="visual" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing">
-		<field name="pageTitle" type="longtext" />
-		<field name="pageDescription" type="longtext" />
-		<field name="pageKeywords" type="longtext" />
+		<field name="pageTitle" type="longtext" class="with-counter" rows="2" />
+		<field name="pageDescription" type="longtext" class="with-counter" rows="2" />
+		<field name="pageKeywords" type="longtext" class="with-counter" rows="2" />
 	</section>
 </panel>
