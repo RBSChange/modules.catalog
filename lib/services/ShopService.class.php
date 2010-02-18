@@ -175,8 +175,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		}
 		else if ($parent !== $this->getParentOf($topic))
 		{
-			$ts = TreeService::getInstance();
-			$ts->moveToLastChild($topic->getId(), $parent->getId());
+			$topic->getDocumentService()->moveTo($topic, $parent->getId());
 		}
 		
 		// Update the website.

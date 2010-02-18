@@ -531,7 +531,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	protected function onMoveToStart($document, $destId)
 	{
-		$ts = TreeService::getInstance();
 		$sts = website_SystemtopicService::getInstance();
 		
 		// Move or delete existing topics.
@@ -543,7 +542,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				->add(Restrictions::eq('shelf.id', $destId))->findUnique();
 			if ($newParent !== null)
 			{
-				$ts->moveToLastChild($topic->getId(), $newParent->getId());
+				$topic->getDocumentService()->moveTo($topic, $newParent->getId());
 			}
 			else
 			{
