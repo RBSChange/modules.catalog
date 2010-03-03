@@ -420,13 +420,6 @@ ul.product-price li{
 ul.product-altpics li{
 	display: inline;
 }
-p.buttons{
-	clear: both;
-	text-align: center;
-}
-p.buttons input.button{
-	color: #ffffff;
-}
 .product-list-description{
 	margin-bottom: 10px;
 }
