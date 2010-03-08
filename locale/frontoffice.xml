@@ -848,4 +848,8 @@
   <entity id="go-to-primary-shelf">
     <locale lang="fr">Voir les produits du rayon {shelfLabel}</locale>
   </entity>
+  <entity id="refresh-declined">
+    <locale lang="fr">Recharger</locale>
+    <locale lang="en">Refresh</locale>
+  </entity>
 </localization>
