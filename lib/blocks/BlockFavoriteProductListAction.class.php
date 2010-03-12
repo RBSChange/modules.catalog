@@ -30,6 +30,19 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 			}
 			$this->addMessagesToBlock('remove-from-list');
 		}
+		
+		// Add cart products to list.
+		if ($request->hasParameter('addCartToList') && catalog_ModuleService::getInstance()->isCartEnabled())
+		{
+			$cart = order_CartService::getInstance()->getDocumentInstanceFromSession();
+			foreach ($cart->getCartLineArray() as $line)
+			{
+				$product = $line->getProduct();
+				catalog_ModuleService::getInstance()->addFavoriteProduct($product);
+			}
+			HttpController::getInstance()->redirectToUrl(LinkHelper::getTagUrl('contextual_website_website_modules_catalog_favorite-product-list'));
+			return website_BlockView::NONE;
+		}
 
 		// If not logged in, display the warning.
 		if (users_UserService::getInstance()->getCurrentFrontEndUser() === null)
