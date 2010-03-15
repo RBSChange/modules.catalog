@@ -121,4 +121,23 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		}
 		return $this->getDeclination($index);
 	}
+	
+	private $declinationToDelete;
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination[] $array
+	 */
+	public final function setDeclinationsToDelete($array)
+	{
+		$this->declinationToDelete = $array;
+	}
+	
+	/**
+	 * @return catalog_persistentdocument_productdeclination[]
+	 */
+	public final function getDeclinationsToDelete()
+	{
+		return $this->declinationToDelete;
+	}
+	
 }

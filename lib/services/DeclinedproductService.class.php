@@ -193,17 +193,31 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	protected function preDelete($document)
 	{
 		parent::preDelete($document);	
-		
 		$declinations = $document->getDeclinationArray();
 		$document->removeAllDeclination();
-		$decSrv = catalog_ProductdeclinationService::getInstance();
-		// Delete all declinations.
-		foreach ($declinations as $declination)
-		{
-			$decSrv->fullDelete($declination);
-		}
+		$document->setDeclinationsToDelete($declinations);
 	}
 	
+	/**
+	 * @see f_persistentdocument_DocumentService::postDelete()
+	 *
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 */
+	protected function postDelete($document)
+	{
+		$declinations = $document->getDeclinationsToDelete();
+		if (f_util_ArrayUtils::isNotEmpty($declinations))
+		{
+			foreach ($declinations as $declination)
+			{
+				if ($declination instanceof catalog_persistentdocument_productdeclination) 
+				{
+					$declination->getDocumentService()->fullDelete($declination);
+				}
+			}			
+		}
+	}
+
 	/**
 	 * @return Boolean
 	 */
