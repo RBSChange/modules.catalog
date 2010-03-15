@@ -366,6 +366,19 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	protected function postDelete($document)
 	{
+		// Update thresholdMax for the price with a thresholdMin directly inferior.
+		$query = $this->createQuery()
+			->add(Restrictions::eq('productId', $document->getProductId()))
+			->add(Restrictions::eq('shopId', $document->getShopId()))
+			->add(Restrictions::eq('targetId', $document->getTargetId()))
+			->add(Restrictions::eq('thresholdMax', $document->getThresholdMin()));
+		$priceToUpdate = $query->findUnique();
+		if ($priceToUpdate !== null)
+		{
+			$priceToUpdate->setThresholdMax($document->getThresholdMax());
+			$priceToUpdate->save();
+		}
+		
 		if ($document->getProductId())
 		{
 			// Compile related product.
