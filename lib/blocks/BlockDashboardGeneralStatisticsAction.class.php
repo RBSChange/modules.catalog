@@ -26,12 +26,16 @@ class catalog_BlockDashboardGeneralStatisticsAction extends dashboard_BlockDashb
 		$publishedProductCount = $this->getCount(catalog_ProductService::getInstance());
 		$todayCreatedProductCount = $this->getTodayCount(catalog_ProductService::getInstance(), true);
 		$todayModifiedProductCount = $this->getTodayCount(catalog_ProductService::getInstance());
-
+		
+		$toRecompile = catalog_ProductService::getInstance()->getCountProductIdsToCompile();
 		$widget = array(
 			'lines'   => array(
-				array(f_Locale::translate('&modules.catalog.bo.dashboard.Shop-count;'), $publishedShopCount, $shopCount, $todayCreatedShopCount, $todayModifiedShopCount),
-				array(f_Locale::translate('&modules.catalog.bo.dashboard.Shelves-count;'), $publishedShelfCount, $shelfCount, $todayCreatedShelfCount, $todayModifiedShelfCount),
-				array(f_Locale::translate('&modules.catalog.bo.dashboard.Products-count;'), $publishedProductCount, $productCount, $todayCreatedProductCount, $todayModifiedProductCount),
+				array(f_Locale::translate('&modules.catalog.bo.dashboard.Shop-count;'), 
+					$publishedShopCount, $shopCount, $todayCreatedShopCount, $todayModifiedShopCount, ''),
+				array(f_Locale::translate('&modules.catalog.bo.dashboard.Shelves-count;'), 
+					$publishedShelfCount, $shelfCount, $todayCreatedShelfCount, $todayModifiedShelfCount, ''),
+				array(f_Locale::translate('&modules.catalog.bo.dashboard.Products-count;'), 
+					$publishedProductCount, $productCount, $todayCreatedProductCount, $todayModifiedProductCount, $toRecompile),
 			)
 		);
 			

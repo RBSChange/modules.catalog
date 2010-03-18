@@ -53,19 +53,17 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 		else 
 		{
-			$query = catalog_CompiledproductService::getInstance()
-				->createQuery()
-				->add(Restrictions::eq('product.id', $product->getId()))
+			
+			$compiledProduct = catalog_CompiledproductService::getInstance()->createQuery()
+				->add(Restrictions::eq('product', $product))
+				->add(Restrictions::eq('indexed', true))
 				->add(Restrictions::eq('websiteId', $website->getId()))
-				->addOrder(Order::asc('shelfIndex'))
-				->setFirstResult(0)
-				->setMaxResults(1);
-			$criteria = $query->createPropertyCriteria('shelfId', 'modules_catalog/shelf');
-			$criteria->add(Restrictions::published());
-			$compiledProduct = f_util_ArrayUtils::firstElement($query->find());
+				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+				->findUnique();
+				
 			if ($compiledProduct !== null)
 			{
-				return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId());
+				return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId(), 'modules_catalog/shelf');
 			}
 		}
 		return null;
@@ -239,12 +237,15 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param string $forModuleName
 	 * @return array
 	 */
-	public function getResume($document, $forModuleName)
+	public function getResume($document, $forModuleName, $allowedSections = null)
 	{
-		$data = parent::getResume($document, $forModuleName);
+		$data = parent::getResume($document, $forModuleName, $allowedSections);
 		$rc = RequestContext::getInstance();
 		$contextlang = $rc->getLang();
 		$lang = $document->isLangAvailable($contextlang) ? $contextlang : $document->getLang();
+		
+		$data['properties']['compiled'] = f_Locale::translateUI('&framework.boolean.' . 
+			($document->getCompiled() ? 'True' : 'False') . ';');
 			
 		try 
 		{
@@ -416,17 +417,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
-	protected function postInsert($document, $parentNodeId)
-	{
-		// Generate compiled products.
-		catalog_CompiledproductService::getInstance()->generateForProduct($document->getProductToCompile(), true);
-	}
-
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
-	 * @return void
-	 */
 	protected function preUpdate($document, $parentNodeId)
 	{
 		$document->persistHasNewTranslation();
@@ -440,14 +430,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	protected function postUpdate($document, $parentNodeId)
 	{
 		// Generate compiled products.
-		if ($document->isPropertyModified('shelf') || $document->getAndResetHasNewTranslation())
-		{
-			catalog_CompiledproductService::getInstance()->generateForProduct($document->getProductToCompile());
-		}
-		else if ($document->isPropertyModified('label') || $document->isPropertyModified('brand') || $document->isPropertyModified('stockQuantity') || $document->isPropertyModified('stockLevel'))
-		{
-			catalog_CompiledproductService::getInstance()->compileProductInfos($document->getProductToCompile());
-		}
+		$this->updateCompiledProperty($document, false);
 	}
 
 	/**
@@ -460,24 +443,24 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$this->deleteRelatedCompiledProducts($document);
 		catalog_PriceService::getInstance()->deleteForProductId($document->getId());
 	}
+	
+	
+	/**
+	 * @see f_persistentdocument_DocumentService::postDeleteLocalized()
+	 *
+	 * @param f_persistentdocument_PersistentDocument $document
+	 */
+	protected function postDeleteLocalized($document)
+	{
+		$this->updateCompiledProperty($document, false);
+	}
 
 	/**
 	 * @param catalog_persistentdocument_product $document
-	 * @return void
 	 */
-	protected function preDeleteLocalized($document)
+	protected function deleteRelatedCompiledProducts($document)
 	{
-		// Delete compiled products for current lang.
-		$this->deleteRelatedCompiledProducts($document, RequestContext::getInstance()->getLang());
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param String $document $lang
-	 */
-	protected function deleteRelatedCompiledProducts($document, $lang = null)
-	{
-		catalog_CompiledproductService::getInstance()->deleteForProduct($document->getProductToCompile()->getId(), $lang);
+		catalog_CompiledproductService::getInstance()->deleteForProduct($document);
 	}
 		
 	/**
@@ -527,10 +510,16 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		$this->refreshShelfPublishedDocumentCount($document, $oldPublicationStatus);
-			
+		$this->refreshShelfPublishedDocumentCount($document, $oldPublicationStatus);	
+		
 		// Handle compilation.
-		$this->refreshCompilationOnPublicationStatusChanged($document, $oldPublicationStatus, $params);
+		if (!isset($params['cause']) || $params["cause"] != "delete")
+		{
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			{	
+				$this->updateCompiledProperty($document, false);
+			}
+		}
 	}
 	
 	/**
@@ -559,27 +548,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}		
 	}
 	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param String $oldPublicationStatus
-	 * @return void
-	 */
-	protected function refreshCompilationOnPublicationStatusChanged($document, $oldPublicationStatus, $params)
-	{
-		// Refresh compiled products publication.
-		$productToCompile = $document->getProductToCompile();
-		if ($productToCompile !== null)
-		{
-			catalog_CompiledproductService::getInstance()->refreshPublicationForProduct($productToCompile->getId());
-		}
-		else 
-		{
-			if (Framework::isDebugEnabled())
-			{
-				Framework::debug(__METHOD__ . " no product to refresh publication for, bailing out gracefuly!");
-			}
-		}
-	}
 	
 	/**
 	 * @return Boolean
@@ -626,5 +594,173 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	public function getPropertyNamesForMarkergas()
 	{
 		return array();
+	}
+	
+	/**
+	 * @return integer[]
+	 */
+	public final function getProductIdsToCompile()
+	{
+		return $this->createQuery()
+			->add(Restrictions::eq('compiled', false))
+			->setProjection(Projections::property('id', 'id'))
+			->findColumn('id');
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public final function getCountProductIdsToCompile()
+	{
+		$data = $this->createQuery()
+			->add(Restrictions::eq('compiled', false))
+			->setProjection(Projections::rowCount('count'))
+			->findColumn('count');
+		return $data[0];
+	}	
+
+	/**
+	 * @return integer[]
+	 */
+	public final function getAllProductIdsToCompile()
+	{
+		return $this->createQuery()->setProjection(Projections::property('id', 'id'))
+			->findColumn('id');
+	}	
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @return integer[]
+	 */
+	protected final function getCompiledProductIdsForShelf($shelf)
+	{
+		$shelfIds = catalog_ShelfService::getInstance()->createQuery()
+			->add(Restrictions::descendentOf($shelf->getId()))
+			->setProjection(Projections::groupProperty('id', 'id'))
+			->findColumn('id');
+		$shelfIds[] = $shelf->getId();
+		
+		$productIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
+			->add(Restrictions::in('shelf.id', $shelfIds))
+			->setProjection(Projections::groupProperty('id', 'id'))
+			->findColumn('id');
+					
+		return $productIds;
+	}
+	
+
+	/**
+	 * @param integer[] $productIds
+	 */
+	public function setNeedCompile($productIds)
+	{
+		if (f_util_ArrayUtils::isNotEmpty($productIds))
+		{
+			try 
+			{
+				$this->tm->beginTransaction();
+				foreach ($productIds as $productId) 
+				{
+					$product = $this->getDocumentInstance($productId, 'modules_catalog/product');
+					$product->getDocumentService()->updateCompiledProperty($product, false);
+				}
+				$this->tm->commit();
+			} 
+			catch (Exception $e)
+			{
+				$this->tm->rollBack($e);
+			}
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function setNeedCompileForShop($shop)
+	{
+		if (Framework::isInfoEnabled())
+		{
+			Framework::info(__METHOD__);
+		}
+		$productIds = array();		
+		foreach ($shop->getTopShelfArray() as $topShelf) 
+		{
+			$productIds = array_merge($productIds, $this->getCompiledProductIdsForShelf($topShelf));
+		}
+		
+		$compiledProdIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
+			->add(Restrictions::eq('compiledproduct.shopId', $shop->getId()))		
+			->setProjection(Projections::groupProperty('id', 'id'))
+			->findColumn('id');
+					
+		$productIds = array_unique(array_merge($productIds, $compiledProdIds));
+		
+		$this->setNeedCompile($productIds);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 */
+	public function setNeedCompileForShelf($shelf)
+	{
+		if (Framework::isInfoEnabled())
+		{
+			Framework::info(__METHOD__);
+		}
+		$ids = $this->getCompiledProductIdsForShelf($shelf);
+		$this->setNeedCompile($ids);
+	}
+
+	/**
+	 * @param brand_persistentdocument_brand $brand
+	 */
+	public function setNeedCompileForBrand($brand)
+	{
+		$ids = $this->createQuery()->add(Restrictions::eq('compiled', true))
+			->add(Restrictions::eq('brand', $brand))		
+			->setProjection(Projections::groupProperty('id', 'id'))
+			->findColumn('id');		
+		$this->setNeedCompile($ids);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 */
+	public function setNeedCompileForPrice($price)
+	{
+		$product = $price->getProduct();
+		if ($product instanceof catalog_persistentdocument_product) 
+		{
+			$this->updateCompiledProperty($product, false);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param boolean $compiled
+	 */
+	protected function updateCompiledProperty($document, $compiled)
+	{
+		$product = $document->getProductToCompile();
+		if ($product !== null && $product->getCompiled() != $compiled)
+		{
+			if ($product->isModified())
+			{
+				Framework::warn(__METHOD__ . $product->__toString() . ", $compiled : Is not possible on modified product");
+				return;		
+			}
+			if (Framework::isInfoEnabled())
+			{
+				Framework::info(__METHOD__ . ' ' . $product->__toString() . ($compiled ? ' is compiled':' to recompile'));
+			}
+			$product->setCompiled($compiled);
+			$this->pp->updateDocument($product);
+		}
+	}
+	
+	public function setCompiled($productId)
+	{
+		$product = $this->getDocumentInstance($productId, 'modules_catalog/product');
+		$product->getDocumentService()->updateCompiledProperty($product, true);
 	}
 }

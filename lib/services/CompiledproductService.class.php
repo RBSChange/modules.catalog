@@ -5,11 +5,7 @@
  */
 class catalog_CompiledproductService extends f_persistentdocument_DocumentService
 {
-	const MODE_PRODUCT_INFO = 'product';
-	const MODE_BRAND_INFO = 'brand';
-	const MODE_RATING_INFO = 'rating';
-	const MODE_ALL_INFO = 'all';
-	
+
 	/**
 	 * @var catalog_CompiledproductService
 	 */
@@ -67,380 +63,204 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		return LinkHelper::getDocumentUrl($document->getProduct(), $lang, $parameters);
 	}
 	
-	/**
-	 * @var Boolean
-	 */
-	private $disableCompilation = false;
-	
-	/**
-	 * @return Boolean
-	 */
-	public function disableCompilation()
-	{
-		$this->disableCompilation = true;
-	}
-	
-	/**
-	 * @return Boolean
-	 */
-	public function enableCompilation()
-	{
-		$this->disableCompilation = false;
-	}
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @param Boolean $isNew
 	 */
-	public function generateForProduct($product, $isNew = false)
+	public function deleteForProduct($product)
 	{
-		if ($product === null)
+		if (!($product instanceof catalog_persistentdocument_product) || !$product->isCompilable()) 
 		{
-			if (Framework::isDebugEnabled())
-			{
-				Framework::debug(__METHOD__ . " no product received, bailing out gracefuly!");
-			}
 			return;
-		}
-		if (!$this->disableCompilation)
-		{
-			$query = website_SystemtopicService::getInstance()->createQuery();
-			$query->createCriteria('shelf')->add(Restrictions::eq('product.id', $product->getId()));
-			$topics = $query->find();
-			
-			$rqc = RequestContext::getInstance();
-			foreach ($rqc->getSupportedLanguages() as $lang)
-			{
-				$rqc->beginI18nWork($lang);
-		
-				$topicIds = array();
-				if ($product->isLangAvailable($lang))
-				{				
-					foreach ($topics as $topic)
-					{
-						$topicIds[] = $topic->getId();
-						$this->generate($product, $topic);
-					}
-				}
-				
-				if (!$isNew)
-				{
-					$query = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
-						->add(Restrictions::eq('lang', $lang));
-					if (count($topicIds) > 0)
-					{
-						$query->add(Restrictions::notin('topicId', $topicIds));
-					}
-					$query->delete();
-				}
-				
-				$rqc->endI18nWork();
-			}
-		}
+		}	
+		$this->createQuery()->add(Restrictions::eq('product', $product))->delete();
 	}
+	
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @param Boolean $isNew
 	 */
-	public function generateForShop($shop, $isNew = false)
-	{
-		if (!$this->disableCompilation)
+	public function deleteForShop($shop)
+	{	
+		if ($shop instanceof catalog_persistentdocument_shop) 
 		{
-			$cs = catalog_ProductService::getInstance();
-			$query = website_SystemtopicService::getInstance()->createQuery();
-			$query->add(Restrictions::descendentOf($shop->getTopic()->getId()));
-			
-			$rqc = RequestContext::getInstance();
-			foreach ($rqc->getSupportedLanguages() as $lang)
-			{
-				$rqc->beginI18nWork($lang);
-				$topicIds = array();			
-				foreach ($query->find() as $topic)
-				{
-					$topicIds[] = $topic->getId();
-					$query = $cs->createQuery();
-					$query->createCriteria('shelf')->add(Restrictions::eq('topic.id', $topic->getId()));
-					foreach ($query->find() as $product)
-					{
-						if ($product->isLangAvailable($lang))
-						{
-							$this->generate($product, $topic);
-						}
-					}
-				}
-				if (!$isNew)
-				{
-					$query = $this->createQuery()->add(Restrictions::eq('shopId', $shop->getId()))
-						->add(Restrictions::eq('lang', $lang));
-					if (count($topicIds) > 0)
-					{
-						$query->add(Restrictions::notin('topicId', $topicIds));
-					}
-					$query->delete();
-				}
-				
-				$rqc->endI18nWork();
-			}
+			$this->createQuery()->add(Restrictions::eq('shopId', $shop->getId()))->delete();
 		}
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @param Boolean $isNew
 	 */
-	public function generateForShelf($shelf, $isNew = false)
-	{
-		if (!$this->disableCompilation)
+	public function deleteForShelf($shelf)
+	{	
+		if ($shelf instanceof catalog_persistentdocument_shelf) 
 		{
-			$cs = catalog_ProductService::getInstance();
-			$query = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::orExp(
-				Restrictions::eq('id', $shelf->getId()), 
-				Restrictions::descendentOf($shelf->getId())
-			));
-			foreach ($query->find() as $shelf)
-			{
-				$rqc = RequestContext::getInstance();
-				foreach ($rqc->getSupportedLanguages() as $lang)
-				{
-					$rqc->beginI18nWork($lang);
-					
-					$topicIds = array();
-					foreach ($shelf->getTopicArray() as $topic)
-					{
-						$topicIds[] = $topic->getId();
-						$query = $cs->createQuery();
-						$query->createCriteria('shelf')->add(Restrictions::eq('topic.id', $topic->getId()));
-						foreach ($query->find() as $product)
-						{
-							if ($product->isLangAvailable($lang))
-							{
-								$this->generate($product, $topic);
-							}
-						}
-					}
-					
-					if (!$isNew)
-					{
-						$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))
-							->add(Restrictions::eq('lang', $lang));
-						if (count($topicIds) > 0)
-						{
-							$query->add(Restrictions::notin('topicId', $topicIds));
-						}
-						$query->delete();
-					}
-					
-					$rqc->endI18nWork();
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function compileAllInfos($product)
-	{
-		$this->compileInfosForEachAvailableLang($product, self::MODE_ALL_INFO);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function compileProductInfos($product)
-	{
-		$this->compileInfosForEachAvailableLang($product, self::MODE_PRODUCT_INFO);
-	}
-
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function compileRatingInfos($product)
-	{
-		$this->compileInfosForEachAvailableLang($product, self::MODE_RATING_INFO);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @param String $mode
-	 */
-	private function compileInfosForEachAvailableLang($product, $mode)
-	{
-		if (!$this->disableCompilation)
-		{
-			$rqc = RequestContext::getInstance();
-			foreach ($rqc->getSupportedLanguages() as $lang)
-			{
-				if ($product->isLangAvailable($lang))
-				{
-					$rqc->beginI18nWork($lang);
-				
-					$query = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
-						->add(Restrictions::eq('lang', $lang));
-					foreach ($query->find() as $compiledProduct)
-					{
-						$this->compile($compiledProduct, $mode);				
-					}
-					
-					$rqc->endI18nWork();
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @param Integer $brandId
-	 */
-	public function compileBrandInfos($brandId)
-	{
-		if (!$this->disableCompilation)
-		{
-			$rqc = RequestContext::getInstance();
-			foreach ($rqc->getSupportedLanguages() as $lang)
-			{
-				$rqc->beginI18nWork($lang);
-				
-				$query = $this->createQuery()->add(Restrictions::eq('brand.id', $brandId))
-					->add(Restrictions::eq('lang', $lang));
-				foreach ($query->find() as $compiledProduct)
-				{
-					$this->compile($compiledProduct, self::MODE_BRAND_INFO);				
-				}
-				
-				$rqc->endI18nWork();
-			}
+			$this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->delete();
 		}
 	}
 		
 	/**
-	 * @param Integer $productId
+	 * @param catalog_persistentdocument_product $product
 	 */
-	public function refreshPublicationForProduct($productId)
+	public function generateForProduct($product)
 	{
-		if (!$this->disableCompilation)
+		if (!($product instanceof catalog_persistentdocument_product) || !$product->isCompilable() ) 
 		{
-			$query = $this->createQuery()->add(Restrictions::eq('product.id', $productId))
-				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-				->setProjection(Projections::property('id'));
-			$rows = $query->find();
-			foreach ($rows as $row)
+			return;
+		}
+		
+		try 
+		{
+			$this->tm->beginTransaction();
+
+			$query = website_SystemtopicService::getInstance()->createQuery();
+			$query->createCriteria('shelf')
+			->add(Restrictions::eq('product.id', $product->getId()));
+			$topics = $query->find();
+			
+			$CPIds = array();
+			$rqc = RequestContext::getInstance();
+			foreach ($rqc->getSupportedLanguages() as $lang)
 			{
-				$this->publishIfPossible($row['id']);				
+				try 
+				{
+					$rqc->beginI18nWork($lang);	
+					$indexedCP = array();
+					if ($product->isLangAvailable($lang))
+					{
+						foreach ($topics as $topic)
+						{
+							if ($topic->isLangAvailable($lang))
+							{				
+								$cp = $this->generate($product, $topic);
+								$CPIds[] = $cp->getId();
+								
+								//Prepare Indexed document
+								$key = $cp->getWebsiteId();
+								if (!isset($indexedCP[$key]))
+								{
+									$indexedCP[$key] = array($cp);
+								}
+								else
+								{
+									$indexedCP[$key][] = $cp;
+								}
+							}
+						}
+					}
+		
+					$this->fixIndexedCompiledProduct($indexedCP);
+					$rqc->endI18nWork();
+				}
+				catch (Exception $rce)
+				{
+					$rqc->endI18nWork($rce);	
+				}
+			}
+			
+			$query = $this->createQuery()->add(Restrictions::eq('product', $product));			
+			if (count($CPIds))
+			{
+				$query->add(Restrictions::notin('id', $CPIds));
+			}
+			$query->delete();
+			catalog_ProductService::getInstance()->setCompiled($product->getId());
+			
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+		}
+	}
+	
+	private function fixIndexedCompiledProduct($indexedCP)
+	{		
+		foreach ($indexedCP as $cps) 
+		{
+			$oldIndexed = null;
+			$newIndexed = null;
+			foreach ($cps as $cp) 
+			{
+				if ($cp->getIndexed()) {$oldIndexed = $cp;}
+				if ($cp->isPublished())
+				{
+					if ($newIndexed === null || ($newIndexed->getShelfIndex() > $cp->getShelfIndex()))
+					{
+						$newIndexed = $cp;		
+					}
+				}
+			}
+			
+			if ($oldIndexed !== $newIndexed)
+			{
+				if ($oldIndexed !== null)
+				{
+					$oldIndexed->setIndexed(false);
+					$this->save($oldIndexed);
+				}
+				if ($newIndexed !== null)
+				{
+					$newIndexed->setIndexed(true);
+					$this->save($newIndexed);
+				}
 			}
 		}
 	}
 	
-	/**
-	 * @param Integer $shopId
-	 */
-	public function refreshPublicationForShop($shopId)
-	{
-		if (!$this->disableCompilation)
-		{
-			$query = $this->createQuery()->add(Restrictions::eq('shopId', $shopId))
-				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-				->setProjection(Projections::property('id'));
-			foreach ($query->find() as $row)
-			{
-				$this->publishIfPossible($row['id']);				
-			}
-		}
-	}
 	
 	/**
-	 * @param Integer $shelfId
+	 * @param catalog_persistentdocument_product $product
+	 * @param website_persistentdocument_topic $topic
+	 * @return catalog_persistentdocument_compiledproduct
 	 */
-	public function refreshPublicationForShelf($shelfId)
+	private function generate($product, $topic)
 	{
-		if (!$this->disableCompilation)
+		
+		$lang = RequestContext::getInstance()->getLang();
+		
+		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
+			->add(Restrictions::eq('topicId', $topic->getId()))
+			->add(Restrictions::eq('lang', $lang))->findUnique();
+			
+		if ($compiledProduct === null)
 		{
-			$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelfId))
-				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-				->setProjection(Projections::property('id'));
-			foreach ($query->find() as $row)
-			{
-				$this->publishIfPossible($row['id']);				
-			}
+			$compiledProduct = $this->getNewDocumentInstance();
+			$compiledProduct->setLang($lang);
+			$compiledProduct->setProduct($product);
+			$compiledProduct->setTopicId($topic->getId());
+			$shop = catalog_ShopService::getInstance()->getByTopic($topic);
+			$compiledProduct->setShopId($shop->getId());
+			$compiledProduct->setWebsiteId($shop->getWebsite()->getId());			
+			$shelf = catalog_ShelfService::getInstance()->getByTopic($topic);
+			$compiledProduct->setShelfId($shelf->getId());	
+			
+			$indexOfShelf = $product->getIndexofShelf($shelf);
+			$compiledProduct->setShelfIndex($indexOfShelf);
+			// TODO.
+			$compiledProduct->setPosition(0);
 		}
-	}
-	
-	/**
-	 * @param Integer $productId
-	 * @param String $lang
-	 */
-	public function deleteForProduct($productId, $lang = null)
-	{
-		$query = $this->createQuery()->add(Restrictions::eq('product.id', $productId));
-		if ($lang != null)
-		{
-			$query->add(Restrictions::eq('lang', $lang));
-		}
-		$query->delete();
-	}
-	
-	/**
-	 * @param Integer $shopId
-	 * @param String $lang
-	 */
-	public function deleteForShop($shopId, $lang = null)
-	{
-		$query = $this->createQuery()->add(Restrictions::eq('shopId', $shopId));
-		if ($lang != null)
-		{
-			$query->add(Restrictions::eq('lang', $lang));
-		}
-		$query->delete();
-	}
-	
-	/**
-	 * @param Integer $topicId
-	 * @param String $lang
-	 */
-	public function deleteForTopic($topicId, $lang = null)
-	{
-		$query = $this->createQuery()->add(Restrictions::eq('topicId', $topicId));
-		if ($lang != null)
-		{
-			$query->add(Restrictions::eq('lang', $lang));
-		}
-		$query->delete();
+		$this->compile($compiledProduct);
+		
+		return $compiledProduct;
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 */	
-	protected function compile($document, $mode)
+	protected function compile($document)
 	{
-		switch ($mode)
-		{
-			case self::MODE_PRODUCT_INFO :
-				$this->refreshProductInfo($document);
-				break;
-				
-			case self::MODE_RATING_INFO :
-				$this->refreshRatingInfo($document);
-				break;
-				
-			case self::MODE_BRAND_INFO :
-				$this->refreshBrandInfo($document);
-				break;
-			
-			case self::MODE_ALL_INFO :
-			default :
-				$this->refreshProductInfo($document);
-				$this->refreshRatingInfo($document);
-				$this->refreshBrandInfo($document);
-				break;
-		}
-		
+		$this->refreshProductInfo($document);
+		$this->refreshRatingInfo($document);
+		$this->refreshBrandInfo($document);
+
 		if ($document->isNew() || $document->isModified())
 		{
-			$document->save();
+			$this->save($document);
 		}
 		else
 		{
-			$result = $this->publishIfPossible($document->getId());
+			$this->publishDocumentIfPossible($document, array('cause' => 'compilation'));
 		}
 	}
 	
@@ -519,36 +339,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$document->setBrandLabel(null);
 		}
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @param website_persistentdocument_topic $topic
-	 */
-	private function generate($product, $topic)
-	{
-		if (!$product->isCompilable()) {return;}
-		$lang = RequestContext::getInstance()->getLang();
-		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
-			->add(Restrictions::eq('topicId', $topic->getId()))
-			->add(Restrictions::eq('lang', $lang))->findUnique();
-		if ($compiledProduct === null)
-		{
-			$compiledProduct = $this->getNewDocumentInstance();
-			$compiledProduct->setLang($lang);
-			$compiledProduct->setProduct($product);
-			$compiledProduct->setTopicId($topic->getId());
-			$shop = catalog_ShopService::getInstance()->getByTopic($topic);
-			$compiledProduct->setShopId($shop->getId());
-			$compiledProduct->setWebsiteId($shop->getWebsite()->getId());			
-			$shelf = catalog_ShelfService::getInstance()->getByTopic($topic);
-			$compiledProduct->setShelfId($shelf->getId());			
-			$compiledProduct->setShelfIndex($product->getIndexofShelf($shelf));
-			// TODO.
-			$compiledProduct->setPosition(0);
-		}
-		$this->compile($compiledProduct, self::MODE_ALL_INFO);
-	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @return boolean true if the document is publishable, false if it is not.
@@ -558,8 +349,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$product = $document->getProduct();
 		$shop = $document->getShop();
 		$shelf = $document->getShelf();
-		//Framework::debug(__METHOD__ . ' hasPrice = ' . ($document->getPrice() !== null) . ', productPublished = ' . $product->isPublished() . ', shopPublished = ' . $shop->isPublished() . ', shelfLangAvailable = ' . $shelf->isContextLangAvailable() . ', productCanBeDisplayed = ' . $product->canBeDisplayed($shop) . ', parentPublishable = ' . parent::isPublishable($document));
-		return ($document->getPrice() !== null && $product->isPublished() && $shop->isPublished() && $shelf->isContextLangAvailable() && $product->canBeDisplayed($shop) && parent::isPublishable($document));
+		return ($document->getPrice() !== null && $product->isPublished() 
+			&& $shop->isPublished() && $shelf->isPublished() 
+			&& $product->canBeDisplayed($shop) 
+			&& parent::isPublishable($document));
 	}
 	
 	/**
@@ -570,9 +363,30 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
+		if (!isset($params['cause']) || $params["cause"] != "delete")
 		{
-			website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
+			if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
+			{
+				website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
+			}
 		}
+	}
+	
+	/**
+	 * DEPRECATED function
+	 */
+	
+	/**
+	 * @deprecated 
+	 */
+	public function disableCompilation()
+	{
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function enableCompilation()
+	{
 	}
 }

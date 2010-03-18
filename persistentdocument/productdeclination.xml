@@ -10,5 +10,6 @@
 		</add>
 		<add name="stockLevel" type="String" min-occurs="1" preserve-old-value="true" default-value="A" />
 		<add name="stockAlertThreshold" type="Double" />
+		<add name="compiled" default-value="true"/>
 	</properties>
 </document>

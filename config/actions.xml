@@ -56,4 +56,19 @@
 				'modules_catalog/shopfolder']);
 		]]></body>
 	</action>
+	
+	<action name="compileProduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var document = listWidget.getSelectedItems()[0];
+			this.executeJSON("CompileProduct", {cmpref: document.id, lang:this.getContextLang()});
+		]]></body>
+	</action>
+	<action name="onCompileProductSuccess">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			this.refreshMainViewDeck();
+		]]></body>
+	</action>
+	
 </actions>

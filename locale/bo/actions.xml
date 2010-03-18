@@ -56,4 +56,7 @@
   <entity id="Create-Paymentfilter">
     <locale lang="fr">créer un filtre de paiement</locale>
   </entity>
+  <entity id="compileProduct">
+    <locale lang="fr">Actualiser</locale>
+  </entity>
 </localization>

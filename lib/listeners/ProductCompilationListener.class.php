@@ -12,13 +12,12 @@ class catalog_ProductCompilationListener
 	 */
 	public function onPersistentDocumentUpdated($sender, $params)
 	{
-		$cps = catalog_CompiledproductService::getInstance();
 		$document = $params['document'];
 		if ($document instanceof brand_persistentdocument_brand)
 		{
 			if (in_array('label', $params['modifiedPropertyNames']))
 			{
-				$cps->compileBrandInfos($document->getId());
+				catalog_ProductService::getInstance()->setNeedCompileForBrand($document);
 			}
 		}
 	}
@@ -32,11 +31,10 @@ class catalog_ProductCompilationListener
 		$document = $params['document'];
 		if ($document instanceof comment_persistentdocument_comment)
 		{
-			$modelName = $document->getTargetdocumentmodel();
-			$model = f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName($document->getTargetdocumentmodel());
-			if ($modelName == 'modules_catalog/product' || $model->isModelCompatible('modules_catalog/product'))
+			$target = $document->getTarget();
+			if ($target instanceof catalog_persistentdocument_product)
 			{
-				catalog_CompiledproductService::getInstance()->compileRatingInfos($document->getTarget());
+				catalog_ProductService::getInstance()->setNeedCompile(array($target->getId()));
 			}
 		}
 	}

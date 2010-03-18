@@ -29,20 +29,28 @@ class commands_CompileCatalog extends commands_AbstractChangeCommand
 	function _execute($params, $options)
 	{
 		$this->message("== Compile catalog ==");
-
+		
 		$this->loadFramework();
-		$cps = catalog_CompiledproductService::getInstance();
-		$productArray = catalog_ProductService::getInstance()->createQuery()->find();
-		$count = count($productArray);
-		$index = 0;
+
+		$batchPath = FileResolver::getInstance()
+			->setPackageName('modules_catalog')
+			->setDirectory('lib'. DIRECTORY_SEPARATOR . 'bin')
+			->getPath('batchCompile.php');
+			
+		$ids = catalog_ProductService::getInstance()->getAllProductIdsToCompile();
+		$count = count($ids);			
 		$this->message('There are '.$count.' products to be compiled.');
-		$rqc = RequestContext::getInstance();
-		$rqc->setLang($rqc->getDefaultLang());
-		foreach ($productArray as $product)
+		$index = 0;	
+		foreach (array_chunk($ids, 10) as $batch)
 		{
-			$cps->generateForProduct($product);
-			$percent = round((++$index / $count) * 100);
-			echo "Compiling products: ", $percent, "% (mem: ", f_util_MemoryUtils::getLoad(true), "%)  \r";
+			$processHandle = popen('php ' . $batchPath . ' '. implode(' ', $batch), 'r');
+			while ($string = fread($processHandle, 1024))
+			{
+				echo $string;
+			}
+			pclose($processHandle);
+			$index = $index + count($batch);
+			echo "Compiling products: $index \n";
 		}
 		
 		$this->quitOk("All products are compiled successfully.");

@@ -52,4 +52,7 @@
     <locale lang="en">modified today</locale>
     <locale lang="de">Heute geändert</locale>
   </entity>
+  <entity id="to-compile">
+    <locale lang="fr">à actualiser</locale>
+  </entity>
 </localization>

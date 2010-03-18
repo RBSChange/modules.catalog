@@ -39,6 +39,15 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		return $this->pp->createQuery('modules_catalog/shelf');
 	}
+	
+	/**
+	 * Create a query based on 'modules_catalog/shelf' model
+	 * @return f_persistentdocument_criteria_Query
+	 */
+	public final function createShelfQuery()
+	{
+		return $this->pp->createQuery('modules_catalog/shelf');
+	}	
 
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
@@ -162,8 +171,8 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function getPublishedSubShelves($shelf)
 	{
-		// Must instanciate ShelfService to work for top shelves.
-		return catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::childOf($shelf->getId()))->add(Restrictions::published())->find();
+		return $this->createShelfQuery()->add(Restrictions::childOf($shelf->getId()))
+				->add(Restrictions::published())->find();
 	}
 
 	/**
@@ -196,13 +205,14 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function refreshPublishedDocumentCount($shelf)
 	{
+		
 		// Get the published sub-shelf count.
-		$query = $this->createQuery()->add(Restrictions::published());
+		$query = $this->createShelfQuery()->add(Restrictions::published());
 		$query->add(Restrictions::childOf($shelf->getId()));
 		$query->setProjection(Projections::rowCount('count'));
 		$result = $query->findUnique();
 		$count1 = $result['count'];
-		
+
 		// Get the published product count.
 		$query = catalog_ProductService::getInstance()->createQuery()->add(Restrictions::published());
 		$query->add(Restrictions::eq('shelf.id', $shelf->getId()));
@@ -223,24 +233,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		// Add topic to the current shelf.
 		$topic = $this->addNewTopicToShelf($shelf, $topicParent);
 		$shelf->save();
-		// Sync potential translations
-		$rc = RequestContext::getInstance();
-		foreach ($shelf->getI18nInfo()->getLangs() as $lang)
-		{
-			try 
-			{
-				$rc->beginI18nWork($lang);
-				$topic->setLabel($shelf->getLabel());
-				$topic->setDescription($shelf->getDescription());
-				$topic->save();
-				$rc->endI18nWork();
-			}
-			catch (Exception $e)
-			{
-				$rc->endI18nWork($e);
-			}
-		}
-		
 		
 		// Add topics to descendants recursively.
 		foreach ($this->getChildrenOf($shelf) as $child)
@@ -260,8 +252,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		if ($topicParent === null) { throw new Exception('no topic'); }
 		$topic = $this->getRelatedTopicByTopicAncestor($shelf, $topicParent);
-		$topic->setIndexPage(null);
-		$topic->save();
+		website_WebsiteModuleService::getInstance()->removeIndexPage($topic);
 		foreach ($this->getChildrenOf($shelf) as $child)
 		{
 			if ($child instanceof catalog_persistentdocument_shelf)
@@ -269,9 +260,8 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				$this->deleteTopicFromShelfRecursive($child, $topic);
 			}
 		}
-		catalog_CompiledproductService::getInstance()->deleteForTopic($topic->getId());
-		$rc = RequestContext::getInstance();
-		
+
+		$rc = RequestContext::getInstance();		
 		foreach (array_reverse($topic->getI18nInfo()->getLangs()) as $lang)
 		{
 			try 
@@ -283,8 +273,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			catch (Exception $e)
 			{
 				$rc->endI18nWork($e);
-			}
-			
+			}	
 		}
 	}
 	
@@ -396,14 +385,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		// Update label for URL.
 		$document->setLabelForUrl($document->getLabel());
-		
-		// If the published document count has changed, refresh it.
-		// This is supposed to occurs only when we translate a shelf, beacause
-		// changePublicDocumentCount method use an updateDocument, not a save.
-		if ($document->isPropertyModified('publishedDocumentCount'))
-		{
-			$this->refreshPublishedDocumentCount($document);
-		}
 	}
 
 	/**
@@ -419,7 +400,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		{
 			foreach ($parent->getTopicArray() as $topic)
 			{
-				$newTopic = $this->addNewTopicToShelf($document, $topic);		
+				$this->addNewTopicToShelf($document, $topic);		
 			}
 			$document->save();	
 		}		
@@ -433,19 +414,15 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	protected function preUpdate($document, $parentNodeId)
 	{
 		// Refresh compiled product publication if there is a new translation.
+		$rqc = RequestContext::getInstance();
 		foreach ($document->getNewTranslationLangs() as $lang)
 		{
-			$rqc = RequestContext::getInstance();
 			$rqc->beginI18nWork($lang);
-			
 			$this->refreshPublishedDocumentCount($document);
-			catalog_CompiledproductService::getInstance()->refreshPublicationForShelf($document->getId());
-			
 			$rqc->endI18nWork();
 		}
 	}
 	
-
 	/**
 	 * @see f_persistentdocument_DocumentService::preDeleteLocalized()
 	 *
@@ -469,9 +446,19 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	protected function postDeleteLocalized($document)
 	{
 		// Refresh compiled product publication if there is a deleted translation.
-		catalog_CompiledproductService::getInstance()->refreshPublicationForShelf($document->getId());
+		catalog_ProductService::getInstance()->setNeedCompileForShelf($document);
 	}
-		
+
+	/**
+	 * @param catalog_persistentdocument_shelf $document
+	 * @return void
+	 */
+	protected function postDelete($document)
+	{
+		// Delete compiled products.
+		catalog_CompiledproductService::getInstance()->deleteForShelf($document);
+	}
+	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
@@ -489,6 +476,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				$topic->save();
 			}
 		}
+		catalog_ProductService::getInstance()->setNeedCompileForShelf($document);
 	}
 
 	/**
@@ -509,6 +497,15 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			else if ("PUBLICATED" == $oldPublicationStatus)
 			{
 				$this->decrementPublishedDocumentCount($document->getParentShelf());
+			}
+		}
+		
+		// Handle compilation.
+		if (!isset($params['cause']) || $params["cause"] != "delete")
+		{
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			{	
+				catalog_ProductService::getInstance()->setNeedCompileForShelf($document);
 			}
 		}
 		
@@ -570,22 +567,61 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	protected function onDocumentMoved($document, $destId)
 	{
-		catalog_CompiledproductService::getInstance()->generateForShelf($document);
+		catalog_ProductService::getInstance()->setNeedCompileForShelf($document);
 	}
 	
 	/**
+	 * @Warning $shelf is updated during the proccess but not saved.
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param website_persistentdocument_systemtopic $topicParent
 	 * @return website_persistentdocument_systemtopic
 	 */
 	private function addNewTopicToShelf($shelf, $topicParent)
 	{
-		$topic = website_SystemtopicService::getInstance()->getNewDocumentInstance();
-		$topic->setReferenceId($shelf->getId());
-		$topic->setLabel($shelf->getLabel());
-		$topic->setDescription($shelf->getDescription());
-		$topic->save($topicParent->getId());
-		$shelf->addTopic($topic);
+		$rq = RequestContext::getInstance();
+		try 
+		{
+			$rq->beginI18nWork($shelf->getLang());	
+			$topic = website_SystemtopicService::getInstance()->getNewDocumentInstance();
+			
+			//Fill VO
+			$topic->setReferenceId($shelf->getId());
+			$topic->setLabel($shelf->getLabel());
+			$topic->setDescription($shelf->getDescription());
+			$topic->save($topicParent->getId());
+
+			$shelf->addTopic($topic);
+			$shelf->save();
+			
+			$langs = $shelf->getI18nInfo()->getLangs();
+			if (count($langs) > 1)
+			{
+				foreach ($langs as $lang) 
+				{
+					if ($lang == $topic->getLang()) {continue;}
+					try 
+					{
+						//Fill other localization
+						$rq->beginI18nWork($lang);	
+						$topic->setLabel($shelf->getLabel());
+						$topic->setDescription($shelf->getDescription());
+						$topic->save();
+						$rq->endI18nWork();
+					} 
+					catch (Exception $e)
+					{
+						$rq->endI18nWork($e);
+					}
+				}
+			}
+			
+			$rq->endI18nWork();
+			
+		} 
+		catch (Exception $e)
+		{
+			$rq->endI18nWork($e);
+		}
 		return $topic;
 	}
 	

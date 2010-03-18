@@ -227,7 +227,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		$topic->activate();
 		
 		// Generate compiled products.
-		catalog_CompiledproductService::getInstance()->generateForShop($document, true);
+		catalog_ProductService::getInstance()->setNeedCompileForShop($document);
 	}
 
 	/**
@@ -237,15 +237,10 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function preUpdate($document, $parentNodeId)
 	{
-		// Refresh compiled product publication if there is a new translation.
-		foreach ($document->getNewTranslationLangs() as $lang)
+		$newLangs = $document->getNewTranslationLangs();
+		if (count($newLangs) > 0)
 		{
-			$rqc = RequestContext::getInstance();
-			$rqc->beginI18nWork($lang);
-							
-			catalog_CompiledproductService::getInstance()->refreshPublicationForShop($document->getId());
-			
-			$rqc->endI18nWork();
+			catalog_ProductService::getInstance()->setNeedCompileForShop($document);
 		}
 	}
 	
@@ -265,7 +260,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		// Generate compiled products.
 		if ($document->isPropertyModified('topShelf'))
 		{
-			catalog_CompiledproductService::getInstance()->generateForShop($document);
+			catalog_ProductService::getInstance()->setNeedCompileForShop($document);
 		}
 	}
 
@@ -327,9 +322,20 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	protected function postDelete($document)
 	{
 		// Delete compiled products.
-		catalog_CompiledproductService::getInstance()->deleteForShop($document->getId());
+		catalog_CompiledproductService::getInstance()->deleteForShop($document);
 	}
 
+	/**
+	 * @see f_persistentdocument_DocumentService::postDeleteLocalized()
+	 *
+	 * @param f_persistentdocument_PersistentDocument $document
+	 */
+	protected function postDeleteLocalized($document)
+	{
+		catalog_ProductService::getInstance()->setNeedCompileForShop($document);
+	}
+	
+	
 	/**
 	 * Methode à surcharger pour effectuer des post traitement apres le changement de status du document
 	 * utiliser $document->getPublicationstatus() pour retrouver le nouveau status du document.
@@ -351,8 +357,13 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$document->getTopic()->deactivate();
 		}
 		
-		// Refresh compiled products publication.
-		catalog_CompiledproductService::getInstance()->refreshPublicationForShop($document->getId());
+		if (!isset($params['cause']) || $params["cause"] != "delete")
+		{
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			{					
+				catalog_ProductService::getInstance()->setNeedCompileForShop($document);
+			}
+		}
 	}
 	
 	/**

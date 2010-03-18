@@ -78,7 +78,6 @@ class catalog_ViewDetailAction extends f_action_BaseAction
 	 */
 	private function getDetailPageForShelf($shelf)
 	{
-		Framework::debug("Detail page for shelf (".get_class($shelf).")");
 		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
 		$query = website_SystemtopicService::getInstance()->createQuery()
 			->add(Restrictions::descendentOf($website->getId()))
@@ -127,9 +126,7 @@ class catalog_ViewDetailAction extends f_action_BaseAction
 	 * @return website_persistentdocument_page
 	 */
 	private function getDetailPageForOtherDocument($document)
-	{
-		Framework::debug("Detail page for other document (".get_class($document).")");
-		
+	{		
 		try
 		{
 			$page = TagService::getInstance()->getDocumentBySiblingTag(

@@ -10,7 +10,11 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getProduct()
 	{
-		return DocumentHelper::getDocumentInstance($this->getProductId());
+		if ($this->getProductId())
+		{
+			return DocumentHelper::getDocumentInstance($this->getProductId(), 'modules_catalog/product');
+		}
+		return null;
 	}
 	
 	/**
@@ -259,7 +263,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	/**
 	 * @return Double
 	 */
-	private function getPriceOldValue($value)
+	private function getPriceOldValue()
 	{
 		if ($this->getOldValueWithTax() === null)
 		{

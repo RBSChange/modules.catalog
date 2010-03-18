@@ -59,46 +59,60 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	 */
 	public function getDefaultDeclination($document, $shop)
 	{
-		// TODO: simplify!
-		$query = catalog_ProductdeclinationService::getInstance()->createQuery()
-			->add(Restrictions::eq('declinedproduct.id', $document->getId()))
-			->add(Restrictions::published());
+		$id = $this->findDefaultDeclinationId($document, $shop);
+		if ($id !== null)
+		{
+			return DocumentHelper::getDocumentInstance($id, 'modules_catalog/productdeclination');
+		}
+		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return integer or null
+	 */
+	private function findDefaultDeclinationId($document, $shop)
+	{
+		$query =  catalog_PriceService::getInstance()->createQuery()
+					->add(Restrictions::published())
+					->add(Restrictions::eq('shopId', $shop->getId()))
+					->setProjection(Projections::property('productId'));
+					
+		$declinationQuery = $query->createPropertyCriteria('productId', 'modules_catalog/productdeclination')
+			->add(Restrictions::published())
+			->add(Restrictions::eq('declinedproduct', $document));
+			
 		if (!$shop->getDisplayOutOfStock())
 		{
-			$query->add(Restrictions::ne('stockLevel', catalog_StockService::LEVEL_UNAVAILABLE));
+			$declinationQuery->add(Restrictions::ne('stockLevel', catalog_StockService::LEVEL_UNAVAILABLE));
+			$query->addOrder(Order::asc('valuewithtax'));
+			$query->setMaxResults(1);
+			$rows = $query->find();
+			if (count($rows)) 
+			{
+				return $rows[0]['productId'];
+			}	
 		}
-		$declinations = $query->find();
-		if (count($declinations) > 0)
+		else
 		{
-			$declinationIds = array();
-			$declinationsById = array();
-			foreach ($declinations as $declination)
-			{
-				$id = $declination->getId();
-				$declinationIds[] = $id;
-				$declinationsById[$id] = $declination;
-			}
-			
-			$prices = catalog_PriceService::getInstance()->createQuery()
-				->add(Restrictions::eq('shopId', $shop->getId()))
-				->add(Restrictions::in('productId', $declinationIds))
-				->addOrder(Order::asc('valuewithtax'))->find();
+			$declinationQuery->setProjection(Projections::property('stockLevel'));
+			$query->addOrder(Order::asc('valuewithtax'));
 			$unavailable = null;
-			foreach ($prices as $price)
+			foreach ($query->find() as $row) 
 			{
-				$product = $declinationsById[$price->getProductId()];
-				if ($product->getStockLevel() != catalog_StockService::LEVEL_UNAVAILABLE)
+				if ($row['stockLevel'] != catalog_StockService::LEVEL_UNAVAILABLE)
 				{
-					return $product;
+					return $row['productId'];
 				}
 				else if ($unavailable === null)
 				{
-					$unavailable = $product;
+					$unavailable =$row['productId'];
 				}
 			}
 			return $unavailable;
 		}
-		return null;
+		return null;	
 	}
 	
 	/**
@@ -157,7 +171,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	 */
 	public function getProductToAddToCart($product, $shop, $quantity, $properties)
 	{
-		return $product->getDefaultDeclination($shop);
+		return $this->getDefaultDeclination($product, $shop);
 	}
 	
 	/**

@@ -199,4 +199,8 @@
 	<entity id="additional-declination">
 		<locale lang="fr">déclinaisons additionnelles</locale>
 	</entity>
+	
+	<entity id="property.compiled">
+		<locale lang="fr">A jour sur le site</locale>
+	</entity>
 </localization>

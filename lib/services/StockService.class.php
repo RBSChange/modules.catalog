@@ -6,8 +6,8 @@
 class catalog_StockService extends BaseService
 {
 	const LEVEL_AVAILABLE = 'A';
-	const LEVEL_UNAVAILABLE = 'U';
 	const LEVEL_FEW_IN_STOCK = 'F';
+	const LEVEL_UNAVAILABLE = 'U';
 
 	const STOCK_ALERT_NOTIFICATION_CODENAME = 'modules_catalog/stockalert';
 
@@ -132,7 +132,10 @@ class catalog_StockService extends BaseService
 			}
 			else
 			{
-				Framework::debug(__METHOD__ . ' no recipient.');
+				if (Framework::isDebugEnabled())
+				{
+					Framework::debug(__METHOD__ . ' no recipient.');
+				}
 			}
 		}
 	}

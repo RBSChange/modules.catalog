@@ -133,15 +133,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param String $document $lang
 	 */
-	protected function deleteRelatedCompiledProducts($document, $lang = null)
+	protected function deleteRelatedCompiledProducts($document)
 	{
-		$declinedProduct = $document->getProductToCompile();
-		if ($declinedProduct !== null)
-		{
-			catalog_CompiledproductService::getInstance()->compileAllInfos($declinedProduct);
-		}
+		$this->updateCompiledProperty($document, false);
 	}
 	
 	/**
@@ -158,31 +153,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		}
 		parent::publicationStatusChanged($document, $oldPublicationStatus, $params);
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param String $oldPublicationStatus
-	 */
-	protected function refreshShelfPublishedDocumentCount($document, $oldPublicationStatus)
-	{
-		//TODO Product declination is not in a shelf
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param String $oldPublicationStatus
-	 * @return void
-	 */
-	protected function refreshCompilationOnPublicationStatusChanged($document, $oldPublicationStatus, $params)
-	{
-		// Refresh compiled products publication.
-		$productToCompile = $document->getProductToCompile();
-		if ($productToCompile !== null)
-		{
-			catalog_CompiledproductService::getInstance()->compileProductInfos($productToCompile);
-		}
-	}
-	
+		
 	/**
 	 * @return Boolean
 	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()

@@ -135,6 +135,7 @@
 				<contextaction name="delete" />
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
+				<contextaction name="compileProduct" />
 				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
@@ -144,6 +145,7 @@
 				<contextaction name="delete" />
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
+				<contextaction name="compileProduct" />
 			</contextactions>
 		</model>
 	</models>
@@ -175,5 +177,7 @@
 		<action name="createFilter_" actions="createShippingfilter,createPaymentfilter" icon="add" />
 		<action name="createShippingfilter" single="true" permission="Insert_shippingfilter" group="createFilter_" label="&amp;modules.catalog.bo.actions.Create-Shippingfilter;" />
 		<action name="createPaymentfilter" single="true" permission="Insert_paymentfilter" group="createFilter_" label="&amp;modules.catalog.bo.actions.Create-Paymentfilter;" />
+		
+		<action name="compileProduct" single="true" icon="admin" />
 	</actions>
 </perspective>

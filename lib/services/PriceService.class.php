@@ -296,16 +296,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$priceToUpdate->save();
 		}
 		
-		// Compile related product.
-		$productToCompile = $document->getProduct()->getProductToCompile();
-		if ($productToCompile !== null)
-		{
-			catalog_CompiledproductService::getInstance()->compileProductInfos($productToCompile);
-		}
-		else 
-		{
-			Framework::warn(__METHOD__ . " strangely, we have no product to compile for product id =" . $document->getProductId());
-		}
+		catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 	}
 	
 	/**
@@ -315,8 +306,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	protected function preInsert($document, $parentNodeId)
 	{
-		parent::preInsert($document, $parentNodeId);
-		
+		parent::preInsert($document, $parentNodeId);		
 		$document->setInsertInTree(false);
 	}
 	
@@ -343,18 +333,11 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	{
 		if ($document->getProductId())
 		{
-			// Compile related product.
-			if ($document->isPublished() || $oldPublicationStatus === 'PUBLICATED')
+			if (!isset($params['cause']) || $params["cause"] != "delete")
 			{
-				// Compile related product.
-				$productToCompile = $document->getProduct()->getProductToCompile();
-				if ($productToCompile !== null)
+				if ($document->isPublished() || $oldPublicationStatus === 'PUBLICATED')
 				{
-					catalog_CompiledproductService::getInstance()->compileProductInfos($productToCompile);
-				}
-				else 
-				{
-					Framework::warn(__METHOD__ . " strangely, we have no product to compile for product id =" . $document->getProductId());
+					catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 				}
 			}
 		}
@@ -366,31 +349,22 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	protected function postDelete($document)
 	{
-		// Update thresholdMax for the price with a thresholdMin directly inferior.
-		$query = $this->createQuery()
-			->add(Restrictions::eq('productId', $document->getProductId()))
-			->add(Restrictions::eq('shopId', $document->getShopId()))
-			->add(Restrictions::eq('targetId', $document->getTargetId()))
-			->add(Restrictions::eq('thresholdMax', $document->getThresholdMin()));
-		$priceToUpdate = $query->findUnique();
-		if ($priceToUpdate !== null)
-		{
-			$priceToUpdate->setThresholdMax($document->getThresholdMax());
-			$priceToUpdate->save();
-		}
-		
 		if ($document->getProductId())
 		{
-			// Compile related product.
-			$productToCompile = $document->getProduct()->getProductToCompile();
-			if ($productToCompile !== null)
+			// Update thresholdMax for the price with a thresholdMin directly inferior.
+			$query = $this->createQuery()
+				->add(Restrictions::eq('productId', $document->getProductId()))
+				->add(Restrictions::eq('shopId', $document->getShopId()))
+				->add(Restrictions::eq('targetId', $document->getTargetId()))
+				->add(Restrictions::eq('thresholdMax', $document->getThresholdMin()));
+			$priceToUpdate = $query->findUnique();
+			if ($priceToUpdate !== null)
 			{
-				catalog_CompiledproductService::getInstance()->compileProductInfos($productToCompile);
+				$priceToUpdate->setThresholdMax($document->getThresholdMax());
+				$priceToUpdate->save();
 			}
-			else 
-			{
-				Framework::warn(__METHOD__ . " strangely, we have no product to compile for product id =" . $document->getProductId());
-			}
+		
+			catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 		}
 	}
 	

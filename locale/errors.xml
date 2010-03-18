@@ -6,4 +6,7 @@
 	<entity id="topshelf.Cannot-delete-non-empty-node">
 		<locale lang="fr">Vous ne pouvez pas supprimer un rayon contenant d'autres rayons.</locale>
 	</entity>
+	<entity id="compileproductAction.invalid-product">
+		<locale lang="fr">Ce document n'est pas un produit.</locale>
+	</entity>	
 </localization>

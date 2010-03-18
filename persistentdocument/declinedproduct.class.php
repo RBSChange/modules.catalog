@@ -64,13 +64,20 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		return ($defaultDeclination !== null) ? catalog_PriceService::getInstance()->getPrices($defaultDeclination, $shop, $customer) : false;
 	}
 	
+	private $defaultDeclinations = array();
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return catalog_persistentdocument_productdeclination
 	 */
 	public function getDefaultDeclination($shop)
 	{
-		return $this->getDocumentService()->getDefaultDeclination($this, $shop);
+		$key = 's' . $shop->getId();
+		if (!array_key_exists($key, $this->defaultDeclinations))
+		{
+			$this->defaultDeclinations[$key] = $this->getDocumentService()->getDefaultDeclination($this, $shop);
+		}
+		return $this->defaultDeclinations[$key];
 	}
 	
 	/**

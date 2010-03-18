@@ -25,7 +25,6 @@ class catalog_patch_0301 extends patch_BasePatch
 		$tm = f_persistentdocument_TransactionManager::getInstance();
 		$rootFolderId = ModuleService::getInstance()->getRootFolderId('catalog');
 		
-		$cps->disableCompilation();
 		
 		// Recompile listeners.
 		$this->log('Recompile listeners...');
@@ -472,7 +471,6 @@ class catalog_patch_0301 extends patch_BasePatch
 		}
 				
 		// Generate compiled products.
-		$cps->enableCompilation();
 		foreach ($ps->createQuery()->find() as $product)
 		{
 			$cps->generateForProduct($product);
