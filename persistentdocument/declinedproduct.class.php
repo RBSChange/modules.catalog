@@ -115,7 +115,15 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	{
 		$this->getOrCreateDeclination(0)->setCodeReference($value);
 	}
-		
+
+	/**
+	 * @param Integer $value
+	 */
+	public function setDeclinationStockQuantity0($value)
+	{
+		$this->getOrCreateDeclination(0)->setStockQuantity($value);
+	}
+	
 	/**
 	 * @param Integer $index
 	 * @return catalog_persistentdocument_productdeclination
