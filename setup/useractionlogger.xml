@@ -37,4 +37,5 @@
   <actiondef modulename="catalog" actionname="updatetranslation.topshelf" label="modules.catalog.bo.useractionlogger.updatetranslation-topshelf"/>
   <actiondef modulename="catalog" actionname="deletelocalization.topshelf" label="modules.catalog.bo.useractionlogger.deletelocalization-topshelf"/>
   <actiondef modulename="catalog" actionname="updatetranslation.simpleproduct" label="modules.catalog.bo.useractionlogger.updatetranslation-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="compileproduct.simpleproduct" label="modules.catalog.bo.useractionlogger.compileproduct-simpleproduct"/>
 </script>
