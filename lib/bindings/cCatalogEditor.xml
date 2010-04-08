@@ -73,22 +73,22 @@
 						oncommand="document.getBindingParent(this).removeItem();"/>					
 					<xul:toolbarbutton anonid="moveup" disabled="true" xbl:inherits="disabled,hidden=hideorder" 
 						tooltiptext="&amp;modules.generic.backoffice.Move-up;" 
-						image="{HttpHost}/icons/small/arrow-up-blue.png" 
+						image="{IconsBase}/small/arrow-up-blue.png" 
 						oncommand="document.getBindingParent(this).moveSelection(-1);" />
 					<xul:toolbarbutton anonid="movedown" disabled="true" xbl:inherits="disabled,hidden=hideorder" 
 						tooltiptext="&amp;modules.generic.backoffice.Move-down;" 
-						image="{HttpHost}/icons/small/arrow-down-blue.png" 
+						image="{IconsBase}/small/arrow-down-blue.png" 
 						oncommand="document.getBindingParent(this).moveSelection(+1);" />
 						
-					<xul:toolbarbutton anonid="selectorbutton" image="{HttpHost}/icons/small/folder.png" xbl:inherits="disabled" 
+					<xul:toolbarbutton anonid="selectorbutton" image="{IconsBase}/small/folder.png" xbl:inherits="disabled" 
 						oncommand="document.getBindingParent(this).openRessourceDialog();"/>
 													
 					<xul:toolbarbutton anonid="uploadbutton" hidden="true" xbl:inherits="disabled" tooltiptext="&amp;modules.uixul.bo.filePicker.BrowseEllipsis;" 
-						image="{HttpHost}/icons/small/shadow/folder_add.png" 
+						image="{IconsBase}/small/shadow/folder_add.png" 
 						oncommand="document.getBindingParent(this).openFilePicker()" />							
 				 </xul:toolbar>
 				 <xul:toolbar orient="vertical">								
-					<xul:toolbarbutton image="{HttpHost}/icons/small/wand.png" 
+					<xul:toolbarbutton image="{IconsBase}/small/wand.png" 
 						tooltiptext="&amp;modules.catalog.bo.doceditor.Suggest-products;" xbl:inherits="hidden=hideSuggestionButton" 
 						oncommand="openSuggestionDialog();"/>
 					<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" 
@@ -211,7 +211,7 @@
 					var checkbox = cell.appendChild(document.createElement('checkbox'));
 					checkbox.setAttribute('checked', 'false');
 					checkbox.setAttribute('label', jsnode.label);
-					checkbox.setAttribute('src', '{HttpHost}/icons/small/'+jsnode.icon+'.png');
+					checkbox.setAttribute('src', '{IconsBase}/small/'+jsnode.icon+'.png');
 					checkbox.setAttribute('value', jsnode.id);
 					this.mCheckboxes.push(checkbox);
 					
@@ -319,7 +319,7 @@
 				<xul:hbox class="wizardTitle" >
 					<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Title;" />
 					<xul:spacer flex="1" />
-					<xul:toolbarbutton image="{HttpHost}/icons/small/delete.png" oncommand="closeDialog(false);" />
+					<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" />
 				</xul:hbox>
 				<xul:spacer height="5px" />
 				<xul:hbox align="center">
@@ -327,13 +327,13 @@
 					<xul:cfield anonid="field_feederClass" name="feederClass" fieldtype="dropdownlist" listid="modules_catalog/productsuggestionfeeders" hidehelp="true" />
 					<xul:label value="Nombre maximum de résultats" />
 					<xul:cfield anonid="field_maxResults" name="maxResults" fieldtype="integer" hidehelp="true" />
-					<xul:toolbarbutton oncommand="search();" image="{HttpHost}/icons/small/search.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Search;" />
+					<xul:toolbarbutton oncommand="search();" image="{IconsBase}/small/search.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Search;" />
 					<xul:spacer flex="1" />
 				</xul:hbox>
 				<xul:spacer height="5px" />
 				<xul:toolbar anonid="result-toolbar">
-					<xul:toolbarbutton oncommand="selectAll();" image="{HttpHost}/icons/small/check-box-check.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Check-all;" />
-					<xul:toolbarbutton oncommand="unselectAll();" image="{HttpHost}/icons/small/check-box-uncheck.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Uncheck-all;" />
+					<xul:toolbarbutton oncommand="selectAll();" image="{IconsBase}/small/check-box-check.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Check-all;" />
+					<xul:toolbarbutton oncommand="unselectAll();" image="{IconsBase}/small/check-box-uncheck.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Uncheck-all;" />
 					<xul:spacer flex="1" />
 				</xul:toolbar>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
@@ -353,7 +353,7 @@
 					</xul:grid>
 				</xul:scrollbox>
 				<xul:hbox>
-					<xul:button image="{HttpHost}/icons/small/check.png" oncommand="addSelection();" label="&amp;modules.uixul.bo.dialog.Apply;" />
+					<xul:button image="{IconsBase}/small/check.png" oncommand="addSelection();" label="&amp;modules.uixul.bo.dialog.Apply;" />
 				</xul:hbox>
 			</xul:vbox>
 		</content>
@@ -549,19 +549,19 @@
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'edit');
 					button.setAttribute('documentId', jsnode.id);
-					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('image', '{IconsBase}/small/edit.png');
 					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Edit;");
 					
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('documentId', jsnode.id);
-					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Delete;");
 					
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'editPrice');
 					button.setAttribute('documentId', jsnode.id);
-					button.setAttribute('image', '{HttpHost}/icons/small/price.png');
+					button.setAttribute('image', '{IconsBase}/small/price.png');
 					button.setAttribute('tooltiptext', "&amp;modules.catalog.bo.doceditor.panel.declinations.Prices;");
 					
 					cell = row.appendChild(document.createElement('label'));
@@ -743,7 +743,7 @@
 		<content>
 			<xul:vbox flex="1">
 				<xul:toolbar anonid="result-toolbar">
-					<xul:toolbarbutton action="create" anonid="button-new" image="{HttpHost}/icons/small/add.png" label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;" />
+					<xul:toolbarbutton action="create" anonid="button-new" image="{IconsBase}/small/add.png" label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;" />
 					<xul:spacer flex="1" />
 					<xul:label anonid="result-count" />
 				</xul:toolbar>

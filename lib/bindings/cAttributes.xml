@@ -180,13 +180,13 @@
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'edit');
 					button.setAttribute('idx', idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('image', '{IconsBase}/small/edit.png');
 					button.setAttribute('label', "&modules.uixul.bo.actions.Edit;");
 										
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
 
 					rows.appendChild(row);
@@ -323,13 +323,13 @@
 					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'save');
 					button.setAttribute('idx', row.idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('image', '{IconsBase}/small/edit.png');
 					button.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Action-save;");
 										
 					button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', row.idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
 				]]></body>
 			</method>								
@@ -396,7 +396,7 @@
 					<xul:toolbar>
 						<xul:toolbarbutton action="create" anonid="button-new" 
 						label="&amp;modules.catalog.bo.doceditor.attrdef.Action-create;" 
-						image="{HttpHost}/icons/small/add.png"  />
+						image="{IconsBase}/small/add.png"  />
 					</xul:toolbar>	
 					<xul:spacer />
 				<children/>
@@ -632,13 +632,13 @@
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'edit');
 					button.setAttribute('idx', idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('image', '{IconsBase}/small/edit.png');
 					button.setAttribute('label', "&modules.uixul.bo.actions.Edit;");
 										
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
 
 					rows.appendChild(row);
@@ -724,13 +724,13 @@
 					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'save');
 					button.setAttribute('idx', row.idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/edit.png');
+					button.setAttribute('image', '{IconsBase}/small/edit.png');
 					button.setAttribute('label', "&modules.catalog.bo.doceditor.attr.action-save;");
 										
 					button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', row.idx);
-					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
 				]]></body>
 			</method>	
@@ -817,7 +817,7 @@
 						<xul:toolbar>
 							<xul:toolbarbutton action="create" anonid="button-new" 
 							label="&amp;modules.catalog.bo.doceditor.attr.Action-create;" 
-							image="{HttpHost}/icons/small/add.png"  />
+							image="{IconsBase}/small/add.png"  />
 						</xul:toolbar>	
 						<xul:spacer />
 					<children/>

@@ -1,36 +1,45 @@
 treechildren::-moz-tree-image(modules_catalog_shopfolder){
-	list-style-image: url(/icons/small/folder.png) ;
+	list-style-image: url(/changeicons/small/folder.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_shop){
-	list-style-image: url(/icons/small/gold.png) ;
+	list-style-image: url(/changeicons/small/gold.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_topshelf){
-	list-style-image: url(/icons/small/folders-stack.png) ;
+	list-style-image: url(/changeicons/small/folders-stack.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_shelf){
-	list-style-image: url(/icons/small/folder-closed.png) ;
+	list-style-image: url(/changeicons/small/folder-closed.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_declinedproduct){
-	list-style-image: url(/icons/small/declinedproduct.png) ;
+	list-style-image: url(/changeicons/small/declinedproduct.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_productdeclination){
-	list-style-image: url(/icons/small/product.png) ;
+	list-style-image: url(/changeicons/small/product.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_simpleproduct){
-	list-style-image: url(/icons/small/simpleproduct.png) ;
+	list-style-image: url(/changeicons/small/simpleproduct.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_price){
-	list-style-image: url(/icons/small/currency-euro.png) ;
+	list-style-image: url(/changeicons/small/currency-euro.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_shippingfilter){
-	list-style-image: url(/icons/small/shipping.png);
+	list-style-image: url(/changeicons/small/shipping.png);
 }
 treechildren::-moz-tree-image(modules_catalog_paymentfilter){
-	list-style-image: url(/icons/small/currency-euro.png);
+	list-style-image: url(/changeicons/small/currency-euro.png);
 }
 treechildren::-moz-tree-image(modules_catalog_attributefolder){
-	list-style-image: url(/icons/small/blueprint.png);
+	list-style-image: url(/changeicons/small/blueprint.png);
 }
 treechildren::-moz-tree-image(modules_catalog_preferences){
-	list-style-image: url(/icons/small/catalog.png);
+	list-style-image: url(/changeicons/small/catalog.png);
+}
+treechildren::-moz-tree-image(modules_catalog_compiledproduct){
+	list-style-image: url(/changeicons/small/productref.png);
+}
+treechildren::-moz-tree-image(modules_catalog_product){
+	list-style-image: url(/changeicons/small/product.png);
+}
+treechildren::-moz-tree-image(modules_catalog_productlist){
+	list-style-image: url(/changeicons/small/cubes.png);
 }
