@@ -175,7 +175,6 @@ class catalog_ModuleService extends ModuleBaseService
 	}		
 	
 	/**
-	 *
 	 * @param catalog_persistentdocument_productlist $productList
 	 */
 	public function mergeFavoriteProductWithList($productList)

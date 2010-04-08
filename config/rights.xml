@@ -4,6 +4,7 @@
 		<document name="rootfolder" />
 		<document name="comment">
 			<action name="Validate" />
+			<action name="Trusted" />
 		</document>
 		<document name="attributefolder" />
 		<document name="shelf" />
@@ -55,5 +56,8 @@
 		<role name="User">
 			<permission name="List.*" />
 		</role>
+		<frontendrole name="Trusted">
+			<permission name="Trusted.comment" />
+		</frontendrole>
 	</roles>
 </rights>

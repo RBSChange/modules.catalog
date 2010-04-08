@@ -1,58 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-  <entity id="edition-form-title">
-    <locale lang="fr">gestion des droits</locale>
-    <locale lang="en">right management</locale>
-    <locale lang="de">Verwaltung der Rechte</locale>
-  </entity>
-  <entity id="Admin">
-    <locale lang="fr">Administrateur</locale>
-    <locale lang="en">Administrator</locale>
-    <locale lang="de">Administrator</locale>
-  </entity>
-  <entity id="Admin-help">
-    <locale lang="fr">Administrateur</locale>
-    <locale lang="en">Administrator</locale>
-    <locale lang="de">Administrator</locale>
-  </entity>
-  <entity id="Writer">
-    <locale lang="fr">Rédacteur</locale>
-    <locale lang="en">Writer</locale>
-    <locale lang="de">Redakteur</locale>
-  </entity>
-  <entity id="Writer-help">
-    <locale lang="fr">Rédacteur</locale>
-    <locale lang="en">Writer</locale>
-    <locale lang="de">Redakteur</locale>
-  </entity>
-  <entity id="Translator">
-    <locale lang="fr">Traducteur</locale>
-    <locale lang="en">Translator</locale>
-    <locale lang="de">Übersetzer</locale>
-  </entity>
-  <entity id="Translator-help">
-    <locale lang="fr">Traducteur</locale>
-    <locale lang="en">Translator</locale>
-    <locale lang="de">Übersetzer</locale>
-  </entity>
-  <entity id="Validator">
-    <locale lang="fr">Validateur</locale>
-    <locale lang="en">Validator</locale>
-    <locale lang="de">Bestätiger</locale>
-  </entity>
-  <entity id="Validator-help">
-    <locale lang="fr">Validateur du contenu avant publication</locale>
-    <locale lang="en">Validator</locale>
-    <locale lang="de">Bestätiger des Inhalts vor Veröffentlichung</locale>
-  </entity>
-  <entity id="User">
-    <locale lang="fr">Utilisateur</locale>
-    <locale lang="en">User</locale>
-    <locale lang="de">Benutzer</locale>
-  </entity>
-  <entity id="User-help">
-    <locale lang="fr">Utilisateur</locale>
-    <locale lang="en">User</locale>
-    <locale lang="de">Benutzer</locale>
-  </entity>
+	<entity id="edition-form-title">
+		<locale lang="fr">gestion des droits</locale>
+		<locale lang="en">right management</locale>
+		<locale lang="de">Verwaltung der Rechte</locale>
+	</entity>
+	<entity id="Admin">
+		<locale lang="fr">Administrateur</locale>
+		<locale lang="en">Administrator</locale>
+		<locale lang="de">Administrator</locale>
+	</entity>
+	<entity id="Admin-help">
+		<locale lang="fr">Administrateur</locale>
+		<locale lang="en">Administrator</locale>
+		<locale lang="de">Administrator</locale>
+	</entity>
+	<entity id="Writer">
+		<locale lang="fr">Rédacteur</locale>
+		<locale lang="en">Writer</locale>
+		<locale lang="de">Redakteur</locale>
+	</entity>
+	<entity id="Writer-help">
+		<locale lang="fr">Rédacteur</locale>
+		<locale lang="en">Writer</locale>
+		<locale lang="de">Redakteur</locale>
+	</entity>
+	<entity id="Translator">
+		<locale lang="fr">Traducteur</locale>
+		<locale lang="en">Translator</locale>
+		<locale lang="de">Übersetzer</locale>
+	</entity>
+	<entity id="Translator-help">
+		<locale lang="fr">Traducteur</locale>
+		<locale lang="en">Translator</locale>
+		<locale lang="de">Übersetzer</locale>
+	</entity>
+	<entity id="Validator">
+		<locale lang="fr">Validateur</locale>
+		<locale lang="en">Validator</locale>
+		<locale lang="de">Bestätiger</locale>
+	</entity>
+	<entity id="Validator-help">
+		<locale lang="fr">Validateur du contenu avant publication</locale>
+		<locale lang="en">Validator</locale>
+		<locale lang="de">Bestätiger des Inhalts vor Veröffentlichung</locale>
+	</entity>
+	<entity id="Guest">
+		<locale lang="fr">Invité</locale>
+		<locale lang="en">Guest</locale>
+		<locale lang="de">Gast</locale>
+	</entity>
+	<entity id="Guest-help">
+		<locale lang="fr">Autorisé à naviguer dans le module</locale>
+		<locale lang="en">Authorized to enter and navigate into module</locale>
+		<locale lang="de">Berechtigt, im Modul zu surfen</locale>
+	</entity>
+	<entity id="User">
+		<locale lang="fr">Utilisateur</locale>
+		<locale lang="en">User</locale>
+		<locale lang="de">Benutzer</locale>
+	</entity>
+	<entity id="User-help">
+		<locale lang="fr">Utilisateur</locale>
+		<locale lang="en">User</locale>
+		<locale lang="de">Benutzer</locale>
+	</entity>
+	<entity id="trusted">
+		<locale lang="fr">utilisateur de confiance</locale>
+	</entity>
+	<entity id="trusted-help">
+		<locale lang="fr">utilisateur dont les commentaires seront directement publiés sans passer par la phase de validation.</locale>
+	</entity>
 </localization>
