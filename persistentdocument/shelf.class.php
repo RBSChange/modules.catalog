@@ -5,7 +5,10 @@
  */
 class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfbase implements indexer_IndexableDocument
 {
-	function getVisualURL()
+	/**
+	 * @return String
+	 */
+	public function getVisualURL()
 	{
 		$visual = $this->getVisual();
 		if ($visual === null)
@@ -33,7 +36,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	
 	/**
 	 * Return true if the shelf is a top shelf else return false
-	 *
 	 * @return Boolean
 	 */
 	public function isTopShelf()
@@ -47,7 +49,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	
 	/**
 	 * Get the indexable document
-	 *
 	 * @return indexer_IndexedDocument
 	 */
 	public function getIndexedDocument()
@@ -78,7 +79,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 *
 	 * @return String
 	 */
 	public function getShortDescription()
@@ -89,6 +89,9 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 		return $desc;
 	}
 	
+	/**
+	 * @return catalog_persistentdocument_shelf
+	 */
 	public function getParentShelf()
 	{
 		$parent = $this->getDocumentService()->getParentOf($this);
@@ -101,7 +104,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	
 	/**
 	 * @see f_persistentdocument_PersistentDocumentImpl::addTreeAttributes()
-	 *
 	 * @param string $moduleName
 	 * @param string $treeType
 	 * @param unknown_type $nodeAttributes
@@ -132,5 +134,19 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 			}
 		}
 		return $langs;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @return integer
+	 */
+	public function getPublishedProductCount($shop = null, $lang = null)
+	{
+		if ($shop === null)
+		{
+			$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		}
+		return $this->getDocumentService()->getPublishedProductCount($this, $shop, $lang);
 	}
 }

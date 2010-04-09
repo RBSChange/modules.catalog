@@ -177,6 +177,26 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @return integer
+	 */
+	public function getPublishedProductCount($shelf, $shop, $lang = null)
+	{
+		$topic = $this->getRelatedTopicByShop($shelf, $shop);
+		if ($topic !== null)
+		{
+			$query = catalog_CompiledproductService::getInstance()->createQuery();
+			$query->add(Restrictions::published());
+			$query->add(Restrictions::eq('topicId', $topic->getId()));
+			$query->add(Restrictions::eq('lang', ($lang === null) ? RequestContext::getInstance()->getLang() : $lang));
+			return f_util_ArrayUtils::firstElement($query->setProjection(Projections::rowCount('count'))->findColumn('count'));
+		}
+		return 0;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
 	 * @return boolean
 	 */
 	public function isPublishable($shelf)
