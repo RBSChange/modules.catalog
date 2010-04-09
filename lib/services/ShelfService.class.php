@@ -339,6 +339,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @param string $forModuleName
+	 * @param array $allowedSections
 	 * @return array
 	 */
 	public function getResume($document, $forModuleName, $allowedSections = null)

@@ -45,6 +45,7 @@
 		<role name="Validator">
 			<permission name="Load.*" />
 			<permission name="Validate.comment" />
+			<permission name="Trusted.comment" />
 			<permission name="Activate.*" />
 			<permission name="Deactivated.*" />
 			<permission name="ReActivate.*" />

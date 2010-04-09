@@ -235,6 +235,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param string $forModuleName
+	 * @param array $allowedSections
 	 * @return array
 	 */
 	public function getResume($document, $forModuleName, $allowedSections = null)
