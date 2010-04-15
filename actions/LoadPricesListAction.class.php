@@ -28,8 +28,8 @@ class catalog_LoadPricesListAction extends f_action_BaseJSONAction
 				'isDiscount' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
 				'targetLabel' => $price->getTargetLabel(),
 				'thresholdMin' => $price->getThresholdMin(),
-				'startpublicationdate' => $price->getStartpublicationdate(),
-				'endpublicationdate' => $price->getEndpublicationdate(),
+				'startpublicationdate' => $price->getUIStartpublicationdate(),
+				'endpublicationdate' => $price->getUIEndpublicationdate(),
 			);
 		}
 		return $this->sendJSON($data);
