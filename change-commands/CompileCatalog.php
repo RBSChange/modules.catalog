@@ -29,27 +29,17 @@ class commands_CompileCatalog extends commands_AbstractChangeCommand
 	function _execute($params, $options)
 	{
 		$this->message("== Compile catalog ==");
-		
 		$this->loadFramework();
-
-		$batchPath = FileResolver::getInstance()
-			->setPackageName('modules_catalog')
-			->setDirectory('lib'. DIRECTORY_SEPARATOR . 'bin')
-			->getPath('batchCompile.php');
+		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
 			
 		$ids = catalog_ProductService::getInstance()->getAllProductIdsToCompile();
 		$count = count($ids);			
 		$this->message('There are '.$count.' products to be compiled.');
 		$index = 0;	
-		foreach (array_chunk($ids, 10) as $batch)
+		foreach (array_chunk($ids, 10) as $chunk)
 		{
-			$processHandle = popen('php ' . $batchPath . ' '. implode(' ', $batch), 'r');
-			while ($string = fread($processHandle, 1024))
-			{
-				echo $string;
-			}
-			pclose($processHandle);
-			$index = $index + count($batch);
+			f_util_System::execHTTPScript($batchPath, $chunk);
+			$index = $index + count($chunk);
 			echo "Compiling products: $index \n";
 		}
 		
