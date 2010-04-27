@@ -5,6 +5,7 @@
 			<method name="setValues">
 				<parameter name="values" />
 				<body><![CDATA[
+					this.clearValues();
 					var propertyValues = values[this.name];
 					if (propertyValues)
 					{
@@ -12,47 +13,29 @@
 						for (var i = 0; i < propertyValues.length; i++)
 						{
 							values = propertyValues[i];
-							property = this.childNodes[i];
-							if (property == null)
-							{
-								property = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'xul:cproperty');
-								this.appendChild(property);
-							}
-							else
-							{
-								property.removeAttribute('collapsed');
-							}
-							
+							property = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'xul:cproperty');
+							property.setAttribute("propertyname", 'p_' + i);
 							if (values.class == 'link')
 							{
 								property.setAttribute('class', 'link');
-								property.setAttribute('label', values.label);
-								property.setAttribute('linklabel', values.href);
-								property.setAttribute('href', values.href);
-								property.removeAttribute('value');
 							}
-							else
-							{
-								property.removeAttribute('class');
-								property.setAttribute('label', values.label);
-								property.removeAttribute('linklabel');
-								property.removeAttribute('href');
-								property.setAttribute('value', values.href);
-							}
+							property.setAttribute('label', values.label);					
+							this.appendChild(property);
+							property.setValue(values.href);
 						}
-						while (property = this.childNodes[i])
-						{
-							property.setAttribute('collapsed', 'true');
-							i++;
-						}
-						this.removeAttribute("hidden");
-					}
-					else
-					{
-						//this.setAttribute("hidden", true);
 					}		
 				]]></body>
-			</method>		
+			</method>	
+	
+			<method name="clearValues">
+				<body><![CDATA[
+					this.mPoperties = [];
+					while (this.childNodes.length > 0)
+					{
+						this.removeChild(this.childNodes[this.childNodes.length-1]);
+					}
+				]]></body>
+			</method>	
 		</implementation>
 	</binding>
 	
