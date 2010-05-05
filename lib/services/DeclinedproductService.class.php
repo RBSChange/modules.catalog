@@ -252,7 +252,13 @@ class catalog_DeclinedproductService extends catalog_ProductService
 		{
 			return array();
 		}
-		return $this->createQuery()->add(Restrictions::eq('compiledproduct.shopId', $shop->getId()))->setMaxResults($maxUrl)->setProjection(Projections::property('id', 'id'))->findColumn('id');
+		$query = $this->createQuery();
+		$criteria = $query->createCriteria('compiledproduct')->add(Restrictions::eq('shopId', $shop->getId()))->add(Restrictions::published());
+		if (!$website->getLocalizebypath())
+		{
+			$criteria->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()));
+		}
+		return $query->setMaxResults($maxUrl)->setProjection(Projections::groupProperty('id', 'id'))->findColumn('id');
 	}
 		
 	/**

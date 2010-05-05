@@ -6,7 +6,7 @@
 		<field name="description" />
 		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="brand" />
-		<field name="shelf" allow="modules_catalog_shelf,modules_catalog_topshelf" required="true" />
+		<field name="shelf" moduleselector="catalog" allow="[modules_catalog_shelf]" required="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates" class="toggle" hidden="true">
 		<field name="startpublicationdate" />
