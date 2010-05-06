@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.doceditor.Common-properties">
+		<section labeli18n="modules.catalog.bo.general.General">
+			<field name="label" />
+			<field name="codeReference" />
+			<field name="description" />
+			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+			<field name="brand" />
+		</section>
+		<section labeli18n="modules.catalog.bo.general.Validity-dates">
+			<field name="startpublicationdate" />
+			<field name="endpublicationdate" />
+		</section>
+	</section>
+	
+	<section labeli18n="modules.catalog.bo.doceditor.First-bundleditems">
+		<field name="newBundledItemProducts" type="documentarray" required="true"
+			allow="modules_catalog_simpleproduct" moduleselector="catalog"
+			labeli18n="modules.catalog.bo.doceditor.bundleditem.Products"
+			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
+		</field>
+		<field name="newBundledItemQtt" type="integer" required="true"
+			labeli18n="modules.catalog.bo.doceditor.bundleditems.Defaultquatity"
+			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquatity-help;">
+			<constraint name="min" parameter="1" />
+		</field>
+	</section>
+</panel>

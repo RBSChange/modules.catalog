@@ -43,3 +43,9 @@ treechildren::-moz-tree-image(modules_catalog_product){
 treechildren::-moz-tree-image(modules_catalog_productlist){
 	list-style-image: url(/changeicons/small/cubes.png);
 }
+treechildren::-moz-tree-image(modules_catalog_bundleproduct){
+	list-style-image: url(/changeicons/small/bundleproduct.png);
+}
+treechildren::-moz-tree-image(modules_catalog_bundleditem){
+	list-style-image: url(/changeicons/small/document.png);
+}

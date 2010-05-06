@@ -348,10 +348,85 @@
 		<content>
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
-				<xul:cdeclinationslist anonid="declinationlist" flex="1" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" 
+								label="&amp;modules.uixul.bo.doceditor.button.Save;" 
+								image="{IconsBase}/small/save.png"/>
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
+								label="&amp;modules.uixul.bo.doceditor.button.Canceledit;" 
+								image="{IconsBase}/small/undo.png"/>
+					<xul:button anonid="add_declination" oncommand="addDeclination()" 
+								label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;" 
+								image="{IconsBase}/small/add.png"/>
+					<xul:spacer flex="1" />
+					<xul:label anonid="result-count" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cdeclinationslist anonid="declinationlist" flex="1" />
+					<xul:spacer flex="1" />
+				</xul:scrollbox>
 			</xul:vbox>
 		</content>
-		<implementation>	
+		<implementation>
+			<field name="documentInfos">null</field>
+			
+			<property name="gridlist" readonly="true">
+				<getter><![CDATA[
+					return this.getElementByAnonId('declinationlist');
+				]]></getter>
+			</property>
+			
+			<property name="modified">
+				<getter><![CDATA[
+					return this.getAttribute("modified") === "true";
+				]]></getter>
+				<setter><![CDATA[
+					var oldval = this.modified;
+					if (val != oldval) 
+					{
+						if (val)
+						{
+							this.setAttribute("modified", "true");
+						}
+						else
+						{
+							this.removeAttribute("modified");
+						}
+						this.updateCommandsUI();
+					}
+				]]></setter>
+			</property>
+			
+			<method name="updateCommandsUI">
+				<body><![CDATA[						
+					this.getElementByAnonId('save_properties').disabled = !this.modified;
+					this.getElementByAnonId('reset_properties').disabled = !this.modified;
+					this.getElementByAnonId('add_declination').disabled = this.modified;
+					
+					this.documentEditor.lockTabs(this.modified);
+				]]></body>
+			</method>
+			
+			<method name="lockCommandsUI">
+				<body><![CDATA[													
+					this.getElementByAnonId('save_properties').disabled = true;
+					this.getElementByAnonId('reset_properties').disabled = true;
+					this.getElementByAnonId('add_declination').disabled = true;
+				]]></body>
+			</method>
+							
+			<method name="onCloseEditor">
+				<body><![CDATA[	
+					//wCore.debug("onCloseEditor:" + this.tagName);
+					this.documentInfos = null;
+					var gridlist = this.gridlist;
+					if ('initJSONDataset' in gridlist)
+					{
+						gridlist.initJSONDataset(null);
+					}
+				]]></body>
+			</method>	
+								
 			<method name="getInitializeParameters">
 				<body><![CDATA[
 					return {
@@ -365,392 +440,350 @@
 			<method name="fireInitializeComplete">
 				<parameter name="result" />
 				<body><![CDATA[
-					var list = document.getAnonymousElementByAttribute(this, 'anonid', 'declinationlist');
-					list.setAttribute('productId', this.documentEditor.documentid);
-					list.refresh();
-					
-					this.mInitialized = true;
-					this.fireEvent("panelInitializeComplete");
-					this.gotoTop();
-				]]></body>
-			</method>
-		</implementation>
-	</binding>
-	
-	<binding id="cDeclinationsList">
-		<resources>
-			<stylesheet src="modules.uixul.cEditorGrid" />
-			<stylesheet src="modules.catalog.cEditorList" />
-		</resources>
-	
-		<implementation>
-			<field name="mLoadingRequest">null</field>
-			<field name="mGrid">null</field>
-			<field name="mFirstId">null</field>
-			
-			<constructor><![CDATA[
-				this.mGrid = this.getElementByAnonId('grid');
-				
-				var me = this;
-				this.mGrid.addEventListener("dragstart", function (event) {me.onDragStart(event);}, false);
-				this.mGrid.addEventListener("dragenter", function (event) {me.onDragEnter(event);}, false);
-				this.mGrid.addEventListener("dragover", function (event) {me.onDragOver(event);}, false);
-				this.mGrid.addEventListener("drop", function (event) {me.onDrop(event);}, false);
-				this.mGrid.addEventListener("dragend", function (event) {me.onDragEnd(event);}, false);
-				this.mGrid.addEventListener("dragleave", function (event) {me.onDragLeave(event);}, false);
-			]]></constructor>
-			
-			<method name="getTargetedRow">
-				<parameter name="event" />			
-				<body><![CDATA[
-					var node = event.target;
-					//wCore.debug('getTargetedRow tagName = '+node.tagName);
-					while (node && node.tagName != 'row' && node.tagName != 'xul:row')
-					{
-						node = node.parentNode;
-					}
-					return node;
-				]]></body>
-			</method>
-			
-			<method name="isRowValidForEvent">
-				<parameter name="row" />			
-				<parameter name="event" />			
-				<body><![CDATA[
-					var movedId = event.dataTransfer.getData('movedId');
-					return (row !== null && ((row.getAttribute('class') == 'head' && this.mFirstId != movedId) || (row.hasAttribute('documentId') && row.getAttribute('documentId') != movedId)));
-				]]></body>
-			</method>
-			
-			<method name="onDragStart">
-				<parameter name="event" />			
-				<body><![CDATA[			
-					//wCore.debug('onDragStart');
-					var row = this.getTargetedRow(event);
-					if (row !== null && row.hasAttribute('documentId'))
-					{
-						event.dataTransfer.effectAllowed='move';
-						event.dataTransfer.setData('movedId', row.getAttribute('documentId'));
-						event.dataTransfer.setDragImage(event.target,0,0);
-						return true;
-					}
-					return false;
-				]]></body>
-			</method>	
-			
-			<method name="onDragEnter">
-				<parameter name="event" />		
-				<body><![CDATA[
-					//wCore.debug('onDragEnter');
-					var row = this.getTargetedRow(event);
-					if (this.isRowValidForEvent(row, event))
-					{
-						row.setAttribute('dragAfter', 'true');
-					}
-				]]></body>	
-			</method>				
-							
-			<method name="onDragLeave">
-				<parameter name="event" />			
-				<body><![CDATA[
-					//wCore.debug('onDragLeave');
-					var row = this.getTargetedRow(event);
-					if (this.isRowValidForEvent(row, event))
-					{
-						row.removeAttribute('dragAfter');
-					}
-				]]></body>	
-			</method>	
-									
-			<method name="onDragOver">
-				<parameter name="event" />			
-				<body><![CDATA[
-					//wCore.debug('onDragOver');
-					var row = this.getTargetedRow(event);
-					if (this.isRowValidForEvent(row, event))
-					{
-						//wCore.debug('onDragOver afterId = ' + row.getAttribute('documentId') + ', movedId = '+ movedId);
-						event.preventDefault();
-						return true;
-					}
-					return false;
-				]]></body>	
-			</method>	
+					if (result.status == 'OK')
+					{			
+						var contents = result.contents;
+						this.documentInfos = {id: contents.id, vo: contents.lang, revision: contents.documentversion};
+						var node = this.getElementByAnonId('result-count');
+						var totalResultsCount = contents.totalCount;
+						var resultsCount = contents.count;
+						if (resultsCount == 0)
+						{
+							node.setAttribute('value', "&amp;modules.uixul.bo.general.search.NoResults;");
+						}
+						else if (resultsCount == totalResultsCount)
+						{
+							node.setAttribute('value', "&amp;modules.uixul.bo.general.search.SearchResultCountLabel;" + " " + totalResultsCount);
+						}
+						else
+						{
+							node.setAttribute('value', "&amp;modules.uixul.bo.general.search.FirstHundred;" + " (" +"&amp;modules.uixul.bo.general.search.TotalSearchResultCountLabel;" + totalResultsCount + " )");
+						}
 						
-			<method name="onDrop">
-				<parameter name="event" />			
-				<body><![CDATA[
-					event.stopPropagation();
-					
-					var movedId = event.dataTransfer.getData('movedId');
-					
-					var row = this.getTargetedRow(event);
-					if (row !== null && row.getAttribute('class') == 'head' && this.mFirstId != movedId)
-					{
-						var afterId = null;
-						var beforeId = this.mFirstId;
-					}
-					else if (row !== null && row.hasAttribute('documentId') && row.getAttribute('documentId') != movedId)
-					{
-						var afterId = row.getAttribute('documentId');
-						var beforeId = null;
+						var dataset = (contents.nodes.length > 0) ? contents.nodes : null;
+						this.gridlist.initJSONDataset(dataset);						
+						this.modified = false;
+						this.collapseContentZone(false);
+						this.updateCommandsUI();
+						this.mInitialized = true;
+						this.fireEvent("panelInitializeComplete");
+						this.gotoTop();
 					}
 					else
 					{
-						return;
-					}
-					wCore.debug('onDrop beforeId = ' + beforeId + ', afterId = ' + afterId + ', movedId = ' + event.dataTransfer.getData('movedId'));
-					
-					var parameters = {cmpref: [movedId], destref: this.getAttribute('productId'), beforeid: beforeId, afterid: afterId};
-					
-					var result = wCore.executeJSON('catalog', 'Move', parameters, null, true);
-					//result = result['contents'];
-					this.refresh();
-					
-					return false;
-				]]></body>	
-			</method>
-			
-			<method name="onDragEnd">
-				<parameter name="event" />			
-				<body><![CDATA[
-					wCore.debug('onDragEnd');
-					return true;
-				]]></body>	
-			</method>
+						this.documentInfos = null
+						this.gridlist.initJSONDataset(null);
 						
-			<method name="addItem">
-				<parameter name="jsnode" />
-				<body><![CDATA[
-					var row = document.createElement('row');
-					row.setAttribute('class', 'document');
-					row.setAttribute('documentId', jsnode.id);
-					
-					var cell = row.appendChild(document.createElement('toolbar'));
-					cell.setAttribute('class', 'actions');
-					
-					var button = cell.appendChild(document.createElement('toolbarbutton'));
-					button.setAttribute('action', 'edit');
-					button.setAttribute('documentId', jsnode.id);
-					button.setAttribute('image', '{IconsBase}/small/edit.png');
-					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Edit;");
-					
-					var button = cell.appendChild(document.createElement('toolbarbutton'));
-					button.setAttribute('action', 'delete');
-					button.setAttribute('documentId', jsnode.id);
-					button.setAttribute('image', '{IconsBase}/small/delete.png');
-					button.setAttribute('tooltiptext', "&amp;modules.uixul.bo.actions.Delete;");
-					
-					var button = cell.appendChild(document.createElement('toolbarbutton'));
-					button.setAttribute('action', 'editPrice');
-					button.setAttribute('documentId', jsnode.id);
-					button.setAttribute('image', '{IconsBase}/small/price.png');
-					button.setAttribute('tooltiptext', "&amp;modules.catalog.bo.doceditor.panel.declinations.Prices;");
-					
-					cell = row.appendChild(document.createElement('label'));
-					cell.setAttribute('value', jsnode.label);
-					if (!jsnode.langAvailable)
-					{
-						cell.setAttribute('class', 'lang-unavailable');
+						this.showErrorMessage(result.contents.errorMessage);
+						this.modified = false;						
+						this.collapseContentZone(true);						
+						this.mInitialized = true;
 					}
-					
-					cell = row.appendChild(document.createElement('label'));
-					cell.setAttribute('value', jsnode.codeReference);
-					
-					cell = row.appendChild(document.createElement('label'));
-					cell.setAttribute('value', jsnode.stockQuantity);
-					
-					cell = row.appendChild(document.createElement('label'));
-					cell.setAttribute('value', jsnode.stockLevel);
+				]]></body>
+			</method>
 
-					this.getElementByAnonId('document-rows').appendChild(row);
+			<method name="resetProperties">
+				<body><![CDATA[
+					this.documentEditor.executeServerAction('declinations', 'Initialize');
 				]]></body>
 			</method>
 			
-			<method name="createNew">
+			<method name="addDeclination">
 				<body><![CDATA[
-					wCore.debug('cDeclinationList.createNew');
-					var productId = this.getAttribute('productId');
-					var shopId = this.getAttribute('shop');
-					var targetId = this.getAttribute('targetId');
+					var productId = this.documentEditor.documentid;
 					var uri = ['catalog', 'createDeclinationFromProduct', 'modules_catalog_productdeclination', productId].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
 			
-			<method name="edit">
-				<parameter name="id" />
+			<method name="saveProperties">
 				<body><![CDATA[
-					wCore.debug('cDeclinationList.edit('+id+')');
-					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', id, 'properties'].join(',');
-					openActionUri(uri);
+					this.lockCommandsUI();
+					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.documentEditor.executeServerAction('declinations', 'Update');
 				]]></body>
 			</method>
-			
-			<method name="editPrice">
-				<parameter name="id" />
-				<body><![CDATA[
-					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', id, 'prices'].join(',');
-					openActionUri(uri);
-				]]></body>
-			</method>
-			
-			<method name="delete">
-				<parameter name="id" />
-				<body><![CDATA[
-					wCore.debug('cDeclinationList.delete('+id+')');
-					if (confirm("&modules.catalog.bo.doceditor.panel.declinations.Confirm-delete-declination;"))
-					{
-						var me = this;
-						var callBack = function(result) { me.refresh();	};
-						wCore.executeJSON('catalog', 'DeleteJSON', {cmpref: id, lang: Context.W_LANG}, callBack, true);
-					}
-				]]></body>
-			</method>
-			
-			<method name="getElementByAnonId">
-				<parameter name="id"/>
-				<body><![CDATA[
-					return document.getAnonymousElementByAttribute(this, "anonid", id);
-				]]></body>
-			</method>
-			
-			<method name="cleanList">
-				<body><![CDATA[
-					var rows = this.getElementByAnonId('document-rows');
-					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
-					{
-						rows.removeChild(rows.lastChild);
-					}
-				]]></body>
-			</method>
-				
-			<method name="refresh">
-				<body><![CDATA[
-					if (this.mLoadingRequest !== null)
-					{
-						wCore.debug('[cDeclinationsList.refresh] Already refreshing.');
-						return;
-					}
-					var parameters = {productId: this.getAttribute('productId'), lang: Context.W_LANG};
 					
-					var me = this;
-					var callBack = function(result) { me.updateResults(result);	};
-					this.mLoadingRequest = wCore.executeJSON('catalog', 'LoadDeclinationsList', parameters, callBack, true);
-				]]></body>
-			</method>	
-			
-			<method name="updateResults">
-				<parameter name="result" />
+			<method name="getUpdateParameters">
 				<body><![CDATA[
-					wCore.debug("cDeclinationsList.updateResults");
-					try
-					{
-						this.mLoadingRequest = null;					
-						if (result.status === 'OK')
-						{	
-							this.cleanList()
-							var contents = result.contents;
-							this.addResultInfos(contents);
-							if (contents.nodes.length > 0)
-							{
-								this.mFirstId = contents.nodes[0].id;
-								for (var i = 0; i < contents.nodes.length; i++)
-								{
-									this.addItem(contents.nodes[i]);
-								}
-							}
-						}
-						else
-						{
-							wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
-						}
-					}
-					catch (e)
-					{
-						wCore.error("cDeclinationsList.updateResults", [], e);
-					}
+				var dataset = this.gridlist.getJSONDataset();
+				declinationIds = dataset.map(function(datarow){return datarow.id;}); 
+				return {
+						action: 'SaveDeclinationsList',
+						cmpref: this.documentInfos.id, 
+						lang : this.documentInfos.vo,
+						documentversion: this.documentInfos.revision,
+						declinationIds: declinationIds
+				};
 				]]></body>
 			</method>
 			
-			<method name="addResultInfos">
+			<method name="fireUpdateComplete">
 				<parameter name="result" />
-				<body><![CDATA[							
-					var node = this.getElementByAnonId('result-count');
-					var totalResultsCount = result.totalCount;
-					var resultsCount = result.count;
-					if (resultsCount == 0)
+				<body><![CDATA[			
+					if (result.status == "OK")
 					{
-						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.NoResults;");
-					}
-					else if (resultsCount == totalResultsCount)
-					{
-						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.SearchResultCountLabel;" + " " + totalResultsCount);
+						this.modified = false;						
+						this.documentEditor.clearTabs();
+						//wCore.debug('onUpdateComplete' + wCore.dump(result));						
+						this.fireInitializeComplete(result);						
+						this.showTextMessage("&modules.uixul.bo.doceditor.message.Document-updated;");
 					}
 					else
 					{
-						node.setAttribute('value', "&amp;modules.uixul.bo.general.search.FirstHundred;" + " (" +"&amp;modules.uixul.bo.general.search.TotalSearchResultCountLabel;" + totalResultsCount + " )");
+						this.showErrorMessage(result.contents.errorMessage);					
 					}
 				]]></body>
 			</method>
 		</implementation>
-			
-		<handlers>		
-			<handler event="click" button="0" clickcount="1"><![CDATA[
-				var target = event.originalTarget;
-				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
-				{
-					switch (target.getAttribute('action'))
-					{
-						case 'create':
-							this.createNew();
-							break;
-						
-						case 'edit':
-							this.edit(target.getAttribute('documentId'));
-							break;
-							
-						case 'editPrice':
-							this.editPrice(target.getAttribute('documentId'));
-							break;
-						
-						case 'delete':
-							this.delete(target.getAttribute('documentId'));
-							break;
-					}
-					return;
-				}
+		
+		<handlers>			
+			<handler event="gridChanged"><![CDATA[
+				this.modified = this.gridlist.isModified();
 			]]></handler>
 		</handlers>
-		
+	</binding>
+	
+	<binding id="cDeclinationsList" extends="widgets.cGrid#cAbstractOrderableGrid">	
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column flex="1" />
+					<xul:column flex="1" />
+					<xul:column flex="1" />
+					<xul:column flex="1" />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-actions;" />
+						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-label;" />
+						<xul:label name="codeReference" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-codeReference;" />
+						<xul:label name="stockQuantity" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockQuantity;" />
+						<xul:label name="stockLevel" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockLevel;" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+			
+			<xul:row anonid="template-row" class="document orderable" hidden="true">
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="action">
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
+					<xul:toolbarbutton action="editPrice" image="{IconsBase}/small/price.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow_up_blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow_down_blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
+				</xul:toolbar>
+			</xul:row>
+		</content>
+		<implementation>
+
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>	
+			
+			<method name="getDatarowKey">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					return datarow.id;
+				]]></body>
+			</method>
+			
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'properties'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="execute_editPrice">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />	
+				<body><![CDATA[
+					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'prices'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="execute_delete">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var dataset = this.buildDataset();
+					if (dataset.length > 1)
+					{						
+						this.updateDataset(dataset.filter(function(row, indice, ds){return row !== rowData}));
+					}
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	<binding id="cBundledItemsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
 		<content>
 			<xul:vbox flex="1">
-				<xul:toolbar anonid="result-toolbar">
-					<xul:toolbarbutton action="create" anonid="button-new" image="{IconsBase}/small/add.png" label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;" />
-					<xul:spacer flex="1" />
-					<xul:label anonid="result-count" />
-				</xul:toolbar>
+				<xul:cmessageinfo anonid="message"/>
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" 
+						label="&amp;modules.uixul.bo.doceditor.button.Save;" image="{IconsBase}/small/save.png"/>
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
+						label="&amp;modules.uixul.bo.doceditor.button.Canceledit;" image="{IconsBase}/small/undo.png"/>
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" 
+						label="&amp;modules.uixul.bo.doceditor.button.Nexterror;" image="{IconsBase}/small/next-invalid-field.png"/>
+				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
-					<xul:grid flex="1" anonid="grid">
-						<xul:columns>
-							<xul:column  />
-							<xul:column flex="1" />
-							<xul:column flex="1" />
-							<xul:column flex="1" />
-							<xul:column flex="1" />
-						</xul:columns>
-						<xul:rows anonid="document-rows">
-							<xul:row class="head">
-								<xul:label anonid="actionsColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-actions;" />
-								<xul:label anonid="labelColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-label;" />
-								<xul:label anonid="codeReferenceColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-codeReference;" />
-								<xul:label anonid="stockQuantityColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockQuantity;" />
-								<xul:label anonid="stockLevelColumn" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockLevel;" />
-							</xul:row>
-						</xul:rows>
-					</xul:grid>
-				</xul:scrollbox>
+					<xul:cfield name="bundleditemsJSON" id="catalog_bundleproduct_bundleditemsJSON" 
+						anonid="field_bundleditemsJSON" fieldtype="namedgridlist" flex="1">
+					</xul:cfield>
+					
+					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.Add-bundleditems;">
+						<xul:row anonid="row_newBundledItemProducts">
+							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemProducts_label" 
+									control="catalog_bundleproduct_bundleditems_newBundledItemProducts" 
+									value="&amp;modules.catalog.bo.doceditor.bundleditem.Products;"/>
+							<xul:cfield name="newBundledItemProducts" id="catalog_bundleproduct_bundleditems_newBundledItemProducts" 
+									anonid="field_newBundledItemProducts" fieldtype="documentarray" 
+									allow="modules_catalog_simpleproduct" moduleselector="catalog" 
+									shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
+							</xul:cfield>
+						</xul:row>
+						<xul:row anonid="row_newBundledItemQtt">
+							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemQtt_label" 
+								control="catalog_bundleproduct_bundleditems_newBundledItemQtt" 
+								value="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquatity;"/>
+							<xul:cfield name="newBundledItemQtt" id="catalog_bundleproduct_bundleditems_newBundledItemQtt" 
+								anonid="field_newBundledItemQtt" fieldtype="integer" required="true" 
+								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquatity-help;">
+									<xul:cconstraint name="min" parameter="1"/>
+							</xul:cfield>
+						</xul:row>
+					</xul:cfieldsgroup>
+					<xul:spacer flex="1" />
+				</xul:scrollbox>					
 			</xul:vbox>
-		</content>
+		</content>		
+		<implementation>
+      		<field name="mFieldNames">["bundleditemsJSON","newBundledItemProducts","newBundledItemQtt"]</field>
+      		
+      		<method name="saveProperties">
+				<body><![CDATA[
+					this.lockCommandsUI();
+					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.documentEditor.executeServerAction('bundleditems', 'Update');
+				]]></body>
+			</method>
+			
+		</implementation>
+	</binding>
+	
+	<binding id="cBundledItemsGrid" extends="widgets.cGrid#cAbstractOrderableGrid">
+		<implementation>
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>	
+			
+			<method name="getDatarowKey">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					return datarow.id + ',' + datarow.qtt;
+				]]></body>
+			</method>
+				
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					var uri = ['catalog', 'openDocument', rowData.productType, rowData.productId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="execute_delete">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					var olddataset = this.buildDataset();
+					if (olddataset.length <= 1) return;
+					
+					var dataset = [];
+					for (var i = 0; i < olddataset.length; i++)
+					{
+						if (olddataset[i] !== rowData)
+						{
+							dataset.push(olddataset[i]);
+						}
+					}
+					
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>	
+			
+			<method name="execute_addproduct">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					rowData.qtt += 1;
+					
+					var dataset = this.buildDataset();
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>	
+			
+			<method name="execute_removeproduct">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled || rowData.qtt <= 1) {return;}
+					rowData.qtt -= 1;
+					
+					var dataset = this.buildDataset();
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>	
+		</implementation>
+		
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column flex="1" />
+					<xul:column />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.bundleditems.Label-column;" />
+						<xul:label name="qtt" value="&amp;modules.catalog.bo.doceditor.bundleditems.Qtt-column;" />
+						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.bundleditems.Actions-column;" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+		
+			<xul:row anonid="template-row" class="document orderable" hidden="true">
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="actions">
+					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Add-product;" />
+					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Remove-product;" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow_up_blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow_down_blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
+				</xul:toolbar>
+			</xul:row>				
+		</content>	
 	</binding>
 </bindings>

@@ -28,6 +28,12 @@
 		<parameter name="listWidget" />
 		<body><![CDATA[this.createDocumentEditor('modules_catalog_paymentfilter', listWidget.getSelectedItems()[0].id);]]></body>
 	</action>
+	
+	<action name="createBundleproduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_bundleproduct', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	
 	<action name="createPriceFromProduct">
 		<parameter name="params" />
 		<body><![CDATA[

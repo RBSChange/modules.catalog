@@ -114,12 +114,14 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function getPricesForDate($date, $productId, $shopId, $orderBy = 'thresholdmin', $orderDir = 'asc', $targetId = null)
 	{
-		$startDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->toMidnight());
-		$endDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->setHour(23)->setMinute(59)->setSecond(59));
+		$startDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->toMidnight())->toString();
+		$endDate = date_Calendar::getInstance($startDate)->add(date_Calendar::DAY, 1)->toString();
+		
+		Framework::info(__METHOD__ . "($productId, $shopId, $orderBy, $date, $startDate, $endDate)");
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $productId))
 			->add(Restrictions::eq('shopId', $shopId))
-			->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::le('startpublicationdate', $endDate)))
+			->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)))
 			->add(Restrictions::orExp(Restrictions::isNull('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
 			
 		if ($targetId !== null)

@@ -25,6 +25,10 @@
     <locale lang="fr">créer un produit simple</locale>
     <locale lang="en">create simple product</locale>
   </entity>
+  <entity id="Create-Bundleproduct">
+    <locale lang="fr">créer un groupe de produit</locale>
+    <locale lang="en">create bundle product</locale>
+  </entity>  
   <entity id="Create-Price">
     <locale lang="fr">créer un prix normal</locale>
     <locale lang="en">create normal price</locale>

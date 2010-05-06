@@ -16,10 +16,7 @@
 		</ul>
 		
 		<h1 class="title" tal:content="product/getLabel" />
-		<div class="product-ref">
-			<strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;" />
-			<tal:block tal:replace="declination/getCodeReference" />
-		</div>
+		<div class="product-ref"><strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;" /> <span tal:replace="product/getCodeReference" /></div>
 		                
 		<img tal:condition="product/getBrand/getVisual" change:media="document product/getBrand/getVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 		
@@ -32,20 +29,9 @@
 					<fieldset>		
 						<ol>
 							<li>						
-								<label for="product-declination" change:translate="&modules.catalog.frontoffice.Detail-declinationsLabel;" />
-								<select class="textfield" id="product-declination" name="catalogParam[declinedProductId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
-									<tal:block tal:repeat="adeclination php: product.getDisplayableDeclinations(shop)">
-										<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}" tal:content="adeclination/getLabel" />
-										<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}" tal:content="adeclination/getLabel" />
-									</tal:block>
-								</select>
-								<noscript>
-									<input type="submit" class="button" change:i18nattr="value &modules.catalog.frontoffice.Refresh-declined;" />
-								</noscript>
-							</li>
-							<li>						
 								<label for="product-quantity" change:translate="&modules.catalog.frontoffice.Detail-quantityLabel;" />
-								<input class="textfield" id="product-quantity" type="text" size="3" name="catalogParam[quantity]" value="${quantity}" />
+								<input class="textfield" id="product-quantity" type="text" size="3" name="catalogParam[quantity]" value="1" />
+								<input type="hidden" tal:attributes="value product/getId" name="catalogParam[productId]" />
 							</li>
 						</ol>
 					</fieldset>
@@ -53,7 +39,7 @@
 			</ol>
 			
 			<!-- Disponibilité -->
-			<p tal:define="availability declination/getAvailability" tal:condition="availability" class="normal availability" tal:content="availability" />
+			<p tal:define="availability product/getAvailability" tal:condition="availability" class="normal availability" tal:content="availability" />
 			
 			<ul>
 				<!-- Prix HT -->
@@ -78,9 +64,11 @@
 					</span>
 				</li>
 			</ul>
-			
+			<small tal:condition="defaultPrice/getFormattedEcoTax">
+					<tal:block change:translate="&modules.catalog.frontoffice.LabelEcoTaxe;" /> <tal:block change:translate="&modules.catalog.frontoffice.EcoTaxeLabel;" /><tal:block tal:replace="defaultPrice/getFormattedEcoTax"/> 
+			</small>
 			<!-- ajouter au panier -->
-			<p class="buttons" tal:condition="php: declination.canBeOrdered(shop)">
+			<p class="buttons" tal:condition="php: product.canBeOrdered(shop)">
 				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.title.LabelHrefAddToCart;"></input>
 			</p>
 		</form>
@@ -89,7 +77,7 @@
 	<!-- End - Product information -->
 	
 	<!-- Product Pics -->
-	<div class="column-66 margin-right product-pics" tal:define="visuals php: declination.getAllVisuals(shop); uniqueId product/getId">
+	<div class="column-66 margin-right product-pics" tal:define="visuals php: product.getAllVisuals(shop); uniqueId product/getId">
 		<tal:block tal:repeat="imageMini visuals">
 			<tal:block tal:define="global mainVisualBlockDOMId">mainVisualBlock_${uniqueId}-${imageMini/getId}</tal:block>				
 			<tal:block tal:condition="not: repeat/imageMini/start"><tal:block tal:define="global style">display: none;</tal:block></tal:block>
@@ -162,6 +150,26 @@
 	</div>
 	<div class="cleaner"></div>
 	
-	<div class="product-description" tal:condition="product/getDescription" tal:content="product/getDescriptionAsHtml" />
+	<div class="product-description" tal:condition="product/getDescription" tal:content="product/getDescription" />
 </div>
 <!-- End - Additionnal product information -->
+
+<!-- Bundled products information -->
+<div class="product-crossselling">
+	<h3 change:h="" change:translate="modules.catalog.frontoffice.BundledItems" />
+	<div class="shelves-display"> 
+		<ol class="table-view">
+			<li tal:repeat="bundleditem product/getBundleditemArray">
+				<ul class="sub-list">			
+					<li tal:define="visual php: bundleditem.getDefaultVisual(shop)" tal:condition="visual">
+						<a change:link="document bundleditem"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
+					</li>
+					<li>
+						<h4 class="title"><a change:link="document bundleditem">${bundleditem/getTitleAsHtml}</a></h4>
+					</li>
+				</ul>
+			</li>
+		</ol>
+	</div>
+</div>
+<!-- End - Bundled products information -->

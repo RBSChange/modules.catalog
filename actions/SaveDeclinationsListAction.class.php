@@ -1,5 +1,5 @@
 <?php
-class catalog_InitializeDeclinationsPanelAction extends f_action_BaseJSONAction
+class catalog_SaveDeclinationsListAction extends f_action_BaseJSONAction
 {
 	/**
 	 * @param Context $context
@@ -8,6 +8,16 @@ class catalog_InitializeDeclinationsPanelAction extends f_action_BaseJSONAction
 	public function _execute($context, $request)
 	{
 		$product = $this->getDelinedProduct($request);	
+		$declinationIds = $request->getParameter('declinationIds');
+		$declinations = array();
+		
+		foreach ($declinationIds as $declinationId) 
+		{
+			$declinations[] = DocumentHelper::getDocumentInstance($declinationId, 'modules_catalog/productdeclination');
+		}		
+		$product->getDocumentService()->updateDeclinations($product, $declinations);
+		$this->logAction($product);
+		
 		$data = $product->getDocumentService()->getDeclinationsInfos($product);
 		return $this->sendJSON($data);
 	}

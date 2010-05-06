@@ -282,4 +282,8 @@
   <entity id="feeder-sameshelvesproductfeeder">
     <locale lang="fr">dans des mêmes rayons</locale>
   </entity>
+  
+  <entity id="product-not-published">
+    <locale lang="fr">le produit {label} n'est pas publié</locale>
+  </entity>
 </localization>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="document-name">
+    <locale lang="fr">bundleditem</locale>
+    <locale lang="en">bundleditem</locale>
+  </entity>
+  <entity id="label">
+    <locale lang="fr">[TO TRANSLATE] label</locale>
+    <locale lang="en">[TO TRANSLATE] label</locale>
+  </entity>
+  <entity id="label-help">
+    <locale lang="fr">[TO TRANSLATE] label-help</locale>
+    <locale lang="en">[TO TRANSLATE] label-help</locale>
+  </entity>
+  <entity id="product">
+    <locale lang="fr">[TO TRANSLATE] product</locale>
+    <locale lang="en">[TO TRANSLATE] product</locale>
+  </entity>
+  <entity id="product-help">
+    <locale lang="fr">[TO TRANSLATE] product-help</locale>
+    <locale lang="en">[TO TRANSLATE] product-help</locale>
+  </entity>
+  <entity id="quatity">
+    <locale lang="fr">[TO TRANSLATE] quatity</locale>
+    <locale lang="en">[TO TRANSLATE] quatity</locale>
+  </entity>
+  <entity id="quatity-help">
+    <locale lang="fr">[TO TRANSLATE] quatity-help</locale>
+    <locale lang="en">[TO TRANSLATE] quatity-help</locale>
+  </entity>
+</localization>

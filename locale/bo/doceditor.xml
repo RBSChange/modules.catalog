@@ -203,4 +203,42 @@
 	<entity id="property.compiled">
 		<locale lang="fr">A jour sur le site</locale>
 	</entity>
+	
+	<entity id="tab.bundleditems">
+		<locale lang="fr">produits</locale>
+	</entity>
+	
+	<entity id="first-bundleditems">
+		<locale lang="fr">produits du groupe</locale>
+	</entity>
+
+	<entity id="bundleditem.products">
+		<locale lang="fr">produits du groupe</locale>
+	</entity>
+	<entity id="bundleditem.products-help">
+		<locale lang="fr">produits par défauts du groupe</locale>
+	</entity>
+		
+	<entity id="bundleditems.defaultquatity">
+		<locale lang="fr">quantité par défaut</locale>
+	</entity>
+	
+	<entity id="bundleditems.defaultquatity-help">
+		<locale lang="fr">quantité par défaut de chaque produit</locale>
+	</entity>
+	
+	<entity id="bundleditems.label-column">
+		<locale lang="fr">libellé</locale>
+	</entity>
+	<entity id="bundleditems.qtt-column">
+		<locale lang="fr">Quantité</locale>
+	</entity>
+	<entity id="bundleditems.actions-column">
+		<locale lang="fr">Actions</locale>
+	</entity>
+	
+	<entity id="add-bundleditems">
+		<locale lang="fr">Produits à ajouter</locale>
+	</entity>	
+	
 </localization>

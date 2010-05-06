@@ -269,4 +269,73 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	{
 		return $document->getPublishedDeclinationCount() > 0 && parent::isPublishable($document);
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param catalog_persistentdocument_productdeclination[] $declinations
+	 */
+	public function updateDeclinations($document, $declinations)
+	{
+		try 
+		{
+			$this->tm->beginTransaction();
+			
+			$declinationToDelete = array();
+			foreach ($document->getDeclinationArray() as $declination)
+			{
+				$declinationToDelete[$declination->getId()] = $declination;
+			}
+			$document->removeAllDeclination();
+			foreach ($declinations as $declination) 
+			{
+				$document->addDeclination($declination);
+				unset($declinationToDelete[$declination->getId()]);
+			}
+			
+			$this->save($document);
+			foreach ($declinationToDelete as $declination) 
+			{
+				$declination->delete();
+			}
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+			throw $e;
+		}
+	}
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $product
+	 * @return array
+	 */	
+	public function getDeclinationsInfos($product)
+	{
+		$data = array('id' => $product->getId(), 'lang' => $product->getLang(), 
+						'documentversion' => $product->getDocumentversion());
+		
+		$declinations = $product->getDeclinationArray();
+		$data['totalCount'] = count($declinations);
+		$data['count'] = count($declinations);
+		$data['offset'] = 0;
+		$data['nodes'] = array();
+		$lang = RequestContext::getInstance()->getLang();
+		
+		foreach ($declinations as $declination)
+		{
+			$langAvailable = $declination->getI18nInfo()->isLangAvailable($lang);
+			
+			$data['nodes'][] = array(
+				'id' => $declination->getId(),
+				'langAvailable' => $langAvailable,
+				'label' => ($langAvailable ? $declination->getLabel() : ($declination->getVoLabel() . ' [' . f_Locale::translateUI('&modules.uixul.bo.languages.' . ucfirst($declination->getLang()) . ';') . ']')),
+				'codeReference' => $declination->getCodeReference(),
+				'stockQuantity' => $declination->getStockQuantity(),
+				'stockLevel' => $declination->getStockLevel()
+			);
+		}
+		
+		return $data;
+	}
+	
 }

@@ -128,6 +128,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @return media_persistentdocument_media[]
+	 */
+	public function getAdditionnalVisualArray()
+	{
+		return array();
+	}
+	
+	/**
 	 * @return String
 	 */
 	public function getFormattedRatingAverage()
@@ -468,5 +476,21 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function isStatusModified($lang)
 	{
 		return $this->getI18nObject($lang)->isPropertyModified('publicationstatus');
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getOrderLabel()
+	{
+		return $this->getLabel();
+	}
+	
+	/**
+	 * @return string HTMLFragment
+	 */
+	public function getOrderLabelAsHtml()
+	{
+		return LinkHelper::getLink($this);	
 	}
 }

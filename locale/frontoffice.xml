@@ -848,6 +848,12 @@
   <entity id="go-to-primary-shelf">
     <locale lang="fr">Voir les produits du rayon {shelfLabel}</locale>
   </entity>
+  <entity id="bundleditems">
+    <locale lang="fr">Produits du groupe</locale>
+  </entity>
+  <entity id="go-to-bundle">
+    <locale lang="fr">Voir le groupe de produit {bundleLabel}</locale>
+  </entity>
   <entity id="refresh-declined">
     <locale lang="fr">Recharger</locale>
     <locale lang="en">Refresh</locale>

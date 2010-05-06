@@ -77,12 +77,14 @@
 			<children>
 				<child model="modules_catalog/simpleproduct" from="product" />
 				<child model="modules_catalog/declinedproduct" from="product" />
+				<child model="modules_catalog/bundleproduct" from="product" />
 				<child model="modules_catalog/shelf" />
 			</children>
 			<drops>
 				<drop model="modules_catalog/shelf" action="move" />
 				<drop model="modules_catalog/simpleproduct" action="move" />
 				<drop model="modules_catalog/declinedproduct" action="move" />
+				<drop model="modules_catalog/bundleproduct" action="move" />
 			</drops>
 			<columns>
 				<column name="startpublicationdate" label="Startpublicationdate" />
@@ -97,6 +99,7 @@
 					<contextaction name="createShelf" />
 					<contextaction name="createSimpleproduct" />
 					<contextaction name="createDeclinedproduct" />
+					<contextaction name="createBundleproduct" />
 				</groupactions>
 				<contextaction name="openFolder" />
 			</contextactions>
@@ -105,12 +108,14 @@
 			<children>
 				<child model="modules_catalog/simpleproduct" from="product" />
 				<child model="modules_catalog/declinedproduct" from="product" />
+				<child model="modules_catalog/bundleproduct" from="product" />
 				<child model="modules_catalog/shelf" />
 			</children>
 			<drops>
 				<drop model="modules_catalog/shelf" action="move" />
 				<drop model="modules_catalog/simpleproduct" action="move" />
 				<drop model="modules_catalog/declinedproduct" action="move" />
+				<drop model="modules_catalog/bundleproduct" action="move" />
 			</drops>
 			<columns>
 				<column name="startpublicationdate" label="Startpublicationdate" />
@@ -125,6 +130,7 @@
 					<contextaction name="createShelf" />
 					<contextaction name="createSimpleproduct" />
 					<contextaction name="createDeclinedproduct" />
+					<contextaction name="createBundleproduct" />
 				</groupactions>
 				<contextaction name="openFolder" />
 			</contextactions>
@@ -140,6 +146,15 @@
 			</contextactions>
 		</model>
 		<model name="modules_catalog/declinedproduct">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
+				<contextaction name="compileProduct" />
+			</contextactions>
+		</model>
+		<model name="modules_catalog/bundleproduct">
 			<contextactions>
 				<contextaction name="edit" />
 				<contextaction name="delete" />
@@ -166,10 +181,11 @@
 		<action name="duplicate" icon="duplicate" label="&amp;modules.uixul.bo.actions.Duplicate;" />
 		<action name="createShopfolder_" actions="createShop" icon="add" />
 		<action name="createShop" single="true" permission="Insert_shop" group="createShopfolder_" icon="add" label="&amp;modules.catalog.bo.actions.Create-Shop;" />
-		<action name="createShelf_" actions="createShelf,createSimpleproduct,createDeclinedproduct" icon="add" />
+		<action name="createShelf_" actions="createShelf,createSimpleproduct,createDeclinedproduct,createBundleproduct" icon="add" />
 		<action name="createShelf" single="true" permission="Insert_shelf" group="createShelf_" label="&amp;modules.catalog.bo.actions.Create-Shelf;" />
 		<action name="createSimpleproduct" single="true" permission="Insert_simpleproduct" group="createShelf_" label="&amp;modules.catalog.bo.actions.Create-Simpleproduct;" />
 		<action name="createDeclinedproduct" single="true" permission="Insert_declinedproduct" group="createShelf_" icon="add" label="&amp;modules.catalog.bo.actions.Create-Declinedproduct;" />
+		<action name="createBundleproduct" single="true" permission="Insert_bundleproduct" group="createShelf_" icon="add" label="&amp;modules.catalog.bo.actions.Create-Bundleproduct;" />
 		<action name="createRootfolder_" actions="createTopshelf" icon="add" />
 		<action name="createTopshelf" single="true" permission="Insert_topshelf" group="createRootfolder_" icon="add" label="&amp;modules.catalog.bo.actions.Create-Topshelf;" />
 		<action name="openFolder" icon="open-folder" label="&amp;modules.uixul.bo.actions.OpenFolder;" />

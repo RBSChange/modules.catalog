@@ -1,0 +1,244 @@
+<?php
+/**
+ * Class where to put your custom methods for document catalog_persistentdocument_bundleproduct
+ * @package modules.catalog.persistentdocument
+ */
+class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase 
+{
+	/**
+	 * @param string $moduleName
+	 * @param string $treeType
+	 * @param array<string, string> $nodeAttributes
+	 */
+	//	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
+	//	{
+	//	}
+	
+
+	/**
+	 * @param string $actionType
+	 * @param array $formProperties
+	 */
+	//	public function addFormProperties($propertiesNames, &$formProperties)
+	//	{	
+	//	}
+	
+
+	/**
+	 * @see catalog_persistentdocument_product::getDetailBlockName()
+	 *
+	 * @return String
+	 */
+	public function getDetailBlockName()
+	{
+		return 'bundleproduct';
+	}
+	
+	/**
+	 * @see catalog_persistentdocument_product::getAdditionnalVisualArray()
+	 *
+	 * @return media_persistentdocument_media[]
+	 */
+	public function getAdditionnalVisualArray()
+	{
+		$result = array();
+		foreach ($this->getBundleditemArray() as $bundleditem) 
+		{
+			$media = $bundleditem->getProduct()->getVisual();
+			if ($media !== null)
+			{
+				$result[$media->getId()] = $media;
+			}
+		}
+		return array_values($result);
+	}
+
+	/**
+	 * @var integer
+	 */
+	private $newBundledItemQtt = 1;
+	
+	/**
+	 * @example "4526,785445,2355"
+	 * @var string
+	 */
+	private $newBundledItemProducts = null;
+	
+	/**
+	 * @return integer
+	 */
+	public function getNewBundledItemQtt()
+	{
+		return $this->newBundledItemQtt;
+	}
+	
+	/**
+	 * @param integer $newBundledItemQtt
+	 */
+	public function setNewBundledItemQtt($newBundledItemQtt)
+	{
+		$this->newBundledItemQtt = $newBundledItemQtt;
+	}
+
+
+	
+	/**
+	 * @return string
+	 */
+	public function getNewBundledItemProducts()
+	{
+		return $this->newBundledItemProducts;
+	}
+	
+	/**
+	 * @param string $newBundledItemProducts
+	 */
+	public function setNewBundledItemProducts($newBundledItemProducts)
+	{
+		Framework::info(__METHOD__ . "($newBundledItemProducts)");
+		$this->newBundledItemProducts = $newBundledItemProducts;
+		$this->setModificationdate(null);
+	}
+
+	/**
+	 * @return catalog_persistentdocument_product[]
+	 */
+	public function getNewBundledItemProductsDocument()
+	{
+		$result = array();
+		if (f_util_StringUtils::isNotEmpty($this->newBundledItemProducts))
+		{
+			$ids = explode(',', $this->newBundledItemProducts);
+			foreach ($ids as $id) 
+			{
+				Framework::info(__METHOD__ . "($id)");
+				$result[] = DocumentHelper::getDocumentInstance($id, 'modules_catalog/product');
+			}
+		}
+		return $result;
+	}
+	
+	public function resetNewBundledItemProducts()
+	{
+		$this->newBundledItemProducts = null;
+		$this->newBundledItemQtt = 1;
+	}
+	
+	/**
+	 * @return string JSON
+	 */
+	public function getBundleditemsJSON()
+	{
+		$result = array();
+		foreach ($this->getBundleditemArray() as $bundledItem) 
+		{
+			$product = $bundledItem->getProduct();	
+			$satusOk = $product->isContextLangAvailable();
+			$label = $satusOk ? $product->getLabel() : $product->getVoLabel();
+			
+			$result[] = array(
+				'id' => $bundledItem->getId(),
+				'productType' => str_replace('/', '_', $product->getDocumentModelName()),
+				'productId' => $product->getId(),
+				'satusOk' => $satusOk ? '': 'Non disponible',
+			    'label' => $label,
+			    'qtt' => $bundledItem->getQuatity(),
+			);
+		}
+		return JsonService::getInstance()->encode($result);
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_bundleditem[]
+	 */
+	private $bundledItemsToDelete;
+	
+	/**
+	 * @param string $json
+	 */
+	public function setBundleditemsJSON($json)
+	{
+		if (!is_array($this->bundledItemsToDelete))
+		{
+			$this->bundledItemsToDelete = array();
+		}
+		
+		foreach ($this->getBundleditemArray() as $bundledItem)
+		{
+			$this->bundledItemsToDelete[$bundledItem->getId()] = $bundledItem;
+		}
+		
+		$this->removeAllBundleditem();
+		$result = JsonService::getInstance()->decode($json);
+		foreach ($result as $datas) 
+		{
+			$qtt = intval($datas['qtt']);	
+			if ($qtt > 0)
+			{
+				$id = intval($datas['id']);
+				Framework::info(__METHOD__ . " $id, $qtt");
+				$bundledItem = $this->bundledItemsToDelete[$id];
+				$bundledItem->setQuatity($qtt);
+				$this->addBundleditem($bundledItem);
+				unset($this->bundledItemsToDelete[$id]);
+			}
+		}
+		
+		$this->setModificationdate(null);
+	}
+	
+	/**
+	 * @return catalog_persistentdocument_bundleditem[]
+	 */
+	public function getBundledItemsToDelete()
+	{
+		if (!is_array($this->bundledItemsToDelete))
+		{
+			return array();
+		}
+		$result = $this->bundledItemsToDelete;
+		$this->bundledItemsToDelete = null;
+		return $result;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getOrderLabel()
+	{
+		$label = array();
+		$label[] = $this->getLabel() . ':';
+		foreach ($this->getBundleditemArray() as $bundleditem) 
+		{
+			$label[] = "\t" . $bundleditem->getQuatity() . " x " . $bundleditem->getProduct()->getLabel();
+		}
+		return implode("\n", $label);
+	}
+	
+	/**
+	 * @return string HTMLFragment
+	 */
+	public function getOrderLabelAsHtml()
+	{
+		$html = array();
+		
+		$html[] = LinkHelper::getLink($this) . '<br />';
+		$html[] = '<ol>';
+		foreach ($this->getBundleditemArray() as $bundleditem) 
+		{
+			$html[] = '<li>';
+			$url = LinkHelper::getDocumentUrl($bundleditem);
+			if ($url)
+			{
+				$html[] = '<a class="link" href="'.$url.'">' . $bundleditem->getTitleAsHtml() . '</a>';
+			}
+			else
+			{
+				$html[] = $bundleditem->getTitleAsHtml();
+			}
+			$html[] = '</li>';
+		}
+		$html[] = '</ol>';
+		return implode('', $html);
+	}	
+}

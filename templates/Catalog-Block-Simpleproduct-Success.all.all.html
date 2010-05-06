@@ -93,7 +93,7 @@
 			</div>
 		</tal:block>
 	
-		<div class="altpics">
+		<div class="altpics" tal:condition="php: count(visuals) GT 1">
 			<ul class="product-altpics">
 				<tal:block tal:repeat="visual visuals">
 					<tal:block tal:define="global productVisualBlockDOMId">productVisualBlock_${uniqueId}-${visual/getId}</tal:block>
@@ -150,6 +150,6 @@
 	</div>
 	<div class="cleaner"></div>
 	
-	<div class="product-description" tal:condition="product/getDescription" tal:content="product/getDescription" />
+	<div class="product-description" tal:condition="product/getDescription" tal:content="product/getDescriptionAsHtml" />
 </div>
 <!-- End - Additionnal product information -->

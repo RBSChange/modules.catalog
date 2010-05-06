@@ -9,12 +9,12 @@ class catalog_ReferencingService extends BaseService
 {
 	/**
 	 * Singleton
-	 * @var catalog_ProductService
+	 * @var catalog_ReferencingService
 	 */
 	private static $instance = null;
 	
 	/**
-	 * @return catalog_ProductService
+	 * @return catalog_ReferencingService
 	 */
 	public static function getInstance()
 	{
@@ -25,272 +25,11 @@ class catalog_ReferencingService extends BaseService
 		return self::$instance;
 	}
 	
-	private $strategy = null;
-	
-	/**
-	 * Specific constructor, instanciating the strategy.
-	 */
-	protected function __construct()
-	{
-		parent::__construct();
-		
-		// Instanciate the strategy.
-		try
-		{
-			$strategyClass = Framework::getConfiguration('modules/catalog/referencingStrategyClass');
-			$this->setStrategy($strategyClass);
-		}
-		catch (ConfigurationException $e)
-		{
-			// Nothing to do here.
-		}
-	}
-	
-	/**
-	 * @param String $strategyClass
-	 */
-	public function setStrategy($strategyClass = '')
-	{
-		if (strlen($strategyClass) > 0)
-		{
-			$this->strategy = new $strategyClass();
-		}
-		else
-		{
-			$this->strategy = null;
-		}
-	}
-	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return String
 	 */
 	public function getPageTitleByShop($shop)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageTitleByShop')))
-		{
-			return $this->strategy->getPageTitleByShop($shop);
-		}
-		else
-		{
-			return $this->getDefaultPageTitleByShop($shop);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 */
-	public function getPageDescriptionByShop($shop)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageDescriptionByShop')))
-		{
-			return $this->strategy->getPageDescriptionByShop($shop);
-		}
-		else
-		{
-			return $this->getDefaultPageDescriptionByShop($shop);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 */
-	public function getPageKeywordsByShop($shop)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageKeywordsByShop')))
-		{
-			return $this->strategy->getPageKeywordsByShop($shop);
-		}
-		else
-		{
-			return $this->getDefaultPageKeywordsByShop($shop);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
-	 */
-	public function getPageTitleByShelf($shelf)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageTitleByShelf')))
-		{
-			return $this->strategy->getPageTitleByShelf($shelf);
-		}
-		else
-		{
-			return $this->getDefaultPageTitleByShelf($shelf);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
-	 */
-	public function getPageDescriptionByShelf($shelf)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageDescriptionByShelf')))
-		{
-			return $this->strategy->getPageDescriptionByShelf($shelf);
-		}
-		else
-		{
-			return $this->getDefaultPageDescriptionByShelf($shelf);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
-	 */
-	public function getPageKeywordsByShelf($shelf)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageKeywordsByShelf')))
-		{
-			return $this->strategy->getPageKeywordsByShelf($shelf);
-		}
-		else
-		{
-			return $this->getDefaultPageKeywordsByShelf($shelf);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
-	 */
-	public function getPathForUrlByShelf($shelf)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPathForUrlByShelf')))
-		{
-			return $this->strategy->getPathForUrlByShelf($shelf);
-		}
-		else
-		{
-			return $this->getDefaultPathForUrlByShelf($shelf);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return String
-	 */
-	public function getPageTitleByProduct($product)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageTitleByProduct')))
-		{
-			return $this->strategy->getPageTitleByProduct($product);
-		}
-		else
-		{
-			return $this->getDefaultPageTitleByProduct($product);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return String
-	 */
-	public function getPageDescriptionByProduct($product)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageDescriptionByProduct')))
-		{
-			return $this->strategy->getPageDescriptionByProduct($product);
-		}
-		else
-		{
-			return $this->getDefaultPageDescriptionByProduct($product);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return String
-	 */
-	public function getPageKeywordsByProduct($product)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPageKeywordsByProduct')))
-		{
-			return $this->strategy->getPageKeywordsByProduct($product);
-		}
-		else
-		{
-			return $this->getDefaultPageKeywordsByProduct($product);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return String
-	 */
-	public function getPathForUrlByProduct($product)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getPathForUrlByProduct')))
-		{
-			return $this->strategy->getPathForUrlByProduct($product);
-		}
-		else
-		{
-			return $this->getDefaultPathForUrlByProduct($product);
-		}
-	}
-	
-	/**
-	 * @param Array<catalog_persistentdocument_product> $produts
-	 * @return String
-	 */
-	public function getComparePageTitle($products)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getComparePageTitle')))
-		{
-			return $this->strategy->getComparePageTitle($products);
-		}
-		else
-		{
-			return $this->getDefaultComparePageTitle($products);
-		}
-	}
-	
-	/**
-	 * @param Array<catalog_persistentdocument_product> $products
-	 * @return String
-	 */
-	public function getComparePageDescription($products)
-	{
-		if (!is_null($this->strategy) && is_callable(array($this->strategy, 'getComparePageDescription')))
-		{
-			return $this->strategy->getComparePageDescription($products);
-		}
-		else
-		{
-			return $this->getDefaultComparePageDescription($products);
-		}
-	}
-	
-	// Default implementation.
-	
-	/**
-	 * Title in two parts.
-	 */
-	const TITLE_FORMAT_1 = '%s : %s';
-	
-	/**
-	 * Title in three parts.
-	 */
-	const TITLE_FORMAT_2 = '%s, %s : %s';
-	
-	/**
-	 * Description in to parts.
-	 */
-	const DESCRIPTION_SUBDOCUMENTS_SEPARATOR = ', ';
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 */
-	private function getDefaultPageTitleByShop($shop)
 	{
 		// If the shop has a page title defined, return it.
 		$pageTitle = $shop->getPageTitle();
@@ -307,7 +46,7 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return String
 	 */
-	private function getDefaultPageDescriptionByShop($shop)
+	public function getPageDescriptionByShop($shop)
 	{
 		// If the shop has a page description defined, return it.
 		$pageDescription = $shop->getPageDescription();
@@ -329,7 +68,7 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return String
 	 */
-	public function getDefaultPageKeywordsByShop($shop)
+	public function getPageKeywordsByShop($shop)
 	{
 		return $shop->getPageKeywords();
 	}
@@ -338,7 +77,7 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @return String
 	 */
-	private function getDefaultPageTitleByShelf($shelf)
+	public function getPageTitleByShelf($shelf)
 	{
 		// If the shelf has a page title defined, return it.
 		$pageTitle = $shelf->getPageTitle();
@@ -364,7 +103,7 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @return String
 	 */
-	private function getDefaultPageDescriptionByShelf($shelf)
+	public function getPageDescriptionByShelf($shelf)
 	{
 		// If the shelf has a page description defined, return it.
 		$pageDescription = $shelf->getPageDescription();
@@ -393,7 +132,7 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @return String
 	 */
-	public function getDefaultPageKeywordsByShelf($shelf)
+	public function getPageKeywordsByShelf($shelf)
 	{
 		return $shelf->getPageKeywords();
 	}
@@ -402,15 +141,13 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @return String
 	 */
-	public function getDefaultPathForUrlByShelf($shelf)
+	public function getPathForUrlByShelf($shelf)
 	{
 		$topshelf = $shelf->getDocumentService()->getTopShelfByShelf($shelf);
-		
 		if (!is_null($topshelf) && $shelf->getId() != $topshelf->getId())
 		{
 			return $topshelf->getLabel();
 		}
-		
 		return null;
 	}
 	
@@ -418,13 +155,16 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_product $product
 	 * @return String
 	 */
-	public function getDefaultPageTitleByProduct($product)
+	public function getPageTitleByProduct($product)
 	{
 		// If the product has a page title defined manually, return it.
-		$pageTitle = $product->getPageTitle();
-		if (!f_util_StringUtils::isEmpty($pageTitle))
+		if (f_util_ClassUtils::methodExists($product, 'getPageTitle'))
 		{
-			return $pageTitle;
+			$pageTitle = $product->getPageTitle();
+			if (!f_util_StringUtils::isEmpty($pageTitle))
+			{
+				return $pageTitle;
+			}
 		}
 		
 		// Else generate it.
@@ -436,13 +176,16 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_product $product
 	 * @return String
 	 */
-	public function getDefaultPageDescriptionByProduct($product)
+	public function getPageDescriptionByProduct($product)
 	{
 		// If the product has a page description defined manually, return it.
-		$pageDescription = $product->getPageDescription();
-		if (!f_util_StringUtils::isEmpty($pageDescription))
+		if (f_util_ClassUtils::methodExists($product, 'getPageDescription'))
 		{
-			return $pageDescription;
+			$pageDescription = $product->getPageDescription();
+			if (!f_util_StringUtils::isEmpty($pageDescription))
+			{
+				return $pageDescription;
+			}
 		}
 		
 		// Else if the product has a description defined (as text, not as HTML), return it.
@@ -461,16 +204,20 @@ class catalog_ReferencingService extends BaseService
 	 * @param catalog_persistentdocument_product $product
 	 * @return String
 	 */
-	public function getDefaultPageKeywordsByProduct($product)
+	public function getPageKeywordsByProduct($product)
 	{
-		return $product->getPageKeywords();
+		if (f_util_ClassUtils::methodExists($product, 'getPageKeywords'))
+		{
+			return $product->getPageKeywords();
+		}
+		return null;
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @return String
 	 */
-	public function getDefaultPathForUrlByProduct($product)
+	public function getPathForUrlByProduct($product)
 	{
 		return $product->getPrimaryTopShelf($this->getCurrentWebsite())->getLabel();
 	}
@@ -479,19 +226,20 @@ class catalog_ReferencingService extends BaseService
 	 * @param Array<catalog_persistentdocument_product> $produts
 	 * @return String
 	 */
-	public function getDefaultComparePageTitle($products)
+	public function getComparePageTitle($products)
 	{
 		$website = $this->getCurrentWebsite();
 		$shelfLabel = f_util_ArrayUtils::firstElement($products)->getPrimaryShelf($website)->getLabel();
 		$parameters = array('shelfLabel' => $shelfLabel, 'websiteLabel' => $website->getLabel());
 		return f_Locale::translate('&modules.catalog.frontoffice.Compare-page-title;', $parameters);
+		
 	}
 	
 	/**
 	 * @param Array<catalog_persistentdocument_product> $products
 	 * @return String
 	 */
-	public function getDefaultComparePageDescription($products)
+	public function getComparePageDescription($products)
 	{
 		$website = $this->getCurrentWebsite();
 		$shelfLabel = f_util_ArrayUtils::firstElement($products)->getPrimaryShelf($website)->getLabel();
@@ -504,6 +252,23 @@ class catalog_ReferencingService extends BaseService
 		return f_Locale::translate('&modules.catalog.frontoffice.Compare-page-description;', $parameters);
 	}
 	
+
+	
+	/**
+	 * Title in two parts.
+	 */
+	const TITLE_FORMAT_1 = '%s : %s';
+	
+	/**
+	 * Title in three parts.
+	 */
+	const TITLE_FORMAT_2 = '%s, %s : %s';
+	
+	/**
+	 * Description in to parts.
+	 */
+	const DESCRIPTION_SUBDOCUMENTS_SEPARATOR = ', ';
+			
 	/**
 	 * @return website_persistentdocument_website
 	 */
@@ -526,5 +291,88 @@ class catalog_ReferencingService extends BaseService
 	private function getCurrentWebsiteDescription()
 	{
 		return $this->getCurrentWebsite()->getDescription();
+	}
+
+	
+	// Deprecated Default implementation.
+	
+	/**
+	 * @deprecated 
+	 */
+	public function setStrategy($strategyClass = '')
+	{
+		throw new Exception("Deprected $strategyClass strategy use service injection");
+	}
+		
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPageKeywordsByShop($shop)
+	{
+		return $this->getPageKeywordsByShop($shop);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPageKeywordsByShelf($shelf)
+	{
+		return $this->getPageKeywordsByShelf($shelf);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPathForUrlByShelf($shelf)
+	{
+		return $this->getPathForUrlByShelf($shelf);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPageTitleByProduct($product)
+	{
+		return $this->getPageTitleByProduct($product);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPageDescriptionByProduct($product)
+	{
+		return $this->getPageDescriptionByProduct($product);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPageKeywordsByProduct($product)
+	{
+		return $this->getPageKeywordsByProduct($product);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultPathForUrlByProduct($product)
+	{
+		return $this->getPathForUrlByProduct($product);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultComparePageTitle($products)
+	{
+		return $this->getComparePageTitle($products);
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function getDefaultComparePageDescription($products)
+	{
+		return $this->getComparePageDescription($products);
 	}
 }

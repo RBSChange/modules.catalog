@@ -18,7 +18,6 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		{
 			return website_BlockView::NONE;
 		}
-		
 		$context = $this->getPage();
 		$isOnDetailPage = TagService::getInstance()->hasTag($context->getPersistentPage(), 'functional_catalog_product-detail');
 		$product = $this->getDocumentParameter();

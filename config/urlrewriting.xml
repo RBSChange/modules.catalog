@@ -26,9 +26,20 @@
 			<parameters>
 				<parameter name="brandLabel" format="\w+" />
 			</parameters>
-		</rule>		
+		</rule>	
 		<rule documentModel="productdeclination" viewMode="detail">
 			<template>/$labelForUrl,$lang-$id</template>
+		</rule>
+		
+		
+		<rule documentModel="bundleproduct" viewMode="detail" condition="getBrandLabel()">
+			<template>/bundle/$label-$brandLabel,$lang-$id</template>
+			<parameters>
+				<parameter name="brandLabel" format="\w+" />
+			</parameters>
+		</rule>	
+		<rule documentModel="bundleproduct" viewMode="detail">
+			<template>/bundle/$label,$lang-$id</template>
 		</rule>
 		
 		<rule documentModel="shelf" viewMode="detail">
