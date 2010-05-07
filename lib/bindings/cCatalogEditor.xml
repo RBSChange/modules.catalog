@@ -655,10 +655,10 @@
 						<xul:row anonid="row_newBundledItemQtt">
 							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemQtt_label" 
 								control="catalog_bundleproduct_bundleditems_newBundledItemQtt" 
-								value="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquatity;"/>
+								value="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity;"/>
 							<xul:cfield name="newBundledItemQtt" id="catalog_bundleproduct_bundleditems_newBundledItemQtt" 
 								anonid="field_newBundledItemQtt" fieldtype="integer" required="true" 
-								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquatity-help;">
+								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
 									<xul:cconstraint name="min" parameter="1"/>
 							</xul:cfield>
 						</xul:row>

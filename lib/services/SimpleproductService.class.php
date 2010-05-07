@@ -67,10 +67,6 @@ class catalog_SimpleproductService extends catalog_ProductService
 		{
 			$document->setLabelForUrl($document->getLabel());
 		}
-		
-		// Handle stocks.
-		$stockServie = catalog_StockService::getInstance();
-		$stockServie->setLevelFromQuantity($document);
 	}
 	
 	/**
@@ -83,8 +79,7 @@ class catalog_SimpleproductService extends catalog_ProductService
 		parent::postSave($document, $parentNodeId);
 		
 		// Handle stock alerts.
-		$stockServie = catalog_StockService::getInstance();
-		$stockServie->handleStockAlert($document);
+		catalog_StockService::getInstance()->handleStockAlert($document);
 	}
 	
 	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)

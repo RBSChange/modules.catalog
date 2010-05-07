@@ -219,11 +219,11 @@
 		<locale lang="fr">produits par défauts du groupe</locale>
 	</entity>
 		
-	<entity id="bundleditems.defaultquatity">
+	<entity id="bundleditems.defaultquantity">
 		<locale lang="fr">quantité par défaut</locale>
 	</entity>
 	
-	<entity id="bundleditems.defaultquatity-help">
+	<entity id="bundleditems.defaultquantity-help">
 		<locale lang="fr">quantité par défaut de chaque produit</locale>
 	</entity>
 	

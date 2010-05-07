@@ -83,20 +83,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
-	 * @return void
-	 */
-	protected function preSave($document, $parentNodeId = null)
-	{
-		parent::preSave($document, $parentNodeId);
-		
-		// Handle stocks.
-		$stockServie = catalog_StockService::getInstance();
-		$stockServie->setLevelFromQuantity($document);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
@@ -118,9 +104,8 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	{	
 		parent::postSave($document, $parentNodeId);
 		
-		// Handle stock alerts.
-		$stockServie = catalog_StockService::getInstance();
-		$stockServie->handleStockAlert($document);
+		// Handle stock alerts
+		catalog_StockService::getInstance()->handleStockAlert($document);
 	}
 	
 	/**
@@ -128,7 +113,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 */
 	protected function onShelfPropertyModified($document)
 	{
-		//TODO productdeclination do not update shelfCount
+		//productdeclination do not update shelfCount
 	}
 	
 	/**

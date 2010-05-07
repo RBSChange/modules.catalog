@@ -4,44 +4,28 @@
  * @package modules.catalog
  */
 interface catalog_StockableDocument
-{
+{			
 	/**
-	 * @param String $level
+	 * @return Double
 	 */
-	function setStockLevel($level);
+	function getStockQuantity();
+		
+	/**
+	 * >0 increase Quantity
+	 * <0 decrease Quantity
+	 * @param Double $quantity
+	 * @return Double new quantity
+	 */
+	function addStockQuantity($quantity);
+	
+	/**
+	 * @return boolean
+	 */
+	function mustSendStockAlert();
 	
 	/**
 	 * @return String
 	 */
 	function getStockLevel();
-	
-	/**
-	 * @return String
-	 */
-	function getStockLevelOldValue();
-	
-	/**
-	 * @param Double $quantity
-	 */
-	function setStockQuantity($quantity);
-	
-	/**
-	 * @return String
-	 */
-	function getStockQuantity();
-		
-	/**
-	 * @return String
-	 */
-	function getStockQuantityOldValue();
-	
-	/**
-	 * @param Double $threshold
-	 */
-	function setStockAlertThreshold($threshold);
-	
-	/**
-	 * @return Double
-	 */
-	function getStockAlertThreshold();
+
 }

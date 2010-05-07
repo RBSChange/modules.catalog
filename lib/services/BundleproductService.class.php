@@ -86,7 +86,7 @@ class catalog_BundleproductService extends catalog_ProductService
 			{
 				$bundledItem = $bis->getNewDocumentInstance();
 				$bundledItem->setLabel($product->getVoLabel());
-				$bundledItem->setQuatity(intval($document->getNewBundledItemQtt()));
+				$bundledItem->setQuantity(intval($document->getNewBundledItemQtt()));
 				$bundledItem->setProduct($product);
 				$bis->save($bundledItem);
 				$document->addBundleditem($bundledItem);
@@ -114,7 +114,7 @@ class catalog_BundleproductService extends catalog_ProductService
 			{
 				$bundledItem = $bis->getNewDocumentInstance();
 				$bundledItem->setLabel($product->getVoLabel());
-				$bundledItem->setQuatity(intval($document->getNewBundledItemQtt()));
+				$bundledItem->setQuantity(intval($document->getNewBundledItemQtt()));
 				$bundledItem->setProduct($product);
 				$bis->save($bundledItem);
 				Framework::info(__METHOD__ . ' item ' . $bundledItem->__toString());

@@ -21,8 +21,8 @@
 			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
 		</field>
 		<field name="newBundledItemQtt" type="integer" required="true"
-			labeli18n="modules.catalog.bo.doceditor.bundleditems.Defaultquatity"
-			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquatity-help;">
+			labeli18n="modules.catalog.bo.doceditor.bundleditems.Defaultquantity"
+			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
 			<constraint name="min" parameter="1" />
 		</field>
 	</section>

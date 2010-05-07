@@ -3,7 +3,7 @@
  * Class where to put your custom methods for document catalog_persistentdocument_bundleproduct
  * @package modules.catalog.persistentdocument
  */
-class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase 
+class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase implements catalog_StockableDocument
 {
 	/**
 	 * @param string $moduleName
@@ -142,7 +142,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 				'productId' => $product->getId(),
 				'satusOk' => $satusOk ? '': 'Non disponible',
 			    'label' => $label,
-			    'qtt' => $bundledItem->getQuatity(),
+			    'qtt' => $bundledItem->getQuantity(),
 			);
 		}
 		return JsonService::getInstance()->encode($result);
@@ -178,7 +178,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 				$id = intval($datas['id']);
 				Framework::info(__METHOD__ . " $id, $qtt");
 				$bundledItem = $this->bundledItemsToDelete[$id];
-				$bundledItem->setQuatity($qtt);
+				$bundledItem->setQuantity($qtt);
 				$this->addBundleditem($bundledItem);
 				unset($this->bundledItemsToDelete[$id]);
 			}
@@ -210,7 +210,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 		$label[] = $this->getLabel() . ':';
 		foreach ($this->getBundleditemArray() as $bundleditem) 
 		{
-			$label[] = "\t" . $bundleditem->getQuatity() . " x " . $bundleditem->getProduct()->getLabel();
+			$label[] = "\t" . $bundleditem->getQuantity() . " x " . $bundleditem->getProduct()->getLabel();
 		}
 		return implode("\n", $label);
 	}
@@ -240,5 +240,101 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 		}
 		$html[] = '</ol>';
 		return implode('', $html);
-	}	
+	}
+		
+	///catalog_StockableDocument
+	
+
+	/**
+	 * @see catalog_StockableDocument::addStockQuantity()
+	 *
+	 * @param Double $quantity
+	 * @return Double
+	 */
+	function addStockQuantity($quantity)
+	{
+		$stock = null;
+		if ($this->getBundleditemCount())
+		{
+			foreach ($this->getBundleditemArray() as $bundledItem) 
+			{
+				$product = $bundledItem->getProduct();
+				if ($product instanceof catalog_StockableDocument)
+				{
+					$newStock = $product->addStockQuantity($quantity * $bundledItem->getQuantity());
+					$product->save();
+					
+					if ($newStock !== null && ($stock === null || $newStock < $stock))
+					{
+						$stock = $newStock;
+					}
+				}
+			}
+		}
+		return $stock;
+	}
+	
+	/**
+	 * @see catalog_StockableDocument::getStockLevel()
+	 * @return String
+	 */
+	function getStockLevel()
+	{
+		if ($this->getBundleditemCount())
+		{
+			foreach ($this->getBundleditemArray() as $bundledItem) 
+			{
+				$product = $bundledItem->getProduct();
+				if ($product instanceof catalog_StockableDocument)
+				{
+					if ($product->getStockLevel() === catalog_StockService::LEVEL_UNAVAILABLE)
+					{
+						return catalog_StockService::LEVEL_UNAVAILABLE;
+					}
+				}
+			}
+			return catalog_StockService::LEVEL_AVAILABLE;
+		}	
+		return catalog_StockService::LEVEL_UNAVAILABLE;
+	}
+	
+	/**
+	 * @see catalog_StockableDocument::getStockQuantity()
+	 *
+	 * @return Double
+	 */
+	function getStockQuantity()
+	{
+		$quantity = null;
+		if ($this->getBundleditemCount())
+		{
+			foreach ($this->getBundleditemArray() as $bundledItem) 
+			{
+				$product = $bundledItem->getProduct();
+				if ($product instanceof catalog_StockableDocument)
+				{
+					$newStock = $product->getStockQuantity();
+					if ($newStock !== null && $bundledItem->getQuantity() > 0)
+					{
+						$realStock = $newStock / $bundledItem->getQuantity();
+						if ($quantity === null || $quantity > $realStock)
+						{
+							$quantity = $realStock;
+						}
+					}
+				}
+			}
+		}
+		return $quantity;
+	}
+	
+	/**
+	 * @see catalog_StockableDocument::mustSendStockAlert()
+	 *
+	 * @return boolean
+	 */
+	function mustSendStockAlert()
+	{
+		return false;
+	}
 }

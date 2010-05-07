@@ -42,6 +42,6 @@ class catalog_persistentdocument_bundleditem extends catalog_persistentdocument_
 	
 	public function getTitleAsHtml()
 	{
-		return $this->getQuatity() . ' x ' . $this->getProduct()->getLabelAsHtml();
+		return $this->getQuantity() . ' x ' . $this->getProduct()->getLabelAsHtml();
 	}	
 }

@@ -31,15 +31,6 @@ class catalog_StockService extends BaseService
 	
 	/**
 	 * @param catalog_StockableDocument $document
-	 */
-	public function updateLevel($document)
-	{
-		$this->setLevelFromQuantity($document);
-		$document->save();
-	}
-
-	/**
-	 * @param catalog_StockableDocument $document
 	 * @param Double $quantity
 	 * @return Boolean
 	 */
@@ -49,24 +40,7 @@ class catalog_StockService extends BaseService
 		return ($stock === null || ($stock - $quantity) >= 0);
 	}
 
-	/**
-	 * @param catalog_StockableDocument $document
-	 */
-	public function setLevelFromQuantity($document)
-	{
-		if ($this->isAvailable($document))
-		{
-			$stockLevel = $document->getStockLevel();
-			if ($stockLevel == self::LEVEL_UNAVAILABLE || $stockLevel === null)
-			{
-				$document->setStockLevel(self::LEVEL_AVAILABLE);
-			}
-		}
-		else
-		{
-			$document->setStockLevel(self::LEVEL_UNAVAILABLE);
-		}
-	}
+
 
 	/**
 	 * @param catalog_StockableDocument $document
@@ -74,12 +48,8 @@ class catalog_StockService extends BaseService
 	 */
 	public function decreaseQuantity($document, $nb)
 	{
-		$quantity = $document->getStockQuantity();
-		if ($quantity !== null)
-		{
-			$document->setStockQuantity($quantity - $nb);
-			$document->save();
-		}
+		$document->addStockQuantity(-$nb);
+		$document->save();
 	}
 
 	/**
@@ -88,25 +58,10 @@ class catalog_StockService extends BaseService
 	 */
 	public function increaseQuantity($document, $nb)
 	{
-		$quantity = $document->getStockQuantity();
-		if ($quantity !== null)
-		{
-			$document->setStockQuantity($quantity + $nb);
-			$document->save();
-		}
+		$document->addStockQuantity($nb);
+		$document->save();
 	}
-	
-	/**
-	 * Gets substract the out of stock threshold to the quantity. 
-	 * @param catalog_StockableDocument $document
-	 * @return Double
-	 */
-	public function getDisplayableQuantity($document)
-	{
-		$quantity = $document->getStockQuantity();
-		return ($quantity === null) ? null : $quantity;
-	}
-	
+		
 	/**
 	 * @return catalog_StockableDocument
 	 */
@@ -122,8 +77,7 @@ class catalog_StockService extends BaseService
 	 */
 	public function handleStockAlert($document)
 	{
-		$theshold = $this->getAlertThreshold($document);
-		if ($document->getStockQuantityOldValue() > $theshold && $document->getStockQuantity() <= $theshold)
+		if ($document->mustSendStockAlert())
 		{
 			$recipients = ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertNotificationUser');
 			if ($recipients !== null && count($recipients) > 0)
@@ -148,11 +102,17 @@ class catalog_StockService extends BaseService
 	 */
 	private function getAlertThreshold($document)
 	{
-		if ($document instanceof catalog_StockableDocument && $document->getStockAlertThreshold() !== null)
+		$threshold = null;
+		if (f_util_ClassUtils::methodExists($document, 'getStockAlertThreshold'))
 		{
-			return $document->getStockAlertThreshold();
+			$threshold = $document->getStockAlertThreshold();
 		}
-		return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
+		
+		if ($threshold === null)
+		{
+			return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
+		}
+		return $threshold;
 	}
 	
 	/**
@@ -181,5 +141,31 @@ class catalog_StockService extends BaseService
 			$parameters, 
 			'catalog'
 		);
+	}
+	
+	
+	/**
+	 * @deprecated use $document->getStockQuantity()
+	 */
+	public function getDisplayableQuantity($document)
+	{
+		return $document->getStockQuantity();
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function updateLevel($document)
+	{
+		$document->addStockQuantity(0);
+		$document->save();
+	}
+		
+	/**
+	 * @deprecated 
+	 */
+	public function setLevelFromQuantity($document)
+	{
+		$document->addStockQuantity(0);
 	}
 }
