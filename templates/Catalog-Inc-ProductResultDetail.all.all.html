@@ -7,16 +7,16 @@
 	<p tal:condition="shop/getDisplayPriceWithTax">
 		<strong i18n:translate="&modules.catalog.frontoffice.PricettcLabel;"></strong>
 		<tal:block tal:condition="price/isDiscount">
-			<del tal:content="price/getFormattedOldValueWithTax" />			
+			<del>${price/getFormattedOldValueWithTax}</del>			
 		</tal:block>
-		<tal:block tal:replace="price/getFormattedValueWithTax" />
+		${price/getFormattedValueWithTax}
 	</p>
 	<p tal:condition="shop/getDisplayPriceWithoutTax">
 		<strong i18n:translate="&modules.catalog.frontoffice.PricehtLabel;"></strong>
 		<tal:block tal:condition="price/isDiscount">
-			<del tal:content="price/getFormattedOldValueWithoutTax" />			
+			<del>${price/getFormattedOldValueWithoutTax}</del>			
 		</tal:block>
-		<tal:block tal:replace="price/getFormattedValueWithoutTax" />
+		${price/getFormattedValueWithoutTax}
 	</p>
 </tal:block>
 <p>
