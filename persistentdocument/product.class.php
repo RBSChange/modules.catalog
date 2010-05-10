@@ -166,7 +166,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	/**
 	 * @return String
 	 */
-	function getFormattedCurrentShopPrice()
+	public function getFormattedCurrentShopPrice()
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$price = $this->getPrice($shop, null);
@@ -175,6 +175,16 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			return $price->getFormattedValueWithTax();
 		}
 		return null;
+	}
+	
+	/**
+	 * @return String
+	 */
+	public function getPriceForCurrentShopAndCustomer()
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$curtomer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		return $this->getPrice($shop, $curtomer);
 	}
 	
 	/**

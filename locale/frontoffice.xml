@@ -858,4 +858,8 @@
     <locale lang="fr">Recharger</locale>
     <locale lang="en">Refresh</locale>
   </entity>
+  <entity id="shelf">
+    <locale lang="fr">rayon</locale>
+    <locale lang="en">shelf</locale>
+  </entity>
 </localization>

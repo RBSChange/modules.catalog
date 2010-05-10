@@ -41,6 +41,16 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 
 	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param string $bockName
+	 * @return array with entries 'module' and 'template'. 
+	 */
+	public function getSolrserachResultItemTemplate($document, $bockName)
+	{
+		return array('module' => 'catalog', 'template' => 'Catalog-Inc-ProductResultDetail');
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param website_pesistentdocument_website $website
 	 * @return catalog_persistentdocument_shelf

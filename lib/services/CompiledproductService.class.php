@@ -63,6 +63,16 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		return LinkHelper::getDocumentUrl($document->getProduct(), $lang, $parameters);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @param string $bockName
+	 * @return array with entries 'module' and 'template'. 
+	 */
+	public function getSolrserachResultItemTemplate($document, $bockName)
+	{
+		$product = $document->getProduct();
+		return $product->getDocumentService()->getSolrserachResultItemTemplate($product, $bockName);
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
