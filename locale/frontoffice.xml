@@ -654,6 +654,10 @@
     <locale lang="fr">ajouter à mes produits favoris</locale>
     <locale lang="de">Zu meinen Favoriten hinzufügen</locale>
   </entity>
+    <entity id="title.add-to-list">
+    <locale lang="fr">ajouter le produit sélectionné à votre liste de produits favoris</locale>
+    <locale lang="de">Zu meinen Favoriten Produkten hinzufügen</locale>
+  </entity>
   <entity id="product-added-to-list">
     <locale lang="fr">produit ajouté aux favoris</locale>
     <locale lang="de">Zu den Favoriten hinzugefügt</locale>

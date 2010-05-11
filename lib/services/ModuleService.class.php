@@ -86,7 +86,6 @@ class catalog_ModuleService extends ModuleBaseService
 	
 	/**
 	 * @return String[]
-	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
 	 */
 	public function getProductModelsThatMayAppearInCarts()
 	{
