@@ -331,6 +331,9 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			$this->synchronizeField($document, 'similar');
 		}
+		
+		// Generate compiled products.
+		$this->updateCompiledProperty($document, false);
 	}
 	
 	/**
@@ -431,17 +434,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	protected function preUpdate($document, $parentNodeId)
 	{
 		$document->persistHasNewTranslation();
-	}
-
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
-	 * @return void
-	 */
-	protected function postUpdate($document, $parentNodeId)
-	{
-		// Generate compiled products.
-		$this->updateCompiledProperty($document, false);
 	}
 
 	/**
