@@ -27,6 +27,7 @@
 					<changeblock type="modules_catalog_productCrossSelling" __type="complementary" __maxdisplayed="2" />
 					<changeblock type="modules_catalog_productCrossSelling" __type="similar" __maxdisplayed="2" />
 					<changeblock type="modules_catalog_productCrossSelling" __type="upsell" __maxdisplayed="2" />
+					<changeblock type="modules_catalog_bundleListByProduct" />
 					<changeblock type="modules_catalog_comments" />
 				</changecontent>
 			</page>

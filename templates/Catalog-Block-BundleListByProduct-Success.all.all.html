@@ -1,0 +1,25 @@
+<div class="product-crossselling">
+	<h3 change:h="" change:translate="modules.catalog.bo.blocks.BundleListByProduct.Blocktitle">Groupe de produit associé</h3>
+	<div class="shelves-display"> 
+		<ol class="table-view">
+			<li tal:repeat="bundleProduct bundleProducts">
+				<ul class="sub-list">			
+					<li tal:define="visual php: bundleProduct.getDefaultVisual(shop)" tal:condition="visual">
+						<a change:link="document bundleProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
+					</li>
+					<li>
+						<h4 class="title"><a class="link" change:link="document bundleProduct" tal:content="bundleProduct/getLabel" /></h4>
+					</li>
+					<tal:block tal:define="price php: bundleProduct.getPrice(shop, customer)">
+					<li tal:condition="price/isDiscount">
+						<span class="price"><del tal:content="price/getFormattedOldValueWithTax" /></span>
+					</li>
+					<li>
+						<span class="price" tal:content="price/getFormattedValueWithTax" />
+					</li>
+					</tal:block>
+				</ul>
+			</li>
+		</ol>
+	</div>
+</div>

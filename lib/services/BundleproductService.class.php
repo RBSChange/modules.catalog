@@ -180,6 +180,23 @@ class catalog_BundleproductService extends catalog_ProductService
 		return $result; 
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_product $product
+	 * @return array
+	 */
+	public function getByBundledProduct($shop, $product)
+	{
+		$query = $this->createStrictQuery()
+		->add(Restrictions::published())
+		->add(Restrictions::eq('bundleditem.product', $product));
+		
+		$query->createCriteria('compiledproduct')
+			->add(Restrictions::published())
+			->add(Restrictions::eq('shopId', $shop->getId()));
+		
+		return $query->find();
+	}
 
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $document
