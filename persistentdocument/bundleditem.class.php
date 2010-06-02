@@ -37,7 +37,7 @@ class catalog_persistentdocument_bundleditem extends catalog_persistentdocument_
 	 */
 	public function getLinkTitle()
 	{
-		return f_Locale::translate('&modules.catalog.frontoffice.Titlelinkdetailproduct;', array('name' => $this->getProduct()->getLabel()));
+		return f_util_HtmlUtils::textToHtml(f_Locale::translate('&modules.catalog.frontoffice.Titlelinkdetailproduct;', array('name' => $this->getProduct()->getLabel())));
 	}
 	
 	public function getTitleAsHtml()
