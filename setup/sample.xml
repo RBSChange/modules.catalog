@@ -21,8 +21,8 @@
 			<media path="modules/catalog/setup/sample/Anniversaire3.jpg" label="Anniversaire 3" id="photo1" />
 			<media path="modules/catalog/setup/sample/Anniversaire4.jpg" label="Anniversaire 4" id="photo2" />
 			<media path="modules/catalog/setup/sample/papillon_change.jpg" label="Papillon change" id="photo3" />
-			<media path="modules/catalog/setup/sample/RBS batiment open space.jpg" label="RBS batiment open space" id="photo4" />
-			<media path="modules/catalog/setup/sample/RBS batiment.jpg" label="RBS batiment" id="photo5" />
+			<media path="modules/catalog/setup/sample/RBS_batiment_open_space.jpg" label="RBS batiment open space" id="photo4" />
+			<media path="modules/catalog/setup/sample/RBS_batiment.jpg" label="RBS batiment" id="photo5" />
 			<media path="modules/catalog/setup/sample/nike_logo.jpg" label="Logo Nike" id="photo6" />
 			<media path="modules/catalog/setup/sample/adidas_logo.jpg" label="Logo Adidas" id="photo7" />
 		</folder>
