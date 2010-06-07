@@ -69,10 +69,10 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	/**
 	 * @return String
 	 */
-	public function getShortDescription()
+	public function getShortDescription($maxCount = 80)
 	{
 		$desc = str_replace(array('&', '<', '>', '\'', '"'), array('&amp;', '&lt;', '&gt;', '&#39;', '&quot;'), f_util_StringUtils::htmlToText($this->getDescription(), false));
-		return f_util_StringUtils::shortenString($desc, 80);
+		return f_util_StringUtils::shortenString($desc, $maxCount);
 	}
 
 	/**

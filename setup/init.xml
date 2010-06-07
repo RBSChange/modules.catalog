@@ -111,7 +111,11 @@
 			label="Liste des modes de saisies des prix en bakcoffice.">
 			<staticitem value="btoc" label="TTC" />
 			<staticitem value="btob" label="Hors taxes" />
-		</staticlist>	
+		</staticlist>
+		
+		<dynamiclist listid="modules_catalog/shippingfiltersbyshop"
+			label="Modes de livraison de la boutique" description="Liste des modes de livraison d'une boutique boutique donnée en paramètre.">
+		</dynamiclist>
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">

@@ -116,4 +116,15 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		}
 		return false;
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return catalog_persistentdocument_shippingfilter[]
+	 */
+	public function getByShop($shop)
+	{
+		return catalog_ShippingfilterService::getInstance()->createQuery()
+			->add(Restrictions::eq('shop', $shop))
+			->addOrder(Order::iasc('document_label'))->find();
+	}
 }

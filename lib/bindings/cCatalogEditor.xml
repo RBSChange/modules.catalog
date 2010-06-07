@@ -556,11 +556,11 @@
 				</xul:columns>
 				<xul:rows>
 					<xul:row class="head" anonid="head-row">
-						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-actions;" />
 						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-label;" />
 						<xul:label name="codeReference" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-codeReference;" />
 						<xul:label name="stockQuantity" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockQuantity;" />
 						<xul:label name="stockLevel" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockLevel;" />
+						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-actions;" />
 					</xul:row>
 				</xul:rows>
 			</xul:grid>

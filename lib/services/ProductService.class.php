@@ -78,6 +78,31 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 		return null;
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return string
+	 */
+	public function getPathForShop($product, $shop)
+	{
+		$primaryShelf = $this->getPrimaryShelf($product, $shop->getWebsite());
+		if ($primaryShelf === null)
+		{
+			return '';
+		}
+		
+		$path = array();
+		foreach ($primaryShelf->getDocumentService()->getAncestorsOf($primaryShelf) as $ancestor)
+		{
+			if ($ancestor instanceof catalog_persistentdocument_shelf)
+			{
+				$path[] = $ancestor->getLabel();
+			}
+		}
+		$path[] = $primaryShelf->getLabel();
+		return implode(' > ', $path);
+	}
 
 	/**
 	 * @param catalog_persistentdocument_product $product
@@ -276,14 +301,12 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}			
 			foreach ($shops as $shop)
 			{
-				$this->currentShopForResume = $shop;
 				$urlData[] = array(
 					'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.Url-for-website;', array('website' => $shop->getWebsite()->getLabel())), 
-					'href' => str_replace('&amp;', '&', LinkHelper::getDocumentUrl($document, $lang, array(), false)),
+					'href' => str_replace('&amp;', '&', $this->generateUrlForShop($document, $shop, $lang, array(), false)),
 					'class' => $shop->isPublished() ? 'link' : ''
 				);
 			}
-			$this->currentShopForResume = null;
 			
 			$data['urlrewriting'] = $urlData;
 									
@@ -295,6 +318,22 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 		
 		return $data;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @param array $parameters
+	 * @param Boolean $useCache
+	 * @return string
+	 */
+	public function generateUrlForShop($product, $shop, $lang = null, $parameters = array(), $useCache = true)
+	{
+		$this->currentShopForResume = $shop;
+		$url = LinkHelper::getDocumentUrl($product, $lang, $parameters, $useCache);
+		$this->currentShopForResume = null;
+		return $url;
 	}
 	
 	/**
