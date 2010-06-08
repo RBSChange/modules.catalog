@@ -5,6 +5,8 @@
  */
 class catalog_PriceService extends f_persistentdocument_DocumentService
 {
+	const META_IS_REPLICATED = 'modules.catalog.isReplicated';
+	
 	/**
 	 * Singleton
 	 * @var catalog_PriceService
@@ -321,13 +323,52 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	protected function postInsert($document, $parentNodeId)
 	{
+		$product = $document->getProduct();
+		$product->getDocumentService()->replicatePrice($document);
+		
 		if ($document->isPublished())
 		{
-			$product = $document->getProduct();
 			$product->getDocumentService()->publishIfPossible($product->getId());
 		}
 	}
 	
+	/**
+	 * @var string[]
+	 */
+	private $ignoredProperties = array('modificationdate', 'documentversion', 'metastring');
+	
+	/**
+	 * @param catalog_persistentdocument_price $document
+	 * @param Integer $parentNodeId
+	 */
+	protected function postUpdate($document, $parentNodeId)
+	{
+		// If this price is replicated, synchronize the replicated prices values. 
+		if ($document->hasMeta(self::META_IS_REPLICATED))
+		{
+			$replicatedProperties = array();
+			foreach ($document->getModifiedPropertyNames() as $propertyName)
+			{
+				if (!in_array($propertyName, $this->ignoredProperties))
+				{
+					$replicatedProperties['set'.ucfirst($propertyName)] = 'get'.ucfirst($propertyName);
+				}
+			}
+			Framework::fatal(__METHOD__ . ' ' . var_export($replicatedProperties, true));
+			$query = catalog_PriceService::getInstance()->createQuery()->add(Restrictions::eq('replicatedFrom', $document->getId()));
+			foreach ($query->find() as $price)
+			{
+				Framework::fatal(__METHOD__ . ' ' . $price->getId());
+				foreach ($replicatedProperties as $setter => $getter)
+				{
+					$args = array(f_util_ClassUtils::callMethodOn($document, $getter));
+					f_util_ClassUtils::callMethodArgsOn($price, $setter, $args);
+				}
+				$price->save();
+			}
+		}
+	}
+
 	/**
 	 * @param catalog_persistentdocument_price $document
 	 * @param String $oldPublicationStatus
@@ -369,6 +410,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			}
 		
 			catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
+		}
+		
+		// Delete all prices replicated from this one.
+		if ($document->hasMeta(self::META_IS_REPLICATED))
+		{
+			$this->createQuery()->add(Restrictions::eq('replicatedFrom', $document->getId()))->delete();
 		}
 	}
 	
@@ -450,5 +497,34 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				throw new BaseException('Unexpected target!', 'modules.catalog.document.price.Unexpected-target-error');
 			}
 		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @param integer $productId
+	 * @return catalog_persistentdocument_price
+	 */
+	public function replicateForProduct($price, $productId)
+	{
+		$ps = catalog_PriceService::getInstance();
+		$newPrice = $ps->getNewDocumentInstance();
+		$price->copyPropertiesTo($newPrice, true);
+		$newPrice->setMeta("f_tags", array());
+		$newPrice->setAuthor(null);
+		$newPrice->setAuthorid(null);
+		$newPrice->setCreationdate(null);
+		$newPrice->setModificationdate(null);
+		$newPrice->setDocumentversion(0);
+		$newPrice->setProductId($productId);
+		$newPrice->setReplicatedFrom($price->getId());
+		$newPrice->save();
+		
+		if (!$price->hasMeta(self::META_IS_REPLICATED))
+		{
+			$price->setMeta(self::META_IS_REPLICATED, '1');
+			$price->saveMeta();
+		}
+		
+		return $newPrice;
 	}
 }

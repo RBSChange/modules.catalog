@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
-	model-version="1.0" icon="currency-euro" backoffice-indexable="false" has-url="false">
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0"
+	icon="currency-euro" backoffice-indexable="false" has-url="false">
 	<properties>
 		<add name="shopId" type="Integer" min-occurs="1" />
 		<add name="productId" type="Integer" min-occurs="1" />
@@ -28,6 +28,7 @@
 		<add name="thresholdMax" type="Integer" />
 		<add name="targetId" type="Integer" min-occurs="1" default-value="0" />
 		<add name="priority" type="Integer" min-occurs="1" default-value="25" />
+		<add name="replicatedFrom" type="Integer" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

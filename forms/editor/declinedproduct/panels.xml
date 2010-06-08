@@ -12,6 +12,7 @@
 		<javascript>
 			<constructor><![CDATA[
 				this.addTab('declinations', '&modules.catalog.bo.doceditor.tab.Declinations;', 'product');
+				this.addTab('prices', '&modules.catalog.bo.doceditor.tab.Prices;', 'price');
 				
 				// Check comment module existence.
 				var controller = document.getElementById("wcontroller");

@@ -1,289 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-  <entity id="module-name">
-    <locale lang="fr">catalogue et boutiques</locale>
-    <locale lang="en">catalog and shops</locale>
-    <locale lang="de">Katalog</locale>
-  </entity>
-  <entity id="tree-root-name">
-    <locale lang="fr">catalogue</locale>
-    <locale lang="en">catalog</locale>
-    <locale lang="de">Katalog</locale>
-  </entity>
-  <entity id="system-folder-name">
-    <locale lang="fr">catalogue et boutiques</locale>
-    <locale lang="en">catalog and shops</locale>
-    <locale lang="de">Katalog</locale>
-  </entity>
-  <entity id="catalog-view">
-    <locale lang="fr">catalogue</locale>
-    <locale lang="en">catalog</locale>
-    <locale lang="de">Katalog</locale>
-  </entity>
-  <entity id="articles">
-    <locale lang="fr">articles</locale>
-    <locale lang="en">articles</locale>
-    <locale lang="de">Artikel</locale>
-  </entity>
-  <entity id="brands">
-    <locale lang="fr">marques</locale>
-    <locale lang="en">brands</locale>
-    <locale lang="de">Marken</locale>
-  </entity>
-  <entity id="products">
-    <locale lang="fr">produits</locale>
-    <locale lang="en">products</locale>
-    <locale lang="de">Produkte</locale>
-  </entity>
-  <entity id="referencing">
-    <locale lang="fr">référencement</locale>
-    <locale lang="en">referencing</locale>
-    <locale lang="de">Referenzierung</locale>
-  </entity>
-  <entity id="additionnal-information">
-    <locale lang="fr">informations complémentaires</locale>
-    <locale lang="en">additionnal information</locale>
-    <locale lang="de">zusätzliche Information</locale>
-  </entity>
-  <entity id="stock-information">
-    <locale lang="fr">Gestion du stock</locale>
-    <locale lang="en">Stock</locale>
-  </entity>
-  <entity id="validity-dates">
-    <locale lang="fr">période de validité</locale>
-    <locale lang="en">validity dates</locale>
-    <locale lang="de">Gültigkeit</locale>
-  </entity>
-  <entity id="block.Detail">
-    <locale lang="fr">Détail d'un produit</locale>
-    <locale lang="de">Produktdetail</locale>
-  </entity>
-  <entity id="block.Text-with-banner">
-    <locale lang="fr">Texte d'en tête</locale>
-    <locale lang="de">Titelkopftext</locale>
-  </entity>
-  <entity id="block.crossselling">
-    <locale lang="fr">produits associés</locale>
-    <locale lang="de">assoziierte Produkte</locale>
-  </entity>
-  <entity id="block.topShelvesMenu">
-    <locale lang="fr">menu des rayons de premier niveau</locale>
-    <locale lang="de">Regalmenü erste Ebene</locale>
-  </entity>
-  <entity id="block.product-contextual-list">
-    <locale lang="fr">liste contextuelle des produits</locale>
-    <locale lang="de">kontextuelle Produktliste</locale>
-  </entity>
-  <entity id="block.shelf-contextual-list">
-    <locale lang="fr">liste contextuelle des rayons</locale>
-    <locale lang="de">kontextuelle Regalliste</locale>
-  </entity>
-  <entity id="block.favorite-product-list">
-    <locale lang="fr">produits favoris</locale>
-    <locale lang="de">Favoritenprodukt</locale>
-  </entity>
-<!-- Discount types -->
-  <entity id="discount-types-list">
-    <locale lang="fr">types de promotion</locale>
-    <locale lang="de">Arten Sonderangebote</locale>
-  </entity>
-  <entity id="discount-types-list-description">
-    <locale lang="fr">liste des types de promotion.</locale>
-    <locale lang="de">Artenliste Sonderangebote.</locale>
-  </entity>
-  <entity id="discount-types-short-list">
-    <locale lang="fr">types de promotion</locale>
-    <locale lang="de">Arten Sonderangebote</locale>
-  </entity>
-  <entity id="discount-types-short-list-description">
-    <locale lang="fr">liste restreinte des types de promotion.</locale>
-    <locale lang="de">beschränkte Artenliste Sonderangebote.</locale>
-  </entity>
-  <entity id="discount-types-price">
-    <locale lang="fr">prix fixé</locale>
-    <locale lang="de">Festpreis</locale>
-  </entity>
-  <entity id="discount-types-percentage">
-    <locale lang="fr">pourcentage de réduction</locale>
-    <locale lang="de">Rabattprozentsatz</locale>
-  </entity>
-  <entity id="discount-types-value">
-    <locale lang="fr">valeur de la réduction</locale>
-    <locale lang="de">Rabattwert</locale>
-  </entity>
-<!-- Currency position -->
-  <entity id="currency-position-list">
-    <locale lang="fr">positions de devises</locale>
-    <locale lang="de">Währungspositionen</locale>
-  </entity>
-  <entity id="currency-position-list-description">
-    <locale lang="fr">liste des positions de devises dans les prix</locale>
-    <locale lang="de">Liste der Währungspositionen in den Preisen</locale>
-  </entity>
-  <entity id="currency-position-left">
-    <locale lang="fr">à gauche</locale>
-    <locale lang="de">links</locale>
-  </entity>
-  <entity id="currency-position-right">
-    <locale lang="fr">à droite</locale>
-    <locale lang="de">rechts</locale>
-  </entity>
-  <entity id="general">
-    <locale lang="fr">propriétés principales</locale>
-    <locale lang="en">main properties</locale>
-    <locale lang="de">allgemein</locale>
-  </entity>
-  <entity id="extendedAttributes">
-    <locale lang="fr">attributs étendus</locale>
-    <locale lang="en">extended attributes</locale>
-  </entity>
-  <entity id="description">
-    <locale lang="fr">description</locale>
-    <locale lang="en">description</locale>
-    <locale lang="de">Beschreibung</locale>
-  </entity>
-  <entity id="zones-and-currency">
-    <locale lang="fr">zones et devise</locale>
-    <locale lang="en">zones and currency</locale>
-    <locale lang="de">Zonen und Währung</locale>
-  </entity>
-  <entity id="display">
-    <locale lang="fr">affichage</locale>
-    <locale lang="en">display</locale>
-    <locale lang="de">Anzeige</locale>
-  </entity>
-  <entity id="zones">
-    <locale lang="fr">zones</locale>
-    <locale lang="en">zones</locale>
-  </entity>
-  <entity id="currency">
-    <locale lang="fr">devise</locale>
-    <locale lang="en">currency</locale>
-    <locale lang="de">Währung</locale>
-  </entity>
-  <entity id="prices">
-    <locale lang="fr">prix</locale>
-    <locale lang="en">prices</locale>
-    <locale lang="de">Preise</locale>
-  </entity>
-  <entity id="default-visuals">
-    <locale lang="fr">visuels par défaut</locale>
-    <locale lang="en">default visuals</locale>
-    <locale lang="de">Standardbild</locale>
-  </entity>
-  <entity id="tax">
-    <locale lang="fr">taxe</locale>
-    <locale lang="en">tax</locale>
-    <locale lang="de">Steuer</locale>
-  </entity>
-  <entity id="discount-value">
-    <locale lang="fr">valeur de la promotion</locale>
-    <locale lang="en">discount value</locale>
-    <locale lang="de">Rabattwert</locale>
-  </entity>
-  <entity id="advanced">
-    <locale lang="fr">avancé</locale>
-    <locale lang="en">advanced</locale>
-    <locale lang="de">mehr</locale>
-  </entity>
-  <entity id="find-article-header">
-    <locale lang="fr">recherche d'articles</locale>
-    <locale lang="en">articles search</locale>
-    <locale lang="de">Produktsuche</locale>
-  </entity>
-  <entity id="search-criteria">
-    <locale lang="fr">critères de recherche</locale>
-    <locale lang="en">search criteria</locale>
-    <locale lang="de">Suchkriterien</locale>
-  </entity>
-  <entity id="article-list-header">
-    <locale lang="fr">liste d'articles correspondant aux critères</locale>
-    <locale lang="en">search results</locale>
-    <locale lang="de">den Kriterien ensprechende Artikelliste</locale>
-  </entity>
-  <entity id="article-detail-header">
-    <locale lang="fr">informations sur l'article</locale>
-    <locale lang="en">article information</locale>
-    <locale lang="de">Artikelinformation</locale>
-  </entity>
-  <entity id="article-detail-general-tab">
-    <locale lang="fr">informations générales</locale>
-    <locale lang="en">general information</locale>
-    <locale lang="de">allgemeine Informationen</locale>
-  </entity>
-  <entity id="article-detail-price-tab">
-    <locale lang="fr">prix</locale>
-    <locale lang="en">prices</locale>
-    <locale lang="de">Preise</locale>
-  </entity>
-  <entity id="wizard-price-value">
-    <locale lang="fr">valeur</locale>
-    <locale lang="en">value</locale>
-    <locale lang="de">Wert</locale>
-  </entity>
-  <entity id="wizard-price-erp">
-    <locale lang="fr">ERP</locale>
-    <locale lang="en">ERP</locale>
-    <locale lang="de">ERP</locale>
-  </entity>
-  <entity id="wizard-price-threshold">
-    <locale lang="fr">seuil</locale>
-    <locale lang="en">threshold</locale>
-    <locale lang="de">Grenze</locale>
-  </entity>
-  <entity id="wizard-price-discount">
-    <locale lang="fr">promo</locale>
-    <locale lang="en">discount</locale>
-    <locale lang="de">Sonderangebot</locale>
-  </entity>
-  <entity id="wizard-price-customer">
-    <locale lang="fr">client</locale>
-    <locale lang="en">customer</locale>
-    <locale lang="de">Kunde</locale>
-  </entity>
-  <entity id="wizard-price-zone">
-    <locale lang="fr">zone</locale>
-    <locale lang="en">zone</locale>
-    <locale lang="de">Zone</locale>
-  </entity>
-  <entity id="product-list-default-feeder">
-    <locale lang="fr">liste des produits du rayon</locale>
-    <locale lang="en">shelf products list</locale>
-    <locale lang="de">Regalproduktliste</locale>
-  </entity>
-<!-- Weights -->
-  <entity id="weight-units-list-label">
-    <locale lang="fr">liste des unités de poids</locale>
-    <locale lang="en">weight units list</locale>
-    <locale lang="de">Gewichtseinheitenliste</locale>
-  </entity>
-  <entity id="weight-units-list-desc">
-    <locale lang="fr">liste des unités de poids</locale>
-    <locale lang="en">weight units list</locale>
-    <locale lang="de">Gewichtseinheitenliste</locale>
-  </entity>
-  <entity id="column.website">
-    <locale lang="fr">site web</locale>
-    <locale lang="en">website</locale>
-  </entity>
-  <entity id="column.startpublicationdate">
-    <locale lang="fr">début de publication</locale>
-  </entity>
-  <entity id="column.endpublicationdate">
-    <locale lang="fr">fin de publication</locale>
-  </entity>
-<!-- List -->
-  <entity id="Taxcode">
-    <locale lang="fr">Code taxe</locale>
-  </entity>
-  <entity id="No-tax">
-    <locale lang="fr">pas de taxe</locale>
-  </entity>
-  <entity id="feeder-sameshelvesproductfeeder">
-    <locale lang="fr">dans des mêmes rayons</locale>
-  </entity>
-  
-  <entity id="product-not-published">
-    <locale lang="fr">le produit {label} n'est pas publié</locale>
-  </entity>
+	<entity id="module-name">
+		<locale lang="fr">catalogue et boutiques</locale>
+		<locale lang="en">catalog and shops</locale>
+		<locale lang="de">Katalog</locale>
+	</entity>
+	<entity id="tree-root-name">
+		<locale lang="fr">catalogue</locale>
+		<locale lang="en">catalog</locale>
+		<locale lang="de">Katalog</locale>
+	</entity>
+	<entity id="system-folder-name">
+		<locale lang="fr">catalogue et boutiques</locale>
+		<locale lang="en">catalog and shops</locale>
+		<locale lang="de">Katalog</locale>
+	</entity>
+	<entity id="catalog-view">
+		<locale lang="fr">catalogue</locale>
+		<locale lang="en">catalog</locale>
+		<locale lang="de">Katalog</locale>
+	</entity>
+	<entity id="articles">
+		<locale lang="fr">articles</locale>
+		<locale lang="en">articles</locale>
+		<locale lang="de">Artikel</locale>
+	</entity>
+	<entity id="brands">
+		<locale lang="fr">marques</locale>
+		<locale lang="en">brands</locale>
+		<locale lang="de">Marken</locale>
+	</entity>
+	<entity id="products">
+		<locale lang="fr">produits</locale>
+		<locale lang="en">products</locale>
+		<locale lang="de">Produkte</locale>
+	</entity>
+	<entity id="referencing">
+		<locale lang="fr">référencement</locale>
+		<locale lang="en">referencing</locale>
+		<locale lang="de">Referenzierung</locale>
+	</entity>
+	<entity id="additionnal-information">
+		<locale lang="fr">informations complémentaires</locale>
+		<locale lang="en">additionnal information</locale>
+		<locale lang="de">zusätzliche Information</locale>
+	</entity>
+	<entity id="stock-information">
+		<locale lang="fr">Gestion du stock</locale>
+		<locale lang="en">Stock</locale>
+	</entity>
+	<entity id="validity-dates">
+		<locale lang="fr">période de validité</locale>
+		<locale lang="en">validity dates</locale>
+		<locale lang="de">Gültigkeit</locale>
+	</entity>
+	<entity id="block.Detail">
+		<locale lang="fr">Détail d'un produit</locale>
+		<locale lang="de">Produktdetail</locale>
+	</entity>
+	<entity id="block.Text-with-banner">
+		<locale lang="fr">Texte d'en tête</locale>
+		<locale lang="de">Titelkopftext</locale>
+	</entity>
+	<entity id="block.crossselling">
+		<locale lang="fr">produits associés</locale>
+		<locale lang="de">assoziierte Produkte</locale>
+	</entity>
+	<entity id="block.topShelvesMenu">
+		<locale lang="fr">menu des rayons de premier niveau</locale>
+		<locale lang="de">Regalmenü erste Ebene</locale>
+	</entity>
+	<entity id="block.product-contextual-list">
+		<locale lang="fr">liste contextuelle des produits</locale>
+		<locale lang="de">kontextuelle Produktliste</locale>
+	</entity>
+	<entity id="block.shelf-contextual-list">
+		<locale lang="fr">liste contextuelle des rayons</locale>
+		<locale lang="de">kontextuelle Regalliste</locale>
+	</entity>
+	<entity id="block.favorite-product-list">
+		<locale lang="fr">produits favoris</locale>
+		<locale lang="de">Favoritenprodukt</locale>
+	</entity>
+	<!-- Discount types -->
+	<entity id="discount-types-list">
+		<locale lang="fr">types de promotion</locale>
+		<locale lang="de">Arten Sonderangebote</locale>
+	</entity>
+	<entity id="discount-types-list-description">
+		<locale lang="fr">liste des types de promotion.</locale>
+		<locale lang="de">Artenliste Sonderangebote.</locale>
+	</entity>
+	<entity id="discount-types-short-list">
+		<locale lang="fr">types de promotion</locale>
+		<locale lang="de">Arten Sonderangebote</locale>
+	</entity>
+	<entity id="discount-types-short-list-description">
+		<locale lang="fr">liste restreinte des types de promotion.</locale>
+		<locale lang="de">beschränkte Artenliste Sonderangebote.</locale>
+	</entity>
+	<entity id="discount-types-price">
+		<locale lang="fr">prix fixé</locale>
+		<locale lang="de">Festpreis</locale>
+	</entity>
+	<entity id="discount-types-percentage">
+		<locale lang="fr">pourcentage de réduction</locale>
+		<locale lang="de">Rabattprozentsatz</locale>
+	</entity>
+	<entity id="discount-types-value">
+		<locale lang="fr">valeur de la réduction</locale>
+		<locale lang="de">Rabattwert</locale>
+	</entity>
+	<!-- Currency position -->
+	<entity id="currency-position-list">
+		<locale lang="fr">positions de devises</locale>
+		<locale lang="de">Währungspositionen</locale>
+	</entity>
+	<entity id="currency-position-list-description">
+		<locale lang="fr">liste des positions de devises dans les prix</locale>
+		<locale lang="de">Liste der Währungspositionen in den Preisen</locale>
+	</entity>
+	<entity id="currency-position-left">
+		<locale lang="fr">à gauche</locale>
+		<locale lang="de">links</locale>
+	</entity>
+	<entity id="currency-position-right">
+		<locale lang="fr">à droite</locale>
+		<locale lang="de">rechts</locale>
+	</entity>
+	<entity id="general">
+		<locale lang="fr">propriétés principales</locale>
+		<locale lang="en">main properties</locale>
+		<locale lang="de">allgemein</locale>
+	</entity>
+	<entity id="extendedAttributes">
+		<locale lang="fr">attributs étendus</locale>
+		<locale lang="en">extended attributes</locale>
+	</entity>
+	<entity id="description">
+		<locale lang="fr">description</locale>
+		<locale lang="en">description</locale>
+		<locale lang="de">Beschreibung</locale>
+	</entity>
+	<entity id="zones-and-currency">
+		<locale lang="fr">zones et devise</locale>
+		<locale lang="en">zones and currency</locale>
+		<locale lang="de">Zonen und Währung</locale>
+	</entity>
+	<entity id="display">
+		<locale lang="fr">affichage</locale>
+		<locale lang="en">display</locale>
+		<locale lang="de">Anzeige</locale>
+	</entity>
+	<entity id="zones">
+		<locale lang="fr">zones</locale>
+		<locale lang="en">zones</locale>
+	</entity>
+	<entity id="currency">
+		<locale lang="fr">devise</locale>
+		<locale lang="en">currency</locale>
+		<locale lang="de">Währung</locale>
+	</entity>
+	<entity id="prices">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">prices</locale>
+		<locale lang="de">Preise</locale>
+	</entity>
+	<entity id="default-visuals">
+		<locale lang="fr">visuels par défaut</locale>
+		<locale lang="en">default visuals</locale>
+		<locale lang="de">Standardbild</locale>
+	</entity>
+	<entity id="tax">
+		<locale lang="fr">taxe</locale>
+		<locale lang="en">tax</locale>
+		<locale lang="de">Steuer</locale>
+	</entity>
+	<entity id="discount-value">
+		<locale lang="fr">valeur de la promotion</locale>
+		<locale lang="en">discount value</locale>
+		<locale lang="de">Rabattwert</locale>
+	</entity>
+	<entity id="advanced">
+		<locale lang="fr">avancé</locale>
+		<locale lang="en">advanced</locale>
+		<locale lang="de">mehr</locale>
+	</entity>
+	<entity id="find-article-header">
+		<locale lang="fr">recherche d'articles</locale>
+		<locale lang="en">articles search</locale>
+		<locale lang="de">Produktsuche</locale>
+	</entity>
+	<entity id="search-criteria">
+		<locale lang="fr">critères de recherche</locale>
+		<locale lang="en">search criteria</locale>
+		<locale lang="de">Suchkriterien</locale>
+	</entity>
+	<entity id="article-list-header">
+		<locale lang="fr">liste d'articles correspondant aux critères</locale>
+		<locale lang="en">search results</locale>
+		<locale lang="de">den Kriterien ensprechende Artikelliste</locale>
+	</entity>
+	<entity id="article-detail-header">
+		<locale lang="fr">informations sur l'article</locale>
+		<locale lang="en">article information</locale>
+		<locale lang="de">Artikelinformation</locale>
+	</entity>
+	<entity id="article-detail-general-tab">
+		<locale lang="fr">informations générales</locale>
+		<locale lang="en">general information</locale>
+		<locale lang="de">allgemeine Informationen</locale>
+	</entity>
+	<entity id="article-detail-price-tab">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">prices</locale>
+		<locale lang="de">Preise</locale>
+	</entity>
+	<entity id="wizard-price-value">
+		<locale lang="fr">valeur</locale>
+		<locale lang="en">value</locale>
+		<locale lang="de">Wert</locale>
+	</entity>
+	<entity id="wizard-price-erp">
+		<locale lang="fr">ERP</locale>
+		<locale lang="en">ERP</locale>
+		<locale lang="de">ERP</locale>
+	</entity>
+	<entity id="wizard-price-threshold">
+		<locale lang="fr">seuil</locale>
+		<locale lang="en">threshold</locale>
+		<locale lang="de">Grenze</locale>
+	</entity>
+	<entity id="wizard-price-discount">
+		<locale lang="fr">promo</locale>
+		<locale lang="en">discount</locale>
+		<locale lang="de">Sonderangebot</locale>
+	</entity>
+	<entity id="wizard-price-customer">
+		<locale lang="fr">client</locale>
+		<locale lang="en">customer</locale>
+		<locale lang="de">Kunde</locale>
+	</entity>
+	<entity id="wizard-price-zone">
+		<locale lang="fr">zone</locale>
+		<locale lang="en">zone</locale>
+		<locale lang="de">Zone</locale>
+	</entity>
+	<entity id="product-list-default-feeder">
+		<locale lang="fr">liste des produits du rayon</locale>
+		<locale lang="en">shelf products list</locale>
+		<locale lang="de">Regalproduktliste</locale>
+	</entity>
+	<!-- Weights -->
+	<entity id="weight-units-list-label">
+		<locale lang="fr">liste des unités de poids</locale>
+		<locale lang="en">weight units list</locale>
+		<locale lang="de">Gewichtseinheitenliste</locale>
+	</entity>
+	<entity id="weight-units-list-desc">
+		<locale lang="fr">liste des unités de poids</locale>
+		<locale lang="en">weight units list</locale>
+		<locale lang="de">Gewichtseinheitenliste</locale>
+	</entity>
+	<entity id="column.website">
+		<locale lang="fr">site web</locale>
+		<locale lang="en">website</locale>
+	</entity>
+	<entity id="column.startpublicationdate">
+		<locale lang="fr">début de publication</locale>
+	</entity>
+	<entity id="column.endpublicationdate">
+		<locale lang="fr">fin de publication</locale>
+	</entity>
+	<!-- List -->
+	<entity id="Taxcode">
+		<locale lang="fr">Code taxe</locale>
+	</entity>
+	<entity id="No-tax">
+		<locale lang="fr">pas de taxe</locale>
+	</entity>
+	<entity id="feeder-sameshelvesproductfeeder">
+		<locale lang="fr">dans des mêmes rayons</locale>
+	</entity>
+
+	<entity id="product-not-published">
+		<locale lang="fr">le produit {label} n'est pas publié</locale>
+	</entity>
 </localization>

@@ -76,6 +76,17 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			$declinedProduct = DocumentHelper::getDocumentInstance($parentNodeId);
 			$declinedProduct->addDeclination($document);
 			$declinedProduct->save();
+			
+			// Price replication.
+			$ps = catalog_PriceService::getInstance();
+			if ($declinedProduct->getSynchronizePrices())
+			{
+				$dps = $declinedProduct->getDocumentService();
+				foreach ($ps->createQuery()->add(Restrictions::eq('productId', $declinedProduct->getId()))->find() as $price)
+				{
+					$dps->replicatePriceOnProductIds($price, array($document->getId()));
+				}
+			}
 		}
 		
 		parent::postInsert($document, $parentNodeId);

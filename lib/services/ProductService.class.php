@@ -800,9 +800,20 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 	}
 	
+	/**
+	 * @param integer $productId
+	 */
 	public function setCompiled($productId)
 	{
 		$product = $this->getDocumentInstance($productId, 'modules_catalog/product');
 		$product->getDocumentService()->updateCompiledProperty($product, true);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 */
+	public function replicatePrice($price)
+	{
+		// Nothing to do bu default.
 	}
 }

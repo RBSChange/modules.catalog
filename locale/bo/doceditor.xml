@@ -29,6 +29,9 @@
 	<entity id="fieldsgroup.restrictions">
 		<locale lang="fr">restrictions d'application</locale>
 	</entity>
+	<entity id="fieldsgroup.prices">
+		<locale lang="fr">prix</locale>
+	</entity>
 	
 	<entity id="tab.prices">
 		<locale lang="fr">prix</locale>
@@ -83,8 +86,14 @@
 	<entity id="panel.prices.column-actions">
 		<locale lang="fr">actions</locale>
 	</entity>
-	<entity id="panel.prices.Confirm-delete-price">
+	<entity id="panel.prices.confirm-delete-price">
 		<locale lang="fr">confirmez-vous la suppression de ce prix ?</locale>
+	</entity>
+	<entity id="panel.prices.disabled.declinedproduct-not-synchronized">
+		<locale lang="fr">la synchronisation des prix entre les déclinaisons est désactivée. Pour éditer les prix d'une déclinaison, rendez-vous dans l'onglet "Prix" de cette déclinaison. Pour réactiver la synchronisation des prix, rendez-vous dans l'onglet "Propriétés" du produit décliné.</locale>
+	</entity>
+	<entity id="panel.prices.disabled.productdeclination-synchronized">
+		<locale lang="fr">la synchronisation des prix entre les déclinaisons est activée. Pour éditer les prix, rendez-vous dans l'onglet "Prix" du produit décliné. Pour désactiver la synchronisation des prix, rendez-vous dans l'onglet "Propriétés" du produit décliné.</locale>
 	</entity>
 	
 	<entity id="tab.declinations">

@@ -155,4 +155,68 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		return $this->declinationToDelete;
 	}
 	
+	private $synchronizePricesFrom;
+	
+	/**
+	 * @return integer
+	 */
+	public function getSynchronizePricesFrom()
+	{
+		return $this->synchronizePricesFrom;
+	}
+	
+	/**
+	 * @param integer $declinationId
+	 */
+	public function setSynchronizePricesFrom($declinationId)
+	{
+		$declinationId = intval($declinationId);
+		if ($declinationId > 0)
+		{
+			$this->synchronizePricesFrom = $declinationId;
+			$this->setSynchronizePrices(true);
+		}
+		else
+		{
+			$this->synchronizePricesFrom = null;
+			$this->setSynchronizePrices(false);
+		}
+	}
+	
+	/**
+	 * @param integer $declinationId
+	 */
+	public function clearSynchronizePricesFrom()
+	{
+		$this->synchronizePricesFrom = null;
+	}
+	
+	/**
+	 * @param string $actionType
+	 * @param array $formProperties
+	 */
+	public function addFormProperties($propertiesNames, &$formProperties)
+	{	
+		$formProperties['synchronizePrices'] = $this->getSynchronizePrices();
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isPricePanelEnabled()
+	{
+		return $this->getSynchronizePrices();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getPricePanelDisabledMessage()
+	{
+		if (!$this->isPricePanelEnabled())
+		{
+			return f_Locale::translate('&modules.catalog.bo.doceditor.panel.prices.disabled.Declinedproduct-not-synchronized;');
+		}
+		return null;
+	}
 }

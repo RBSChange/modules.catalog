@@ -24,6 +24,11 @@
 		<field name="pageDescription" class="with-counter" rows="2" />
 		<field name="pageKeywords" class="with-counter" rows="2" />
 	</section>
+	<section labeli18n="modules.catalog.bo.general.Prices" class="toggle" hidden="true">
+		<field name="synchronizePrices" />
+		<field name="synchronizePricesFrom"	labeli18n="modules.catalog.document.declinedproduct.SynchronizePricesFrom" 
+			 type="dropdownlist" shorthelp="&amp;modules.catalog.document.declinedproduct.SynchronizePricesFrom-help;" />
+	</section>
 	<xul>
 		<javascript>
 			<constructor><![CDATA[
@@ -35,16 +40,32 @@
 				<body><![CDATA[
 					try
 					{
-						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_complementary');
+						var field = this.fields.complementary;
 						this.setAttributesForSuggestions(field, result.contents.suggestComplementaryFeederClass);
-						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_similar');
+						var field = this.fields.similar;
 						this.setAttributesForSuggestions(field, result.contents.suggestSimilarFeederClass);
-						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_upsell');
+						var field = this.fields.upsell;
 						this.setAttributesForSuggestions(field, result.contents.suggestUpsellFeederClass);
+						
+						// Prices synchronisation...
+						var rowSynchronizePrices = this.getElementByAnonId('row_synchronizePrices');
+						var rowSynchronizePricesFrom = this.getElementByAnonId('row_synchronizePricesFrom');
+						if (result.contents.synchronizePrices)
+						{
+							rowSynchronizePrices.removeAttribute('hidden');
+							rowSynchronizePricesFrom.setAttribute('hidden', 'true');
+						}
+						else
+						{
+							rowSynchronizePrices.setAttribute('hidden', 'true');
+							rowSynchronizePricesFrom.removeAttribute('hidden');
+							var field = this.fields.synchronizePricesFrom;
+							field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.documentEditor.documentid});
+						}
 					}
 					catch (e)
 					{
-						wCore.error("declinedproduct.propertiespanel.fireInitializeCompleteExtend", [], e);
+						wCore.error("declinedproduct.propertiespanel.fireInitializeCompleteExtend", [result], e);
 					}
 				]]></body>
 			</method>

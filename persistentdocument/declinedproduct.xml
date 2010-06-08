@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
-	model-version="1.0" icon="declinedproduct" extend="modules_catalog/product" edit-module="catalog">
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0"
+	icon="declinedproduct" extend="modules_catalog/product" edit-module="catalog">
 	<properties>
 		<add name="declination" type="modules_catalog/productdeclination" min-occurs="0" max-occurs="-1" tree-node="true" inverse="true" />
 		<add name="declinationaxes" type="String" />
@@ -11,5 +11,6 @@
 		<add name="pageDescription" type="LongString" localized="true" />
 		<add name="pageKeywords" type="LongString" localized="true" />
 		<add name="labelForUrl" type="String" localized="true" />
+		<add name="synchronizePrices" type="Boolean" default-value="true" />
 	</properties>
 </document>

@@ -503,4 +503,20 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	{
 		return LinkHelper::getLink($this);	
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isPricePanelEnabled()
+	{
+		return true;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getPricePanelDisabledMessage()
+	{
+		return null;
+	}
 }

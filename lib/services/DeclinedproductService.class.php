@@ -202,6 +202,54 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @return void
+	 */
+	protected function postUpdate($document, $parentNodeId = null)
+	{
+		parent::postUpdate($document, $parentNodeId);
+		
+		$ps = catalog_PriceService::getInstance();
+		$synchronizePricesFrom = $document->getSynchronizePricesFrom();
+		if ($synchronizePricesFrom !== null)
+		{
+			$document->clearSynchronizePricesFrom();
+			
+			// Delete potential existing prices on the declined product.
+			$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
+			
+			// Delete existing prices on the declinations, except for the selected one.
+			$declinationIds = DocumentHelper::getIdArrayFromDocumentArray($document->getDeclinationArray());
+			unset($declinationIds[array_search($synchronizePricesFrom, $declinationIds)]);
+			$ps->createQuery()->add(Restrictions::in('productId', $declinationIds))->delete();
+			$declinationIds[] = $synchronizePricesFrom;
+			
+			// Move all prices from the declination to the declined product.
+			foreach ($ps->createQuery()->add(Restrictions::eq('productId', $synchronizePricesFrom))->find() as $price)
+			{
+				$price->setProductId($document->getId());
+				$price->setReplicatedFrom(null);
+				$price->save();
+				$this->replicatePriceOnProductIds($price, $declinationIds);
+			}
+		}
+		else if ($document->isPropertyModified('synchronizePrices') && $document->getSynchronizePrices() === false)
+		{
+			// Update declination prices.
+			$declinationIds = DocumentHelper::getIdArrayFromDocumentArray($document->getDeclinationArray());
+			foreach ($ps->createQuery()->add(Restrictions::in('productId', $declinationIds))->find() as $price)
+			{
+				$price->setReplicatedFrom(null);
+				$price->save();
+			}
+			
+			// Delete existing prices on the declined product.
+			$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
+		}		
+	}
+
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @return void
 	 */
 	protected function preDelete($document)
@@ -213,8 +261,6 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	}
 	
 	/**
-	 * @see f_persistentdocument_DocumentService::postDelete()
-	 *
 	 * @param catalog_persistentdocument_declinedproduct $document
 	 */
 	protected function postDelete($document)
@@ -305,6 +351,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 			throw $e;
 		}
 	}
+	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $product
 	 * @return array
@@ -312,7 +359,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	public function getDeclinationsInfos($product)
 	{
 		$data = array('id' => $product->getId(), 'lang' => $product->getLang(), 
-						'documentversion' => $product->getDocumentversion());
+			'documentversion' => $product->getDocumentversion());
 		
 		$declinations = $product->getDeclinationArray();
 		$data['totalCount'] = count($declinations);
@@ -338,4 +385,26 @@ class catalog_DeclinedproductService extends catalog_ProductService
 		return $data;
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @param integer[] $productIds
+	 */
+	public function replicatePriceOnProductIds($price, $productIds)
+	{
+		$ps = catalog_PriceService::getInstance();
+		foreach ($productIds as $productId)
+		{
+			$ps->replicateForProduct($price, $productId);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 */
+	public function replicatePrice($price)
+	{
+		$document = DocumentHelper::getDocumentInstance($price->getProductId());
+		$productIds = DocumentHelper::getIdArrayFromDocumentArray($document->getDeclinationArray());
+		$this->replicatePriceOnProductIds($price, $productIds);
+	}
 }

@@ -112,4 +112,16 @@
 	<entity id="endpublicationdate-help">
 		<locale lang="fr">date de fin de parution de la fiche produit</locale>
 	</entity>
+	<entity id="synchronizePrices">
+		<locale lang="fr">synchroniser les prix</locale>
+	</entity>
+	<entity id="synchronizePrices-help">
+		<locale lang="fr">synchroniser ou non les prix entre les déclinaisons de ce produit.</locale>
+	</entity>
+	<entity id="synchronizePricesFrom">
+		<locale lang="fr">utiliser les prix de</locale>
+	</entity>
+	<entity id="synchronizePricesFrom-help">
+		<locale lang="fr">pour activer la synchrnisation des prix entre les déclinaisons de ce produit, sélectionnez la déclinaison dont les prix seront pris comme référence.</locale>
+	</entity>
 </localization>

@@ -168,7 +168,7 @@
 		<content>
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
-				<xul:box>
+				<xul:box anonid="price-filters-box">
 					<xul:grid flex="1">
 						<xul:columns>
 							<xul:column />
@@ -194,7 +194,7 @@
 						</xul:rows>
 					</xul:grid>
 				</xul:box>
-				<xul:box flex="1">
+				<xul:box flex="1" anonid="price-list-box">
 					<xul:cpriceslist anonid="pricelist" flex="1" />
 				</xul:box>
 			</xul:vbox>
@@ -205,14 +205,14 @@
 			<constructor><![CDATA[
 				// Datepicker requires an id.
 				var rand = Math.round(Math.random() * 100000); 
-				document.getAnonymousElementByAttribute(this, 'anonid', 'field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);
+				this.getElementByAnonId('field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);
 
 				// Check customer module existence.
 				var controller = document.getElementById("wcontroller");
     			if (!controller.checkModuleVersion('customer', '3.0.0'))
 				{
-					document.getAnonymousElementByAttribute(this, 'anonid', 'row_targetType').setAttribute('collapsed', 'true');
-					document.getAnonymousElementByAttribute(this, 'anonid', 'row_targetId').setAttribute('collapsed', 'true');
+					this.getElementByAnonId('row_targetType').setAttribute('collapsed', 'true');
+					this.getElementByAnonId('row_targetId').setAttribute('collapsed', 'true');
 				}			
 			]]></constructor>
 			
@@ -224,7 +224,7 @@
 						lang : this.documentEditor.documentInfos.vo
 					};
 					
-					var pricelist = document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist');
+					var pricelist = this.getElementByAnonId('pricelist');
 					if (pricelist.hasAttribute('shop'))
 					{
 						parameters.shop = pricelist.getAttribute('shop');
@@ -249,11 +249,21 @@
 			<method name="fireInitializeComplete">
 				<parameter name="result" />
 				<body><![CDATA[
-					document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist').setAttribute('productId', this.documentEditor.documentid);
+					if (!result.contents.enabled)
+					{
+						this.getElementByAnonId('price-filters-box').setAttribute('hidden', 'true');
+						this.getElementByAnonId('price-list-box').setAttribute('hidden', 'true');
+						this.showWarningMessage(result.contents.message);
+						return;
+					}
+					this.getElementByAnonId('price-filters-box').setAttribute('hidden', 'false');
+					this.getElementByAnonId('price-list-box').setAttribute('hidden', 'false');
+								
+					this.getElementByAnonId('pricelist').setAttribute('productId', this.documentEditor.documentid);
 					
-					var shops = result.contents.shops
+					var shops = result.contents.shops;
 					var shop;
-					var shopNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_shop');
+					var shopNode = this.getElementByAnonId('field_shop');
 					shopNode.removeItems();
 					for (var i in shops)
 					{
@@ -265,7 +275,7 @@
 					
 					var targetTypes = result.contents.targetTypes;
 					var targetType;
-					var targetTypeNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_targetType');
+					var targetTypeNode = this.getElementByAnonId('field_targetType');
 					targetTypeNode.removeItems();
 					for (var i in targetTypes)
 					{
@@ -276,7 +286,7 @@
 					this.setInitialValues(this.fields, result.contents);					
 					this.loadTargetsList();
 										
-					var pricelist = document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist');
+					var pricelist = this.getElementByAnonId('pricelist');
 					pricelist.setAttribute('shop', result.contents.shop);
 					pricelist.setAttribute('date', result.contents.date);
 					pricelist.setAttribute('targetType', result.contents.targetType);
@@ -291,8 +301,8 @@
 
 			<method name="loadTargetsList">
 				<body><![CDATA[
-					var shopNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_shop');
-					var targetTypeNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_targetType');
+					var shopNode = this.getElementByAnonId('field_shop');
+					var targetTypeNode = this.getElementByAnonId('field_targetType');
 					var parameters = {shopId: shopNode.value, targetType: targetTypeNode.value};					
 					var me = this;
 					var callBack = function(result) { me.updateTargetsList(result);	};
@@ -308,7 +318,7 @@
 					{
 						if (result.status === 'OK')
 						{	
-							var targetIdNode = document.getAnonymousElementByAttribute(this, 'anonid', 'field_targetId');
+							var targetIdNode = this.getElementByAnonId('field_targetId');
 							targetIdNode.value = null;
 							targetIdNode.removeItems();
 							if (result.contents.canChoose)
@@ -325,7 +335,7 @@
 							else
 							{
 								targetIdNode.setAttribute('disabled', true);
-								document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist').refresh();
+								this.getElementByAnonId('pricelist').refresh();
 							}
 						}
 						else
@@ -347,7 +357,7 @@
 		</implementation>
 		<handlers>
 			<handler event="fieldChanged"><![CDATA[
-				var pricelist = document.getAnonymousElementByAttribute(this, 'anonid', 'pricelist');
+				var pricelist = this.getElementByAnonId('pricelist');
 				pricelist.setAttribute(event.originalTarget.getAttribute('name'), event.originalTarget.value);
 				if (event.originalTarget.getAttribute('anonid') == 'field_targetType')
 				{

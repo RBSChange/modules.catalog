@@ -149,7 +149,6 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	
 	/**
 	 * @see catalog_persistentdocument_simpleproductbase::setStockQuantity()
-	 *
 	 * @param Double $stockQuantity
 	 */
 	public function setStockQuantity($stockQuantity)
@@ -160,11 +159,10 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 
 	/**
 	 * @see catalog_StockableDocument::addStockQuantity()
-	 *
 	 * @param Double $quantity
 	 * @return Double
 	 */
-	function addStockQuantity($quantity)
+	public function addStockQuantity($quantity)
 	{
 		$oldQuantity = $this->getStockQuantity();
 		if ($oldQuantity !== null)
@@ -184,13 +182,32 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	
 	/**
 	 * @see catalog_StockableDocument::mustSendStockAlert()
-	 *
 	 * @return boolean
 	 */
-	function mustSendStockAlert()
+	public function mustSendStockAlert()
 	{
 		$mustSendStockAlert = $this->mustSendStockAlert;
 		$this->mustSendStockAlert = false;
 		return $mustSendStockAlert;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isPricePanelEnabled()
+	{
+		return !$this->getRelatedDeclinedProduct()->getSynchronizePrices();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getPricePanelDisabledMessage()
+	{
+		if (!$this->isPricePanelEnabled())
+		{
+			return f_Locale::translate('&modules.catalog.bo.doceditor.panel.prices.disabled.Productdeclination-synchronized;');
+		}
+		return null;
 	}
 }
