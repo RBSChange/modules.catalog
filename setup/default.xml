@@ -7,7 +7,7 @@
 	
 	<zone byCode="FR" id="zoneFR" />
 
-	<website byTag="default_modules_website_default-website" template="tplTwo">
+	<website byTag="default_modules_website_default-website" template="webfactory/tplTwo">
 		<shop label="Boutique" shippingZone-refid="zoneFR" billingZone-refid="zoneFR" currencyCode="EUR"
 				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false" />
 				
