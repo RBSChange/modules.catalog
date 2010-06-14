@@ -103,7 +103,7 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 		<price shop-refid="shop" taxCode="2" value="125" oldValue="140" thresholdMin="5" />
 		<price shop-refid="shop" taxCode="2" value="105" oldValue="130" thresholdMin="10" />
 	</simpleproduct>
-	<declinedproduct label="produit 3 avec un nom très long" id="product3" shelf-refids="r2-1" visual-refid="photo3"
+	<declinedproduct label="produit 3 avec un nom très long" id="product3" shelf-refids="r2-1" visual-refid="photo3" synchronizePrices="false"
 		complementary-refids="product1,product2" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" description="&lt;p&gt;
 Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
 &lt;/p&gt;
@@ -144,7 +144,7 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 &lt;/p&gt;">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 6" id="product6"  shelf-refids="r4" complementary-refids="product4,product5" description="&lt;p&gt;
+	<declinedproduct label="produit 6" id="product6"  shelf-refids="r4" complementary-refids="product4,product5" synchronizePrices="true" description="&lt;p&gt;
 Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
 &lt;/p&gt;
 &lt;p&gt;
@@ -153,12 +153,9 @@ Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectet
 &lt;p&gt;
 Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
 &lt;/p&gt;">
-		<productdeclination label="produit 6, déclinaison 1" codeReference="P6-1">
-			<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
-		</productdeclination>
-		<productdeclination label="produit 6, déclinaison 2" codeReference="P6-2">
-			<price shop-refid="shop" taxCode="2" value="529" oldValue="559" />
-		</productdeclination>
+		<productdeclination label="produit 6, déclinaison 1" codeReference="P6-1" />
+		<productdeclination label="produit 6, déclinaison 2" codeReference="P6-2" />
+		<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
 	</declinedproduct>
 	<simpleproduct label="produit 7" id="product7" shelf-refids="r4,r5" visual-refid="photo1" codeReference="P7">
 		<price shop-refid="shop" taxCode="2" value="90" oldValue="100" />
@@ -166,7 +163,7 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 	<simpleproduct label="produit 8" id="product8" shelf-refids="r4,r5,r6" visual-refid="photo2" codeReference="P8">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"	complementary-refids="product2,product3,product4">
+	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"	complementary-refids="product2,product3,product4" synchronizePrices="false">
 		<productdeclination label="produit 9, déclinaison 1" codeReference="P9-1">
 			<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
 			<price shop-refid="shop" taxCode="2" value="470" oldValue="490" thresholdMin="5" />
@@ -212,19 +209,14 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 	<simpleproduct label="produit 24" id="product24" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo5" codeReference="P24">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 25" id="product25" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
-		complementary-refids="product2,product3,product4" similar-refids="product1,product5,product6,product7,product8"
-		upsell-refids="product13,product14,product15">
-		<productdeclination label="produit 25, déclinaison 1" codeReference="P9-1">
-			<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
-			<price shop-refid="shop" taxCode="2" value="470" oldValue="490" thresholdMin="5" />
-			<price shop-refid="shop" taxCode="2" value="450" oldValue="480" thresholdMin="10" />
-		</productdeclination>
-		<productdeclination label="produit 25, déclinaison 2" codeReference="P9-2">
-			<price shop-refid="shop" taxCode="2" value="529" oldValue="559" />
-			<price shop-refid="shop" taxCode="2" value="499" oldValue="549" thresholdMin="5" />
-			<price shop-refid="shop" taxCode="2" value="489" oldValue="539" thresholdMin="10" />
-		</productdeclination>
+	<declinedproduct label="produit 25" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true"
+		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product3,product4"
+		similar-refids="product1,product5,product6,product7,product8" upsell-refids="product13,product14,product15">
+		<productdeclination label="produit 25, déclinaison 1" codeReference="P9-1" />
+		<productdeclination label="produit 25, déclinaison 2" codeReference="P9-2" />
+		<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
+		<price shop-refid="shop" taxCode="2" value="470" oldValue="490" thresholdMin="5" />
+		<price shop-refid="shop" taxCode="2" value="450" oldValue="480" thresholdMin="10" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
 		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !" rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
