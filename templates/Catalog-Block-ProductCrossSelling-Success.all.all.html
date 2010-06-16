@@ -1,5 +1,5 @@
 <div class="product-crossselling">
-	<h3 change:h="" tal:content="title" />
+	<h3 change:h="">${title}</h3>
 
 	<div class="shelves-display"> 
 		<ol class="table-view">
@@ -9,13 +9,13 @@
 						<a change:link="document relatedProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>
-						<h4 class="title"><a class="link" change:link="document relatedProduct" tal:content="relatedProduct/getLabel" /></h4>
+						<h4 class="title"><a class="link" change:link="document relatedProduct">${relatedProduct/getLabelAsHtml}</a></h4>
 					</li>
 					<li tal:condition="price/isDiscount">
-						<span class="price"><del tal:content="price/getFormattedOldValueWithTax" /></span>
+						<span class="price"><del>${price/getFormattedOldValueWithTax}</del></span>
 					</li>
 					<li>
-						<span class="price" tal:content="price/getFormattedValueWithTax" />
+						<span class="price">${price/getFormattedValueWithTax}</span>
 					</li>
 				</ul>
 			</li>
@@ -23,6 +23,6 @@
 	</div>
 	
 	<ul class="mini-navigation" tal:condition="hrefToAll">
-		<li><a href="${hrefToAll}" class="link" change:translate="&modules.catalog.frontoffice.cross-selling-list;" /></li>
+		<li><a href="${hrefToAll}" class="link" change:translate="&modules.catalog.frontoffice.cross-selling-list;"></a></li>
 	</ul>
 </div>

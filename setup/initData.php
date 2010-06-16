@@ -14,14 +14,35 @@ class catalog_Setup extends object_InitDataSetup
 			Framework::exception($e);
 		}		
 		$this->addBackGroundCompileTask();
+		$this->addAlertTasks();
 	}
 	
+	/**
+	 * @return void
+	 */
 	private function addBackGroundCompileTask()
 	{
-		$sendMailsTask = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
-		$sendMailsTask->setSystemtaskclassname('catalog_BackgroundCompileTask');
-		//$sendMailsTask->setMinute(null);
-		$sendMailsTask->setLabel('catalog_BackgroundCompileTask');
-		$sendMailsTask->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
+		$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
+		$task->setSystemtaskclassname('catalog_BackgroundCompileTask');
+		$task->setLabel('catalog_BackgroundCompileTask');
+		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
+	}
+	
+	/**
+	 * @return void
+	 */
+	private function addAlertTasks()
+	{
+		$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
+		$task->setSystemtaskclassname('catalog_PurgeExpiredAlertsTask');
+		$task->setLabel('catalog_PurgeExpiredAlertsTask');
+		$task->setMinute(0);
+		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
+		
+		$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
+		$task->setSystemtaskclassname('catalog_SendAlertsTask');
+		$task->setLabel('catalog_SendAlertsTask');
+		$task->setMinute(0);
+		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
 	}
 }

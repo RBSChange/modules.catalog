@@ -1,26 +1,24 @@
-<h3 change:h="" tal:content="blockTitle" />
+<h3 change:h="">${blockTitle}</h3>
 <div class="content" tal:condition="product">
 	<ol>
-		<li>
+		<li tal:define="price php: product.getPrice(shop, customer)">
 			<a tal:define="visual php: product.getDefaultVisual(shop)" tal:condition="visual" change:link="document product" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/productList'" />
 			</a>
-			<h4 class="title"><a change:link="document product" tal:attributes="title product/getLinkTitle" tal:content="product/getLabel" /></h4>
+			<h4 class="title"><a change:link="document product" tal:attributes="title product/getLinkTitle" tal:content="product/getLabel"></a></h4>
 			<p tal:condition="product/getDescription" tal:content="product/getShortDescription" />
 
-			<tal:block tal:define="price php: product.getPrice(shop, customer)">
-				<p class="priceht" tal:condition="shop/getDisplayPriceWithoutTax">
-					<del tal:condition="price/isDiscount" tal:content="price/getFormattedOldValueWithoutTax" />			
-					<tal:block tal:replace="price/getFormattedValueWithoutTax" />
-				</p>
-         		<p class="pricettc" tal:condition="shop/getDisplayPriceWithTax"> 
-					<del tal:condition="price/isDiscount" tal:content="price/getFormattedOldValueWithTax" />
-					<tal:block tal:replace="price/getFormattedValueWithTax" />
-				</p>
-			</tal:block>
+			<p class="priceht" tal:condition="shop/getDisplayPriceWithoutTax">
+				<del tal:condition="price/isDiscount">${price/getFormattedOldValueWithoutTax}</del>			
+				${price/getFormattedValueWithoutTax}
+			</p>
+        	<p class="pricettc" tal:condition="shop/getDisplayPriceWithTax"> 
+				<del tal:condition="price/isDiscount">${price/getFormattedOldValueWithTax}</del>
+				${price/getFormattedValueWithTax}
+			</p>
 		</li>
 	</ol>
 	<ul class="mini-navigation" tal:condition="configuration/getDestinationpage">
-		<li><a change:link="document configuration/getDestinationpage" change:translate="&modules.catalog.frontoffice.productpromotion-list;" /></li>
+		<li><a change:link="document configuration/getDestinationpage" change:translate="&modules.catalog.frontoffice.productpromotion-list;"></a></li>
 	</ul>
 </div>

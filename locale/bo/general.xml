@@ -54,6 +54,9 @@
 		<locale lang="en">validity dates</locale>
 		<locale lang="de">Gültigkeit</locale>
 	</entity>
+	<entity id="alerts">
+		<locale lang="fr">alertes pour les visiteurs</locale>
+	</entity>
 	<entity id="block.Detail">
 		<locale lang="fr">Détail d'un produit</locale>
 		<locale lang="de">Produktdetail</locale>

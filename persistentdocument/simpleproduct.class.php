@@ -51,7 +51,7 @@ class catalog_persistentdocument_simpleproduct extends catalog_persistentdocumen
 		return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
 	}
 	
-	private function updateStockLevel()
+	protected function updateStockLevel()
 	{
 		if ($this->isAvailable(null))
 		{

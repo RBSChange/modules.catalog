@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
-	model-version="1.0" icon="gold" publish-on-day-change="true">
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0"
+	icon="gold" publish-on-day-change="true">
 	<properties>
 		<add name="publicationstatus" localized="true" />
 		<add name="description" type="XHTMLFragment" localized="true" />
@@ -24,6 +24,10 @@
 		<add name="pageTitle" type="LongString" localized="true" />
 		<add name="pageDescription" type="LongString" localized="true" />
 		<add name="pageKeywords" type="LongString" localized="true" />
+		<add name="enableAvailabilityAlerts" type="Boolean" default-value="true" />
+		<add name="availabilityAlertsDuration" type="String" default-value="3m" />
+		<add name="enablePriceAlerts" type="Boolean" default-value="true" />
+		<add name="priceAlertsDuration" type="String" default-value="3m" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

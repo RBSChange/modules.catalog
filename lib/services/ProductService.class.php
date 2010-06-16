@@ -282,6 +282,8 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		$data['properties']['compiled'] = f_Locale::translateUI('&framework.boolean.' . 
 			($document->getCompiled() ? 'True' : 'False') . ';');
+		
+		$data['properties']['alertCount'] = catalog_AlertService::getInstance()->getPublishedCountByProduct($document);
 			
 		try 
 		{

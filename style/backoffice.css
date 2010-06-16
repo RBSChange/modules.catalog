@@ -49,3 +49,6 @@ treechildren::-moz-tree-image(modules_catalog_bundleproduct){
 treechildren::-moz-tree-image(modules_catalog_bundleditem){
 	list-style-image: url(/changeicons/small/document.png);
 }
+treechildren::-moz-tree-image(modules_catalog_alert){
+	list-style-image: url(/changeicons/small/document.png);
+}

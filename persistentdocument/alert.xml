@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0"
+	backoffice-indexable="false" has-url="false">
+	<properties>
+		<add name="alertType" type="String" min-occurs="1" />
+		<add name="productId" type="Integer" min-occurs="1" />
+		<add name="websiteId" type="Integer" min-occurs="1" />
+		<add name="email" type="String" min-occurs="1">
+			<constraints>email:true</constraints>
+		</add>
+		<add name="userId" type="Integer" />
+		<add name="priceReference" type="Double" />
+		<add name="pending" type="Boolean" />
+		<add name="password" type="String" />
+	</properties>
+	<statuses default="ACTIVE" />
+	<serializedproperties />
+</document>

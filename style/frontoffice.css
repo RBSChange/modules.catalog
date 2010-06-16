@@ -162,6 +162,10 @@ div.modules-catalog .error,div.modules-catalog .success{
 	padding-bottom: 10px;
 	font-weight: bold;
 }
+div.modules-catalog label.error,div.modules-catalog label.success{
+	padding-top: 0;
+	padding-bottom: 0;
+}
 div.zoomdiv{
 	z-index: 10000000;
 	position: absolute;

@@ -1,44 +1,44 @@
 <?xml version="1.0"?>
 <blocks>
-  <block type="modules_catalog_TopShelvesMenu" icon="menu" label="&amp;modules.catalog.bo.general.block.TopShelvesMenu;">
-    <parameters>
-      <parameter name="maxlevel" type="Integer" min-occurs="1" default-value="1"/>
-    </parameters>
-  </block>
-  <block type="modules_catalog_shelfContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Shelf-Contextual-List;">
-    <parameters>
-      <parameter name="displaysubshelves" type="Boolean" default-value="true"/>
-      <parameter name="displayshelvesdescription" type="Boolean" default-value="false"/>
-    </parameters>
-    <metas>
-      <meta name="title" allow="title,description"/>
-      <meta name="description" allow="title,description"/>
-      <meta name="keywords" allow="keywords"/>
-    </metas>
-  </block>
-  <block type="modules_catalog_product" icon="product" label="&amp;modules.catalog.bo.general.block.Detail;">
-    <parameters>
-      <parameter name="activatezoom" type="Boolean" default-value="true"/>
-      <parameter name="showShareBlock" type="Boolean" default-value="true"/>
-      <parameter name="displayPriceWithTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
-        <fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop"/>
-        <fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true"/>
-        <fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false"/>
-      </parameter>
-      <parameter name="displayPriceWithoutTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
-        <fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop"/>
-        <fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true"/>
-        <fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false"/>
-      </parameter>
-    </parameters>
-    <metas>
-      <meta name="title" allow="title,description"/>
-      <meta name="description" allow="title,description"/>
-      <meta name="keywords" allow="keywords"/>
-    </metas>
-    <xul>
-      <javascript>
-        <constructor><![CDATA[
+	<block type="modules_catalog_TopShelvesMenu" icon="menu" label="&amp;modules.catalog.bo.general.block.TopShelvesMenu;">
+		<parameters>
+			<parameter name="maxlevel" type="Integer" min-occurs="1" default-value="1" />
+		</parameters>
+	</block>
+	<block type="modules_catalog_shelfContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Shelf-Contextual-List;">
+		<parameters>
+			<parameter name="displaysubshelves" type="Boolean" default-value="true" />
+			<parameter name="displayshelvesdescription" type="Boolean" default-value="false" />
+		</parameters>
+		<metas>
+			<meta name="title" allow="title,description" />
+			<meta name="description" allow="title,description" />
+			<meta name="keywords" allow="keywords" />
+		</metas>
+	</block>
+	<block type="modules_catalog_product" icon="product" label="&amp;modules.catalog.bo.general.block.Detail;">
+		<parameters>
+			<parameter name="activatezoom" type="Boolean" default-value="true" />
+			<parameter name="showShareBlock" type="Boolean" default-value="true" />
+			<parameter name="displayPriceWithTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false" />
+			</parameter>
+			<parameter name="displayPriceWithoutTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false" />
+			</parameter>
+		</parameters>
+		<metas>
+			<meta name="title" allow="title,description" />
+			<meta name="description" allow="title,description" />
+			<meta name="keywords" allow="keywords" />
+		</metas>
+		<xul>
+			<javascript>
+				<constructor><![CDATA[
 					// Check comment module existence.
 					var controller = document.getElementById("wcontroller");
 	    			if (!controller.checkModuleVersion('sharethis', '3.0.0'))
@@ -46,129 +46,129 @@
 						document.getAnonymousElementByAttribute(this, 'anonid', 'showShareBlock_cnt').setAttribute('collapsed', 'true');
 					}
 				]]></constructor>
-      </javascript>
-    </xul>
-  </block>
-  <block type="modules_catalog_productContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Product-Contextual-List;">
-    <parameters>
-      <parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list"/>
-      <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
-      <parameter name="showaddtofavorite" type="Boolean" default-value="true"/>
-      <parameter name="activatequantityselection" type="Boolean" default-value="true"/>
-      <parameter name="displayavailability" type="Boolean" default-value="true"/>
-      <parameter name="displayratingaverage" type="Boolean" default-value="true"/>
-      <parameter name="showshareblock" type="Boolean" default-value="true"/>
-      <parameter name="displayproductdescription" type="Boolean" default-value="true"/>
-      <parameter name="displayproductpicto" type="Boolean" default-value="false"/>
-      <parameter name="displaysortmenu" type="Boolean" default-value="true"/>
-      <parameter name="displaydisplaymode" type="Boolean" default-value="false"/>
-      <parameter name="displaynbresultsperpage" type="Boolean" default-value="false"/>
-      <parameter name="displaydiscountfilter" type="Boolean" default-value="true"/>
-      <parameter name="displaybrandorder" type="Boolean" default-value="true"/>
-    </parameters>
-    <metas>
-      <meta name="title" allow="title,description"/>
-      <meta name="description" allow="title,description"/>
-      <meta name="keywords" allow="keywords"/>
-    </metas>
-    <xul>
-      <javascript>
-        <constructor><![CDATA[
+			</javascript>
+		</xul>
+	</block>
+	<block type="modules_catalog_productContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Product-Contextual-List;">
+		<parameters>
+			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list" />
+			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
+			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
+			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
+			<parameter name="displayavailability" type="Boolean" default-value="true" />
+			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
+			<parameter name="showshareblock" type="Boolean" default-value="true" />
+			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displaysortmenu" type="Boolean" default-value="true" />
+			<parameter name="displaydisplaymode" type="Boolean" default-value="false" />
+			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
+			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
+			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
+		</parameters>
+		<metas>
+			<meta name="title" allow="title,description" />
+			<meta name="description" allow="title,description" />
+			<meta name="keywords" allow="keywords" />
+		</metas>
+		<xul>
+			<javascript>
+				<constructor><![CDATA[
 					var fields = this.getFields();
 					var me = this;
 					fields['displaysortmenu'].addEventListener('fieldChanged', function(event) {me.onDisplaysortmenuChange(event)}, true)
 				]]></constructor>
-        <method name="onDisplaysortmenuChange">
-          <body><![CDATA[
-					var fields = this.getFields();
-					var value = !(fields['displaysortmenu'].value == 'true');
-					this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
-					this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
-					this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
-					this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
-				]]></body>
-        </method>
-      </javascript>
-    </xul>
-  </block>
-  <block type="modules_catalog_favoriteProductList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Favorite-product-list;">
-    <parameters>
-      <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
-      <parameter name="showaddtofavorite" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="activatequantityselection" type="Boolean" default-value="true"/>
-      <parameter name="displayavailability" type="Boolean" default-value="true"/>
-      <parameter name="displayratingaverage" type="Boolean" default-value="true"/>
-      <parameter name="showshareblock" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displayproductdescription" type="Boolean" default-value="true"/>
-      <parameter name="displayproductpicto" type="Boolean" default-value="false"/>
-      <parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true"/>
-    </parameters>
-  </block>
-  <block type="modules_catalog_productCrossSelling" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrossselling.Block-label;">
-    <parameters>
-      <parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct"/>
-      <parameter name="type" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellingtypes"/>
-      <parameter name="sortby" type="String" default-value="fieldorder" min-occurs="1" list-id="modules_catalog/crosssellingsortby"/>
-      <parameter name="maxdisplayed" type="Integer" default-value="4"/>
-      <parameter name="addlinktoall" type="Boolean" default-value="true"/>
-    </parameters>
-  </block>
-  <block type="modules_catalog_productCrossSellingList" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrosssellinglist.Block-label;">
-    <parameters>
-      <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
-      <parameter name="showaddtofavorite" type="Boolean" default-value="true"/>
-      <parameter name="activatequantityselection" type="Boolean" default-value="true"/>
-      <parameter name="displayavailability" type="Boolean" default-value="true"/>
-      <parameter name="displayratingaverage" type="Boolean" default-value="true"/>
-      <parameter name="showshareblock" type="Boolean" default-value="true"/>
-      <parameter name="displayproductdescription" type="Boolean" default-value="true"/>
-      <parameter name="displayproductpicto" type="Boolean" default-value="false"/>
-      <parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true"/>
-      <parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true"/>
-    </parameters>
-  </block>
-  <block type="modules_catalog_comments" icon="comments" label="&amp;modules.catalog.bo.blocks.comments.Comments;">
-    <parameters>
-      <parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct"/>
-      <parameter name="nbitemperpage" type="Integer" default-value="25"/>
-      <parameter name="enableRating" type="Boolean" default-value="true"/>
-      <parameter name="showRatingDistribution" type="Boolean" default-value="true"/>
-      <parameter name="displaySortOptions" type="Boolean" default-value="true"/>
-      <parameter name="enableEvaluation" type="Boolean" default-value="true"/>
-      <parameter name="showgravatars" type="Boolean" default-value="false"/>
-    </parameters>
-  </block>
-  <block type="modules_catalog_productpromotion" display="" icon="editable-animation" label="&amp;modules.catalog.bo.blocks.ProductPromotion;">
-    <parameters>
-      <parameter name="label" type="String"/>
-      <parameter name="products" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" max-occurs="-1"/>
-      <parameter name="destinationpage" type="modules_website/page"/>
-      <parameter name="mode" type="String" default-value="random" min-occurs="1" from-list="modules_catalog/productpromotion"/>
-      <parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list"/>
-      <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
-      <parameter name="showaddtofavorite" type="Boolean" default-value="true"/>
-      <parameter name="activatequantityselection" type="Boolean" default-value="true"/>
-      <parameter name="displayavailability" type="Boolean" default-value="true"/>
-      <parameter name="displayratingaverage" type="Boolean" default-value="true"/>
-      <parameter name="showshareblock" type="Boolean" default-value="true"/>
-      <parameter name="displayproductdescription" type="Boolean" default-value="true"/>
-      <parameter name="displayproductpicto" type="Boolean" default-value="false"/>
-      <parameter name="displaysortmenu" type="Boolean" default-value="true"/>
-      <parameter name="displaydisplaymode" type="Boolean" default-value="false"/>
-      <parameter name="displaynbresultsperpage" type="Boolean" default-value="false"/>
-      <parameter name="displaydiscountfilter" type="Boolean" default-value="true"/>
-      <parameter name="displaybrandorder" type="Boolean" default-value="true"/>
-    </parameters>
-    <xul>
-      <javascript>
-        <constructor><![CDATA[
+				<method name="onDisplaysortmenuChange">
+					<body><![CDATA[
+						var fields = this.getFields();
+						var value = !(fields['displaysortmenu'].value == 'true');
+						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
+						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
+						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
+						this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
+					]]></body>
+				</method>
+			</javascript>
+		</xul>
+	</block>
+	<block type="modules_catalog_favoriteProductList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Favorite-product-list;">
+		<parameters>
+			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
+			<parameter name="showaddtofavorite" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
+			<parameter name="displayavailability" type="Boolean" default-value="true" />
+			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
+			<parameter name="showshareblock" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
+		</parameters>
+	</block>
+	<block type="modules_catalog_productCrossSelling" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrossselling.Block-label;">
+		<parameters>
+			<parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+			<parameter name="type" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellingtypes" />
+			<parameter name="sortby" type="String" default-value="fieldorder" min-occurs="1" list-id="modules_catalog/crosssellingsortby" />
+			<parameter name="maxdisplayed" type="Integer" default-value="4" />
+			<parameter name="addlinktoall" type="Boolean" default-value="true" />
+		</parameters>
+	</block>
+	<block type="modules_catalog_productCrossSellingList" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrosssellinglist.Block-label;">
+		<parameters>
+			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
+			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
+			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
+			<parameter name="displayavailability" type="Boolean" default-value="true" />
+			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
+			<parameter name="showshareblock" type="Boolean" default-value="true" />
+			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
+			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
+		</parameters>
+	</block>
+	<block type="modules_catalog_comments" icon="comments" label="&amp;modules.catalog.bo.blocks.comments.Comments;">
+		<parameters>
+			<parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+			<parameter name="nbitemperpage" type="Integer" default-value="25" />
+			<parameter name="enableRating" type="Boolean" default-value="true" />
+			<parameter name="showRatingDistribution" type="Boolean" default-value="true" />
+			<parameter name="displaySortOptions" type="Boolean" default-value="true" />
+			<parameter name="enableEvaluation" type="Boolean" default-value="true" />
+			<parameter name="showgravatars" type="Boolean" default-value="false" />
+		</parameters>
+	</block>
+	<block type="modules_catalog_productpromotion" icon="editable-animation" label="&amp;modules.catalog.bo.blocks.ProductPromotion;">
+		<parameters>
+			<parameter name="label" type="String" />
+			<parameter name="products" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" max-occurs="-1" />
+			<parameter name="destinationpage" type="modules_website/page" />
+			<parameter name="mode" type="String" default-value="random" min-occurs="1" from-list="modules_catalog/productpromotion" />
+			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list" />
+			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
+			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
+			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
+			<parameter name="displayavailability" type="Boolean" default-value="true" />
+			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
+			<parameter name="showshareblock" type="Boolean" default-value="true" />
+			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displaysortmenu" type="Boolean" default-value="true" />
+			<parameter name="displaydisplaymode" type="Boolean" default-value="false" />
+			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
+			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
+			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
+		</parameters>
+		<xul>
+			<javascript>
+				<constructor><![CDATA[
 					var fields = this.getFields();
 					var me = this;
 					fields['displaysortmenu'].addEventListener('fieldChanged', function(event) {me.onDisplaysortmenuChange(event)}, true);
@@ -189,8 +189,8 @@
 					this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = modeCollapse;
 					this.getElementByAnonId('displaybrandorder_cnt').collapsed = modeCollapse;
 				]]></constructor>
-        <method name="onModeChange">
-          <body><![CDATA[
+				<method name="onModeChange">
+					<body><![CDATA[
 						var fields = this.getFields();
 						var modeCollapse = (fields['mode'].value == 'random');
 						this.getElementByAnonId('displayMode_cnt').collapsed = modeCollapse;
@@ -207,26 +207,30 @@
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = modeCollapse;
 						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = modeCollapse;
 						this.getElementByAnonId('displaybrandorder_cnt').collapsed = modeCollapse;
-						]]></body>
-        </method>
-        <method name="onDisplaysortmenuChange">
-          <body><![CDATA[
-					var fields = this.getFields();
-					
-					var value = !(fields['displaysortmenu'].value == 'true' && fields['mode'].value != 'random');
-					this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
-					this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
-					this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
-					this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
-				]]></body>
-        </method>
-      </javascript>
-    </xul>
-  </block>
-    <block type="modules_catalog_bundleListByProduct" icon="list-block" 
-    	label="&amp;modules.catalog.bo.blocks.BundleListByProduct.Title;"/>
-  
-<!-- Dashborad blocks -->
-  <block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" label="&amp;modules.catalog.bo.blocks.Dashboardstock.Title;"/>
-  <block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" label="&amp;modules.catalog.bo.dashboard.General-statistics;"/>
+					]]></body>
+				</method>
+				<method name="onDisplaysortmenuChange">
+					<body><![CDATA[
+						var fields = this.getFields();
+						
+						var value = !(fields['displaysortmenu'].value == 'true' && fields['mode'].value != 'random');
+						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
+						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
+						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
+						this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
+					]]></body>
+				</method>
+			</javascript>
+		</xul>
+	</block>
+	<block type="modules_catalog_bundleListByProduct" icon="list-block" label="&amp;modules.catalog.bo.blocks.BundleListByProduct.Title;" />
+	<block type="modules_catalog_productAlert" icon="document" label="&amp;modules.catalog.bo.blocks.ProductAlert.Title;" hidden="true" />
+	<block type="modules_catalog_productAlertManagement" icon="edit" label="&amp;modules.catalog.bo.blocks.ProductAlertManagement.Title;">
+		<parameters>
+			<parameter name="nbItemPerPage" type="Integer" default-value="20" />
+		</parameters>
+	</block>
+	<!-- Dashboard blocks -->
+	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" label="&amp;modules.catalog.bo.blocks.Dashboardstock.Title;" />
+	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" label="&amp;modules.catalog.bo.dashboard.General-statistics;" />
 </blocks>

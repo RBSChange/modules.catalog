@@ -7,4 +7,10 @@
 		<locale lang="fr">Mise en avant de produits</locale>
 		<locale lang="en">Product promotion</locale>
 	</entity>
+	<entity id="productalert.title">
+		<locale lang="fr">alerte produit</locale>
+	</entity>
+	<entity id="productalertmanagement.title">
+		<locale lang="fr">gestion des alertes produits</locale>
+	</entity>
 </localization>

@@ -3,8 +3,8 @@
 
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
 
-<ul change:errors="" />
-<ul change:messages="" />
+<ul change:errors=""></ul>
+<ul change:messages=""></ul>
 
 <div class="website-block">
 	<!-- Product information -->
@@ -15,10 +15,9 @@
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 class="title" tal:content="product/getLabel" />
+		<h1 class="title">${product/getLabelAsHtml}</h1>
 		<div class="product-ref">
-			<strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;" />
-			<tal:block tal:replace="declination/getCodeReference" />
+			<strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;"></strong> ${declination/getCodeReferenceAsHtml}
 		</div>
 		                
 		<img tal:condition="product/getBrand/getVisual" change:media="document product/getBrand/getVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
@@ -32,7 +31,7 @@
 					<fieldset>		
 						<ol>
 							<li>						
-								<label for="product-declination" change:translate="&modules.catalog.frontoffice.Detail-declinationsLabel;" />
+								<label for="product-declination" change:translate="&modules.catalog.frontoffice.Detail-declinationsLabel;"></label>
 								<select class="textfield" id="product-declination" name="catalogParam[declinedProductId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
 									<tal:block tal:repeat="adeclination php: product.getDisplayableDeclinations(shop)">
 										<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}" tal:content="adeclination/getLabel" />
@@ -44,7 +43,7 @@
 								</noscript>
 							</li>
 							<li>						
-								<label for="product-quantity" change:translate="&modules.catalog.frontoffice.Detail-quantityLabel;" />
+								<label for="product-quantity" change:translate="&modules.catalog.frontoffice.Detail-quantityLabel;"></label>
 								<input class="textfield" id="product-quantity" type="text" size="3" name="catalogParam[quantity]" value="${quantity}" />
 							</li>
 						</ol>
@@ -53,28 +52,24 @@
 			</ol>
 			
 			<!-- Disponibilité -->
-			<p tal:define="availability declination/getAvailability" tal:condition="availability" class="normal availability" tal:content="availability" />
+			<p tal:define="availability declination/getAvailability" tal:condition="availability" class="normal availability">${availability}</p>
 			
 			<ul>
 				<!-- Prix HT -->
 				<li tal:condition="displayConfig/showPricesWithoutTax">
-					<strong change:translate="&modules.catalog.frontoffice.PricehtLabel;" />
+					<strong change:translate="&modules.catalog.frontoffice.PricehtLabel;"></strong>
 					<span class="priceht">				
-						<tal:block tal:condition="defaultPrice/isDiscount">
-							<del tal:content="defaultPrice/getFormattedOldValueWithoutTax" />
-						</tal:block>
-						<tal:block tal:replace="defaultPrice/getFormattedValueWithoutTax" />
+						<del tal:condition="defaultPrice/isDiscount">${defaultPrice/getFormattedOldValueWithoutTax}</del>
+						${defaultPrice/getFormattedValueWithoutTax}
 					</span>
 				</li>
 		    	
 				<!-- Prix TTC -->
 				<li tal:condition="displayConfig/showPricesWithTax">
-					<strong change:translate="&modules.catalog.frontoffice.PricettcLabel;" />
+					<strong change:translate="&modules.catalog.frontoffice.PricettcLabel;"></strong>
 					<span class="pricettc">				
-						<tal:block tal:condition="defaultPrice/isDiscount">
-							<del tal:content="defaultPrice/getFormattedOldValueWithTax" />			
-						</tal:block>
-						<tal:block tal:replace="defaultPrice/getFormattedValueWithTax" />
+						<del tal:condition="defaultPrice/isDiscount">${defaultPrice/getFormattedOldValueWithTax}</del>			
+						${defaultPrice/getFormattedValueWithTax}
 					</span>
 				</li>
 			</ul>
@@ -85,6 +80,7 @@
 			</p>
 		</form>
 		
+		<tal:block change:block="" module="catalog" name="ProductAlert" />
 	</div>
 	<!-- End - Product information -->
 	
@@ -124,37 +120,37 @@
 		<ul>
 			<li tal:repeat="thresholdPrice thresholdPrices">
 				<tal:block tal:condition="thresholdPrice/isDiscount">
-					<span change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin" /> 
+					<span change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin"></span> 
 					<del change:i18nattr="title &modules.catalog.frontoffice.old-price;">
 						<tal:block tal:condition="displayConfig/showPricesWithoutTax">
-							<tal:block tal:replace="thresholdPrice/getFormattedOldValueWithoutTax" /> <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
+							${thresholdPrice/getFormattedOldValueWithoutTax} <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
 						</tal:block>
 						<tal:block tal:condition="displayConfig/showPricesWithAndWithoutTax"> - </tal:block>
 						<tal:block tal:condition="displayConfig/showPricesWithTax">
-						 	<tal:block tal:replace="thresholdPrice/getFormattedOldValueWithTax" /> <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
+						 	${thresholdPrice/getFormattedOldValueWithTax} <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
 						</tal:block>
 					</del>						
 					<br />
-					<span class="hidden" change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin" /> 
+					<span class="hidden" change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin"></span> 
 					<ins change:i18nattr="title &modules.catalog.frontoffice.new-price;" class="discount">
 						<tal:block tal:condition="displayConfig/showPricesWithoutTax">
-							<tal:block tal:replace="thresholdPrice/getFormattedValueWithoutTax" /> <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
+							${thresholdPrice/getFormattedValueWithoutTax} <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
 						</tal:block>
 						<tal:block tal:condition="displayConfig/showPricesWithAndWithoutTax"> - </tal:block>
 						<tal:block tal:condition="displayConfig/showPricesWithTax">
-							<tal:block tal:replace="thresholdPrice/getFormattedValueWithTax" /> <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
+							${thresholdPrice/getFormattedValueWithTax} <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
 						</tal:block>
 					</ins>
 				</tal:block>
 						
 				<tal:block tal:condition="not: thresholdPrice/isDiscount">
-					<span change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin" /> 
+					<span change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin"></span> 
 					<tal:block tal:condition="displayConfig/showPricesWithoutTax">
-						<tal:block tal:replace="thresholdPrice/getFormattedValueWithoutTax" /> <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
+						${thresholdPrice/getFormattedValueWithoutTax} <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
 					</tal:block>
 					<tal:block tal:condition="displayConfig/showPricesWithAndWithoutTax"> - </tal:block>
 					<tal:block tal:condition="displayConfig/showPricesWithTax">
-						<tal:block tal:replace="thresholdPrice/getFormattedValueWithTax" /> <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
+						${thresholdPrice/getFormattedValueWithTax} <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
 					</tal:block>
 				</tal:block>
 			</li>
@@ -162,6 +158,6 @@
 	</div>
 	<div class="cleaner"></div>
 	
-	<div class="product-description" tal:condition="product/getDescription" tal:content="product/getDescriptionAsHtml" />
+	<div class="product-description" tal:condition="product/getDescription">${product/getDescriptionAsHtml}</div>
 </div>
 <!-- End - Additionnal product information -->

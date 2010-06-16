@@ -142,6 +142,7 @@
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
+				<contextaction name="exportAlertInfos" />
 				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
@@ -152,6 +153,7 @@
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
+				<contextaction name="exportAlertInfos" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/bundleproduct">
@@ -161,6 +163,7 @@
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
+				<contextaction name="exportAlertInfos" />
 			</contextactions>
 		</model>
 	</models>
@@ -195,5 +198,6 @@
 		<action name="createPaymentfilter" single="true" permission="Insert_paymentfilter" group="createFilter_" label="&amp;modules.catalog.bo.actions.Create-Paymentfilter;" />
 		
 		<action name="compileProduct" single="true" icon="admin" />
+		<action name="exportAlertInfos" single="true" icon="download" />
 	</actions>
 </perspective>

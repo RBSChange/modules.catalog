@@ -4,7 +4,7 @@
 		<div class="content-block"><div class="content" change:translate="&modules.dashboard.dashboard.DummyContent;">...</div></div>
 	</tal:block>
 	<tal:block tal:condition="not:forEdition">
-		<div><strong tal:content="widget/header" /></div>
+		<div><strong tal:content="widget/header"></strong></div>
 		<div tal:condition="widget/lines">
 			<table>
 				<thead>
@@ -16,7 +16,7 @@
 				</thead>
 				<tbody>
 					<tr tal:repeat="line widget/lines" class="${php: repeat.line.odd ? 'odd' : 'even'}">
-						<td><a class="locate-document-link" onclick="openActionUri('catalog,locateDocument,${line/model},${line/id}');" change:i18nattr="title &amp;modules.uixul.bo.general.LocateInModuleEllipsis;" tal:content="line/label" /></td>
+						<td><a class="locate-document-link" onclick="openActionUri('catalog,locateDocument,${line/model},${line/id}');" change:i18nattr="title &amp;modules.uixul.bo.general.LocateInModuleEllipsis;" tal:content="line/label"></a></td>
 						<td tal:content="line/reference"></td>
 						<td tal:content="line/quantity"></td>
 					</tr>

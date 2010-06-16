@@ -19,6 +19,7 @@
     <document name="shopfolder"/>
     <document name="bundleproduct"/>
     <document name="bundleditem"/>
+    <document name="alert"/>
   </actions>
   <roles>
     <role name="Admin">

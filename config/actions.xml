@@ -76,5 +76,14 @@
 			this.refreshMainViewDeck();
 		]]></body>
 	</action>
-	
+		
+	<action name="exportAlertInfos">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var document = listWidget.getSelectedItems()[0];
+			var lang = this.getContextLang(listWidget);
+			wToolkit.openlink('catalog', 'ExportAlertInfos', {cmpref: document.id, output: 'csv', lang: lang});
+			this.refreshMainViewDeck();
+		]]></body>
+	</action>
 </actions>

@@ -119,16 +119,40 @@
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">
-		<notification
-			label="Alerte concernant le stock"
-			codename="modules_catalog/stockalert"
-			template="default"
+		<notification label="Alerte concernant le stock"
+			byCodename="modules_catalog/stockalert" template="default"
 			availableparameters="{label}, {description}, {threshold}"
 			subject="Alerte concernant le stock du produit &quot;{label}&quot;"
-			header="Bonjour,"
-			body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." 
-			footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change."
-			/>
+			header="Bonjour," body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." 
+			footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change." />
+			
+		<notification label="Nouvelle alerte activée (pour le client)"
+			byCodename="modules_catalog/newalert" template="default"
+			availableparameters="{productLabel}, {productDescription}, {productUrl}, {productLink}, {removeAlertUrl}, {removeAlertLink}, {alertEndDate}"
+			subject="Nouvelle alerte activée"
+			header="Bonjour," body="Votre alerte sur le produit &quot;{productLink}&quot; a bien été activée." 
+			footer="Cette alerte restera active jusqu'au {alertEndDate} ({removeAlertLink})." />
+			
+		<notification label="Alerte de disponibilité d'un produit (pour le client)"
+			byCodename="modules_catalog/availabilityalert" template="default"
+			availableparameters="{productPriceWithTax}, {productPriceWithoutTax}, {productLabel}, {productDescription}, {productUrl}, {productLink}"
+			subject="Le produit &quot;{productLabel}&quot; est à nouveau disponible !"
+			header="Bonjour," body="Le produit &quot;{productLink}&quot; est à nouveau disponible."
+			footer="Cette alerte a été automatiquement supprimée de notre base de données." />
+			
+		<notification label="Alerte de baisse de prix d'un produit (pour le client)"
+			byCodename="modules_catalog/pricealert" template="default"
+			availableparameters="{productPriceWithTax}, {productPriceWithoutTax}, {productLabel}, {productDescription}, {productUrl}, {productLink}"
+			subject="Baisse de prix sur le produit &quot;{productLabel}&quot; !"
+			header="Bonjour," body="Le prix du produit &quot;{productLink}&quot; a baissé. Il est maintenant de {productPriceWithTax}."
+			footer="Cette alerte a été automatiquement supprimée de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra la réactiver depuis le site." />
+		
+		<notification label="Multiples alertes produits (pour le client)"
+			byCodename="modules_catalog/severalalerts" template="default"
+			availableparameters="{alertList}"
+			subject="Multiples alertes produits"
+			header="Bonjour," body="{alertList}"
+			footer="Ces alertes ont été automatiquement supprimées de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra réactiver les alertes concernées depuis le site." />
 	</systemfolder>
 	
 	<rootfolder module="media">
@@ -141,9 +165,7 @@
 	</rootfolder>
 	
 	<rootfolder module="preferences">
-		<catalogpreferences 
-			defaultDetailVisual-refid="default-detail-visual" 
-			defaultListVisual-refid="default-list-visual" />
+		<catalogpreferences defaultDetailVisual-refid="default-detail-visual" defaultListVisual-refid="default-list-visual" />
 	</rootfolder>	
 			
 	<rootfolder module="catalog">

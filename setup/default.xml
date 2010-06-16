@@ -40,10 +40,16 @@
 		</topic>
 		
 		<topic byLabel="Outils" label="Outils">
-			<page label="Mes produits favoris">
+			<page byLabel="Mes produits favoris">
 				<tag name="contextual_website_website_modules_catalog_favorite-product-list" />
 				<changecontent for="content-block">
 					<changeblock type="modules_catalog_FavoriteProductList" />
+				</changecontent>
+			</page>
+			<page byLabel="Mes alertes produit">
+				<tag name="contextual_website_website_modules_catalog_product-alert-management" />
+				<changecontent for="content-block">
+					<changeblock type="modules_catalog_ProductAlertManagement" />
 				</changecontent>
 			</page>
 		</topic>

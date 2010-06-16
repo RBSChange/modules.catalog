@@ -26,6 +26,12 @@
 		<field name="defaultDetailVisual" />
 		<field name="defaultListVisual" />
 	</section>
+	<section labeli18n="modules.catalog.bo.general.Alerts">
+		<field name="enableAvailabilityAlerts" />
+		<field name="availabilityAlertsDuration" type="duration" />
+		<field name="enablePriceAlerts" />
+		<field name="priceAlertsDuration" type="duration" />
+	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates">
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />

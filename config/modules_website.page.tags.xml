@@ -6,4 +6,5 @@
 	<tag label="&amp;modules.catalog.bo.tags.Cross-selling-list;" icon="list-block">functional_catalog_crosssellinglist-page</tag>
 	<tag label="&amp;modules.catalog.bo.tags.Recommand-product-page;" icon="mail">contextual_website_website_modules_catalog_recommand-product-page</tag>
 	<tag label="&amp;modules.catalog.bo.tags.Favorite-product-list;" icon="list-block">contextual_website_website_modules_catalog_favorite-product-list</tag>
+	<tag label="&amp;modules.catalog.bo.tags.Product-alert-Management;" icon="edit">contextual_website_website_modules_catalog_product-alert-management</tag>
 </tags>

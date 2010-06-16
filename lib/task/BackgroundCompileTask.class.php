@@ -3,7 +3,6 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 {
 	/**
 	 * @see task_SimpleSystemTask::execute()
-	 *
 	 */
 	protected function execute()
 	{

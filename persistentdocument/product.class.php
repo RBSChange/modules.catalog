@@ -65,6 +65,19 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		}
 		return null;
 	}
+	
+	/**
+	 * @return String
+	 */
+	public function getBrandLabelAsHtml()
+	{
+		$brand = $this->getBrand();
+		if ($brand !== null)
+		{
+			return $brand->getLabelAsHtml();
+		}
+		return null;
+	}
 
 	/**
 	 * @return String

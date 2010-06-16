@@ -1,0 +1,114 @@
+<?php
+/**
+ * catalog_BlockProductAlertManagementAction
+ * @package modules.catalog.lib.blocks
+ */
+class catalog_BlockProductAlertManagementAction extends website_TaggerBlockAction
+{
+	/**
+	 * @param f_mvc_Request $request
+	 * @param f_mvc_Response $response
+	 * @return String
+	 */
+	public function execute($request, $response)
+	{
+		if ($this->isInBackoffice())
+		{
+			return website_BlockView::NONE;
+		}
+		
+		$currentUser = users_UserService::getInstance()->getCurrentFrontEndUser();
+		if ($currentUser !== null)
+		{
+			$nbItemPerPage = $this->getConfiguration()->getNbItemPerPage();
+			$alerts = catalog_AlertService::getInstance()->getPublishedByUser($currentUser);
+			if (count($alerts) > 0)
+			{
+				$pageNumber = $request->getParameter('page');
+				if (!is_numeric($pageNumber) || $pageNumber < 1 || $pageNumber > ceil(count($alerts) / $nbItemPerPage))
+				{
+					$pageNumber = 1;
+				}
+				$paginator = new paginator_Paginator('catalog', $pageNumber, $alerts, $nbItemPerPage);			
+				$request->setAttribute('paginator', $paginator);
+			}
+			return 'List';
+		}
+		else
+		{
+			return 'Login';
+		}
+	}
+	
+	/**
+	 * @param f_mvc_Request $request
+	 * @param f_mvc_Response $response
+	 * @return String
+	 */
+	public function executeRemoveAlert($request, $response)
+	{
+		try
+		{
+			$alert = DocumentHelper::getDocumentInstance($request->getParameter('alertId'));
+		}
+		catch (Exception $e)
+		{
+			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Unexisting-alert;'));
+			return $this->getSuccessView($request);
+		}
+		
+		if ($this->checkAccess($request, $alert))
+		{
+			$alert->delete();
+			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Alert-removed;'));
+		}
+		else
+		{
+			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Not-your-alert;'));
+		}
+		return $this->getSuccessView($request);
+	}
+	
+	/**
+	 * @return string
+	 */
+	private function getSuccessView($request)
+	{
+		$request->setAttribute('currentUser', users_UserService::getInstance()->getCurrentFrontEndUser());
+		return website_BlockView::SUCCESS;
+	}	
+	
+	/**
+	 * @param f_mvc_Request $request
+	 * @param catalog_persistentdocument_alert $alert
+	 */
+	private function checkAccess($request, $alert)
+	{
+		if ($alert === null)
+		{
+			return false;
+		}
+	
+		$currentUser = users_UserService::getInstance()->getCurrentFrontEndUser();
+		if ($currentUser !== null && $currentUser->getId() == $alert->getUserId())
+		{
+			return true;
+		}
+				
+		$password = $alert->getPassword();
+		if ($password !== null && $request->hasParameter('password') && $password == $request->getParameter('password'))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @return String
+	 */
+	protected function getTag()
+	{
+		return 'contextual_website_website_modules_catalog_product-alert-management';
+	}
+}

@@ -210,7 +210,10 @@
 	</entity>
 	
 	<entity id="property.compiled">
-		<locale lang="fr">A jour sur le site</locale>
+		<locale lang="fr">à jour sur le site</locale>
+	</entity>
+	<entity id="property.alert-count">
+		<locale lang="fr">alertes activées par les visiteurs</locale>
 	</entity>
 	
 	<entity id="tab.bundleditems">

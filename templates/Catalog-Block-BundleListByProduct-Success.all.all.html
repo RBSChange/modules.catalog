@@ -8,14 +8,14 @@
 						<a change:link="document bundleProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>
-						<h4 class="title"><a class="link" change:link="document bundleProduct" tal:content="bundleProduct/getLabel" /></h4>
+						<h4 change:h=""><a class="link" change:link="document bundleProduct">${bundleProduct/getLabelAsHtml}</a></h4>
 					</li>
 					<tal:block tal:define="price php: bundleProduct.getPrice(shop, customer)">
 					<li tal:condition="price/isDiscount">
-						<span class="price"><del tal:content="price/getFormattedOldValueWithTax" /></span>
+						<span class="price"><del>${price/getFormattedOldValueWithTax}</del></span>
 					</li>
 					<li>
-						<span class="price" tal:content="price/getFormattedValueWithTax" />
+						<span class="price">${price/getFormattedValueWithTax}</span>
 					</li>
 					</tal:block>
 				</ul>

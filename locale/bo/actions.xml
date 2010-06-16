@@ -63,4 +63,7 @@
   <entity id="compileProduct">
     <locale lang="fr">Actualiser</locale>
   </entity>
+  <entity id="exportalertinfos">
+    <locale lang="fr">exporter les alertes</locale>
+  </entity>
 </localization>

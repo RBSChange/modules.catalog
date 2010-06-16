@@ -28,7 +28,6 @@ class catalog_BlockProductCrossSellingListAction extends catalog_BlockProductlis
 		$displayConfig = $this->getDisplayConfig($shop);
 		$request->setAttribute('displayConfig', $displayConfig);
 		 
-		$list = list_ListService::getInstance()->getByListId('modules_catalog/crosssellingtypes');
 		$productUrl = LinkHelper::getDocumentUrl($product);
 		$replacements = array('productLink' => '<a class="link" href="'.$productUrl.'">'.$product->getLabel().'</a>');
 		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Cross-selling-'.$request->getParameter('relationType').';', $replacements));

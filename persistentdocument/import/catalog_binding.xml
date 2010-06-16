@@ -18,4 +18,5 @@
   <binding name="attributefolder" className="catalog_AttributefolderScriptDocumentElement"/>
   <binding name="bundleproduct" className="catalog_BundleproductScriptDocumentElement"/>
   <binding name="bundleditem" className="catalog_BundleditemScriptDocumentElement"/>
+  <binding name="alert" className="catalog_AlertScriptDocumentElement"/>
 </script>

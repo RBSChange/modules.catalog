@@ -1,0 +1,10 @@
+<h3 change:h="">${blockTitle}</h3>
+<form change:form="beanClass catalog_persistentdocument_alert" tal:define="hasUser alert/hasUser">
+	<div change:errors=""></div>
+	<input change:hiddeninput="value alert/getProductId" name="productId" />
+	<input change:hiddeninput="value alert/getAlertType" name="alertType" />
+	<input change:hiddeninput="value alert/getPriceReference" name="priceReference" />
+	<input tal:condition="hasUser" change:field="" name="email" readonly="readonly" />
+	<input tal:condition="not:hasUser" change:field="" name="email" />
+	<p class="buttons"><input name="addAlert" change:submit="label &modules.catalog.frontoffice.Add-alert;" class="button" /></p>
+</form>

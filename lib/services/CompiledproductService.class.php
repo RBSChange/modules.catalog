@@ -55,6 +55,36 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @param Integer $parentNodeId
+	 */
+	protected function postSave($document, $parentNodeId)
+	{
+		$alertService = catalog_AlertService::getInstance();
+		if ($document->isPropertyModified('isAvailable') && $document->getIsAvailable())
+		{
+			$query = $alertService->createQuery()->add(Restrictions::published())->add(Restrictions::eq('pending', false))
+				->add(Restrictions::eq('alertType', catalog_AlertService::TYPE_AVAILABILITY));
+			foreach ($query->find() as $alert)
+			{
+				$alert->setPending(true);
+				$alert->save();
+			}
+		}
+		if ($document->isPropertyModified('price') && $document->getPrice() < $document->getPriceOldValue())
+		{
+			$query = $alertService->createQuery()->add(Restrictions::published())->add(Restrictions::eq('pending', false))
+				->add(Restrictions::eq('alertType', catalog_AlertService::TYPE_PRICE))
+				->add(Restrictions::gt('priceReference', $document->getPrice()));
+			foreach ($query->find() as $alert)
+			{
+				$alert->setPending(true);
+				$alert->save();
+			}
+		}
+	}
+
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @param String $lang
 	 * @param Array $parameters
 	 */

@@ -5,6 +5,7 @@
 		<property name="author" labeli18n="modules.uixul.bo.doceditor.property.Author" />
 		<property name="creationdate" labeli18n="modules.uixul.bo.doceditor.property.Creationdate" />
 		<property name="compiled" class="action" type="compileProduct" labeli18n="modules.catalog.bo.doceditor.property.Compiled" />
+		<property name="alertCount" class="action" type="exportAlertInfos" labeli18n="modules.catalog.bo.doceditor.property.Alert-count" />
 	</section>
 	<section name="publication" linkedtab="publication" labeli18n="modules.uixul.bo.doceditor.section.Status" image="{IconsBase}/small/status.png">
 		<property name="status" labeli18n="modules.uixul.bo.doceditor.property.Status" />

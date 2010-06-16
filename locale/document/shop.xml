@@ -156,6 +156,30 @@
 	<entity id="priceMode-help">
 		<locale lang="fr">Indiquez ici dans quel mode vous voulez saisir les prix pour cette boutique. Attention, cette propriété ne peut être définie qu'à la création et ne peut plus être modifiée par après.</locale>
 	</entity>
+	<entity id="enableAvailabilityAlerts">
+		<locale lang="fr">activer les alertes disponibilité</locale>
+	</entity>
+	<entity id="enableAvailabilityAlerts-help">
+		<locale lang="fr">activer ou non la possibilité pour le visiteur de placer une alerte sur la disponibilité d'un produit.</locale>
+	</entity>
+	<entity id="availabilityAlertsDuration">
+		<locale lang="fr">durée des alertes disponibilité</locale>
+	</entity>
+	<entity id="availabilityAlertsDuration-help">
+		<locale lang="fr">délai durant lequel une nouvelle alerte de disponibilité reste active.</locale>
+	</entity>
+	<entity id="enablePriceAlerts">
+		<locale lang="fr">activer les alertes baisse de prix</locale>
+	</entity>
+	<entity id="enablePriceAlerts-help">
+		<locale lang="fr">activer ou non la possibilité pour le visiteur de placer une alerte sur la baisse du prix d'un produit.</locale>
+	</entity>
+	<entity id="priceAlertsDuration">
+		<locale lang="fr">durée des alertes baisse de prix</locale>
+	</entity>
+	<entity id="priceAlertsDuration-help">
+		<locale lang="fr">délai durant lequel une nouvelle alerte de baisse de prix reste active.</locale>
+	</entity>
 		
 	<entity id="exception.publication-period-conflict">
 		<locale lang="fr">pour un même site, il ne peut y avoir qu'une seule boutique valide sur une période donnée.</locale>

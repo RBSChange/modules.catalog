@@ -92,12 +92,20 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param website_persistentdocument_website $website
-	 * 
 	 * @return catalog_persistentdocument_shop
 	 */
 	public function getPublishedByWebsite($website)
 	{
-		return $this->createQuery()->add(Restrictions::eq('website.id', $website->getId()))
+		return $this->getPublishedByWebsiteId($website->getId());
+	}
+	
+	/**
+	 * @param integer $websiteId
+	 * @return catalog_persistentdocument_shop
+	 */
+	public function getPublishedByWebsiteId($websiteId)
+	{
+		return $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
 			->add(Restrictions::published())->findUnique();
 	}
 	
