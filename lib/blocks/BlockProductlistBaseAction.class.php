@@ -5,6 +5,9 @@
  */
 abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 {
+	const DISPLAY_MODE_LIST = 'list';
+	const DISPLAY_MODE_TABLE = 'table';
+	const DEFAULT_PRODUCTS_PER_PAGE = 10;
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Array
@@ -163,4 +166,28 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		}
 		return $message;
 	}
+	
+		/**
+	 * @param f_mvc_Request $request
+	 * @return String
+	 */
+	protected function getDisplayMode($request)
+	{
+		if ($request->hasParameter('displayMode'))
+		{
+			$displayMode = $request->getParameter('displayMode');
+		}
+		else 
+		{
+			$configuration = $this->getConfiguration();		
+			$displayMode = $configuration->getDisplayMode();
+		}
+
+		// If there is a bad value, use the list mode.
+		if ($displayMode != self::DISPLAY_MODE_LIST	&& $displayMode != self::DISPLAY_MODE_TABLE)
+		{
+			$displayMode = self::DISPLAY_MODE_LIST;
+		}
+		return $displayMode;
+	}	
 }

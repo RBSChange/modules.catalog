@@ -5,10 +5,6 @@
  */
 class catalog_BlockProductContextualListAction extends catalog_BlockProductlistBaseAction
 {
-	const DISPLAY_MODE_LIST = 'list';
-	const DISPLAY_MODE_TABLE = 'table';
-	const DEFAULT_PRODUCTS_PER_PAGE = 10;
-
 	/**
 	 * @var Array<String>
 	 */
@@ -133,29 +129,6 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		return $this->forward('catalog', 'productlist');
 	}
 
-	/**
-	 * @param f_mvc_Request $request
-	 * @return String
-	 */
-	protected function getDisplayMode($request)
-	{
-		if ($request->hasParameter('displayMode'))
-		{
-			$displayMode = $request->getParameter('displayMode');
-		}
-		else 
-		{
-			$configuration = $this->getConfiguration();		
-			$displayMode = $configuration->getDisplayMode();
-		}
-
-		// If there is a bad value, use the list mode.
-		if ($displayMode != self::DISPLAY_MODE_LIST	&& $displayMode != self::DISPLAY_MODE_TABLE)
-		{
-			$displayMode = self::DISPLAY_MODE_LIST;
-		}
-		return $displayMode;
-	}	
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
