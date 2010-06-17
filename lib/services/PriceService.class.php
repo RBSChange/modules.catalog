@@ -354,11 +354,9 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 					$replicatedProperties['set'.ucfirst($propertyName)] = 'get'.ucfirst($propertyName);
 				}
 			}
-			Framework::fatal(__METHOD__ . ' ' . var_export($replicatedProperties, true));
 			$query = catalog_PriceService::getInstance()->createQuery()->add(Restrictions::eq('replicatedFrom', $document->getId()));
 			foreach ($query->find() as $price)
 			{
-				Framework::fatal(__METHOD__ . ' ' . $price->getId());
 				foreach ($replicatedProperties as $setter => $getter)
 				{
 					$args = array(f_util_ClassUtils::callMethodOn($document, $getter));
