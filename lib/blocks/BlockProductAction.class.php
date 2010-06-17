@@ -100,8 +100,8 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		$product = $this->getDocumentParameter();
 		if ($product)
 		{
-			$rs = catalog_ReferencingService::getInstance();
-			return array("title" => $rs->getPageTitleByProduct($product), "description" => $rs->getPageDescriptionByProduct($product), "keywords" => $rs->getPageKeywordsByProduct($product));
+			return catalog_ReferencingService::getInstance()->getMetaSubstitutionsForProduct($product);
 		}
+		return array();
 	}
 }

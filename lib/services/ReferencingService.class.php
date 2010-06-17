@@ -252,6 +252,32 @@ class catalog_ReferencingService extends BaseService
 		return f_Locale::translate('&modules.catalog.frontoffice.Compare-page-description;', $parameters);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 */
+	public function getMetaSubstitutionsForProduct($product)
+	{
+		$substitutions = array();
+		$substitutions['title'] = $this->getPageTitleByProduct($product);
+		$substitutions['description'] = $this->getPageDescriptionByProduct($product);
+		$substitutions['keywords'] = $this->getPageKeywordsByProduct($product);
+		$substitutions['label'] = $product->getLabelAsHtml();
+		$primaryShelf = $product->getPrimaryShelf();
+		$primaryTopShelf = $product->getPrimaryTopShelf();
+		$substitutions['topshelfabel'] = $primaryTopShelf ? $primaryTopShelf->getLabelAsHtml() : '';
+		if (!DocumentHelper::equals($primaryShelf, $primaryTopShelf))
+		{
+			$substitutions['shelflabel'] = $primaryShelf ? $primaryShelf->getLabelAsHtml() : '';
+		}
+		else 
+		{
+			$substitutions['shelflabel'] = "";
+		}
+		$substitutions['price'] = $product->getFormattedCurrentShopPrice();
+		$substitutions['brandlabel'] = $product->getBrandLabelAsHtml();
+		$substitutions['coderef'] = $product->getCodeReferenceAsHtml();
+		return $substitutions;
+	}
 
 	
 	/**
