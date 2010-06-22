@@ -22,7 +22,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getShop()
 	{
-		return DocumentHelper::getDocumentInstance($this->getShopId());
+		return DocumentHelper::getDocumentInstance($this->getShopId(), 'modules_catalog/shop');
 	}
 	
 	/**
