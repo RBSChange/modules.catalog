@@ -244,6 +244,21 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		{
 			$this->refreshLabel($document);
 		}
+		// This recomputes different prices when you change the VAT depending on the shop's price mode
+		if ($document->isPropertyModified('taxCode'))
+		{
+			$shop = $document->getShop();
+			$taxCode = $document->getTaxCode();
+			$priceMode = $shop->getPriceMode();
+			if ($priceMode === catalog_PriceHelper::MODE_B_TO_B)
+			{
+				$document->setValueWithTax(catalog_PriceHelper::addTax($document->getValueWithoutTax(), $taxCode));
+			}
+			else if ($priceMode === catalog_PriceHelper::MODE_B_TO_C)
+			{
+				$document->setValueWithoutTax(catalog_PriceHelper::removeTax($document->getValueWithTax(), $taxCode));
+			}
+		}
 		
 		// Update thresholdMax value.
 		$query = $this->createQuery()
