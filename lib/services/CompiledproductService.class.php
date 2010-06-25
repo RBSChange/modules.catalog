@@ -98,10 +98,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 * @param string $bockName
 	 * @return array with entries 'module' and 'template'. 
 	 */
-	public function getSolrserachResultItemTemplate($document, $bockName)
+	public function getSolrsearchResultItemTemplate($document, $bockName)
 	{
 		$product = $document->getProduct();
-		return $product->getDocumentService()->getSolrserachResultItemTemplate($product, $bockName);
+		return $product->getDocumentService()->getSolrsearchResultItemTemplate($product, $bockName);
 	}
 	
 	/**
@@ -318,12 +318,25 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		if ($price === null)
 		{
 			$document->setPrice(null);
+			$document->setDiscountLevel(null);
 			$document->setIsDiscount(null);
 		}
 		else
-		{
+		{	
 			$document->setPrice($price->getValueWithTax());
-			$document->setIsDiscount($price->isDiscount());
+			$isDiscount = $price->isDiscount();
+			$document->setIsDiscount($isDiscount);
+			if ($isDiscount)
+			{
+				$newPrice = $price->getValueWithTax();
+				$oldPrice = $price->getOldValueWithTax();
+				$discountLevel = round((($oldPrice-$newPrice) / $oldPrice) * 100);
+				$document->setDiscountLevel($discountLevel);
+			}
+			else
+			{
+				$document->setDiscountLevel(null);
+			}
 		}
 		$document->setIsAvailable($product->isAvailable($shop));
 		

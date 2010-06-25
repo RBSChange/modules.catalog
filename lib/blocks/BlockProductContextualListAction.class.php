@@ -6,7 +6,7 @@
 class catalog_BlockProductContextualListAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @var Array<String>
+	 * @var String[]
 	 */
 	public static $sortOptions = array('displayMode', 'nbresultsperpage', 'onlydiscount', 'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
 
@@ -128,7 +128,6 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		$request->setAttribute('blockView', $this->getDisplayMode($request));
 		return $this->forward('catalog', 'productlist');
 	}
-
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf

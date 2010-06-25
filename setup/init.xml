@@ -116,6 +116,9 @@
 		
 		<dynamiclist listid="modules_catalog/declinationsbyproduct" label="Déclinaisons d'un produit"
 			description="Liste des déclinaisons d'un produit" />
+			
+		<dynamiclist listid="modules_catalog/extendedattributes" label="Attributs étendus"
+			description="Liste des attributs étendus de produit" />
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">

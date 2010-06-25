@@ -1,4 +1,4 @@
-<script tal:condition="baseconfiguration/getActivatezoom" change:javascript="src 'modules.catalog.lib.js.jquery-jqzoom'"></script>
+<script tal:condition="baseconfiguration/getActivatezoom" change:javascript="head 'modules.catalog.lib.js.jquery-jqzoom'"></script>
 <script change:javascript="src 'modules.catalog.lib.js.productAdditionalVisualsManagement'"></script>
 
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />

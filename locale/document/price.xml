@@ -1,144 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-  <entity id="document-name">
-    <locale lang="fr">prix</locale>
-    <locale lang="en">price</locale>
-    <locale lang="de">Preis (normal)</locale>
-  </entity>
-  <entity id="shop-price">
-    <locale lang="fr">prix boutique</locale>
-    <locale lang="en">shop price</locale>
-  </entity>
-  <entity id="customer-price">
-    <locale lang="fr">prix pour le client {name}</locale>
-  </entity>
-  <entity id="target-price">
-    <locale lang="fr">prix pour {name}</locale>
-  </entity>
-  <entity id="label">
-    <locale lang="fr">libellé</locale>
-    <locale lang="en">label</locale>
-    <locale lang="de">Name</locale>
-  </entity>
-  <entity id="label-help">
-    <locale lang="fr">libellé</locale>
-    <locale lang="en">label</locale>
-    <locale lang="de">Name</locale>
-  </entity>
-  <entity id="startpublicationdate">
-    <locale lang="fr">début de validité</locale>
-    <locale lang="en">validity begin date</locale>
-    <locale lang="de">Gültigkeitsanfang</locale>
-  </entity>
-  <entity id="startpublicationdate-help">
-    <locale lang="fr">date de début de validité du prix</locale>
-    <locale lang="en">price validity begin date</locale>
-    <locale lang="de">Anfangsdatum Preisgültigkeit</locale>
-  </entity>
-  <entity id="endpublicationdate">
-    <locale lang="fr">fin de validité</locale>
-    <locale lang="en">validity end date</locale>
-    <locale lang="de">Gültigkeitsende</locale>
-  </entity>
-  <entity id="endpublicationdate-help">
-    <locale lang="fr">date de fin de validité du prix</locale>
-    <locale lang="en">price validity end date</locale>
-    <locale lang="de">Enddatum Preisgültigkeit</locale>
-  </entity>
-  <entity id="productId">
-    <locale lang="fr">produit associé</locale>
-    <locale lang="en">related product</locale>
-  </entity>
-  <entity id="shopId">
-    <locale lang="fr">boutique associée</locale>
-    <locale lang="en">related shop</locale>
-  </entity>
-  <entity id="shopId-help">
-    <locale lang="fr">boutique dans laquelle s'applique ce prix; sélectionner une boutique depuis les ressources.</locale>
-    <locale lang="en">shop where the price may be applied; select a shop from the resource tree.</locale>
-  </entity>
-  <entity id="valueWithTax">
-    <locale lang="fr">valeur TTC</locale>
-    <locale lang="en">value with tax</locale>
-  </entity>
-  <entity id="valueWithoutTax">
-    <locale lang="fr">valeur HT</locale>
-    <locale lang="en">value without tax</locale>
-  </entity>
-  <entity id="oldValueWithTax">
-    <locale lang="fr">ancienne valeur TTC</locale>
-    <locale lang="en">old value with tax</locale>
-  </entity>
-  <entity id="oldWithoutTax">
-    <locale lang="fr">ancienne valeur HT</locale>
-    <locale lang="en">old value without tax</locale>
-  </entity>
-  <entity id="taxCode">
-    <locale lang="fr">code TVA</locale>
-    <locale lang="en">VAT code</locale>
-    <locale lang="de">MwSt. Kode</locale>
-  </entity>
-  <entity id="taxCode-help">
-    <locale lang="fr">code TVA; généralement 1 (19,6%) ou 2 (5,5%)</locale>
-    <locale lang="en">VAT code</locale>
-    <locale lang="de">MwSt. Kode; generell 1 (19,6%) oder 2 (5,5%)</locale>
-  </entity>
-  <entity id="ecoTax">
-    <locale lang="fr">eco-participation</locale>
-    <locale lang="en">eco-tax</locale>
-    <locale lang="de">Ökosteuer</locale>
-  </entity>
-  <entity id="ecoTax-help">
-    <locale lang="fr">taxe appliquée sur les produits électriques et électroniques, utilisée pour le traitement des déchets de ces produits.</locale>
-    <locale lang="en">tax applied on all electrical and electronical products.</locale>
-    <locale lang="de">Auf elektrische und elektronische Produkte angewandte Steuer, für die Verarbeitung des Abfalls dieser Produkte.</locale>
-  </entity>
-  <entity id="thresholdMin">
-    <locale lang="fr">seuil minimum</locale>
-    <locale lang="en">minimal threshold</locale>
-  </entity>
-  <entity id="thresholdMin-help">
-    <locale lang="fr">quantité à partir de laquelle le prix est appliqué.</locale>
-    <locale lang="en">quantity from which the price may be applied.</locale>
-  </entity>
-  <entity id="thresholdMax">
-    <locale lang="fr">seuil maximum</locale>
-    <locale lang="en">maximal threshold</locale>
-  </entity>
-  <entity id="thresholdMax-help">
-    <locale lang="fr">quantité jusqu'à laquelle le prix est appliqué.</locale>
-    <locale lang="en">quantity up to which the price may be applied.</locale>
-  </entity>
-  <entity id="targetId">
-    <locale lang="fr">cible</locale>
-    <locale lang="en">target</locale>
-  </entity>
-  <entity id="targetId-help">
-    <locale lang="fr">client ou groupe tarifaire concerné par ce prix. Saisir 0 pour un prix valable pour tous les clients.</locale>
-  </entity>
-  <entity id="discountDetail">
-    <locale lang="fr">description courte</locale>
-    <locale lang="en">short description</locale>
-  </entity>
-  <entity id="discountDetail-help">
-    <locale lang="fr">description de la promotion. Exemple : "-20%".</locale>
-  </entity>
-  <entity id="value">
-    <locale lang="fr">prix</locale>
-    <locale lang="en">price</locale>
-    <locale lang="de">Wert</locale>
-  </entity>
-  <entity id="discountValue">
-    <locale lang="fr">prix promotion</locale>
-    <locale lang="en">discount price</locale>
-  </entity>
-  <entity id="withTax">
-    <locale lang="fr">TTC</locale>
-  </entity>
-  <entity id="withoutTax">
-    <locale lang="fr">HT</locale>
-  </entity>
-  <entity id="unexpected-target-error">
-    <locale lang="fr">cible invalide !</locale>
-  </entity>
+	<entity id="document-name">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">price</locale>
+		<locale lang="de">Preis (normal)</locale>
+	</entity>
+	<entity id="shop-price">
+		<locale lang="fr">prix boutique</locale>
+		<locale lang="en">shop price</locale>
+	</entity>
+	<entity id="customer-price">
+		<locale lang="fr">prix pour le client {name}</locale>
+	</entity>
+	<entity id="target-price">
+		<locale lang="fr">prix pour {name}</locale>
+	</entity>
+	<entity id="label">
+		<locale lang="fr">libellé</locale>
+		<locale lang="en">label</locale>
+		<locale lang="de">Name</locale>
+	</entity>
+	<entity id="startpublicationdate">
+		<locale lang="fr">début de validité</locale>
+		<locale lang="en">validity begin date</locale>
+		<locale lang="de">Gültigkeitsanfang</locale>
+	</entity>
+	<entity id="endpublicationdate">
+		<locale lang="fr">fin de validité</locale>
+		<locale lang="en">validity end date</locale>
+		<locale lang="de">Gültigkeitsende</locale>
+	</entity>
+	<entity id="productId">
+		<locale lang="fr">produit associé</locale>
+		<locale lang="en">related product</locale>
+	</entity>
+	<entity id="shopId">
+		<locale lang="fr">boutique associée</locale>
+		<locale lang="en">related shop</locale>
+	</entity>
+	<entity id="shopId-help">
+		<locale lang="fr">boutique dans laquelle s'applique ce prix; sélectionner une boutique depuis les ressources.</locale>
+		<locale lang="en">shop where the price may be applied; select a shop from the resource tree.</locale>
+	</entity>
+	<entity id="valueWithTax">
+		<locale lang="fr">valeur TTC</locale>
+		<locale lang="en">value with tax</locale>
+	</entity>
+	<entity id="valueWithoutTax">
+		<locale lang="fr">valeur HT</locale>
+		<locale lang="en">value without tax</locale>
+	</entity>
+	<entity id="oldValueWithTax">
+		<locale lang="fr">ancienne valeur TTC</locale>
+		<locale lang="en">old value with tax</locale>
+	</entity>
+	<entity id="oldWithoutTax">
+		<locale lang="fr">ancienne valeur HT</locale>
+		<locale lang="en">old value without tax</locale>
+	</entity>
+	<entity id="taxCode">
+		<locale lang="fr">code TVA</locale>
+		<locale lang="en">VAT code</locale>
+		<locale lang="de">MwSt. Kode</locale>
+	</entity>
+	<entity id="ecoTax">
+		<locale lang="fr">eco-participation</locale>
+		<locale lang="en">eco-tax</locale>
+		<locale lang="de">Ökosteuer</locale>
+	</entity>
+	<entity id="ecoTax-help">
+		<locale lang="fr">taxe appliquée sur les produits électriques et électroniques, utilisée pour le traitement des déchets de ces produits.Z</locale>
+		<locale lang="en">tax applied on all electrical and electronical products.</locale>
+		<locale lang="de">Auf elektrische und elektronische Produkte angewandte Steuer, für die Verarbeitung des Abfalls dieser Produkte.</locale>
+	</entity>
+	<entity id="thresholdMin">
+		<locale lang="fr">seuil minimum</locale>
+		<locale lang="en">minimal threshold</locale>
+	</entity>
+	<entity id="thresholdMin-help">
+		<locale lang="fr">quantité à partir de laquelle le prix est appliqué.</locale>
+		<locale lang="en">quantity from which the price may be applied.</locale>
+	</entity>
+	<entity id="thresholdMax">
+		<locale lang="fr">seuil maximum</locale>
+		<locale lang="en">maximal threshold</locale>
+	</entity>
+	<entity id="thresholdMax-help">
+		<locale lang="fr">quantité jusqu'à laquelle le prix est appliqué.</locale>
+		<locale lang="en">quantity up to which the price may be applied.</locale>
+	</entity>
+	<entity id="targetId">
+		<locale lang="fr">cible</locale>
+		<locale lang="en">target</locale>
+	</entity>
+	<entity id="targetId-help">
+		<locale lang="fr">client ou groupe tarifaire concerné par ce prix. Laisser vide pour un prix valable pour tout le monde.</locale>
+	</entity>
+	<entity id="discountDetail">
+		<locale lang="fr">description courte</locale>
+		<locale lang="en">short description</locale>
+	</entity>
+	<entity id="discountDetail-help">
+		<locale lang="fr">description de la promotion. Exemple : "-20%".</locale>
+	</entity>
+	<entity id="value">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">price</locale>
+		<locale lang="de">Wert</locale>
+	</entity>
+	<entity id="discountValue">
+		<locale lang="fr">prix promotion</locale>
+		<locale lang="en">discount price</locale>
+	</entity>
+	<entity id="withTax">
+		<locale lang="fr">TTC</locale>
+	</entity>
+	<entity id="withoutTax">
+		<locale lang="fr">HT</locale>
+	</entity>
+	<entity id="unexpected-target-error">
+		<locale lang="fr">cible invalide !</locale>
+	</entity>
 </localization>
