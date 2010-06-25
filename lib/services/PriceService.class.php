@@ -61,6 +61,18 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				$targetIds[] = $tarifGroup->getId();
 			}
 		}
+		return $this->getPriceByTargetIds($product, $shop, $targetIds, $quantity);
+	}
+
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPriceByTargetIds($product, $shop, $targetIds, $quantity = 1)
+	{
 		$query = $this->createQuery()
 			->add(Restrictions::published())
 			->add(Restrictions::eq('productId', $product->getId()))
@@ -92,6 +104,17 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				$targetIds[] = $tarifGroup->getId();
 			}
 		}
+		return $this->getPricesByTargetIds($product, $shop, $targetIds);
+	}
+
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @return catalog_persistentdocument_price[]
+	 */
+	public function getPricesByTargetIds($product, $shop, $targetIds)
+	{
 		$prices = $this->createQuery()
 			->add(Restrictions::published())
 			->add(Restrictions::eq('productId', $product->getId()))
@@ -219,6 +242,19 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	// Protected methods.
 	
 	/**
+	 * @param catalog_persistentdocument_price $price
+	 */
+	protected function hasCustomPriority($price)
+	{
+		$priority = $price->getPriority();
+		if ($priority == 0 || $priority == 25 || $priority == 50 || $priority == 75)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_price $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
@@ -230,7 +266,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$document->setProductId($parentNodeId);
 		}
 		
-		if ($document->isPropertyModified('targetId'))
+		if ($document->isPropertyModified('targetId') && !$this->hasCustomPriority($document))
 		{
 			$this->refreshPriority($document);
 		}
@@ -251,6 +287,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('shopId', $document->getShopId()))
 			->add(Restrictions::eq('targetId', $document->getTargetId()))
 			->add(Restrictions::gt('thresholdMin', $document->getThresholdMin()))
+			->add(Restrictions::eq('priority', $document->getPriority()))
 			->add(Restrictions::ne('id', $document->getId()))
 			->addOrder(Order::asc('thresholdMin'))
 			->setFirstResult(0)
@@ -271,7 +308,9 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('shopId', $document->getShopId()))
 			->add(Restrictions::eq('targetId', $document->getTargetId()))
 			->add(Restrictions::eq('thresholdMin', $document->getThresholdMin()))
+			->add(Restrictions::eq('priority', $document->getPriority()))
 			->add(Restrictions::ne('id', $document->getId()));
+			
 		$endDate = $document->getEndpublicationdate();
 		if (!is_null($endDate))
 		{
@@ -294,7 +333,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('shopId', $document->getShopId()))
 			->add(Restrictions::eq('targetId', $document->getTargetId()))
 			->add(Restrictions::lt('thresholdMin', $document->getThresholdMin()))
-			->add(Restrictions::gt('thresholdMax', $document->getThresholdMin()));
+			->add(Restrictions::gt('thresholdMax', $document->getThresholdMin()))
+			->add(Restrictions::eq('priority', $document->getPriority()));
 		$priceToUpdate = $query->findUnique();
 		if ($priceToUpdate !== null)
 		{
@@ -399,7 +439,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				->add(Restrictions::eq('productId', $document->getProductId()))
 				->add(Restrictions::eq('shopId', $document->getShopId()))
 				->add(Restrictions::eq('targetId', $document->getTargetId()))
-				->add(Restrictions::eq('thresholdMax', $document->getThresholdMin()));
+				->add(Restrictions::eq('thresholdMax', $document->getThresholdMin()))
+				->add(Restrictions::eq('priority', $document->getPriority()));
 			$priceToUpdate = $query->findUnique();
 			if ($priceToUpdate !== null)
 			{
