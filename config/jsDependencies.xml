@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scripts>
+	<script name="modules.catalog.lib.js.jquery-cycle">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+	<script name="modules.catalog.lib.js.jquery-jqzoom">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+	<script name="modules.catalog.lib.js.jquery-slider">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+	<script name="modules.catalog.lib.js.productListManagement">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+	<script name="modules.catalog.lib.js.productAdditionalVisualsManagement">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+</scripts>

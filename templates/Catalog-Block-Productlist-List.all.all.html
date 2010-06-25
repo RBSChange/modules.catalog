@@ -4,10 +4,10 @@
 
 <div tal:condition="blockDescription" class="product-list-description">${blockDescription}</div>
 
-<tal:block tal:condition="displayConfig/showSortMenu" change:include="module 'catalog'; template 'Catalog-Inc-ProductListOrderOptions'; type 'html'; displayConfig displayConfig; valueSortOption valueSortOption;"/>
+<tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true';"/>
 
-<ul change:errors=""></ul>
-<ul change:messages=""></ul>
+<ul change:errors="" />
+<ul change:messages="" />
 
 <div tal:condition="not:products" change:translate="&modules.catalog.frontoffice.No-product-to-display;"></div>
 <form tal:condition="products" action="#product-list-title" method="post">

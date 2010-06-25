@@ -12,6 +12,7 @@
 		<!--  Sorting properties -->
 		<add name="position" type="Integer" min-occurs="1" />
 		<add name="price" type="Double" preserve-old-value="true" />
+		<add name="discountLevel" type="Integer" />
 		<add name="ratingAverage" type="Double" />
 		<add name="brandId" type="Integer" />
 		<add name="brandLabel" type="String" />
