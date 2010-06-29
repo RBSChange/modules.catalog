@@ -77,7 +77,15 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function getByTopic($topic)
 	{
-		return $this->getDocumentInstance($topic->getReferenceId(), 'modules_catalog/shelf');
+		if ($topic instanceof website_persistentdocument_systemtopic)
+		{
+			$reference = $topic->getReference();
+			if ($reference instanceof catalog_persistentdocument_shelf)
+			{
+				return $reference;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -88,7 +96,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	public function getCurrentTopShelf()
 	{
 		$currentPageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
-		// No current page, so not shelf.
+		// No current page, so no current top shelf.
 		if (!$currentPageId)
 		{
 			return null;
@@ -101,15 +109,10 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			return null;
 		}
 
-		$topic = website_TopicService::getInstance()->createQuery()
+		$topic = website_SystemtopicService::getInstance()->createQuery()
 			->add(Restrictions::childOf($shop->getTopic()->getId()))
 			->add(Restrictions::ancestorOf($currentPageId))
 			->findUnique();
-		// No topic found, so no shelf (it can occurs if the page is directly in the topic related to the shop).
-		if ($topic === null)
-		{
-			return null;
-		}
 
 		// A topic is found, so return the associated shelf.
 		return $this->getByTopic($topic);
@@ -123,20 +126,13 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	public function getCurrentShelf()
 	{
 		$currentPageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
-		// No current page, so not shelf.
+		// No current page, so no current shelf.
 		if (!$currentPageId)
 		{
 			return null;
 		}
 
-		$topic = $this->getParentOfById($currentPageId);
-		if ($topic === null || !($topic instanceof website_persistentdocument_systemtopic))
-		{
-			return null;
-		}
-
-		// A topic is found, so return the associated shelf.
-		return $this->getByTopic($topic);
+		return $this->getByTopic($this->getParentOfById($currentPageId));
 	}
 
 	/**
