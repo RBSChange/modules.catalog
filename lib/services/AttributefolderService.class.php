@@ -53,20 +53,73 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * Cache for attributefolder
+	 * @var catalog_persistentdocument_attributefolder
+	 */
+	private $attributeFolder;
+	
+	/**
 	 * @return catalog_persistentdocument_attributefolder
 	 */
 	public function getAttributeFolder()
 	{
-		// There should be only one shopfolder.
-		return $this->createQuery()->findUnique();
+		if ($this->attributeFolder === null)
+		{
+			// There should be only one shopfolder.
+			$this->attributeFolder = $this->createQuery()->findUnique();	
+		}
+		return $this->attributeFolder;
+	}
+	
+	protected function postSave($document, $parentNodeId)
+	{
+		$this->resetAttributeFolderCache();
+	}
+	
+	protected function postDelete($document)
+	{
+		$this->resetAttributeFolderCache();
+	}
+	
+	protected function resetAttributeFolderCache()
+	{
+		$this->attributeFolder = null;
+		$this->attributeInfos = null;
 	}
 	
 	/**
-	 * @return catalog_persistentdocument_product
+	 * @param String $code
+	 * @return array
+	 * @throws Exception if attribute does not exist
+	 */
+	public function getAttributeInfo($code)
+	{
+		if ($this->attributeInfos === null) 
+		{
+			$attrs = $this->getAttributeFolder()->getAttributes();
+			$this->attributeInfos = array();
+			if (f_util_ArrayUtils::isNotEmpty($attrs))
+			{
+				foreach ($attrs as $attrInfo) 
+				{
+					$this->attributeInfos[$attrInfo['code']] = $attrInfo;
+				}
+			}
+		}
+		if (isset($this->attributeInfos[$code]))
+		{
+			return $this->attributeInfos[$code];
+		}
+		
+		throw new Exception("Attribute $code does not exist");
+	}
+	
+	/**
+	 * @return array
 	 */
 	public function getAttributesForProduct($product)
 	{
 		$attrFolder = $this->getAttributeFolder();
-		return$attrFolder ? $attrFolder->getAttributes() : array();
+		return $attrFolder ? $attrFolder->getAttributes() : array();
 	}
 }

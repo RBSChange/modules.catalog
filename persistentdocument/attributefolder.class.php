@@ -5,18 +5,32 @@
  */
 class catalog_persistentdocument_attributefolder extends catalog_persistentdocument_attributefolderbase 
 {
+	/**
+	 * cached version of serializedattributes property
+	 * @var array
+	 */
+	private $unserializedAttributes;
 	
 	/**
 	 * @return array
 	 */
 	public final function getAttributes()
 	{
-		$val = $this->getSerializedattributes();
-		if (f_util_StringUtils::isEmpty($val))
+		if ($this->unserializedAttributes === null)
 		{
-			return array();
+			// set cache
+			$val = $this->getSerializedattributes();
+			if (f_util_StringUtils::isEmpty($val))
+			{
+				$this->unserializedAttributes = array();
+			}
+			else
+			{
+				$this->unserializedAttributes = unserialize($val);
+			}
 		}
-		return unserialize($val);
+		
+		return $this->unserializedAttributes;
 	}
 	
 	/**
@@ -24,6 +38,9 @@ class catalog_persistentdocument_attributefolder extends catalog_persistentdocum
 	 */
 	public final function setAttributes($attributes)
 	{
+		// reset cache
+		$this->unserializedAttributes = null;
+		
 		if (f_util_ArrayUtils::isEmpty($attributes))
 		{
 			$this->setSerializedattributes(null);

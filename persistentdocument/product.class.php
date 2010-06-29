@@ -30,6 +30,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		);
 		$indexedDoc->setParentWebsiteId($website->getId());
 		$indexedDoc->setParentTopicId($topic->getId());
+		
 		return $indexedDoc;
 	}
 	
@@ -167,7 +168,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @param customer_persistentdocument_customer $customer
+	 * @param customer_persistentdocument_customer $customer nullable
 	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
