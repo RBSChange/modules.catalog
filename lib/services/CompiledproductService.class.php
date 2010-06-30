@@ -144,7 +144,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function generateForProduct($product)
 	{
-		if (!($product instanceof catalog_persistentdocument_product) || !$product->isCompilable() ) 
+		if (!($product instanceof catalog_persistentdocument_product) || !$product->isCompilable()) 
 		{
 			return;
 		}
@@ -154,8 +154,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$this->tm->beginTransaction();
 
 			$query = website_SystemtopicService::getInstance()->createQuery();
-			$query->createCriteria('shelf')
-			->add(Restrictions::eq('product.id', $product->getId()));
+			$query->createCriteria('shelf')->add(Restrictions::eq('product.id', $product->getId()));
 			$topics = $query->find();
 			
 			$CPIds = array();
@@ -256,7 +255,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	private function generate($product, $topic)
 	{
-		
 		$lang = RequestContext::getInstance()->getLang();
 		
 		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
