@@ -127,7 +127,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
 	 */
-	public function getDefaultVisual($shop)
+	public function getDefaultVisual($shop = null)
 	{
 		return $this->getDocumentService()->getDefaultVisual($this, $shop);
 	}
@@ -450,7 +450,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see f_persistentdocument_PersistentDocumentImpl::addTreeAttributes()
-	 *
 	 * @param string $moduleName
 	 * @param string $treeType
 	 * @param unknown_type $nodeAttributes
@@ -458,6 +457,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
 	{
 		$nodeAttributes['block'] = 'modules_catalog_product'; 
+		if ($treeType == 'wlist')
+		{
+			$detailVisual = $this->getDefaultVisual();
+			if ($detailVisual)
+			{
+				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
+			}
+		}
 	}
 	
 	/**

@@ -4,7 +4,7 @@
  * @package modules.catalog
  */
 class catalog_persistentdocument_declinedproduct extends catalog_persistentdocument_declinedproductbase
-{
+{	
 	/**
 	 * @return String
 	 */

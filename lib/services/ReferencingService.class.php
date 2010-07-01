@@ -261,21 +261,21 @@ class catalog_ReferencingService extends BaseService
 		$substitutions['title'] = $this->getPageTitleByProduct($product);
 		$substitutions['description'] = $this->getPageDescriptionByProduct($product);
 		$substitutions['keywords'] = $this->getPageKeywordsByProduct($product);
-		$substitutions['label'] = $product->getLabelAsHtml();
+		$substitutions['label'] = $product->getLabel();
 		$primaryShelf = $product->getPrimaryShelf();
 		$primaryTopShelf = $product->getPrimaryTopShelf();
-		$substitutions['topshelfabel'] = $primaryTopShelf ? $primaryTopShelf->getLabelAsHtml() : '';
+		$substitutions['topshelfabel'] = $primaryTopShelf ? $primaryTopShelf->getLabel() : '';
 		if (!DocumentHelper::equals($primaryShelf, $primaryTopShelf))
 		{
-			$substitutions['shelflabel'] = $primaryShelf ? $primaryShelf->getLabelAsHtml() : '';
+			$substitutions['shelflabel'] = $primaryShelf ? $primaryShelf->getLabel() : '';
 		}
 		else 
 		{
 			$substitutions['shelflabel'] = "";
 		}
 		$substitutions['price'] = $product->getFormattedCurrentShopPrice();
-		$substitutions['brandlabel'] = $product->getBrandLabelAsHtml();
-		$substitutions['coderef'] = $product->getCodeReferenceAsHtml();
+		$substitutions['brandlabel'] = $product->getBrandLabel();
+		$substitutions['coderef'] = $product->getCodeReference();
 		return $substitutions;
 	}
 
