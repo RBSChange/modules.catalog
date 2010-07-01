@@ -32,6 +32,9 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['showDiscountFilter'] = $configuration->getDisplaydiscountfilter();
 		$displayConfig['showBrandOrder'] = $configuration->getDisplaybrandorder();
 		
+		$displayConfig['controlsmodule'] = 'catalog';
+		$displayConfig['controlstemplate'] = 'Catalog-Inc-ProductListOrderOptions';
+		
 		$globalButtons = array();
 		$displayConfig['showAddToCart'] = $this->getShowAddToCart();
 		if ($displayConfig['showAddToCart'])

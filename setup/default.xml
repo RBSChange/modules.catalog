@@ -5,10 +5,11 @@
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
 	<binding fileName="modules/zone/persistentdocument/import/zone_binding.xml" />
 	
-	<zone byCode="FR" id="zoneFR" />
+	<zone byCode="FR-ALL" id="zoneFR" />
+	<zone byCode="EURO" id="zoneEURO" />
 
 	<website byTag="default_modules_website_default-website" template="webfactory/tplTwo">
-		<shop label="Boutique" shippingZone-refid="zoneFR" billingZone-refid="zoneFR" currencyCode="EUR"
+		<shop label="Boutique" shippingZone-refid="zoneFR" billingZone-refid="zoneEURO" currencyCode="EUR"
 				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false" />
 				
 		<topic byLabel="Boutique" id="ShopTopic">

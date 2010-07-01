@@ -98,10 +98,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 * @param string $bockName
 	 * @return array with entries 'module' and 'template'. 
 	 */
-	public function getSolrserachResultItemTemplate($document, $bockName)
+	public function getSolrsearchResultItemTemplate($document, $bockName)
 	{
 		$product = $document->getProduct();
-		return $product->getDocumentService()->getSolrserachResultItemTemplate($product, $bockName);
+		return $product->getDocumentService()->getSolrsearchResultItemTemplate($product, $bockName);
 	}
 	
 	/**
@@ -144,7 +144,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function generateForProduct($product)
 	{
-		if (!($product instanceof catalog_persistentdocument_product) || !$product->isCompilable() ) 
+		if (!($product instanceof catalog_persistentdocument_product) || !$product->isCompilable()) 
 		{
 			return;
 		}
@@ -154,8 +154,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$this->tm->beginTransaction();
 
 			$query = website_SystemtopicService::getInstance()->createQuery();
-			$query->createCriteria('shelf')
-			->add(Restrictions::eq('product.id', $product->getId()));
+			$query->createCriteria('shelf')->add(Restrictions::eq('product.id', $product->getId()));
 			$topics = $query->find();
 			
 			$CPIds = array();
@@ -256,7 +255,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	private function generate($product, $topic)
 	{
-		
 		$lang = RequestContext::getInstance()->getLang();
 		
 		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product.id', $product->getId()))
@@ -318,12 +316,25 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		if ($price === null)
 		{
 			$document->setPrice(null);
+			$document->setDiscountLevel(null);
 			$document->setIsDiscount(null);
 		}
 		else
-		{
+		{	
 			$document->setPrice($price->getValueWithTax());
-			$document->setIsDiscount($price->isDiscount());
+			$isDiscount = $price->isDiscount();
+			$document->setIsDiscount($isDiscount);
+			if ($isDiscount)
+			{
+				$newPrice = $price->getValueWithTax();
+				$oldPrice = $price->getOldValueWithTax();
+				$discountLevel = round((($oldPrice-$newPrice) / $oldPrice) * 100);
+				$document->setDiscountLevel($discountLevel);
+			}
+			else
+			{
+				$document->setDiscountLevel(null);
+			}
 		}
 		$document->setIsAvailable($product->isAvailable($shop));
 		

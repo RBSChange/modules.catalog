@@ -36,6 +36,16 @@ class catalog_PriceHelper
 		}
 		return self::$taxRateResolverStrategy->getTaxRateByCode($code);
 	}
+	
+	public static function getTaxRateByValue($price, $priceWithoutTaxe)
+	{
+		if ($priceWithoutTaxe > 0)
+		{
+		 	return ($price / $priceWithoutTaxe) - 1;
+		}
+		return 0;
+	}
+	
 
 	/**
 	 * @param catalog_TaxRateResolverStrategy $strategy
