@@ -289,4 +289,8 @@
 	<entity id="product-not-published">
 		<locale lang="fr">le produit {label} n'est pas publié</locale>
 	</entity>
+	
+	<entity id="Confirm-delete-declination">
+		<locale lang="fr">Êtes-vous certain de vouloir supprimer cette déclinaison ?</locale>
+	</entity>
 </localization>
