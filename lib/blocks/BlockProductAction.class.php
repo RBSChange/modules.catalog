@@ -98,7 +98,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 	function getMetas()
 	{
 		$product = $this->getDocumentParameter();
-		if ($product)
+		if ($product instanceof catalog_persistentdocument_product)
 		{
 			return catalog_ReferencingService::getInstance()->getMetaSubstitutionsForProduct($product);
 		}

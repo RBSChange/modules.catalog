@@ -37,7 +37,6 @@
 				<tal:block tal:repeat="product products">
 					<tr class="product-line row-${repeat/product/odd}" tal:define="price php: product.getPrice(shop, customer); id product/getId">
 						<td tal:condition="displayConfig/showCheckboxes" tal:define="global name string:catalogParam[selected_product][$id]">
-							<label class="invisible" tal:attributes="for name" change:translate="&modules.catalog.frontoffice.List-check-compare;"></label>
 							<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id name; name name; value id" type="checkbox"/>
 							<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id name; name name; value id" type="checkbox"/>
 						</td>

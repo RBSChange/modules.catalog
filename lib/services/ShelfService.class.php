@@ -146,10 +146,11 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		{
 			return $shelf;
 		}
-		else
+		else if ($shelf instanceof catalog_persistentdocument_shelf)
 		{
 			return f_util_ArrayUtils::firstElement($this->getAncestorsOf($shelf, 'modules_catalog/topshelf'));
 		}
+		throw new Exception(__METHOD__ . ' Invalid parameter shelf');
 	}
 
 	/**

@@ -293,4 +293,8 @@
 	<entity id="has-no-item">
 		<locale lang="fr">Ne contient pas de produit</locale>
 	</entity>
+	
+	<entity id="Confirm-delete-declination">
+		<locale lang="fr">Êtes-vous certain de vouloir supprimer cette déclinaison ?</locale>
+	</entity>
 </localization>

@@ -108,7 +108,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
 	 */
-	public function getDefaultVisual($product, $shop)
+	public function getDefaultVisual($product)
 	{
 		$visual = null;
 

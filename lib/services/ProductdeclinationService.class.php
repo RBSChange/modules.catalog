@@ -51,7 +51,19 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	{
 		return $this->pp->createQuery('modules_catalog/productdeclination', false);
 	}
-		
+	
+	/**
+	 * @see catalog_ProductService::getPrimaryShelf()
+	 *
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @param website_pesistentdocument_website $website
+	 * @return catalog_persistentdocument_shelf
+	 */
+	public function getPrimaryShelf($product, $website)
+	{
+		return parent::getPrimaryShelf($product->getRelatedDeclinedProduct(), $website);
+	}
+
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param catalog_persistentdocument_shop $shop
