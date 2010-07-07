@@ -424,6 +424,18 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @see f_persistentdocument_DocumentService::getWebsiteId()
+	 *
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @return integer
+	 */
+	public function getWebsiteId($document)
+	{
+		return $document->getWebsiteId();
+	}
+
+	
+	/**
 	 * DEPRECATED function
 	 */
 	

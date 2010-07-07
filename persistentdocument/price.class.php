@@ -68,6 +68,12 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 		return ($this->getOldValueWithTax() !== null);
 	}
 	
+	public function removeDiscount()
+	{
+		$this->setOldValueWithTax(null);
+		$this->setOldValueWithoutTax(null);
+	}
+	
 	/**
 	 * @return Double
 	 */
@@ -305,4 +311,15 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 			}
 		}
 	}
+	
+	public function setToZero()
+	{
+		$this->setValueWithTax(0.0);
+		$this->setValueWithoutTax(0.0);
+		
+		$this->setOldValueWithTax(0.0);
+		$this->setOldValueWithoutTax(0.0);
+	}
+	
+
 }

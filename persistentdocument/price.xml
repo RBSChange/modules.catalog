@@ -28,7 +28,6 @@
 		<add name="thresholdMax" type="Integer" />
 		<add name="targetId" type="Integer" min-occurs="1" default-value="0" />
 		<add name="priority" type="Integer" min-occurs="1" default-value="25" />
-		<add name="replicatedFrom" type="Integer" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

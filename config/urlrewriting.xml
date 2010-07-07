@@ -1,45 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlrewriting>
-	<rules>
-		<rule documentModel="simpleproduct" viewMode="detail" condition="getBrandLabel()">
-			<template>/$labelForUrl-$brandLabel,$lang-$id</template>
-			<parameters>
-				<parameter name="brandLabel" format="\w+" />
-			</parameters>
-		</rule>		
+	<rules>	
 		<rule documentModel="simpleproduct" viewMode="detail">
 			<template>/$labelForUrl,$lang-$id</template>
 		</rule>
-				
-		<rule documentModel="declinedproduct" viewMode="detail" condition="getBrandLabel()">
-			<template>/$labelForUrl-$brandLabel,$lang-$id</template>
-			<parameters>
-				<parameter name="brandLabel" format="\w+" />
-			</parameters>
-		</rule>		
+					
 		<rule documentModel="declinedproduct" viewMode="detail">
 			<template>/$labelForUrl,$lang-$id</template>
 		</rule>
 		
-		<rule documentModel="productdeclination" viewMode="detail" condition="getBrandLabel()">
-			<template>/$labelForUrl-$brandLabel,$lang-$id</template>
-			<parameters>
-				<parameter name="brandLabel" format="\w+" />
-			</parameters>
-		</rule>	
 		<rule documentModel="productdeclination" viewMode="detail">
 			<template>/$labelForUrl,$lang-$id</template>
 		</rule>
 		
-		
-		<rule documentModel="bundleproduct" viewMode="detail" condition="getBrandLabel()">
-			<template>/bundle/$label-$brandLabel,$lang-$id</template>
-			<parameters>
-				<parameter name="brandLabel" format="\w+" />
-			</parameters>
-		</rule>	
 		<rule documentModel="bundleproduct" viewMode="detail">
 			<template>/bundle/$label,$lang-$id</template>
+		</rule>
+		
+		<rule documentModel="kit" viewMode="detail">
+			<template>/kit/$label,$lang-$id</template>
 		</rule>
 		
 		<rule documentModel="shelf" viewMode="detail">

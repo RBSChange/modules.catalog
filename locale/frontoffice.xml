@@ -857,7 +857,7 @@
 		<locale lang="fr">Produits du groupe</locale>
 	</entity>
 	<entity id="go-to-bundle">
-		<locale lang="fr">Voir le groupe de produit {bundleLabel}</locale>
+		<locale lang="fr">retourner au groupe de produit {bundleLabel}</locale>
 	</entity>
 	<entity id="refresh-declined">
 		<locale lang="fr">Recharger</locale>
@@ -922,4 +922,10 @@
 	<entity id="view-alert-list">
 		<locale lang="fr">voir la liste de mes alertes</locale>
 	</entity>
+	<entity id="kititems">
+		<locale lang="fr">produits du kit</locale>
+	</entity>	
+	<entity id="go-to-kit">
+		<locale lang="fr">retourner au kit {kitLabel}</locale>
+	</entity>	
 </localization>

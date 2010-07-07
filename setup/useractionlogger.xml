@@ -38,4 +38,9 @@
   <actiondef modulename="catalog" actionname="deletelocalization.topshelf" label="modules.catalog.bo.useractionlogger.deletelocalization-topshelf"/>
   <actiondef modulename="catalog" actionname="updatetranslation.simpleproduct" label="modules.catalog.bo.useractionlogger.updatetranslation-simpleproduct"/>
   <actiondef modulename="catalog" actionname="compileproduct.simpleproduct" label="modules.catalog.bo.useractionlogger.compileproduct-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="insert.kit" label="modules.catalog.bo.useractionlogger.insert-kit"/>
+  <actiondef modulename="catalog" actionname="update.kit" label="modules.catalog.bo.useractionlogger.update-kit"/>
+  <actiondef modulename="catalog" actionname="compileproduct.kit" label="modules.catalog.bo.useractionlogger.compileproduct-kit"/>
+  <actiondef modulename="catalog" actionname="compileproduct.declinedproduct" label="modules.catalog.bo.useractionlogger.compileproduct-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="insert.bundleproduct" label="modules.catalog.bo.useractionlogger.insert-bundleproduct"/>
 </script>

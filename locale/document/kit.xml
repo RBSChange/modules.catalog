@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization extend="modules.catalog.document.product">
   <entity id="document-name">
-    <locale lang="fr">groupe de produit</locale>
-    <locale lang="en">bundle product</locale>
+    <locale lang="fr">kit</locale>
+    <locale lang="en">kit</locale>
   </entity>
 </localization>

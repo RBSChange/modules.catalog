@@ -52,3 +52,12 @@ treechildren::-moz-tree-image(modules_catalog_bundleditem){
 treechildren::-moz-tree-image(modules_catalog_alert){
 	list-style-image: url(/changeicons/small/document.png);
 }
+treechildren::-moz-tree-image(modules_catalog_kititem){
+	list-style-image: url(/changeicons/small/document.png);
+}
+treechildren::-moz-tree-image(modules_catalog_kit){
+	list-style-image: url(/changeicons/small/kit.png);
+}
+treechildren::-moz-tree-image(modules_catalog_lockedprice){
+	list-style-image: url(/changeicons/small/currency-euro.png);
+}

@@ -40,30 +40,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		}
 		return null;
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param customer_persistentdocument_customer $customer
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
-	 */
-	public function getPrice($shop, $customer, $quantity = 1)
-	{
-		$defaultDeclination = $this->getDefaultDeclination($shop);
-		return ($defaultDeclination !== null) ? catalog_PriceService::getInstance()->getPrice($defaultDeclination, $shop, $customer, $quantity) : null;
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param customer_persistentdocument_customer $customer
-	 * @return catalog_persistentdocument_price[]
-	 */
-	public function getPrices($shop, $customer)
-	{
-		$defaultDeclination = $this->getDefaultDeclination($shop);
-		return ($defaultDeclination !== null) ? catalog_PriceService::getInstance()->getPrices($defaultDeclination, $shop, $customer) : false;
-	}
-	
+		
 	private $defaultDeclinations = array();
 	
 	/**

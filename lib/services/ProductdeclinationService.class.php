@@ -78,19 +78,67 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			$declinedProduct->save();
 			
 			// Price replication.
-			$ps = catalog_PriceService::getInstance();
 			if ($declinedProduct->getSynchronizePrices())
 			{
-				$dps = $declinedProduct->getDocumentService();
-				foreach ($ps->createQuery()->add(Restrictions::eq('productId', $declinedProduct->getId()))->find() as $price)
-				{
-					$dps->replicatePriceOnProductIds($price, array($document->getId()));
-				}
+				$prices = catalog_PriceService::getInstance()->createQuery()->add(Restrictions::eq('productId', $declinedProduct->getId()))->find();
+				$this->replicatePricesOnDeclinationIds($prices, array($document->getId()));
 			}
 		}
 		
 		parent::postInsert($document, $parentNodeId);
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_price[] $prices
+	 * @param integer[] $declinationIds
+	 */
+	public function replicatePricesOnDeclinationIds($prices, $declinationIds)
+	{
+		try 
+		{
+			$this->tm->beginTransaction();
+			foreach ($prices as $price) 
+			{
+				if (!$price->hasMeta(catalog_PriceService::META_IS_REPLICATED))
+				{
+					$price->setMeta(catalog_PriceService::META_IS_REPLICATED, '1');
+					$price->saveMeta();
+				}
+				
+				foreach ($declinationIds as $declinationId)
+				{
+					$this->replicatePriceOnDeclinationId($price, $declinationId);
+				}
+			}
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+			throw $e;
+		}
+	}	
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @param integer $productId
+	 * @return catalog_persistentdocument_lockedprice
+	 */
+	protected function replicatePriceOnDeclinationId($price, $productId)
+	{
+		$newPrice = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
+		$price->copyPropertiesTo($newPrice, true);
+		$newPrice->setMeta("f_tags", array());
+		$newPrice->setAuthor(null);
+		$newPrice->setAuthorid(null);
+		$newPrice->setCreationdate(null);
+		$newPrice->setModificationdate(null);
+		$newPrice->setDocumentversion(0);
+		$newPrice->setProductId($productId);
+		$newPrice->setLockedFor($price->getId());
+		$newPrice->save();	
+		return $newPrice;
+	}	
 	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document

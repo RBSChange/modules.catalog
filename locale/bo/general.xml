@@ -289,4 +289,8 @@
 	<entity id="product-not-published">
 		<locale lang="fr">le produit {label} n'est pas publié</locale>
 	</entity>
+	
+	<entity id="has-no-item">
+		<locale lang="fr">Ne contient pas de produit</locale>
+	</entity>
 </localization>

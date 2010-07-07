@@ -121,7 +121,7 @@ class catalog_PriceHelper
 	 */
 	public static function formatTaxRate($taxRate)
 	{
-		return ($taxRate * 100) . "%";
+		return (round($taxRate * 100, 2)) . "%";
 	}
 	
 	/**

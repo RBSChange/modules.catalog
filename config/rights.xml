@@ -20,6 +20,9 @@
     <document name="bundleproduct"/>
     <document name="bundleditem"/>
     <document name="alert"/>
+    <document name="kititem"/>
+    <document name="kit"/>
+    <document name="lockedprice"/>
   </actions>
   <roles>
     <role name="Admin">

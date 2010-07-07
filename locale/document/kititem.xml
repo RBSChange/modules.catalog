@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+  <entity id="document-name">
+    <locale lang="fr">kititem</locale>
+    <locale lang="en">kititem</locale>
+  </entity>
+  <entity id="label">
+    <locale lang="fr">[TO TRANSLATE] label</locale>
+    <locale lang="en">[TO TRANSLATE] label</locale>
+  </entity>
+  <entity id="label-help">
+    <locale lang="fr">[TO TRANSLATE] label-help</locale>
+    <locale lang="en">[TO TRANSLATE] label-help</locale>
+  </entity>
+  <entity id="product">
+    <locale lang="fr">[TO TRANSLATE] product</locale>
+    <locale lang="en">[TO TRANSLATE] product</locale>
+  </entity>
+  <entity id="product-help">
+    <locale lang="fr">[TO TRANSLATE] product-help</locale>
+    <locale lang="en">[TO TRANSLATE] product-help</locale>
+  </entity>
+  <entity id="quantity">
+    <locale lang="fr">[TO TRANSLATE] quantity</locale>
+    <locale lang="en">[TO TRANSLATE] quantity</locale>
+  </entity>
+  <entity id="quantity-help">
+    <locale lang="fr">[TO TRANSLATE] quantity-help</locale>
+    <locale lang="en">[TO TRANSLATE] quantity-help</locale>
+  </entity>
+</localization>

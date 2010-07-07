@@ -174,7 +174,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getPrice($shop, $customer, $quantity = 1)
 	{
-		return catalog_PriceService::getInstance()->getPrice($this, $shop, $customer, $quantity);
+		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $targetIds, $quantity);
 	}
 	
 	/**
@@ -208,7 +209,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getPrices($shop, $customer)
 	{
-		return catalog_PriceService::getInstance()->getPrices($this, $shop, $customer);
+		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+		return $this->getDocumentService()->getPricesByTargetIds($this, $shop, $targetIds);
 	}
 	
 	/**
