@@ -7,7 +7,7 @@ cdocumenteditor row[class="discountHelper"]{
 cdocumenteditor cpricespanel{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesPanel);
 }
-cdocumenteditor cpriceslist{
+gridlist.pricelist{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesList);
 }
 cdocumenteditor cdeclinationspanel{
@@ -20,6 +20,7 @@ cdocumenteditor cdeclinationslist{
 cdocumenteditor#edt_catalog_simpleproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_declinedproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_bundleproduct cresumesection[sectionname="urlrewriting"],
+cdocumenteditor#edt_catalog_kit cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_shelf cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_topshelf cresumesection[sectionname="urlrewriting"]{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cResumeUrlrewritingByShopSection);
@@ -41,4 +42,11 @@ cdocumenteditor cbundleditemspanel{
 }
 gridlist.bundleditemsJSON{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cBundledItemsGrid);
+}
+
+cdocumenteditor ckititemspanel{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cKitItemsPanel);
+}
+gridlist.kititemsJSON{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cKitItemsGrid);
 }

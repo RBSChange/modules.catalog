@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization extend="modules.catalog.document.price">
+  <entity id="document-name">
+    <locale lang="fr">lockedprice</locale>
+    <locale lang="en">lockedprice</locale>
+  </entity>
+  <entity id="lockedFor">
+    <locale lang="fr">[TO TRANSLATE] lockedFor</locale>
+    <locale lang="en">[TO TRANSLATE] lockedFor</locale>
+  </entity>
+  <entity id="lockedFor-help">
+    <locale lang="fr">[TO TRANSLATE] lockedFor-help</locale>
+    <locale lang="en">[TO TRANSLATE] lockedFor-help</locale>
+  </entity>
+</localization>

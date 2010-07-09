@@ -108,7 +108,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
 	 */
-	public function getDefaultVisual($product, $shop)
+	public function getDefaultVisual($product)
 	{
 		$visual = null;
 
@@ -250,6 +250,27 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param array $properties
+	 * @return void
+	 */
+	public function updateProductFromCartProperties($product, $properties)
+	{
+		return;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param array $properties
+	 * @return void
+	 */
+	public function updateOrderLineProperties($product, &$properties)
+	{
+		
+		return;
+	}	
+	
+	/**
 	 * @var catalog_persistentdocument_shop
 	 */
 	private $currentShopForResume = null;
@@ -304,7 +325,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 					'class' => ($shop->isPublished() && $row['publicationstatus'] == 'PUBLICATED') ? 'link' : ''
 				);
 			}
-						
 			$data['urlrewriting'] = $urlData;
 									
 			$rc->endI18nWork();
@@ -795,11 +815,36 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_price $price
 	 */
-	public function replicatePrice($price)
+	public function replicatePrice($product, $price)
 	{
-		// Nothing to do bu default.
+		// Nothing to do by default.
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPriceByTargetIds($product, $shop, $targetIds, $quantity = 1)
+	{
+		return catalog_PriceService::getInstance()->getPriceByTargetIds($product, $shop, $targetIds, $quantity);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price[]
+	 */
+	public function getPricesByTargetIds($product, $shop, $targetIds)
+	{
+		return catalog_PriceService::getInstance()->getPricesByTargetIds($product, $shop, $targetIds);
 	}
 	
 	// Tweets handling.

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-  <entity id="Create-Shop">
+  <entity id="createshop">
     <locale lang="fr">créer une boutique</locale>
     <locale lang="en">create shop</locale>
   </entity>
-  <entity id="Create-Topshelf">
+  <entity id="createtopshelf">
     <locale lang="fr">créer un rayon de premier niveau</locale>
     <locale lang="en">create top shelf</locale>
   </entity>
-  <entity id="Create-Shelf">
+  <entity id="createshelf">
     <locale lang="fr">créer un rayon</locale>
     <locale lang="en">create shelf</locale>
     <locale lang="de">Neues Regal</locale>
   </entity>
-  <entity id="Create-Declinedproduct">
+  <entity id="createdeclinedproduct">
     <locale lang="fr">créer un produit décliné</locale>
     <locale lang="en">create product declined</locale>
   </entity>
-  <entity id="Create-Productdeclination">
-    <locale lang="fr">créer une déclinaison de produit</locale>
-    <locale lang="en">create product declination</locale>
-  </entity>
-  <entity id="Create-Simpleproduct">
+  <entity id="createsimpleproduct">
     <locale lang="fr">créer un produit simple</locale>
     <locale lang="en">create simple product</locale>
   </entity>
-  <entity id="Create-Bundleproduct">
+  <entity id="createbundleproduct">
     <locale lang="fr">créer un groupe de produit</locale>
     <locale lang="en">create bundle product</locale>
+  </entity>  
+  <entity id="createkit">
+    <locale lang="fr">créer un kit</locale>
+    <locale lang="en">create kit</locale>
   </entity>  
   <entity id="Create-Price">
     <locale lang="fr">créer un prix normal</locale>
@@ -54,10 +54,10 @@
     <locale lang="fr">créer...</locale>
     <locale lang="en">create...</locale>
   </entity>
-  <entity id="Create-Shippingfilter">
+  <entity id="createshippingfilter">
     <locale lang="fr">créer un filtre de livraison</locale>
   </entity>
-  <entity id="Create-Paymentfilter">
+  <entity id="createpaymentfilter">
     <locale lang="fr">créer un filtre de paiement</locale>
   </entity>
   <entity id="compileProduct">
@@ -65,5 +65,8 @@
   </entity>
   <entity id="exportalertinfos">
     <locale lang="fr">exporter les alertes</locale>
+  </entity>
+   <entity id="edit-price">
+    <locale lang="fr">editer le prix</locale>
   </entity>
 </localization>

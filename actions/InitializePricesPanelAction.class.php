@@ -1,15 +1,24 @@
 <?php
 class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 {
+	
+	/**
+	 * @param Request $request
+	 * @return catalog_persistentdocument_product
+	 */
+	private function getProductFromRequest($request)
+	{
+		return $this->getDocumentInstanceFromRequest($request);
+	}
+	
 	/**
 	 * @param Context $context
 	 * @param Request $request
 	 */
 	public function _execute($context, $request)
 	{
-		$product = $this->getDocumentInstanceFromRequest($request);
-		
-		$data = array();
+		$product = $this->getProductFromRequest($request);
+		$data = array('productId' => $product->getId());
 		
 		if (!$product->isPricePanelEnabled())
 		{
@@ -41,17 +50,42 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 				$data['shop'] = $data['shops'][0]['id'];
 			}
 			
-			$data['targetTypes'] = array(
-				array('value' => 'shop', 'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-shop;')),
-				array('value' => 'group', 'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-group;')),
-				array('value' => 'customer', 'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-customer;')),
-				array('value' => 'all', 'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-all;'))
-			);
+			$data['targetTypes'] = array();
+			$targetType = $request->hasParameter('targetType') ? $request->getParameter('targetType') : 'all';
+			$cps = catalog_PriceService::getInstance();
+			foreach ($cps->getAvailableTargetTypes($product) as $type => $infos) 
+			{
+				if ($targetType == $type) {$data['targetType'] = $targetType;}
+				$data['targetTypes'][] = array('value' => $type, 'label' => $infos['label']);
+			}
+			if (!array_key_exists('targetType', $data)){$data['targetType'] = 'all';}
 			
-			$data['targetType'] = $request->hasParameter('targetType') ? $request->getParameter('targetType') : 'shop';
-			$data['targetId'] = $request->hasParameter('targetId') ? $request->getParameter('targetId') : 0;
+			$targetId = $request->hasParameter('targetId') ? $request->getParameter('targetId') : '';
+			if (f_util_StringUtils::isEmpty($targetId)) {$targetId = '';}	
+			$data['targetIds'] = array();
+			foreach ($cps->getAvailableTargets($data['targetType'], $product, $data['shop']) as $value => $infos) 
+			{
+				if ($value == $targetId)
+				{
+					$data['targetId'] = $targetId;
+				}
+				$data['targetIds'][] = array('value' => $value, 'label' => $infos['label']);
+			}
+			
+			if (!array_key_exists('targetId', $data))
+			{
+				$data['targetId'] = count($data['targetIds']) ? $data['targetIds'][0]['value'] : '';
+			}
+			
+			//Add price list		
+			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $data['targetId'] == '' ? null : $data['targetId']);		
+			$pricelist = array();
+			foreach ($prices as $price)
+			{
+				$cps->transformToArray($price, $pricelist);
+			}
+			$data['pricelist'] = JsonService::getInstance()->encode($pricelist);
 		}
-		
 		return $this->sendJSON($data);
 	}
 }

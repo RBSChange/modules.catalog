@@ -34,6 +34,26 @@
 		<body><![CDATA[this.createDocumentEditor('modules_catalog_bundleproduct', listWidget.getSelectedItems()[0].id);]]></body>
 	</action>
 	
+	<action name="createKit">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_kit', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>	
+	
+	<action name="editPricesFromKit">
+		<parameter name="params" />
+		<body><![CDATA[
+			wCore.debug('editPricesFromKit:' + params[4]);		
+			var editor = this.getDocumentEditor(params[2]);
+			if (editor)
+			{
+				editor.setAttribute('targetType', 'kit');
+				editor.setAttribute('targetId', params[4]);
+				var item = {id: params[3], type:params[2]}
+				this.openDocumentEditor(item, 'prices');
+			}
+		]]></body>
+	</action>
+	
 	<action name="createPriceFromProduct">
 		<parameter name="params" />
 		<body><![CDATA[

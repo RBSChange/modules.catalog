@@ -154,7 +154,7 @@
 	<block type="modules_catalog_productpromotion" icon="editable-animation" label="&amp;modules.catalog.bo.blocks.ProductPromotion;">
 		<parameters>
 			<parameter name="label" type="String" />
-			<parameter name="products" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" max-occurs="-1" />
+			<parameter name="products" type="modules_catalog/product" allow="[modules_catalog_product]" max-occurs="-1" />
 			<parameter name="destinationpage" type="modules_website/page" />
 			<parameter name="mode" type="String" default-value="random" min-occurs="1" from-list="modules_catalog/productpromotion" />
 			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list" />

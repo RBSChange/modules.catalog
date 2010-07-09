@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<panels>
+	<panel name="resume"/>
+	<panel name="properties"/>
+	<panel name="publication"/>
+	<panel name="localization" />
+	<panel name="history"/>
+	<panel name="redirect" />
+	<panel name="create"/>
+	
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				this.addTab('kititems', '&modules.catalog.bo.doceditor.tab.Kititems;', 'product');				
+				
+				// Check comment module existence.
+				var controller = document.getElementById("wcontroller");
+    			if (controller.checkModuleVersion('comment', '3.0.0'))
+				{
+					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments');
+				}
+			]]></constructor>
+		</javascript>
+	</xul>	
+</panels>

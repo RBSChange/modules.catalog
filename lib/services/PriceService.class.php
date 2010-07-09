@@ -7,6 +7,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 {
 	const META_IS_REPLICATED = 'modules.catalog.isReplicated';
 	
+	const PRIORITY_AUTO = 0;
+	const PRIORITY_SHOP = 25;
+	const PRIORITY_TARIFGROUP = 50;
+	const PRIORITY_CUSTOMER = 75;
+	const PRIORITY_PRODUCT = 100;
+	
 	/**
 	 * Singleton
 	 * @var catalog_PriceService
@@ -43,16 +49,13 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 
 	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_shop $shop
 	 * @param customer_persistentdocument_customer $customer
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @return integer[]
 	 */
-	public function getPrice($product, $shop, $customer, $quantity = 1)
+	public function convertCustomerToTargetIds($customer)
 	{
 		$targetIds = array(0);
-		if ($customer !== null)
+		if ($customer instanceof customer_persistentdocument_customer)
 		{
 			$targetIds[] = $customer->getId();
 			$tarifGroup = $customer->getTarifGroup();
@@ -61,6 +64,23 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				$targetIds[] = $tarifGroup->getId();
 			}
 		}
+		else if ($customer !== null)
+		{
+			throw new Exception('Invalid customer parameter ' . var_export($customer, true));
+		}
+		return $targetIds;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param customer_persistentdocument_customer $customer
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPrice($product, $shop, $customer, $quantity = 1)
+	{
+		$targetIds = $this->convertCustomerToTargetIds($customer);
 		return $this->getPriceByTargetIds($product, $shop, $targetIds, $quantity);
 	}
 
@@ -77,12 +97,13 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::published())
 			->add(Restrictions::eq('productId', $product->getId()))
 			->add(Restrictions::eq('shopId', $shop->getId()))
-			->add(Restrictions::in('targetId', $targetIds))
 			->add(Restrictions::le('thresholdMin', $quantity))
 			->add(Restrictions::gt('thresholdMax', $quantity))
+			->add(Restrictions::in('targetId', $targetIds))
 			->addOrder(Order::desc('priority'))
 			->setFirstResult(0)
 			->setMaxResults(1);
+			
 		return f_util_ArrayUtils::firstElement($query->find());
 	}
 
@@ -94,16 +115,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function getPrices($product, $shop, $customer)
 	{
-		$targetIds = array(0);
-		if ($customer !== null)
-		{
-			$targetIds[] = $customer->getId();
-			$tarifGroup = $customer->getTarifGroup();
-			if ($customer->getTarifGroup() !== null)
-			{
-				$targetIds[] = $tarifGroup->getId();
-			}
-		}
+		$targetIds = $this->convertCustomerToTargetIds($customer);
 		return $this->getPricesByTargetIds($product, $shop, $targetIds);
 	}
 
@@ -137,12 +149,11 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 * @param String $orderDir
 	 * @param Integer $targetId
 	 */
-	public function getPricesForDate($date, $productId, $shopId, $orderBy = 'thresholdmin', $orderDir = 'asc', $targetId = null)
+	public function getPricesForDate($date, $productId, $shopId, $targetId = null)
 	{
 		$startDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->toMidnight())->toString();
 		$endDate = date_Calendar::getInstance($startDate)->add(date_Calendar::DAY, 1)->toString();
 		
-		Framework::info(__METHOD__ . "($productId, $shopId, $orderBy, $date, $startDate, $endDate)");
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $productId))
 			->add(Restrictions::eq('shopId', $shopId))
@@ -153,60 +164,57 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		{
 			$query->add(Restrictions::eq('targetId', $targetId));
 		}
-		
-		$model = f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/price');
-		$propertyInfo = $model->getProperty($orderBy);
-		if ($propertyInfo)
-		{
-			if ($orderDir == 'desc')
-			{
-				if ($propertyInfo->isString())
-				{
-					$query->addOrder(Order::idesc($orderBy));
-				}
-				else
-				{
-					$query->addOrder(Order::desc($orderBy));
-				}
-			}
-			else
-			{
-				if ($propertyInfo->isString())
-				{
-					$query->addOrder(Order::iasc($orderBy));
-				}
-				else
-				{
-					$query->addOrder(Order::asc($orderBy));
-				}
-			}
-		}
+		$query->addOrder(Order::desc('priority'));
 		return $query->find();
 	}
-
+	
 	/**
-	 * @param String $targetType
-	 * @return Boolean
+	 * @param catalog_persistentdocument_price $price
+	 * @param array $array
 	 */
-	public function canChooseTarget($targetType)
+	public function transformToArray($price, &$array)
 	{
-		switch ($targetType)
-		{
-			case 'customer' :
-			case 'group' :
-				return true;
-		
-			default :
-				return false;
-		}
+		$array[] = array(
+				'id' => $price->getId(),
+				'priceType' => str_replace('/', '_', $price->getDocumentModelName()),
+				'value' => $price->getValueWithTax(),
+				'valueWithTax' => $price->getFormattedValueWithTax(),
+				'isDiscount' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
+				'tagrgetId' => $price->getTargetId(),
+				'targetLabel' => $price->getTargetLabel(),
+				'priority' => $price->getPriority(),
+				'thresholdMin' => $price->getThresholdMin(),
+				'startpublicationdate' => $price->getUIStartpublicationdate(),
+				'endpublicationdate' => $price->getUIEndpublicationdate(),
+			);
 	}
 
 	/**
-	 * @param String $targetType
-	 * @param Integer $shopId
-	 * @return f_persistentdocument_PersistentDocument
+	 * @param catalog_persistentdocument_product $product
+	 * @return array
 	 */
-	public function getAvailableTargets($targetType, $shopId)
+	public function getAvailableTargetTypes($product = null)
+	{
+		$result = array('all' => array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-all;')),
+					'shop' =>  array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-shop;')));
+		
+		if (catalog_ModuleService::areCustomersEnabled())
+		{
+			$result['group'] = array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-group;'));
+			$result['customer'] = array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-customer;'));
+		}
+
+		$result['kit'] = array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-kit;'));
+		return $result;
+	}
+	
+	/**
+	 * @param String $targetType
+	 * @param catalog_persistentdocument_product $product
+	 * @param Integer $shopId
+	 * @return array
+	 */
+	public function getAvailableTargets($targetType, $product, $shopId)
 	{
 		$shop = DocumentHelper::getDocumentInstance($shopId);
 		$targets = array();
@@ -215,18 +223,39 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			case 'customer' :
 				if (catalog_ModuleService::areCustomersEnabled())
 				{
-					$targets = customer_CustomerService::getInstance()->createQuery()->add(Restrictions::eq('user.websiteid', $shop->getWebsite()->getId()))->find();
+					$targets = customer_CustomerService::getInstance()->createQuery()
+						->add(Restrictions::eq('user.websiteid', $shop->getWebsite()->getId()))
+						->setProjection(Projections::property('id'), Projections::property('label'))
+						->find();
 				}
-				break;
-				
+				break;				
 			case 'group' :
 				if (catalog_ModuleService::areCustomersEnabled())
 				{
-					$targets = customer_TarifcustomergroupService::getInstance()->createQuery()->find();
+					$targets = customer_TarifcustomergroupService::getInstance()->createQuery()
+					->setProjection(Projections::property('id'), Projections::property('label'))
+					->find();
 				}
 				break;
+			case 'kit':
+				$productToCmpile = $product->getProductToCompile();
+				$targets = catalog_KitService::getInstance()->createQuery()
+					->add(Restrictions::eq('kititem.product', $productToCmpile))
+					->setProjection(Projections::property('id'), Projections::property('label'))
+					->find();
+				break;
+			case 'all':
+				break;
+			case 'shop':
+				$targets[] = array('id' => 0, 'label' => $shop->getLabel());	
+				break;
 		}
-		return $targets;
+		$result = array();
+		foreach ($targets as $target) 
+		{
+			$result[$target['id']] = array('label' => $target['label']);
+		}
+		return $result;
 	}
 	
 	/**
@@ -247,7 +276,10 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	protected function hasCustomPriority($price)
 	{
 		$priority = $price->getPriority();
-		if ($priority == 0 || $priority == 25 || $priority == 50 || $priority == 75)
+		if ($priority == self::PRIORITY_AUTO || 
+			$priority == self::PRIORITY_SHOP || 
+			$priority == self::PRIORITY_TARIFGROUP || 
+			$priority == self::PRIORITY_CUSTOMER)
 		{
 			return false;
 		}
@@ -379,8 +411,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	protected function postInsert($document, $parentNodeId)
 	{
 		$product = $document->getProduct();
-		$product->getDocumentService()->replicatePrice($document);
-		
+		$product->getDocumentService()->replicatePrice($product, $document);
 		if ($document->isPublished())
 		{
 			$product->getDocumentService()->publishIfPossible($product->getId());
@@ -409,7 +440,9 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 					$replicatedProperties['set'.ucfirst($propertyName)] = 'get'.ucfirst($propertyName);
 				}
 			}
-			$query = catalog_PriceService::getInstance()->createQuery()->add(Restrictions::eq('replicatedFrom', $document->getId()));
+			
+			$query = catalog_LockedpriceService::getInstance()->createQuery()
+				->add(Restrictions::eq('lockedFor', $document->getId()));
 			foreach ($query->find() as $price)
 			{
 				foreach ($replicatedProperties as $setter => $getter)
@@ -469,7 +502,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		// Delete all prices replicated from this one.
 		if ($document->hasMeta(self::META_IS_REPLICATED))
 		{
-			$this->createQuery()->add(Restrictions::eq('replicatedFrom', $document->getId()))->delete();
+			catalog_LockedpriceService::getInstance()->createQuery()
+				->add(Restrictions::eq('lockedFor', $document->getId()))->delete();
 		}
 	}
 	
@@ -533,52 +567,27 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$targetId = $document->getTargetId();
 		if ($targetId == 0)
 		{
-			$document->setPriority(25);
+			$document->setPriority(self::PRIORITY_SHOP);
 		}
 		else
 		{
 			$target = DocumentHelper::getDocumentInstance($targetId);
 			if ($target instanceof customer_persistentdocument_customer)
 			{
-				$document->setPriority(75);
+				$document->setPriority(self::PRIORITY_CUSTOMER);
 			}
 			else if ($target instanceof customer_persistentdocument_tarifcustomergroup)
 			{
-				$document->setPriority(50);
+				$document->setPriority(self::PRIORITY_TARIFGROUP);
 			}
-			else 
+			else if ($target instanceof catalog_persistentdocument_product)
+			{
+				$document->setPriority(self::PRIORITY_PRODUCT);
+			}
+			else
 			{
 				throw new BaseException('Unexpected target!', 'modules.catalog.document.price.Unexpected-target-error');
 			}
 		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_price $price
-	 * @param integer $productId
-	 * @return catalog_persistentdocument_price
-	 */
-	public function replicateForProduct($price, $productId)
-	{
-		$ps = catalog_PriceService::getInstance();
-		$newPrice = $ps->getNewDocumentInstance();
-		$price->copyPropertiesTo($newPrice, true);
-		$newPrice->setMeta("f_tags", array());
-		$newPrice->setAuthor(null);
-		$newPrice->setAuthorid(null);
-		$newPrice->setCreationdate(null);
-		$newPrice->setModificationdate(null);
-		$newPrice->setDocumentversion(0);
-		$newPrice->setProductId($productId);
-		$newPrice->setReplicatedFrom($price->getId());
-		$newPrice->save();
-		
-		if (!$price->hasMeta(self::META_IS_REPLICATED))
-		{
-			$price->setMeta(self::META_IS_REPLICATED, '1');
-			$price->saveMeta();
-		}
-		
-		return $newPrice;
-	}
+	}	
 }

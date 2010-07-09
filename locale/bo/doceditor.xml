@@ -65,6 +65,10 @@
 	<entity id="panel.prices.type-all">
 		<locale lang="fr">tous les prix</locale>
 	</entity>
+	<entity id="panel.prices.type-kit">
+		<locale lang="fr">prix par kit</locale>
+	</entity>
+
 	<entity id="panel.prices.column-value">
 		<locale lang="fr">montant</locale>
 	</entity>
@@ -74,6 +78,11 @@
 	<entity id="panel.prices.column-target">
 		<locale lang="fr">groupe tarifaire/client</locale>
 	</entity>
+	<entity id="panel.prices.column-priority">
+		<locale lang="fr">priorité</locale>
+	</entity>	
+	
+	
 	<entity id="panel.prices.column-threshold-min">
 		<locale lang="fr">seuil de quantité</locale>
 	</entity>
@@ -215,7 +224,9 @@
 	<entity id="property.alert-count">
 		<locale lang="fr">alertes activées par les visiteurs</locale>
 	</entity>
-	
+	<entity id="property.itemscount">
+		<locale lang="fr">nombre de produits</locale>
+	</entity>
 	<entity id="tab.bundleditems">
 		<locale lang="fr">produits</locale>
 	</entity>
@@ -251,6 +262,46 @@
 	
 	<entity id="add-bundleditems">
 		<locale lang="fr">Produits à ajouter</locale>
+	</entity>
+	
+	<entity id="first-kititems">
+		<locale lang="fr">produits du kit</locale>
+	</entity>		
+
+	<entity id="kititem.products">
+		<locale lang="fr">produits du kit</locale>
+	</entity>
+	
+	<entity id="kititem.products-help">
+		<locale lang="fr">produits par défauts du kit</locale>
+	</entity>
+	
+	<entity id="kititems.defaultquantity">
+		<locale lang="fr">quantité par défaut</locale>
+	</entity>
+	<entity id="kititems.defaultquantity-help">
+		<locale lang="fr">quantité par défaut de chaque produit</locale>
 	</entity>	
 	
+	<entity id="tab.kititems">
+		<locale lang="fr">produits</locale>
+	</entity>	
+	
+	<entity id="add-kititems">
+		<locale lang="fr">Produits à ajouter</locale>
+	</entity>
+	
+	<entity id="kititems.label-column">
+		<locale lang="fr">libellé</locale>
+	</entity>
+	<entity id="kititems.qtt-column">
+		<locale lang="fr">Quantité</locale>
+	</entity>
+	<entity id="kititems.actions-column">
+		<locale lang="fr">Actions</locale>
+	</entity>	
+	<entity id="kititems.declination-column">
+		<locale lang="fr">Déclinaison</locale>
+	</entity>	
+		
 </localization>

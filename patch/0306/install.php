@@ -24,12 +24,6 @@ class catalog_patch_0306 extends patch_BasePatch
 			$product->setSynchronizePrices(false);
 			$product->save();
 		}
-		
-		// Add replicatedFrom property.
-		$newPath = f_util_FileUtils::buildWebeditPath('modules/catalog/persistentdocument/price.xml');
-		$newModel = generator_PersistentModel::loadModelFromString(f_util_FileUtils::read($newPath), 'catalog', 'price');
-		$newProp = $newModel->getPropertyByName('replicatedFrom');
-		f_persistentdocument_PersistentProvider::getInstance()->addProperty('catalog', 'price', $newProp);
 	}
 
 	/**

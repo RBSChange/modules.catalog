@@ -19,4 +19,7 @@
   <binding name="bundleproduct" className="catalog_BundleproductScriptDocumentElement"/>
   <binding name="bundleditem" className="catalog_BundleditemScriptDocumentElement"/>
   <binding name="alert" className="catalog_AlertScriptDocumentElement"/>
+  <binding name="kititem" className="catalog_KititemScriptDocumentElement"/>
+  <binding name="kit" className="catalog_KitScriptDocumentElement"/>
+  <binding name="lockedprice" className="catalog_LockedpriceScriptDocumentElement"/>
 </script>

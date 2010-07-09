@@ -82,19 +82,37 @@
     <locale lang="fr">marque; à sélectionner depuis les ressources.</locale>
     <locale lang="de">Marke; aus den Ressourcen zu selektieren.</locale>
   </entity>
+	<entity id="complementary">
+		<locale lang="fr">produits complémentaires</locale>
+	</entity>
+	<entity id="complementary-help">
+		<locale lang="fr">liste de produits complémentaires</locale>
+	</entity>
+	<entity id="similar">
+		<locale lang="fr">produits similaires</locale>
+	</entity>
+	<entity id="similar-help">
+		<locale lang="fr">liste de produits similaires</locale>
+	</entity>
+	<entity id="upsell">
+		<locale lang="fr">produits de gamme supérieure</locale>
+	</entity>
+	<entity id="upsell-help">
+		<locale lang="fr">liste de produits de gamme supérieure</locale>
+	</entity>
   <entity id="articleId">
     <locale lang="fr">article</locale>
   </entity>
   <entity id="articleId-help">
     <locale lang="fr">article, à sélectionner depuis les ressources.</locale>
+    <locale lang="de">Artikel, aus den Ressourcen zu selektieren.</locale>
   </entity>
   <entity id="description">
     <locale lang="fr">description</locale>
-    <locale lang="de">Artikel, aus den Ressourcen zu selektieren.</locale>
   </entity>
   <entity id="description-help">
-    <locale lang="fr">description du rayon</locale>
-    <locale lang="de">Beschreibung des Regals</locale>
+    <locale lang="fr">description du produit</locale>
+    <locale lang="de">Beschreibung des Produkte</locale>
   </entity>
   <entity id="crossSelling">
     <locale lang="fr">produits croisés</locale>

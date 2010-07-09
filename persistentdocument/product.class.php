@@ -128,7 +128,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
 	 */
-	public function getDefaultVisual($shop)
+	public function getDefaultVisual($shop = null)
 	{
 		return $this->getDocumentService()->getDefaultVisual($this, $shop);
 	}
@@ -174,7 +174,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getPrice($shop, $customer, $quantity = 1)
 	{
-		return catalog_PriceService::getInstance()->getPrice($this, $shop, $customer, $quantity);
+		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $targetIds, $quantity);
 	}
 	
 	/**
@@ -208,7 +209,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getPrices($shop, $customer)
 	{
-		return catalog_PriceService::getInstance()->getPrices($this, $shop, $customer);
+		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+		return $this->getDocumentService()->getPricesByTargetIds($this, $shop, $targetIds);
 	}
 	
 	/**
@@ -451,7 +453,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see f_persistentdocument_PersistentDocumentImpl::addTreeAttributes()
-	 *
 	 * @param string $moduleName
 	 * @param string $treeType
 	 * @param unknown_type $nodeAttributes
@@ -459,6 +460,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
 	{
 		$nodeAttributes['block'] = 'modules_catalog_product'; 
+		if ($treeType == 'wlist')
+		{
+			$detailVisual = $this->getDefaultVisual();
+			if ($detailVisual)
+			{
+				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
+			}
+		}
 	}
 	
 	/**

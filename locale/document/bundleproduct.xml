@@ -4,12 +4,4 @@
     <locale lang="fr">groupe de produit</locale>
     <locale lang="en">bundle product</locale>
   </entity>
-  <entity id="bundleditem">
-    <locale lang="fr">[TO TRANSLATE] bundleditem</locale>
-    <locale lang="en">[TO TRANSLATE] bundleditem</locale>
-  </entity>
-  <entity id="bundleditem-help">
-    <locale lang="fr">[TO TRANSLATE] bundleditem-help</locale>
-    <locale lang="en">[TO TRANSLATE] bundleditem-help</locale>
-  </entity>
 </localization>

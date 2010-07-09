@@ -614,6 +614,10 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
+					if (!confirm("&modules.catalog.bo.general.Confirm-delete-declination"))
+					{
+						return;
+					}
 					var dataset = this.buildDataset();
 					if (dataset.length > 1)
 					{						
@@ -780,6 +784,328 @@
 					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Remove-product;" />
 					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
 					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
+				</xul:toolbar>
+			</xul:row>				
+		</content>	
+	</binding>
+
+	<binding id="cKitItemsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message"/>
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" 
+						label="&amp;modules.uixul.bo.doceditor.button.Save;" image="{IconsBase}/small/save.png"/>
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
+						label="&amp;modules.uixul.bo.doceditor.button.Canceledit;" image="{IconsBase}/small/undo.png"/>
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" 
+						label="&amp;modules.uixul.bo.doceditor.button.Nexterror;" image="{IconsBase}/small/next-invalid-field.png"/>
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cfield name="kititemsJSON" id="catalog_kit_kititemsJSON" 
+							anonid="field_kititemsJSON" fieldtype="namedgridlist" flex="1" />
+							
+					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.Add-kititems;">
+						<xul:row anonid="row_newBundledItemProducts">
+							<xul:clabel id="catalog_kit_kititems_newKitItemProductIds_label" 
+									control="catalog_kit_kititems_newKitItemProductIds" 
+									value="&amp;modules.catalog.bo.doceditor.kititem.Products;"/>
+							<xul:cfield name="newKitItemProductIds" id="catalog_kit_kititems_newKitItemProductIds" 
+									anonid="field_newKitItemProductIds" fieldtype="documentarray" 
+									allow="modules_catalog_simpleproduct,modules_catalog_bundleproduct,modules_catalog_declinedproduct" 
+									moduleselector="catalog" 
+									shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
+							</xul:cfield>
+						</xul:row>
+						<xul:row anonid="row_newKitItemQtt">
+							<xul:clabel id="catalog_kit_kititems_newKitItemQtt_label" 
+								control="catalog_kit_kititems_newKitItemQtt" 
+								value="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity;"/>
+							<xul:cfield name="newKitItemQtt" id="catalog_kit_kititems_newKitItemQtt" 
+								anonid="field_newKitItemQtt" fieldtype="integer" required="true" 
+								shorthelp="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity-help;">
+									<xul:cconstraint name="min" parameter="1"/>
+							</xul:cfield>
+						</xul:row>
+					</xul:cfieldsgroup>
+					<xul:spacer flex="1" />
+				</xul:scrollbox>					
+			</xul:vbox>
+		</content>		
+		<implementation>
+      		<field name="mFieldNames">["kititemsJSON","newKitItemProductIds","newKitItemQtt"]</field>
+      		
+      		<method name="saveProperties">
+				<body><![CDATA[
+					this.lockCommandsUI();
+					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.documentEditor.executeServerAction('kititems', 'Update');
+				]]></body>
+			</method>
+			
+		</implementation>
+	</binding>
+
+	<binding id="cKitItemsGrid" extends="widgets.cGrid#cAbstractOrderableGrid">
+		<implementation>
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>	
+			
+			<method name="getDocumentEditor">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					var pn = this.parentNode;
+					while (pn && pn.localName != 'cdocumenteditor')
+					{
+						pn = pn.parentNode;
+					}
+					return pn;
+				]]></body>
+			</method>			
+			
+			<method name="getDatarowKey">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					return datarow.id + ',' + datarow.qtt + ',' + datarow.productId;
+				]]></body>
+			</method>
+				
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}		
+					var uri = ['catalog', 'openDocument', rowData.productType, rowData.productId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="execute_price">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}		
+					var kitId = this.getDocumentEditor().getAttribute('documentid');
+					var uri = ['catalog', 'editPricesFromKit', rowData.productType, rowData.productId, kitId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="execute_delete">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					var olddataset = this.buildDataset();
+					if (olddataset.length <= 1) return;
+					
+					var dataset = [];
+					var addar2 = true;
+					for (var i = 0; i < olddataset.length; i++)
+					{
+						if (olddataset[i] !== rowData && (olddataset[i].actionrow != '2' || addar2))
+						{
+							dataset.push(olddataset[i]);
+							addar2 = true;
+						}
+						else if (rowData.actionrow == '1')
+						{
+							addar2 = false;
+						}
+					}
+					
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>	
+			
+			<method name="execute_addproduct">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					rowData.qtt += 1;
+					
+					var dataset = this.buildDataset();
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>	
+			
+			<method name="execute_removeproduct">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					if (this.disabled || rowData.qtt <= 1) {return;}
+					rowData.qtt -= 1;
+					
+					var dataset = this.buildDataset();
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>
+			
+			<method name="setCellValue">
+				<parameter name="cell" />
+				<parameter name="name" />
+				<parameter name="dataRow" />
+				<body><![CDATA[					
+					cell.setAttribute('value', dataRow[name]);
+					if (name == 'actionrow')
+					{
+						var cn = cell.childNodes;
+						switch (dataRow[name])
+						{
+							case '1': //Declined Product with declination
+								cn[1].setAttribute('disabled', 'true');
+								break;
+							case '2':
+								for (var i = 2; i < 7; i++)
+								{
+									cn[i].setAttribute('hidden', 'true');
+								}
+								break;
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="getTargetedRow">
+				<parameter name="event" />			
+				<body><![CDATA[
+					var node = event.originalTarget;
+					while (node && node.localName != 'row')
+					{
+						node = node.parentNode;
+					}
+					return (node && node.mDataRow && node.mDataRow.actionrow !== '2') ? node : null;
+				]]></body>
+			</method>			
+
+			<method name="moveBeforeTo">
+				<parameter name="dataSet" />
+				<parameter name="rowData" />
+				<parameter name="toIndex" />			
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					wCore.debug('toIndex:' + toIndex);
+					var movedRows = [];
+					var startMove = false;
+					for (var idx = 0; idx < dataSet.length; idx++)
+					{
+						 if (dataSet[idx] === rowData || (dataSet[idx].actionrow === '2' && startMove))
+						 {
+						 	movedRows.push(dataSet[idx])
+						 	dataSet[idx] = false;
+						 	startMove = true;
+						 }
+						 else
+						 {
+						 	startMove = false;
+						 }
+					}
+					wCore.debug('movedRows:' + movedRows.length);
+						
+					var newdataset = [];
+					var append = true;
+					for (var idx = 0; idx < dataSet.length; idx++)
+					{
+						if (idx === toIndex)
+						{
+							if (dataSet[idx] !== false && dataSet[idx].actionrow === '2')
+							{
+								toIndex = toIndex + 1;
+							}
+							else
+							{
+								for (var z = 0; z< movedRows.length; z++ ) {newdataset.push(movedRows[z]);}
+								append = false;
+							}
+						} 
+						if (dataSet[idx] !== false)
+						{
+							newdataset.push(dataSet[idx]);
+						}
+					}
+					if (append)
+					{
+						for (var z = 0; z< movedRows.length; z++ ) {newdataset.push(movedRows[z]);}	
+					}
+					
+					this.updateDataset(newdataset);
+				]]></body>
+			</method>	
+			
+			<method name="execute_up">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					var dataset = this.buildDataset();
+					var idx = this.getDataRowIndex(dataset, rowData);
+					if (idx <= 0) {return;}
+					
+					while (idx > 0)
+					{
+						idx = idx -1;
+						if (dataset[idx].actionrow !== '2') {break;}
+					}
+					this.moveBeforeTo(dataset, rowData, idx);  
+				]]></body>
+			</method>
+			
+			<method name="execute_down">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />			
+				<body><![CDATA[
+					var dataset = this.buildDataset();
+					var idx = this.getDataRowIndex(dataset, rowData);
+					if (idx + 1 == dataset.length) {return;}
+					while (idx + 2 < dataset.length)
+					{
+						if (dataset[idx + 2].actionrow !== '2') {break;}
+						idx = idx + 1;
+					}
+					
+					if (rowData.actionrow === '1') {idx = idx + 1;}
+					this.moveBeforeTo(dataset, rowData, idx + 2);
+				]]></body>
+			</method>				
+		</implementation>
+		
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column />
+					<xul:column flex="1" />
+					<xul:column />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.kititems.Label-column;" />
+						<xul:label name="sublabel" value="&amp;modules.catalog.bo.doceditor.kititems.Declination-column;" />
+						<xul:label name="qtt" value="&amp;modules.catalog.bo.doceditor.kititems.Qtt-column;" />
+						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.kititems.Actions-column;" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+		
+			<xul:row anonid="template-row" class="document orderable" hidden="true">
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="actions">
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="price" image="{IconsBase}/small/price.png" tooltiptext="&amp;modules.catalog.bo.actions.Edit-price;" />
+					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Add-product;" />
+					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Remove-product;" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
 					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
 					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
 				</xul:toolbar>

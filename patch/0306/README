@@ -1,5 +1,4 @@
 Version: 3.0.3
 
 - Add synchronizePrices property.
-- Add replicatedFrom property.
 - Add declination list.
