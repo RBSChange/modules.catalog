@@ -108,26 +108,44 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
 	 */
-	public function getDefaultVisual($product)
+	public function getDefaultVisual($product, $shop)
 	{
-		$visual = null;
+		// get visual from the product.
+		$visual = $product->getVisual();
 
-		// get visual from the product
-		if ($visual === null)
-		{
-			$visual = $product->getVisual();
-		}
-
-		// ... or from shop
+		// ... or from shop.
 		if ($visual === null && $shop !== null)
 		{
 			$visual = $shop->getDefaultDetailVisual();
 		}
 
-		// ... or from module preferences
+		// ... or from module preferences.
 		if ($visual === null)
 		{
 			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultDetailVisual');
+		}
+		return $visual;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getListVisual($product, $shop)
+	{
+		// get visual from the product.
+		$visual = $product->getVisual();
+
+		// ... or from shop
+		if ($visual === null && $shop !== null)
+		{
+			$visual = $shop->getDefaultListVisual();
+		}
+
+		// ... or from module preferences
+		if ($visual === null)
+		{
+			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultListVisual');
 		}
 		return $visual;
 	}
