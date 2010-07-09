@@ -390,5 +390,14 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			}
 		}
 		return null;
-	}	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $document
+	 * @return integer
+	 */
+	public function getWebsiteId($document)
+	{
+		return $document->getWebsite()->getId();
+	}
 }
