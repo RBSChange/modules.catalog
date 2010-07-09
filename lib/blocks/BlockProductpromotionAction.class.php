@@ -14,16 +14,21 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 	 */
 	function execute($request, $response)
 	{
-		$products = $this->getConfiguration()->getProducts();
-		if (f_util_ArrayUtils::isEmpty($products))
+		$productsIds = $this->getConfiguration()->getProductsIds();
+		if (f_util_ArrayUtils::isEmpty($productsIds))
 		{
 			return website_BlockView::NONE;
 		}
-		$label = $this->getConfiguration()->getLabel();
 		$shop =  catalog_ShopService::getInstance()->getCurrentShop();
+		$products = $this->getProductsByIds($productsIds, $shop->getId());
+		if (count($products) == 0)
+		{
+			return website_BlockView::NONE;
+		}		
+		
+		$label = $this->getConfiguration()->getLabel();	
 		$request->setAttribute('shop', $shop);
 		$request->setAttribute('blockTitle', f_util_StringUtils::isEmpty($label) ? f_Locale::translate('&modules.catalog.frontoffice.productpromotion-label;') : $label);
-		
 		if ($this->getConfiguration()->getMode() === "random")
 		{
 			$request->setAttribute('product', f_util_ArrayUtils::randomElement($products));
@@ -37,5 +42,23 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 			$request->setAttribute('blockView', $this->getConfiguration()->getDisplayMode());
 			return $this->forward('catalog', 'productlist');
 		}
+	}
+	
+	/**
+	 * @param integer[] $productsIds
+	 * @param integer $shopId
+	 * @return catalog_persistentdocument_product[]
+	 */
+	private function getProductsByIds($productsIds, $shopId)
+	{
+		$query = catalog_ProductService::getInstance()->createQuery()
+					->add(Restrictions::published())
+					->add(Restrictions::in('id', $productsIds));
+		
+		$query->createCriteria('compiledproduct')
+					->add(Restrictions::published())
+					->add(Restrictions::eq('shopId', $shopId));
+		
+		return $query->find();	
 	}
 }
