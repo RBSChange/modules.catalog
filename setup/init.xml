@@ -119,6 +119,9 @@
 			
 		<dynamiclist listid="modules_catalog/extendedattributes" label="Attributs étendus"
 			description="Liste des attributs étendus de produit" />
+			
+		<dynamiclist listid="modules_catalog/shops" label="Boutiques"
+			description="Liste des boutiques" />
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">

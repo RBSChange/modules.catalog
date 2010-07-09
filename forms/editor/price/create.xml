@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">
-		<field name="shopId" type="document" moduleselector="catalog" allow="modules_catalog_shop" hidehelp="true" />
+		<field name="shopId" moduleselector="catalog" hidehelp="true" />
 		<field name="taxCode" hidehelp="true" />
 		<field name="boValue" type="price" required="true" labeli18n="modules.catalog.document.price.Value" hidehelp="true">
 			<constraint name="min" parameter="0" />
