@@ -19,8 +19,6 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 			return website_BlockView::NONE;
 		}
 		 
-		$productListService = catalog_ProductlistService::getInstance();
-		 
 		// Remove product if needed.
 		if ($request->hasParameter('removeFromList'))
 		{
@@ -62,7 +60,7 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.My-favorite-products;'));
 		$request->setAttribute('blockView', 'table');
 				
-		$this->forward('catalog', 'productlist');
+		return $this->forward('catalog', 'productlist');
 	}
 	
 	/**

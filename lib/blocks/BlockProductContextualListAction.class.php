@@ -17,7 +17,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$context = $this->getPage();
 		
@@ -147,7 +147,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	/**
 	 * @return array<String, String>
 	 */
-	function getMetas()
+	public function getMetas()
 	{
 		$container = $this->getCurrentEcommerceContainer();
 		$referencingService = catalog_ReferencingService::getInstance();
@@ -159,6 +159,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			return array("title" => $referencingService->getPageTitleByShop($container), "description" => $referencingService->getPageDescriptionByShop($container), "keywords" => $referencingService->getPageKeywordsByShop($container));
 		}
+		return null;
 	}
 	
 	private $container = null;

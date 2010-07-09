@@ -24,11 +24,8 @@ class catalog_PriceHelper
 	{
 		if (is_null(self::$taxRateResolverStrategy))
 		{
-			try
-			{
-				$strategyClassName = Framework::getConfiguration('modules/catalog/taxRateResolverStrategyClass');
-			}
-			catch (ConfigurationException $e)
+			$strategyClassName = Framework::getConfiguration('modules/catalog/taxRateResolverStrategyClass', false);
+			if ($strategyClassName === false)
 			{
 				$strategyClassName = 'catalog_DefaultTaxRateResolverStrategy';
 			}
@@ -159,13 +156,10 @@ class catalog_PriceHelper
 	{
 		if (self::$priceMode === null)
 		{
-			try 
+			self::$priceMode = Framework::getConfiguration('modules/catalog/price-mode', false);
+			// If there is no defined price mode, set it to "btoc".
+			if (self::$priceMode === false)
 			{
-				self::$priceMode = Framework::getConfiguration('modules/catalog/price-mode');
-			}
-			catch (Exception $e)
-			{
-				// If there is no defined price mode, set it to "btoc".
 				self::$priceMode = catalog_PriceHelper::MODE_B_TO_C;
 			}
 		}

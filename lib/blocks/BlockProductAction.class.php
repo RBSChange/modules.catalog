@@ -47,7 +47,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		$request->setAttribute('baseconfiguration', $this->getConfiguration());
 		$request->setAttribute('primaryshelf', catalog_ProductService::getInstance()->getPrimaryShelf($product, $shop->getWebsite()));
 		$request->setAttribute('cmpref', $product->getId());
-		$this->forward($product->getDetailBlockModule(), $product->getDetailBlockName());
+		return $this->forward($product->getDetailBlockModule(), $product->getDetailBlockName());
 	}
 	
 	/**
@@ -65,6 +65,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 			case 'false':
 				return false;
 		}
+		return false;
 	}
 	
 	/**
@@ -82,6 +83,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 			case 'false':
 				return false;
 		}
+		return false;
 	}
 	
 	/**

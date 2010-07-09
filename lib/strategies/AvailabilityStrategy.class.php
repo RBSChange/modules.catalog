@@ -25,11 +25,8 @@ abstract class catalog_AvailabilityStrategy extends BaseService
 	{
 		if (is_null(self::$strategy))
 		{
-			try
-			{
-				$className = Framework::getConfiguration('modules/catalog/availabilityStrategyClass');
-			}
-			catch (ConfigurationException $e)
+			$className = Framework::getConfiguration('modules/catalog/availabilityStrategyClass', false);
+			if ($className === false)
 			{
 				// No strategy defined in the project's config file: use default one.
 				$className = 'catalog_DefaultAvailabilityStrategy';

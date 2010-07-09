@@ -5,7 +5,6 @@
  */
 class catalog_CompiledproductService extends f_persistentdocument_DocumentService
 {
-
 	/**
 	 * @var catalog_CompiledproductService
 	 */
@@ -53,6 +52,29 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		return $this->pp->createQuery('modules_catalog/compiledproduct', false);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @param Integer $parentNodeId
+	 */
+	protected function preSave($document, $parentNodeId)
+	{
+		$product = $document->getProduct();
+		if ($product->hasMeta(twitterconnect_TweetService::META_TWEET_ON_PUBLISH_FOR_WEBSITE))
+		{
+			$meta = twitterconnect_TweetService::META_TWEET_ON_PUBLISH;
+			if ($document->getIndexed() && !$document->hasMeta($meta))
+			{
+				$document->setMeta($meta, $product->getId());
+				$document->saveMeta();
+			}
+			else if (!$document->getIndexed() && $document->hasMeta($meta))
+			{
+				$document->setMeta($meta, null);
+				$document->saveMeta();
+			}
+		}
+	}
+		
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @param Integer $parentNodeId
@@ -219,6 +241,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			$oldIndexed = null;
 			$newIndexed = null;
+			$newIndexedUnpublished = null;
 			foreach ($cps as $cp) 
 			{
 				if ($cp->getIndexed()) {$oldIndexed = $cp;}
@@ -229,6 +252,18 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 						$newIndexed = $cp;		
 					}
 				}
+				else if ($newIndexed === null)
+				{
+					if ($newIndexedUnpublished === null || ($newIndexedUnpublished->getShelfIndex() > $cp->getShelfIndex()))
+					{
+						$newIndexedUnpublished = $cp;		
+					}
+				}
+			}
+			
+			if ($newIndexed === null)
+			{
+				$newIndexed = $newIndexedUnpublished;
 			}
 			
 			if ($oldIndexed !== $newIndexed)
@@ -423,6 +458,25 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @return integer
+	 */
+	public function getWebsiteId($document)
+	{
+		return $document->getWebsiteId();
+	}
+	
+	/**
+	 * @see twitterconnect_PlannerService::sendTweetsPlannedOnPublishByRelatedDocument()
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @return catalog_persistentdocument_product
+	 */
+	public function getRelatedForTweets($document)
+	{
+		return $document->getIndexed() ? $document->getProduct() : null;
+	}
+
 	/**
 	 * DEPRECATED function
 	 */

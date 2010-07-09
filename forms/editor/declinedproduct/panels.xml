@@ -13,12 +13,13 @@
 			<constructor><![CDATA[
 				this.addTab('declinations', '&modules.catalog.bo.doceditor.tab.Declinations;', 'product');
 				this.addTab('prices', '&modules.catalog.bo.doceditor.tab.Prices;', 'price');
-				
-				// Check comment module existence.
-				var controller = document.getElementById("wcontroller");
-    			if (controller.checkModuleVersion('comment', '3.0.0'))
+				if (getController().checkModuleVersion('comment', '3.0.0'))
 				{
 					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments');
+				}
+				if (getController().checkModuleVersion('twitterconnect', '3.0.3'))
+				{
+					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet');
 				}
 			]]></constructor>
 		</javascript>

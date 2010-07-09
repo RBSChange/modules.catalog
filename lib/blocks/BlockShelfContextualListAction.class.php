@@ -44,6 +44,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 			$referencingService = catalog_ReferencingService::getInstance();
 			return array("title" => $referencingService->getPageTitleByShop($container), "description" => $referencingService->getPageDescriptionByShop($container), "keywords" => $referencingService->getPageKeywordsByShop($container));
 		}
+		return null;
 	}
 	
 	private $container = null;

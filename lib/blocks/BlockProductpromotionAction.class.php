@@ -37,6 +37,5 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 			$request->setAttribute('blockView', $this->getConfiguration()->getDisplayMode());
 			return $this->forward('catalog', 'productlist');
 		}
-		return website_BlockView::NONE;
 	}
 }

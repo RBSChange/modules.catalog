@@ -291,25 +291,20 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			
 			$urlData = array();
 			
-			$shops = array();
-			foreach ($this->getContainingShopsIds($document) as $shopId)
+			$query = catalog_CompiledproductService::getInstance()->createQuery()
+				->add(Restrictions::eq('product.id', $document->getId()))
+				->add(Restrictions::eq('indexed', true))
+				->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
+			foreach ($query->find() as $row)
 			{
-				$shop = DocumentHelper::getDocumentInstance($shopId);
-				$websiteId = $shop->getWebsite()->getId();
-				if ($shop->isPublished() || !isset($shops[$websiteId]))
-				{
-					$shops[$websiteId] = $shop;
-				}				
-			}			
-			foreach ($shops as $shop)
-			{
+				$shop = DocumentHelper::getDocumentInstance($row['shopId'], 'modules_catalog/shop');
 				$urlData[] = array(
 					'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.Url-for-website;', array('website' => $shop->getWebsite()->getLabel())), 
 					'href' => str_replace('&amp;', '&', $this->generateUrlForShop($document, $shop, $lang, array(), false)),
-					'class' => $shop->isPublished() ? 'link' : ''
+					'class' => ($shop->isPublished() && $row['publicationstatus'] == 'PUBLICATED') ? 'link' : ''
 				);
 			}
-			
+						
 			$data['urlrewriting'] = $urlData;
 									
 			$rc->endI18nWork();
@@ -339,23 +334,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return Integer
-	 */
-	private function getContainingShopsIds($product)
-	{
-		return catalog_CompiledproductService::getInstance()->createQuery()
-			->add(Restrictions::eq('product.id', $product->getId()))
-			->setProjection(Projections::groupProperty('shopId'))
-			->findColumn('shopId');
-	}
-	
-	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
-	protected function postSave($document, $parentNodeId = null)
+	protected function postSave($document, $parentNodeId)
 	{
 		if ($document->isPropertyModified('shelf') && $document->isPublished())
 		{
@@ -817,5 +800,161 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	public function replicatePrice($price)
 	{
 		// Nothing to do bu default.
+	}
+	
+	// Tweets handling.
+	
+	/**
+	 * @param catalog_persistentdocument_product $document or null
+	 * @param integer $websiteId
+	 * @return array
+	 */
+	public function getReplacementsForTweet($document, $websiteId)
+	{
+		$shop = catalog_ShopService::getInstance()->getPublishedByWebsiteId($websiteId);
+		if ($shop === null)
+		{
+			return array();
+		}
+		
+		$label = array(
+			'name' => 'label',
+			'label' => f_Locale::translateUI('&modules.catalog.document.product.Label;'),
+			'maxLength' => 80
+		);
+		$shortUrl = array(
+			'name' => 'shortUrl', 
+			'label' => f_Locale::translateUI('&modules.twitterconnect.bo.general.Short-url;'),
+			'maxLength' => 30
+		);		
+		if ($document !== null)
+		{
+			$label['value'] = f_util_StringUtils::shortenString($document->getLabel(), 80);
+			$shortUrl['value'] = website_ShortenUrlService::getInstance()->shortenUrl(LinkHelper::getDocumentUrl($document));
+		}	
+		$replacements = array($label, $shortUrl);
+		
+		if ($document !== null)
+		{
+			$price = $document->getPrice($shop, null);
+			if ($price !== null)
+			{
+				$replacements[] = array(
+					'name' => 'price',
+					'value' => $shop->formatPrice($price->getValueWithTax()),
+					'label' => f_Locale::translateUI('&modules.catalog.bo.general.Price;'),
+					'maxLength' => 10
+				);
+			}			
+			$brand = $document->getBrand();
+			if ($brand !== null)
+			{
+				$replacements[] = array(
+					'name' => 'brand',
+					'value' => f_util_StringUtils::shortenString($brand->getLabel()),
+					'label' => f_Locale::translateUI('&modules.catalog.document.product.Brand;'),
+					'maxLength' => 40
+				);
+			}
+		}
+		else 
+		{
+			$replacements[] = array(
+				'name' => 'price',
+				'label' => f_Locale::translateUI('&modules.catalog.bo.general.Price;'),
+				'maxLength' => 10
+			);
+			$replacements[] = array(
+				'name' => 'brand',
+				'label' => f_Locale::translateUI('&modules.catalog.document.product.Brand;'),
+				'maxLength' => 40
+			);
+		}
+		
+		return $replacements;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return website_persistentdocument_website[]
+	 */
+	public function getWebsitesForTweets($product)
+	{
+		$websites = array();
+		$query = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product.id', $product->getId()))
+			->add(Restrictions::eq('indexed', true))
+			->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
+		foreach ($query->find() as $row)
+		{
+			$shop = DocumentHelper::getDocumentInstance($row['shopId'], 'modules_catalog/shop');
+			if ($shop->isPublished())
+			{
+				$websites[] = $shop->getWebsite();
+			}
+		}
+		return $websites;
+	}
+	
+	/**
+	 * @see twitterconnect_TweetService::setTweetOnPublishMeta()
+	 * @param catalog_persistentdocument_product $document
+	 * @param integer $websiteId
+	 */
+	public function setTweetOnPublishMeta($document, $websiteId)
+	{
+		$document->addMetaValue('modules.twitterconnect.tweetOnPublishForWebsite', $websiteId);
+		$document->saveMeta();
+		$query = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product.id', $document->getId()))
+			->add(Restrictions::eq('websiteId', $websiteId))
+			->add(Restrictions::eq('indexed', true));
+		foreach ($query->find() as $compiledProduct)
+		{
+			$compiledProduct->setMeta('modules.twitterconnect.tweetOnPublish', $document->getId());
+			$compiledProduct->saveMeta();
+		}
+	}
+	
+	/**
+	 * @see twitterconnect_TweetService::removeTweetOnPublishMeta()
+	 * @param catalog_persistentdocument_product $document
+	 * @param integer $websiteId
+	 */
+	public function removeTweetOnPublishMeta($document, $websiteId)
+	{
+		$document->removeMetaValue('modules.twitterconnect.tweetOnPublishForWebsite', $websiteId);
+		$document->saveMeta();
+		$query = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product.id', $document->getId()))
+			->add(Restrictions::eq('websiteId', $websiteId))
+			->add(Restrictions::eq('indexed', true));
+		foreach ($query->find() as $compiledProduct)
+		{
+			$compiledProduct->setMeta('modules.twitterconnect.tweetOnPublish', null);
+			$compiledProduct->saveMeta();
+		}
+	}
+	
+	/**
+	 * @param blog_persistentdocument_post $document
+	 * @return f_persistentdocument_PersistentDocument[]
+	 */
+	public function getContainersForTweets($document)
+	{
+		$containers = array();
+		if (ModuleService::getInstance()->moduleExists('marketing'))
+		{
+			$containers = array_merge($containers, marketing_EditableanimService::getInstance()->getByContainedProduct($document));
+		}
+		return $containers;
+	}
+	
+	public function getAlreadyTweetedPublishedProductIds()
+	{
+		$query = twitterconnect_TweetService::getInstance()->createQuery();
+		$query->createPropertyCriteria('relatedId', 'modules_catalog/product')->add(Restrictions::published());
+		$query->setProjection(Projections::property('relatedId'));
+		return $query->findColumn('relatedId');
 	}
 }

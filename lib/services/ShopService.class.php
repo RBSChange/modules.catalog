@@ -156,7 +156,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
-	protected function preSave($document, $parentNodeId = null)
+	protected function preSave($document, $parentNodeId)
 	{
 		// Check parent type.
 		$parent = $document->getMountParent();
@@ -227,7 +227,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
-	protected function postInsert($document, $parentNodeId = null)
+	protected function postInsert($document, $parentNodeId)
 	{
 		$topic = $document->getTopic();
 		$topic->setReferenceId($document->getId());
@@ -257,7 +257,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
-	protected function postUpdate($document, $parentNodeId = null)
+	protected function postUpdate($document, $parentNodeId)
 	{
 		// Synchronize topic properties.
 		$topic = $document->getTopic();
@@ -277,7 +277,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
-	protected function postSave($document, $parentNodeId = null)
+	protected function postSave($document, $parentNodeId)
 	{
 		// Ensure that there may be only one valid shop by website on a given time period.
 		$query = $this->createQuery()

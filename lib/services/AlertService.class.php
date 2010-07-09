@@ -138,13 +138,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		$alerts = $query->find();
 		Framework::info(__METHOD__ . ' ' . count($alerts) . ' for email ' . $email);
 		$ns = notification_NotificationService::getInstance();
-		if (count($alerts) == 1)
-		{
-			$alert = f_util_ArrayUtils::firstElement($alerts);
-			$replacements = $this->getReplacementsForAlert($alert);			
-			$notification = $this->getNotificationByAlert($alert);
-		}
-		else
+		if (count($alerts) > 1)
 		{
 			$alertList = array();
 			foreach ($alerts as $alert)
@@ -155,6 +149,12 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			}
 			$replacements = array('alertList' => implode("<br />\n<br />\n", $alertList));
 			$notification = $ns->getByCodeName('modules_catalog/severalalerts');			
+		}
+		else
+		{
+			$alert = f_util_ArrayUtils::firstElement($alerts);
+			$replacements = $this->getReplacementsForAlert($alert);			
+			$notification = $this->getNotificationByAlert($alert);
 		}
 		
 		$recipients = new mail_MessageRecipients();
@@ -251,7 +251,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
-	protected function preInsert($document, $parentNodeId = null)
+	protected function preInsert($document, $parentNodeId)
 	{
 		$document->setInsertInTree(false);
 		
@@ -279,7 +279,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
-	protected function postInsert($document, $parentNodeId = null)
+	protected function postInsert($document, $parentNodeId)
 	{
 		$this->sendCreationNotification($document);		
 	}

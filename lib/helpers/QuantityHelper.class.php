@@ -130,11 +130,8 @@ class catalog_QuantityHelper
 	{
 		if (is_null(self::$referenceWeightUnit))
 		{
-			try
-			{
-				self::$referenceWeightUnit = Framework::getConfiguration('modules/catalog/referenceWeightUnit');
-			}
-			catch (ConfigurationException $e)
+			self::$referenceWeightUnit = Framework::getConfiguration('modules/catalog/referenceWeightUnit', false);
+			if (self::$referenceWeightUnit === false)
 			{
 				self::$referenceWeightUnit = self::WEIGHT_TYPE_KG;
 			}
