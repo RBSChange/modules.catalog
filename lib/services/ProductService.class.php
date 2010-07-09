@@ -266,7 +266,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function updateOrderLineProperties($product, &$properties)
 	{
-		
 		return;
 	}	
 	
@@ -995,6 +994,9 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return $containers;
 	}
 	
+	/**
+	 * @return integer[]
+	 */
 	public function getAlreadyTweetedPublishedProductIds()
 	{
 		$query = twitterconnect_TweetService::getInstance()->createQuery();

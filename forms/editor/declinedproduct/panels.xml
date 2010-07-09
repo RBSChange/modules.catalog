@@ -7,7 +7,6 @@
 	<panel name="history"/>
 	<panel name="redirect" />
 	<panel name="create"/>
-	
 	<xul>
 		<javascript>
 			<constructor><![CDATA[
