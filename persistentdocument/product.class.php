@@ -133,6 +133,15 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return $this->getDocumentService()->getDefaultVisual($this, $shop);
 	}
 	
+ 	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop)
+	{
+		return $this->getDocumentService()->getListVisual($this, $shop);
+	}
+	
 	/**
 	 * @return media_persistentdocument_media[]
 	 */
