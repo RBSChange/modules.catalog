@@ -400,4 +400,48 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	{
 		return $document->getWebsite()->getId();
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $scriptPath
+	 */	
+	public function initDefaultStructure($shop, $scriptPath)
+	{
+		if (!is_readable($scriptPath))
+		{
+			throw new BaseException('Invalid shop import script', 'modules.catalog.errors.Invalid-shop-import-script');
+		}
+		try 
+		{
+			$this->tm->beginTransaction();
+			$this->generateDefaultStructure($shop, $scriptPath);
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+			throw $e;
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $scriptPath
+	 */
+	private function generateDefaultStructure($shop, $scriptPath)
+	{
+		$script = new DOMDocument('1.0', 'UTF-8');
+		$script->load($scriptPath);
+		
+		$xmlWebsite = $script->getElementsByTagName('systemtopic')->item(0);
+		$xmlWebsite->setAttribute('documentid', $shop->getTopic()->getId());
+
+		$tmpFile = f_util_FileUtils::getTmpFile('Script_');
+		$script->save($tmpFile);
+
+		$scriptReader = import_ScriptReader::getInstance();
+		Framework::info(__METHOD__ . ' Import default shop structure: ' . $tmpFile);
+		$scriptReader->execute($tmpFile);
+		@unlink($tmpFile);
+	}
 }

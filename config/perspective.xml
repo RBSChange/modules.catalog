@@ -54,6 +54,7 @@
 				<groupactions name="createFilter_">
 					<contextaction name="createShippingfilter" />
 					<contextaction name="createPaymentfilter" />
+					<contextaction name="initDefaultStructure" />
 				</groupactions>
 			</contextactions>
 		</model>
@@ -213,7 +214,7 @@
 		<action name="createFilter_" icon="add" />
 		<action name="createShippingfilter" single="true" permission="Insert_shippingfilter" />
 		<action name="createPaymentfilter" single="true" permission="Insert_paymentfilter" />
-		
+		<action name="initDefaultStructure" single="true" permission="InitDefaultStructure" />
 		<action name="compileProduct" single="true" icon="admin" />
 		<action name="exportAlertInfos" single="true" icon="download" />
 	</actions>

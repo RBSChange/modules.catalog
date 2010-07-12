@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/website/persistentdocument/import/website_binding.xml" />
+	
+	<systemtopic template="webfactory/tplTwo">
+		<page label="Contenu du rayon" isIndexPage="true" navigationVisibility="hidden">
+			<tag name="functional_catalog_product-list" />
+			<tag name="functional_catalog_shelf-list" />
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_shelfContextualList" />
+				<changeblock type="modules_catalog_productContextualList" />
+			</changecontent>
+		</page>
+		<page label="Détail d'une fiche produit" navigationVisibility="hidden">
+			<tag name="functional_catalog_product-detail" />
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_product" />
+				<changeblock type="modules_catalog_productCrossSelling" __type="complementary" __maxdisplayed="2" />
+				<changeblock type="modules_catalog_productCrossSelling" __type="similar" __maxdisplayed="2" />
+				<changeblock type="modules_catalog_productCrossSelling" __type="upsell" __maxdisplayed="2" />
+				<changeblock type="modules_catalog_bundleListByProduct" />
+				<changeblock type="modules_catalog_comments" />
+			</changecontent>
+		</page>
+		<page label="Liste des produits assoicés" navigationVisibility="hidden">
+			<tag name="functional_catalog_crosssellinglist-page" />
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_productCrossSellingList" />
+			</changecontent>
+		</page>
+		<page label="Mes produits favoris">
+			<tag name="contextual_website_website_modules_catalog_favorite-product-list" />
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_FavoriteProductList" />
+			</changecontent>
+		</page>
+		<page label="Mes alertes produit">
+			<tag name="contextual_website_website_modules_catalog_product-alert-management" />
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_ProductAlertManagement" />
+			</changecontent>
+		</page>
+	</systemtopic>
+</script>

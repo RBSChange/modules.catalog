@@ -106,4 +106,12 @@
 			this.refreshMainViewDeck();
 		]]></body>
 	</action>
+	
+	<action name="initDefaultStructure">
+		<parameter name="listWidget"/>
+		<body><![CDATA[
+			var document = listWidget.getSelectedItems()[0];
+			this.executeJSON('InitDefaultStructure', {cmpref: document.id, lang: this.getContextLang()});
+		]]></body>
+	</action>
 </actions>
