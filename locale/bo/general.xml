@@ -164,6 +164,10 @@
 		<locale lang="en">currency</locale>
 		<locale lang="de">Währung</locale>
 	</entity>
+	<entity id="price">
+		<locale lang="fr">prix</locale>
+		<locale lang="en">price</locale>
+	</entity>
 	<entity id="prices">
 		<locale lang="fr">prix</locale>
 		<locale lang="en">prices</locale>
