@@ -59,18 +59,21 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	protected function preSave($document, $parentNodeId)
 	{
 		$product = $document->getProduct();
-		if ($product->hasMeta(twitterconnect_TweetService::META_TWEET_ON_PUBLISH_FOR_WEBSITE))
+		if (ModuleService::getInstance()->moduleExists('twitterconnect'))
 		{
-			$meta = twitterconnect_TweetService::META_TWEET_ON_PUBLISH;
-			if ($document->getIndexed() && !$document->hasMeta($meta))
+			if ($product->hasMeta(twitterconnect_TweetService::META_TWEET_ON_PUBLISH_FOR_WEBSITE))
 			{
-				$document->setMeta($meta, $product->getId());
-				$document->saveMeta();
-			}
-			else if (!$document->getIndexed() && $document->hasMeta($meta))
-			{
-				$document->setMeta($meta, null);
-				$document->saveMeta();
+				$meta = twitterconnect_TweetService::META_TWEET_ON_PUBLISH;
+				if ($document->getIndexed() && !$document->hasMeta($meta))
+				{
+					$document->setMeta($meta, $product->getId());
+					$document->saveMeta();
+				}
+				else if (!$document->getIndexed() && $document->hasMeta($meta))
+				{
+					$document->setMeta($meta, null);
+					$document->saveMeta();
+				}
 			}
 		}
 	}
