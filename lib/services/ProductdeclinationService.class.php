@@ -238,4 +238,14 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			)
 		);
 	}
+	
+	/**
+	 * @param unknown_type $product
+	 * @param unknown_type $shop
+	 */
+	public function getPrimaryCompiledProductForWebsite($product, $website)
+	{
+		$declinedProduct = $product->getRelatedDeclinedProduct();
+		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForWebsite($declinedProduct, $website);
+	}
 }
