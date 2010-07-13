@@ -63,20 +63,27 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 		else 
 		{
-			
-			$compiledProduct = catalog_CompiledproductService::getInstance()->createQuery()
-				->add(Restrictions::eq('product', $product))
-				->add(Restrictions::eq('indexed', true))
-				->add(Restrictions::eq('websiteId', $website->getId()))
-				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-				->findUnique();
-				
+			$compiledProduct = $this->getPrimaryCompiledProductForWebsite($product, $website);
 			if ($compiledProduct !== null)
 			{
 				return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId(), 'modules_catalog/shelf');
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * @param unknown_type $product
+	 * @param unknown_type $shop
+	 */
+	public function getPrimaryCompiledProductForWebsite($product, $website)
+	{
+		return catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product', $product))
+			->add(Restrictions::eq('indexed', true))
+			->add(Restrictions::eq('websiteId', $website->getId()))
+			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+			->findUnique();
 	}
 	
 	/**
