@@ -74,10 +74,10 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	 */
 	private function findDefaultDeclinationId($document, $shop)
 	{
-		$query =  catalog_PriceService::getInstance()->createQuery()
-					->add(Restrictions::published())
-					->add(Restrictions::eq('shopId', $shop->getId()))
-					->setProjection(Projections::property('productId'));
+		$query = catalog_PriceService::getInstance()->createQuery()
+			->add(Restrictions::published())
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->setProjection(Projections::property('productId'));
 					
 		$declinationQuery = $query->createPropertyCriteria('productId', 'modules_catalog/productdeclination')
 			->add(Restrictions::published())
@@ -323,7 +323,12 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	 */
 	public function isPublishable($document)
 	{
-		return $document->getPublishedDeclinationCount() > 0 && parent::isPublishable($document);
+		if ($document->getPublishedDeclinationCount() < 1)
+		{
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.declinedproduct.publication.no-published-declination;');
+			return false;
+		}
+		return parent::isPublishable($document);
 	}
 	
 	/**

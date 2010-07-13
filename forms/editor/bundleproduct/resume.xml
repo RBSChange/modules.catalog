@@ -8,7 +8,7 @@
 		<property name="alertCount" class="action" type="exportAlertInfos" labeli18n="modules.catalog.bo.doceditor.property.Alert-count" />
 	</section>
 	<section name="publication" linkedtab="publication" labeli18n="modules.uixul.bo.doceditor.section.Status" image="{IconsBase}/small/status.png">
-		<property name="status" labeli18n="modules.uixul.bo.doceditor.property.Status" />
+		<property name="status" class="action" type="showPublicationInShops" labeli18n="modules.uixul.bo.doceditor.property.Status" />
 	</section>
 	<section name="localization" linkedtab="localization" labeli18n="modules.uixul.bo.doceditor.section.Localization" image="{IconsBase}/small/translate.png">
 		<property name="languages" type="langs" labeli18n="modules.uixul.bo.doceditor.property.Languages" />

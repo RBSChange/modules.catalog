@@ -8,7 +8,7 @@
 		<property name="alertCount" class="action" type="exportAlertInfos" labeli18n="modules.catalog.bo.doceditor.property.Alert-count" />
 	</section>
 	<section name="publication" linkedtab="publication" labeli18n="modules.uixul.bo.doceditor.section.Status" image="{IconsBase}/small/status.png">
-		<property name="status" labeli18n="modules.uixul.bo.doceditor.property.Status" />
+		<property name="status" class="action" type="showPublicationInShops" labeli18n="modules.uixul.bo.doceditor.property.Status" />
 		<property name="workflow" labeli18n="modules.uixul.bo.doceditor.property.Workflow" />
 	</section>
 	<section name="localization" linkedtab="localization" labeli18n="modules.uixul.bo.doceditor.section.Localization" image="{IconsBase}/small/translate.png">
@@ -19,7 +19,4 @@
 		<property name="modificationdate" labeli18n="modules.uixul.bo.doceditor.property.Modificationdate" />
 	</section>
 	<section flex="1" name="urlrewriting" linkedtab="redirect" labeli18n="modules.uixul.bo.doceditor.section.Urlrewriting" image="{IconsBase}/small/urlrewriting.png" />
-	<section flex="1" name="tags" labeli18n="modules.uixul.bo.doceditor.section.Tags" image="{IconsBase}/small/tags.png">
-		<property name="tags" labeli18n="modules.uixul.bo.doceditor.property.Tags" />
-	</section>
 </panel>

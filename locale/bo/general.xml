@@ -301,4 +301,7 @@
 	<entity id="Confirm-delete-declination">
 		<locale lang="fr">Êtes-vous certain de vouloir supprimer cette déclinaison ?</locale>
 	</entity>
+	<entity id="shop-in-website">
+		<locale lang="fr">boutique "{shop}" dans le site "{website}"</locale>
+	</entity>
 </localization>

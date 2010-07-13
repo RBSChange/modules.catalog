@@ -151,6 +151,7 @@
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="duplicate" />
+				<contextaction name="showPublicationInShops" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/declinedproduct">
@@ -217,5 +218,6 @@
 		<action name="initDefaultStructure" single="true" permission="InitDefaultStructure" />
 		<action name="compileProduct" single="true" icon="admin" />
 		<action name="exportAlertInfos" single="true" icon="download" />
+		<action name="showPublicationInShops" single="true" icon="status-detail" />
 	</actions>
 </perspective>

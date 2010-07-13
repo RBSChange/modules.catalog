@@ -96,7 +96,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	 */
 	public function getShop()
 	{
-		return DocumentHelper::getDocumentInstance($this->getShopId());
+		return DocumentHelper::getDocumentInstance($this->getShopId(), 'modules_catalog/shop');
 	}
 	
 	/**
@@ -104,7 +104,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	 */
 	public function getShelf()
 	{
-		return DocumentHelper::getDocumentInstance($this->getShelfId());
+		return DocumentHelper::getDocumentInstance($this->getShelfId(), 'modules_catalog/shelf');
 	}
 	
 	/**
@@ -112,7 +112,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	 */
 	public function getWebsite()
 	{
-		return DocumentHelper::getDocumentInstance($this->getWebsiteId());
+		return DocumentHelper::getDocumentInstance($this->getWebsiteId(), 'modules_website/website');
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	 */
 	public function getTopic()
 	{
-		return DocumentHelper::getDocumentInstance($this->getTopicId());
+		return DocumentHelper::getDocumentInstance($this->getTopicId(), 'modules_website/systemtopic');
 	}
 	
 	/**
@@ -133,7 +133,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 		{
 			try
 			{
-				return DocumentHelper::getDocumentInstance($brandId);
+				return DocumentHelper::getDocumentInstance($brandId, 'modules_brand/brand');
 			}
 			catch (Exception $e)
 			{

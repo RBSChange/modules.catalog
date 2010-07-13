@@ -1,84 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-  <entity id="document-name">
-    <locale lang="fr">rayon du catalogue</locale>
-    <locale lang="en">shelf</locale>
-    <locale lang="de">Katalogregal</locale>
-  </entity>
-  <entity id="edition-form-title">
-    <locale lang="fr">propriétés du rayon</locale>
-    <locale lang="de">Eigenschaften Regal</locale>
-  </entity>
-  <entity id="label">
-    <locale lang="fr">libellé</locale>
-    <locale lang="de">Name</locale>
-  </entity>
-  <entity id="label-help">
-    <locale lang="fr">Libellé utilisé en backoffice et en frontoffice. Il initialise aussi le libellé pour la ré-écriture d'URL.</locale>
-    <locale lang="de">Name</locale>
-  </entity>
-  <entity id="visual">
-    <locale lang="fr">visuel</locale>
-    <locale lang="de">Abbildung</locale>
-  </entity>
-  <entity id="visual-help">
-    <locale lang="fr">visuel; image à sélectionner depuis les ressources.</locale>
-    <locale lang="de">Abbildung; Bild aus den Ressourcen zu selektieren.</locale>
-  </entity>
-  <entity id="description">
-    <locale lang="fr">description</locale>
-    <locale lang="de">Beschreibung</locale>
-  </entity>
-  <entity id="description-help">
-    <locale lang="fr">description utilisable en frontoffice, par exemple dans la page d'accueil du rayon.</locale>
-    <locale lang="de">Beschreibung</locale>
-  </entity>
-  <entity id="pageTitle">
-    <locale lang="fr">titre de la page</locale>
-    <locale lang="de">Seitentitel</locale>
-  </entity>
-  <entity id="pageTitle-help">
-    <locale lang="fr">titre de la page utilisable dans les métas de la page d'accueil du rayon.</locale>
-    <locale lang="de">Seitentitel</locale>
-  </entity>
-  <entity id="pageDescription">
-    <locale lang="fr">description de la page</locale>
-    <locale lang="de">Seitenbeschreibung</locale>
-  </entity>
-  <entity id="pageDescription-help">
-    <locale lang="fr">description de la page tilisable dans les métas de la page d'accueil du rayon.</locale>
-    <locale lang="de">Seitenbeschreibung</locale>
-  </entity>
-  <entity id="pageKeywords">
-    <locale lang="fr">mots-clés de la page</locale>
-    <locale lang="de">Seitenstichwörter</locale>
-  </entity>
-  <entity id="pageKeywords-help">
-    <locale lang="fr">mots-clés de la page tilisable dans les métas de la page d'accueil du rayon.</locale>
-    <locale lang="de">Seitenstichwörter</locale>
-  </entity>
-  <entity id="labelForUrl">
-    <locale lang="fr">libellé pour la ré-écriture d'URL</locale>
-    <locale lang="en">label for URL rewriting</locale>
-    <locale lang="de">Name in der URL</locale>
-  </entity>
-  <entity id="labelForUrl-help">
-    <locale lang="fr">libellé utilisé par les règles de ré-écriture d'URL standard de Change</locale>
-    <locale lang="en">label used by the standard URL rewriting rules</locale>
-  </entity>
-  <entity id="generalities">
-    <locale lang="fr">données principales</locale>
-    <locale lang="en">main data</locale>
-    <locale lang="de">Hauptdaten</locale>
-  </entity>
-  <entity id="referencing">
-    <locale lang="fr">référencement</locale>
-    <locale lang="en">referencing</locale>
-    <locale lang="de">Referenzierung</locale>
-  </entity>
-  <entity id="publishedDocumentCount">
-    <locale lang="fr">nombre de produits publiés</locale>
-    <locale lang="en">published products count</locale>
-    <locale lang="de">Anzahl veröffentlichte Produkte</locale>
-  </entity>
+	<entity id="document-name">
+		<locale lang="fr">rayon du catalogue</locale>
+		<locale lang="en">shelf</locale>
+		<locale lang="de">Katalogregal</locale>
+	</entity>
+	<entity id="edition-form-title">
+		<locale lang="fr">propriétés du rayon</locale>
+		<locale lang="de">Eigenschaften Regal</locale>
+	</entity>
+	<entity id="label">
+		<locale lang="fr">libellé</locale>
+		<locale lang="de">Name</locale>
+	</entity>
+	<entity id="label-help">
+		<locale lang="fr">Libellé utilisé en backoffice et en frontoffice. Il initialise aussi le libellé pour la ré-écriture d'URL.</locale>
+		<locale lang="de">Name</locale>
+	</entity>
+	<entity id="visual">
+		<locale lang="fr">visuel</locale>
+		<locale lang="de">Abbildung</locale>
+	</entity>
+	<entity id="visual-help">
+		<locale lang="fr">visuel; image à sélectionner depuis les ressources.</locale>
+		<locale lang="de">Abbildung; Bild aus den Ressourcen zu selektieren.</locale>
+	</entity>
+	<entity id="description">
+		<locale lang="fr">description</locale>
+		<locale lang="de">Beschreibung</locale>
+	</entity>
+	<entity id="description-help">
+		<locale lang="fr">description utilisable en frontoffice, par exemple dans la page d'accueil du rayon.</locale>
+		<locale lang="de">Beschreibung</locale>
+	</entity>
+	<entity id="pageTitle">
+		<locale lang="fr">titre de la page</locale>
+		<locale lang="de">Seitentitel</locale>
+	</entity>
+	<entity id="pageTitle-help">
+		<locale lang="fr">titre de la page utilisable dans les métas de la page d'accueil du rayon.</locale>
+		<locale lang="de">Seitentitel</locale>
+	</entity>
+	<entity id="pageDescription">
+		<locale lang="fr">description de la page</locale>
+		<locale lang="de">Seitenbeschreibung</locale>
+	</entity>
+	<entity id="pageDescription-help">
+		<locale lang="fr">description de la page tilisable dans les métas de la page d'accueil du rayon.</locale>
+		<locale lang="de">Seitenbeschreibung</locale>
+	</entity>
+	<entity id="pageKeywords">
+		<locale lang="fr">mots-clés de la page</locale>
+		<locale lang="de">Seitenstichwörter</locale>
+	</entity>
+	<entity id="pageKeywords-help">
+		<locale lang="fr">mots-clés de la page tilisable dans les métas de la page d'accueil du rayon.</locale>
+		<locale lang="de">Seitenstichwörter</locale>
+	</entity>
+	<entity id="labelForUrl">
+		<locale lang="fr">libellé pour la ré-écriture d'URL</locale>
+		<locale lang="en">label for URL rewriting</locale>
+		<locale lang="de">Name in der URL</locale>
+	</entity>
+	<entity id="labelForUrl-help">
+		<locale lang="fr">libellé utilisé par les règles de ré-écriture d'URL standard de Change</locale>
+		<locale lang="en">label used by the standard URL rewriting rules</locale>
+	</entity>
+	<entity id="generalities">
+		<locale lang="fr">données principales</locale>
+		<locale lang="en">main data</locale>
+		<locale lang="de">Hauptdaten</locale>
+	</entity>
+	<entity id="referencing">
+		<locale lang="fr">référencement</locale>
+		<locale lang="en">referencing</locale>
+		<locale lang="de">Referenzierung</locale>
+	</entity>
+	<entity id="publishedDocumentCount">
+		<locale lang="fr">nombre de produits publiés</locale>
+		<locale lang="en">published products count</locale>
+		<locale lang="de">Anzahl veröffentlichte Produkte</locale>
+	</entity>
+	<entity id="publication.no-published-content">
+		<locale lang="fr">ne contient aucun produit ni aucun sous-rayon publié</locale>
+		<locale lang="en">does not contain any published product or sub-shelf</locale>
+	</entity>
+	<entity id="systemtopic-publication.shelf-not-published">
+		<locale lang="fr">le rayon associé n'est pas publié</locale>
+		<locale lang="en">the related shelf is not published</locale>
+	</entity>
+	<entity id="systemtopic-publication.has-no-published-page">
+		<locale lang="fr">ne contient aucune page publiée</locale>
+		<locale lang="en">does not contain any published page</locale>
+	</entity>
+	<entity id="systemtopic-publication.no-published-product-or-subshelf">
+		<locale lang="fr">ne contient aucun produit ni aucun sous-rayon publié</locale>
+		<locale lang="en">does not contain any published product or sub-shelf</locale>
+	</entity>
 </localization>

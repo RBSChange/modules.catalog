@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization>
+	<entity id="publication-in-shops">
+		<locale lang="fr">détail de la publication dans les boutique</locale>
+	</entity>
+	<entity id="column-lang">
+		<locale lang="fr">langue</locale>
+	</entity>
+	<entity id="createtopshelf">
+		<locale lang="fr">créer un rayon de premier niveau</locale>
+		<locale lang="en">create top shelf</locale>
+	</entity>
+	<entity id="column-price">
+		<locale lang="fr">prix</locale>
+	</entity>
+	<entity id="column-shelf">
+		<locale lang="fr">rayon</locale>
+	</entity>
+	<entity id="column-publication">
+		<locale lang="fr">publication</locale>
+	</entity>
+	<entity id="product-not-in-shops">
+		<locale lang="fr">les boutiques listées ci-dessous sont celles pour lesquelles ce produit est présent dans au moins un rayon.</locale>
+	</entity>
+</localization>

@@ -1112,4 +1112,131 @@
 			</xul:row>				
 		</content>	
 	</binding>
+	
+	<!-- Publication in shops dialog -->
+	
+	<binding id="cPublicationInShopsDialog" extends="core.wDialog#wDialog">
+		<resources>
+			<stylesheet src="modules.uixul.cFieldsGroup" />
+			<stylesheet src="modules.catalog.cPublicationInShopsDialog" />
+		</resources>
+		<implementation>
+			<constructor><![CDATA[
+				wCore.debug("cPublicationInShopsDialog.constructor");
+			]]></constructor>
+			
+			<method name="onInitialize">
+				<body><![CDATA[
+					this.resizeTo(window.innerWidth-100, window.innerHeight-100);
+					
+					var result = wCore.executeJSON('catalog', 'LoadProductPublicationInShopInfos', {cmpref: this.parameters.productId}, null, true);
+					if (result.status === 'OK')
+					{
+						var row;
+						var section;
+						var product;
+						var contentsNode = document.getAnonymousElementByAttribute(this, 'anonid', 'contents');
+						for (var i = 0; i < result.contents.infos.length; i++)
+						{
+							section = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'section');
+							section.className = 'shop';
+							contentsNode.appendChild(section);
+							
+							row = result.contents.infos[i];
+							section.setAttribute('shopLabel', row.shopLabel);
+							for (var j = 0; j < row.products.length; j++)
+							{
+								product = row.products[j];
+								section.addRow(product);
+							}
+						}
+					}
+					else
+					{
+						wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+					}
+				]]></body>
+			</method>
+			
+			<method name="onCancel">
+				<body><![CDATA[
+					this.parameters.module.refreshMainViewDeck();
+					this.controller.closeModalDialog();
+				]]></body>
+			</method>
+		</implementation>
+		<xbl:content>
+			<xul:vbox flex="1">
+				<xul:hbox class="dialog-header">
+					<xul:label value="&amp;modules.catalog.bo.dialog.Publication-in-shops;" class="dialog-title" />
+					<xul:spacer flex="1" />
+					<xul:vbox pack="center">
+						<xul:toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="&amp;modules.uixul.bo.dialog.Cancel;" />
+					</xul:vbox>
+				</xul:hbox>
+				<xul:scrollbox flex="1" orient="vertical">
+					<xul:description>&amp;modules.catalog.bo.dialog.Product-not-in-shops;</xul:description>
+					<xul:vbox flex="1" anonid="contents" />
+				</xul:scrollbox>
+			</xul:vbox>
+		</xbl:content>
+	</binding>
+	
+	<binding id="cPublicationInShopsSection">
+		<implementation>
+			<constructor><![CDATA[
+				wCore.debug("cPublicationInShopsDialog.constructor");
+			]]></constructor>
+			
+			<method name="addRow">
+				<parameter name="product" />
+				<body><![CDATA[
+					var row = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'row');
+					row.className = 'product-row';
+					
+					var label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+					label.setAttribute('value', product.lang);
+					row.appendChild(label);
+					
+					label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+					label.setAttribute('value', product.price);
+					row.appendChild(label);
+					
+					label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+					label.setAttribute('value', product.shelfLabel);
+					row.appendChild(label);
+					
+					label = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'label');
+					label.setAttribute('value', product.plublication);
+					row.appendChild(label);
+					
+					document.getAnonymousElementByAttribute(this, 'anonid', 'rows').appendChild(row);
+				]]></body>
+			</method>
+		</implementation>
+		<xbl:content>
+			<xul:groupbox flex="1">
+				<xul:caption flex="1">
+					<xul:vbox pack="center"><xul:image src="{IconsBase}/small/gold.png" /></xul:vbox>
+					<xul:label xbl:inherits="value=shopLabel" />
+				</xul:caption>
+				<xul:grid flex="1">
+					<xul:columns>
+						<xul:column />
+						<xul:column />
+						<xul:column />
+						<xul:column flex="1" />
+					</xul:columns>
+					<xul:rows anonid="rows">
+						<xul:row class="head-row">
+							<xul:label value="&amp;modules.catalog.bo.dialog.Column-lang;" />
+							<xul:label value="&amp;modules.catalog.bo.dialog.Column-price;" />
+							<xul:label value="&amp;modules.catalog.bo.dialog.Column-shelf;" />
+							<xul:label value="&amp;modules.catalog.bo.dialog.Column-publication;" />
+			            </xul:row>
+					</xul:rows>
+				</xul:grid>
+			</xul:groupbox>
+		</xbl:content>
+	</binding>
 </bindings>

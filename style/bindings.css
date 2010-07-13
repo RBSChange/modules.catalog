@@ -50,3 +50,10 @@ cdocumenteditor ckititemspanel{
 gridlist.kititemsJSON{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cKitItemsGrid);
 }
+
+wdialog[template="publicationInShopsDialog"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cPublicationInShopsDialog);
+}
+wdialog[template="publicationInShopsDialog"] section.shop{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cPublicationInShopsSection);
+}

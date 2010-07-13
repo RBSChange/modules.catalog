@@ -435,13 +435,40 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function isPublishable($document)
 	{
+		if ($document->getPrice() === null)
+		{
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.no-price;');
+			return false;
+		}
+		
 		$product = $document->getProduct();
+		if (!$product->isPublished())
+		{
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.product-not-published;');
+			return false;
+		}
+		
 		$shop = $document->getShop();
+		if (!$shop->isPublished())
+		{
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shop-not-published;');
+			return false;
+		}
+		
 		$shelf = $document->getShelf();
-		return ($document->getPrice() !== null && $product->isPublished() 
-			&& $shop->isPublished() && $shelf->isPublished() 
-			&& $product->canBeDisplayed($shop) 
-			&& parent::isPublishable($document));
+		if (!$shelf->isPublished())
+		{
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shop-not-published;');
+			return false;
+		}
+		
+		if (!$product->canBeDisplayed($shop))
+		{
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.product-not-displayable;');
+			return false;
+		}
+		
+		return parent::isPublishable($document);
 	}
 	
 	/**

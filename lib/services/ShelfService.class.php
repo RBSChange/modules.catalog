@@ -198,7 +198,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function isPublishable($shelf)
 	{
-		return ($shelf->getPublishedDocumentCount() > 0);
+		if ($shelf->getPublishedDocumentCount() < 1)
+		{
+			$this->setActivePublicationStatusInfo($shelf, '&modules.catalog.document.declinedproduct.publication.no-published-content;');
+			return false;
+		}
+		return parent::isPublishable($shelf);
 	}
 
 	/**
@@ -301,8 +306,14 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	public function isSystemtopicPublishable($shelf, $systemtopic)
 	{
 		$ds = $systemtopic->getDocumentService();
-		if (!$shelf->isPublished() || !$ds->hasPublishedPages($systemtopic))
+		if (!$shelf->isPublished())
 		{
+			$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.shelf-not-published;');
+			return false;
+		}
+		if (!$ds->hasPublishedPages($systemtopic))
+		{
+			$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.has-no-published-page;');
 			return false;
 		}
 		
@@ -312,7 +323,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			->setProjection(Projections::property('id'))
 			->setMaxResults(1)
 			->find();
-		return (count($rows) === 1 || $systemtopic->getDocumentService()->hasPublishedTopics($systemtopic));
+		if (count($rows) === 1 || $systemtopic->getDocumentService()->hasPublishedTopics($systemtopic))
+		{
+			return true;
+		}
+		$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.no-published-product-or-subshelf;');
+		return false;
 	}
 	
 	/**

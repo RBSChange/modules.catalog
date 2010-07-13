@@ -16,4 +16,7 @@
 	<entity id="synchronizePricesFrom-help">
 		<locale lang="fr">pour activer la synchrnisation des prix entre les déclinaisons de ce produit, sélectionnez la déclinaison dont les prix seront pris comme référence.</locale>
 	</entity>
+	<entity id="publication.no-published-declination">
+		<locale lang="fr">n'a aucune déclinaison publiée</locale>
+	</entity>
 </localization>

@@ -1,107 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-  <entity id="edition-form-title">
-    <locale lang="fr">edition-form-title</locale>
-    <locale lang="en">edition-form-title</locale>
-  </entity>
-  <entity id="document-name">
-    <locale lang="fr">compiledproduct</locale>
-    <locale lang="en">compiledproduct</locale>
-  </entity>
-  <entity id="label">
-    <locale lang="fr">label</locale>
-    <locale lang="en">label</locale>
-  </entity>
-  <entity id="label-help">
-    <locale lang="fr">label</locale>
-    <locale lang="en">label</locale>
-  </entity>
-  <entity id="product">
-    <locale lang="fr">product</locale>
-    <locale lang="en">product</locale>
-  </entity>
-  <entity id="product-help">
-    <locale lang="fr">product</locale>
-    <locale lang="en">product</locale>
-  </entity>
-  <entity id="systemtopicId">
-    <locale lang="fr">systemtopicId</locale>
-    <locale lang="en">systemtopicId</locale>
-  </entity>
-  <entity id="systemtopicId-help">
-    <locale lang="fr">systemtopicId</locale>
-    <locale lang="en">systemtopicId</locale>
-  </entity>
-  <entity id="shopId">
-    <locale lang="fr">shopId</locale>
-    <locale lang="en">shopId</locale>
-  </entity>
-  <entity id="shopId-help">
-    <locale lang="fr">shopId</locale>
-    <locale lang="en">shopId</locale>
-  </entity>
-  <entity id="websiteId">
-    <locale lang="fr">websiteId</locale>
-    <locale lang="en">websiteId</locale>
-  </entity>
-  <entity id="websiteId-help">
-    <locale lang="fr">websiteId</locale>
-    <locale lang="en">websiteId</locale>
-  </entity>
-  <entity id="defaultPosition">
-    <locale lang="fr">defaultPosition</locale>
-    <locale lang="en">defaultPosition</locale>
-  </entity>
-  <entity id="defaultPosition-help">
-    <locale lang="fr">defaultPosition</locale>
-    <locale lang="en">defaultPosition</locale>
-  </entity>
-  <entity id="price">
-    <locale lang="fr">price</locale>
-    <locale lang="en">price</locale>
-  </entity>
-  <entity id="price-help">
-    <locale lang="fr">price</locale>
-    <locale lang="en">price</locale>
-  </entity>
-  <entity id="ratingAverage">
-    <locale lang="fr">ratingAverage</locale>
-    <locale lang="en">ratingAverage</locale>
-  </entity>
-  <entity id="ratingAverage-help">
-    <locale lang="fr">ratingAverage</locale>
-    <locale lang="en">ratingAverage</locale>
-  </entity>
-  <entity id="brandId">
-    <locale lang="fr">brandId</locale>
-    <locale lang="en">brandId</locale>
-  </entity>
-  <entity id="brandId-help">
-    <locale lang="fr">brandId</locale>
-    <locale lang="en">brandId</locale>
-  </entity>
-  <entity id="brandLabel">
-    <locale lang="fr">brandLabel</locale>
-    <locale lang="en">brandLabel</locale>
-  </entity>
-  <entity id="brandLabel-help">
-    <locale lang="fr">brandLabel</locale>
-    <locale lang="en">brandLabel</locale>
-  </entity>
-  <entity id="isDiscount">
-    <locale lang="fr">isDiscount</locale>
-    <locale lang="en">isDiscount</locale>
-  </entity>
-  <entity id="isDiscount-help">
-    <locale lang="fr">isDiscount</locale>
-    <locale lang="en">isDiscount</locale>
-  </entity>
-  <entity id="isAvailable">
-    <locale lang="fr">isAvailable</locale>
-    <locale lang="en">isAvailable</locale>
-  </entity>
-  <entity id="isAvailable-help">
-    <locale lang="fr">isAvailable</locale>
-    <locale lang="en">isAvailable</locale>
-  </entity>
+	<entity id="document-name">
+		<locale lang="fr">produit compilé</locale>
+		<locale lang="en">compiled product</locale>
+	</entity>
+	<entity id="publication.no-price">
+		<locale lang="fr">n'a pas de prix boutique</locale>
+		<locale lang="en">does not have shop price</locale>
+	</entity>
+	<entity id="publication.product-not-published">
+		<locale lang="fr">le produit n'est pas publié</locale>
+		<locale lang="en">the product is not published</locale>
+	</entity>
+	<entity id="publication.shop-not-published">
+		<locale lang="fr">la boutique n'est pas publiée</locale>
+		<locale lang="en">the shop is not published</locale>
+	</entity>
+	<entity id="publication.product-not-displayable">
+		<locale lang="fr">le produit n'est pas affichable dans la boutique</locale>
+		<locale lang="en">the product can't be displayed in shop</locale>
+	</entity>
 </localization>

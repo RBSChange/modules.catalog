@@ -28,17 +28,15 @@
 		<parameter name="listWidget" />
 		<body><![CDATA[this.createDocumentEditor('modules_catalog_paymentfilter', listWidget.getSelectedItems()[0].id);]]></body>
 	</action>
-	
 	<action name="createBundleproduct">
 		<parameter name="listWidget" />
 		<body><![CDATA[this.createDocumentEditor('modules_catalog_bundleproduct', listWidget.getSelectedItems()[0].id);]]></body>
 	</action>
-	
 	<action name="createKit">
 		<parameter name="listWidget" />
 		<body><![CDATA[this.createDocumentEditor('modules_catalog_kit', listWidget.getSelectedItems()[0].id);]]></body>
-	</action>	
-	
+	</action>
+
 	<action name="editPricesFromKit">
 		<parameter name="params" />
 		<body><![CDATA[
@@ -53,7 +51,7 @@
 			}
 		]]></body>
 	</action>
-	
+
 	<action name="createPriceFromProduct">
 		<parameter name="params" />
 		<body><![CDATA[
@@ -74,6 +72,7 @@
 			this.createDocumentEditor('modules_catalog_productdeclination', productId);
 		]]></body>
 	</action>
+	
 	<action name="openOrderChildren">
 		<parameter name="listWidget" />
 		<body><![CDATA[
@@ -82,7 +81,7 @@
 				'modules_catalog/shopfolder']);
 		]]></body>
 	</action>
-	
+
 	<action name="compileProduct">
 		<parameter name="listWidget" />
 		<body><![CDATA[
@@ -96,7 +95,7 @@
 			this.refreshMainViewDeck();
 		]]></body>
 	</action>
-		
+
 	<action name="exportAlertInfos">
 		<parameter name="listWidget" />
 		<body><![CDATA[
@@ -106,12 +105,28 @@
 			this.refreshMainViewDeck();
 		]]></body>
 	</action>
-	
+
 	<action name="initDefaultStructure">
-		<parameter name="listWidget"/>
+		<parameter name="listWidget" />
 		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
 			this.executeJSON('InitDefaultStructure', {cmpref: document.id, lang: this.getContextLang()});
+		]]></body>
+	</action>
+
+	<action name="showPublicationInShops">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var document = listWidget.getSelectedItems()[0];
+			try
+			{
+				this.getController().openModalDialog(this, 'publicationInShopsDialog', {productId: document.id, module: this});
+			}
+			catch (e)
+			{
+				wCore.error('publicationInShopsDialog', [], e);
+				this.refreshMainViewDeck();
+			}
 		]]></body>
 	</action>
 </actions>

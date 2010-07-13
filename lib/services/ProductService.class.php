@@ -865,6 +865,64 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return catalog_PriceService::getInstance()->getPricesByTargetIds($product, $shop, $targetIds);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return array
+	 */
+	public function getPublicationInShopsInfos($product)
+	{
+		if (!$product->getCompiled())
+		{
+			catalog_CompiledproductService::getInstance()->generateForProduct($product);
+		}
+		
+		$query = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product.id', $product->getId()))
+			->add(Restrictions::eq('indexed', true))
+			->addOrder(Order::asc('shopId'));
+		
+		$compiledByShopId = array();
+		foreach ($query->find() as $compiledProduct)
+		{
+			$shopId = $compiledProduct->getShopId();
+			if (!isset($compiledByShopId[$shopId]))
+			{
+				$compiledByShopId[$shopId] = array();
+			}
+			$compiledByShopId[$shopId][] = $compiledProduct;
+		}
+		
+		$result = array();		
+		foreach ($compiledByShopId as $shopId => $compiledProducts)
+		{
+			$shopInfos = array();
+			$shop = DocumentHelper::getDocumentInstance($shopId, 'modules_catalog/shop');
+			$shopInfos['shopLabel'] = f_Locale::translateUI('&modules.catalog.bo.general.Shop-in-website;', array('shop' => $shop->getLabel(), 'website' => $shop->getWebsite()->getLabel()));		
+			
+			$shopInfos['products'] = array();
+			foreach ($compiledProducts as $compiledProduct)
+			{
+				$lang = $product->getLang();
+				$publication = f_Locale::translateUI(DocumentHelper::getPublicationstatusLocaleKey($compiledProduct));
+				if ($compiledProduct->getPublicationStatus() === 'ACTIVE' && $compiledProduct->hasMeta('ActPubStatInf'.$lang))
+				{
+					$publication .= ' (' . f_Locale::translateUI($compiledProduct->getMeta('ActPubStatInf'.$lang)) . ')';
+				}
+				
+				$shopInfos['products'][] = array(
+					'lang' => $lang,
+					'price' => ($compiledProduct->getPrice() !== null) ? $shop->formatPrice($compiledProduct->getPrice()) : '',
+					'shelfLabel' => $compiledProduct->getShelf()->getLabel(),
+					'plublication' => $publication
+				);
+			}
+			
+			$result[] = $shopInfos;
+		}
+		
+		return $result;
+	}
+	
 	// Tweets handling.
 	
 	/**
