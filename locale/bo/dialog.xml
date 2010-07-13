@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
 	<entity id="publication-in-shops">
-		<locale lang="fr">détail de la publication dans les boutique</locale>
+		<locale lang="fr">détail de la publication dans les boutiques</locale>
 	</entity>
 	<entity id="column-lang">
 		<locale lang="fr">langue</locale>

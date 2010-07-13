@@ -428,7 +428,11 @@ class catalog_DeclinedproductService extends catalog_ProductService
 		else
 		{
 			$defaultDeclination = $product->getDefaultDeclination($shop);
-			return $defaultDeclination->getDocumentService()->getPriceByTargetIds($defaultDeclination, $shop, $targetIds, $quantity);
+			if ($defaultDeclination !== null)
+			{
+				return $defaultDeclination->getDocumentService()->getPriceByTargetIds($defaultDeclination, $shop, $targetIds, $quantity);
+			}
+			return null;
 		}
 	}
 	
