@@ -298,8 +298,7 @@ class catalog_SessionLists
 		}
 		return false;
 	}
-	
-	
+		
 	/**
 	 * @return integer[]
 	 */
@@ -370,29 +369,14 @@ class catalog_SessionLists
 	 */
 	private function convertToProductArray($ids)
 	{
-		if (count($ids) > 0)
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if (count($ids) > 0 && $shop !== null)
 		{
-			$result = array();
-			$ds = f_persistentdocument_DocumentService::getInstance();
-			foreach ($ids as $id) 
-			{
-				try 
-				{
-					$product = $ds->getDocumentInstance($id, 'modules_catalog/product');
-					if ($product->isPublished())
-					{
-						$result[] = $product;
-					}
-				}
-				catch (Exception $e)
-				{
-					if (Framework::isDebugEnabled())
-					{
-						Framework::debug(__METHOD__ . ' ' . $e->getMessage());
-					}
-				}
-			}
-			return $result;
+			$query = catalog_ProductService::getInstance()->createQuery()->add(Restrictions::published())
+				->add(Restrictions::in('id', $ids));
+			$query->createCriteria('compiledproduct')->add(Restrictions::published())
+				->add(Restrictions::eq('shopId', $shop->getId()));
+			return $query->find();
 		}
 		return array();		
 	}
