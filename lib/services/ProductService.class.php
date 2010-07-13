@@ -313,6 +313,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function getResume($document, $forModuleName, $allowedSections = null)
 	{
+		unset($allowedSections['urlrewriting']);
 		$data = parent::getResume($document, $forModuleName, $allowedSections);
 		$rc = RequestContext::getInstance();
 		$contextlang = $rc->getLang();
