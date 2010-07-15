@@ -308,9 +308,9 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$shop = catalog_ShopService::getInstance()->getByTopic($topic);
 			$compiledProduct->setShopId($shop->getId());
 			$compiledProduct->setWebsiteId($shop->getWebsite()->getId());			
-			$shelf = catalog_ShelfService::getInstance()->getByTopic($topic);
+			$shelfService = catalog_ShelfService::getInstance();
+			$shelf = $shelfService->getByTopic($topic);
 			$compiledProduct->setShelfId($shelf->getId());	
-			
 			$indexOfShelf = $product->getIndexofShelf($shelf);
 			$compiledProduct->setShelfIndex($indexOfShelf);
 			// TODO.
@@ -376,8 +376,13 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		$document->setIsAvailable($product->isAvailable($shop));
 		
+		$shelf = $document->getShelf();
+		
 		// Shelf index info.
-		$document->setShelfIndex($product->getIndexofShelf($document->getShelf()));
+		$document->setShelfIndex($product->getIndexofShelf($shelf));
+		
+		// Top shelf ID
+		$document->setTopshelfId(catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf)->getId());
 		
 		// Brand synchro.
 		$brand = $product->getBrand();
