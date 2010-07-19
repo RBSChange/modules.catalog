@@ -116,15 +116,16 @@
 	<div class="shelves-display"> 
 		<ol class="table-view">
 			<li tal:repeat="kititem product/getKititemArray">
-				<ul class="sub-list">	
-					<li tal:condition="kititem/getCurrentProduct">
-						<h4 class="title">déclinaisons possible</h4>
-					</li>		
+				<ul class="sub-list">			
 					<li tal:define="visual php: kititem.getDefaultVisual(shop)" tal:condition="visual">
 						<a change:link="document kititem; catalogParam[customitems] customitems"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>
-						<h4 class="title"><a change:link="document kititem; catalogParam[customitems] customitems">${kititem/getTitleAsHtml}</a></h4>
+						<h4 class="title">
+						<a change:link="document kititem; catalogParam[customitems] customitems">${kititem/getTitleAsHtml}<br/> 
+						<tal:block tal:condition="kititem/getCurrentProduct" change:translate="modules.catalog.frontoffice.configure-kit-item">
+						</tal:block></a>
+						</h4>
 					</li>
 				</ul>
 			</li>

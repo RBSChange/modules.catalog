@@ -16,6 +16,7 @@
 			<div class="product-ref"><strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;"></strong> ${kititemproduct/getCodeReference}</div> 
 		</tal:block>
 		<tal:block tal:condition="declination">
+			<p change:translate="modules.catalog.frontoffice.Need-article-selection-one; label kititemproduct/getLabelAsHtml" />
 			<div class="product-ref"><strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;"></strong></div>
 			<form class="product-form" change:link="document product; catalogParam[customitems] customitems" method="post">	
 				<input type="hidden" name="catalogParam[kititemid]" value="${kititem/getId}" />
@@ -34,9 +35,16 @@
 		<img tal:condition="kititemproduct/getBrand/getVisual" change:media="document kititemproduct/getBrand/getVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 	</div>
 	<!-- End - Product information -->
-	
 	<!-- Product Pics -->
-	<div class="column-66 margin-right product-pics" tal:define="visuals php: kititemproduct.getAllVisuals(shop); uniqueId kititemproduct/getId">
+	<tal:block tal:condition="declination">
+		<tal:block tal:define="global visuals php: declination.getAllVisuals(shop); uniqueId declination/getId" />
+	</tal:block>
+	
+	<tal:block tal:condition="not: declination">
+		<tal:block tal:define="global visuals php: kititemproduct.getAllVisuals(shop); uniqueId kititemproduct/getId" />
+	</tal:block>
+	
+	<div class="column-66 margin-right product-pics">
 		<tal:block tal:repeat="imageMini visuals">
 			<tal:block tal:define="global mainVisualBlockDOMId">mainVisualBlock_${uniqueId}-${imageMini/getId}</tal:block>				
 			<tal:block tal:condition="not: repeat/imageMini/start"><tal:block tal:define="global style">display: none;</tal:block></tal:block>

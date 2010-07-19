@@ -417,6 +417,9 @@
 		<locale lang="fr">Choisissez un ou plusieurs produits à modifier dans les listes déroulantes ci-dessous :</locale>
 		<locale lang="de">Wählen Sie eines oder mehrere zu ändernde Produkte aus der unten angezeigten Drop-Down Liste</locale>
 	</entity>
+	<entity id="configure-kit-item">
+		<locale lang="fr">Choisir ma référence</locale>
+	</entity>
 	<entity id="modify">
 		<locale lang="fr">Modifier</locale>
 		<locale lang="de">Ändern</locale>
