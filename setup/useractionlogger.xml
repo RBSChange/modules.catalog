@@ -48,4 +48,8 @@
   <actiondef modulename="catalog" actionname="compileproduct.kit" label="modules.catalog.bo.useractionlogger.compileproduct-kit"/>
   <actiondef modulename="catalog" actionname="compileproduct.declinedproduct" label="modules.catalog.bo.useractionlogger.compileproduct-declinedproduct"/>
   <actiondef modulename="catalog" actionname="insert.bundleproduct" label="modules.catalog.bo.useractionlogger.insert-bundleproduct"/>
+  <actiondef modulename="catalog" actionname="insert.kit" label="modules.catalog.bo.useractionlogger.insert-kit"/>
+  <actiondef modulename="catalog" actionname="compileproduct.kit" label="modules.catalog.bo.useractionlogger.compileproduct-kit"/>
+  <actiondef modulename="catalog" actionname="update.kit" label="modules.catalog.bo.useractionlogger.update-kit"/>
+  <actiondef modulename="catalog" actionname="compileproduct.declinedproduct" label="modules.catalog.bo.useractionlogger.compileproduct-declinedproduct"/>
 </script>
