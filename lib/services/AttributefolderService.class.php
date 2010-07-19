@@ -58,6 +58,8 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 	 */
 	private $attributeFolder;
 	
+	private $attributeInfos;
+	
 	/**
 	 * @return catalog_persistentdocument_attributefolder
 	 */
