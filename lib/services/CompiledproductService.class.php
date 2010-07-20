@@ -314,7 +314,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$indexOfShelf = $product->getIndexofShelf($shelf);
 			$compiledProduct->setShelfIndex($indexOfShelf);
 			// TODO.
-			$compiledProduct->setPosition(0);
+			$compiledProduct->setPosition($product->getId());
 		}
 		$this->compile($compiledProduct);
 		
@@ -407,7 +407,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			$product = $document->getProduct();
 			$websiteId = $document->getWebsiteId();
-			$document->setRatingAverage($product->getDocumentService()->getRatingAverage($product, $websiteId));
+			$ratingAverage = $product->getDocumentService()->getRatingAverage($product, $websiteId);
+			$document->setRatingAverage($ratingAverage);
+			$product->setRatingMetaForWebsiteid($ratingAverage, $websiteId);
+			$product->saveMeta();
 		}
 	}
 	
