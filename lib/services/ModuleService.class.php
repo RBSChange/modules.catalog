@@ -103,6 +103,33 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
+	 * @param f_peristentdocument_PersistentDocument $container
+	 * @param string $pageTemplate
+	 * @param string $script
+	 * @param DOMDocument $scriptPath
+	 */
+	public function updateStructureInitializationScript($container, $pageTemplate, $script, $scriptDom)
+	{
+		// Check container.
+		if (!$container instanceof catalog_persistentdocument_shop)
+		{
+			throw new BaseException('Invalid shop', 'modules.catalog.bo.actions.Invalid-shop');
+		}
+		else
+		{
+			$node = TreeService::getInstance()->getInstanceByDocument($container->getTopic());
+			if (count($node->getChildren('modules_website/page')) > 0)
+			{
+				throw new BaseException('This shop already contains pages', 'modules.catalog.bo.actions.Shop-already-contains-pages');
+			}
+		}
+		
+		// Fix script content.
+		$xmlWebsite = $scriptDom->getElementsByTagName('systemtopic')->item(0);
+		$xmlWebsite->setAttribute('documentid', $container->getTopic()->getId());
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @return boolean
 	 */

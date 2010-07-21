@@ -109,11 +109,23 @@
 	<action name="initDefaultStructure">
 		<parameter name="listWidget" />
 		<body><![CDATA[
-			var document = listWidget.getSelectedItems()[0];
-			this.executeJSON('InitDefaultStructure', {cmpref: document.id, lang: this.getContextLang()});
+			try
+			{
+				var documentId = listWidget.getSelectedItems()[0].id;
+				var topicId = listWidget.getSelectedItems()[0].topicId;
+				var lang = this.getContextLang();
+				var callback = function (pageTemplateName) {
+					return wCore.executeJSON('website', 'InitializeStructure', { cmpref: documentId, moduleName: 'catalog', scriptName: 'shopDefaultStructure', pageTemplateName: pageTemplateName, lang: lang}, null, true);
+				};
+				getController().openModalDialog(this, 'InitializeStructure', {documentId: documentId, pageContainerId: topicId, module: this, callback: callback });
+			}
+			catch (e)
+			{
+				wCore.error('catalog.initDefaultStructure', [], e);
+			}
 		]]></body>
 	</action>
-
+	
 	<action name="showPublicationInShops">
 		<parameter name="listWidget" />
 		<body><![CDATA[

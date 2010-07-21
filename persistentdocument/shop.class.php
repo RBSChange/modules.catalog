@@ -81,6 +81,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
 	{
+		$nodeAttributes['topicId'] = $this->getTopic()->getId();
 		if ($treeType === 'wlist')
 		{
 			$nodeAttributes['website'] = $this->getWebsite()->getLabel();
