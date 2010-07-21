@@ -5,6 +5,41 @@
  */
 class catalog_persistentdocument_product extends catalog_persistentdocument_productbase implements rss_Item 
 {
+	const RATING_META_KEY = 'ratingMetaKey';
+	
+	/**
+	 * @param Double $rating
+	 * @param Integer $websiteid
+	 */
+	public function setRatingMetaForWebsiteid($rating, $websiteid)
+	{
+		$ratings = $this->getMetaMultiple(self::RATING_META_KEY);
+		if (!is_array($ratings))
+		{
+			$ratings = array($websiteid => $rating);
+		}
+		else 
+		{
+			$ratings[$websiteid] = $rating;
+		}
+		$this->setMetaMultiple(self::RATING_META_KEY, $ratings);
+	}
+	
+	/**
+	 * @param Double $rating
+	 * @param Integer $websiteid
+	 */
+	private function getRatingMetaForWebsiteid($websiteid)
+	{
+		if (!$this->hasMeta(self::RATING_META_KEY))
+		{
+			return $this->getDocumentService()->getRatingAverage($this, $websiteid);
+		}
+		$ratings = $this->getMetaMultiple(self::RATING_META_KEY);
+		return isset($ratings[$websiteid]) ? $ratings[$websiteid] : null;
+	}
+	
+	
 	/**
 	 * Get the indexable document
 	 * @param catalog_persistentdocument_shop $shop
@@ -164,7 +199,10 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function getFormattedRatingAverage()
 	{
 		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		$ratingAverage = $this->getDocumentService()->getRatingAverage($this, $website->getId());
+		
+		$ratingAverage = $this->getRatingMetaForWebsiteid($website->getId());
+		
+		//$ratingAverage = $this->getDocumentService()->getRatingAverage($this,);
 		if ($ratingAverage === null)
 		{
 			return f_Locale::translate('&modules.catalog.frontoffice.No-rating-yet;');
