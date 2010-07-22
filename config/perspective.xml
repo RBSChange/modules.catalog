@@ -98,7 +98,7 @@
 				<contextaction name="refresh" />
 				<contextaction name="delete" />
 				<contextaction name="openTreeNodeOrder" />
-				<groupactions name="createShelf_">
+				<groupactions name="createTopShelf_">
 					<contextaction name="createShelf" />
 					<contextaction name="createSimpleproduct" />
 					<contextaction name="createDeclinedproduct" />
@@ -203,6 +203,7 @@
 		<action name="createShopfolder_" icon="add" />
 		<action name="createShop" single="true" permission="Insert_shop" icon="add" />
 		<action name="createShelf_" icon="add" />
+		<action name="createTopShelf_" icon="add" />
 		<action name="createShelf" single="true" permission="Insert_shelf" />
 		<action name="createSimpleproduct" single="true" permission="Insert_simpleproduct" />
 		<action name="createDeclinedproduct" single="true" permission="Insert_declinedproduct" icon="add" />
