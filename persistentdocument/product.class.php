@@ -13,15 +13,15 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function setRatingMetaForWebsiteid($rating, $websiteid)
 	{
-		$ratings = $this->getMetaMultiple(self::RATING_META_KEY);
-		if (!is_array($ratings))
+		if ($this->hasMeta(self::RATING_META_KEY))
 		{
-			$ratings = array($websiteid => $rating);
+			$ratings = $this->getMetaMultiple(self::RATING_META_KEY);
 		}
 		else 
 		{
-			$ratings[$websiteid] = $rating;
+			$ratings = array();
 		}
+		$ratings[$websiteid] = $rating;
 		$this->setMetaMultiple(self::RATING_META_KEY, $ratings);
 	}
 	
