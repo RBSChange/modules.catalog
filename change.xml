@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.rbs.fr/schema/change-component/1.0 http://www.rbschange.fr/static/schema/change-component/1.0.xsd">
 	<name>catalog</name>
 	<type>change-module</type>
-	<version>3.0.3</version>
+	<version>3.0.4</version>
 	<description>Gestion de catalogues produits, articles, prix</description>
 	<license>os</license>
 	<repository>public</repository>
@@ -11,49 +11,49 @@
 		<dependency>
 			<name>change-lib/framework</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/zone</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/users</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/website</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/filter</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/preferences</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/rss</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/brand</name>
 			<versions>
-				<version>3.0.3</version>
+				<version>3.0.4</version>
 			</versions>
 		</dependency>
 	</dependencies>
