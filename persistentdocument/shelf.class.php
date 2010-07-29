@@ -3,7 +3,7 @@
  * catalog_persistentdocument_shelf
  * @package modules.catalog
  */
-class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfbase implements indexer_IndexableDocument
+class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfbase
 {
 	/**
 	 * @return String
@@ -46,22 +46,7 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 		}
 		return false;
 	}
-	
-	/**
-	 * Get the indexable document
-	 * @return indexer_IndexedDocument
-	 */
-	public function getIndexedDocument()
-	{
-		$indexedDoc = new indexer_IndexedDocument();
-		$indexedDoc->setId($this->getId());
-		$indexedDoc->setDocumentModel($this->getDocumentModelName());
-		$indexedDoc->setLabel($this->getLabel());
-		$indexedDoc->setLang(RequestContext::getInstance()->getLang());
-		$indexedDoc->setText(f_util_StringUtils::htmlToText($this->getDescription()));
-		return $indexedDoc;
-	}
-	
+		
 	/**
 	 * @return Boolean
 	 */
