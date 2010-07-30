@@ -150,8 +150,8 @@
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
-				<contextaction name="duplicate" />
 				<contextaction name="showPublicationInShops" />
+				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/declinedproduct">
@@ -162,6 +162,7 @@
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
+				<contextaction name="showPublicationInShops" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/bundleproduct">
@@ -172,6 +173,7 @@
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
+				<contextaction name="showPublicationInShops" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/kit">
@@ -182,6 +184,7 @@
 				<contextaction name="reactivate" />
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
+				<contextaction name="showPublicationInShops" />
 			</contextactions>
 		</model>
 	</models>
