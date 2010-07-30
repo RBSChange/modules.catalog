@@ -383,13 +383,16 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		
 		// Top shelf ID
 		$document->setTopshelfId(catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf)->getId());
-		
+			
 		// Brand synchro.
 		$brand = $product->getBrand();
-		if ($brand !== null && $brand->getId() != $document->getBrandId())
+		if ($brand !== null)
 		{
-			$document->setBrandId($brand->getId());
-			$this->refreshBrandInfo($document);
+			if ($brand->getId() != $document->getBrandId())
+			{
+				$document->setBrandId($brand->getId());
+				$this->refreshBrandInfo($document);
+			}
 		}
 		else if ($document->getBrandId() !== null)
 		{
