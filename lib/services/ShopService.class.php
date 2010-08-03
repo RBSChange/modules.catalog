@@ -282,7 +282,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		// Ensure that there may be only one valid shop by website on a given time period.
 		$query = $this->createQuery()
 			->add(Restrictions::ne('id', $document->getId()))
-			->add(Restrictions::eq('website.id', $document->getWebsite()->getId()));
+			->add(Restrictions::eq('website', $document->getWebsite()));
 		$endDate = $document->getEndpublicationdate();
 		if ($endDate !== null)
 		{

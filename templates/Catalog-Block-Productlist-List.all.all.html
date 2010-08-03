@@ -6,10 +6,10 @@
 
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true';"/>
 
-<ul change:errors="" />
-<ul change:messages="" />
+<ul change:errors=""></ul>
+<ul change:messages=""></ul>
 
-<div tal:condition="not:products" change:translate="&modules.catalog.frontoffice.No-product-to-display;"></div>
+<div tal:condition="not:products" change:translate="modules.catalog.frontoffice.No-product-to-display"></div>
 <form tal:condition="products" action="#product-list-title" method="post">
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
 	<div class="shelves-display compare">

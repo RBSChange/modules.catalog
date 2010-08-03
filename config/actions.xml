@@ -115,9 +115,9 @@
 				var topicId = listWidget.getSelectedItems()[0].topicId;
 				var lang = this.getContextLang();
 				var callback = function (pageTemplateName) {
-					return wCore.executeJSON('website', 'InitializeStructure', { cmpref: documentId, moduleName: 'catalog', scriptName: 'shopDefaultStructure', pageTemplateName: pageTemplateName, lang: lang}, null, true);
+					return wCore.executeJSON('website', 'InitializeStructure', { cmpref: documentId, moduleName: 'catalog', scriptName: 'shopDefaultStructure', pageTemplateName: pageTemplateName, lang: lang }, null, true);
 				};
-				getController().openModalDialog(this, 'InitializeStructure', {documentId: documentId, pageContainerId: topicId, module: this, callback: callback });
+				getController().openModalDialog(this, 'InitializeStructure', { documentId: documentId, pageContainerId: topicId, module: this, callback: callback });
 			}
 			catch (e)
 			{

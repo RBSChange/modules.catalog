@@ -28,6 +28,10 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 			catch (Exception $e)
 			{
 				// User doesn't exist any more...
+				if (Framework::isDebugEnabled())
+				{
+					Framework::debug(__METHOD__ . ' ' . $e->getMessage());
+				}
 			}
 		}
 		return null;
@@ -48,6 +52,10 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 			catch (Exception $e)
 			{
 				// Product doesn't exist any more...
+				if (Framework::isDebugEnabled())
+				{
+					Framework::debug(__METHOD__ . ' ' . $e->getMessage());
+				}
 			}
 		}
 		return null;
