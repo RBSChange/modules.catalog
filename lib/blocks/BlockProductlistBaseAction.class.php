@@ -8,29 +8,29 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	const DISPLAY_MODE_LIST = 'list';
 	const DISPLAY_MODE_TABLE = 'table';
 	const DEFAULT_PRODUCTS_PER_PAGE = 10;
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Array
 	 */
 	protected function getDisplayConfig($shop)
 	{
-		$configuration = $this->getConfiguration();
 		$displayConfig = array();
 		$displayConfig['showPricesWithTax'] = $this->getShowPricesWithTax($shop);
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showPrices'] = $displayConfig['showPricesWithTax'] || $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showShareBlock'] = $this->getShowShareBlock();
-		$displayConfig['showRatingAverage'] = $configuration->getDisplayratingaverage();
-		$displayConfig['showProductDescription'] = $configuration->getDisplayproductdescription();
-		$displayConfig['showProductPictograms'] = $configuration->getDisplayproductpicto();
-		$displayConfig['showAvailability'] = $configuration->getDisplayavailability();
-		$displayConfig['showQuantitySelector'] = $configuration->getActivatequantityselection();
-		$displayConfig['showSortMenu'] = $configuration->getDisplaysortmenu();
-		$displayConfig['showDisplayModeSelector'] = $configuration->getDisplaydisplaymode();
-		$displayConfig['showResultCountSelector'] = $configuration->getDisplaynbresultsperpage();
-		$displayConfig['showDiscountFilter'] = $configuration->getDisplaydiscountfilter();
-		$displayConfig['showBrandOrder'] = $configuration->getDisplaybrandorder();
+		$displayConfig['showRatingAverage'] = $this->getConfigurationValue('displayratingaverage', false);
+		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
+		$displayConfig['showProductPictograms'] = $this->getConfigurationValue('displayproductpicto', false);
+		$displayConfig['showAvailability'] = $this->getConfigurationValue('displayavailability', true);
+		$displayConfig['showQuantitySelector'] = $this->getConfigurationValue('activatequantityselection', true);
+		$displayConfig['showSortMenu'] = $this->getConfigurationValue('displaysortmenu', false);
+		$displayConfig['showDisplayModeSelector'] = $this->getConfigurationValue('displaydisplaymode', false);
+		$displayConfig['showResultCountSelector'] = $this->getConfigurationValue('displaynbresultsperpage', false);
+		$displayConfig['showDiscountFilter'] = $this->getConfigurationValue('displaydiscountfilter', false);
+		$displayConfig['showBrandOrder'] = $this->getConfigurationValue('Displaybrandorder', false);
 		
 		$displayConfig['controlsmodule'] = 'catalog';
 		$displayConfig['controlstemplate'] = 'Catalog-Inc-ProductListOrderOptions';
@@ -41,14 +41,30 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			$globalButtons[] = $this->getButtonInfo('addToCart', 'add-to-cart');
 		}
-		$displayConfig['showAddToFavorite'] = $configuration->getShowAddToFavorite();
+		$displayConfig['showAddToFavorite'] = $this->getConfigurationValue('showAddToFavorite', false);
 		if ($displayConfig['showAddToFavorite'])
 		{
 			$globalButtons[] = $this->getButtonInfo('addToFavorite', 'add-to-favorite');
 		}
 		$displayConfig['globalButtons'] = $globalButtons;
-		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;		
+		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;
 		return $displayConfig;
+	}
+	
+	/**
+	 * @param string $key
+	 * @param mixed $default
+	 * @return mixed
+	 */
+	protected function getConfigurationValue($key, $default = null)
+	{
+		$configuration = $this->getConfiguration();
+		$getter = 'get' . ucfirst($key);
+		if (f_util_ClassUtils::methodExists($configuration, $getter))
+		{
+			return f_util_ClassUtils::callMethodOn($configuration, $getter);
+		}
+		return $default;
 	}
 	
 	/**
@@ -60,9 +76,9 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	{
 		return array(
 			'name' => $name,
-			'rootKey' => $rootKey,
+			'rootKey' => $rootKey, 
 			'label' => f_Locale::translate('&modules.catalog.frontoffice.' . ucfirst($rootKey) . '-button;'),
-			'help' => f_Locale::translate('&modules.catalog.frontoffice.' . ucfirst($rootKey) . '-help;'),
+			'help' => f_Locale::translate('&modules.catalog.frontoffice.' . ucfirst($rootKey) . '-help;')
 		);
 	}
 	
@@ -79,7 +95,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$defaultProductsPerPage = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultProductsPerPage');
 		return ($defaultProductsPerPage !== null) ? $defaultProductsPerPage : self::DEFAULT_PRODUCTS_PER_PAGE;
 	}
-
+	
 	/**
 	 * @param catalog_persistentdocument_shop getShowPricesWithTax
 	 * @return Boolean
@@ -89,7 +105,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		// TODO: add block preferences.
 		return $shop->getDisplayPriceWithTax();
 	}
-
+	
 	/**
 	 * @param catalog_persistentdocument_shop getShowPricesWithTax
 	 * @return Boolean
@@ -99,21 +115,21 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		// TODO: add block preferences.
 		return $shop->getDisplayPriceWithoutTax();
 	}
-
+	
 	/**
 	 * @return Boolean
 	 */
 	protected function getShowShareBlock()
 	{
-		return ModuleService::getInstance()->isInstalled('sharethis') && $this->getConfiguration()->getShowshareblock();
+		return ModuleService::getInstance()->isInstalled('sharethis') && $this->getConfigurationValue('showshareblock', false);
 	}
-
+	
 	/**
 	 * @return Boolean
 	 */
 	protected function getShowAddToCart()
 	{
-		return catalog_ModuleService::getInstance()->isCartEnabled() && $this->getConfiguration()->getDisplayaddtocart();
+		return catalog_ModuleService::getInstance()->isCartEnabled() && $this->getConfigurationValue('displayaddtocart', false);
 	}
 	
 	/**
@@ -155,22 +171,22 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	{
 		switch (count($labels))
 		{
-			case 0 : 
+			case 0 :
 				$message = null;
-				break;					
+				break;
 			case 1 :
-				$message = f_Locale::translate('&modules.catalog.frontoffice.'.ucfirst($mode).'-one;', array('label' => f_util_ArrayUtils::firstElement($labels)));
+				$message = f_Locale::translate('&modules.catalog.frontoffice.' . ucfirst($mode) . '-one;', array('label' => f_util_ArrayUtils::firstElement($labels)));
 				break;
 			default :
 				$lastLabel = array_pop($labels);
 				$firstLabels = implode(', ', $labels);
-				$message = f_Locale::translate('&modules.catalog.frontoffice.'.ucfirst($mode).'-several;', array('firstLabels' => $firstLabels, 'lastLabel' => $lastLabel));
+				$message = f_Locale::translate('&modules.catalog.frontoffice.' . ucfirst($mode) . '-several;', array('firstLabels' => $firstLabels, 'lastLabel' => $lastLabel));
 				break;
 		}
 		return $message;
 	}
 	
-		/**
+	/**
 	 * @param f_mvc_Request $request
 	 * @return String
 	 */
@@ -180,17 +196,16 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			$displayMode = $request->getParameter('displayMode');
 		}
-		else 
+		else
 		{
-			$configuration = $this->getConfiguration();		
-			$displayMode = $configuration->getDisplayMode();
+			$displayMode = $this->getConfigurationValue('displayMode', self::DISPLAY_MODE_LIST);
 		}
-
+		
 		// If there is a bad value, use the list mode.
-		if ($displayMode != self::DISPLAY_MODE_LIST	&& $displayMode != self::DISPLAY_MODE_TABLE)
+		if ($displayMode != self::DISPLAY_MODE_LIST && $displayMode != self::DISPLAY_MODE_TABLE)
 		{
 			$displayMode = self::DISPLAY_MODE_LIST;
 		}
 		return $displayMode;
-	}	
+	}
 }
