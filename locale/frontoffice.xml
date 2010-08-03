@@ -927,8 +927,11 @@
 	</entity>
 	<entity id="kititems">
 		<locale lang="fr">produits du kit</locale>
-	</entity>	
+	</entity>
 	<entity id="go-to-kit">
 		<locale lang="fr">retourner au kit {kitLabel}</locale>
-	</entity>	
+	</entity>
+	<entity id="brand">
+		<locale lang="fr">marque</locale>
+	</entity>
 </localization>

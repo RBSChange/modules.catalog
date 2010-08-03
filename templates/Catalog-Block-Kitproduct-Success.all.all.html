@@ -20,7 +20,13 @@
 			<strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;"></strong> ${product/getCodeReferenceAsHtml}
 		</div>
 		                
-		<img tal:condition="product/getBrand/getVisual" change:media="document product/getBrand/getVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
+		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
+			<strong change:translate="modules.catalog.frontoffice.BrandLabel"></strong>
+			<a change:link="document brand">
+				<tal:block tal:condition="not:brandVisual">${brand/getlabelAsHtml}</tal:block>
+				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
+			</a>
+		</tal:block>
 		
 		<form class="product-form" change:link="document product; catalogParam[customitems] customitems" method="post">
 			<ol>

@@ -589,4 +589,13 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	{
 		return null;
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function hasPublishedBrand()
+	{
+		$brand = $this->getBrand();
+		return ($brand instanceof brand_persistentdocument_brand && $brand->isPublished());
+	}
 }
