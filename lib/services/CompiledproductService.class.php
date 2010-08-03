@@ -106,6 +106,19 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				$alert->save();
 			}
 		}
+		if ($document->isPropertyModified('brandId') && $document->getIndexed())
+		{
+			$brandId = $document->getBrandId();
+			if ($brandId)
+			{
+				brand_BrandService::getInstance()->setNeedCompile(array($brandId));
+			}
+			$oldBrandId = $document->getBrandIdOldvalue();
+			if ($oldBrandId)
+			{
+				brand_BrandService::getInstance()->setNeedCompile(array($oldBrandId));
+			}
+		}
 	}
 
 	/**
@@ -490,9 +503,13 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		if (!isset($params['cause']) || $params["cause"] != "delete")
+		if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
 		{
-			if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
+			if ($document->getIndexed())
+			{
+				brand_BrandService::getInstance()->setNeedCompile(array($document->getBrandId()));
+			}
+			if (!isset($params['cause']) || $params["cause"] != "delete")
 			{
 				website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
 			}
