@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<localization extend="modules.catalog.bo.blocks.productcontextuallist">
+<localization extend="modules.catalog.bo.blocks.productlistbase">
 	<entity id="label">
 		<locale lang="fr">intitulé</locale>
 		<locale lang="en">label</locale>
