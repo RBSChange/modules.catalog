@@ -174,6 +174,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	 */
 	public function addFormProperties($propertiesNames, &$formProperties)
 	{	
+		parent::addFormProperties($propertiesNames, $formProperties);
 		$formProperties['synchronizePrices'] = $this->getSynchronizePrices();
 	}
 	

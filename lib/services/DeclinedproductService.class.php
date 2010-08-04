@@ -129,7 +129,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 			{
 				continue;
 			}
-			else if ($shop->getDisplayOutOfStock() && $declination->getStockLevel() == catalog_StockService::LEVEL_UNAVAILABLE)
+			else if (!$shop->getDisplayOutOfStock() && $declination->getStockLevel() == catalog_StockService::LEVEL_UNAVAILABLE)
 			{
 				continue;
 			}

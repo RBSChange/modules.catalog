@@ -42,6 +42,10 @@
 		<locale lang="fr">créer...</locale>
 		<locale lang="en">create...</locale>
 	</entity>
+	<entity id="createTopshelf_">
+		<locale lang="fr">créer...</locale>
+		<locale lang="en">create...</locale>
+	</entity>
 	<entity id="createShopfolder_">
 		<locale lang="fr">créer...</locale>
 		<locale lang="en">create...</locale>
