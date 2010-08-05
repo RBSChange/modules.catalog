@@ -33,6 +33,7 @@ class catalog_BlockProductCrossSellingAction extends website_BlockAction
 	    	}
 	    	return website_BlockView::NONE;
 	    }
+	    $request->setAttribute('product', $product);
     	$configuration = $this->getConfiguration();
     	$relatedProducts = $product->getDisplayableCrossSelling($shop, $configuration->getType(), $configuration->getSortby());
     	
