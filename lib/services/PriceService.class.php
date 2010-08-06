@@ -411,10 +411,13 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	protected function postInsert($document, $parentNodeId)
 	{
 		$product = $document->getProduct();
-		$product->getDocumentService()->replicatePrice($product, $document);
-		if ($document->isPublished())
+		if ($product instanceof catalog_persistentdocument_product)
 		{
-			$product->getDocumentService()->publishIfPossible($product->getId());
+			$product->getDocumentService()->replicatePrice($product, $document);
+			if ($document->isPublished())
+			{
+				$product->getDocumentService()->publishIfPossible($product->getId());
+			}
 		}
 	}
 	

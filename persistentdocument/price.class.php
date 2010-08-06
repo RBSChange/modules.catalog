@@ -12,7 +12,11 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	{
 		if ($this->getProductId())
 		{
-			return DocumentHelper::getDocumentInstance($this->getProductId(), 'modules_catalog/product');
+			$product = DocumentHelper::getDocumentInstance($this->getProductId());
+			if ($product instanceof catalog_persistentdocument_product)
+			{
+				return $product;
+			}
 		}
 		return null;
 	}
