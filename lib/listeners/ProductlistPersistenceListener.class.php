@@ -13,8 +13,9 @@ class catalog_ProductlistPersistenceListener
 	{
 		if ($params['user'] instanceof users_persistentdocument_frontenduser) 
 		{
-			$productList = catalog_ProductlistService::getInstance()->getCurrentProductList();
-			catalog_ModuleService::getInstance()->mergeFavoriteProductWithList($productList);
+			$cms = catalog_ModuleService::getInstance();
+			$cms->getProductList(catalog_ProductList::FAVORITE, true);
+			$cms->getProductList(catalog_ProductList::CONSULTED, true);
 		}
 	}
 }

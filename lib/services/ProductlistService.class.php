@@ -5,7 +5,6 @@
  */
 class catalog_ProductlistService extends f_persistentdocument_DocumentService
 {
-
 	/**
 	 * @var catalog_ProductlistService
 	 */
@@ -44,29 +43,30 @@ class catalog_ProductlistService extends f_persistentdocument_DocumentService
 	 * Return a list if a front end user is logged
 	 * @return catalog_persistentdocument_productlist | null
 	 */
-	public function getCurrentProductList()
+	public function getCurrentProductList($name = 'favorite')
 	{
 		$user = users_UserService::getInstance()->getCurrentFrontEndUser();
 		if ($user)
 		{
-			return $this->getByUser($user);
-			
+			return $this->getByUserAndListName($user, $name);
 		}
 		return null;
 	}
 	
 	/**
 	 * @param users_persistentdocument_user $user
+	 * @param string $name
 	 * @return catalog_persistentdocument_productlist
 	 */
-	private function getByUser($user)
+	private function getByUserAndListName($user, $name)
 	{
-		$list = $this->createQuery()->add(Restrictions::eq('user', $user))->findUnique();
+		$list = $this->createQuery()->add(Restrictions::eq('user', $user))->add(Restrictions::eq('listName', $name))->findUnique();
 		if ($list === null)
 		{
 			$list = $this->getNewDocumentInstance();
 			$list->setLabel($user->getFullname());
 			$list->setUser($user);
+			$list->setListName($name);
 		}
 		return $list;
 	}

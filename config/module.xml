@@ -12,5 +12,12 @@
 		<modulesCatalogProductSuggestionFeeder>
 			<entry name="1">catalog_SameShelvesProductFeeder</entry>
 		</modulesCatalogProductSuggestionFeeder>
+		<!-- Favorite and consulted product list handling. -->
+		<entry name="productListFavoriteClass">catalog_SessionProductList</entry>
+		<entry name="productListFavoritePersist">true</entry>
+		<entry name="productListFavoriteMaxCount">-1</entry>
+		<entry name="productListConsultedClass">catalog_SessionProductList</entry>
+		<entry name="productListConsultedPersist">false</entry>
+		<entry name="productListConsultedMaxCount">10</entry>
 	</project>
 </config>

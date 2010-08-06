@@ -129,272 +129,75 @@ class catalog_ModuleService extends ModuleBaseService
 		$xmlWebsite->setAttribute('documentid', $container->getTopic()->getId());
 	}
 	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return boolean
-	 */
-	public function addConsultedProduct($product)
-	{
-		return $this->getSessionLists()->addConsultedProductId($product->getId());
-	}
+	/** Product list handling */
 	
 	/**
-	 * @return catalog_persistentdocument_product[]
+	 * @var catalog_ProductList[]
 	 */
-	public function getConsultedProducts()
-	{
-		return $this->getSessionLists()->getConsultedProducts();
-	}	
+	protected $instances = array();
 	
 	/**
-	 * @return integer[]
+	 * @param string $listName
+	 * @return catalog_ProductList
 	 */
-	public function getConsultedProductIds()
+	public function getProductList($listName, $ignoreCache = false)
 	{
-		return $this->getSessionLists()->getConsultedProductIds();
-	}	
+		if ($ignoreCache || isset($this->instances[$listName]))
+		{
+			return $this->instances[$listName];
+		}
 		
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return boolean
-	 */
-	public function addFavoriteProduct($product)
-	{
-		if ($this->getSessionLists()->addFavoriteProductId($product->getId()))
+		$maxCount = intval(Framework::getConfigurationValue('modules/catalog/productList'.ucfirst($listName).'MaxCount'));
+		$maxCount = ($maxCount < 1) ? null : $maxCount;
+			
+		$class = Framework::getConfigurationValue('modules/catalog/productList'.ucfirst($listName).'Class');
+		if (!f_util_ClassUtils::classExists($class))
 		{
-			$productList = catalog_ProductlistService::getInstance()->getCurrentProductList();
-			if ($productList)
-			{
-				$productList->addProduct($product);
-				$productList->save();
-			}
-			return true;
+			throw new Exception('the class "'.$class.'" does not exist!');
 		}
-		return false;
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return boolean
-	 */
-	public function removeFavoriteProduct($product)
-	{
-		if ($this->getSessionLists()->removeFavoriteProductId($product->getId()))
+		$list = f_util_ClassUtils::callMethodArgs($class, 'getListInstance', array($listName, $maxCount));
+		
+		// If persistence is disabled, return the "volatile" list.
+		if (Framework::getConfigurationValue('modules/catalog/productList'.ucfirst($listName).'Persist') !== 'true')
 		{
-			$productList = catalog_ProductlistService::getInstance()->getCurrentProductList();
-			if ($productList)
-			{
-				$productList->removeProduct($product);
-				$productList->save();
-			}			
-			return true;
+			$this->instances[$listName] = $list;
+			return $this->instances[$listName];
 		}
-		return false;
-	}
-	
-	/**
-	 * @return catalog_persistentdocument_product[]
-	 */
-	public function getFavoriteProducts()
-	{
-		return $this->getSessionLists()->getFavoriteProducts();
-	}		
-	
-	/**
-	 * @param catalog_persistentdocument_productlist $productList
-	 */
-	public function mergeFavoriteProductWithList($productList)
-	{
-		if ($productList)
+		
+		// If there is no current user, return the "volatile" list.
+		$user = users_UserService::getInstance()->getCurrentFrontEndUser();
+		if ($user === null)
 		{
-			$currentProducts = $this->getSessionLists()->getFavoriteProducts();
-			foreach ($currentProducts as $product) 
-			{
-				$productList->addProduct($product);
-			}
-			foreach ($productList->getProductArray() as $product) 
-			{
-				if ($product->isPublished())
-				{
-					$this->addFavoriteProduct($product);
-				}
-				else
-				{
-					$productList->removeProduct($product);
-				}
-			}
-			$productList->save();
+			$this->instances[$listName] = $list;
+			return $this->instances[$listName];
 		}
-	}
 
-	/**
-	 * @var catalog_SessionLists
-	 */
-	private $sessionLists;
-	
-	/**
-	 * @return catalog_SessionLists
-	 */
-	private function getSessionLists()
-	{
-		if ($this->sessionLists === null)
+		// Else, merge it with the persisted one.
+		$userList = catalog_ProductlistService::getInstance()->getCurrentProductList($listName, $maxCount);
+		foreach ($this->convertIdsToProductArray($list->getProductIds()) as $product) 
 		{
-			$sessionUser = Controller::getInstance()->getContext()->getUser();
-			if ($sessionUser->hasAttribute('SessionLists', 'catalog'))
-			{
-				$this->sessionLists = $sessionUser->getAttribute('SessionLists', 'catalog');
-			}
-			if (!$this->sessionLists instanceof catalog_SessionLists) 
-			{
-				$this->saveSessionLists(new catalog_SessionLists());
-			}
-			if (Framework::isDebugEnabled())
-			{
-				Framework::debug(var_export($this->sessionLists, true));
-			}
+			$userList->addProduct($product);
 		}
-		return $this->sessionLists;
-	}
-
-	/**
-	 * @param catalog_SessionLists $sessionLists
-	 */
-	private function saveSessionLists($sessionLists)
-	{
-		$sessionUser = Controller::getInstance()->getContext()->getUser();
-		if ($sessionLists instanceof catalog_SessionLists)
-		{
-			$sessionUser->setAttribute('SessionLists', $sessionLists, 'catalog');
-			$this->sessionLists = $sessionLists; 
-		}
-		else
-		{
-			$sessionUser->removeAttribute('SessionLists', 'catalog');
-			$this->sessionLists = null;
-		}
-	}
-}
-
-class catalog_SessionLists
-{
-	private $consultedProductIds;
-	
-	private $favoriteProductIds;
-	
-	private $comparedProductIds;
-	
-	/**
-	 * @return integer[]
-	 */
-	public function getConsultedProductIds()
-	{
-		if (!is_array($this->consultedProductIds))
-		{
-			$this->consultedProductIds = array();
-		}
-		return $this->consultedProductIds;
-	}
-	
-	/**
-	 * @return catalog_persistentdocument_product[]
-	 */
-	public function getConsultedProducts()
-	{
-		return $this->convertToProductArray($this->getConsultedProductIds());
 		
-	}
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function addConsultedProduct($product)
-	{
-		$this->addConsultedProductId($product->getId());
-	}	
-	
-	/**
-	 * @param integer $id
-	 * @return boolean
-	 */
-	public function addConsultedProductId($id)
-	{
-		$ids = $this->getConsultedProductIds();
-		if (!in_array($id, $ids))
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		foreach ($userList->getProductArray() as $product) 
 		{
-			$this->consultedProductIds = array_slice(array_merge(array($id), $ids),0,10);
-			return true;
-		}
-		return false;
-	}
-		
-	/**
-	 * @return integer[]
-	 */
-	public function getFavoriteProductIds()
-	{
-		if (!is_array($this->favoriteProductIds))
-		{
-			$this->favoriteProductIds = array();
-		}
-		return $this->favoriteProductIds;
-	}
-	
-	/**
-	 * @return catalog_persistentdocument_product[]
-	 */
-	public function getFavoriteProducts()
-	{
-		return $this->convertToProductArray($this->getFavoriteProductIds());
-		
-	}
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function addFavoriteProduct($product)
-	{
-		$this->addFavoriteProductId($product->getId());
-	}	
-	
-	/**
-	 * @param integer $id
-	 * @return boolean
-	 */
-	public function addFavoriteProductId($id)
-	{
-		$ids = $this->getFavoriteProductIds();
-		if (!in_array($id, $ids))
-		{
-			$this->favoriteProductIds = array_merge(array($id), $ids);
-			return true;
-		}
-		return false;
-	}	
-	
-	/**
-	 * @param integer $id
-	 * @return boolean
-	 */
-	public function removeFavoriteProductId($id)
-	{
-		$ids = $this->getFavoriteProductIds();
-		if (in_array($id, $ids))
-		{
-			$data = array();
-			foreach ($ids as $oid) 
+			if (!$product->canBeDisplayed($shop))
 			{
-				if ($oid == $id) {continue;}
-				$data[] = $oid;
+				$userList->removeProduct($product);
 			}
-			$this->favoriteProductIds = $data;
-			return true;
 		}
-		return false;
+		$userList->saveList();
+		
+		$this->instances[$listName] = $userList;
+		return $this->instances[$listName];
 	}
 	
 	/**
 	 * @param integer[] $ids
 	 * @return catalog_persistentdocument_product[]
 	 */
-	private function convertToProductArray($ids)
+	protected function convertIdsToProductArray($ids)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		if (count($ids) > 0 && $shop !== null)
@@ -406,5 +209,112 @@ class catalog_SessionLists
 			return $query->find();
 		}
 		return array();		
+	}
+	
+	/**
+	 * @param integer $productId
+	 * @return boolean
+	 */
+	public function addProductIdToList($listName, $productId, $maxCount = null)
+	{
+		$list = $this->getProductList($listName);
+		if ($this->getProductList($listName)->addProductId($productId, $maxCount))
+		{
+			$list->saveList();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @param integer $productId
+	 * @return boolean
+	 */
+	public function removeProductIdFromList($listName, $productId)
+	{
+		$list = $this->getProductList($listName);
+		if ($this->getProductList($listName)->removeProductId($productId))
+		{
+			$list->saveList();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @return integer[]
+	 */
+	public function getProductIdsFromList($listName)
+	{
+		return $this->getProductList($listName)->getProductIds();
+	}	
+	
+	/**
+	 * @return catalog_persistentdocument_product[]
+	 */
+	public function getProductsFromList($listName)
+	{
+		return $this->convertIdsToProductArray($this->getProductIdsFromList($listName));
+	}
+	
+	/** Product list handling shortcuts */
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return boolean
+	 */
+	public function addConsultedProduct($product)
+	{
+		return $this->addProductIdToList(catalog_ProductList::CONSULTED, $product->getId(), 10);
+	}
+	
+	/**
+	 * @return integer[]
+	 */
+	public function getConsultedProductIds()
+	{
+		return $this->getProductIdsFromList(catalog_ProductList::CONSULTED);
+	}	
+	
+	/**
+	 * @return catalog_persistentdocument_product[]
+	 */
+	public function getConsultedProducts()
+	{
+		return $this->getProductsFromList(catalog_ProductList::CONSULTED);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return boolean
+	 */
+	public function addFavoriteProduct($product)
+	{
+		return $this->addProductIdToList(catalog_ProductList::FAVORITE, $product->getId());
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return boolean
+	 */
+	public function removeFavoriteProduct($product)
+	{
+		return $this->removeProductIdFromList(catalog_ProductList::FAVORITE, $product->getId());
+	}
+	
+	/**
+	 * @return catalog_persistentdocument_product[]
+	 */
+	public function getFavoriteProducts()
+	{
+		return $this->getProductsFromList(catalog_ProductList::FAVORITE);
+	}
+	
+	/**
+	 * @deprecated just call getProductList instead
+	 */
+	public function mergeFavoriteProductWithList($productList)
+	{
+		$this->getProductList(catalog_ProductList::FAVORITE);
 	}
 }

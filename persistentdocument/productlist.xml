@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" 
-    model-version="1.0" icon="cubes" publish-on-day-change="false" has-url="false" 
-    backoffice-indexable="false">
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0"
+	publish-on-day-change="false" has-url="false" backoffice-indexable="false">
 	<properties>
-		<add name="user" type="modules_users/user" min-occurs="1" max-occurs="1" inverse="true" />
-		<add name="product" type="modules_catalog/product" min-occurs="0" max-occurs="-1" />
+		<add name="user" type="modules_users/user" min-occurs="1" inverse="true" />
+		<add name="product" type="modules_catalog/product" max-occurs="-1" />
+		<add name="listName" type="String" min-occurs="1" default-value="favorite" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>
