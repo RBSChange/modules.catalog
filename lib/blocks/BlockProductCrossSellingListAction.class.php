@@ -6,34 +6,26 @@
 class catalog_BlockProductCrossSellingListAction extends catalog_BlockProductlistBaseAction
 {	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
-	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return catalog_persistentdocument_product[]
 	 */
-	function execute($request, $response)
+	protected function getProductArray($request)
 	{
-		if ($this->isInBackoffice())
-		{
-			return website_BlockView::NONE;
-		}
-
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
     	$product = $this->getDocumentParameter();
-    	$relatedProducts = $product->getDisplayableCrossSelling($shop, $request->getParameter('relationType'));
-    	
-		// Prepare display configuration.
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$displayConfig = $this->getDisplayConfig($shop);
-		$request->setAttribute('displayConfig', $displayConfig);
-		 
+
 		$productUrl = LinkHelper::getDocumentUrl($product);
-		$replacements = array('productLink' => '<a class="link" href="'.$productUrl.'">'.$product->getLabel().'</a>');
+		$replacements = array('productLink' => '<a class="link" href="'.$productUrl.'">'.$product->getLabelAsHtml().'</a>');
 		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Cross-selling-'.$request->getParameter('relationType').';', $replacements));
-		$request->setAttribute('shop', $shop);
-		$request->setAttribute('products', $relatedProducts);
-		$request->setAttribute('blockView', 'table');
-		return $this->forward('catalog', 'productlist');
+		return $product->getDisplayableCrossSelling($shop, $request->getParameter('relationType'));
+	}
+	
+	/**
+	 * @param f_mvc_Request $request
+	 * @return String
+	 */
+	protected function getDisplayMode($request)
+	{
+		return 'table';
 	}
 }

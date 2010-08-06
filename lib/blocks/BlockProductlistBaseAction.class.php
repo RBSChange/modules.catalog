@@ -8,7 +8,46 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	const DISPLAY_MODE_LIST = 'list';
 	const DISPLAY_MODE_TABLE = 'table';
 	const DEFAULT_PRODUCTS_PER_PAGE = 10;
+
+	/**
+	 * @return boolean
+	 */
+	private function useCache()
+	{
+		return $this->getConfigurationParameter('useCache', 'false') === 'true';
+	}
+
+	/**
+	 * @param f_mvc_Request $request
+	 * @return String
+	 */
+	protected function getDisplayMode($request)
+	{
+		if ($request->hasParameter('displayMode'))
+		{
+			$displayMode = $request->getParameter('displayMode');
+		}
+		else
+		{
+			$displayMode = $this->getConfigurationValue('displayMode', self::DISPLAY_MODE_LIST);
+		}
+		
+		// If there is a bad value, use the list mode.
+		if ($displayMode != self::DISPLAY_MODE_LIST && $displayMode != self::DISPLAY_MODE_TABLE)
+		{
+			$displayMode = self::DISPLAY_MODE_LIST;
+		}
+		return $displayMode;
+	}
 	
+	/**
+	 * @return boolean
+	 */
+	private function displayCustomerPrice()
+	{
+		return catalog_ModuleService::areCustomersEnabled() && $this->getConfigurationParameter('displayCustomerPrice', 'true') === 'true';
+	}	
+			
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Array
@@ -16,6 +55,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	protected function getDisplayConfig($shop)
 	{
 		$displayConfig = array();
+		
 		$displayConfig['showPricesWithTax'] = $this->getShowPricesWithTax($shop);
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
@@ -48,6 +88,24 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		}
 		$displayConfig['globalButtons'] = $globalButtons;
 		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;
+		
+		$displayConfig['displayCustomerPrice'] = $this->displayCustomerPrice();
+		
+		if ($this->useCache())
+		{
+			$displayConfig['itemconfig'] = array(
+				'showCheckboxes' => $displayConfig['showCheckboxes'],
+			 	'showRatingAverage' => $displayConfig['showRatingAverage'],
+				'showAvailability' => $displayConfig['showAvailability'],
+				'showPricesWithoutTax' => $displayConfig['showPricesWithoutTax'],
+				'showPricesWithTax' => $displayConfig['showPricesWithTax'],
+				'showAddToCart' => $displayConfig['showAddToCart'],
+				'showQuantitySelector' => $displayConfig['showQuantitySelector'],
+				'displayCustomerPrice' => $displayConfig['displayCustomerPrice'],
+				'showProductDescription' => $displayConfig['showProductDescription'],
+				'showProductPictograms' => $displayConfig['showProductPictograms'],
+			);
+		}
 		return $displayConfig;
 	}
 	
@@ -186,26 +244,195 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		return $message;
 	}
 	
+
+	
 	/**
+	 * @param f_mvc_Response $response
+	 * @return catalog_persistentdocument_product[] or null
+	 */
+	protected function getProductArray($request)
+	{
+		return null;
+	}
+	
+	/**
+	 * @param f_mvc_Response $response
+	 * @return integer[] or null
+	 */
+	protected function getProductIdArray($request)
+	{
+		$products = $this->getProductArray($request);
+		if (is_array($products))
+		{
+			return DocumentHelper::getIdArrayFromDocumentArray($products);
+		}
+		return null;
+	}
+	
+	/**
+	 * @see website_BlockAction::execute()
+	 *
 	 * @param f_mvc_Request $request
+	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	protected function getDisplayMode($request)
+	public function execute($request, $response)
 	{
-		if ($request->hasParameter('displayMode'))
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();	
+		$request->setAttribute('shop', $shop);
+		
+		$displayConfig = $this->getDisplayConfig($shop);
+		$request->setAttribute('displayConfig', $displayConfig);
+		
+		if ($displayConfig['showQuantitySelector'])
 		{
-			$displayMode = $request->getParameter('displayMode');
+			// Handle quanities field.
+			$quantities = array();
+			if ($request->hasParameter('quantities'))
+			{
+				foreach ($request->getParameter('quantities') as $id => $quantity)
+				{
+					$quantities[$id] =  intval($quantity);
+				}
+			}
+			$request->setAttribute('quantities', $quantities);
+		}
+		
+		if ($displayConfig['showAddToFavorite'])
+		{
+			// Handle "Add to favorite".
+			if ($request->hasParameter('addToFavorite'))
+			{
+				foreach ($request->getParameter('selected_product') as $id)
+				{
+					$this->addToFavorite(DocumentHelper::getDocumentInstance($id));
+				}
+				$this->addMessagesToBlock('add-to-favorite');
+			}
+		}
+		
+		if ($displayConfig['showAddToCart'])
+		{
+			// Handle "Add to cart".
+			if ($request->hasParameter('addToCart'))
+			{
+				$productsToAdd = array();
+				
+				// List all products to add.		
+				$addToCart = $request->getParameter('addToCart');
+				if (is_array($addToCart))
+				{
+					foreach (array_keys($addToCart) as $id)
+					{
+						$quantity = max(intval($quantities[$id]), 1);
+						$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => $quantity);
+					}
+				}
+				else if ($request->hasParameter('selected_product'))
+				{	
+					$addToCart = $request->getParameter('selected_product');
+					if (is_array($addToCart))
+					{			
+						// Add each product with no quantity but the checkbox checked (with quantity of 1).
+						foreach ($addToCart as $id)
+						{
+							if (!array_key_exists($id, $productsToAdd))
+							{
+								$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => max(intval($quantities[$id]), 1));
+							}
+						}
+					}
+				}
+				
+				// Really add the products to the cart.
+				$cs = order_CartService::getInstance();
+				foreach ($productsToAdd as $item)
+				{
+					try
+					{
+						$cs->addProduct($item['product'], $item['quantity']);
+						$this->addedProductLabels[] = $item['product']->getLabel();
+					}
+					catch(order_Exception $e)
+					{
+						$this->notAddedProductLabels[] = $item['product']->getLabel();
+						if (Framework::isDebugEnabled())
+						{
+							Framework::debug($e->getMessage());
+						}
+					}
+				}
+				
+				// Referesh the cart.
+				$cart = $cs->getDocumentInstanceFromSession();
+				$cart->refresh();						
+				
+				// Set the messages.
+				$this->addMessagesToBlock('add-to-cart');
+			}
+		}
+		
+		$customer = null;
+		if ($this->displayCustomerPrice())
+		{
+			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		}
+		$request->setAttribute('customer', $customer);
+		
+		
+		$templateName = 'Catalog-Block-Productlist-' . ucfirst($this->getDisplayMode($request));
+		if ($this->useCache())
+		{
+			$products = $this->getProductIdArray($request);
+			$templateName .= 'Cached';
 		}
 		else
 		{
-			$displayMode = $this->getConfigurationValue('displayMode', self::DISPLAY_MODE_LIST);
+			$products = $this->getProductArray($request);
 		}
 		
-		// If there is a bad value, use the list mode.
-		if ($displayMode != self::DISPLAY_MODE_LIST && $displayMode != self::DISPLAY_MODE_TABLE)
+		if ($products === null)
 		{
-			$displayMode = self::DISPLAY_MODE_LIST;
+			return website_BlockView::NONE;
 		}
-		return $displayMode;
+		if ($products instanceof paginator_Paginator)
+		{
+			$request->setAttribute('products', $products);
+		}
+		else if (is_array($products) && count($products) > 0)
+		{
+			$maxresults = $this->getMaxresults($request);
+			$paginator = new paginator_Paginator('catalog', $request->getParameter(
+					paginator_Paginator::REQUEST_PARAMETER_NAME, 1), $products, $maxresults);
+			$request->setAttribute('products', $paginator);
+		}
+		else
+		{
+			$request->setAttribute('products', null);
+		}
+		
+		return $this->getTemplateByFullName('modules_catalog', $templateName);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 */
+	private function addToFavorite($product)
+	{
+		try
+		{
+			if (catalog_ModuleService::getInstance()->addFavoriteProduct($product))
+			{
+				$this->addedProductLabels[] = $product->getLabel();
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->notAddedProductLabels[] = $product->getLabel();
+			if (Framework::isDebugEnabled())
+			{
+				Framework::debug($e->getMessage());
+			}
+		}
 	}
 }

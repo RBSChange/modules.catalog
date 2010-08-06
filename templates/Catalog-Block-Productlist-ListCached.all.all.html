@@ -1,0 +1,25 @@
+<tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
+<h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
+<div tal:condition="blockDescription" class="product-list-description">${blockDescription}</div>
+<tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true';"/>
+<ul change:errors=""></ul>
+<ul change:messages=""></ul>
+<div tal:condition="not:products" change:translate="modules.catalog.frontoffice.No-product-to-display"></div>
+<form tal:condition="products" action="#product-list-title" method="post">
+	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
+	<div class="shelves-display compare">
+		<ol class="table-view">
+			<li tal:repeat="product products">
+				<tal:block module="catalog" container="" name="ProductItem" change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop;" displayMode="list" />
+			</li>
+		</ol>
+	</div>
+	<div class="cleaner"></div>
+	<div class="comparebutton" tal:repeat="button displayConfig/globalButtons">
+		<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
+	</div>
+</form>
+
+<div class="pagination" tal:condition="products">
+	<div change:paginator="products"></div>
+</div>

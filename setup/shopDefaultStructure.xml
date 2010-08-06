@@ -31,13 +31,13 @@
 		<page label="Mes produits favoris">
 			<tag name="contextual_website_website_modules_catalog_favorite-product-list" />
 			<changecontent for="content-block">
-				<changeblock type="modules_catalog_FavoriteProductList" />
+				<changeblock type="modules_catalog_pavoriteProductList" />
 			</changecontent>
 		</page>
 		<page label="Mes alertes produit">
 			<tag name="contextual_website_website_modules_catalog_product-alert-management" />
 			<changecontent for="content-block">
-				<changeblock type="modules_catalog_ProductAlertManagement" />
+				<changeblock type="modules_catalog_productAlertManagement" />
 			</changecontent>
 		</page>
 	</systemtopic>

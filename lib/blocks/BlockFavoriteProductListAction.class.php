@@ -5,20 +5,26 @@
  */
 class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBaseAction
 {
+	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
-	 * @param f_mvc_Request $request
-	 * @param f_mvc_Response $response
-	 * @return String
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return Array
 	 */
-	function execute($request, $response)
+	protected function getDisplayConfig($shop)
 	{
-		if ($this->isInBackoffice())
-		{
-			return website_BlockView::NONE;
-		}
-		 
+		$displayConfig = parent::getDisplayConfig($shop);
+		$displayConfig['globalButtons'][] = $this->getButtonInfo('removeFromList', 'remove-from-list');
+		$displayConfig['showCheckboxes'] = true;
+		$displayConfig['itemconfig']['showCheckboxes'] = true;
+		return $displayConfig;
+	}
+	
+	/**
+	 * @param f_mvc_Response $response
+	 * @return catalog_persistentdocument_product[]
+	 */
+	protected function getProductArray($request)
+	{		 
 		// Remove product if needed.
 		if ($request->hasParameter('removeFromList'))
 		{
@@ -39,7 +45,7 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 				catalog_ModuleService::getInstance()->addFavoriteProduct($product);
 			}
 			HttpController::getInstance()->redirectToUrl(LinkHelper::getTagUrl('contextual_website_website_modules_catalog_favorite-product-list'));
-			return website_BlockView::NONE;
+			return null;
 		}
 
 		// If not logged in, display the warning.
@@ -47,20 +53,18 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 		{
 			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Warning-list-not-persisted;'));
 		}
-		
-		// Prepare display configuration.
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$displayConfig = $this->getDisplayConfig($shop);
-		$displayConfig['globalButtons'][] = $this->getButtonInfo('removeFromList', 'remove-from-list');
-		$displayConfig['showCheckboxes'] = true;
-		$request->setAttribute('displayConfig', $displayConfig);
-		 
-		$request->setAttribute('shop', catalog_ShopService::getInstance()->getCurrentShop());
-		$request->setAttribute('products', catalog_ModuleService::getInstance()->getFavoriteProducts());
 		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.My-favorite-products;'));
-		$request->setAttribute('blockView', 'table');
-				
-		return $this->forward('catalog', 'productlist');
+
+		return catalog_ModuleService::getInstance()->getFavoriteProducts();
+	}
+
+	/**
+	 * @param f_mvc_Request $request
+	 * @return String
+	 */
+	protected function getDisplayMode($request)
+	{
+		return 'table';
 	}
 	
 	/**

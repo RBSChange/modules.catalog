@@ -104,4 +104,18 @@
 	<entity id="displaymode-help">
 		<locale lang="fr">choisissez ici le mode d'affichage par défaut.</locale>
 	</entity>
+	
+	<entity id="useCache">
+		<locale lang="fr">Utiliser le cache</locale>
+	</entity>
+	<entity id="useCache-help">
+		<locale lang="fr">Utiliser le cache pour les informations de produit</locale>
+	</entity>
+	
+	<entity id="displayCustomerPrice">
+		<locale lang="fr">Afficher les prix du client</locale>
+	</entity>
+	<entity id="displayCustomerPrice-help">
+		<locale lang="fr">Si oui afficher les prix du client, sinon uniquement les prix boutiques</locale>
+	</entity>		
 </localization>

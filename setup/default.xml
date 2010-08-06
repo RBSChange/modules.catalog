@@ -44,13 +44,13 @@
 			<page byLabel="Mes produits favoris">
 				<tag name="contextual_website_website_modules_catalog_favorite-product-list" />
 				<changecontent for="content-block">
-					<changeblock type="modules_catalog_FavoriteProductList" />
+					<changeblock type="modules_catalog_favoriteProductList" />
 				</changecontent>
 			</page>
 			<page byLabel="Mes alertes produit">
 				<tag name="contextual_website_website_modules_catalog_product-alert-management" />
 				<changecontent for="content-block">
-					<changeblock type="modules_catalog_ProductAlertManagement" />
+					<changeblock type="modules_catalog_productAlertManagement" />
 				</changecontent>
 			</page>
 		</topic>

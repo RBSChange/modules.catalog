@@ -71,6 +71,9 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
+			
+			<parameter name="useCache" type="Boolean" default-value="false" />
+			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 		</parameters>
 		<metas>
 			<meta name="title" allow="title,description" />
@@ -112,6 +115,9 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
+			
+			<parameter name="useCache" type="Boolean" default-value="false" />
+			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 		</parameters>
 	</block>
 	<block type="modules_catalog_productCrossSelling" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrossselling.Block-label;">
@@ -138,6 +144,9 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
+			
+			<parameter name="useCache" type="Boolean" default-value="false" />
+			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 		</parameters>
 	</block>
 	<block type="modules_catalog_comments" icon="comments" label="&amp;modules.catalog.bo.blocks.comments.Comments;">
