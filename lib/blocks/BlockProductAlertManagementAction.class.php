@@ -55,7 +55,7 @@ class catalog_BlockProductAlertManagementAction extends website_TaggerBlockActio
 		{
 			if (Framework::isDebugEnabled())
 			{
-				Framework::execption($e);
+				Framework::exception($e);
 			}
 			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Unexisting-alert;'));
 			return $this->getSuccessView($request);
