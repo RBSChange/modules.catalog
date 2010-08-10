@@ -175,18 +175,19 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	public function transformToArray($price, &$array)
 	{
 		$array[] = array(
-				'id' => $price->getId(),
-				'priceType' => str_replace('/', '_', $price->getDocumentModelName()),
-				'value' => $price->getValueWithTax(),
-				'valueWithTax' => $price->getFormattedValueWithTax(),
-				'isDiscount' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
-				'tagrgetId' => $price->getTargetId(),
-				'targetLabel' => $price->getTargetLabel(),
-				'priority' => $price->getPriority(),
-				'thresholdMin' => $price->getThresholdMin(),
-				'startpublicationdate' => $price->getUIStartpublicationdate(),
-				'endpublicationdate' => $price->getUIEndpublicationdate(),
-			);
+			'id' => $price->getId(),
+			'boModel' => $price->getPersistentModel()->getBackofficeName(),
+			'priceType' => str_replace('/', '_', $price->getDocumentModelName()),
+			'value' => $price->getValueWithTax(),
+			'valueWithTax' => $price->getFormattedValueWithTax(),
+			'isDiscount' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
+			'tagrgetId' => $price->getTargetId(),
+			'targetLabel' => $price->getTargetLabel(),
+			'priority' => $price->getPriority(),
+			'thresholdMin' => $price->getThresholdMin(),
+			'startpublicationdate' => $price->getUIStartpublicationdate(),
+			'endpublicationdate' => $price->getUIEndpublicationdate(),
+		);
 	}
 
 	/**
@@ -329,6 +330,14 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		
 		// Update thresholdMax value.
+		$this->refreshThresholdMax($document);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $document
+	 */
+	protected function refreshThresholdMax($document)
+	{
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $document->getProductId()))
 			->add(Restrictions::eq('shopId', $document->getShopId()))
@@ -349,6 +358,18 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 * @return void
 	 */
 	protected function postSave($document, $parentNodeId)
+	{
+		$this->checkConflicts($document);
+		$this->refreshNextThresholdMax($document);
+		
+		catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $document
+	 * @throws BaseException
+	 */
+	protected function checkConflicts($document)
 	{
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $document->getProductId()))
@@ -373,8 +394,14 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		{
 			throw new BaseException('A single product can have only one price for a triplet of shopId, targetId and thresholdMin on a given publication period.', 'modules.catalog.document.price.exception.Trying-making-duplicate');
 		}
-		
-		// Update thresholdMax for the price with a thresholdMin directly inferior.
+	}
+	
+	/**
+	 * Update thresholdMax for the price with a thresholdMin directly inferior.
+	 * @param catalog_persistentdocument_price $document
+	 */
+	protected function refreshNextThresholdMax($document)
+	{
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $document->getProductId()))
 			->add(Restrictions::eq('shopId', $document->getShopId()))
@@ -388,8 +415,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$priceToUpdate->setThresholdMax($document->getThresholdMin());
 			$priceToUpdate->save();
 		}
-		
-		catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 	}
 	
 	/**
@@ -453,6 +478,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 					$args = array(f_util_ClassUtils::callMethodOn($document, $getter));
 					f_util_ClassUtils::callMethodArgsOn($price, $setter, $args);
 				}
+				$price->setIgnoreConflicts(true);
 				$price->save();
 			}
 		}
@@ -592,5 +618,14 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				throw new BaseException('Unexpected target!', 'modules.catalog.document.price.Unexpected-target-error');
 			}
 		}
-	}	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_lockedprice $price
+	 * @param catalog_persistentdocument_price $originalPrice
+	 */
+	public function convertToNotReplicated($price, $originalPrice)
+	{
+		$this->transform($price, 'modules_catalog/price');
+	}
 }

@@ -11,6 +11,7 @@
 	<div class="column-33 margin-left float-right">
 		<tal:block change:include="module 'catalog'; template 'Catalog-Inc-Mininavigation'; type 'html'; primaryshelf primaryshelf"/>
 		
+		<tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" />
 		<ul tal:condition="product/getPictogramCount" class="associated-pictograms">
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>

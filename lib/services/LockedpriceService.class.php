@@ -51,4 +51,55 @@ class catalog_LockedpriceService extends catalog_PriceService
 	{
 		return $this->pp->createQuery('modules_catalog/lockedprice', false);
 	}
+	
+	/**
+	 * @see catalog_PriceService::checkConflicts()
+	 * @param catalog_persistentdocument_lockedprice $document
+	 * @throws BaseException
+	 */
+	protected function checkConflicts($document)
+	{
+		if (!$document->getIgnoreConflicts())
+		{
+			parent::checkConflicts($document);
+		}
+	}
+	
+	/**
+	 * @see catalog_PriceService::refreshNextThresholdMax()
+	 * @param catalog_persistentdocument_lockedprice $document
+	 */
+	protected function refreshNextThresholdMax($document)
+	{
+		if (!$document->getIgnoreConflicts())
+		{
+			parent::refreshNextThresholdMax($document);
+		}
+	}
+	
+	/**
+	 * @see catalog_PriceService::refreshThresholdMax()
+	 * @param catalog_persistentdocument_lockedprice $document
+	 */
+	protected function refreshThresholdMax($document)
+	{
+		if (!$document->getIgnoreConflicts())
+		{
+			parent::refreshThresholdMax($document);
+		}
+		else 
+		{
+			$document->setThresholdMax(PHP_INT_MAX);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_lockedprice $price
+	 * @param catalog_persistentdocument_price $originalPrice
+	 */
+	public function convertToNotReplicated($price, $originalPrice)
+	{
+		$price->setLockedFor($originalPrice->getLockedFor());
+		$price->save();
+	}
 }

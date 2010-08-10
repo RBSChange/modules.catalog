@@ -39,6 +39,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showShareBlock'] = $this->getShowShareBlock();
+		$displayConfig['showAnimPictogramBlock'] = ModuleService::getInstance()->moduleExists('marketing');
 		$request->setAttribute('displayConfig', $displayConfig);
 		if ($isOnDetailPage)
 		{

@@ -464,7 +464,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />	
 				<body><![CDATA[
-					var uri = ['catalog', 'openDocument', 'modules_catalog_price', rowData.id, 'properties'].join(',');
+					var uri = ['catalog', 'openDocument', rowData.boModel, rowData.id, 'properties'].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>

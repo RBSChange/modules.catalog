@@ -233,12 +233,13 @@ class catalog_DeclinedproductService extends catalog_ProductService
 			$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
 			foreach ($query->find() as $lockedPrice)
 			{
-				$ps->transform($lockedPrice, 'modules_catalog/price');
+				$lockForDocument = DocumentHelper::getDocumentInstance($lockedPrice->getLockedFor());
+				$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
 			}
 			
 			// Delete existing prices on the declined product.
 			$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
-		}		
+		}
 	}
 	
 	/**
