@@ -505,7 +505,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
 		{
-			if ($document->getIndexed())
+			if ($document->getIndexed() && $document->getBrandId() !== null)
 			{
 				brand_BrandService::getInstance()->setNeedCompile(array($document->getBrandId()));
 			}
