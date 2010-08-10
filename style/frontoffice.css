@@ -383,10 +383,7 @@ p.all-products{
 }
 .product-ref,ul.associated-pictograms,form.product-form fieldset,ul.product-price,.availability,.product-description{
 	margin-bottom: 6px;
-}
-.modules-sodilog-product h1.title{
-	margin-bottom: 6px;
-}
+}	
 ul.associated-pictograms li{
 	padding-right: 6px;
 	display: inline;

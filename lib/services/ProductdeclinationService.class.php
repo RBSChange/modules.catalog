@@ -129,7 +129,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			$this->tm->rollBack($e);
 			throw $e;
 		}
-	}	
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_price $price
@@ -240,8 +240,8 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	}
 	
 	/**
-	 * @param unknown_type $product
-	 * @param unknown_type $shop
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @param catalog_persistentdocument_shop $shop
 	 */
 	public function getPrimaryCompiledProductForWebsite($product, $website)
 	{

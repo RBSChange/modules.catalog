@@ -77,7 +77,7 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 				$data['targetId'] = count($data['targetIds']) ? $data['targetIds'][0]['value'] : '';
 			}
 			
-			//Add price list		
+			// Add price list.		
 			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $data['targetId'] == '' ? null : $data['targetId']);		
 			$pricelist = array();
 			foreach ($prices as $price)
