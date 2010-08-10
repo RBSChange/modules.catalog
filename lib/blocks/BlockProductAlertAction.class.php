@@ -134,7 +134,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		{
 			if (Framework::isDebugEnabled())
 			{
-				Framework::execption($e);
+				Framework::exception($e);
 			}
 			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Unexisting-alert;'));
 			return website_BlockView::SUCCESS;
