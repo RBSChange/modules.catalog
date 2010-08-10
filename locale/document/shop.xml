@@ -148,6 +148,12 @@
 	<entity id="priceAlertsDuration-help">
 		<locale lang="fr">délai durant lequel une nouvelle alerte de baisse de prix reste active.</locale>
 	</entity>
+	<entity id="enableCaptchaForAlerts">
+		<locale lang="fr">activer le CAPTCHA sur les alertes</locale>
+	</entity>
+	<entity id="enableCaptchaForAlerts-help">
+		<locale lang="fr">En activant le CAPTCHA il sera présent pour les utilisateurs non-connectés. Dans tous les cas, les utilisateurs connectés n'en auront pas.</locale>
+	</entity>
 		
 	<entity id="exception.publication-period-conflict">
 		<locale lang="fr">pour un même site, il ne peut y avoir qu'une seule boutique valide sur une période donnée.</locale>

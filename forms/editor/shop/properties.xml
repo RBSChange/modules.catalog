@@ -31,6 +31,7 @@
 		<field name="availabilityAlertsDuration" type="duration" />
 		<field name="enablePriceAlerts" />
 		<field name="priceAlertsDuration" type="duration" />
+		<field name="enableCaptchaForAlerts" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates">
 		<field name="startpublicationdate" hidehelp="true" />

@@ -26,6 +26,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		$request->setAttribute('product', $product);
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$request->setAttribute('shop', $shop);
+		$request->setAttribute('useCaptcha', $this->useCaptcha());
 		
 		$type = null;
 		$alertService = catalog_AlertService::getInstance();
@@ -76,15 +77,31 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 	public function getAddAlertInputViewName()
 	{
 		return 'Add';
-	}	
+	}
 	
 	/**
 	 * @param f_mvc_Request $request
-	 * @return string[]
+	 * @param catalog_persistentdocument_alert $alert
+	 * @return boolean
 	 */
-	public function getAddAlertInputValidationRules($request)
+	public function validateAddAlertInput($request, catalog_persistentdocument_alert $alert)
 	{
-		return BeanUtils::getBeanValidationRules('catalog_persistentdocument_alert', null, array('label', 'websiteId'));
+		$rules = BeanUtils::getBeanValidationRules('catalog_persistentdocument_alert', null, array('label', 'websiteId'));
+		$isOk = $this->processValidationRules($rules, $request, $alert);
+		
+		// Captcha is tested only for not logged-in users. 
+		if ($this->useCaptcha())
+		{
+			$code = Controller::getInstance()->getContext()->getRequest()->getModuleParameter('form', 'CHANGE_CAPTCHA');
+			if (!FormHelper::checkCaptcha($code))
+			{
+				$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Error-captcha;'));
+				$isOk = false;
+			}
+			$request->setAttribute('useCaptcha', true);
+		}
+				
+		return $isOk;
 	}
 	
 	/**
@@ -152,5 +169,14 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Not-your-alert;'));
 		}
 		return website_BlockView::SUCCESS;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	protected function useCaptcha()
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		return ($shop->getEnableCaptchaForAlerts() && users_WebsitefrontenduserService::getInstance()->getCurrentFrontEndUser() === null);
 	}
 }

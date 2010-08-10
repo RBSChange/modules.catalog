@@ -28,6 +28,7 @@
 		<add name="availabilityAlertsDuration" type="String" default-value="3m" />
 		<add name="enablePriceAlerts" type="Boolean" default-value="true" />
 		<add name="priceAlertsDuration" type="String" default-value="3m" />
+		<add name="enableCaptchaForAlerts" type="Boolean" default-value="true" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

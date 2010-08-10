@@ -934,4 +934,9 @@
 	<entity id="brand">
 		<locale lang="fr">marque</locale>
 	</entity>
+	<entity id="error-captcha">
+		<locale lang="fr">le code de sécurité est incorrect.</locale>
+		<locale lang="en">bad security code.</locale>
+		<locale lang="de">Der Sicherheitskode ist falsch.</locale>
+	</entity>
 </localization>
