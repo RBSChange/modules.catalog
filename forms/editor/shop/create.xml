@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
 	<section labeli18n="modules.catalog.bo.general.General">
-		<field name="label" />
+		<field name="label" hidehelp="true" />
 		<field name="mountParentId" type="document" allow="modules_website_website,modules_website_topic"
 			moduleselector="website" required="true" labeli18n="modules.catalog.document.shop.Mount-parent"
 			shorthelp="&amp;modules.catalog.document.shop.Mount-parent-help;" />
 		<field name="topShelf" />
-		<field name="displayOutOfStock" />
+		<field name="displayOutOfStock" hidehelp="true" />
 		<field name="allowOrderOutOfStock" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Zones">
-		<field name="shippingZone" />
-		<field name="billingZone" />
+		<field name="shippingZone" hidehelp="true" />
+		<field name="billingZone" hidehelp="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Currency">
-		<field name="currencyCode" />
+		<field name="currencyCode" hidehelp="true" />
 		<field name="currencyPosition" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Prices">
 		<field name="priceMode" />
-		<field name="displayPriceWithTax" />
-		<field name="displayPriceWithoutTax" />
+		<field name="displayPriceWithTax" hidehelp="true" />
+		<field name="displayPriceWithoutTax" hidehelp="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates">
-		<field name="startpublicationdate" />
-		<field name="endpublicationdate" />
+		<field name="startpublicationdate" hidehelp="true" />
+		<field name="endpublicationdate" hidehelp="true" />
 	</section>
 	<xul>
 		<javascript>

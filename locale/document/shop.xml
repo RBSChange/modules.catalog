@@ -12,23 +12,11 @@
 		<locale lang="fr">libellé</locale>
 		<locale lang="en">label</locale>
 	</entity>
-	<entity id="label-help">
-		<locale lang="fr">libellé de la boutique</locale>
-		<locale lang="en">shop label</locale>
-	</entity>
 	<entity id="description">
 		<locale lang="fr">description</locale>
 		<locale lang="en">description</locale>
 	</entity>
-	<entity id="description-help">
-		<locale lang="fr">description de la boutique</locale>
-		<locale lang="en">shop description</locale>
-	</entity>
 	<entity id="topic">
-		<locale lang="fr">rubrique associée</locale>
-		<locale lang="en">related topic</locale>
-	</entity>
-	<entity id="topic-help">
 		<locale lang="fr">rubrique associée</locale>
 		<locale lang="en">related topic</locale>
 	</entity>
@@ -44,25 +32,13 @@
 		<locale lang="fr">zone de livraison</locale>
 		<locale lang="en">shipping zone</locale>
 	</entity>
-	<entity id="shippingZone-help">
-		<locale lang="fr">zone de livraison; sélectionner une zone dans les ressources.</locale>
-		<locale lang="en">shipping zone; select a zone from the resource tree.</locale>
-	</entity>
 	<entity id="billingZone">
 		<locale lang="fr">zone de facturation</locale>
-		<locale lang="en">billing zone</locale>
-	</entity>
-	<entity id="billingZone-help">
-		<locale lang="fr">zone de facturation; sélectionner une zone dans les ressources.</locale>
 		<locale lang="en">billing zone</locale>
 	</entity>
 	<entity id="currencyCode">
 		<locale lang="fr">devise</locale>
 		<locale lang="en">currency</locale>
-	</entity>
-	<entity id="currencyCode-help">
-		<locale lang="fr">devise : €, $, £, ...</locale>
-		<locale lang="en">currency: €, $, £, ...</locale>
 	</entity>
 	<entity id="currencyPosition">
 		<locale lang="fr">position du symbole</locale>
@@ -76,17 +52,9 @@
 		<locale lang="fr">afficher le prix TTC</locale>
 		<locale lang="en">display price with taxes</locale>
 	</entity>
-	<entity id="displayPriceWithTax-help">
-		<locale lang="fr">indique si le prix TTC devra être affiché dans ce catalogue.</locale>
-		<locale lang="en">indicates whether the tax-included price should be displayed in this catalog.</locale>
-	</entity>
 	<entity id="displayPriceWithoutTax">
 		<locale lang="fr">afficher le prix HT</locale>
 		<locale lang="en">display price without taxes</locale>
-	</entity>
-	<entity id="displayPriceWithoutTax-help">
-		<locale lang="fr">indique si le prix HT devra être affiché dans ce catalogue.</locale>
-		<locale lang="en">indicates whether the price without tax should be displayed in this catalog.</locale>
 	</entity>
 	<entity id="defaultDetailVisual">
 		<locale lang="fr">visuel produit par défaut</locale>
