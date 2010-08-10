@@ -95,7 +95,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedOldValueWithTax()
 	{
-		$value = parent::getOldValueWithTax();
+		$value = $this->getOldValueWithTax();
 		return ($value !== null) ? $this->getDocumentService()->formatValue($value, $this->getShop()) : null;
 	}
 	
@@ -104,7 +104,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedOldValueWithoutTax()
 	{
-		$value = parent::getOldValueWithoutTax();
+		$value = $this->getOldValueWithoutTax();
 		return ($value !== null) ? $this->getDocumentService()->formatValue($value, $this->getShop()) : null;
 	}
 	
@@ -113,7 +113,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedEcoTax()
 	{
-		$value = parent::getEcoTax();
+		$value = $this->getEcoTax();
 		return ($value !== null) ? $this->getDocumentService()->formatValue($value, $this->getShop()) : null;
 	}
 	
