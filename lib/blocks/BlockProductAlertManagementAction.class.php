@@ -3,7 +3,7 @@
  * catalog_BlockProductAlertManagementAction
  * @package modules.catalog.lib.blocks
  */
-class catalog_BlockProductAlertManagementAction extends website_TaggerBlockAction
+class catalog_BlockProductAlertManagementAction extends website_BlockAction
 {
 	/**
 	 * @param f_mvc_Request $request
@@ -106,13 +106,5 @@ class catalog_BlockProductAlertManagementAction extends website_TaggerBlockActio
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * @return String
-	 */
-	protected function getTag()
-	{
-		return 'contextual_website_website_modules_catalog_product-alert-management';
 	}
 }
