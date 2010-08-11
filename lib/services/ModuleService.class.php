@@ -142,7 +142,7 @@ class catalog_ModuleService extends ModuleBaseService
 	 */
 	public function getProductList($listName, $ignoreCache = false)
 	{
-		if ($ignoreCache || isset($this->instances[$listName]))
+		if (!$ignoreCache && isset($this->instances[$listName]))
 		{
 			return $this->instances[$listName];
 		}
