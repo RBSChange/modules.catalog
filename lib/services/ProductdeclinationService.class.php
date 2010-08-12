@@ -61,7 +61,8 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 */
 	public function getPrimaryShelf($product, $website)
 	{
-		return parent::getPrimaryShelf($product->getRelatedDeclinedProduct(), $website);
+		$declinedProduct = $product->getRelatedDeclinedProduct();
+		return $declinedProduct->getDocumentService()->getPrimaryShelf($declinedProduct, $website);
 	}
 
 	/**

@@ -46,7 +46,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 			catalog_ModuleService::getInstance()->addConsultedProduct($product);
 		}
 		$request->setAttribute('baseconfiguration', $this->getConfiguration());
-		$request->setAttribute('primaryshelf', catalog_ProductService::getInstance()->getPrimaryShelf($product, $shop->getWebsite()));
+		$request->setAttribute('primaryshelf', $product->getDocumentService()->getPrimaryShelf($product, $shop->getWebsite()));
 		$request->setAttribute('cmpref', $product->getId());
 		return $this->forward($product->getDetailBlockModule(), $product->getDetailBlockName());
 	}
