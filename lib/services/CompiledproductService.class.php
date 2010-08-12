@@ -329,6 +329,11 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			// TODO.
 			$compiledProduct->setPosition($product->getId());
 		}
+		else 
+		{
+			$shop = $compiledProduct->getShop();
+		}
+		$product->getDocumentService()->updateCompiledMetas($product, $shop);
 		$this->compile($compiledProduct);
 		
 		return $compiledProduct;

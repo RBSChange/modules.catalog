@@ -53,92 +53,76 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param catalog_persistentdocument_declinedproduct $product
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return catalog_persistentdocument_productdeclination
 	 */
-	public function getDefaultDeclination($document, $shop)
+	public function getDefaultDeclination($product, $shop)
 	{
-		$id = $this->findDefaultDeclinationId($document, $shop);
-		if ($id !== null)
-		{
-			return DocumentHelper::getDocumentInstance($id, 'modules_catalog/productdeclination');
-		}
-		return null;
+		return f_util_ArrayUtils::firstElement($this->getDisplayableDeclinations($product, $shop));
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param catalog_persistentdocument_declinedproduct $product
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return integer or null
+	 * @return catalog_persistentdocument_productdeclination[]
 	 */
-	private function findDefaultDeclinationId($document, $shop)
-	{
-		$query = catalog_PriceService::getInstance()->createQuery()
-			->add(Restrictions::published())
-			->add(Restrictions::eq('shopId', $shop->getId()))
-			->setProjection(Projections::property('productId'));
-					
-		$declinationQuery = $query->createPropertyCriteria('productId', 'modules_catalog/productdeclination')
-			->add(Restrictions::published())
-			->add(Restrictions::eq('declinedproduct', $document));
-			
-		if (!$shop->getDisplayOutOfStock())
-		{
-			$declinationQuery->add(Restrictions::ne('stockLevel', catalog_StockService::LEVEL_UNAVAILABLE));
-			$query->addOrder(Order::asc('valuewithtax'));
-			$query->setMaxResults(1);
-			$rows = $query->find();
-			if (count($rows)) 
-			{
-				return $rows[0]['productId'];
-			}	
-		}
-		else
-		{
-			$declinationQuery->setProjection(Projections::property('stockLevel'));
-			$query->addOrder(Order::asc('valuewithtax'));
-			$unavailable = null;
-			foreach ($query->find() as $row) 
-			{
-				if ($row['stockLevel'] != catalog_StockService::LEVEL_UNAVAILABLE)
-				{
-					return $row['productId'];
-				}
-				else if ($unavailable === null)
-				{
-					$unavailable =$row['productId'];
-				}
-			}
-			return $unavailable;
-		}
-		return null;	
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return catalog_persistentdocument_productdeclination
-	 */
-	public function getDisplayableDeclinations($document, $shop)
+	public function getDisplayableDeclinations($product, $shop)
 	{
 		$result = array();
-		foreach ($document->getDeclinationArray() as $declination)
+		$ids = $this->getDisplayableDeclinationIds($product, $shop);
+		foreach ($product->getDeclinationArray() as $declination)
 		{
-			if (!$declination->isPublished())
-			{
-				continue;
-			}
-			else if (!$shop->getDisplayOutOfStock() && $declination->getStockLevel() == catalog_StockService::LEVEL_UNAVAILABLE)
-			{
-				continue;
-			}
-			else if ($declination->getPrice($shop, null) !== null)
+			if (in_array($declination->getId(), $ids))
 			{
 				$result[] = $declination;
 			}
 		}
 		return $result;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param boolean $forceRefresh
+	 * @return integer[]
+	 */
+	protected function getDisplayableDeclinationIds($product, $shop, $forceRefresh = false)
+	{
+		$lang = RequestContext::getInstance()->getLang();
+		$metaName = 'm.catalog.sortedDisplayableDeclinationIds.' . $shop->getId() . '.' . $lang;
+		if ($forceRefresh || !$product->hasMeta($metaName))
+		{
+			$query = catalog_PriceService::getInstance()->createQuery()
+				->add(Restrictions::published())
+				->add(Restrictions::eq('shopId', $shop->getId()))
+				->setProjection(Projections::property('productId'));
+						
+			$declinationQuery = $query->createPropertyCriteria('productId', 'modules_catalog/productdeclination')
+				->add(Restrictions::published())
+				->add(Restrictions::eq('declinedproduct', $product));
+			if (!$shop->getDisplayOutOfStock())
+			{
+				$declinationQuery->add(Restrictions::ne('stockLevel', catalog_StockService::LEVEL_UNAVAILABLE));
+			}
+			$displayableIds = $query->findColumn('productId');
+			
+			$sordedIds = DocumentHelper::getIdArrayFromDocumentArray($product->getPublishedDeclinationArray());
+			$sortedIds = array_intersect($sordedIds, $displayableIds);
+			$product->setMeta($metaName, implode(',', $sortedIds));
+			$product->saveMeta();
+		}
+		
+		return explode(',', $product->getMeta($metaName));
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function updateCompiledMetas($product, $shop)
+	{
+		$this->getDisplayableDeclinationIds($product, $shop, true);
 	}
 	
 	/**
@@ -456,5 +440,5 @@ class catalog_DeclinedproductService extends catalog_ProductService
 			$defaultDeclination = $product->getDefaultDeclination($shop);
 			return $defaultDeclination->getDocumentService()->getPricesByTargetIds($defaultDeclination, $shop, $targetIds);
 		}
-	}	
+	}
 }
