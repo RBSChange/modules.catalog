@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<panels>
+	<panel name="resume" />
+	<panel name="properties" />
+	<panel name="publication" />
+	<panel name="localization" />
+	<panel name="redirect" />
+	<panel name="history" />
+	<panel name="create" />
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				this.addTab('prices', '&modules.catalog.bo.doceditor.tab.Prices;', 'price');
+				if (getController().checkModuleVersion('comment', '3.0.0'))
+				{
+					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments');
+				}
+				if (getController().checkModuleVersion('twitterconnect', '3.0.3'))
+				{
+					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet');
+				}
+			]]></constructor>
+		</javascript>
+	</xul>	 
+</panels>

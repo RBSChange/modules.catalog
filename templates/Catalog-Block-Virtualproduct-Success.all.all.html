@@ -1,0 +1,151 @@
+<script tal:condition="baseconfiguration/getActivatezoom" change:javascript="head 'modules.catalog.lib.js.jquery-jqzoom'"></script>
+<script change:javascript="src 'modules.catalog.lib.js.productAdditionalVisualsManagement'"></script>
+
+<tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
+
+<ul change:errors=""></ul>
+<ul change:messages=""></ul>
+
+<div class="website-block">
+	<!-- Product information -->
+	<div class="column-33 margin-left float-right">
+		<tal:block change:include="module 'catalog'; template 'Catalog-Inc-Mininavigation'; type 'html'; primaryshelf primaryshelf"/>
+		
+		<ul tal:condition="product/getPictogramCount" class="associated-pictograms">
+			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
+		</ul>
+		
+		<h1 class="title">${product/getLabelAsHtml}</h1>
+		<div class="product-ref">
+			<strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong> ${product/getCodeReferenceAsHtml}
+		</div>
+		
+		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
+			<strong change:translate="modules.catalog.frontoffice.BrandLabel"></strong>
+			<a change:link="document brand">
+				<tal:block tal:condition="not:brandVisual">${brand/getlabelAsHtml}</tal:block>
+				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
+			</a>
+		</tal:block>
+		
+		<form class="product-form" change:link="document product" method="post">
+			<ol>
+				<li>
+					<input type="submit" name="catalogParam[addToList]" class="button" change:i18nattr="value &modules.catalog.frontoffice.Add-to-list; title &modules.catalog.frontoffice.title.Add-to-list;" />
+					<input type="hidden" id="product-quantity" name="catalogParam[quantity]" value="1" />
+					<input type="hidden" tal:attributes="value product/getId" name="catalogParam[productId]" />					
+				</li>
+			</ol>
+			
+			<!-- Disponibilité -->
+			<p tal:define="availability product/getAvailability" tal:condition="availability" class="normal availability">${availability}</p>
+			
+			<ul>
+				<!-- Prix HT -->
+				<li tal:condition="displayConfig/showPricesWithoutTax">
+					<strong change:translate="&modules.catalog.frontoffice.PricehtLabel;"></strong>
+					<span class="priceht">				
+						<del tal:condition="defaultPrice/isDiscount">${defaultPrice/getFormattedOldValueWithoutTax}</del>
+						${defaultPrice/getFormattedValueWithoutTax}
+					</span>
+				</li>
+		    	
+				<!-- Prix TTC -->
+				<li tal:condition="displayConfig/showPricesWithTax">
+					<strong change:translate="&modules.catalog.frontoffice.PricettcLabel;"></strong>
+					<span class="pricettc">				
+						<del tal:condition="defaultPrice/isDiscount">${defaultPrice/getFormattedOldValueWithTax}</del>			
+						${defaultPrice/getFormattedValueWithTax}
+					</span>
+				</li>
+			</ul>
+			<small tal:condition="defaultPrice/getFormattedEcoTax">
+				<tal:block change:translate="&modules.catalog.frontoffice.LabelEcoTaxe;" /> <tal:block change:translate="&modules.catalog.frontoffice.EcoTaxeLabel;" /> ${defaultPrice/getFormattedEcoTax}
+			</small>
+			<!-- ajouter au panier -->
+			<p class="buttons" tal:condition="php: product.canBeOrdered(shop)">
+				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.title.TitleHrefAddToCart;"></input>
+			</p>
+		</form>
+		
+		<tal:block change:block="" module="catalog" name="ProductAlert" />		
+	</div>
+	<!-- End - Product information -->
+	
+	<!-- Product Pics -->
+	<div class="column-66 margin-right product-pics" tal:define="visuals php: product.getAllVisuals(shop); uniqueId product/getId">
+		<tal:block tal:repeat="imageMini visuals">
+			<tal:block tal:define="global mainVisualBlockDOMId">mainVisualBlock_${uniqueId}-${imageMini/getId}</tal:block>				
+			<tal:block tal:condition="not: repeat/imageMini/start"><tal:block tal:define="global style">display: none;</tal:block></tal:block>
+			<div class="product-big" tal:attributes="id mainVisualBlockDOMId; style style">
+				<tal:block tal:condition="baseconfiguration/getActivatezoom">
+					<tal:block tal:define="global visualUrl php: MediaHelper::getPublicUrl(imageMini)"/>				
+					<tal:block tal:define="global visualFormatedUrl php: MediaHelper::getPublicFormatedUrl(imageMini, 'modules.catalog.frontoffice/detailproduct')"/>				
+					<img tal:attributes="src visualFormatedUrl; alt visualUrl" class="jqzoom image" />
+				</tal:block>
+				<tal:block tal:condition="not: baseconfiguration/getActivatezoom">
+					<img change:media="document imageMini; format 'modules.catalog.frontoffice/detailproduct'"/>				
+				</tal:block>
+			</div>
+		</tal:block>
+	
+		<div class="altpics" tal:condition="php: count(visuals) GT 1">
+			<ul class="product-altpics">
+				<tal:block tal:repeat="visual visuals">
+					<tal:block tal:define="global productVisualBlockDOMId">productVisualBlock_${uniqueId}-${visual/getId}</tal:block>
+					<li tal:attributes="id productVisualBlockDOMId"><a href="#"><img change:media="document visual; format 'modules.catalog.frontoffice/pic80x80'"/></a></li>
+				</tal:block>		
+			</ul>
+		</div>
+	</div>
+	<!-- End - Product Pics -->
+</div>
+
+<!-- Additionnal product information -->
+<div class="row-100">
+	<!-- Prix quantitatifs -->
+	<div class="product-misc" tal:condition="php: thresholdPrices && (displayConfig['showPricesWithTax'] || displayConfig['showPricesWithoutTax'])">
+		<ul>
+			<li tal:repeat="thresholdPrice thresholdPrices">
+				<tal:block tal:condition="thresholdPrice/isDiscount">
+					<span change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin"></span> 
+					<del change:i18nattr="title &modules.catalog.frontoffice.old-price;">
+						<tal:block tal:condition="displayConfig/showPricesWithoutTax">
+							${thresholdPrice/getFormattedOldValueWithoutTax} <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
+						</tal:block>
+						<tal:block tal:condition="displayConfig/showPricesWithAndWithoutTax"> - </tal:block>
+						<tal:block tal:condition="displayConfig/showPricesWithTax">
+						 	${thresholdPrice/getFormattedOldValueWithTax} <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
+						</tal:block>
+					</del>						
+					<br />
+					<span class="hidden" change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin"></span> 
+					<ins change:i18nattr="title &modules.catalog.frontoffice.new-price;" class="discount">
+						<tal:block tal:condition="displayConfig/showPricesWithoutTax">
+							${thresholdPrice/getFormattedValueWithoutTax} <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
+						</tal:block>
+						<tal:block tal:condition="displayConfig/showPricesWithAndWithoutTax"> - </tal:block>
+						<tal:block tal:condition="displayConfig/showPricesWithTax">
+							${thresholdPrice/getFormattedValueWithTax} <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
+						</tal:block>
+					</ins>
+				</tal:block>
+						
+				<tal:block tal:condition="not: thresholdPrice/isDiscount">
+					<span change:translate="&modules.catalog.frontoffice.LabelQuantityLabel; threshold thresholdPrice/getThresholdMin"></span> 
+					<tal:block tal:condition="displayConfig/showPricesWithoutTax">
+						${thresholdPrice/getFormattedValueWithoutTax} <tal:block change:translate="&modules.catalog.frontoffice.HT;" />
+					</tal:block>
+					<tal:block tal:condition="displayConfig/showPricesWithAndWithoutTax"> - </tal:block>
+					<tal:block tal:condition="displayConfig/showPricesWithTax">
+						${thresholdPrice/getFormattedValueWithTax} <tal:block change:translate="&modules.catalog.frontoffice.TTC;" />
+					</tal:block>
+				</tal:block>
+			</li>
+		</ul>
+	</div>
+	<div class="cleaner"></div>
+	
+	<div class="product-description" tal:condition="product/getDescription">${product/getDescriptionAsHtml}</div>
+</div>
+<!-- End - Additionnal product information -->

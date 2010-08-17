@@ -175,4 +175,11 @@
   <entity id="shelf-help">
     <locale lang="fr">sélectionnez ici les rayons qui contiennent ce produit. Le premier rayon de la liste est son rayon primaire.</locale>
   </entity>
+  
+  <entity id="shippingModeId">
+    <locale lang="fr">Transporteur spécifique</locale>
+  </entity>  
+  <entity id="shippingModeId-help">
+    <locale lang="fr">Transporteur spécifique à utiliser pour la livraison</locale>
+  </entity>    
 </localization>

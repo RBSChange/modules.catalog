@@ -9,6 +9,8 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	const DISPLAY_MODE_TABLE = 'table';
 	const DEFAULT_PRODUCTS_PER_PAGE = 10;
 
+	
+	
 	/**
 	 * @return boolean
 	 */
@@ -345,12 +347,13 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 				}
 				
 				// Really add the products to the cart.
+				$cart = null;
 				$cs = order_CartService::getInstance();
 				foreach ($productsToAdd as $item)
 				{
 					try
 					{
-						$cs->addProduct($item['product'], $item['quantity']);
+						$cart = $cs->addProduct($item['product'], $item['quantity']);
 						$this->addedProductLabels[] = $item['product']->getLabel();
 					}
 					catch(order_Exception $e)
@@ -363,12 +366,12 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 					}
 				}
 				
-				// Referesh the cart.
-				$cart = $cs->getDocumentInstanceFromSession();
-				$cart->refresh();						
-				
-				// Set the messages.
-				$this->addMessagesToBlock('add-to-cart');
+				if ($cart)
+				{
+					$cart->refresh();										
+					// Set the messages.
+					$this->addMessagesToBlock('add-to-cart');
+				}
 			}
 		}
 		
@@ -434,5 +437,18 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 				Framework::debug($e->getMessage());
 			}
 		}
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getRequestModuleNames()
+	{
+		$names = parent::getRequestModuleNames();
+		if (!in_array('catalog', $names))
+		{
+			$names[] = 'catalog';
+		}
+		return $names;
 	}
 }

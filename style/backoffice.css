@@ -61,3 +61,6 @@ treechildren::-moz-tree-image(modules_catalog_kit){
 treechildren::-moz-tree-image(modules_catalog_lockedprice){
 	list-style-image: url(/changeicons/small/currency-euro.png);
 }
+treechildren::-moz-tree-image(modules_catalog_virtualproduct){
+	list-style-image: url(/changeicons/small/virtualproduct.png);
+}

@@ -77,6 +77,7 @@
 		<model name="modules_catalog/topshelf">
 			<children>
 				<child model="modules_catalog/simpleproduct" from="product" />
+				<child model="modules_catalog/virtualproduct" from="product" />
 				<child model="modules_catalog/declinedproduct" from="product" />
 				<child model="modules_catalog/bundleproduct" from="product" />
 				<child model="modules_catalog/kit" from="product" />
@@ -85,6 +86,7 @@
 			<drops>
 				<drop model="modules_catalog/shelf" action="move" />
 				<drop model="modules_catalog/simpleproduct" action="move" />
+				<drop model="modules_catalog/virtualproduct" action="move" />
 				<drop model="modules_catalog/declinedproduct" action="move" />
 				<drop model="modules_catalog/bundleproduct" action="move" />
 				<drop model="modules_catalog/kit" action="move" />
@@ -104,6 +106,7 @@
 					<contextaction name="createDeclinedproduct" />
 					<contextaction name="createBundleproduct" />
 					<contextaction name="createKit" />
+					<contextaction name="createVirtualproduct" />
 				</groupactions>
 				<contextaction name="openFolder" />
 			</contextactions>
@@ -111,6 +114,7 @@
 		<model name="modules_catalog/shelf">
 			<children>
 				<child model="modules_catalog/simpleproduct" from="product" />
+				<child model="modules_catalog/virtualproduct" from="product" />
 				<child model="modules_catalog/declinedproduct" from="product" />
 				<child model="modules_catalog/bundleproduct" from="product" />
 				<child model="modules_catalog/kit" from="product" />
@@ -119,6 +123,7 @@
 			<drops>
 				<drop model="modules_catalog/shelf" action="move" />
 				<drop model="modules_catalog/simpleproduct" action="move" />
+				<drop model="modules_catalog/virtualproduct" action="move" />
 				<drop model="modules_catalog/declinedproduct" action="move" />
 				<drop model="modules_catalog/bundleproduct" action="move" />
 				<drop model="modules_catalog/kit" action="move" />
@@ -138,6 +143,7 @@
 					<contextaction name="createDeclinedproduct" />
 					<contextaction name="createBundleproduct" />
 					<contextaction name="createKit" />
+					<contextaction name="createVirtualproduct" />
 				</groupactions>
 				<contextaction name="openFolder" />
 			</contextactions>
@@ -187,6 +193,17 @@
 				<contextaction name="showPublicationInShops" />
 			</contextactions>
 		</model>
+		<model name="modules_catalog/virtualproduct">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
+				<contextaction name="compileProduct" />
+				<contextaction name="exportAlertInfos" />
+				<contextaction name="showPublicationInShops" />
+			</contextactions>
+		</model>
 	</models>
 	<toolbar>
 		<toolbarbutton name="edit" />
@@ -212,6 +229,7 @@
 		<action name="createDeclinedproduct" single="true" permission="Insert_declinedproduct" icon="add" />
 		<action name="createBundleproduct" single="true" permission="Insert_bundleproduct" icon="add" />
 		<action name="createKit" single="true" permission="Insert_kit" icon="add" />
+		<action name="createVirtualproduct" single="true" permission="Insert_virtualproduct" icon="add" />
 		<action name="createRootfolder_" icon="add" />
 		<action name="createTopshelf" single="true" permission="Insert_topshelf" icon="add" />
 		<action name="openFolder" icon="open-folder" label="&amp;modules.uixul.bo.actions.OpenFolder;" />

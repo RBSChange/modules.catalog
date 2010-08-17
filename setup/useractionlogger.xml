@@ -52,4 +52,7 @@
   <actiondef modulename="catalog" actionname="compileproduct.kit" label="modules.catalog.bo.useractionlogger.compileproduct-kit"/>
   <actiondef modulename="catalog" actionname="update.kit" label="modules.catalog.bo.useractionlogger.update-kit"/>
   <actiondef modulename="catalog" actionname="compileproduct.declinedproduct" label="modules.catalog.bo.useractionlogger.compileproduct-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="insert.virtualproduct" label="modules.catalog.bo.useractionlogger.insert-virtualproduct"/>
+  <actiondef modulename="catalog" actionname="update.virtualproduct" label="modules.catalog.bo.useractionlogger.update-virtualproduct"/>
+  <actiondef modulename="catalog" actionname="compileproduct.virtualproduct" label="modules.catalog.bo.useractionlogger.compileproduct-virtualproduct"/>
 </script>

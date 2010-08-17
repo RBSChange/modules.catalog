@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization extend="modules.catalog.document.product">
+	<entity id="document-name">
+		<locale lang="fr">Produit telechargable</locale>
+		<locale lang="en">virtual product</locale>
+	</entity>
+  
+	<entity id="secureMedia">
+		<locale lang="fr">Fichier join</locale>
+		<locale lang="en">Join file</locale>
+	</entity> 
+  
+	<entity id="secureMedia-help">
+		<locale lang="fr">Fichier join (sécurisé)</locale>
+		<locale lang="en">Join file (secure)</locale>
+	</entity> 
+</localization>

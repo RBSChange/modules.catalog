@@ -23,4 +23,7 @@
 	<entity id="taxCode">
 		<locale lang="fr">Taxe</locale>
 	</entity>
+	<entity id="selectbyproduct">
+		<locale lang="fr">Spécifique produits</locale>
+	</entity>	
 </localization>

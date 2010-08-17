@@ -304,4 +304,8 @@
 	<entity id="shop-in-website">
 		<locale lang="fr">boutique "{shop}" dans le site "{website}"</locale>
 	</entity>
+	
+	<entity id="has-no-securemedia">
+		<locale lang="fr">Ne contient pas de fichier à télécharger</locale>
+	</entity>
 </localization>

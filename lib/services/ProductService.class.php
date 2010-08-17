@@ -269,8 +269,17 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @return catalog_persistentdocument_product
 	 * @see order_CartService::addProduct()
 	 */
-	public function getProductToAddToCart($product, $shop, $quantity, $properties)
+	public function getProductToAddToCart($product, $shop, $quantity, &$properties)
 	{
+		if (intval($product->getShippingModeId()) > 0)
+		{
+			$properties['shippingModeId'] = $product->getShippingModeId();
+			Framework::info(__METHOD__ . ' shippingModeId :' . $product->getShippingModeId());
+		}
+		else if (isset($properties['shippingModeId']))
+		{
+			unset($properties['shippingModeId']);
+		}
 		return $product;
 	}
 	

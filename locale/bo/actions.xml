@@ -29,6 +29,11 @@
 		<locale lang="fr">créer un kit</locale>
 		<locale lang="en">create kit</locale>
 	</entity>
+	<entity id="createVirtualproduct">
+		<locale lang="fr">créer un produit à télécharger</locale>
+		<locale lang="en">create virtual product</locale>
+	</entity>
+	
 	<entity id="Create-Price">
 		<locale lang="fr">créer un prix normal</locale>
 		<locale lang="en">create normal price</locale>

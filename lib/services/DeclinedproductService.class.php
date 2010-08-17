@@ -169,8 +169,9 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	 * @return catalog_persistentdocument_product
 	 * @see order_CartService::addProduct()
 	 */
-	public function getProductToAddToCart($product, $shop, $quantity, $properties)
+	public function getProductToAddToCart($product, $shop, $quantity, &$properties)
 	{
+		parent::getProductToAddToCart($product, $shop, $quantity, $properties);
 		return $this->getDefaultDeclination($product, $shop);
 	}
 	

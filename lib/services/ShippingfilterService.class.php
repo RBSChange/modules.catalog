@@ -87,17 +87,54 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	public function getCurrentShippingModes($cart)
 	{
 		$filters = $this->createQuery()->add(Restrictions::published())
-			->add(Restrictions::eq('shop', $cart->getShop()))->find();
+			->add(Restrictions::eq('shop', $cart->getShop()))
+			->add(Restrictions::eq('selectbyproduct', false))
+			->find();
 		$result = array();
 		foreach ($filters as $filter) 
 		{
+			$cart->setCurrentTestFilter($filter);
 			if ($this->isValidShippingFilter($filter, $cart))
 			{
 				$result[] = $filter;
 			} 
 		}
+		$cart->setCurrentTestFilter(null);
 		return $result;
 	}
+	
+	
+	/**
+	 * @param order_CartInfo $cart
+	 * @return boolean
+	 */
+	public function setRequiredShippingModes($cart)
+	{
+		$ok = true;
+		foreach ($cart->getRequiredShippingModeIds() as $shippingModeId) 
+		{
+			$filters = $this->createQuery()->add(Restrictions::published())
+				->add(Restrictions::eq('shop', $cart->getShop()))
+				->add(Restrictions::eq('selectbyproduct', true))
+				->add(Restrictions::eq('mode.id', $shippingModeId))
+				->find();
+				
+			$shippingFilter = null;	
+			foreach ($filters as $filter) 
+			{
+				$cart->setCurrentTestFilter($filter);
+				if ($this->isValidShippingFilter($filter, $cart))
+				{
+					$shippingFilter = $filter;
+					break;
+				}
+			}
+			$ok = $ok && ($shippingFilter !== null);
+			$cart->setRequiredShippingFilter($shippingModeId, $shippingFilter);
+		}
+		$cart->setCurrentTestFilter(null);
+		return $ok;
+	}	
 	
 	/**
 	 * @param catalog_persistentdocument_shippingfilter $filter

@@ -295,6 +295,7 @@ class catalog_KitService extends catalog_ProductService
 	 */
 	public function getProductToAddToCart($product, $shop, $quantity, &$properties)
 	{
+		parent::getProductToAddToCart($product, $shop, $quantity, $properties);
 		foreach ($this->getCustomItemsInfo($product) as $key => $value) 
 		{
 			$properties[$key] = $value;

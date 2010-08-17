@@ -36,7 +36,10 @@
 		<parameter name="listWidget" />
 		<body><![CDATA[this.createDocumentEditor('modules_catalog_kit', listWidget.getSelectedItems()[0].id);]]></body>
 	</action>
-
+	<action name="createVirtualproduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_virtualproduct', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
 	<action name="editPricesFromKit">
 		<parameter name="params" />
 		<body><![CDATA[

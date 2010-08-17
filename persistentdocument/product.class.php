@@ -598,4 +598,33 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		$brand = $this->getBrand();
 		return ($brand instanceof brand_persistentdocument_brand && $brand->isPublished());
 	}
+
+	
+	/**
+	 * @return boolean
+	 */
+	public function updateCartQuantity()
+	{
+		return true;
+	}	
+	
+	
+	/**
+	 * @return shipping_persistentdocument_mode
+	 */
+	public function getShippingMode()
+	{
+		if (intval($this->getShippingModeId()) > 0)
+		{
+			try 
+			{
+				return DocumentHelper::getDocumentInstance($this->getShippingModeId(), 'modules_shipping/mode');
+			}
+			catch (Exception $e)
+			{
+				Framework::warn($e->getMessage());
+			}
+		}
+		return null;
+	}
 }

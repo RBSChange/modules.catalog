@@ -1,0 +1,15 @@
+Version: 3.0.4
+
+Add shippingModeId porperty on product document
+Add selectbyproduct porperty on shippingfilter document
+Add virtualproduct document
+
+For use virtualproduct secure download add this config in your config/project.xml
+<config>
+	<modules>		
+		<media>
+			<secureMediaStrategyClass>
+				<entry name="virtualproduct">catalog_VirtualProductSecuremediaStrategy</entry>
+				...
+
+				

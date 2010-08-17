@@ -20,7 +20,11 @@
 		<rule documentModel="kit" viewMode="detail">
 			<template>/kit/$label,$lang-$id</template>
 		</rule>
-		
+
+		<rule documentModel="virtualproduct" viewMode="detail">
+			<template>/download/$label,$lang-$id</template>
+		</rule>
+				
 		<rule documentModel="shelf" viewMode="detail">
 			<template>/$labelForUrl,$lang,$id</template>
 		</rule>

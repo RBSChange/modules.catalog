@@ -3,6 +3,8 @@
 	<section labeli18n="modules.catalog.bo.general.General">
 		<field name="label" />
 		<field name="codeReference" />
+		<field name="shippingModeId" type="document" moduleselector="shipping" allow="modules_shipping_virtualmode" required="true"/>
+		<field name="secureMedia" allowfile="true" mediafoldername="VirtualProduct"/>
 		<field name="description" />
 		<field name="visual" allowfile="true" mediafoldername="Inbox" />
 		<field name="brand" />
@@ -22,7 +24,6 @@
 		<field name="complementary" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
 		<field name="similar" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
 		<field name="upsell" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
-		<field name="shippingModeId" type="document" moduleselector="shipping" allow="modules_shipping_mode" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
 		<field name="pageTitle" class="with-counter" rows="2" />
