@@ -67,13 +67,17 @@ class catalog_BlockProductlistAction extends catalog_BlockProductlistBaseAction
 			
 			// Really add the products to the cart.
 			$cs = order_CartService::getInstance();
-			$cart = null;
+			// TODO: remove this two lines when addProduct or getDocumentInstanceFromSession ok
+			$cart = $cs->getDocumentInstanceFromSession();
+			$cs->saveToSession($cart);
+			$productAddedCount = 0;
 			foreach ($productsToAdd as $item)
 			{
 				try
 				{
 					$cart = $cs->addProduct($item['product'], $item['quantity']);
 					$this->addedProductLabels[] = $item['product']->getLabel();
+					$productAddedCount++;
 				}
 				catch(order_Exception $e)
 				{
@@ -86,7 +90,7 @@ class catalog_BlockProductlistAction extends catalog_BlockProductlistBaseAction
 			}
 			
 			// Refresh the cart.
-			if ($cart !== null)
+			if ($productAddedCount > 0)
 			{
 				$cart->refresh();
 				$this->addMessagesToBlock('add-to-cart');
