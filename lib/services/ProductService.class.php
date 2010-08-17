@@ -940,6 +940,18 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return $result;
 	}
 	
+	/**
+	 * This method is called before compiled product properties update.
+	 * @see catalog_CompiledproductService::generate()
+	 * 
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function updateCompiledMetas($product, $shop)
+	{
+		// Nothing to do by default.
+	}
+	
 	// Tweets handling.
 	
 	/**
@@ -1075,7 +1087,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param blog_persistentdocument_post $document
+	 * @param catalog_persistentdocument_product $document
 	 * @return f_persistentdocument_PersistentDocument[]
 	 */
 	public function getContainersForTweets($document)

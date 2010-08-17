@@ -16,7 +16,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	private function useCache()
 	{
-		return $this->getConfigurationParameter('useCache', 'false') === 'true';
+		return $this->getConfigurationValue('useCache', false);
 	}
 
 	/**
