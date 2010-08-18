@@ -39,7 +39,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			$query->addOrder(Order::asc('price'));
 		}
-		elseif ($priceorder == 2)
+		else if ($priceorder == 2)
 		{
 			$query->addOrder(Order::desc('price'));
 		}
@@ -48,7 +48,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			$query->addOrder(Order::asc('ratingAverage'));
 		}
-		elseif ($ratingaverageorder == 2)
+		else if ($ratingaverageorder == 2)
 		{
 			$query->addOrder(Order::desc('ratingAverage'));
 		}
@@ -57,10 +57,11 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			$query->addOrder(Order::asc('brandLabel'));
 		}
-		elseif ($brandorder == 2)
+		else if ($brandorder == 2)
 		{
 			$query->addOrder(Order::desc('brandLabel'));
 		}
+		$query->addOrder(Order::asc('position'));
 		
 		$hideBlocIfEmpty = true;
 		$onlydiscount = $this->findParameterValue('onlydiscount');

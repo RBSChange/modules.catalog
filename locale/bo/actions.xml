@@ -90,7 +90,10 @@
 	<entity id="invalid-shop-import-script">
 		<locale lang="fr">le script d'initialisation est illisible.</locale>
 	</entity>
-	<entity id="showPublicationInShops">
-		<locale lang="fr">publication dans les boutiques</locale>
+	<entity id="openTreeNodeOrder">
+		<locale lang="fr">définir l'ordre des rayons</locale>
+	</entity>
+	<entity id="openOrderProductsInShelf">
+		<locale lang="fr">définir l'ordre des produits</locale>
 	</entity>
 </localization>

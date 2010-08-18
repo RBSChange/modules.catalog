@@ -57,3 +57,10 @@ wdialog[template="publicationInShopsDialog"]{
 wdialog[template="publicationInShopsDialog"] section.shop{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cPublicationInShopsSection);
 }
+
+wdialog[template="orderProductsInShelf"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cOrderProductsInShelfDialog);
+}
+wdialog[template="orderProductsInShelf"] cdocumentlist{
+	-moz-binding: url(binding:widgets.cOrderChildrenDialog#cDocumentList);
+}

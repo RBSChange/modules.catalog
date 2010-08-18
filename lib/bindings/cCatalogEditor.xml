@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<binding id="cResumeUrlrewritingByShopSection" extends="layout.cDocumentEditor#cResumeSection">
 		<implementation>
 			<method name="setValues">
@@ -25,8 +26,8 @@
 						}
 					}		
 				]]></body>
-			</method>	
-	
+			</method>
+
 			<method name="clearValues">
 				<body><![CDATA[
 					this.mPoperties = [];
@@ -35,52 +36,40 @@
 						this.removeChild(this.childNodes[this.childNodes.length-1]);
 					}
 				]]></body>
-			</method>	
+			</method>
 		</implementation>
 	</binding>
-	
+
 	<!-- Product suggestions. -->
-	
+
 	<binding id="cProductSuggestionField" extends="form.cField#cDocumentArrayField">
 		<content>
 			<xul:hbox xbl:inherits="context" flex="1">
-				<xul:listbox anonid="internalcontrol" rows="5" seltype="single" width="200"
-					xbl:inherits="disabled,tabindex,accesskey,rows,width=editwidth"
-					ondragenter="document.getBindingParent(this).dragEnter(event)"
-					ondragover="document.getBindingParent(this).dragOver(event)"
-					ondrop="document.getBindingParent(this).drop(event)" /> 
+				<xul:listbox anonid="internalcontrol" rows="5" seltype="single" width="200" xbl:inherits="disabled,tabindex,accesskey,rows,width=editwidth"
+					ondragenter="document.getBindingParent(this).dragEnter(event)" ondragover="document.getBindingParent(this).dragOver(event)" ondrop="document.getBindingParent(this).drop(event)" />
 				<xul:toolbar orient="vertical">
-					<xul:toolbarbutton anonid="deletebutton" 
-						image="chrome://global/skin/icons/error-16.png" disabled="true" 
-						xbl:inherits="disabled" 
-						oncommand="document.getBindingParent(this).removeItem();"/>					
-					<xul:toolbarbutton anonid="moveup" disabled="true" xbl:inherits="disabled,hidden=hideorder" 
-						tooltiptext="&amp;modules.generic.backoffice.Move-up;" 
-						image="{IconsBase}/small/arrow-up-blue.png" 
-						oncommand="document.getBindingParent(this).moveSelection(-1);" />
-					<xul:toolbarbutton anonid="movedown" disabled="true" xbl:inherits="disabled,hidden=hideorder" 
-						tooltiptext="&amp;modules.generic.backoffice.Move-down;" 
-						image="{IconsBase}/small/arrow-down-blue.png" 
-						oncommand="document.getBindingParent(this).moveSelection(+1);" />
-						
-					<xul:toolbarbutton anonid="selectorbutton" image="{IconsBase}/small/folder.png" xbl:inherits="disabled" 
-						oncommand="document.getBindingParent(this).openRessourceDialog();"/>
-													
-					<xul:toolbarbutton anonid="uploadbutton" hidden="true" xbl:inherits="disabled" tooltiptext="&amp;modules.uixul.bo.filePicker.BrowseEllipsis;" 
-						image="{IconsBase}/small/shadow/folder_add.png" 
-						oncommand="document.getBindingParent(this).openFilePicker()" />							
-				 </xul:toolbar>
-				 <xul:toolbar orient="vertical">								
-					<xul:toolbarbutton image="{IconsBase}/small/wand.png" 
-						tooltiptext="&amp;modules.catalog.bo.doceditor.Suggest-products;" xbl:inherits="hidden=hideSuggestionButton" 
-						oncommand="openSuggestionDialog();"/>
-					<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" 
-						oncommand="dispatchFieldEvent('fieldHelp');"/>
-				 </xul:toolbar>
+					<xul:toolbarbutton anonid="deletebutton" image="chrome://global/skin/icons/error-16.png" disabled="true"
+						xbl:inherits="disabled" oncommand="document.getBindingParent(this).removeItem();" />
+					<xul:toolbarbutton anonid="moveup" disabled="true" xbl:inherits="disabled,hidden=hideorder" tooltiptext="&amp;modules.generic.backoffice.Move-up;"
+						image="{IconsBase}/small/arrow-up-blue.png" oncommand="document.getBindingParent(this).moveSelection(-1);" />
+					<xul:toolbarbutton anonid="movedown" disabled="true" xbl:inherits="disabled,hidden=hideorder" tooltiptext="&amp;modules.generic.backoffice.Move-down;"
+						image="{IconsBase}/small/arrow-down-blue.png" oncommand="document.getBindingParent(this).moveSelection(+1);" />
+
+					<xul:toolbarbutton anonid="selectorbutton" image="{IconsBase}/small/folder.png" xbl:inherits="disabled"
+						oncommand="document.getBindingParent(this).openRessourceDialog();" />
+
+					<xul:toolbarbutton anonid="uploadbutton" hidden="true" xbl:inherits="disabled"
+						tooltiptext="&amp;modules.uixul.bo.filePicker.BrowseEllipsis;" image="{IconsBase}/small/shadow/folder_add.png" oncommand="document.getBindingParent(this).openFilePicker()" />
+				</xul:toolbar>
+				<xul:toolbar orient="vertical">
+					<xul:toolbarbutton image="{IconsBase}/small/wand.png" tooltiptext="&amp;modules.catalog.bo.doceditor.Suggest-products;"
+						xbl:inherits="hidden=hideSuggestionButton" oncommand="openSuggestionDialog();" />
+					<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');" />
+				</xul:toolbar>
 			</xul:hbox>
-			<children/>
+			<children />
 		</content>
-		
+
 		<implementation>
 			<method name="openSuggestionDialog">
 				<body><![CDATA[
@@ -99,27 +88,27 @@
 			</method>
 		</implementation>
 	</binding>
-	
+
 	<binding id="cProductSuggestionDialog" extends="core.wDialog#wDialog">
 		<resources>
 			<stylesheet src="modules.uixul.cEditorGrid" />
 		</resources>
-				
+
 		<implementation>
 			<field name="mLoadingRequest">null</field>
 			<field name="mCheckboxes">[]</field>
-		
+
 			<constructor><![CDATA[
 				wCore.debug('cProductSuggestionDialog.constructor');
 			]]></constructor>
 
 			<method name="getElementByAnonId">
-				<parameter name="id"/>
+				<parameter name="id" />
 				<body><![CDATA[
 					return document.getAnonymousElementByAttribute(this, 'anonid', id);
 				]]></body>
 			</method>
-									
+
 			<method name="onInitialize">
 				<body><![CDATA[
 					this.resizeTo(window.innerWidth-100, window.innerHeight-100);
@@ -153,7 +142,7 @@
 					this.mLoadingRequest = wCore.executeJSON('catalog', 'LoadProductSuggestions', parameters, callBack, true);
 				]]></body>
 			</method>
-			
+
 			<method name="updateResults">
 				<parameter name="result" />
 				<body><![CDATA[
@@ -181,7 +170,7 @@
 					}
 				]]></body>
 			</method>
-			
+
 			<method name="addItem">
 				<parameter name="jsnode" />
 				<body><![CDATA[
@@ -207,7 +196,7 @@
 					this.getElementByAnonId('document-rows').appendChild(row);
 				]]></body>
 			</method>
-			
+
 			<method name="cleanList">
 				<body><![CDATA[
 					var rows = this.getElementByAnonId('document-rows');
@@ -218,7 +207,7 @@
 					this.mCheckboxes = [];
 				]]></body>
 			</method>
-								
+
 			<method name="selectAll">
 				<parameter name="id" />
 				<body><![CDATA[
@@ -238,7 +227,7 @@
 					}
 				]]></body>
 			</method>
-			
+
 			<method name="unselectAll">
 				<parameter name="id" />
 				<body><![CDATA[
@@ -296,10 +285,10 @@
 				]]></body>
 			</method>
 		</implementation>
-		
+
 		<content>
 			<xul:vbox flex="1">
-				<xul:hbox class="wizardTitle" >
+				<xul:hbox class="wizardTitle">
 					<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Title;" />
 					<xul:spacer flex="1" />
 					<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" />
@@ -307,7 +296,8 @@
 				<xul:spacer height="5px" />
 				<xul:hbox align="center">
 					<xul:label value="Méthode" />
-					<xul:cfield anonid="field_feederClass" name="feederClass" fieldtype="dropdownlist" listid="modules_catalog/productsuggestionfeeders" hidehelp="true" />
+					<xul:cfield anonid="field_feederClass" name="feederClass" fieldtype="dropdownlist" listid="modules_catalog/productsuggestionfeeders"
+						hidehelp="true" />
 					<xul:label value="Nombre maximum de résultats" />
 					<xul:cfield anonid="field_maxResults" name="maxResults" fieldtype="integer" hidehelp="true" />
 					<xul:toolbarbutton oncommand="search();" image="{IconsBase}/small/search.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Search;" />
@@ -315,8 +305,10 @@
 				</xul:hbox>
 				<xul:spacer height="5px" />
 				<xul:toolbar anonid="result-toolbar">
-					<xul:toolbarbutton oncommand="selectAll();" image="{IconsBase}/small/check-box-check.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Check-all;" />
-					<xul:toolbarbutton oncommand="unselectAll();" image="{IconsBase}/small/check-box-uncheck.png" label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Uncheck-all;" />
+					<xul:toolbarbutton oncommand="selectAll();" image="{IconsBase}/small/check-box-check.png"
+						label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Check-all;" />
+					<xul:toolbarbutton oncommand="unselectAll();" image="{IconsBase}/small/check-box-uncheck.png"
+						label="&amp;modules.catalog.bo.doceditor.dialog.product-suggestion.Uncheck-all;" />
 					<xul:spacer flex="1" />
 				</xul:toolbar>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
@@ -341,23 +333,20 @@
 			</xul:vbox>
 		</content>
 	</binding>
-	
+
 	<!-- Declinations. -->
-	
+
 	<binding id="cDeclinationsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanel">
 		<content>
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save_properties" oncommand="saveProperties()" 
-								label="&amp;modules.uixul.bo.doceditor.button.Save;" 
-								image="{IconsBase}/small/save.png"/>
-					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
-								label="&amp;modules.uixul.bo.doceditor.button.Canceledit;" 
-								image="{IconsBase}/small/undo.png"/>
-					<xul:button anonid="add_declination" oncommand="addDeclination()" 
-								label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;" 
-								image="{IconsBase}/small/add.png"/>
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+						image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+						image="{IconsBase}/small/undo.png" />
+					<xul:button anonid="add_declination" oncommand="addDeclination()" label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;"
+						image="{IconsBase}/small/add.png" />
 					<xul:spacer flex="1" />
 					<xul:label anonid="result-count" />
 				</xul:hbox>
@@ -369,13 +358,13 @@
 		</content>
 		<implementation>
 			<field name="documentInfos">null</field>
-			
+
 			<property name="gridlist" readonly="true">
 				<getter><![CDATA[
 					return this.getElementByAnonId('declinationlist');
 				]]></getter>
 			</property>
-			
+
 			<property name="modified">
 				<getter><![CDATA[
 					return this.getAttribute("modified") === "true";
@@ -396,7 +385,7 @@
 					}
 				]]></setter>
 			</property>
-			
+
 			<method name="updateCommandsUI">
 				<body><![CDATA[						
 					this.getElementByAnonId('save_properties').disabled = !this.modified;
@@ -406,7 +395,7 @@
 					this.documentEditor.lockTabs(this.modified);
 				]]></body>
 			</method>
-			
+
 			<method name="lockCommandsUI">
 				<body><![CDATA[													
 					this.getElementByAnonId('save_properties').disabled = true;
@@ -414,7 +403,7 @@
 					this.getElementByAnonId('add_declination').disabled = true;
 				]]></body>
 			</method>
-							
+
 			<method name="onCloseEditor">
 				<body><![CDATA[	
 					//wCore.debug("onCloseEditor:" + this.tagName);
@@ -425,8 +414,8 @@
 						gridlist.initJSONDataset(null);
 					}
 				]]></body>
-			</method>	
-								
+			</method>
+
 			<method name="getInitializeParameters">
 				<body><![CDATA[
 					return {
@@ -436,7 +425,7 @@
 					};
 				]]></body>
 			</method>
-												
+
 			<method name="fireInitializeComplete">
 				<parameter name="result" />
 				<body><![CDATA[
@@ -487,7 +476,7 @@
 					this.documentEditor.executeServerAction('declinations', 'Initialize');
 				]]></body>
 			</method>
-			
+
 			<method name="addDeclination">
 				<body><![CDATA[
 					var productId = this.documentEditor.documentid;
@@ -495,7 +484,7 @@
 					openActionUri(uri);
 				]]></body>
 			</method>
-			
+
 			<method name="saveProperties">
 				<body><![CDATA[
 					this.lockCommandsUI();
@@ -503,7 +492,7 @@
 					this.documentEditor.executeServerAction('declinations', 'Update');
 				]]></body>
 			</method>
-					
+
 			<method name="getUpdateParameters">
 				<body><![CDATA[
 				var dataset = this.gridlist.getJSONDataset();
@@ -517,7 +506,7 @@
 				};
 				]]></body>
 			</method>
-			
+
 			<method name="fireUpdateComplete">
 				<parameter name="result" />
 				<body><![CDATA[			
@@ -536,15 +525,15 @@
 				]]></body>
 			</method>
 		</implementation>
-		
-		<handlers>			
+
+		<handlers>
 			<handler event="gridChanged"><![CDATA[
 				this.modified = this.gridlist.isModified();
 			]]></handler>
 		</handlers>
 	</binding>
-	
-	<binding id="cDeclinationsList" extends="widgets.cGrid#cAbstractOrderableGrid">	
+
+	<binding id="cDeclinationsList" extends="widgets.cGrid#cAbstractOrderableGrid">
 		<content>
 			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
 				<xul:columns>
@@ -564,7 +553,7 @@
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
-			
+
 			<xul:row anonid="template-row" class="document orderable" hidden="true">
 				<xul:label value="" />
 				<xul:label value="" />
@@ -583,33 +572,33 @@
 
 			<constructor><![CDATA[
 				this.fireEvent('gridInitialised');
-			]]></constructor>	
-			
+			]]></constructor>
+
 			<method name="getDatarowKey">
 				<parameter name="datarow" />
 				<body><![CDATA[
 					return datarow.id;
 				]]></body>
 			</method>
-			
+
 			<method name="execute_edit">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'properties'].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
-			
+
 			<method name="execute_editPrice">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />	
+				<parameter name="rowData" />
 				<body><![CDATA[
 					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'prices'].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
-			
+
 			<method name="execute_delete">
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
@@ -627,90 +616,87 @@
 			</method>
 		</implementation>
 	</binding>
-	
+
 	<binding id="cBundledItemsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
 		<content>
 			<xul:vbox flex="1">
-				<xul:cmessageinfo anonid="message"/>
+				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save_properties" oncommand="saveProperties()" 
-						label="&amp;modules.uixul.bo.doceditor.button.Save;" image="{IconsBase}/small/save.png"/>
-					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
-						label="&amp;modules.uixul.bo.doceditor.button.Canceledit;" image="{IconsBase}/small/undo.png"/>
-					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" 
-						label="&amp;modules.uixul.bo.doceditor.button.Nexterror;" image="{IconsBase}/small/next-invalid-field.png"/>
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+						image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+						image="{IconsBase}/small/undo.png" />
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="&amp;modules.uixul.bo.doceditor.button.Nexterror;"
+						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
-					<xul:cfield name="bundleditemsJSON" id="catalog_bundleproduct_bundleditemsJSON" 
-						anonid="field_bundleditemsJSON" fieldtype="namedgridlist" flex="1">
+					<xul:cfield name="bundleditemsJSON" id="catalog_bundleproduct_bundleditemsJSON" anonid="field_bundleditemsJSON" fieldtype="namedgridlist"
+						flex="1">
 					</xul:cfield>
-					
+
 					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.Add-bundleditems;">
 						<xul:row anonid="row_newBundledItemProducts">
-							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemProducts_label" 
-									control="catalog_bundleproduct_bundleditems_newBundledItemProducts" 
-									value="&amp;modules.catalog.bo.doceditor.bundleditem.Products;"/>
-							<xul:cfield name="newBundledItemProducts" id="catalog_bundleproduct_bundleditems_newBundledItemProducts" 
-									anonid="field_newBundledItemProducts" fieldtype="documentarray" 
-									allow="modules_catalog_simpleproduct" moduleselector="catalog" 
-									shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
+							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemProducts_label" control="catalog_bundleproduct_bundleditems_newBundledItemProducts"
+								value="&amp;modules.catalog.bo.doceditor.bundleditem.Products;" />
+							<xul:cfield name="newBundledItemProducts" id="catalog_bundleproduct_bundleditems_newBundledItemProducts" anonid="field_newBundledItemProducts"
+								fieldtype="documentarray" allow="modules_catalog_simpleproduct" moduleselector="catalog"
+								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
 							</xul:cfield>
 						</xul:row>
 						<xul:row anonid="row_newBundledItemQtt">
-							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemQtt_label" 
-								control="catalog_bundleproduct_bundleditems_newBundledItemQtt" 
-								value="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity;"/>
-							<xul:cfield name="newBundledItemQtt" id="catalog_bundleproduct_bundleditems_newBundledItemQtt" 
-								anonid="field_newBundledItemQtt" fieldtype="integer" required="true" 
-								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
-									<xul:cconstraint name="min" parameter="1"/>
+							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemQtt_label" control="catalog_bundleproduct_bundleditems_newBundledItemQtt"
+								value="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity;" />
+							<xul:cfield name="newBundledItemQtt" id="catalog_bundleproduct_bundleditems_newBundledItemQtt" anonid="field_newBundledItemQtt"
+								fieldtype="integer" required="true" shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
+								<xul:cconstraint name="min" parameter="1" />
 							</xul:cfield>
 						</xul:row>
 					</xul:cfieldsgroup>
 					<xul:spacer flex="1" />
-				</xul:scrollbox>					
+				</xul:scrollbox>
 			</xul:vbox>
-		</content>		
+		</content>
 		<implementation>
-      		<field name="mFieldNames">["bundleditemsJSON","newBundledItemProducts","newBundledItemQtt"]</field>
-      		
-      		<method name="saveProperties">
+			<field name="mFieldNames">["bundleditemsJSON","newBundledItemProducts","newBundledItemQtt"]
+			</field>
+
+			<method name="saveProperties">
 				<body><![CDATA[
 					this.lockCommandsUI();
 					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
 					this.documentEditor.executeServerAction('bundleditems', 'Update');
 				]]></body>
 			</method>
-			
+
 		</implementation>
 	</binding>
-	
+
 	<binding id="cBundledItemsGrid" extends="widgets.cGrid#cAbstractOrderableGrid">
 		<implementation>
 			<constructor><![CDATA[
 				this.fireEvent('gridInitialised');
-			]]></constructor>	
-			
+			]]></constructor>
+
 			<method name="getDatarowKey">
 				<parameter name="datarow" />
 				<body><![CDATA[
 					return datarow.id + ',' + datarow.qtt;
 				]]></body>
 			</method>
-				
+
 			<method name="execute_edit">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}
 					var uri = ['catalog', 'openDocument', rowData.productType, rowData.productId].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
-			
+
 			<method name="execute_delete">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}
 					var olddataset = this.buildDataset();
@@ -729,11 +715,11 @@
 					this.refreshUI(dataset);
 					this.dispatchChanged();
 				]]></body>
-			</method>	
-			
+			</method>
+
 			<method name="execute_addproduct">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}
 					rowData.qtt += 1;
@@ -743,11 +729,11 @@
 					this.refreshUI(dataset);
 					this.dispatchChanged();
 				]]></body>
-			</method>	
-			
+			</method>
+
 			<method name="execute_removeproduct">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled || rowData.qtt <= 1) {return;}
 					rowData.qtt -= 1;
@@ -757,9 +743,9 @@
 					this.refreshUI(dataset);
 					this.dispatchChanged();
 				]]></body>
-			</method>	
+			</method>
 		</implementation>
-		
+
 		<content>
 			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
 				<xul:columns>
@@ -775,7 +761,7 @@
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
-		
+
 			<xul:row anonid="template-row" class="document orderable" hidden="true">
 				<xul:label value="" />
 				<xul:label value="" />
@@ -787,64 +773,58 @@
 					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
 					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
 				</xul:toolbar>
-			</xul:row>				
-		</content>	
+			</xul:row>
+		</content>
 	</binding>
 
 	<binding id="cKitItemsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
 		<content>
 			<xul:vbox flex="1">
-				<xul:cmessageinfo anonid="message"/>
+				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save_properties" oncommand="saveProperties()" 
-						label="&amp;modules.uixul.bo.doceditor.button.Save;" image="{IconsBase}/small/save.png"/>
-					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
-						label="&amp;modules.uixul.bo.doceditor.button.Canceledit;" image="{IconsBase}/small/undo.png"/>
-					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" 
-						label="&amp;modules.uixul.bo.doceditor.button.Nexterror;" image="{IconsBase}/small/next-invalid-field.png"/>
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+						image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+						image="{IconsBase}/small/undo.png" />
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="&amp;modules.uixul.bo.doceditor.button.Nexterror;"
+						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
-					<xul:cfield name="kititemsJSON" id="catalog_kit_kititemsJSON" 
-							anonid="field_kititemsJSON" fieldtype="namedgridlist" flex="1" />
-							
+					<xul:cfield name="kititemsJSON" id="catalog_kit_kititemsJSON" anonid="field_kititemsJSON" fieldtype="namedgridlist" flex="1" />
+
 					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.Add-kititems;">
 						<xul:row anonid="row_newBundledItemProducts">
-							<xul:clabel id="catalog_kit_kititems_newKitItemProductIds_label" 
-									control="catalog_kit_kititems_newKitItemProductIds" 
-									value="&amp;modules.catalog.bo.doceditor.kititem.Products;"/>
-							<xul:cfield name="newKitItemProductIds" id="catalog_kit_kititems_newKitItemProductIds" 
-									anonid="field_newKitItemProductIds" fieldtype="documentarray" 
-									allow="modules_catalog_simpleproduct,modules_catalog_bundleproduct,modules_catalog_declinedproduct" 
-									moduleselector="catalog" 
-									shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
+							<xul:clabel id="catalog_kit_kititems_newKitItemProductIds_label" control="catalog_kit_kititems_newKitItemProductIds"
+								value="&amp;modules.catalog.bo.doceditor.kititem.Products;" />
+							<xul:cfield name="newKitItemProductIds" id="catalog_kit_kititems_newKitItemProductIds" anonid="field_newKitItemProductIds"
+								fieldtype="documentarray" allow="modules_catalog_simpleproduct,modules_catalog_bundleproduct,modules_catalog_declinedproduct"
+								moduleselector="catalog" shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
 							</xul:cfield>
 						</xul:row>
 						<xul:row anonid="row_newKitItemQtt">
-							<xul:clabel id="catalog_kit_kititems_newKitItemQtt_label" 
-								control="catalog_kit_kititems_newKitItemQtt" 
-								value="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity;"/>
-							<xul:cfield name="newKitItemQtt" id="catalog_kit_kititems_newKitItemQtt" 
-								anonid="field_newKitItemQtt" fieldtype="integer" required="true" 
-								shorthelp="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity-help;">
-									<xul:cconstraint name="min" parameter="1"/>
+							<xul:clabel id="catalog_kit_kititems_newKitItemQtt_label" control="catalog_kit_kititems_newKitItemQtt"
+								value="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity;" />
+							<xul:cfield name="newKitItemQtt" id="catalog_kit_kititems_newKitItemQtt" anonid="field_newKitItemQtt" fieldtype="integer"
+								required="true" shorthelp="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity-help;">
+								<xul:cconstraint name="min" parameter="1" />
 							</xul:cfield>
 						</xul:row>
 					</xul:cfieldsgroup>
 					<xul:spacer flex="1" />
-				</xul:scrollbox>					
+				</xul:scrollbox>
 			</xul:vbox>
-		</content>		
+		</content>
 		<implementation>
-      		<field name="mFieldNames">["kititemsJSON","newKitItemProductIds","newKitItemQtt"]</field>
-      		
-      		<method name="saveProperties">
+			<field name="mFieldNames">["kititemsJSON","newKitItemProductIds","newKitItemQtt"]</field>
+
+			<method name="saveProperties">
 				<body><![CDATA[
 					this.lockCommandsUI();
 					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
 					this.documentEditor.executeServerAction('kititems', 'Update');
 				]]></body>
 			</method>
-			
+
 		</implementation>
 	</binding>
 
@@ -852,8 +832,8 @@
 		<implementation>
 			<constructor><![CDATA[
 				this.fireEvent('gridInitialised');
-			]]></constructor>	
-			
+			]]></constructor>
+
 			<method name="getDocumentEditor">
 				<parameter name="datarow" />
 				<body><![CDATA[
@@ -864,28 +844,28 @@
 					}
 					return pn;
 				]]></body>
-			</method>			
-			
+			</method>
+
 			<method name="getDatarowKey">
 				<parameter name="datarow" />
 				<body><![CDATA[
 					return datarow.id + ',' + datarow.qtt + ',' + datarow.productId;
 				]]></body>
 			</method>
-				
+
 			<method name="execute_edit">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}		
 					var uri = ['catalog', 'openDocument', rowData.productType, rowData.productId].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
-			
+
 			<method name="execute_price">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}		
 					var kitId = this.getDocumentEditor().getAttribute('documentid');
@@ -893,10 +873,10 @@
 					openActionUri(uri);
 				]]></body>
 			</method>
-			
+
 			<method name="execute_delete">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}
 					var olddataset = this.buildDataset();
@@ -921,11 +901,11 @@
 					this.refreshUI(dataset);
 					this.dispatchChanged();
 				]]></body>
-			</method>	
-			
+			</method>
+
 			<method name="execute_addproduct">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled) {return;}
 					rowData.qtt += 1;
@@ -935,11 +915,11 @@
 					this.refreshUI(dataset);
 					this.dispatchChanged();
 				]]></body>
-			</method>	
-			
+			</method>
+
 			<method name="execute_removeproduct">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					if (this.disabled || rowData.qtt <= 1) {return;}
 					rowData.qtt -= 1;
@@ -950,7 +930,7 @@
 					this.dispatchChanged();
 				]]></body>
 			</method>
-			
+
 			<method name="setCellValue">
 				<parameter name="cell" />
 				<parameter name="name" />
@@ -975,9 +955,9 @@
 					}
 				]]></body>
 			</method>
-			
+
 			<method name="getTargetedRow">
-				<parameter name="event" />			
+				<parameter name="event" />
 				<body><![CDATA[
 					var node = event.originalTarget;
 					while (node && node.localName != 'row')
@@ -986,12 +966,12 @@
 					}
 					return (node && node.mDataRow && node.mDataRow.actionrow !== '2') ? node : null;
 				]]></body>
-			</method>			
+			</method>
 
 			<method name="moveBeforeTo">
 				<parameter name="dataSet" />
 				<parameter name="rowData" />
-				<parameter name="toIndex" />			
+				<parameter name="toIndex" />
 				<body><![CDATA[
 					if (this.disabled) {return;}
 					wCore.debug('toIndex:' + toIndex);
@@ -1040,11 +1020,11 @@
 					
 					this.updateDataset(newdataset);
 				]]></body>
-			</method>	
-			
+			</method>
+
 			<method name="execute_up">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					var dataset = this.buildDataset();
 					var idx = this.getDataRowIndex(dataset, rowData);
@@ -1058,10 +1038,10 @@
 					this.moveBeforeTo(dataset, rowData, idx);  
 				]]></body>
 			</method>
-			
+
 			<method name="execute_down">
 				<parameter name="rowNode" />
-				<parameter name="rowData" />			
+				<parameter name="rowData" />
 				<body><![CDATA[
 					var dataset = this.buildDataset();
 					var idx = this.getDataRowIndex(dataset, rowData);
@@ -1075,9 +1055,9 @@
 					if (rowData.actionrow === '1') {idx = idx + 1;}
 					this.moveBeforeTo(dataset, rowData, idx + 2);
 				]]></body>
-			</method>				
+			</method>
 		</implementation>
-		
+
 		<content>
 			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
 				<xul:columns>
@@ -1095,7 +1075,7 @@
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
-		
+
 			<xul:row anonid="template-row" class="document orderable" hidden="true">
 				<xul:label value="" />
 				<xul:label value="" />
@@ -1109,12 +1089,12 @@
 					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
 					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
 				</xul:toolbar>
-			</xul:row>				
-		</content>	
+			</xul:row>
+		</content>
 	</binding>
-	
+
 	<!-- Publication in shops dialog -->
-	
+
 	<binding id="cPublicationInShopsDialog" extends="core.wDialog#wDialog">
 		<resources>
 			<stylesheet src="modules.uixul.cFieldsGroup" />
@@ -1124,7 +1104,7 @@
 			<constructor><![CDATA[
 				wCore.debug("cPublicationInShopsDialog.constructor");
 			]]></constructor>
-			
+
 			<method name="onInitialize">
 				<body><![CDATA[
 					this.resizeTo(window.innerWidth-100, window.innerHeight-100);
@@ -1157,7 +1137,7 @@
 					}
 				]]></body>
 			</method>
-			
+
 			<method name="onCancel">
 				<body><![CDATA[
 					this.parameters.module.refreshMainViewDeck();
@@ -1171,7 +1151,8 @@
 					<xul:label value="&amp;modules.catalog.bo.dialog.Publication-in-shops;" class="dialog-title" />
 					<xul:spacer flex="1" />
 					<xul:vbox pack="center">
-						<xul:toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="&amp;modules.uixul.bo.dialog.Cancel;" />
+						<xul:toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();"
+							tooltiptexts="&amp;modules.uixul.bo.dialog.Cancel;" />
 					</xul:vbox>
 				</xul:hbox>
 				<xul:scrollbox flex="1" orient="vertical">
@@ -1237,6 +1218,106 @@
 					</xul:rows>
 				</xul:grid>
 			</xul:groupbox>
+		</xbl:content>
+	</binding>
+	
+	<binding id="cOrderProductsInShelfDialog" extends="widgets.cOrderChildrenDialog#cOrderChildrenDialog">
+    	<resources>
+    		<stylesheet src="modules.uixul.cDocumentEditor" />
+			<stylesheet src="modules.uixul.cOrderChildrenDialog" />
+		</resources>
+		<implementation>
+			<field name="mShopId" />
+			
+			<method name="onInitialize">
+				<body><![CDATA[
+					this.resizeTo(700, 550);
+					this.lockCommandsUI();
+					this.initialized = true;
+					if (this.mShopId != null)
+					{
+						this.loadProducts();
+					}
+				]]></body>
+			</method>
+			
+			<method name="loadProducts">
+				<body><![CDATA[
+					this.mData = wCore.executeJSON('catalog', 'GetProductsToSort', { shelfId: this.parameters.id, shopId: this.mShopId }, null, true);
+					this.mDataOk = true;
+					this.loadData();
+				]]></body>
+			</method>
+			
+			<method name="executeSave">
+				<parameter name="childrenOrder"/>
+				<body><![CDATA[
+					return wCore.executeJSON('catalog', 'SaveProductOrder', { shelfId: this.parameters.id, shopId: this.mShopId, co: childrenOrder }, null, true);
+				]]></body>
+			</method>
+			
+			<method name="onSave">
+				<body><![CDATA[
+					this.showTextMessage('&modules.uixul.bo.doceditor.Update-in-progress;');
+					
+					var childrenOrder = this.getChildrenOrder();
+					
+					var param = this.parameters;
+					result =  wCore.executeJSON('catalog', 'SaveProductOrder', { shelfId: this.parameters.id, shopId: this.mShopId, co: childrenOrder }, null, true);
+					if (result.status == 'OK')
+					{
+						this.mData = result;
+						this.mDataOk = true;
+						this.loadData();
+						this.showTextMessage('&modules.catalog.bo.doceditor.Update-success;');
+					}
+					else
+					{
+						this.showErrorMessage(result.contents.errorMessage);
+					}
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="fieldChanged"><![CDATA[
+				if (event.originalTarget.name == 'mShop')
+				{
+					this.mShopId = event.originalTarget.value;
+					if (this.parameters != null)
+					{
+						this.loadProducts();
+					}
+				}
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldModified"><![CDATA[
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldRestored"><![CDATA[
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:xbl="http://www.mozilla.org/xbl">
+			<vbox flex="1">
+				<hbox class="dialog-header">
+					<label anonid="title" value="&amp;modules.catalog.bo.general.Order-product-in-shelf-panel-title;" class="dialog-title" />
+					<spacer flex="1" />
+					<vbox pack="center">
+						<toolbarbutton image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="&amp;modules.uixul.bo.dialog.Cancel;" />
+					</vbox>
+				</hbox>
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save" oncommand="onSave()" label="&amp;modules.uixul.bo.dialog.Apply;" image="{IconsBase}/small/check.png" />
+					<xul:button anonid="delete" oncommand="onCancel()" label="&amp;modules.uixul.bo.dialog.Cancel;" image="{IconsBase}/small/undo.png" />
+					<xul:spacer flex="1" />
+					<xul:box><xul:cfield anonid="mShop" name="mShop" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/shops" initialvalue="" /></xul:box>
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cdocumentlist anonid="documentlist" flex="1" />
+					<xul:spacer flex="1" />
+				</xul:scrollbox>				
+			</vbox>
 		</xbl:content>
 	</binding>
 </bindings>

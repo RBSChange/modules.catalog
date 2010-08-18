@@ -84,6 +84,13 @@
 				'modules_catalog/shopfolder']);
 		]]></body>
 	</action>
+	
+	<action name="openOrderProductsInShelf">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			this.getController().openModalDialog(this, "orderProductsInShelf", { id: listWidget.getSelectedIds()[0] });
+		]]></body>
+	</action>
 
 	<action name="compileProduct">
 		<parameter name="listWidget" />

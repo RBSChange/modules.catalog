@@ -19,7 +19,7 @@
 	<entity id="additional-declination-description">
 		<locale lang="fr">vous pourrez ajouter d'autres déclinaisons par la suite.</locale>
 	</entity>
-	
+
 	<entity id="fieldsgroup.amount-tax-validity">
 		<locale lang="fr">montant, taxes et validité</locale>
 	</entity>
@@ -32,7 +32,7 @@
 	<entity id="fieldsgroup.prices">
 		<locale lang="fr">prix</locale>
 	</entity>
-	
+
 	<entity id="tab.prices">
 		<locale lang="fr">prix</locale>
 		<locale lang="en">prices</locale>
@@ -80,9 +80,9 @@
 	</entity>
 	<entity id="panel.prices.column-priority">
 		<locale lang="fr">priorité</locale>
-	</entity>	
-	
-	
+	</entity>
+
+
 	<entity id="panel.prices.column-threshold-min">
 		<locale lang="fr">seuil de quantité</locale>
 	</entity>
@@ -104,7 +104,7 @@
 	<entity id="panel.prices.disabled.productdeclination-synchronized">
 		<locale lang="fr">la synchronisation des prix entre les déclinaisons est activée. Pour éditer les prix, rendez-vous dans l'onglet "Prix" du produit décliné. Pour désactiver la synchronisation des prix, rendez-vous dans l'onglet "Propriétés" du produit décliné.</locale>
 	</entity>
-	
+
 	<entity id="tab.declinations">
 		<locale lang="fr">déclinaisons</locale>
 		<locale lang="en">declinations</locale>
@@ -135,7 +135,7 @@
 		<locale lang="fr">prix</locale>
 		<locale lang="en">prices</locale>
 	</entity>
-	
+
 	<entity id="attrdef.confirm-delete">
 		<locale lang="fr">Etes vous sur de vouloir supprimer cette attribut ?</locale>
 	</entity>
@@ -143,7 +143,7 @@
 	<entity id="attrdef.action-save">
 		<locale lang="fr">Sauvegarder</locale>
 	</entity>
-		
+
 	<entity id="attrdef.Type-text">
 		<locale lang="fr">Texte</locale>
 	</entity>
@@ -166,9 +166,9 @@
 	<entity id="attrdef.action-create">
 		<locale lang="fr">Ajouter un attribut</locale>
 	</entity>
-	
+
 	<!-- modules.catalog.bo.doceditor. -->
-	
+
 	<entity id="attr.confirm-delete">
 		<locale lang="fr">Etes-vous sur de vouloir supprimer cette attribut ?</locale>
 	</entity>
@@ -217,7 +217,7 @@
 	<entity id="additional-declination">
 		<locale lang="fr">déclinaisons additionnelles</locale>
 	</entity>
-	
+
 	<entity id="property.compiled">
 		<locale lang="fr">à jour sur le site</locale>
 	</entity>
@@ -230,7 +230,7 @@
 	<entity id="tab.bundleditems">
 		<locale lang="fr">produits</locale>
 	</entity>
-	
+
 	<entity id="first-bundleditems">
 		<locale lang="fr">produits du groupe</locale>
 	</entity>
@@ -241,15 +241,15 @@
 	<entity id="bundleditem.products-help">
 		<locale lang="fr">produits par défauts du groupe</locale>
 	</entity>
-		
+
 	<entity id="bundleditems.defaultquantity">
 		<locale lang="fr">quantité par défaut</locale>
 	</entity>
-	
+
 	<entity id="bundleditems.defaultquantity-help">
 		<locale lang="fr">quantité par défaut de chaque produit</locale>
 	</entity>
-	
+
 	<entity id="bundleditems.label-column">
 		<locale lang="fr">libellé</locale>
 	</entity>
@@ -259,38 +259,38 @@
 	<entity id="bundleditems.actions-column">
 		<locale lang="fr">Actions</locale>
 	</entity>
-	
+
 	<entity id="add-bundleditems">
 		<locale lang="fr">Produits à ajouter</locale>
 	</entity>
-	
+
 	<entity id="first-kititems">
 		<locale lang="fr">produits du kit</locale>
-	</entity>		
+	</entity>
 
 	<entity id="kititem.products">
 		<locale lang="fr">produits du kit</locale>
 	</entity>
-	
+
 	<entity id="kititem.products-help">
 		<locale lang="fr">produits par défauts du kit</locale>
 	</entity>
-	
+
 	<entity id="kititems.defaultquantity">
 		<locale lang="fr">quantité par défaut</locale>
 	</entity>
 	<entity id="kititems.defaultquantity-help">
 		<locale lang="fr">quantité par défaut de chaque produit</locale>
-	</entity>	
-	
+	</entity>
+
 	<entity id="tab.kititems">
 		<locale lang="fr">produits</locale>
-	</entity>	
-	
+	</entity>
+
 	<entity id="add-kititems">
 		<locale lang="fr">Produits à ajouter</locale>
 	</entity>
-	
+
 	<entity id="kititems.label-column">
 		<locale lang="fr">libellé</locale>
 	</entity>
@@ -299,9 +299,12 @@
 	</entity>
 	<entity id="kititems.actions-column">
 		<locale lang="fr">Actions</locale>
-	</entity>	
+	</entity>
 	<entity id="kititems.declination-column">
 		<locale lang="fr">Déclinaison</locale>
-	</entity>	
-		
+	</entity>
+
+	<entity id="update-success">
+		<locale lang="fr">Mise à jour réussie.</locale>
+	</entity>
 </localization>

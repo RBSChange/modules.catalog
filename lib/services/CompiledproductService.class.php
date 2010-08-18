@@ -528,6 +528,54 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	public function getWebsiteId($document)
 	{
 		return $document->getWebsiteId();
+	}	
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getOrderInfosByShelfAndShop($shelf, $shop)
+	{
+		$query = $this->createQuery()->addOrder(Order::asc('position'));
+		$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
+		$infos = array();
+		foreach ($query->find() as $cp)
+		{
+			$product = $cp->getProduct();
+			$infos[] = array(
+				'id' => $product->getId(),
+				'label' => $product->getTreeNodeLabel(),
+				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
+			);
+		}
+		return $infos;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function setPositionsByShelfAndShop($shelf, $shop, $order)
+	{
+		$tm = $this->getTransactionManager();
+		try 
+		{
+			$tm->beginTransaction();
+			
+			$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
+			foreach ($query->find() as $doc)
+			{
+				$doc->setPosition($order[$doc->getProduct()->getId()]);
+				$doc->save();
+			}
+			
+			$tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$tm->rollBack($e);
+			throw $e;
+		}
 	}
 	
 	/**

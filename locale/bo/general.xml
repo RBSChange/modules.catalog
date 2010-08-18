@@ -308,4 +308,7 @@
 	<entity id="has-no-securemedia">
 		<locale lang="fr">Ne contient pas de fichier à télécharger</locale>
 	</entity>
+	<entity id="order-product-in-shelf-panel-title">
+		<locale lang="fr">ordonner les produits du rayon</locale>
+	</entity>
 </localization>
