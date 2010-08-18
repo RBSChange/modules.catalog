@@ -836,7 +836,8 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 			$product->setCompiled($compiled);
 			$this->pp->updateDocument($product);
-			f_SimpleCache::clearCacheById($product->getId());
+			//f_SimpleCache::clearCacheById($product->getId());
+			f_DataCacheService::getInstance()->clearCacheByDocId($product->getId());
 		}
 	}
 	
