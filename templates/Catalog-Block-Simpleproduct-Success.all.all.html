@@ -1,5 +1,5 @@
 <script tal:condition="baseconfiguration/getActivatezoom" change:javascript="head 'modules.catalog.lib.js.jquery-jqzoom'"></script>
-<script change:javascript="src 'modules.catalog.lib.js.productAdditionalVisualsManagement'"></script>
+<script change:javascript="head 'modules.catalog.lib.js.productAdditionalVisualsManagement'"></script>
 
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
 
@@ -74,7 +74,7 @@
 			</small>
 			<!-- ajouter au panier -->
 			<p class="buttons" tal:condition="php: product.canBeOrdered(shop)">
-				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.title.TitleHrefAddToCart;"></input>
+				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.TitleHrefAddToCart;"></input>
 			</p>
 		</form>
 		
