@@ -249,4 +249,15 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		$declinedProduct = $product->getRelatedDeclinedProduct();
 		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForWebsite($declinedProduct, $website);
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param string $lang
+	 * @param array $parameters
+	 */
+	public function generateUrl($document, $lang, $parameters)
+	{
+		$parameters['catalogParam']['declinationId'] = $document->getId();
+		return LinkHelper::getDocumentUrl($document->getRelatedDeclinedProduct(), $lang, $parameters);
+	}
 }

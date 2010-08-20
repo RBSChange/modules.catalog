@@ -4,12 +4,8 @@
 		<rule documentModel="simpleproduct" viewMode="detail">
 			<template>/$labelForUrl,$lang-$id</template>
 		</rule>
-					
+							
 		<rule documentModel="declinedproduct" viewMode="detail">
-			<template>/$labelForUrl,$lang-$id</template>
-		</rule>
-		
-		<rule documentModel="productdeclination" viewMode="detail">
 			<template>/$labelForUrl,$lang-$id</template>
 		</rule>
 		
