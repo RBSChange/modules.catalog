@@ -371,6 +371,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 		
 		foreach ($declinations as $declination)
 		{
+
 			$langAvailable = $declination->getI18nInfo()->isLangAvailable($lang);
 			
 			$data['nodes'][] = array(
@@ -379,7 +380,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 				'label' => ($langAvailable ? $declination->getLabel() : ($declination->getVoLabel() . ' [' . f_Locale::translateUI('&modules.uixul.bo.languages.' . ucfirst($declination->getLang()) . ';') . ']')),
 				'codeReference' => $declination->getCodeReference(),
 				'stockQuantity' => $declination->getStockQuantity(),
-				'stockLevel' => $declination->getStockLevel()
+				'stockLevel' => $declination->getAvailability()
 			);
 		}
 		
