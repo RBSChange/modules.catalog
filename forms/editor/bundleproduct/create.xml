@@ -12,7 +12,7 @@
 	
 	<section labeli18n="modules.catalog.bo.doceditor.First-bundleditems">
 		<field name="newBundledItemProducts" type="documentarray" required="true"
-			allow="modules_catalog_simpleproduct" moduleselector="catalog"
+			allow="[modules_catalog_product]" moduleselector="catalog"
 			labeli18n="modules.catalog.bo.doceditor.bundleditem.Products"
 			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
 		</field>
