@@ -20,6 +20,7 @@ cdocumenteditor cdeclinationslist{
 cdocumenteditor#edt_catalog_simpleproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_declinedproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_bundleproduct cresumesection[sectionname="urlrewriting"],
+cdocumenteditor#edt_catalog_virtualproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_kit cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_shelf cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_topshelf cresumesection[sectionname="urlrewriting"]{
@@ -34,7 +35,12 @@ wdialog[template="productSuggestion"]{
 cdocumenteditor#edt_catalog_attributefolder cfield[fieldtype="attributesdeflist"]{
 	-moz-binding: url(binding:modules.catalog.cAttributes#cAttributesDef);
 }
-cdocumenteditor#edt_catalog_simpleproduct cfield[fieldtype="attributeslist"]{
+cdocumenteditor#edt_catalog_simpleproduct cfield[fieldtype="attributeslist"],
+cdocumenteditor#edt_catalog_declinedproduct cfield[fieldtype="attributeslist"],
+cdocumenteditor#edt_catalog_bundleproduct cfield[fieldtype="attributeslist"],
+cdocumenteditor#edt_catalog_virtualproduct cfield[fieldtype="attributeslist"],
+cdocumenteditor#edt_catalog_kit cfield[fieldtype="attributeslist"]
+{
 	-moz-binding: url(binding:modules.catalog.cAttributes#cAttributes);
 }
 cdocumenteditor cbundleditemspanel{
