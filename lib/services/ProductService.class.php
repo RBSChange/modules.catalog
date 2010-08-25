@@ -920,7 +920,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$shopInfos['products'] = array();
 			foreach ($compiledProducts as $compiledProduct)
 			{
-				$lang = $product->getLang();
+				$lang = $compiledProduct->getLang();
 				$publication = f_Locale::translateUI(DocumentHelper::getPublicationstatusLocaleKey($compiledProduct));
 				if ($compiledProduct->getPublicationStatus() === 'ACTIVE' && $compiledProduct->hasMeta('ActPubStatInf'.$lang))
 				{
