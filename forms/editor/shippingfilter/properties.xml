@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
 	<section labeli18n="modules.uixul.bo.doceditor.fieldsgroup.Title">
-		<field name="label" />
-		<field name="mode" moduleselector="shipping" allow="[modules_shipping_mode]" />
-		<field name="valueWithTax" />
-		<field name="taxCode" />
+		<field name="label" hidehelp="true" />
+		<field name="mode" moduleselector="shipping" allow="[modules_shipping_mode]" hidehelp="true" />
+		<field name="valueWithTax" hidehelp="true" />
+		<field name="taxCode" hidehelp="true" />
 		<field name="selectbyproduct" />
-		<field name="query" type="objectfilter" allow="order/cart::checkValue" />
+		<field name="query" type="objectfilter" allow="order/cart::checkValue" hidehelp="true" />
 	</section>
 </panel>
