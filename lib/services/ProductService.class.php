@@ -347,6 +347,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$urlData = array();
 			
 			$query = catalog_CompiledproductService::getInstance()->createQuery()
+				->add(Restrictions::eq('lang', $lang))
 				->add(Restrictions::eq('product.id', $document->getId()))
 				->add(Restrictions::eq('indexed', true))
 				->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
