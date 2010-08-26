@@ -56,5 +56,17 @@
 				<version>3.0.4</version>
 			</versions>
 		</dependency>
+		<dependency>
+			<name>change-module/shipping</name>
+			<versions>
+				<version>3.0.4</version>
+			</versions>
+		</dependency>
+		<dependency>
+			<name>change-module/payment</name>
+			<versions>
+				<version>3.0.4</version>
+			</versions>
+		</dependency>
 	</dependencies>
 </change>

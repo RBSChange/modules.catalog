@@ -8,15 +8,11 @@
 			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
 			<field name="brand" />
 		</section>
-		<section labeli18n="modules.catalog.bo.general.Validity-dates">
-			<field name="startpublicationdate" />
-			<field name="endpublicationdate" />
-		</section>
 	</section>
 	
 	<section labeli18n="modules.catalog.bo.doceditor.First-bundleditems">
 		<field name="newBundledItemProducts" type="documentarray" required="true"
-			allow="modules_catalog_simpleproduct" moduleselector="catalog"
+			allow="[modules_catalog_product]" moduleselector="catalog"
 			labeli18n="modules.catalog.bo.doceditor.bundleditem.Products"
 			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
 		</field>

@@ -32,4 +32,14 @@
 	<entity id="product-suggestion-feeder.none">
 		<locale lang="fr">aucun</locale>
 	</entity>
+	
+	<entity id="discountornot.label">
+		<locale lang="fr">en promotion / hors promotion</locale>
+	</entity>
+	<entity id="discountornot.discount">
+		<locale lang="fr">en promotion</locale>
+	</entity>
+	<entity id="discountornot.not-discount">
+		<locale lang="fr">hors promotion</locale>
+	</entity>
 </localization>

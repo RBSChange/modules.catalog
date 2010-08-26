@@ -21,9 +21,9 @@
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
-		<field name="complementary" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
-		<field name="similar" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
-		<field name="upsell" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" />
+		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" />
+		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
 		<field name="pageTitle" class="with-counter" rows="2" />

@@ -8,8 +8,6 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	const DISPLAY_MODE_LIST = 'list';
 	const DISPLAY_MODE_TABLE = 'table';
 	const DEFAULT_PRODUCTS_PER_PAGE = 10;
-
-	
 	
 	/**
 	 * @return boolean

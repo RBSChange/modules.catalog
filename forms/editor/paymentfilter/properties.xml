@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
 	<section labeli18n="modules.uixul.bo.doceditor.fieldsgroup.Title">
-		<field name="label" />
-		<field name="connector" allow="[modules_payment_connector]"/>
-		<field name="query" type="objectfilter" allow="order/cart::checkValue" />
+		<field name="label" hidehelp="true" />
+		<field name="connector" allow="[modules_payment_connector]" hidehelp="true" />
+		<field name="query" type="objectfilter" allow="order/cart::checkValue" hidehelp="true" />
 	</section>
 </panel>

@@ -13,7 +13,10 @@ class catalog_BlockProductCrossSellingListAction extends catalog_BlockProductlis
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
     	$product = $this->getDocumentParameter();
-
+		if (!($product instanceof catalog_persistentdocument_product))
+		{
+			return array();
+		}
 		$productUrl = LinkHelper::getDocumentUrl($product);
 		$replacements = array('productLink' => '<a class="link" href="'.$productUrl.'">'.$product->getLabelAsHtml().'</a>');
 		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Cross-selling-'.$request->getParameter('relationType').';', $replacements));

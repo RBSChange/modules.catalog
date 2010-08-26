@@ -518,6 +518,56 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			{
 				website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
 			}
+			// Handle first and last publication date.
+			if ($document->isPublished())
+			{
+				$this->setFirstpublicationdate($document);
+				$this->setLastpublicationdate($document);
+			}
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 */
+	private function setFirstpublicationdate($document)
+	{
+		if ($document->getFirstpublicationdate() === null)
+		{
+			try
+			{
+				$this->tm->beginTransaction();
+				$rows = $this->createQuery()->add(Restrictions::eq('product', $document->getProduct()))
+					->add(Restrictions::eq('shopId', $document->getShopId()))->add(Restrictions::eq('lang', $document->getLang()))
+					->add(Restrictions::isNotNull('firstpublicationdate'))->setProjection(Projections::property('firstpublicationdate'))
+					->findColumn('firstpublicationdate');
+				$date = (count($rows) > 0) ? $rows[0] : date_Calendar::getInstance()->toString();
+				$document->setFirstpublicationdate($date);
+				$this->pp->updateDocument($document);
+				$this->tm->commit();
+			}
+			catch (Exception $e)
+			{
+				$this->tm->rollBack($e);
+			}
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 */
+	private function setLastpublicationdate($document)
+	{
+		try
+		{
+			$this->tm->beginTransaction();
+			$document->setLastpublicationdate(date_Calendar::getInstance()->toString());
+			$this->pp->updateDocument($document);
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
 		}
 	}
 	

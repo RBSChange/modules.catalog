@@ -22,9 +22,15 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}
 		
-		if ($request->hasNonEmptyParameter('declinedProductId'))
+		if ($request->hasNonEmptyParameter('declinationId'))
 		{
-			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinedProductId'));
+			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinationId'), 'modules_catalog/productdeclination');
+			$product = $declination->getRelatedDeclinedProduct();
+		}
+		// declinedProductId parameter is deprecated. Use declinationId instead.
+		else if ($request->hasNonEmptyParameter('declinedProductId'))
+		{
+			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinedProductId'), 'modules_catalog/productdeclination');
 			$product = $declination->getRelatedDeclinedProduct();
 		}
 		else

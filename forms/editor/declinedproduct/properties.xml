@@ -15,9 +15,9 @@
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox"/>
-		<field name="complementary" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
-		<field name="similar" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
-		<field name="upsell" type="productSuggestion" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
+		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" />
+		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" />
+		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" />
 		<field name="shippingModeId" type="document" moduleselector="shipping" allow="modules_shipping_mode" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
@@ -28,14 +28,47 @@
 	<section labeli18n="modules.catalog.bo.general.Prices" class="toggle" hidden="true">
 		<field name="synchronizePrices" />
 		<field name="synchronizePricesFrom"	labeli18n="modules.catalog.document.declinedproduct.SynchronizePricesFrom" 
-			 type="dropdownlist" shorthelp="&amp;modules.catalog.document.declinedproduct.SynchronizePricesFrom-help;" />
+			 type="dropdownlist" disabled="true" shorthelp="&amp;modules.catalog.document.declinedproduct.SynchronizePricesFrom-help;" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
+		<fieldinput name="attributesJSON" type="attributeslist"/>
 	</section>
 	<xul>
 		<javascript>
 			<constructor><![CDATA[
 				this.extendMethod("fireInitializeComplete", this.fireInitializeCompleteExtend);
+				var me = this;
+				this.fields['synchronizePrices'].addEventListener('fieldChanged', function (event) {me.onSynchronizePricesChanged();}, true);
 			]]></constructor>
-
+			
+			<method name="onSynchronizePricesChanged">
+				<body><![CDATA[
+					try
+					{
+						var field = this.fields['synchronizePrices'];
+						if (field.initialvalue == "false" )
+						{
+							if (field.value == "true")
+							{
+								this.fields.synchronizePricesFrom.disable(false);
+								var field = this.fields.synchronizePricesFrom;
+								field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.documentEditor.documentid});
+							}
+							else
+							{
+								this.fields.synchronizePricesFrom.value = "";
+								this.fields.synchronizePricesFrom.disable(true);
+							}
+						}
+						
+					}
+					catch (e)
+					{
+						wCore.error("declinedproduct.propertiespanel.onSynchronizePricesChanged", [result], e);
+					}
+				]]></body>
+			</method>
+			
 			<method name="fireInitializeCompleteExtend">
 				<parameter name="result" />
 				<body><![CDATA[
@@ -47,22 +80,9 @@
 						this.setAttributesForSuggestions(field, result.contents.suggestSimilarFeederClass);
 						var field = this.fields.upsell;
 						this.setAttributesForSuggestions(field, result.contents.suggestUpsellFeederClass);
+						var field = this.fields['synchronizePrices'];
+						this.fields.synchronizePricesFrom.disable(true);
 						
-						// Prices synchronisation...
-						var rowSynchronizePrices = this.getElementByAnonId('row_synchronizePrices');
-						var rowSynchronizePricesFrom = this.getElementByAnonId('row_synchronizePricesFrom');
-						if (result.contents.synchronizePrices)
-						{
-							rowSynchronizePrices.removeAttribute('hidden');
-							rowSynchronizePricesFrom.setAttribute('hidden', 'true');
-						}
-						else
-						{
-							rowSynchronizePrices.setAttribute('hidden', 'true');
-							rowSynchronizePricesFrom.removeAttribute('hidden');
-							var field = this.fields.synchronizePricesFrom;
-							field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.documentEditor.documentid});
-						}
 					}
 					catch (e)
 					{

@@ -53,6 +53,7 @@
   </entity>
   <entity id="stockAlertThreshold">
     <locale lang="fr">seuil d'alerte de stock</locale>
+    <locale lang="en">stock alert threshold</locale>
   </entity>
   <entity id="stockAlertThreshold-help">
     <locale lang="fr">quantité de stock par défaut en dessous de laquelle une alerte doit être envoyée. Cette propriété peut être redéfinie localement sur chaque produit.</locale>
@@ -65,13 +66,13 @@
     <locale lang="fr">activer ou non les commentaires sur les produits.</locale>
   </entity>
   <entity id="synchronizeComplementary">
-    <locale lang="fr">syncrhoniser les complémentaires</locale>
+    <locale lang="fr">synchroniser les complémentaires</locale>
   </entity>
   <entity id="synchronizeComplementary-help">
     <locale lang="fr">en activant cette option, ajouter un produit A comme complémentaire d'un produit B fera également automatiquement l'ajout inverse : le produit B comme complémentaire du produit A.</locale>
   </entity>
   <entity id="synchronizeSimilar">
-    <locale lang="fr">syncrhoniser les similaires</locale>
+    <locale lang="fr">synchroniser les similaires</locale>
   </entity>
   <entity id="synchronizeSimilar-help">
     <locale lang="fr">en activant cette option, ajouter un produit A comme similaire à un produit B fera également automatiquement l'ajout inverse : le produit B comme similaure au produit A.</locale>

@@ -39,7 +39,7 @@
 						<ol>
 							<li>						
 								<label for="product-declination" change:translate="&modules.catalog.frontoffice.Detail-declinationsLabel;"></label>
-								<select class="textfield" id="product-declination" name="catalogParam[declinedProductId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
+								<select class="textfield" id="product-declination" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
 									<tal:block tal:repeat="adeclination php: product.getDisplayableDeclinations(shop)">
 										<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}" tal:content="adeclination/getLabel" />
 										<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}" tal:content="adeclination/getLabel" />
@@ -83,7 +83,7 @@
 			
 			<!-- ajouter au panier -->
 			<p class="buttons" tal:condition="php: declination.canBeOrdered(shop)">
-				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.title.TitleHrefAddToCart;"></input>
+				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.TitleHrefAddToCart;"></input>
 			</p>
 		</form>
 		
