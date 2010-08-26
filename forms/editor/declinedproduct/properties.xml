@@ -30,6 +30,9 @@
 		<field name="synchronizePricesFrom"	labeli18n="modules.catalog.document.declinedproduct.SynchronizePricesFrom" 
 			 type="dropdownlist" shorthelp="&amp;modules.catalog.document.declinedproduct.SynchronizePricesFrom-help;" />
 	</section>
+	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
+		<fieldinput name="attributesJSON" type="attributeslist"/>
+	</section>
 	<xul>
 		<javascript>
 			<constructor><![CDATA[

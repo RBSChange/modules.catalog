@@ -8,10 +8,6 @@
 			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
 			<field name="brand" />
 		</section>
-		<section labeli18n="modules.catalog.bo.general.Validity-dates">
-			<field name="startpublicationdate" />
-			<field name="endpublicationdate" />
-		</section>
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.First-declination">
 		<field name="declinationLabel0" type="text" required="true"

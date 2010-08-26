@@ -2,16 +2,22 @@
 <localization extend="modules.catalog.document.product">
 	<entity id="document-name">
 		<locale lang="fr">Produit telechargable</locale>
-		<locale lang="en">virtual product</locale>
+		<locale lang="en">Downloadable product</locale>
 	</entity>
-  
+	<entity id="shippingModeId">
+		<locale lang="fr">Mode de téléchargement</locale>
+		<locale lang="en">Download mode</locale>
+	</entity>
+	<entity id="shippingModeId-help">
+		<locale lang="fr">Mode de téléchargement</locale>
+		<locale lang="en">Download mode</locale>
+	</entity>
 	<entity id="secureMedia">
-		<locale lang="fr">Fichier join</locale>
-		<locale lang="en">Join file</locale>
-	</entity> 
-  
+		<locale lang="fr">Fichier joint</locale>
+		<locale lang="en">Attached file</locale>
+	</entity>
 	<entity id="secureMedia-help">
-		<locale lang="fr">Fichier join (sécurisé)</locale>
-		<locale lang="en">Join file (secure)</locale>
-	</entity> 
+		<locale lang="fr">Fichier joint (sécurisé)</locale>
+		<locale lang="en">Attached file (secure)</locale>
+	</entity>
 </localization>
