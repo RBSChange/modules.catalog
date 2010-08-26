@@ -7,11 +7,13 @@
 			<staticitem value="discount" label="&amp;modules.catalog.bo.lists.discountornot.Discount;" />
 			<staticitem value="not-discount" label="&amp;modules.catalog.bo.lists.discountornot.Not-discount;" />
 		</staticlist>
-		
+
 		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication"
 			description="Liste des champs de date de première/dernière date de publication pour le filtre sur les produits récemment publiées.">
 			<staticitem value="firstpublicationdate" label="&amp;modules.catalog.document.compiledproduct.firstpublicationdate;" />
 			<staticitem value="lastpublicationdate" label="&amp;modules.catalog.document.compiledproduct.lastpublicationdate;" />
 		</staticlist>
+
+		<dynamiclist listid="modules_catalog/shippingmodeoptions" label="Options pour les filtres sur le mode d'envoi" />
 	</systemfolder>
 </script>

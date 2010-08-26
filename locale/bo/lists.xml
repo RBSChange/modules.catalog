@@ -42,4 +42,11 @@
 	<entity id="discountornot.not-discount">
 		<locale lang="fr">hors promotion</locale>
 	</entity>
+	
+	<entity id="shippingmodeoptions.free">
+		<locale lang="fr">aucun mode fixé</locale>
+	</entity>
+	<entity id="shippingmodeoptions.current">
+		<locale lang="fr">le mode fixé courant</locale>
+	</entity>
 </localization>

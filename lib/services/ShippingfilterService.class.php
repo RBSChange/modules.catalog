@@ -164,4 +164,13 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('shop', $shop))
 			->addOrder(Order::iasc('document_label'))->find();
 	}
+	
+	/**
+	 * @return shipping_persistentdocument_mode[]
+	 */
+	public function getModesSelectedByProduct()
+	{
+		return catalog_ShippingfilterService::getInstance()->createQuery()->add(Restrictions::eq('selectbyproduct', true))
+			->setProjection(Projections::property('mode'))->findColumn('mode');
+	}
 }

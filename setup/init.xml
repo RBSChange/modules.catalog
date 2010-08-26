@@ -114,6 +114,8 @@
 			description="Liste des attributs étendus de produit" />
 			
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
+		
+		<dynamiclist listid="modules_catalog/shippingmodeoptions" label="Options pour les filtres sur le mode d'envoi" />
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">
