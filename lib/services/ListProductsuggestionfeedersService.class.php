@@ -8,14 +8,13 @@ class catalog_ListProductsuggestionfeedersService extends BaseService
 	 * @var catalog_ListProductsuggestionfeedersService
 	 */
 	private static $instance;
-	private $items = null;
 
 	/**
 	 * @return catalog_ListProductsuggestionfeedersService
 	 */
 	public static function getInstance()
 	{
-		if (is_null(self::$instance))
+		if (self::$instance === null)
 		{
 			self::$instance = self::getServiceClassInstance(get_class());
 		}

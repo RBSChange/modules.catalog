@@ -8,14 +8,13 @@ class catalog_ListDeclinationsbyproductService extends BaseService
 	 * @var catalog_DeclinationsbyproductService
 	 */
 	private static $instance;
-	private $items = null;
-
+	
 	/**
 	 * @return catalog_DeclinationsbyproductService
 	 */
 	public static function getInstance()
 	{
-		if (is_null(self::$instance))
+		if (self::$instance === null)
 		{
 			self::$instance = self::getServiceClassInstance(get_class());
 		}

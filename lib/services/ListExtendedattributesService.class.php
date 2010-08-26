@@ -8,14 +8,13 @@ class catalog_ListExtendedattributesService extends BaseService
 	 * @var catalog_ListExtendedattributesService
 	 */
 	private static $instance;
-	private $items = null;
 
 	/**
 	 * @return catalog_ListShippingFiltersService
 	 */
 	public static function getInstance()
 	{
-		if (is_null(self::$instance))
+		if (self::$instance === null)
 		{
 			self::$instance = self::getServiceClassInstance(get_class());
 		}
