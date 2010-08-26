@@ -6,6 +6,6 @@
 		<field name="valueWithTax" hidehelp="true" />
 		<field name="taxCode" hidehelp="true" />
 		<field name="selectbyproduct" />
-		<field name="query" type="objectfilter" allow="order/cart::checkValue" hidehelp="true" />
+		<field name="query" type="objectfilter" allow="order/cart,order/cartshipping::checkValue" hidehelp="true" />
 	</section>
 </panel>

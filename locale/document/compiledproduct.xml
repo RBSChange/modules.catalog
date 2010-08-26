@@ -4,6 +4,14 @@
 		<locale lang="fr">produit compilé</locale>
 		<locale lang="en">compiled product</locale>
 	</entity>
+	<entity id="firstpublicationdate">
+		<locale lang="fr">date de première publication</locale>
+		<locale lang="en">first publication date</locale>
+	</entity>
+	<entity id="lastpublicationdate">
+		<locale lang="fr">date de dernière publication</locale>
+		<locale lang="en">last publication date</locale>
+	</entity>
 	<entity id="publication.no-price">
 		<locale lang="fr">n'a pas de prix boutique</locale>
 		<locale lang="en">does not have shop price</locale>
