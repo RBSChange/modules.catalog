@@ -16,11 +16,8 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 	{
 		$label = $this->getConfiguration()->getLabel();
 		
-		$request->setAttribute('blockTitle', 
-				f_util_StringUtils::isEmpty($label) ? f_Locale::translate(
-						'&modules.catalog.frontoffice.productpromotion-label;') : f_util_HtmlUtils::textToHtml(
-						$label));
-						
+		$request->setAttribute('blockTitle', f_util_StringUtils::isEmpty($label) ? f_Locale::translate('&modules.catalog.frontoffice.productpromotion-label;') : f_util_HtmlUtils::textToHtml($label));
+		
 		if ($this->getConfiguration()->getMode() === "random")
 		{
 			$request->setAttribute('shop', catalog_ShopService::getInstance()->getCurrentShop());
@@ -38,31 +35,23 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 			return parent::execute($request, $response);
 		}
 	}
-	
 	/**
 	 * @param f_mvc_Response $response
 	 * @return catalog_persistentdocument_product[] or null
 	 */
 	protected function getProductArray($request)
 	{
-		$productsIds = $this->getConfiguration()
-			->getProductsIds();
+		$productsIds = $this->getProductIdArray($request);
 		if (f_util_ArrayUtils::isEmpty($productsIds))
 		{
 			return null;
 		}
-		
-		$query = catalog_ProductService::getInstance()->createQuery()
-			->add(Restrictions::published())
-			->add(Restrictions::in('id', $productsIds));
-		
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$query->createCriteria('compiledproduct')
-			->add(Restrictions::published())
-			->add(Restrictions::eq('shopId', $shop->getId()));
-		
-		$result = $query->find();
-		return count($result) ? $result : null;
+		$result = array();
+		foreach ($productsIds as $id)
+		{
+			$result[] = DocumentHelper::getDocumentInstance($id, 'modules_catalog/product');
+		}
+		return $result;
 	}
 	
 	/**
@@ -71,25 +60,23 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 	 */
 	protected function getProductIdArray($request)
 	{
-		
-		$productsIds = $this->getConfiguration()
-			->getProductsIds();
+		$productsIds = $this->getConfiguration()->getProductsIds();
 		if (f_util_ArrayUtils::isEmpty($productsIds))
 		{
 			return null;
 		}
 		
 		$query = catalog_ProductService::getInstance()->createQuery()
-			->add(Restrictions::published())
-			->add(Restrictions::in('id', $productsIds))
-			->setProjection(Projections::property('id'));
+					->add(Restrictions::published())
+					->add(Restrictions::in('id', $productsIds))
+					->setProjection(Projections::property('id'));
 		
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$query->createCriteria('compiledproduct')
-			->add(Restrictions::published())
-			->add(Restrictions::eq('shopId', $shop->getId()));
+				->add(Restrictions::published())
+				->add(Restrictions::eq('shopId', $shop->getId()));
 		
-		$result = $query->findColumn('id');
+		$result = array_intersect($productsIds, $query->findColumn('id'));
 		return count($result) ? $result : null;
 	}
 }
