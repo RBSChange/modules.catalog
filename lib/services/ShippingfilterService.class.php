@@ -171,6 +171,6 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	public function getModesSelectedByProduct()
 	{
 		return catalog_ShippingfilterService::getInstance()->createQuery()->add(Restrictions::eq('selectbyproduct', true))
-			->setProjection(Projections::property('mode'))->findColumn('mode');
+			->setProjection(Projections::groupProperty('mode'))->findColumn('mode');
 	}
 }
