@@ -324,7 +324,14 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 				{
 					foreach (array_keys($addToCart) as $id)
 					{
-						$quantity = max(intval($quantities[$id]), 1);
+						if ($displayConfig['showQuantitySelector'])
+						{
+							$quantity = max(intval($quantities[$id]), 1);
+						}
+						else
+						{
+							$quantity = 1;
+						}
 						$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => $quantity);
 					}
 				}
