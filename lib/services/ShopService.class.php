@@ -76,7 +76,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		$query->createCriteria('topic')->add(Restrictions::ancestorOf($document->getId()));
 		return $query->findUnique();
 	}
-	
+
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */
@@ -100,13 +100,22 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @var catalog_persistentdocument_shop[]
+	 */
+	private $shopByWebsiteId = array();
+	
+	/**
 	 * @param integer $websiteId
 	 * @return catalog_persistentdocument_shop
 	 */
 	public function getPublishedByWebsiteId($websiteId)
 	{
-		return $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
-			->add(Restrictions::published())->findUnique();
+		if (!isset($this->shopByWebsiteId[$websiteId]))
+		{
+			$this->shopByWebsiteId[$websiteId] = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
+				->add(Restrictions::published())->findUnique();
+		}
+		return $this->shopByWebsiteId[$websiteId];
 	}
 	
 	/**
