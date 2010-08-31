@@ -4,8 +4,8 @@
 	<div class="shelves-display"> 
 		<ol class="table-view">
 			<li tal:repeat="relatedProduct relatedProducts">
-				<ul class="sub-list" tal:define="price php: relatedProduct.getPrice(shop, customer)">			
-					<li tal:define="visual php: relatedProduct.getDefaultVisual(shop)" tal:condition="visual">
+				<ul class="sub-list" change:productprice="name 'price'; product relatedProduct">			
+					<li change:productvisual="name 'visual'; mode 'list'; product relatedProduct" tal:condition="visual">
 						<a change:link="document relatedProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>

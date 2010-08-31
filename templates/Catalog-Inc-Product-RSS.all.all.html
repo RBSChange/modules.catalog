@@ -1,13 +1,13 @@
 <table border="0" cellspacing="10">
 	<tbody>
-		<tr tal:define="price php: product.getPrice(shop, customer); id product/getId">
+		<tr tal:define="id product/getId" change:productprice="name 'price'; product product">
 			<td width="75" valign="top" align="right">
 				<strong>${price/getFormattedValueWithTax}</strong>
 				<tal:block tal:condition="price/isDiscount">
 					<br />
 					<del>${price/getFormattedOldValueWithTax}</del>		
 				</tal:block>
-				<img change:media="document php: product.getDefaultVisual(shop); format 'modules.catalog.frontoffice/list'" />
+				<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="documentvisual; format 'modules.catalog.frontoffice/list'" />
 			</td>
 			<td valign="top">
 				<strong>${product/getLabelAsHtml}</strong>		

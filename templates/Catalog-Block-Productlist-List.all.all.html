@@ -15,14 +15,14 @@
 	<div class="shelves-display compare">
 		<ol class="table-view">
 			<tal:block tal:repeat="product products">
-				<li tal:define="price php: product.getPrice(shop, customer); id product/getId">
+				<li tal:define="id product/getId" change:productprice="name 'price'; product product">
 					<ul class="sub-list">
 						<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]">
 							<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id name; name name; value id" type="checkbox"/>
 							<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id name; name name; value id" type="checkbox"/>
 							<label tal:attributes="for name" change:translate="&modules.catalog.frontoffice.Select;"></label>	
 						</li>
-						<li tal:define="visual php: product.getDefaultVisual(shop)" tal:condition="visual">
+						<li change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual">
 							<a change:link="document product" tal:attributes="title product/getLinkTitle">
 		          				<img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" />
 		          			</a>

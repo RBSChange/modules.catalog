@@ -30,7 +30,17 @@ class catalog_persistentdocument_bundleditem extends catalog_persistentdocument_
 	{
 		$product = $this->getProduct();
 		return $product->getDocumentService()->getDefaultVisual($product, $shop);
-	}	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop)
+	{
+		$product = $this->getProduct();
+		return $product->getDocumentService()->getListVisual($product, $shop);
+	}
 	
 	/**
 	 * @return String

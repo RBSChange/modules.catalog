@@ -35,14 +35,14 @@
 			</thead>
 			<tbody>
 				<tal:block tal:repeat="product products">
-					<tr class="product-line row-${repeat/product/odd}" tal:define="price php: product.getPrice(shop, customer); id product/getId">
+					<tr class="product-line row-${repeat/product/odd}" tal:define="id product/getId" change:productprice="name 'price'; product product">
 						<td tal:condition="displayConfig/showCheckboxes" tal:define="global name string:catalogParam[selected_product][$id]">
 							<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id name; name name; value id" type="checkbox"/>
 							<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id name; name name; value id" type="checkbox"/>
 						</td>
 						<td>
 							<a change:link="document product" class="link" tal:attributes="title product/getLinkTitle" >
-								<img change:media="document php: product.getDefaultVisual(shop); format 'modules.catalog.frontoffice/list'" />
+								<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.catalog.frontoffice/list'" />
 							</a>
 						</td>
 						<td>

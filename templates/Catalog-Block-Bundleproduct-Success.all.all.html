@@ -167,7 +167,7 @@
 		<ol class="table-view">
 			<li tal:repeat="bundleditem product/getBundleditemArray">
 				<ul class="sub-list">			
-					<li tal:define="visual php: bundleditem.getDefaultVisual(shop)" tal:condition="visual">
+					<li change:productvisual="name 'visual'; mode 'list'; product bundleditem" tal:condition="visual">
 						<a change:link="document bundleditem"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>

@@ -35,6 +35,16 @@ class catalog_persistentdocument_kititem extends catalog_persistentdocument_kiti
 		return $product->getDocumentService()->getDefaultVisual($product, $shop);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop)
+	{
+		$product = $this->getDefaultProduct();
+		return $product->getDocumentService()->getListVisual($product, $shop);
+	}
+	
 	public function getTitleAsHtml()
 	{
 		return $this->getQuantity() . ' x ' . $this->getDefaultProduct()->getLabelAsHtml();

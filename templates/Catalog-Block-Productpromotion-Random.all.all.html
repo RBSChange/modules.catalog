@@ -1,8 +1,8 @@
 <h3 change:h="">${blockTitle}</h3>
 <div class="content" tal:condition="product">
 	<ol>
-		<li tal:define="price php: product.getPrice(shop, customer)">
-			<a tal:define="visual php: product.getDefaultVisual(shop)" tal:condition="visual" change:link="document product" tal:attributes="title product/getLinkTitle">
+		<li change:productprice="name 'price'; product product">
+			<a change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual" change:link="document product" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/productList'" />
 			</a>
 			<h4 class="title"><a change:link="document product" tal:attributes="title product/getLinkTitle" tal:content="product/getLabel"></a></h4>

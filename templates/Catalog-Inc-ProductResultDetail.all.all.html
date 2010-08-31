@@ -1,18 +1,18 @@
-<img tal:define="visual item/getDocument/getProduct/getVisual" change:media="document visual; format 'modules.catalog.frontoffice/productList'; class 'float-right'" />
+<img change:productvisual="name 'visual'; mode 'list'; product item/getDocument/getProduct" change:media="document visual; format 'modules.catalog.frontoffice/productList'; class 'float-right'" />
 <p tal:define="shelf item/getDocument/getShelf">
-	<strong i18n:translate="&amp;modules.catalog.frontoffice.ShelfLabel;"></strong>
+	<strong change:translate="modules.catalog.frontoffice.ShelfLabel"></strong>
 	<a change:link="document shelf">${shelf/getLabelAsHtml}</a>
 </p>
-<tal:block tal:define="price item/getDocument/getProduct/getPriceForCurrentShopAndCustomer; shop php:catalog_ShopService::getInstance().getCurrentShop()" tal:condition="price">
+<tal:block tal:define="shop php:catalog_ShopService::getInstance().getCurrentShop()" change:productprice="name 'price'; product item/getDocument/getProduct" tal:condition="price">
 	<p tal:condition="shop/getDisplayPriceWithTax">
-		<strong i18n:translate="&modules.catalog.frontoffice.PricettcLabel;"></strong>
+		<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
 		<tal:block tal:condition="price/isDiscount">
 			<del>${price/getFormattedOldValueWithTax}</del>			
 		</tal:block>
 		${price/getFormattedValueWithTax}
 	</p>
 	<p tal:condition="shop/getDisplayPriceWithoutTax">
-		<strong i18n:translate="&modules.catalog.frontoffice.PricehtLabel;"></strong>
+		<strong change:translate="modules.catalog.frontoffice.PricehtLabel"></strong>
 		<tal:block tal:condition="price/isDiscount">
 			<del>${price/getFormattedOldValueWithoutTax}</del>			
 		</tal:block>
@@ -20,6 +20,6 @@
 	</p>
 </tal:block>
 <p>
-	<strong i18n:translate="&amp;modules.solrsearch.frontoffice.DescriptionLabel;"></strong>
-	${item/getHighlightedText}<span i18n:translate="&amp;modules.solrsearch.frontoffice.End-descriptionEllipsis;"></span>		
+	<strong change:translate="modules.solrsearch.frontoffice.DescriptionLabel"></strong>
+	${item/getHighlightedText}<span change:translate="modules.solrsearch.frontoffice.End-descriptionEllipsis"></span>		
 </p>
