@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<localization>
+<localization extend="modules.catalog.document.product">
 	<entity id="document-name">
 		<locale lang="fr">déclinaison de produit</locale>
 		<locale lang="en">product declination</locale>
-	</entity>	
-	<entity id="label">
-		<locale lang="fr">libellé</locale>
-	</entity>
-	<entity id="label-help">
-		<locale lang="fr">libellé du produit qui apparaît dans le catalogue sur le site web</locale>
-	</entity>
-	<entity id="codeReference">
-		<locale lang="fr">code référence</locale>
-		<locale lang="en">reference code</locale>
-	</entity>
-	<entity id="codeReference-help">
-		<locale lang="fr">code référence</locale>
-		<locale lang="en">reference code</locale>
-	</entity>
-	<entity id="visual">
-		<locale lang="fr">visuel</locale>
-	</entity>
-	<entity id="visual-help">
-		<locale lang="fr">image à sélectionner depuis les ressources.</locale>
 	</entity>
 	<entity id="stockquantity">
 		<locale lang="fr">quantité en stock</locale>
 	</entity>
 	<entity id="stockquantity-help">
-		<locale lang="fr">quantité de produit actuellement en stock</locale>
-	</entity>
-	<entity id="stockAlertThreshold">
-		<locale lang="fr">seuil d'alerte de stock</locale>
-	</entity>
-	<entity id="stockAlertThreshold-help">
-		<locale lang="fr">quantité de stock en dessous de laquelle une alerte doit être envoyée pour ce produit. Laisser vide pour utiliser le seuil par défaut défini dans les préférences du module. Les destinataires de ces notifications sont également définies dans les préférences du module.</locale>
+		<locale lang="fr">lorsque ce champ est vide, aucun stock ne sera géré pour le produit – il sera considéré comme toujours en stock. Une fois renseigné, correspond au stock du produit. En fonction des réglages de la boutique, lorsque ce stock atteint zéro le produit pourra être automatiquement retiré de la vente.</locale>
 	</entity>
 </localization>

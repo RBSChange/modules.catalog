@@ -66,34 +66,6 @@ class catalog_LockedpriceService extends catalog_PriceService
 	}
 	
 	/**
-	 * @see catalog_PriceService::refreshNextThresholdMax()
-	 * @param catalog_persistentdocument_lockedprice $document
-	 */
-	protected function refreshNextThresholdMax($document)
-	{
-		if (!$document->getIgnoreConflicts())
-		{
-			parent::refreshNextThresholdMax($document);
-		}
-	}
-	
-	/**
-	 * @see catalog_PriceService::refreshThresholdMax()
-	 * @param catalog_persistentdocument_lockedprice $document
-	 */
-	protected function refreshThresholdMax($document)
-	{
-		if (!$document->getIgnoreConflicts())
-		{
-			parent::refreshThresholdMax($document);
-		}
-		else 
-		{
-			$document->setThresholdMax(PHP_INT_MAX);
-		}
-	}
-	
-	/**
 	 * @param catalog_persistentdocument_lockedprice $price
 	 * @param catalog_persistentdocument_price $originalPrice
 	 */

@@ -399,4 +399,31 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	{
 		return $document->getWebsite()->getId();
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return Integer
+	 */
+	protected function getPublishedProductCountByShop($shop)
+	{
+		$count =  catalog_CompiledproductService::getInstance()->createQuery()
+					->add(Restrictions::published())
+					->add(Restrictions::eq('shopId', $shop->getId()))
+					->add(Restrictions::eq('indexed', true))
+					->setProjection(Projections::rowCount('count'))->findColumn('count');
+		return f_util_ArrayUtils::firstElement($count);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $document
+	 * @see framework/persistentdocument/f_persistentdocument_DocumentService::getResume()
+	 */
+	public function getResume($document, $forModuleName, $allowedSections = null)
+	{
+		$data = parent::getResume($document, $forModuleName, $allowedSections);
+		$data['properties']['publishedproductcount'] = $this->getPublishedProductCountByShop($document);
+		return $data;
+	}
+
+	
 }

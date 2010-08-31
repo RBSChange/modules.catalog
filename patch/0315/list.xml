@@ -15,5 +15,7 @@
 		</staticlist>
 
 		<dynamiclist listid="modules_catalog/shippingmodeoptions" label="Options pour les filtres sur le mode d'envoi" />
+		
+		<dynamiclist listid="modules_catalog/shopcurrency" label="Devises avec code" />
 	</systemfolder>
 </script>

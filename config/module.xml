@@ -11,6 +11,7 @@
 		<!-- Feeders for product suggestions. -->
 		<modulesCatalogProductSuggestionFeeder>
 			<entry name="1">catalog_SameShelvesProductFeeder</entry>
+			<entry name="2">catalog_SameBrandProductFeeder</entry>
 		</modulesCatalogProductSuggestionFeeder>
 		<!-- Favorite and consulted product list handling. -->
 		<entry name="productListFavoriteClass">catalog_SessionProductList</entry>

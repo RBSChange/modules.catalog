@@ -98,9 +98,9 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('productId', $product->getId()))
 			->add(Restrictions::eq('shopId', $shop->getId()))
 			->add(Restrictions::le('thresholdMin', $quantity))
-			->add(Restrictions::gt('thresholdMax', $quantity))
 			->add(Restrictions::in('targetId', $targetIds))
 			->addOrder(Order::desc('priority'))
+			->addOrder(Order::desc('thresholdMin'))
 			->setFirstResult(0)
 			->setMaxResults(1);
 			
@@ -329,28 +329,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			}
 		}
 		
-		// Update thresholdMax value.
-		$this->refreshThresholdMax($document);
 	}
 	
-	/**
-	 * @param catalog_persistentdocument_price $document
-	 */
-	protected function refreshThresholdMax($document)
-	{
-		$query = $this->createQuery()
-			->add(Restrictions::eq('productId', $document->getProductId()))
-			->add(Restrictions::eq('shopId', $document->getShopId()))
-			->add(Restrictions::eq('targetId', $document->getTargetId()))
-			->add(Restrictions::gt('thresholdMin', $document->getThresholdMin()))
-			->add(Restrictions::eq('priority', $document->getPriority()))
-			->add(Restrictions::ne('id', $document->getId()))
-			->addOrder(Order::asc('thresholdMin'))
-			->setFirstResult(0)
-			->setMaxResults(1);
-		$otherPrice = f_util_ArrayUtils::firstElement($query->find());
-		$document->setThresholdMax(($otherPrice !== null) ? $otherPrice->getThresholdMin() : PHP_INT_MAX);
-	}
 
 	/**
 	 * @param catalog_persistentdocument_price $document
@@ -360,7 +340,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	protected function postSave($document, $parentNodeId)
 	{
 		$this->checkConflicts($document);
-		$this->refreshNextThresholdMax($document);
 		
 		catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 	}
@@ -393,27 +372,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		if ($query->findUnique() !== null)
 		{
 			throw new BaseException('A single product can have only one price for a triplet of shopId, targetId and thresholdMin on a given publication period.', 'modules.catalog.document.price.exception.Trying-making-duplicate');
-		}
-	}
-	
-	/**
-	 * Update thresholdMax for the price with a thresholdMin directly inferior.
-	 * @param catalog_persistentdocument_price $document
-	 */
-	protected function refreshNextThresholdMax($document)
-	{
-		$query = $this->createQuery()
-			->add(Restrictions::eq('productId', $document->getProductId()))
-			->add(Restrictions::eq('shopId', $document->getShopId()))
-			->add(Restrictions::eq('targetId', $document->getTargetId()))
-			->add(Restrictions::lt('thresholdMin', $document->getThresholdMin()))
-			->add(Restrictions::gt('thresholdMax', $document->getThresholdMin()))
-			->add(Restrictions::eq('priority', $document->getPriority()));
-		$priceToUpdate = $query->findUnique();
-		if ($priceToUpdate !== null)
-		{
-			$priceToUpdate->setThresholdMax($document->getThresholdMin());
-			$priceToUpdate->save();
 		}
 	}
 	
@@ -511,20 +469,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	{
 		if ($document->getProductId())
 		{
-			// Update thresholdMax for the price with a thresholdMin directly inferior.
-			$query = $this->createQuery()
-				->add(Restrictions::eq('productId', $document->getProductId()))
-				->add(Restrictions::eq('shopId', $document->getShopId()))
-				->add(Restrictions::eq('targetId', $document->getTargetId()))
-				->add(Restrictions::eq('thresholdMax', $document->getThresholdMin()))
-				->add(Restrictions::eq('priority', $document->getPriority()));
-			$priceToUpdate = $query->findUnique();
-			if ($priceToUpdate !== null)
-			{
-				$priceToUpdate->setThresholdMax($document->getThresholdMax());
-				$priceToUpdate->save();
-			}
-		
 			catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 		}
 		
@@ -628,4 +572,20 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	{
 		$this->transform($price, 'modules_catalog/price');
 	}
+	
+	/**
+	 * @deprecated
+	 */
+	protected function refreshThresholdMax($document)
+	{
+	}
+	
+	
+	/**
+	 * @deprecated
+	 */
+	protected function refreshNextThresholdMax($document)
+	{
+	}
+	
 }

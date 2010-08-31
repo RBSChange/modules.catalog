@@ -14,7 +14,7 @@
 		<field name="billingZone" hidehelp="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Currency">
-		<field name="currencyCode" hidehelp="true" />
+		<field name="currencyCode" hidehelp="true" listid="modules_catalog/shopcurrency" />
 		<field name="currencyPosition" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Prices">

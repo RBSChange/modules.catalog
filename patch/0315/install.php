@@ -25,6 +25,13 @@ class catalog_patch_0315 extends patch_BasePatch
 			$product->setLastpublicationdate($product->getModificationdate());
 			$product->save();
 		}
+		
+		// Suppression de thresholdmax
+		$archivePath = f_util_FileUtils::buildWebeditPath('modules/catalog/patch/0315/price-1.xml');
+		$oldModel = generator_PersistentModel::loadModelFromString(f_util_FileUtils::read($archivePath), 'catalog', 'price');
+		$oldProp = $oldModel->getPropertyByName('thresholdMax');
+		f_persistentdocument_PersistentProvider::getInstance()->delProperty('catalog', 'price', $oldProp);
+		
 	}
 
 	/**

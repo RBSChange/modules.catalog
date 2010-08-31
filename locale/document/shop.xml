@@ -12,6 +12,9 @@
 		<locale lang="fr">libellé</locale>
 		<locale lang="en">label</locale>
 	</entity>
+	<entity id="label-help">
+		<locale lang="fr">champ texte utilisé à la fois dans les sites et dans l’interface d’administration pour identifier la boutique.</locale>
+	</entity>
 	<entity id="description">
 		<locale lang="fr">description</locale>
 		<locale lang="en">description</locale>
@@ -25,43 +28,60 @@
 		<locale lang="en">shelves</locale>
 	</entity>
 	<entity id="topShelf-help">
-		<locale lang="fr">rayons de premier niveau de la boutique</locale>
+		<locale lang="fr">liste des rayons de premier niveau qui seront mis en ligne dans la boutique.</locale>
 		<locale lang="en">top shelves of the shop</locale>
 	</entity>
 	<entity id="shippingZone">
 		<locale lang="fr">zone de livraison</locale>
 		<locale lang="en">shipping zone</locale>
 	</entity>
+	<entity id="shippingZone-help">
+		<locale lang="fr">document « zone » du le module « Zones » qui sera utilisé pour valider les adresses de livraison lors du processus de commande.</locale>
+	</entity>
 	<entity id="billingZone">
 		<locale lang="fr">zone de facturation</locale>
 		<locale lang="en">billing zone</locale>
 	</entity>
+	<entity id="billingZone-help">
+		<locale lang="fr">document « zone » du le module « Zones » qui sera utilisé pour valider les adresses de facturation lors du processus de commande.</locale>
+	</entity>
 	<entity id="currencyCode">
 		<locale lang="fr">devise</locale>
 		<locale lang="en">currency</locale>
+	</entity>
+	<entity id="currencyCode-help">
+		<locale lang="fr">Devise utilisée par la boutique. Elle provient d’une liste statique du module « Listes ».
+</locale>
 	</entity>
 	<entity id="currencyPosition">
 		<locale lang="fr">position du symbole</locale>
 		<locale lang="en">symbol position</locale>
 	</entity>
 	<entity id="currencyPosition-help">
-		<locale lang="fr">lors de l'affichage, le symbole peut être placé à gauche ou à droite du montant.</locale>
+		<locale lang="fr">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99.</locale>
 		<locale lang="en">when displaying a price, the currency symbol may be place at the left or at the right of the amount.</locale>
 	</entity>
 	<entity id="displayPriceWithTax">
 		<locale lang="fr">afficher le prix TTC</locale>
 		<locale lang="en">display price with taxes</locale>
 	</entity>
+	<entity id="displayPriceWithTax-help">
+		<locale lang="fr">si oui le prix, le prix TTC sera affiché sur les sites (cette option est cumulable avec Afficher le prix HT).</locale>
+	</entity>
+	
 	<entity id="displayPriceWithoutTax">
 		<locale lang="fr">afficher le prix HT</locale>
 		<locale lang="en">display price without taxes</locale>
+	</entity>
+	<entity id="displayPriceWithoutTax-help">
+		<locale lang="fr">si oui le prix, le prix HT sera affiché sur les sites (cette option est cumulable avec Afficher le prix TTC).</locale>
 	</entity>
 	<entity id="defaultDetailVisual">
 		<locale lang="fr">visuel produit par défaut</locale>
 		<locale lang="en">default product visual</locale>
 	</entity>
 	<entity id="defaultDetailVisual-help">
-		<locale lang="fr">visuel produit par défaut en mode détail (affichage d'une fiche produit).</locale>
+		<locale lang="fr">lorsqu’aucun visuel n’est disponible pour le produit, ce visuel sera utilisé pour l’affichage du détail du produit. Si non renseigné, le visuel produit par défaut des préférences du module Catalogue et Boutiques sera utilisé.</locale>
 		<locale lang="en">default product visual in detail mode.</locale>
 	</entity>
 	<entity id="defaultListVisual">
@@ -69,27 +89,33 @@
 		<locale lang="en">default product visual (list mode)</locale>
 	</entity>
 	<entity id="defaultListVisual-help">
-		<locale lang="fr">visuel produit par défaut en mode liste (liste de produits).</locale>
+		<locale lang="fr">lorsqu’aucun visuel n’est disponible pour le produit, ce visuel sera utilisé pour l’affichage du produit dans les listes. Si non renseigné, le visuel produit par défaut des préférences du module Catalogue et Boutiques sera utilisé.</locale>
 		<locale lang="en">default product visual in list mode.</locale>
 	</entity>
 	<entity id="startpublicationdate">
 		<locale lang="fr">début de publication</locale>
 	</entity>
+	<entity id="startpublicationdate-help">
+		<locale lang="fr">date partir de laquelle la boutique sera publiable.</locale>
+	</entity>
 	<entity id="endpublicationdate">
 		<locale lang="fr">fin de publication</locale>
+	</entity>
+	<entity id="endpublicationdate-help">
+		<locale lang="fr">date partir de laquelle la boutique ne sera plus publiable.</locale>
 	</entity>
 	<entity id="mount-parent">
 		<locale lang="fr">point de montage</locale>
 	</entity>
 	<entity id="mount-parent-help">
-		<locale lang="fr">rubrique ou site dans lequel cette boutique doit apparaître.</locale>
+		<locale lang="fr">Site ou rubrique d’un site dans lequel sera créée la rubrique système associée à la boutique. En général, c’est le site dans lequel on souhaite mettre en ligne sa boutique qui est choisi.</locale>
 	</entity>
 	<entity id="displayOutOfStock">
 		<locale lang="fr">afficher les produits épuisés</locale>
 		<locale lang="en">display products out of stock</locale>
 	</entity>
-	<entity id="displayAOutOfStock-help">
-		<locale lang="fr">si vous cochez oui, les produits en rupture de stock seront affichés comme les autres produits.</locale>
+	<entity id="displayOutOfStock-help">
+		<locale lang="fr">autorise l’affichage des produits dont le stock est à zéro dans le site.</locale>
 		<locale lang="en">display products out of stock.</locale>
 	</entity>
 	<entity id="allowOrderOutOfStock">
@@ -97,7 +123,7 @@
 		<locale lang="en">enable out of stock products order</locale>
 	</entity>
 	<entity id="allowOrderOutOfStock-help">
-		<locale lang="fr">cocher oui, permettra aux clients de commander les produits en rupture de stock.</locale>
+		<locale lang="fr">Si oui, permettra aux clients de commander les produits en rupture de stock. Ce champ n'est disponible que si l'affichage des produits épuisés est activé.</locale>
 		<locale lang="en">enable out of stock products order.</locale>
 	</entity>
 	<entity id="pageTitle">
@@ -110,19 +136,19 @@
 		<locale lang="fr">description de la page</locale>
 	</entity>
 	<entity id="pageDescription-help">
-		<locale lang="fr">description de la page tilisable dans les métas de la page d'accueil de la boutique.</locale>
+		<locale lang="fr">description de la page utilisable dans les métas de la page d'accueil de la boutique.</locale>
 	</entity>
 	<entity id="pageKeywords">
 		<locale lang="fr">mots-clés de la page</locale>
 	</entity>
 	<entity id="pageKeywords-help">
-		<locale lang="fr">mots-clés de la page tilisable dans les métas de la page d'accueil de la boutique.</locale>
+		<locale lang="fr">mots-clés de la page utilisable dans les métas de la page d'accueil de la boutique.</locale>
 	</entity>
 	<entity id="priceMode">
 		<locale lang="fr">mode de saisie des prix</locale>
 	</entity>
 	<entity id="priceMode-help">
-		<locale lang="fr">Indiquez ici dans quel mode vous voulez saisir les prix pour cette boutique. Attention, cette propriété ne peut être définie qu'à la création et ne peut plus être modifiée par après.</locale>
+		<locale lang="fr">Lors de la saisie des prix en backoffice définit si le prix est à prendre hors taxes (HT) ou toutes taxes comprises (TTC). Ce paramétrage n’est disponible qu’à la création de la boutique, il est donc important de créer la boutique initialement dans le bon mode.</locale>
 	</entity>
 	<entity id="enableAvailabilityAlerts">
 		<locale lang="fr">activer les alertes disponibilité</locale>
@@ -164,4 +190,8 @@
 	<entity id="exception.mount-parent-bad-type">
 		<locale lang="fr">le point de montage d'une boutique doit obligatoirement être un site ou une rubrique.</locale>
 	</entity>
+	<entity id="published-product-count">
+		<locale lang="fr">nombre de produits publiés</locale>
+		<locale lang="en">published products count</locale>
+		<locale lang="de">Anzahl veröffentlichte Produkte</locale>	</entity>
 </localization>

@@ -8,12 +8,12 @@
 		<locale lang="fr">quantité en stock</locale>
 	</entity>
 	<entity id="stockquantity-help">
-		<locale lang="fr">quantité de produit actuellement en stock</locale>
+		<locale lang="fr">lorsque ce champ est vide, aucun stock ne sera géré pour le produit – il sera considéré comme toujours en stock. Une fois renseigné, correspond au stock du produit. En fonction des réglages de la boutique, lorsque ce stock atteint zéro le produit pourra être automatiquement retiré de la vente.</locale>
 	</entity>
 	<entity id="stockAlertThreshold">
 		<locale lang="fr">seuil d'alerte de stock</locale>
 	</entity>
 	<entity id="stockAlertThreshold-help">
-		<locale lang="fr">quantité de stock en dessous de laquelle une alerte doit être envoyée pour ce produit. Laisser vide pour utiliser le seuil par défaut défini dans les préférences du module. Les destinataires de ces notifications sont également définies dans les préférences du module.</locale>
+		<locale lang="fr">valeur de la quantité en stock en deçà de laquelle sera déclenché l’envoi de la notification « Alerte concernant le stock » (Notifications > Catalogue et boutiques > Alerte concernant le stock) aux destinataires paramétrés dans les préférences du module « Catalogue et boutiques » (champ « Destinataires des alertes liées aux stocks »). Lorsque ce champ est vide, aucune alerte de stock ne sera envoyée..</locale>
 	</entity>
 </localization>

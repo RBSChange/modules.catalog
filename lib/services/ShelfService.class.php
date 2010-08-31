@@ -418,9 +418,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	protected function preSave($document, $parentNodeId)
 	{
 		// Update label for URL.
-		$document->setLabelForUrl($document->getLabel());
+		if ($document->isPropertyModified('label'))
+		{
+			$document->setLabelForUrl($document->getLabel());
+		}
 	}
-
+	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
