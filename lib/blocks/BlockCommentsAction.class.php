@@ -5,5 +5,17 @@
  */
 class catalog_BlockCommentsAction extends comment_BlockCommentsBaseAction
 {
-	// Nothing specific to do here.
+	/**
+	 * @param f_mvc_Request $request
+	 * @param f_mvc_Response $response
+	 * @return String
+	 */
+	public function execute($request, $response)
+	{
+		if (!catalog_ModuleService::getInstance()->areCommentsEnabled())
+		{
+			return website_BlockView::NONE;
+		}
+		return parent::execute($request, $response);
+	}
 }

@@ -61,7 +61,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showPrices'] = $displayConfig['showPricesWithTax'] || $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showShareBlock'] = $this->getShowShareBlock();
-		$displayConfig['showRatingAverage'] = $this->getConfigurationValue('displayratingaverage', false);
+		$displayConfig['showRatingAverage'] = catalog_ModuleService::getInstance()->areCommentsEnabled() ? $this->getConfigurationValue('displayratingaverage', false) : false;
 		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
 		$displayConfig['showProductPictograms'] = $this->getConfigurationValue('displayproductpicto', false);
 		$displayConfig['showAvailability'] = $this->getConfigurationValue('displayavailability', true);
