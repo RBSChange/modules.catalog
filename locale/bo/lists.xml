@@ -44,7 +44,7 @@
 	</entity>
 	
 	<entity id="shippingmodeoptions.free">
-		<locale lang="fr">aucun mode fixé</locale>
+		<locale lang="fr">choisi par l'internaute</locale>
 	</entity>
 	<entity id="shippingmodeoptions.current">
 		<locale lang="fr">le mode fixé courant</locale>
