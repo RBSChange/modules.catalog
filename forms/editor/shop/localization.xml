@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="modules.catalog.bo.general.General">
+		<field name="label" hidehelp="true" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Currency">
+		<field name="currencyPosition" />
+	</section>
+	<section labeli18n="modules.catalog.bo.general.Referencing">
+		<field name="pageTitle" class="with-counter" rows="2" />
+		<field name="pageDescription" class="with-counter" rows="2" />
+		<field name="pageKeywords" class="with-counter" rows="2" />
+	</section>
+</panel>

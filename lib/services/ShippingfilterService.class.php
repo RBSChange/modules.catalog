@@ -89,18 +89,23 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		$filters = $this->createQuery()->add(Restrictions::published())
 			->add(Restrictions::eq('shop', $cart->getShop()))
 			->add(Restrictions::eq('selectbyproduct', false))
+			->addOrder(Order::asc('valueWithTax'))
 			->find();
 		$result = array();
 		foreach ($filters as $filter) 
 		{
+			if (isset($result[$filter->getMode()->getId()]))
+			{
+				continue;
+			}
 			$cart->setCurrentTestFilter($filter);
 			if ($this->isValidShippingFilter($filter, $cart))
 			{
-				$result[] = $filter;
+				$result[$filter->getMode()->getId()] = $filter;
 			} 
 		}
 		$cart->setCurrentTestFilter(null);
-		return $result;
+		return array_values($result);
 	}
 	
 	

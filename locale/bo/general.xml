@@ -314,4 +314,7 @@
 	<entity id="order-product-in-shelf-panel-title">
 		<locale lang="fr">ordonner les produits du rayon</locale>
 	</entity>
+	<entity id="condition-filters">
+		<locale lang="fr">conditions d'application</locale>
+	</entity>
 </localization>

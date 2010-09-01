@@ -78,7 +78,7 @@
 		<locale lang="de">Ökosteuer</locale>
 	</entity>
 	<entity id="ecoTax-help">
-		<locale lang="fr">taxe appliquée sur les produits électriques et électroniques, utilisée pour le traitement des déchets de ces produits.Z</locale>
+		<locale lang="fr">taxe appliquée sur les produits électriques et électroniques, utilisée pour le traitement des déchets de ces produits.</locale>
 		<locale lang="en">tax applied on all electrical and electronical products.</locale>
 		<locale lang="de">Auf elektrische und elektronische Produkte angewandte Steuer, für die Verarbeitung des Abfalls dieser Produkte.</locale>
 	</entity>
@@ -137,5 +137,8 @@
 	</entity>
 	<entity id="unexpected-target-error">
 		<locale lang="fr">cible invalide !</locale>
+	</entity>
+	<entity id="exception.trying-making-duplicate">
+		<locale lang="fr">il existe un prix avec les même caractéristiques (seuil, cible et boutique) au sein de la période spécifiée. Vous ne pouvez pas créér votre prix sans résoudre d'abord ce conflit.'</locale>
 	</entity>
 </localization>

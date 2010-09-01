@@ -26,4 +26,20 @@
 	<entity id="selectbyproduct">
 		<locale lang="fr">Spécifique produits</locale>
 	</entity>	
+	<entity id="startpublicationdate">
+		<locale lang="fr">début de validité</locale>
+		<locale lang="en">validity begin date</locale>
+		<locale lang="de">Gültigkeitsanfang</locale>
+	</entity>
+	<entity id="startpublicationdate-help">
+		<locale lang="fr">début de validité du filtre. Avant cette date, le filtre n'est pas actif.</locale>
+	</entity>
+	<entity id="endpublicationdate">
+		<locale lang="fr">fin de validité</locale>
+		<locale lang="en">validity end date</locale>
+		<locale lang="de">Gültigkeitsende</locale>
+	</entity>
+	<entity id="endpublicationdate-help">
+		<locale lang="fr">fin de validité du filtre. Au-delà de cette date, le filtre ne sera plus actif.</locale>
+	</entity>
 </localization>
