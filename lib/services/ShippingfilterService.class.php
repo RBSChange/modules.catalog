@@ -122,6 +122,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 				->add(Restrictions::eq('shop', $cart->getShop()))
 				->add(Restrictions::eq('selectbyproduct', true))
 				->add(Restrictions::eq('mode.id', $shippingModeId))
+				->addOrder(Order::asc('valueWithTax'))
 				->find();
 				
 			$shippingFilter = null;	
