@@ -28,7 +28,7 @@
 		<locale lang="fr">afficher la note</locale>
 	</entity>
 	<entity id="displayratingaverage-help">
-		<locale lang="fr">afficher ou non la note des produits.</locale>
+		<locale lang="fr">Afficher ou non la note des produits. Cette option n'a d'effet que si les commentaires sur les produits sont activés dans les préférences du module.</locale>
 	</entity>
 	<entity id="showshareblock">
 		<locale lang="fr">activer le partage de liens</locale>

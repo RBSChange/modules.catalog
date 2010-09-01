@@ -93,7 +93,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		if ($this->useCaptcha())
 		{
 			$code = Controller::getInstance()->getContext()->getRequest()->getModuleParameter('form', 'CHANGE_CAPTCHA');
-			if (!FormHelper::checkCaptcha($code))
+			if (!FormHelper::checkCaptchaForKey($code, 'productAlert'))
 			{
 				$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Error-captcha;'));
 				$isOk = false;

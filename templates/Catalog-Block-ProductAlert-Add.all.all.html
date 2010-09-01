@@ -12,7 +12,8 @@
 			<input change:field="" name="email" />
 		</li>
 		<li tal:condition="useCaptcha">
-			<img change:captcha="" style="vertical-align: bottom;"/> <input change:captcha="" />
+			<img change:captcha="key 'productAlert'" style="vertical-align: bottom;" />
+			<input change:captcha="key 'productAlert'" />
 		</li>
 	</ul>
 	<p class="buttons"><input name="addAlert" change:submit="label &modules.catalog.frontoffice.Add-alert;" class="button" /></p>
