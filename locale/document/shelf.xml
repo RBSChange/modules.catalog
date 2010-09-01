@@ -14,7 +14,7 @@
 		<locale lang="de">Name</locale>
 	</entity>
 	<entity id="label-help">
-		<locale lang="fr">Libellé utilisé en backoffice et en frontoffice. Il initialise aussi le libellé pour la ré-écriture d'URL.</locale>
+		<locale lang="fr">champ texte  utilisé à la fois dans les sites et dans l’interface d’administration pour identifier le rayon.</locale>
 		<locale lang="de">Name</locale>
 	</entity>
 	<entity id="visual">
@@ -22,7 +22,7 @@
 		<locale lang="de">Abbildung</locale>
 	</entity>
 	<entity id="visual-help">
-		<locale lang="fr">visuel; image à sélectionner depuis les ressources.</locale>
+		<locale lang="fr">image de la médiathèque RBS Change qui sera utilisée dans les listes pour illustrer le rayon.</locale>
 		<locale lang="de">Abbildung; Bild aus den Ressourcen zu selektieren.</locale>
 	</entity>
 	<entity id="description">
@@ -30,7 +30,7 @@
 		<locale lang="de">Beschreibung</locale>
 	</entity>
 	<entity id="description-help">
-		<locale lang="fr">description utilisable en frontoffice, par exemple dans la page d'accueil du rayon.</locale>
+		<locale lang="fr">champ texte riche qui permet de saisir une description du rayon pouvant être affichée dans la page d’accueil de la rubrique du site associée au rayon.</locale>
 		<locale lang="de">Beschreibung</locale>
 	</entity>
 	<entity id="pageTitle">
@@ -38,7 +38,7 @@
 		<locale lang="de">Seitentitel</locale>
 	</entity>
 	<entity id="pageTitle-help">
-		<locale lang="fr">titre de la page utilisable dans les métas de la page d'accueil du rayon.</locale>
+		<locale lang="fr">contenu utilisable comme substitution dans les champs « Titre de page » et « Description » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</locale>
 		<locale lang="de">Seitentitel</locale>
 	</entity>
 	<entity id="pageDescription">
@@ -46,7 +46,7 @@
 		<locale lang="de">Seitenbeschreibung</locale>
 	</entity>
 	<entity id="pageDescription-help">
-		<locale lang="fr">description de la page tilisable dans les métas de la page d'accueil du rayon.</locale>
+		<locale lang="fr">contenu utilisable comme substitution dans les champs « Titre de page » et « Description » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</locale>
 		<locale lang="de">Seitenbeschreibung</locale>
 	</entity>
 	<entity id="pageKeywords">
@@ -54,32 +54,8 @@
 		<locale lang="de">Seitenstichwörter</locale>
 	</entity>
 	<entity id="pageKeywords-help">
-		<locale lang="fr">mots-clés de la page tilisable dans les métas de la page d'accueil du rayon.</locale>
+		<locale lang="fr">contenu utilisable comme substitution dans le champ « Mots-clés » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</locale>
 		<locale lang="de">Seitenstichwörter</locale>
-	</entity>
-	<entity id="labelForUrl">
-		<locale lang="fr">libellé pour la ré-écriture d'URL</locale>
-		<locale lang="en">label for URL rewriting</locale>
-		<locale lang="de">Name in der URL</locale>
-	</entity>
-	<entity id="labelForUrl-help">
-		<locale lang="fr">libellé utilisé par les règles de ré-écriture d'URL standard de Change</locale>
-		<locale lang="en">label used by the standard URL rewriting rules</locale>
-	</entity>
-	<entity id="generalities">
-		<locale lang="fr">données principales</locale>
-		<locale lang="en">main data</locale>
-		<locale lang="de">Hauptdaten</locale>
-	</entity>
-	<entity id="referencing">
-		<locale lang="fr">référencement</locale>
-		<locale lang="en">referencing</locale>
-		<locale lang="de">Referenzierung</locale>
-	</entity>
-	<entity id="publishedDocumentCount">
-		<locale lang="fr">nombre de produits publiés</locale>
-		<locale lang="en">published products count</locale>
-		<locale lang="de">Anzahl veröffentlichte Produkte</locale>
 	</entity>
 	<entity id="publication.no-published-content">
 		<locale lang="fr">ne contient aucun produit ni aucun sous-rayon publié</locale>

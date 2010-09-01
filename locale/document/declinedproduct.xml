@@ -14,7 +14,7 @@
 		<locale lang="fr">utiliser les prix de</locale>
 	</entity>
 	<entity id="synchronizePricesFrom-help">
-		<locale lang="fr">pour activer la synchrnisation des prix entre les déclinaisons de ce produit, sélectionnez la déclinaison dont les prix seront pris comme référence.</locale>
+		<locale lang="fr">Ce champ est uniquement actif lorsque le champ « Synchroniser les prix » passe de Non à Oui. Il permet de choisir une déclinaison de référence pour initialiser la synchronisation des prix.</locale>
 	</entity>
 	<entity id="publication.no-published-declination">
 		<locale lang="fr">n'a aucune déclinaison publiée</locale>

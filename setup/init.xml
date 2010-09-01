@@ -34,6 +34,15 @@
 			<staticitem value="EUR" label="€" />
 			<staticitem value="GBP" label="£" />
 			<staticitem value="CHF" label="F" />
+			<staticitem value="USD" label="$" />
+			<staticitem value="CAD" label="$" />
+			<staticitem value="AUD" label="$" />
+			<staticitem value="NZD" label="$" />
+			<staticitem value="JPY" label="¥" />
+			<staticitem value="SEK" label="kr" />
+			<staticitem value="NOK" label="kr" />
+			<staticitem value="RUB" label="руб" />
+			<staticitem value="ZAR" label="R" />
 		</staticlist>
 		
 		<staticlist listid="modules_catalog/currencyposition" label="&amp;modules.catalog.bo.general.Currency-position-list;"
@@ -103,6 +112,8 @@
 			<staticitem value="btob" label="Hors taxes" />
 		</staticlist>
 		
+		<dynamiclist listid="modules_catalog/shopcurrency" label="Devises avec code" />
+		
 		<dynamiclist listid="modules_catalog/productsuggestionfeeders" label="Méthodes de suggestion des produits" />
 		
 		<dynamiclist listid="modules_catalog/shippingfiltersbyshop" label="Modes de livraison de la boutique" 
@@ -114,8 +125,6 @@
 			description="Liste des attributs étendus de produit" />
 			
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
-		
-		<dynamiclist listid="modules_catalog/shippingmodeoptions" label="Options pour les filtres sur le mode d'envoi" />
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">
@@ -165,7 +174,10 @@
 	</rootfolder>
 	
 	<rootfolder module="preferences">
-		<catalogpreferences defaultDetailVisual-refid="default-detail-visual" defaultListVisual-refid="default-list-visual" />
+		<catalogpreferences defaultDetailVisual-refid="default-detail-visual" defaultListVisual-refid="default-list-visual"  
+							suggestcomplementaryfeederclass="catalog_SameShelvesProductFeeder"
+							suggestsimilarfeederclass="catalog_SameShelvesProductFeeder"
+							suggestupsellfeederclass="catalog_SameShelvesProductFeeder" />
 	</rootfolder>	
 			
 	<rootfolder module="catalog">

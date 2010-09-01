@@ -3,8 +3,6 @@
 	<section labeli18n="modules.catalog.bo.general.General">
 		<field name="defaultDetailVisual" />
 		<field name="defaultListVisual" />
-		<field name="defaultProductsPerPage" />
-		<field name="newProductsCount" />
 		<field name="stockAlertThreshold" />
 		<field name="stockAlertNotificationUser" hidehelp="true" />
 		<field name="enableComments" />

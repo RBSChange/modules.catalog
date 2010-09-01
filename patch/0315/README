@@ -2,3 +2,4 @@ Version: 3.0.4
 
 - import new list.
 - add new properties in compiled product.
+- remove thresholdMax price property from database

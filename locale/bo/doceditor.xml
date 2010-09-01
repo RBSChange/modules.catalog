@@ -239,7 +239,7 @@
 		<locale lang="fr">produits du groupe</locale>
 	</entity>
 	<entity id="bundleditem.products-help">
-		<locale lang="fr">produits par défauts du groupe</locale>
+		<locale lang="fr">liste des produits simples qui composeront le groupe, sélectionnables à l’aide du sélecteur de ressource.</locale>
 	</entity>
 
 	<entity id="bundleditems.defaultquantity">
@@ -247,7 +247,7 @@
 	</entity>
 
 	<entity id="bundleditems.defaultquantity-help">
-		<locale lang="fr">quantité par défaut de chaque produit</locale>
+		<locale lang="fr">quantité à laquelle les produits du groupe saisis dans le champ « produits du groupe » seront ajoutés. Les quantités peuvent être modifiées ultérieurement via l’onglet « Produits » de l’éditeur du groupe de produits.</locale>
 	</entity>
 
 	<entity id="bundleditems.label-column">
@@ -273,14 +273,14 @@
 	</entity>
 
 	<entity id="kititem.products-help">
-		<locale lang="fr">produits par défauts du kit</locale>
+		<locale lang="fr">liste des produits qui composeront le kit, sélectionnables à l’aide du sélecteur de ressource.</locale>
 	</entity>
 
 	<entity id="kititems.defaultquantity">
 		<locale lang="fr">quantité par défaut</locale>
 	</entity>
 	<entity id="kititems.defaultquantity-help">
-		<locale lang="fr">quantité par défaut de chaque produit</locale>
+		<locale lang="fr">quantité à laquelle les produits du kit saisis dans le champ « produits du kit » seront ajoutés. Les quantités peuvent être modifiées ultérieurement via l’onglet « Produits » de l’éditeur du kit.</locale>
 	</entity>
 
 	<entity id="tab.kititems">

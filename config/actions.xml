@@ -123,6 +123,7 @@
 			{
 				var documentId = listWidget.getSelectedItems()[0].id;
 				var topicId = listWidget.getSelectedItems()[0].topicId;
+				wCore.debug(wCore.dump(listWidget.getSelectedItems()[0]));
 				var lang = this.getContextLang();
 				var callback = function (pageTemplateName) {
 					return wCore.executeJSON('website', 'InitializeStructure', { cmpref: documentId, moduleName: 'catalog', scriptName: 'shopDefaultStructure', pageTemplateName: pageTemplateName, lang: lang }, null, true);

@@ -3,7 +3,7 @@
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">
 		<field name="shopId" moduleselector="catalog" hidehelp="true" />
 		<field name="taxCode" hidehelp="true" />
-		<field name="boValue" type="price" required="true" labeli18n="modules.catalog.document.price.Value" hidehelp="true">
+		<field name="boValue" type="price" required="true" labeli18n="modules.catalog.document.price.Value" shorthelp="&amp;modules.catalog.document.price.Value-help;" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="ecoTax" />
@@ -12,7 +12,7 @@
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Discount">
 		<row class="discountHelper" />
-		<field name="boDiscountValue" type="price" labeli18n="modules.catalog.document.price.DiscountValue" hidehelp="true">
+		<field name="boDiscountValue" type="price" labeli18n="modules.catalog.document.price.DiscountValue" shorthelp="&amp;modules.catalog.document.price.DiscountValue-help;" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="discountDetail" />
@@ -20,7 +20,7 @@
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Restrictions">
 		<field name="thresholdMin" />
 		<field name="target" type="document" moduleselector="customer" allow="modules_customer_customer,modules_customer_tarifcustomergroup"
-			labeli18n="modules.catalog.document.price.TargetId" hidehelp="true" />
+			labeli18n="modules.catalog.document.price.TargetId" shorthelp="&amp;modules.catalog.document.price.TargetId-help;" hidehelp="true" />
 	</section>
 	<xul>
 		<javascript>
