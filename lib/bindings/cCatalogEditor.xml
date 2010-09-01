@@ -111,7 +111,7 @@
 
 			<method name="onInitialize">
 				<body><![CDATA[
-					this.resizeTo(window.innerWidth-100, window.innerHeight-100);
+					this.autoResize(window.innerWidth-100, window.innerHeight-100);
 					
 					var node = document.getAnonymousElementByAttribute(this, 'anonid', 'field_maxResults');
 					node.value = this.parameters.defaultMaxResults;
@@ -1107,7 +1107,7 @@
 
 			<method name="onInitialize">
 				<body><![CDATA[
-					this.resizeTo(window.innerWidth-100, window.innerHeight-100);
+					this.autoResize(window.innerWidth-100, window.innerHeight-100);
 					
 					var result = wCore.executeJSON('catalog', 'LoadProductPublicationInShopInfos', {cmpref: this.parameters.productId}, null, true);
 					if (result.status === 'OK')
@@ -1231,7 +1231,7 @@
 			
 			<method name="onInitialize">
 				<body><![CDATA[
-					this.resizeTo(700, 550);
+					this.autoResize(700, 550);
 					this.lockCommandsUI();
 					this.initialized = true;
 					if (this.mShopId != null)
