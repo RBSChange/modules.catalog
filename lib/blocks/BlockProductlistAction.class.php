@@ -67,26 +67,24 @@ class catalog_BlockProductlistAction extends catalog_BlockProductlistBaseAction
 			
 			// Really add the products to the cart.
 			$cs = order_CartService::getInstance();
-			$cart = null;
+			$cart = $cs->getDocumentInstanceFromSession();
+			
+			$productAdded = false;
 			foreach ($productsToAdd as $item)
 			{
-				try
+				if ($cs->addProductToCart($cart, $item['product'], $item['quantity']))
 				{
-					$cart = $cs->addProduct($item['product'], $item['quantity']);
 					$this->addedProductLabels[] = $item['product']->getLabel();
+					$productAdded = true;
 				}
-				catch(order_Exception $e)
+				else
 				{
 					$this->notAddedProductLabels[] = $item['product']->getLabel();
-					if (Framework::isDebugEnabled())
-					{
-						Framework::debug($e->getMessage());
-					}
 				}
 			}
 			
 			// Refresh the cart.
-			if ($cart !== null)
+			if ($productAdded)
 			{
 				$cart->refresh();
 				$this->addMessagesToBlock('add-to-cart');

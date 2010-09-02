@@ -327,6 +327,14 @@ class catalog_KitService extends catalog_ProductService
 					Framework::warn(__METHOD__ . ' ' . $e->getMessage());
 				}
 			}
+			else if ($kitItem->getProduct() instanceof catalog_persistentdocument_declinedproduct)
+			{
+				$kitItem->setCurrentProduct($kitItem->getProduct()->getDefaultDeclination());
+			}
+			else
+			{
+				$kitItem->setCurrentProduct(null);
+			}
 		}
 	}
 }

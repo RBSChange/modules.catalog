@@ -313,4 +313,19 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase 
 		$html[] = '</ol>';
 		return implode('', $html);
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCartLineKey()
+	{
+		$result  = array($this->getId());
+		foreach ($this->getKititemArray() as $kitItem) 
+		{
+			$kitProduct = $kitItem->getCurrentProduct();
+			$result[] = $kitProduct != null ? $kitProduct->getCartLineKey() : $kitItem->getCurrentKey();
+		}
+		$key = implode(',', $result);
+		return $key;
+	}
 }

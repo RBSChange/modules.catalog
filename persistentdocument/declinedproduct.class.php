@@ -47,8 +47,12 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return catalog_persistentdocument_productdeclination
 	 */
-	public function getDefaultDeclination($shop)
+	public function getDefaultDeclination($shop = null)
 	{
+		if ($shop === null)
+		{
+			$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		}
 		$key = 's' . $shop->getId();
 		if (!array_key_exists($key, $this->defaultDeclinations))
 		{

@@ -200,6 +200,9 @@
 		<locale lang="fr">produit ajouté au panier</locale>
 		<locale lang="de">Produkt in den Warenkorb legen</locale>
 	</entity>
+	<entity id="ProductNotAdded">
+		<locale lang="fr">Le produit n'a pas pu être ajouté au panier</locale>
+	</entity>
 	<entity id="oneProduct">
 		<locale lang="fr">produit</locale>
 		<locale lang="en">product</locale>

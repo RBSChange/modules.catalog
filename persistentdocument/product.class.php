@@ -114,6 +114,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		}
 		return null;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCartLineKey()
+	{
+		return $this->getId();
+	}
 
 	/**
 	 * @return String

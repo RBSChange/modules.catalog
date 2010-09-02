@@ -10,20 +10,17 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 	 */
 	protected function addProductToCart($product)
 	{
-		try
+		$ocs = order_CartService::getInstance();
+		$cart = $ocs->getDocumentInstanceFromSession();
+		$quantity = max(1, intval($this->findParameterValue('quantity')));
+		if ($ocs->addProductToCart($cart, $product, $quantity))
 		{
-			$quantity = max(1, intval($this->findParameterValue('quantity')));
-			$cart = order_CartService::getInstance()->addProduct($product, $quantity);
 			$cart->refresh();
 			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.ProductJustAdded;'));
-		}
-		catch (order_Exception $e)
+		}	
+		else
 		{
-			$this->addError($e->getFrontEndUserMessage());
-			if (Framework::isDebugEnabled())
-			{
-				Framework::debug($e->getMessage());
-			}
+			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.ProductNotAdded;'));
 		}
 	}
 	
