@@ -8,6 +8,8 @@
 		<field name="topShelf" />
 		<field name="displayOutOfStock" hidehelp="true" />
 		<field name="allowOrderOutOfStock" />
+		<field name="nbproductperpage" />
+		<field name="enableComments" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Zones">
 		<field name="shippingZone" hidehelp="true" />

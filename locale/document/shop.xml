@@ -68,7 +68,7 @@
 	<entity id="displayPriceWithTax-help">
 		<locale lang="fr">si oui le prix, le prix TTC sera affiché sur les sites (cette option est cumulable avec Afficher le prix HT).</locale>
 	</entity>
-	
+
 	<entity id="displayPriceWithoutTax">
 		<locale lang="fr">afficher le prix HT</locale>
 		<locale lang="en">display price without taxes</locale>
@@ -180,7 +180,7 @@
 	<entity id="enableCaptchaForAlerts-help">
 		<locale lang="fr">En activant le CAPTCHA il sera présent pour les utilisateurs non-connectés. Dans tous les cas, les utilisateurs connectés n'en auront pas.</locale>
 	</entity>
-		
+
 	<entity id="exception.publication-period-conflict">
 		<locale lang="fr">pour un même site, il ne peut y avoir qu'une seule boutique valide sur une période donnée.</locale>
 	</entity>
@@ -193,5 +193,21 @@
 	<entity id="published-product-count">
 		<locale lang="fr">nombre de produits publiés</locale>
 		<locale lang="en">published products count</locale>
-		<locale lang="de">Anzahl veröffentlichte Produkte</locale>	</entity>
+		<locale lang="de">Anzahl veröffentlichte Produkte</locale>
+	</entity>
+	<entity id="nbproductperpage">
+		<locale lang="fr">nombre de produits par page</locale>
+		<locale lang="en">number of products per page</locale>
+	</entity>
+	<entity id="nbproductperpage-help">
+		<locale lang="fr">nombre de produits par page par défaut dans les listes de produits de la boutique en frontoffice.</locale>
+		<locale lang="en">number of products per page by default in the shop's product lists.</locale>
+	</entity>
+	<entity id="enableComments">
+		<locale lang="fr">activer les commentaires</locale>
+		<locale lang="en">enable comments</locale>
+	</entity>
+	<entity id="enableComments-help">
+		<locale lang="fr">activer ou non les commentaires sur les produits.</locale>
+	</entity>
 </localization>
