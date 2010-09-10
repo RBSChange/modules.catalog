@@ -8,11 +8,11 @@
 						<li tal:condition="displayConfig/showDisplayModeSelector">
 							<label class="invisible" for="display" change:translate="&modules.catalog.frontoffice.List-displaymodeLabel;"></label>
 			                <select name="catalogParam[displayMode]" id="display" class="textfield">
-		              			<option value="list" tal:condition="valueSortOption/displayMode1" selected="selected" change:translate="&modules.catalog.frontoffice.List-list;" />
-		              			<option value="list" tal:condition="not: valueSortOption/displayMode1" change:translate="&modules.catalog.frontoffice.List-list;" />
+		              			<option value="list" tal:condition="valueSortOption/displayModelist" selected="selected" change:translate="&modules.catalog.frontoffice.List-list;" />
+		              			<option value="list" tal:condition="not: valueSortOption/displayModelist" change:translate="&modules.catalog.frontoffice.List-list;" />
 		              			
-		              			<option value="table" tal:condition="valueSortOption/displayMode2" selected="selected" change:translate="&modules.catalog.frontoffice.List-table;" />
-		              			<option value="table" tal:condition="not: valueSortOption/displayMode2" change:translate="&modules.catalog.frontoffice.List-table;" />
+		              			<option value="table" tal:condition="valueSortOption/displayModetable" selected="selected" change:translate="&modules.catalog.frontoffice.List-table;" />
+		              			<option value="table" tal:condition="not: valueSortOption/displayModetable" change:translate="&modules.catalog.frontoffice.List-table;" />
 			                </select>
 						</li>
 						<li tal:condition="displayConfig/showResultCountSelector">

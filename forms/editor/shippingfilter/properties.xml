@@ -3,8 +3,8 @@
 	<section labeli18n="modules.uixul.bo.doceditor.fieldsgroup.Title">
 		<field name="label" hidehelp="true" />
 		<field name="mode" moduleselector="shipping" allow="[modules_shipping_mode]" hidehelp="true" />
-		<field name="valueWithTax" hidehelp="true" />
 		<field name="taxCode" hidehelp="true" />
+		<field name="valueWithTax" hidehelp="true" />
 		<field name="selectbyproduct" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates">

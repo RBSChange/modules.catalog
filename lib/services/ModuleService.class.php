@@ -49,7 +49,16 @@ class catalog_ModuleService extends ModuleBaseService
 	public function areCommentsEnabled()
 	{
 		$ms = ModuleService::getInstance();
-		return $ms->moduleExists('comment') && $ms->getPreferenceValue('catalog', 'enableComments');
+		if (!$ms->moduleExists('comment'))
+		{
+			return false;
+		}
+		$currentShop = catalog_ShopService::getInstance()->getCurrentShop();
+		if (!$currentShop)
+		{
+			return $ms->getPreferenceValue('catalog', 'enableComments');
+		}
+		return $currentShop->getEnableComments();
 	}
 	
 	/**

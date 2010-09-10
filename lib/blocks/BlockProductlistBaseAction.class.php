@@ -150,8 +150,13 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			return $request->getParameter('nbresultsperpage');
 		}
-		$defaultProductsPerPage = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultProductsPerPage');
-		return ($defaultProductsPerPage !== null) ? $defaultProductsPerPage : self::DEFAULT_PRODUCTS_PER_PAGE;
+		$defaultProductsPerPage = self::DEFAULT_PRODUCTS_PER_PAGE;
+		$currentShop = catalog_ShopService::getInstance()->getCurrentShop();
+		if ($currentShop)
+		{
+			$defaultProductsPerPage = $currentShop->getNbproductperpage();
+		}
+		return $defaultProductsPerPage;
 	}
 	
 	/**

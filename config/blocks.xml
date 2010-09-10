@@ -2,7 +2,9 @@
 <blocks>
 	<block type="modules_catalog_TopShelvesMenu" icon="menu" label="&amp;modules.catalog.bo.general.block.TopShelvesMenu;">
 		<parameters>
-			<parameter name="maxlevel" type="Integer" min-occurs="1" default-value="1" />
+			<parameter name="maxlevel" type="Integer" min-occurs="1" default-value="1">
+				<constraints>min:1</constraints>
+			</parameter>
 		</parameters>
 	</block>
 	<block type="modules_catalog_shelfContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Shelf-Contextual-List;">

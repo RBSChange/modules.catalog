@@ -13,4 +13,10 @@
 	<entity id="productalertmanagement.title">
 		<locale lang="fr">gestion des alertes produits</locale>
 	</entity>
+	<entity id="TopShelvesMenu.maxlevel">
+		<locale lang="fr">Niveau maximum</locale>
+	</entity>
+	<entity id="TopShelvesMenu.maxlevel-help">
+		<locale lang="fr">niveau de profondeur du menu : lorsqu'il vaut 1 seul les rayons de premier niveau sont affichés, s'il vaut 2 les rayons de premier niveau et leurs sous-rayons directs sont affichés, etc ...</locale>
+	</entity>
 </localization>
