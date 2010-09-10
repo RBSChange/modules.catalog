@@ -72,19 +72,22 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function getCurrentPaymentConnectors($cart)
 	{
-		$filters = $this->createQuery()
-			->add(Restrictions::published())
+		$filters = $this->createQuery()->add(Restrictions::published())
 			->add(Restrictions::eq('shop', $cart->getShop()))->find();
 
 		$result = array();
 		foreach ($filters as $filter) 
 		{
+			if (isset($result[$filter->getConnector()->getId()]))
+			{
+				continue;
+			}
 			if ($this->isValidPaymentFilter($filter, $cart))
 			{
-				$result[] = $filter;
+				$result[$filter->getConnector()->getId()] = $filter;
 			} 
 		}
-		return $result;
+		return array_values($result);
 	}
 	
 	/**
