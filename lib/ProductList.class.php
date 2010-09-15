@@ -325,7 +325,7 @@ class catalog_NullProductList implements catalog_ProductList
 		{
 			self::$instance = new catalog_NullProductList($listName);
 		}
-		return self::$instances;
+		return self::$instance;
 	}
 	
 	/**
