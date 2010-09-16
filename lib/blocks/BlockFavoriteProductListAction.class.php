@@ -76,12 +76,12 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 		{
 			if (catalog_ModuleService::getInstance()->removeFavoriteProduct($product))
 			{
-				$this->addedProductLabels[] = $product->getLabel();
+				$this->addedProductLabels[] = $product->getLabelAsHtml();
 			}
 		}
 		catch (Exception $e)
 		{
-			$this->notAddedProductLabels[] = $product->getLabel();
+			$this->notAddedProductLabels[] = $product->getLabelAsHtml();
 			if (Framework::isDebugEnabled())
 			{
 				Framework::debug($e->getMessage());

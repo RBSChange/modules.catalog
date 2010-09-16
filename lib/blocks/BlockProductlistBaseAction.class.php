@@ -365,12 +365,12 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 				{
 					if ($cs->addProductToCart($cart, $item['product'], $item['quantity']))
 					{
-						$this->addedProductLabels[] = $item['product']->getLabel();
+						$this->addedProductLabels[] = $item['product']->getLabelAsHtml();
 						$productAdded = true;
 					}
 					else
 					{
-						$this->notAddedProductLabels[] = $item['product']->getLabel();
+						$this->notAddedProductLabels[] = $item['product']->getLabelAsHtml();
 					}
 				}
 				
@@ -434,12 +434,12 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			if (catalog_ModuleService::getInstance()->addFavoriteProduct($product))
 			{
-				$this->addedProductLabels[] = $product->getLabel();
+				$this->addedProductLabels[] = $product->getLabelAsHtml();
 			}
 		}
 		catch (Exception $e)
 		{
-			$this->notAddedProductLabels[] = $product->getLabel();
+			$this->notAddedProductLabels[] = $product->getLabelAsHtml();
 			if (Framework::isDebugEnabled())
 			{
 				Framework::debug($e->getMessage());
