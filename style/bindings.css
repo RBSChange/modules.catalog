@@ -70,3 +70,6 @@ wdialog[template="orderProductsInShelf"]{
 wdialog[template="orderProductsInShelf"] cdocumentlist{
 	-moz-binding: url(binding:widgets.cOrderChildrenDialog#cDocumentList);
 }
+wdialog[template="productselector"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cProductSelectorDialog);
+}

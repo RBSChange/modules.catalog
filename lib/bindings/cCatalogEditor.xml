@@ -1320,4 +1320,98 @@
 			</vbox>
 		</xbl:content>
 	</binding>
+	
+	<binding id="cProductSelectorDialog" extends="core.wDialog#cRessourceDialog">
+		<implementation>
+			<field name="mListSubproductConfig">null</field>	
+			<constructor><![CDATA[
+				wCore.debug("cProductSelectorDialog.constructor");	
+				
+			]]></constructor>
+		</implementation>
+		
+		<handlers>
+			<handler event="ressourcestreechange"><![CDATA[
+				if (this.mListSubproductConfig == null)
+				{
+					this.mListSubproductConfig = {"module":"catalog", "models":{"modules_catalog/declinedproduct":{"modules_catalog/productdeclination":"product"}}};
+					this.mListTree.mTypeList['modules_catalog/declinedproduct'] = true;
+				}
+			]]></handler>
+			
+			<handler event="select"><![CDATA[
+				var lst = event.originalTarget;
+				while (lst !== this.mListTree) 
+				{	
+					lst = lst.parentNode;
+					if (!lst) {return;}
+				}
+				var items = lst.getSelectedItems();
+				if (items.length === 1 &&  items[0].modelName === 'modules_catalog/declinedproduct')
+				{
+					var list = this.getElementByAnonId('list_subproduct');	
+					list.setCurrentConfig(this.mListSubproductConfig);
+					list.loadNode(items[0].id, items[0].modelName);
+				}
+			]]></handler>	
+		</handlers>
+		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xbl="http://www.mozilla.org/xbl">
+			<vbox flex="1">
+				<hbox class="dialog-header">
+					<label value="&amp;modules.uixul.bo.dialog.Select-ressources;" class="dialog-title" />
+					<spacer flex="1" />
+					<vbox pack="center">
+						<toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="&amp;modules.uixul.bo.dialog.Cancel;" />
+					</vbox>
+				</hbox>
+				<cmessageinfo anonid="message-box" />	
+				<hbox flex="1" style="padding-left:5px;padding-right:5px;">
+					<vbox width="250" style="border: thin inset #e3e3e3;">
+						<toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
+							<toolbar class="change-toolbar">	
+								<toolbarbutton anonid="multiTreeButton" class="module-selector"  image="{IconsBase}/small/modules.png" oncommand="refresh()" type="menu">
+									<menupopup anonid="multiTreePopup" />
+								</toolbarbutton>
+								<spacer flex="1" />
+								<label anonid="multiTreeTitle" collapsed="true" class="toolbarLabel"  style="font-size: 1.3em;"/>
+							</toolbar>
+						</toolbox>
+						<cressourcestreeselector anonid="nav_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader" />
+					</vbox>
+					<spacer width="5"/>
+					<vbox flex="1" style="border: thin inset #e3e3e3; min-width: 200px">
+						<toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
+							<toolbar class="change-toolbar">	
+								<toolbarbutton anonid="searchButton" disabled="true" image="{IconsBase}/small/search.png" oncommand="toggleSearch()" 
+								tooltiptext="&amp;modules.uixul.bo.general.ToggleSearchResourceModeEllipsis;"
+								crop="end" label="&amp;modules.uixul.bo.general.ShowSearch;" />					
+							</toolbar>
+						</toolbox>
+						<cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
+						<spacer anonid="previewimage" hidden="true" />
+					</vbox>
+					<spacer width="5"/>
+					<vbox width="250" style="border: thin inset #e3e3e3;">
+						<label value="&amp;modules.catalog.bo.dialog.productselector.DeclinationsLabel;"/>
+						<cressourceslistselector anonid="list_subproduct" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
+						<vbox xbl:inherits="collapsed=hide-list" flex="1">
+							<spacer height="5" />
+							<label value="&amp;modules.uixul.bo.dialog.Ressource-selectionLabel;"/>
+							<grid anonid="selectedList" width="250" flex="1" style="overflow-y: scroll; overflow-x: hidden; margin: 0; padding: 0;">
+								<columns>
+									<column width="200" />
+									<column width="20" />
+								</columns>
+								<rows anonid="document-rows">
+								</rows>
+							</grid>
+						</vbox>						
+					</vbox>
+				</hbox>
+				<hbox pack="end" align="center">
+					<button image="{IconsBase}/small/check.png" oncommand="onOk();" label="&amp;modules.uixul.bo.dialog.Apply;" />
+				</hbox>
+			</vbox>
+		</xbl:content>
+	</binding>
 </bindings>
