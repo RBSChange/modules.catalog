@@ -22,4 +22,7 @@
 	<entity id="product-not-in-shops">
 		<locale lang="fr">les boutiques listées ci-dessous sont celles pour lesquelles ce produit est présent dans au moins un rayon.</locale>
 	</entity>
+	<entity id="productselector.declinations">
+		<locale lang="fr">déclinaisons</locale>
+	</entity>
 </localization>

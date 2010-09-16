@@ -443,4 +443,20 @@ class catalog_DeclinedproductService extends catalog_ProductService
 			return $defaultDeclination->getDocumentService()->getPricesByTargetIds($defaultDeclination, $shop, $targetIds);
 		}
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param string[] $subModelNames
+	 * @param integer $locateDocumentId null if use startindex
+	 * @param integer $pageSize
+	 * @param integer $startIndex
+	 * @param integer $totalCount
+	 * @return f_persistentdocument_PersistentDocument[]
+	 */
+	public function getVirtualChildrenAt($document, $subModelNames, $locateDocumentId, $pageSize, &$startIndex, &$totalCount)
+	{
+		$result = $document->getDeclinationArray();
+		$totalCount = count($result);
+		return $result;
+	}	
 }
