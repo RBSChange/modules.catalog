@@ -18,7 +18,7 @@
 		
 		<h1 class="title" tal:content="product/getLabelAsHtml"></h1>
 		<div class="product-ref">
-			<strong change:translate="&modules.catalog.frontoffice.Detail-referenceLabel;"></strong> ${product/getCodeReferenceAsHtml}
+			<strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong> ${product/getCodeReferenceAsHtml}
 		</div>
 		                
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
@@ -38,7 +38,7 @@
 					<fieldset>		
 						<ol>
 							<li>						
-								<label for="product-quantity" change:translate="&modules.catalog.frontoffice.Detail-quantityLabel;"></label>
+								<label for="product-quantity" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
 								<input class="textfield" id="product-quantity" type="text" size="3" name="catalogParam[quantity]" value="1" />
 								<input type="hidden" tal:attributes="value product/getId" name="catalogParam[productId]" />
 							</li>
@@ -53,24 +53,24 @@
 			<ul>
 				<!-- Prix HT -->
 				<li tal:condition="displayConfig/showPricesWithoutTax">
-					<strong change:translate="&modules.catalog.frontoffice.PricehtLabel;"></strong>
+					<strong change:translate="modules.catalog.frontoffice.PricehtLabel"></strong>
 					<span class="priceht">				
-						<del tal:condition="defaultPrice/isDiscount">${defaultPrice/getFormattedOldValueWithoutTax}</del>
+						<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithoutTax}</del></tal:block>
 						${defaultPrice/getFormattedValueWithoutTax}
 					</span>
 				</li>
 		    	
 				<!-- Prix TTC -->
 				<li tal:condition="displayConfig/showPricesWithTax">
-					<strong change:translate="&modules.catalog.frontoffice.PricettcLabel;"></strong>
+					<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
 					<span class="pricettc">				
-						<del tal:condition="defaultPrice/isDiscount">${defaultPrice/getFormattedOldValueWithTax}</del>			
+						<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithTax}</del></tal:block>			
 						${defaultPrice/getFormattedValueWithTax}
 					</span>
 				</li>
 			</ul>
 			<small tal:condition="defaultPrice/getFormattedEcoTax">
-					<tal:block change:translate="&modules.catalog.frontoffice.LabelEcoTaxe;" /> <tal:block change:translate="&modules.catalog.frontoffice.EcoTaxeLabel;" /><tal:block tal:replace="defaultPrice/getFormattedEcoTax"/> 
+					<tal:block change:translate="modules.catalog.frontoffice.LabelEcoTaxe" /> <tal:block change:translate="modules.catalog.frontoffice.EcoTaxeLabel" /><tal:block tal:replace="defaultPrice/getFormattedEcoTax"/> 
 			</small>
 			<!-- ajouter au panier -->
 			<p class="buttons" tal:condition="php: product.canBeOrdered(shop)">

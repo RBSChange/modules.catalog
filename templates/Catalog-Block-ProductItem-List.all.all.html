@@ -1,9 +1,9 @@
 <tal:block tal:define="id product/getId" change:productprice="name 'price'; product product">
 	<ul class="sub-list">
-		<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]">
-			<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id name; name name; value id" type="checkbox"/>
-			<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id name; name name; value id" type="checkbox"/>
-			<label tal:attributes="for name" change:translate="&modules.catalog.frontoffice.Select;"></label>	
+		<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]; fieldid string:catalogParam_selected_product_$id">
+			<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; name name; value id" type="checkbox"/>
+			<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id fieldid; name name; value id" type="checkbox"/>
+			<label tal:attributes="for fieldid" change:translate="modules.catalog.frontoffice.Select"></label>	
 		</li>
 		<li change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual">
 			<a change:link="document product" tal:attributes="title product/getLinkTitle">
@@ -14,7 +14,7 @@
 			<a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
 		</li>
 		<li tal:condition="displayConfig/showRatingAverage">
-			<span class="small"><tal:block change:translate="&modules.catalog.frontoffice.Rating-averageLabel;" /> ${product/getFormattedRatingAverage}</span>
+			<span class="small"><tal:block change:translate="modules.catalog.frontoffice.Rating-averageLabel" /> ${product/getFormattedRatingAverage}</span>
 		</li>
 		<tal:block tal:condition="displayConfig/showAvailability">
 			<li tal:define="availability product/getAvailability" tal:condition="availability">
@@ -36,8 +36,8 @@
 		<tal:block tal:condition="displayConfig/showAddToCart">
 			<li tal:condition="php: product.canBeOrdered(shop)">
 				<tal:block tal:condition="displayConfig/showQuantitySelector">
-					<label class="invisible" for="catalogParam[quantities][${id}]" change:translate="&modules.catalog.frontoffice.Detail-quantityLabel;"></label>
-					<input class="textfield quantity-selector" type="text" size="3" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
+					<label class="invisible" for="catalogParam_quantities_${id}" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
+					<input class="textfield quantity-selector" type="text" size="3" id="catalogParam_quantities_${id}" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
 				</tal:block>
 				<br />
 				<input type="submit" name="catalogParam[addToCart][${id}]" class="button" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart;" />

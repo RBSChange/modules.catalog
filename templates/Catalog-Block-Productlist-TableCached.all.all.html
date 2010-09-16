@@ -9,27 +9,27 @@
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
 
-<div tal:condition="not:products" change:translate="&modules.catalog.frontoffice.No-product-to-display;"></div>
+<div tal:condition="not:products" change:translate="modules.catalog.frontoffice.No-product-to-display"></div>
 <div tal:condition="products" class="products-list-list">
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
 	<form action="#product-list-title" method="post" style="clear:both">
 		<table border="0" class="normal">
 			<thead>
 				<tr>
-					<th tal:condition="displayConfig/showCheckboxes" class="first"><span class="invisible" change:translate="&modules.catalog.frontoffice.Product-selection;"></span></th>
-					<th><span class="invisible" change:translate="&modules.catalog.frontoffice.Product-visual;"></span></th>
-					<th change:translate="&modules.catalog.frontoffice.Nomination;" />
-					<th tal:condition="displayConfig/showRatingAverage" change:translate="&modules.catalog.frontoffice.Rating-average;" />
-					<th tal:condition="displayConfig/showAvailability" change:translate="&modules.catalog.frontoffice.Availability;" />
+					<th tal:condition="displayConfig/showCheckboxes" class="first"><span class="invisible" change:translate="modules.catalog.frontoffice.Product-selection"></span></th>
+					<th><span class="invisible" change:translate="modules.catalog.frontoffice.Product-visual"></span></th>
+					<th change:translate="modules.catalog.frontoffice.Nomination" />
+					<th tal:condition="displayConfig/showRatingAverage" change:translate="modules.catalog.frontoffice.Rating-average" />
+					<th tal:condition="displayConfig/showAvailability" change:translate="modules.catalog.frontoffice.Availability" />
 					<th tal:condition="displayConfig/showPricesWithoutTax">
-						<abbr change:i18nattr="title &modules.order.frontoffice.unitprice-without-tax; currency shop/getCurrency" change:translate="&modules.order.frontoffice.unitprice-without-tax-abr;; currency shop/getCurrency"></abbr>
+						<abbr change:i18nattr="title &modules.order.frontoffice.unitprice-without-tax;" change:translate="modules.order.frontoffice.unitprice-without-tax-abr"></abbr>
 					</th>
 					<th tal:condition="displayConfig/showPricesWithTax">
-						<abbr change:i18nattr="title &modules.order.frontoffice.unitprice-with-tax; currency shop/getCurrency" change:translate="&modules.order.frontoffice.unitprice-with-tax-abr;; currency shop/getCurrency"></abbr>
+						<abbr change:i18nattr="title &modules.order.frontoffice.unitprice-with-tax;" change:translate="modules.order.frontoffice.unitprice-with-tax-abr"></abbr>
 					</th>
 					<tal:block tal:condition="displayConfig/showAddToCart">
-						<th tal:condition="displayConfig/showQuantitySelector" change:translate="&modules.catalog.frontoffice.Detail-quantity;" />
-						<th class="last"><span class="invisible" change:translate="&modules.catalog.frontoffice.Product-add-to-cart;"></span></th>
+						<th tal:condition="displayConfig/showQuantitySelector" change:translate="modules.catalog.frontoffice.Detail-quantity" />
+						<th class="last"><span class="invisible" change:translate="modules.catalog.frontoffice.Product-add-to-cart"></span></th>
 					</tal:block>
 				</tr>
 			</thead>

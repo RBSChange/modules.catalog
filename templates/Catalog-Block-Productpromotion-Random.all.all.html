@@ -5,20 +5,20 @@
 			<a change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual" change:link="document product" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/productList'" />
 			</a>
-			<h4 class="title"><a change:link="document product" tal:attributes="title product/getLinkTitle" tal:content="product/getLabel"></a></h4>
+			<h4 class="title"><a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></h4>
 			<p tal:condition="product/getDescription" tal:content="product/getShortDescription" />
 
 			<p class="priceht" tal:condition="shop/getDisplayPriceWithoutTax">
-				<del tal:condition="price/isDiscount">${price/getFormattedOldValueWithoutTax}</del>			
+				<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>			
 				${price/getFormattedValueWithoutTax}
 			</p>
         	<p class="pricettc" tal:condition="shop/getDisplayPriceWithTax"> 
-				<del tal:condition="price/isDiscount">${price/getFormattedOldValueWithTax}</del>
+				<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
 				${price/getFormattedValueWithTax}
 			</p>
 		</li>
 	</ol>
 	<ul class="mini-navigation" tal:condition="configuration/getDestinationpage">
-		<li><a change:link="document configuration/getDestinationpage" change:translate="&modules.catalog.frontoffice.productpromotion-list;"></a></li>
+		<li><a change:link="document configuration/getDestinationpage" change:translate="modules.catalog.frontoffice.productpromotion-list"></a></li>
 	</ul>
 </div>
