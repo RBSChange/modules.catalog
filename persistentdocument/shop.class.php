@@ -121,15 +121,4 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 		}
 		return $langs;
 	}
-	/* (non-PHPdoc)
-	 * @see build/franck/modules/catalog/persistentdocument/catalog_persistentdocument_shopbase::getEnableComments()
-	 */
-	public function getEnableComments()
-	{
-		$enableComments = parent::getEnableComments();
-		return  $enableComments === null ? ModuleService::getInstance()->getPreferenceValue('catalog', 'enableComments') : $enableComments;		
-	}
-
-	
-	
 }

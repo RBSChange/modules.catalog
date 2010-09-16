@@ -7,12 +7,14 @@
 		<add name="label" default-value="preferences" />
 		<add name="defaultDetailVisual" type="modules_media/media" min-occurs="1" />
 		<add name="defaultListVisual" type="modules_media/media" min-occurs="1" />
+		<!-- deprecated property -->
 		<add name="defaultProductsPerPage" type="Integer" min-occurs="1" default-value="10">
 			<constraints>min:1;max:50</constraints>
 		</add>
 		<add name="newProductsCount" type="Integer" min-occurs="1" default-value="10" />
 		<add name="stockAlertThreshold" type="Double" default-value="0" preserve-old-value="true" />
 		<add name="stockAlertNotificationUser" type="modules_users/backenduser" max-occurs="-1" />
+		<!-- deprecated property -->
 		<add name="enableComments" type="Boolean" min-occurs="1" default-value="true" />
 		<add name="synchronizeComplementary" type="Boolean" default-value="true" />
 		<add name="synchronizeSimilar" type="Boolean" default-value="true" />

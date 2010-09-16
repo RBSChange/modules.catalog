@@ -5,7 +5,6 @@
 		<field name="defaultListVisual" />
 		<field name="stockAlertThreshold" />
 		<field name="stockAlertNotificationUser" hidehelp="true" />
-		<field name="enableComments" />
 	</section>
 	<section labeli18n="modules.catalog.document.preferences.section.Cross-selling">
 		<field name="synchronizeComplementary" />

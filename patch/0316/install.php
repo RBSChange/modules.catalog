@@ -49,7 +49,7 @@ class catalog_patch_0316 extends patch_BasePatch
 				$defaultProdPerPagePrefs = 10;
 			}
 			$shop->setNbproductperpage($defaultProdPerPagePrefs);
-			$shop->setEnableComments($shop->getEnableComments());
+			$shop->setEnableComments(ModuleService::getInstance()->getPreferenceValue('catalog', 'enableComments'));
 			$shop->save();
 		}
 	}
