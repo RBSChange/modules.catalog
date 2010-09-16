@@ -11,10 +11,10 @@
 			</a>
 		</li>
 		<li>
-			<a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabel}</a>
+			<a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
 		</li>
 		<li tal:condition="displayConfig/showRatingAverage">
-			<span class="small"><tal:block change:translate="&modules.catalog.frontoffice.Rating-averageLabel;" /> <tal:block tal:replace="product/getFormattedRatingAverage" /></span>
+			<span class="small"><tal:block change:translate="&modules.catalog.frontoffice.Rating-averageLabel;" /> ${product/getFormattedRatingAverage}</span>
 		</li>
 		<tal:block tal:condition="displayConfig/showAvailability">
 			<li tal:define="availability product/getAvailability" tal:condition="availability">
@@ -23,13 +23,13 @@
 		</tal:block>
 		<li tal:condition="displayConfig/showPricesWithoutTax">
 			<span class="priceht">
-				<del tal:condition="price/isDiscount">${price/getFormattedOldValueWithoutTax}</del>			
+				<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>		
 				${price/getFormattedValueWithoutTax}
 			</span>
 		</li>
 		<li tal:condition="displayConfig/showPricesWithTax">
 			<span class="pricettc"> 
-				<del tal:condition="price/isDiscount">${price/getFormattedOldValueWithTax}</del>		
+				<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
 				${price/getFormattedValueWithTax}
 			</span>
 		</li>
