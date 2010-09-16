@@ -3,22 +3,22 @@
 		<div>
 			<form action="#product-list-title" method="post">
 				<tal:block tal:condition="php: displayConfig['showDisplayModeSelector'] || displayConfig['showResultCountSelector']">
-					<strong change:translate="&modules.catalog.frontoffice.List-displayLabel;"></strong>
+					<strong change:translate="modules.catalog.frontoffice.List-displayLabel"></strong>
 					<ol>
 						<li tal:condition="displayConfig/showDisplayModeSelector">
-							<label class="invisible" for="display" change:translate="&modules.catalog.frontoffice.List-displaymodeLabel;"></label>
+							<label class="invisible" for="display" change:translate="modules.catalog.frontoffice.List-displaymodeLabel"></label>
 			                <select name="catalogParam[displayMode]" id="display" class="textfield">
-		              			<option value="list" tal:condition="valueSortOption/displayModelist" selected="selected" change:translate="&modules.catalog.frontoffice.List-list;" />
-		              			<option value="list" tal:condition="not: valueSortOption/displayModelist" change:translate="&modules.catalog.frontoffice.List-list;" />
+		              			<option value="list" tal:condition="valueSortOption/displayModelist" selected="selected" change:translate="modules.catalog.frontoffice.List-list" />
+		              			<option value="list" tal:condition="not: valueSortOption/displayModelist" change:translate="modules.catalog.frontoffice.List-list" />
 		              			
-		              			<option value="table" tal:condition="valueSortOption/displayModetable" selected="selected" change:translate="&modules.catalog.frontoffice.List-table;" />
-		              			<option value="table" tal:condition="not: valueSortOption/displayModetable" change:translate="&modules.catalog.frontoffice.List-table;" />
+		              			<option value="table" tal:condition="valueSortOption/displayModetable" selected="selected" change:translate="modules.catalog.frontoffice.List-table" />
+		              			<option value="table" tal:condition="not: valueSortOption/displayModetable" change:translate="modules.catalog.frontoffice.List-table" />
 			                </select>
 						</li>
 						<li tal:condition="displayConfig/showResultCountSelector">
-							<label class="invisible" for="pagination" change:translate="&modules.catalog.frontoffice.NbproductsLabel;"></label>
+							<label class="invisible" for="pagination" change:translate="modules.catalog.frontoffice.NbproductsLabel"></label>
 		                    <select name="catalogParam[nbresultsperpage]" id="pagination" class="textfield">
-		                        <option value="0" change:translate="&modules.catalog.frontoffice.List-nbarticles;" />
+		                        <option value="0" change:translate="modules.catalog.frontoffice.List-nbarticles" />
 		              			<option value="5" tal:condition="valueSortOption/nbresultsperpage5" selected="selected">5</option>
 		              			<option value="5" tal:condition="not: valueSortOption/nbresultsperpage5">5</option>
 		              			
@@ -38,58 +38,58 @@
 					</ol>
 				</tal:block>
 				<tal:block tal:condition="php: displayConfig['showAvailability'] || displayConfig['showDiscountFilter']">
-					<strong change:translate="&modules.catalog.frontoffice.List-filterLabel;"></strong>
+					<strong change:translate="modules.catalog.frontoffice.List-filterLabel"></strong>
 					<ol>
 						<li tal:condition="displayConfig/showAvailability">
 							<label for="onlyavailable">
 				                <input tal:condition="valueSortOption/onlyavailabletrue" checked="checked" type="checkbox" id="onlyavailable" name="catalogParam[onlyavailable]" value="true" />
 				                <input tal:condition="not:valueSortOption/onlyavailabletrue" type="checkbox" id="onlyavailable" name="catalogParam[onlyavailable]" value="true" />
-				                <tal:block change:translate="&modules.catalog.frontoffice.List-only-available;" />
+				                <tal:block change:translate="modules.catalog.frontoffice.List-only-available" />
 				            </label>
 						</li>
 						<li tal:condition="displayConfig/showDiscountFilter">
 							<label for="onlydiscount">
 				                <input tal:condition="valueSortOption/onlydiscounttrue" checked="checked" type="checkbox" id="onlydiscount" name="catalogParam[onlydiscount]" value="true" />
 				                <input tal:condition="not:valueSortOption/onlydiscounttrue" type="checkbox" id="onlydiscount" name="catalogParam[onlydiscount]" value="true" />
-				                <tal:block change:translate="&modules.catalog.frontoffice.List-only-discounts;" />
+				                <tal:block change:translate="modules.catalog.frontoffice.List-only-discounts" />
 				            </label>
 						</li>
 					</ol>
 				</tal:block>
 				<tal:block tal:condition="php: displayConfig['showPrices'] || displayConfig['showRatingAverage'] || displayConfig['showBrandOrder']">
-					<strong change:translate="&modules.catalog.frontoffice.List-sortingLabel;"></strong>
+					<strong change:translate="modules.catalog.frontoffice.List-sortingLabel"></strong>
 					<ol>
 						<li tal:condition="displayConfig/showPrices">
-							<label class="invisible" for="price" change:translate="&modules.catalog.frontoffice.PriceLabel;"></label>
+							<label class="invisible" for="price" change:translate="modules.catalog.frontoffice.PriceLabel"></label>
 		                    <select name="catalogParam[priceorder]" id="price" class="textfield">                              			
-		                        <option value="0" change:translate="&modules.catalog.frontoffice.List-price;" />                          
-		              			<option value="1" tal:condition="valueSortOption/priceorder1" selected="selected" change:translate="&modules.catalog.frontoffice.List-price-increase;" />
-		              			<option value="1" tal:condition="not: valueSortOption/priceorder1" change:translate="&modules.catalog.frontoffice.List-price-increase;" />
+		                        <option value="0" change:translate="modules.catalog.frontoffice.List-price" />                          
+		              			<option value="1" tal:condition="valueSortOption/priceorder1" selected="selected" change:translate="modules.catalog.frontoffice.List-price-increase" />
+		              			<option value="1" tal:condition="not: valueSortOption/priceorder1" change:translate="modules.catalog.frontoffice.List-price-increase" />
 		              			
-		              			<option value="2" tal:condition="valueSortOption/priceorder2" selected="selected" change:translate="&modules.catalog.frontoffice.List-price-decrease;" />
-		              			<option value="2" tal:condition="not: valueSortOption/priceorder2" change:translate="&modules.catalog.frontoffice.List-price-decrease;" />
+		              			<option value="2" tal:condition="valueSortOption/priceorder2" selected="selected" change:translate="modules.catalog.frontoffice.List-price-decrease" />
+		              			<option value="2" tal:condition="not: valueSortOption/priceorder2" change:translate="modules.catalog.frontoffice.List-price-decrease" />
 		                    </select> 
 						</li>
 						<li tal:condition="displayConfig/showRatingAverage">
-							<label class="invisible" for="ratingAverage" change:translate="&modules.catalog.frontoffice.Rating-AverageLabel;"></label>
+							<label class="invisible" for="ratingAverage" change:translate="modules.catalog.frontoffice.Rating-AverageLabel"></label>
 		                    <select name="catalogParam[ratingaverageorder]" id="ratingAverage" class="textfield">                              			
-		                        <option value="0" change:translate="&modules.catalog.frontoffice.List-rating-average;" />                          
-		              			<option value="1" tal:condition="valueSortOption/ratingaverageorder1" selected="selected" change:translate="&modules.catalog.frontoffice.List-rating-average-increase;" />
-		              			<option value="1" tal:condition="not: valueSortOption/ratingaverageorder1" change:translate="&modules.catalog.frontoffice.List-rating-average-increase;" />
+		                        <option value="0" change:translate="modules.catalog.frontoffice.List-rating-average" />                          
+		              			<option value="1" tal:condition="valueSortOption/ratingaverageorder1" selected="selected" change:translate="modules.catalog.frontoffice.List-rating-average-increase" />
+		              			<option value="1" tal:condition="not: valueSortOption/ratingaverageorder1" change:translate="modules.catalog.frontoffice.List-rating-average-increase" />
 		              			
-		              			<option value="2" tal:condition="valueSortOption/ratingaverageorder2" selected="selected" change:translate="&modules.catalog.frontoffice.List-rating-average-decrease;" />
-		              			<option value="2" tal:condition="not: valueSortOption/ratingaverageorder2" change:translate="&modules.catalog.frontoffice.List-rating-average-decrease;" />
+		              			<option value="2" tal:condition="valueSortOption/ratingaverageorder2" selected="selected" change:translate="modules.catalog.frontoffice.List-rating-average-decrease" />
+		              			<option value="2" tal:condition="not: valueSortOption/ratingaverageorder2" change:translate="modules.catalog.frontoffice.List-rating-average-decrease" />
 		                    </select> 
 						</li>
 						<li tal:condition="displayConfig/showBrandOrder">
-							<label class="invisible" for="brand" change:translate="&modules.catalog.frontoffice.BrandLabel;"></label>
+							<label class="invisible" for="brand" change:translate="modules.catalog.frontoffice.BrandLabel"></label>
 		                    <select name="catalogParam[brandorder]" id="brand" class="textfield">
-		                        <option value="0" change:translate="&modules.catalog.frontoffice.List-brand;" />
-		              			<option value="1" tal:condition="valueSortOption/brandorder1" selected="selected" change:translate="&modules.catalog.frontoffice.List-brand-az;" />
-		              			<option value="1" tal:condition="not: valueSortOption/brandorder1" change:translate="&modules.catalog.frontoffice.List-brand-az;" />
+		                        <option value="0" change:translate="modules.catalog.frontoffice.List-brand" />
+		              			<option value="1" tal:condition="valueSortOption/brandorder1" selected="selected" change:translate="modules.catalog.frontoffice.List-brand-az" />
+		              			<option value="1" tal:condition="not: valueSortOption/brandorder1" change:translate="modules.catalog.frontoffice.List-brand-az" />
 		              			
-		              			<option value="2" tal:condition="valueSortOption/brandorder2" selected="selected" change:translate="&modules.catalog.frontoffice.List-brand-za;" />
-		              			<option value="2" tal:condition="not: valueSortOption/brandorder2" change:translate="&modules.catalog.frontoffice.List-brand-za;" />
+		              			<option value="2" tal:condition="valueSortOption/brandorder2" selected="selected" change:translate="modules.catalog.frontoffice.List-brand-za" />
+		              			<option value="2" tal:condition="not: valueSortOption/brandorder2" change:translate="modules.catalog.frontoffice.List-brand-za" />
 		                    </select>  
 						</li>
 					</ol>
