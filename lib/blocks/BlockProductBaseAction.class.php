@@ -20,7 +20,11 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 		}	
 		else
 		{
-			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.ProductNotAdded;'));
+			foreach ($cart->getErrorMessageArray() as $msg)
+			{
+				$this->addError($msg);
+			}
+			$cart->clearErrorMessages();
 		}
 	}
 	

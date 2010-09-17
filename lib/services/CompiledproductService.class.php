@@ -354,7 +354,12 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		else
 		{
+			$oldPublicationStatus = $document->getPublicationstatus();
 			$this->publishDocumentIfPossible($document, array('cause' => 'compilation'));
+			if ($oldPublicationStatus === 'PUBLICATED' && $document->isPublished())
+			{
+				indexer_IndexService::getInstance()->update($document);
+			}
 		}
 	}
 	

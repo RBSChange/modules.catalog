@@ -5,15 +5,21 @@
  */
 class catalog_VirtualproductScriptDocumentElement extends import_ScriptDocumentElement
 {
-    /**
-     * @return catalog_persistentdocument_virtualproduct
-     */
-    protected function initPersistentDocument()
-    {
-    	return catalog_VirtualproductService::getInstance()->getNewDocumentInstance();
-    }
-    
-    /**
+	/**
+	 * @return catalog_persistentdocument_virtualproduct
+	 */
+	protected function initPersistentDocument()
+	{
+		$virtualProduct = catalog_VirtualproductService::getInstance()->getNewDocumentInstance();
+		if (isset($this->attributes['shippingMode-refid']))
+		{
+			$virtualProduct->setShippingModeId($this->getComputedAttribute('shippingMode')->getId());
+			unset($this->attributes['shippingMode-refid']);
+		}
+		return $virtualProduct;
+	}
+	
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()
