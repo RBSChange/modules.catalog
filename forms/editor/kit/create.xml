@@ -12,7 +12,7 @@
 	
 	<section labeli18n="modules.catalog.bo.doceditor.First-kititems">
 		<field name="newKitItemProductIds" type="documentarray" required="true"
-			allow="modules_catalog_simpleproduct,modules_catalog_bundleproduct,modules_catalog_declinedproduct" moduleselector="catalog"
+			allow="[modules_catalog_product],!modules_catalog_declinedproduct,!modules_catalog_kit" moduleselector="catalog"
 			labeli18n="modules.catalog.bo.doceditor.kititem.Products"
 			shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
 		</field>

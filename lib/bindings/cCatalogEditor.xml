@@ -1347,11 +1347,18 @@
 					if (!lst) {return;}
 				}
 				var items = lst.getSelectedItems();
-				if (items.length === 1 &&  items[0].modelName === 'modules_catalog/declinedproduct')
+				if (items.length === 1)
 				{
-					var list = this.getElementByAnonId('list_subproduct');	
-					list.setCurrentConfig(this.mListSubproductConfig);
-					list.loadNode(items[0].id, items[0].modelName);
+					var list = this.getElementByAnonId('list_subproduct');
+					if (items[0].modelName === 'modules_catalog/declinedproduct')
+					{	
+						list.setCurrentConfig(this.mListSubproductConfig);
+						list.loadNode(items[0].id, items[0].modelName);
+					}
+					else
+					{
+						list.clearTreeChildren(list.treeChildren);
+					}
 				}
 			]]></handler>	
 		</handlers>
