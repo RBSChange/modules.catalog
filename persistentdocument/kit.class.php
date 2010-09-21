@@ -200,7 +200,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase 
 		{
 			foreach ($this->getKititemArray() as $kitItem) 
 			{
-				$product = $kitItem->getProduct();
+				$product = $kitItem->getDefaultProduct();
 				if ($product instanceof catalog_StockableDocument)
 				{
 					if ($product->getStockLevel() === catalog_StockService::LEVEL_UNAVAILABLE)
@@ -226,7 +226,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase 
 		{
 			foreach ($this->getKititemArray() as $kitItem) 
 			{
-				$product = $kitItem->getProduct();
+				$product = $kitItem->getDefaultProduct();
 				if ($product instanceof catalog_StockableDocument)
 				{
 					$newStock = $product->getStockQuantity();
