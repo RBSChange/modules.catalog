@@ -639,7 +639,9 @@
 							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemProducts_label" control="catalog_bundleproduct_bundleditems_newBundledItemProducts"
 								value="&amp;modules.catalog.bo.doceditor.bundleditem.Products;" />
 							<xul:cfield name="newBundledItemProducts" id="catalog_bundleproduct_bundleditems_newBundledItemProducts" anonid="field_newBundledItemProducts"
-								fieldtype="documentarray" allow="modules_catalog_simpleproduct" moduleselector="catalog"
+								fieldtype="documentarray" 
+								allow="modules_catalog_virtualproduct,modules_catalog_productdeclination,modules_catalog_bundleproduct,modules_catalog_simpleproduct" 
+								dialog="productselector" moduleselector="catalog"
 								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
 							</xul:cfield>
 						</xul:row>
@@ -797,8 +799,10 @@
 							<xul:clabel id="catalog_kit_kititems_newKitItemProductIds_label" control="catalog_kit_kititems_newKitItemProductIds"
 								value="&amp;modules.catalog.bo.doceditor.kititem.Products;" />
 							<xul:cfield name="newKitItemProductIds" id="catalog_kit_kititems_newKitItemProductIds" anonid="field_newKitItemProductIds"
-								fieldtype="documentarray" allow="modules_catalog_simpleproduct,modules_catalog_bundleproduct,modules_catalog_declinedproduct"
-								moduleselector="catalog" shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
+								fieldtype="documentarray" 
+								allow="modules_catalog_virtualproduct,modules_catalog_declinedproduct,modules_catalog_productdeclination,modules_catalog_bundleproduct,modules_catalog_simpleproduct"
+								moduleselector="catalog" dialog="productselector"
+								shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
 							</xul:cfield>
 						</xul:row>
 						<xul:row anonid="row_newKitItemQtt">
