@@ -2,7 +2,7 @@ treechildren::-moz-tree-image(modules_catalog_shopfolder){
 	list-style-image: url(/changeicons/small/folder.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_shop){
-	list-style-image: url(/changeicons/small/gold.png) ;
+	list-style-image: url(/changeicons/small/shop.png) ;
 }
 treechildren::-moz-tree-image(modules_catalog_topshelf){
 	list-style-image: url(/changeicons/small/folders-stack.png) ;

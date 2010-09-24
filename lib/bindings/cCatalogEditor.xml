@@ -1202,7 +1202,7 @@
 		<xbl:content>
 			<xul:groupbox flex="1">
 				<xul:caption flex="1">
-					<xul:vbox pack="center"><xul:image src="{IconsBase}/small/gold.png" /></xul:vbox>
+					<xul:vbox pack="center"><xul:image src="{IconsBase}/small/shop.png" /></xul:vbox>
 					<xul:label xbl:inherits="value=shopLabel" />
 				</xul:caption>
 				<xul:grid flex="1">
