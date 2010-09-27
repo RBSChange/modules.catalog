@@ -2,7 +2,8 @@
 <panel>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">
 		<field name="shopId" moduleselector="catalog" hidehelp="true" />
-		<field name="taxCode" hidehelp="true" />
+		<field name="boTaxCode" type="dropdownlist" listid="modules_catalog/taxcode"
+			labeli18n="modules.catalog.document.price.TaxCode" hidehelp="true" />
 		<field name="boValue" type="price" required="true" labeli18n="modules.catalog.document.price.Value" shorthelp="&amp;modules.catalog.document.price.Value-help;" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>

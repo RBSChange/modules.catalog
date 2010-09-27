@@ -316,6 +316,9 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 		}
 	}
 	
+	/**
+	 * Set all values to zero.
+	 */
 	public function setToZero()
 	{
 		$this->setValueWithTax(0.0);
@@ -325,5 +328,42 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 		$this->setOldValueWithoutTax(0.0);
 	}
 	
-
+	/**
+	 * @var boolean
+	 */
+	private $mustRecomputeValues = false;
+	
+	/**
+	 * @param boolean $value
+	 */
+	public function setMustRecomputeValues($value)
+	{
+		$this->mustRecomputeValues = $value;
+	}
+	
+	/**
+	 * @return boolean
+	 * @see catalog_PriceService::preSave()
+	 */
+	public function getMustRecomputeValues()
+	{
+		return $this->mustRecomputeValues;
+	}
+	
+	/**
+	 * @param boolean $value
+	 */
+	public function setBoTaxCode($value)
+	{
+		$this->setTaxCode($value);
+		$this->setMustRecomputeValues(true);
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function getBoTaxCode()
+	{
+		return $this->getTaxCode();
+	}
 }
