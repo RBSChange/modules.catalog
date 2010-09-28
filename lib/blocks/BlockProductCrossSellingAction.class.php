@@ -3,75 +3,66 @@
  * catalog_BlockProductCrossSellingAction
  * @package modules.catalog
  */
-class catalog_BlockProductCrossSellingAction extends website_BlockAction
-{	
+class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBaseAction
+{
 	/**
-	 * @see website_BlockAction::execute()
-	 *
+	 * @param f_mvc_Request $request
+	 * @return String
+	 */
+	protected function getDisplayMode($request)
+	{
+		return 'CrossSelling';
+	}
+	
+	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
-	{		
+	public function execute($request, $response)
+	{
 		if ($this->isInBackoffice())
 		{
 			return website_BlockView::NONE;
 		}
+		return parent::execute($request, $response);
+	}
+	
+	/**
+	 * @param f_mvc_Response $response
+	 * @return catalog_persistentdocument_product[]
+	 */
+	protected function getProductArray($request)
+	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
     	$product = $this->getDocumentParameter();
     	if ($product instanceof catalog_persistentdocument_productdeclination)
     	{
     		$product = $product->getRelatedDeclinedProduct();
     	}
+    	$request->setAttribute('globalProduct', $product);
     	
 	    if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 	    {
 	    	if ($product !== null)
 	    	{
-	    		Framework::error(__METHOD__ . ' Invalid product type');
+	    		Framework::warn(__METHOD__ . ' Invalid product');
 	    	}
-	    	return website_BlockView::NONE;
+	    	return array();
 	    }
 	    $request->setAttribute('product', $product);
+	    
     	$configuration = $this->getConfiguration();
     	$relatedProducts = $product->getDisplayableCrossSelling($shop, $configuration->getType(), $configuration->getSortby());
-    	
-    	if (count($relatedProducts) > 0)
+    	if (count($relatedProducts) == 0)
 		{
-			$list = list_ListService::getInstance()->getByListId('modules_catalog/crosssellingtypes');
-			$request->setAttribute('title', $list->getItemByValue($configuration->getType())->getLabel());
-			$request->setAttribute('relatedProducts', array_slice($relatedProducts, 0, $configuration->getMaxdisplayed()));
-			$request->setAttribute('shop', $shop);
-			
-			$customer = null;
-			if (catalog_ModuleService::areCustomersEnabled())
-			{
-				$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
-			}
-			$request->setAttribute('customer', $customer);
-			
-			if ($configuration->getAddlinktoall())
-			{
-				try
-				{
-					$page = TagService::getInstance()->getDocumentBySiblingTag('functional_catalog_crosssellinglist-page', $this->getPage()->getPersistentPage());
-					$request->setAttribute('hrefToAll', LinkHelper::getDocumentUrl($page, null, array('catalogParam[cmpref]' => $product->getId(), 'catalogParam[relationType]' => $configuration->getType())));
-				}
-				catch (Exception $e)
-				{
-					if (Framework::isDebugEnabled())
-					{
-						Framework::exception($e);
-					}
-				}
-				
-			}
-			return website_BlockView::SUCCESS;
+			return array();	
 		}
-    	else 
-    	{
-    		return website_BlockView::NONE;
-    	}
+		
+		$list = list_ListService::getInstance()->getByListId('modules_catalog/crosssellingtypes');
+		$typeLabel = f_util_HtmlUtils::textToHtml($list->getItemByValue($configuration->getType())->getLabel());
+		$request->setAttribute('blockTitle', $typeLabel);
+		$request->setAttribute('typeLabel', f_util_StringUtils::lcfirst($typeLabel));
+    	return array_slice($relatedProducts, 0, $configuration->getMaxdisplayed());
 	}
 }

@@ -13,6 +13,7 @@
 <div tal:condition="products" class="products-list-list">
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
 	<form action="#product-list-title" method="post" style="clear:both">
+		<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 		<table border="0" class="normal">
 			<thead>
 				<tr>

@@ -185,7 +185,7 @@
 		<locale lang="de">assoziierte Produkte</locale>
 	</entity>
 	<entity id="cross-selling-list">
-		<locale lang="fr">tous les produits</locale>
+		<locale lang="fr">voir tous les {type}</locale>
 	</entity>
 	<entity id="cross-selling-complementary">
 		<locale lang="fr">produits complémentaires à {productLink}</locale>

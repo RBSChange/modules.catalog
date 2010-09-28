@@ -56,6 +56,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	{
 		$displayConfig = array();
 		
+		$displayConfig['blockId'] = $this->getBlockId();
 		$displayConfig['showPricesWithTax'] = $this->getShowPricesWithTax($shop);
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
@@ -303,80 +304,84 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			$request->setAttribute('quantities', $quantities);
 		}
 		
-		if ($displayConfig['showAddToFavorite'])
+		if (!$request->hasParameter('formBlockId') || $request->getParameter('formBlockId') == $this->getBlockId())
 		{
-			// Handle "Add to favorite".
-			if ($request->hasParameter('addToFavorite'))
+			if ($displayConfig['showAddToFavorite'])
 			{
-				foreach ($request->getParameter('selected_product') as $id)
+				// Handle "Add to favorite".
+				if ($request->hasParameter('addToFavorite'))
 				{
-					$this->addToFavorite(DocumentHelper::getDocumentInstance($id));
-				}
-				$this->addMessagesToBlock('add-to-favorite');
-			}
-		}
-		
-		if ($displayConfig['showAddToCart'])
-		{
-			// Handle "Add to cart".
-			if ($request->hasParameter('addToCart'))
-			{
-				$productsToAdd = array();
-				
-				// List all products to add.		
-				$addToCart = $request->getParameter('addToCart');
-				if (is_array($addToCart))
-				{
-					foreach (array_keys($addToCart) as $id)
+					foreach ($request->getParameter('selected_product') as $id)
 					{
-						if ($displayConfig['showQuantitySelector'])
-						{
-							$quantity = max(intval($quantities[$id]), 1);
-						}
-						else
-						{
-							$quantity = 1;
-						}
-						$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => $quantity);
+						$this->addToFavorite(DocumentHelper::getDocumentInstance($id));
 					}
+					$this->addMessagesToBlock('add-to-favorite');
 				}
-				else if ($request->hasParameter('selected_product'))
-				{	
-					$addToCart = $request->getParameter('selected_product');
+			}
+			
+			if ($displayConfig['showAddToCart'])
+			{
+				// Handle "Add to cart".
+				if ($request->hasParameter('addToCart'))
+				{
+					$productsToAdd = array();
+					
+					// List all products to add.		
+					$addToCart = $request->getParameter('addToCart');
 					if (is_array($addToCart))
-					{			
-						// Add each product with no quantity but the checkbox checked (with quantity of 1).
-						foreach ($addToCart as $id)
+					{
+						foreach (array_keys($addToCart) as $id)
 						{
-							if (!array_key_exists($id, $productsToAdd))
+							if ($displayConfig['showQuantitySelector'])
 							{
-								$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => max(intval($quantities[$id]), 1));
+								$quantity = max(intval($quantities[$id]), 1);
+							}
+							else
+							{
+								$quantity = 1;
+							}
+							$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => $quantity);
+						}
+					}
+					else if ($request->hasParameter('selected_product'))
+					{	
+						$addToCart = $request->getParameter('selected_product');
+						if (is_array($addToCart))
+						{			
+							// Add each product with no quantity but the checkbox checked (with quantity of 1).
+							foreach ($addToCart as $id)
+							{
+								if (!array_key_exists($id, $productsToAdd))
+								{
+									$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => max(intval($quantities[$id]), 1));
+								}
 							}
 						}
 					}
-				}
-				
-				// Really add the products to the cart.			
-				$cs = order_CartService::getInstance();
-				$cart = $cs->getDocumentInstanceFromSession();
-				
-				$productAdded = false;
-				foreach ($productsToAdd as $item)
-				{
-					if ($cs->addProductToCart($cart, $item['product'], $item['quantity']))
+					
+					// Really add the products to the cart.			
+					$cs = order_CartService::getInstance();
+					$cart = $cs->getDocumentInstanceFromSession();
+					
+					$productAdded = false;
+					foreach ($productsToAdd as $item)
 					{
-						$this->addedProductLabels[] = $item['product']->getLabelAsHtml();
-						$productAdded = true;
+						if ($cs->addProductToCart($cart, $item['product'], $item['quantity']))
+						{
+							$this->addedProductLabels[] = $item['product']->getLabelAsHtml();
+							$productAdded = true;
+						}
+						else
+						{
+							$this->notAddedProductLabels[] = $item['product']->getLabelAsHtml();
+						}
 					}
-					else
+					
+					if ($productAdded)
 					{
-						$this->notAddedProductLabels[] = $item['product']->getLabelAsHtml();
+						$cart->refresh();						
 					}
-				}
-				
-				if ($productAdded)
-				{
-					$cart->refresh();										
+								
 					// Set the messages.
 					$this->addMessagesToBlock('add-to-cart');
 				}
