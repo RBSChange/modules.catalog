@@ -405,10 +405,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		if ($product instanceof catalog_persistentdocument_product)
 		{
 			$product->getDocumentService()->replicatePrice($product, $document);
-			if ($document->isPublished())
-			{
-				$product->getDocumentService()->publishIfPossible($product->getId());
-			}
 		}
 	}
 	
