@@ -74,4 +74,16 @@ class catalog_LockedpriceService extends catalog_PriceService
 		$price->setLockedFor($originalPrice->getLockedFor());
 		$price->save();
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @param double $value
+	 * @param integer $detail
+	 * @param string $start
+	 * @param string $end
+	 */
+	public function createDiscountOnPrice($price, $value, $detail, $start, $end)
+	{
+		throw new Exception('Can\'t create discount on locked price!');
+	}
 }

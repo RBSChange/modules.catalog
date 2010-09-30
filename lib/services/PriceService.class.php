@@ -174,19 +174,24 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function transformToArray($price, &$array)
 	{
+		$isLocked = ($price instanceof catalog_persistentdocument_lockedprice);
 		$array[] = array(
 			'id' => $price->getId(),
 			'boModel' => $price->getPersistentModel()->getBackofficeName(),
 			'priceType' => str_replace('/', '_', $price->getDocumentModelName()),
 			'value' => $price->getValueWithTax(),
 			'valueWithTax' => $price->getFormattedValueWithTax(),
-			'isDiscount' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
+			'isDiscount' => $price->isDiscount(),
+			'isDiscountLabel' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
+			'allowDiscountCreation' => !$isLocked && !$price->isDiscount(),
+			'allowDiscountRemoval' => !$isLocked && $price->isDiscount(),
 			'tagrgetId' => $price->getTargetId(),
 			'targetLabel' => $price->getTargetLabel(),
 			'priority' => $price->getPriority(),
 			'thresholdMin' => $price->getThresholdMin(),
 			'startpublicationdate' => $price->getUIStartpublicationdate(),
 			'endpublicationdate' => $price->getUIEndpublicationdate(),
+			'actionrow' => true
 		);
 	}
 
@@ -367,12 +372,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::ne('id', $document->getId()));
 			
 		$endDate = $document->getEndpublicationdate();
-		if (!is_null($endDate))
+		if ($endDate !== null)
 		{
 			$query->add(Restrictions::orExp(Restrictions::isEmpty('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)));
 		}
 		$startDate = $document->getStartpublicationdate();
-		if (!is_null($startDate))
+		if ($startDate !== null)
 		{
 			$query->add(Restrictions::orExp(Restrictions::isEmpty('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
 		}
@@ -578,12 +583,104 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @param double $value
+	 * @param integer $detail
+	 * @param string $start
+	 * @param string $end
+	 */
+	public function createDiscountOnPrice($price, $value, $detail, $start, $end)
+	{
+		try 
+		{
+			$this->tm->beginTransaction();
+			
+			$pricesToSave = array($price);
+			if ($start == $price->getStartpublicationdate() && $end == $price->getEndpublicationdate())
+			{
+				$discountPrice = $price;
+			}
+			else 
+			{
+				$discountPrice = $this->clonePrice($price);
+				$discountPrice->setStartpublicationdate($start);
+				$discountPrice->setEndpublicationdate($end);
+				$pricesToSave[] = $discountPrice;
+				
+				if ($start != $price->getStartpublicationdate())
+				{
+					if ($end != $price->getEndpublicationdate())
+					{
+						$thirdPrice = $this->clonePrice($price);
+						$thirdPrice->setStartpublicationdate($end);
+						$pricesToSave[] = $thirdPrice;
+					}
+					$price->setEndpublicationdate($start);
+				}
+				else 
+				{
+					$price->setStartpublicationdate($end);
+				}
+			}
+			$discountPrice->setDiscountValue($value);
+			$discountPrice->setDiscountDetail($detail);
+						
+			foreach ($pricesToSave as $price)
+			{
+				$price->save();
+			}
+			
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+			throw $e;
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @return catalog_persistentdocument_lockedprice
+	 */
+	protected function clonePrice($price)
+	{
+		$newPrice = $this->getNewDocumentInstance();
+		$price->copyPropertiesTo($newPrice, true);
+		$newPrice->setMeta("f_tags", array());
+		$newPrice->setAuthor(null);
+		$newPrice->setAuthorid(null);
+		$newPrice->setCreationdate(null);
+		$newPrice->setModificationdate(null);
+		$newPrice->setDocumentversion(0);
+		return $newPrice;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price
+	 * @param double $value
+	 * @param integer $detail
+	 * @param string $start
+	 * @param string $end
+	 */
+	public function removeDiscountFromPrice($price)
+	{
+		$price->setValueWithTax($price->getOldValueWithTax());
+		$price->setValueWithoutTax($price->getOldValueWithoutTax());
+		$price->setOldValueWithTax(null);
+		$price->setOldValueWithoutTax(null);
+		$price->setDiscountDetail(null);
+		$price->save();
+	}
+	
+	// Deprecated.
+		
+	/**
 	 * @deprecated
 	 */
 	protected function refreshThresholdMax($document)
 	{
 	}
-	
 	
 	/**
 	 * @deprecated
@@ -591,5 +688,4 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	protected function refreshNextThresholdMax($document)
 	{
 	}
-	
 }

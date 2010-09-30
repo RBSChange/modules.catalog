@@ -1,7 +1,8 @@
 cfield[fieldtype="price"]{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPriceField);
 }
-cdocumenteditor row[class="discountHelper"]{
+cdocumenteditor row.discountHelper,
+wdialog[template="addDiscountOnPrice"] row.discountHelper{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cDiscountHelper);
 }
 cdocumenteditor cpricespanel{
@@ -9,6 +10,12 @@ cdocumenteditor cpricespanel{
 }
 gridlist.pricelist{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesList);
+}
+gridlist.pricelist cactioncell{
+	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesListActionCell);
+}
+wdialog[template="addDiscountOnPrice"]{
+	-moz-binding: url(binding:modules.catalog.cPriceEditor#cAddDiscountOnPriceDialog);
 }
 cdocumenteditor cdeclinationspanel{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cDeclinationsPanel);

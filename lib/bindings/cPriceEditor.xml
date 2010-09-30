@@ -63,7 +63,7 @@
 				<body><![CDATA[
 					var discountType = document.getAnonymousElementByAttribute(this, 'anonid', 'mType').value;
 					var discountValue = document.getAnonymousElementByAttribute(this, 'anonid', 'mValue').value;
-					var valueField = document.getElementById('catalog_price_boValue');
+					var valueField = document.getElementById(this.getAttribute('reference'));
 					
 					var value = valueField.value;
 					var description = '';
@@ -80,8 +80,8 @@
 							break;
 					}
 					value = Math.round(100*value)/100;
-					document.getElementById('catalog_price_boDiscountValue').value = value;
-					document.getElementById('catalog_price_discountDetail').value = description;
+					document.getElementById(this.getAttribute('pricefield')).value = value;
+					document.getElementById(this.getAttribute('detailfield')).value = description;
 					this.cancel();
 				]]></body>
 			</method>
@@ -233,7 +233,7 @@
 						
 			<method name="createNew">
 				<body><![CDATA[
-					wCore.debug('cPricesList.createNew');
+					//wCore.debug('cPricesList.createNew');
 					var productId = this.documentEditor.documentid;
 					var shopId = this.fields.shop.value;
 					var targetId = this.fields.targetId.value;
@@ -245,7 +245,7 @@
 			
 			<method name="refresh">
 			<body><![CDATA[
-				wCore.debug('refresh');
+				//wCore.debug('refresh');
 				this.mInitialized = false;
 				this.documentEditor.executeServerAction('prices', 'Initialize');
 				]]></body>
@@ -373,7 +373,7 @@
 			
 			<method name="onCloseEditor">
 				<body><![CDATA[	
-					wCore.debug("onCloseEditor:" + this.localName);
+					//wCore.debug("onCloseEditor:" + this.localName);
 					try
 					{
 						var fields = this.fields;
@@ -473,12 +473,32 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					wCore.debug('cPricesList.delete('+rowData.id+')');
 					if (confirm("&modules.catalog.bo.doceditor.panel.prices.Confirm-delete-price;"))
 					{
 						var me = this;
-						var callBack = function(result) {me.getPricePanel().refresh();};
+						var callBack = function(result) { me.getPricePanel().refresh(); };
 						wCore.executeJSON('catalog', 'DeleteJSON', {cmpref: rowData.id, lang: Context.W_LANG}, callBack, true);
+					}
+				]]></body>
+			</method>
+			
+			<method name="execute_addDiscount">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					getController().openModalDialog(this.getPricePanel(), 'addDiscountOnPrice', { priceId: rowData.id });
+				]]></body>
+			</method>
+			
+			<method name="execute_removeDiscount">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (confirm("&modules.catalog.bo.doceditor.panel.prices.Confirm-remove-discount;"))
+					{
+						var me = this;
+						var callBack = function(result) {me.getPricePanel().refresh();};
+						wCore.executeJSON('catalog', 'RemoveDiscount', {cmpref: rowData.id, lang: Context.W_LANG}, callBack, true);
 					}
 				]]></body>
 			</method>
@@ -498,7 +518,43 @@
 					});
 					this.updateDataset(dataset);
 				]]></body>
-			</method>	
+			</method>
+			
+			<method name="setCellValue">
+				<parameter name="cell" />
+				<parameter name="name" />
+				<parameter name="dataRow" />
+				<body><![CDATA[					
+					if (name == 'actionrow')
+					{
+						if (dataRow.allowDiscountCreation)
+						{
+							cell.removeAttribute('hideAddDiscount');
+						}
+						else
+						{
+							cell.setAttribute('hideAddDiscount', 'true');
+						}
+						if (dataRow.allowDiscountRemoval)
+						{
+							cell.removeAttribute('hideRemoveDiscount');
+						}
+						else
+						{
+							cell.setAttribute('hideRemoveDiscount', 'true');
+						}
+					}
+					
+					if ('value' in cell)
+					{
+						cell.value = dataRow[name];
+					}
+					else
+					{
+						cell.setAttribute('value', dataRow[name]);
+					}
+				]]></body>
+			</method>
 		</implementation>
 		<content>
 			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled">
@@ -518,7 +574,7 @@
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-actions;" />
 						<xul:label name="valueWithTax" sortonfield="true"
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-value;" />
-						<xul:label name="isDiscount" sortonfield="true"
+						<xul:label name="isDiscountLabel" sortonfield="true"
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-is-discount;" />
 						<xul:label name="priority" sortonfield="true"
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-priority;" />
@@ -533,11 +589,8 @@
 					</xul:row>
 				</xul:rows>
 			</xul:grid>		
-			<xul:row anonid="template-row" class="document" hidden="true">
-				<xul:toolbar class="actions">
-					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
-					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
-				</xul:toolbar>
+			<xul:row anonid="template-row" class="document" hidden="true" align="center">
+				<xul:cactioncell />
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:label value="" />
@@ -546,6 +599,323 @@
 				<xul:label value="" />
 				<xul:label value="" />
 			</xul:row>				
+		</content>
+	</binding>
+	
+	<binding id="cPricesListActionCell">
+		<content>
+			<xul:toolbar class="actions">
+				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
+				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="&amp;modules.uixul.bo.actions.Add-discount;" />
+				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="&amp;modules.uixul.bo.actions.remove-discount;" />
+			</xul:toolbar>
+		</content>
+	</binding>
+	
+	<binding id="cAddDiscountOnPriceDialog" extends="core.wDialog#wDialog">
+		<resources>
+			<stylesheet src="modules.uixul.cDocumentEditor" />
+		</resources>
+		<implementation>
+			<field name="mInitialized">false</field>
+			<field name="mPriceId">null</field>
+			<field name="mFields">null</field>
+			<field name="mFieldNames">['discountValue', 'discountDetail', 'discountStartDate', 'discountEndDate']</field>
+
+			<constructor><![CDATA[
+				//wCore.debug('cAddDiscountOnPriceDialog.constructor');
+			]]></constructor>
+
+			<method name="onInitialize">
+				<body><![CDATA[
+					this.autoResize(750, 325);
+					this.mPriceId = this.parameters.priceId;
+					this.mMessageBox = this.getElementById('message');
+					
+					var result = wCore.executeJSON('catalog', 'LoadPriceInfoToAddDiscount', { cmpref: this.mPriceId }, null, true);
+					if (result.status === 'OK')
+					{
+						contents = result.contents;
+						this.setAttribute('currentStartDate', contents.currentStartDateFormatted);
+						this.setAttribute('currentEndDate', contents.currentEndDateFormatted);
+						if (contents.currentStartDate)
+						{
+							this.setConstraint('discountStartDate', 'min', contents.currentStartDate);
+							this.setConstraint('discountEndDate', 'min', contents.currentStartDate);
+						}
+						if (contents.currentEndDate)
+						{
+							this.setConstraint('discountStartDate', 'max', contents.currentEndDate);
+							this.setConstraint('discountEndDate', 'max', contents.currentEndDate);
+						}
+						
+						var jsonVal = wCore.parseJSON(contents.currentPriceValue);
+						this.setAttribute('currentValue', jsonVal.value);
+						this.setAttribute('currentCurrency', jsonVal.currency);
+						this.setAttribute('currentTaxMode', jsonVal.mode);
+						
+						this.setFieldInitialValueByAnonId('discountValue', contents.discountPriceValue);
+						this.mInitialized = true;
+						this.refreshErrorState();
+					}
+					else
+					{
+						wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+					}
+				]]></body>
+			</method>
+			
+			<method name="setFieldInitialValueByAnonId">
+				<parameter name="anonId" />
+				<parameter name="value" />
+				<body><![CDATA[
+					var field = this.getElementByAnonId(anonId);
+					if ('setInitialValue' in field)
+					{
+						field.setInitialValue(value);
+					}
+					else
+					{
+						field.setAttribute('initalvalue', value);
+					}
+				]]></body>
+			</method>
+			
+			<method name="setConstraint">
+				<parameter name="fieldName" />
+				<parameter name="name" />
+				<parameter name="value" />
+				<body><![CDATA[
+					var constraint = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'cconstraint');
+					constraint.setAttribute('name', name);
+					constraint.setAttribute('parameter', value);
+					if ('addParameter' in constraint)
+					{
+						constraint.addParameter('param', value);
+					}
+					this.fields[fieldName].appendChild(constraint);
+				]]></body>
+			</method>
+			
+			<property name="fields" readonly="true">
+				<getter><![CDATA[
+					if (this.mFields == null)
+					{
+						this.mFields = {
+							discountValue: this.getElementByAnonId('discountValue'),
+							discountDetail: this.getElementByAnonId('discountDetail'),
+							discountStartDate: this.getElementByAnonId('discountStartDate'),
+							discountEndDate: this.getElementByAnonId('discountEndDate'),
+						};
+					}
+					return this.mFields;
+				]]></getter>
+			</property>
+			
+			<property name="error">
+				<getter><![CDATA[
+					return this.getAttribute("error") === "true";
+				]]></getter>
+				<setter><![CDATA[
+					var oldval = this.error;
+					if (val != oldval)
+					{
+						if (val)
+						{
+							this.setAttribute("error", "true");
+						}
+						else
+						{
+							this.removeAttribute("error");
+						}
+						this.updateCommandsUI();
+					}
+				]]></setter>
+			</property>
+					
+			<method name="refreshErrorState">
+				<body><![CDATA[
+					var fields = this.fields;
+					for (var name in fields)
+					{
+						var field = fields[name];
+						if (field.hasAttribute('error') && field.getAttribute('error') === 'true')
+						{
+							this.error = true; 
+							return;
+						}
+					}
+					this.error = false;
+				]]></body>
+			</method>
+			
+			<method name="updateCommandsUI">
+				<body><![CDATA[
+					this.getElementByAnonId('submit').disabled = this.error;
+				]]></body>
+			</method>
+			
+			<method name="onFieldError">
+				<parameter name="field" />
+				<body><![CDATA[	
+					this.showErrorMessage(field.errormessage);
+				]]></body>
+			</method>
+
+			<method name="onFieldValidated">
+				<parameter name="field" />
+				<body><![CDATA[
+					if (this.messageBox)
+					{
+						this.messageBox.clear();
+					}
+				]]></body>
+			</method>
+			
+			<method name="onFieldFocus">
+				<parameter name="field" />
+				<body><![CDATA[
+					if (this.messageBox)
+					{
+						if (!field.valid)
+						{
+							this.showErrorMessage(field.errormessage);
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="addDiscount">
+				<body><![CDATA[
+					var params = {
+						priceId: this.mPriceId,
+						value: this.getElementByAnonId('discountValue').value,
+						detail: this.getElementByAnonId('discountDetail').value,
+						start: this.getElementByAnonId('discountStartDate').value,
+						end: this.getElementByAnonId('discountEndDate').value
+					}
+					var result = wCore.executeJSON('catalog', 'AddDiscountOnPrice', params, null, true);
+					this.closeDialog(true);
+				]]></body>
+			</method>
+
+			<method name="closeDialog">
+				<parameter name="refesh" />
+				<body><![CDATA[
+					if (refesh && this.sender && 'refresh' in this.sender)
+					{
+						this.sender.refresh();	
+					}
+					this.controller.closeModalDialog(true);
+				]]></body>
+			</method>
+			
+			<property name="messageBox" readonly="true">
+				<getter><![CDATA[
+					return this.mMessageBox;
+				]]></getter>
+			</property>
+			
+			<method name="showErrorMessage">
+				<parameter name="text"/>
+				<body><![CDATA[
+					if (this.messageBox) {this.messageBox.showMessage("error", text);}
+				]]></body>
+			</method>
+			
+			<method name="showWarningMessage">
+				<parameter name="text"/>
+				<body><![CDATA[					
+					if (this.messageBox) {this.messageBox.showMessage("warning", text);}
+				]]></body>
+			</method>
+									
+			<method name="showTextMessage">
+				<parameter name="text"/>
+				<body><![CDATA[	
+					if (this.messageBox) {this.messageBox.showMessage("information", text);}				
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="fieldFocus"><![CDATA[
+				if (!this.mInitialized) {return;}
+				this.onFieldFocus(event.originalTarget);
+			]]></handler>
+			
+			<handler event="fieldError"><![CDATA[
+				if (!this.mInitialized) {return;}
+				this.error = true;
+				this.onFieldError(event.originalTarget);
+			]]></handler>
+
+			<handler event="fieldValidated"><![CDATA[
+				if (!this.mInitialized) {return;}
+				if (this.error) {this.refreshErrorState();}
+				this.onFieldValidated(event.originalTarget);
+			]]></handler>
+		</handlers>	
+		<content>
+			<xul:vbox flex="1">
+				<xul:hbox class="wizardTitle">
+					<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Title;" />
+					<xul:spacer flex="1" />
+					<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" />
+				</xul:hbox>
+				<xul:spacer height="5px" />
+				<xul:cmessageinfo anonid="message" />
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:spacer height="5px" />
+					<xul:vbox>
+						<xul:row align="right" class="discountHelper" reference="cAddDiscountOnPriceDialog_currentValue" pricefield="cAddDiscountOnPriceDialog_discountValue" detailfield="cAddDiscountOnPriceDialog_discountDetail" />
+						<xul:grid flex="1">
+							<xul:columns>
+								<xul:column flex="1" />
+								<xul:column flex="1" />
+								<xul:column />
+								<xul:column />
+							</xul:columns>
+							<xul:rows anonid="document-rows">
+								<xul:row align="center">
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-value;" control="cAddDiscountOnPriceDialog_discountValue" />
+									<xul:cfield id="cAddDiscountOnPriceDialog_discountValue" anonid="discountValue" name="discountValue" required="true" fieldtype="price" hidehelp="true">
+										<xul:cconstraint name="min" parameter="0" />
+									</xul:cfield>
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-value;" />
+									<xul:hbox>
+										<xul:label id="cAddDiscountOnPriceDialog_currentValue" xbl:inherits="xbl:text=currentValue,value=currentValue,currency=currentCurrency,mode=currentTaxMode" class="allow-text-selection" />
+										<xul:label xbl:inherits="xbl:text=currentCurrency" class="allow-text-selection" />
+										<xul:label xbl:inherits="xbl:text=currentTaxMode" class="allow-text-selection" />
+									</xul:hbox>
+								</xul:row>
+								<xul:row align="center">
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-detail;" control="cAddDiscountOnPriceDialog_discountDetail" />
+									<xul:cfield id="cAddDiscountOnPriceDialog_discountDetail" anonid="discountDetail" name="discountDetail" fieldtype="text" hidehelp="true" />
+									<xul:spacer />
+									<xul:spacer />
+								</xul:row>
+								<xul:row align="center">
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-start-date;" control="cAddDiscountOnPriceDialog_discountStartDate" />
+									<xul:cfield id="cAddDiscountOnPriceDialog_discountStartDate" anonid="discountStartDate" name="discountStartDate" fieldtype="datetime" required="true" hidehelp="true" timeoffset="30" initialvalue="" />
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-start-date;" />
+									<xul:label xbl:inherits="xbl:text=currentStartDate" class="allow-text-selection" />
+								</xul:row>
+								<xul:row align="center">
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-end-date;" control="cAddDiscountOnPriceDialog_discountEndDate" />
+									<xul:cfield id="cAddDiscountOnPriceDialog_discountEndDate" anonid="discountEndDate" name="discountEndDate" fieldtype="datetime" required="true" hidehelp="true" timeoffset="30" initialvalue="" />
+									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-end-date;" />
+									<xul:label xbl:inherits="xbl:text=currentEndDate" class="allow-text-selection" />
+								</xul:row>
+							</xul:rows>
+						</xul:grid>
+					</xul:vbox>
+					<xul:spacer flex="1" />
+				</xul:scrollbox>
+				<xul:hbox pack="center">
+					<xul:button anonid="submit" image="{IconsBase}/small/check.png" oncommand="addDiscount();" label="&amp;modules.uixul.bo.dialog.Apply;" />
+				</xul:hbox>
+			</xul:vbox>
 		</content>
 	</binding>
 </bindings>

@@ -12,7 +12,7 @@
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Discount">
-		<row class="discountHelper" />
+		<row class="discountHelper" reference="catalog_price_boValue" pricefield="catalog_price_create_boDiscountValue" detailfield="catalog_price_create_discountDetail" />
 		<field name="boDiscountValue" type="price" labeli18n="modules.catalog.document.price.DiscountValue" shorthelp="&amp;modules.catalog.document.price.DiscountValue-help;" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>

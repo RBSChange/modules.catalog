@@ -98,6 +98,9 @@
 	<entity id="panel.prices.confirm-delete-price">
 		<locale lang="fr">confirmez-vous la suppression de ce prix ?</locale>
 	</entity>
+	<entity id="panel.prices.confirm-remove-discount">
+		<locale lang="fr">confirmez-vous la suppression de la promotion sur ce prix ?</locale>
+	</entity>
 	<entity id="panel.prices.disabled.declinedproduct-not-synchronized">
 		<locale lang="fr">la synchronisation des prix entre les déclinaisons est désactivée. Pour éditer les prix d'une déclinaison, rendez-vous dans l'onglet "Prix" de cette déclinaison. Pour réactiver la synchronisation des prix, rendez-vous dans l'onglet "Propriétés" du produit décliné.</locale>
 	</entity>
@@ -306,5 +309,30 @@
 
 	<entity id="update-success">
 		<locale lang="fr">Mise à jour réussie.</locale>
+	</entity>
+	
+	<entity id="dialog.add-discount-on-price.title">
+		<locale lang="fr">création d'un prix promotionnel</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.discount-value">
+		<locale lang="fr">prix promotionnel</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.current-value">
+		<locale lang="fr">prix actuel</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.discount-detail">
+		<locale lang="fr">description courte</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.discount-start-date">
+		<locale lang="fr">début de la promotion</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.current-start-date">
+		<locale lang="fr">début de validité</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.discount-end-date">
+		<locale lang="fr">fin de promotion</locale>
+	</entity>
+	<entity id="dialog.add-discount-on-price.current-end-date">
+		<locale lang="fr">fin de validité</locale>
 	</entity>
 </localization>
