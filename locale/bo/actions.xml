@@ -99,4 +99,10 @@
 	<entity id="openOrderProductsInShelf">
 		<locale lang="fr">définir l'ordre des produits</locale>
 	</entity>
+	<entity id="add-discount">
+		<locale lang="fr">créer un prix promotionnel à partir de celui-ci</locale>
+	</entity>
+	<entity id="remove-discount">
+		<locale lang="fr">retirer la promotion de ce prix</locale>
+	</entity>
 </localization>

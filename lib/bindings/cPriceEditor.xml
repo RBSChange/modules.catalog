@@ -607,8 +607,8 @@
 			<xul:toolbar class="actions">
 				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
 				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
-				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="&amp;modules.uixul.bo.actions.Add-discount;" />
-				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="&amp;modules.uixul.bo.actions.remove-discount;" />
+				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="&amp;modules.catalog.bo.actions.Add-discount;" />
+				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="&amp;modules.catalog.bo.actions.Remove-discount;" />
 			</xul:toolbar>
 		</content>
 	</binding>
