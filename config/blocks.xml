@@ -37,12 +37,12 @@
 			<meta name="title" allow="title,description" />
 			<meta name="description" allow="title,description" />
 			<meta name="keywords" allow="keywords" />
-			<meta name="label" allow="title,descriptionn,keywords" />
-			<meta name="topshelfabel" allow="title,descriptionn,keywords" />
-			<meta name="shelflabel" allow="title,descriptionn,keywords"  />
-			<meta name="price" allow="title,descriptionn,keywords" />
-			<meta name="brandlabel" allow="title,descriptionn,keywords" />
-			<meta name="coderef" allow="title,descriptionn,keywords" />
+			<meta name="label" allow="title,description,keywords" />
+			<meta name="topshelfabel" allow="title,description,keywords" />
+			<meta name="shelflabel" allow="title,description,keywords"  />
+			<meta name="price" allow="title,description,keywords" />
+			<meta name="brandlabel" allow="title,description,keywords" />
+			<meta name="coderef" allow="title,description,keywords" />
 		</metas>
 		<xul>
 			<javascript>
