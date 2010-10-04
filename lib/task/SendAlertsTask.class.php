@@ -16,7 +16,11 @@ class catalog_SendAlertsTask extends task_SimpleSystemTask
 		foreach (array_chunk($emails, 10) as $chunk)
 		{
 			$result = f_util_System::execHTTPScript($batchPath, $chunk);
-			Framework::fatal(__METHOD__ . ' ' . $result);
+			// Log fatal errors...
+			if ($result != '1')
+			{
+				Framework::error(__METHOD__ . ' ' . $batchPath . ': "' . $result . '"');
+			}
 		}	
 	}
 }
