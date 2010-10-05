@@ -570,8 +570,7 @@
 				</xul:columns>
 				<xul:rows anonid="document-rows">
 					<xul:row class="head" anonid="head-row">
-						<xul:label name="actionrow"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-actions;" />
+						<xul:label name="status" value="" />
 						<xul:label name="valueWithTax" sortonfield="true"
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-value;" />
 						<xul:label name="isDiscountLabel" sortonfield="true"
@@ -586,18 +585,21 @@
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-start-publication-date;" />
 						<xul:label name="endpublicationdate"
 							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-end-publication-date;" />
+						<xul:label name="actionrow"
+							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-actions;" />						
 					</xul:row>
 				</xul:rows>
 			</xul:grid>		
 			<xul:row anonid="template-row" class="document" hidden="true" align="center">
+				<xul:cpublicationcell />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
 				<xul:cactioncell />
-				<xul:label value="" />
-				<xul:label value="" />
-				<xul:label value="" />
-				<xul:label value="" />
-				<xul:label value="" />
-				<xul:label value="" />
-				<xul:label value="" />
 			</xul:row>				
 		</content>
 	</binding>

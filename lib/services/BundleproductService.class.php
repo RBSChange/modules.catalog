@@ -138,9 +138,7 @@ class catalog_BundleproductService extends catalog_ProductService
 			$bundledItem->delete();
 		}
 	}
-	
-
-	
+		
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $document
 	 * @return boolean true if the document is publishable, false if it is not.
@@ -196,5 +194,44 @@ class catalog_BundleproductService extends catalog_ProductService
 			->add(Restrictions::eq('shopId', $shop->getId()));
 		
 		return $query->find();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_bundleproduct $bundle
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getItemsPriceByTargetIds($bundle, $shop, $targetIds, $quantity = 1)
+	{
+		$itemsPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
+		$itemsPrice->setToZero();
+		$taxCode = false;
+		
+		$itemsPrice->setProductId($bundle->getId());
+		$itemsPrice->setShopId($shop->getId());
+		$bis = catalog_BundleditemService::getInstance();
+		foreach ($bundle->getBundleditemArray() as $bundleitem) 
+		{
+			if (!$bis->appendPrice($bundleitem, $itemsPrice, $shop, $targetIds, $quantity))
+			{
+				return null;
+			}
+			if ($taxCode === false)
+			{
+				$taxCode = $itemsPrice->getTaxCode();
+			}
+			else if ($taxCode != $itemsPrice->getTaxCode())
+			{
+				$taxCode = null;
+			}
+		}
+		$itemsPrice->setTaxCode($taxCode);
+		if ($itemsPrice->getValueWithoutTax() >= $itemsPrice->getOldValueWithoutTax())
+		{
+			$itemsPrice->removeDiscount();
+		}
+		return $itemsPrice;	
 	}
 }

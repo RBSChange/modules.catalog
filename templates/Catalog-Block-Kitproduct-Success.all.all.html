@@ -52,22 +52,34 @@
 			
 			<ul>
 				<!-- Prix HT -->
-				<li tal:condition="displayConfig/showPricesWithoutTax">
-					<strong change:translate="modules.catalog.frontoffice.PricehtLabel"></strong>
-					<span class="priceht">				
-						<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithoutTax}</del></tal:block>
-						${defaultPrice/getFormattedValueWithoutTax}
-					</span>
-				</li>
+				<tal:block tal:condition="displayConfig/showPricesWithoutTax">
+					<li>
+						<strong change:translate="modules.catalog.frontoffice.PricehtLabel"></strong>
+						<span class="priceht">				
+							<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithoutTax}</del></tal:block>
+							${defaultPrice/getFormattedValueWithoutTax}
+						</span>
+					</li>
+					<li>
+						<strong change:translate="modules.catalog.frontoffice.DifferencehtLabel"></strong>
+						<span class="priceht">${differencePrice/getFormattedValueWithoutTax}</span>
+					</li>
+				</tal:block>
 		    	
 				<!-- Prix TTC -->
-				<li tal:condition="displayConfig/showPricesWithTax">
-					<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
-					<span class="pricettc">				
-						<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithTax}</del></tal:block>			
-						${defaultPrice/getFormattedValueWithTax}
-					</span>
-				</li>
+				<tal:block tal:condition="displayConfig/showPricesWithTax">
+					<li>
+						<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
+						<span class="pricettc">				
+							<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithTax}</del></tal:block>			
+							${defaultPrice/getFormattedValueWithTax}
+						</span>
+					</li>
+					<li>
+						<strong change:translate="modules.catalog.frontoffice.DifferencettcLabel"></strong>
+						<span class="pricettc">${differencePrice/getFormattedValueWithTax}</span>
+					</li>
+				</tal:block>
 			</ul>
 			<small tal:condition="defaultPrice/getFormattedEcoTax">
 					<tal:block change:translate="modules.catalog.frontoffice.LabelEcoTaxe" /> <tal:block change:translate="modules.catalog.frontoffice.EcoTaxeLabel" /><tal:block tal:replace="defaultPrice/getFormattedEcoTax"/> 

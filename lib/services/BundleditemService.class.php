@@ -77,4 +77,41 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 		}
 		return null;
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_bundleditem $bundleditem
+	 * @param catalog_persistentdocument_price $itemsPrice
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return boolean
+	 */
+	public function appendPrice($bundleditem, $itemsPrice, $shop, $targetIds, $quantity)
+	{	
+		$product = 	$bundleditem->getProduct();
+		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $bundleditem->getQuantity());
+		if ($price !== null)
+		{
+			$itemsPrice->setValueWithoutTax($itemsPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $bundleditem->getQuantity());
+			$itemsPrice->setValueWithTax($itemsPrice->getValueWithTax() +  $price->getValueWithTax() * $bundleditem->getQuantity());
+			if ($price->isDiscount())
+			{
+				$itemsPrice->setOldValueWithoutTax($itemsPrice->getOldValueWithoutTax() + $price->getOldValueWithoutTax() * $bundleditem->getQuantity());
+				$itemsPrice->setOldValueWithTax($itemsPrice->getOldValueWithTax() + $price->getOldValueWithTax() * $bundleditem->getQuantity());
+			}
+			else
+			{
+				$itemsPrice->setOldValueWithoutTax($itemsPrice->getOldValueWithoutTax() + $price->getValueWithoutTax() * $bundleditem->getQuantity());
+				$itemsPrice->setOldValueWithTax($itemsPrice->getOldValueWithTax() + $price->getValueWithTax() * $bundleditem->getQuantity());
+			}
+			
+			$itemsPrice->setTaxCode($price->getTaxCode());
+			return true;
+		}
+		else
+		{
+			Framework::warn(__METHOD__ . ' ' . var_export($bundleditem->getDefaultProduct(), true));
+		}
+		return false;
+	}
 }

@@ -99,6 +99,6 @@ class catalog_persistentdocument_kititem extends catalog_persistentdocument_kiti
 	 */
 	public function getDefaultProduct()
 	{
-		return $this->currentProduct === null ? $this->getProduct() : $this->currentProduct;
-	}	
+		return ($this->currentProduct === null) ? $this->getProduct() : $this->currentProduct;
+	}
 }

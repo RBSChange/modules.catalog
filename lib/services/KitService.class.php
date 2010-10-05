@@ -159,7 +159,6 @@ class catalog_KitService extends catalog_ProductService
 		return $resume;
 	}
 	
-	
 	/**
 	 * @see catalog_ProductService::getPriceByTargetIds()
 	 *
@@ -174,8 +173,43 @@ class catalog_KitService extends catalog_ProductService
 		if (!in_array($kit->getId(), $targetIds))
 		{
 			$targetIds[] = $kit->getId();
-		}
-
+		}		
+		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price[]
+	 */
+	public function getPricesByTargetIds($product, $shop, $targetIds)
+	{
+		throw new Exception('Not implemented');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $kit
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getItemsPriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	{
+		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $kit
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	protected function calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	{
 		$kitPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
 		$kitPrice->setToZero();
 		$taxCode = false;
@@ -204,18 +238,6 @@ class catalog_KitService extends catalog_ProductService
 			$kitPrice->removeDiscount();
 		}
 		return $kitPrice;		
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_kit $product
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price[]
-	 */
-	public function getPricesByTargetIds($product, $shop, $targetIds)
-	{
-		throw new Exception('Not implemented');
 	}
 	
 	/**

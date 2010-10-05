@@ -103,7 +103,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->addOrder(Order::desc('thresholdMin'))
 			->setFirstResult(0)
 			->setMaxResults(1);
-			
 		return f_util_ArrayUtils::firstElement($query->find());
 	}
 
@@ -177,6 +176,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$isLocked = ($price instanceof catalog_persistentdocument_lockedprice);
 		$array[] = array(
 			'id' => $price->getId(),
+			'status' => $price->getPublicationstatus(),
 			'boModel' => $price->getPersistentModel()->getBackofficeName(),
 			'priceType' => str_replace('/', '_', $price->getDocumentModelName()),
 			'value' => $price->getValueWithTax(),
@@ -671,6 +671,21 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$price->setOldValueWithoutTax(null);
 		$price->setDiscountDetail(null);
 		$price->save();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $price1
+	 * @param catalog_persistentdocument_price $price2
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPriceDifference($price1, $price2)
+	{
+		$diff = $this->clonePrice($price1);
+		$diff->setValueWithTax($price1->getValueWithTax() - $price2->getValueWithTax());
+		$diff->setValueWithoutTax($price1->getValueWithoutTax() - $price2->getValueWithoutTax());
+		$diff->setOldValueWithTax(null);
+		$diff->setOldValueWithoutTax(null);
+		return $diff;
 	}
 	
 	// Deprecated.

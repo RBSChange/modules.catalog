@@ -328,4 +328,61 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase 
 		$key = implode(',', $result);
 		return $key;
 	}
+	
+	/**
+	 * @var catalog_persistentdocument_price
+	 */
+	private $prices = array();
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param customer_persistentdocument_customer $customer nullable
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPrice($shop, $customer, $quantity = 1)
+	{
+		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
+		if (!isset($this->prices[$key]))
+		{
+			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+			$this->prices[$key] = $this->getDocumentService()->getPriceByTargetIds($this, $shop, $targetIds, $quantity);
+		}
+		return $this->prices[$key];
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_price
+	 */
+	private $itemsPrices = array();
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param customer_persistentdocument_customer $customer nullable
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getItemsPrice($shop, $customer, $quantity = 1)
+	{
+		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
+		if (!isset($this->itemsPrices[$key]))
+		{
+			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $targetIds, $quantity);
+		}
+		return $this->itemsPrices[$key];
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param customer_persistentdocument_customer $customer nullable
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPriceDifference($shop, $customer, $quantity = 1)
+	{
+		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
+		$price2 = $this->getPrice($shop, $customer, $quantity);
+		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
+	}
 }

@@ -16,7 +16,6 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 	{
 		$product = $this->getDocumentParameter();
 		
-		
 		// Add to cart if needed.
 		if ($request->getParameter('addToCart') !== null)
 		{
@@ -42,8 +41,8 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 		
 		$request->setAttribute('product', $product);
 		$request->setAttribute('defaultPrice', $price);
+		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
 		$request->setAttribute('thresholdPrices', $prices);
-		
 		
 		if ($request->hasParameter('bundleditemid'))
 		{

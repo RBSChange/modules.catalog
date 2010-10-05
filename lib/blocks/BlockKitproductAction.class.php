@@ -64,6 +64,7 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		
 		$price = $product->getPrice($shop, $customer);
 		$request->setAttribute('defaultPrice', $price);
+		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
 		
 		if ($request->hasParameter('kititemid'))
 		{

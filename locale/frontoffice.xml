@@ -20,6 +20,12 @@
 		<locale lang="en">price TTC</locale>
 		<locale lang="de">Preis inkl. Steuern</locale>
 	</entity>
+	<entity id="differenceht">
+		<locale lang="fr">économie HT</locale>
+	</entity>
+	<entity id="differencettc">
+		<locale lang="fr">économie TTC</locale>
+	</entity>
 	<entity id="ht">
 		<locale lang="fr">HT</locale>
 		<locale lang="en">HT</locale>

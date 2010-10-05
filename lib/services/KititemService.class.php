@@ -77,7 +77,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 */
 	public function appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity)
 	{	
-		$product = 	$kititem->getDefaultProduct();
+		$product = $kititem->getDefaultProduct();
 		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $kititem->getQuantity());
 		if ($price !== null)
 		{
@@ -99,7 +99,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		}
 		else
 		{
-			Framework::warn(var_export($kititem->getDefaultProduct(), true));
+			Framework::warn(__METHOD__ . ' ' . var_export($kititem->getDefaultProduct(), true));
 		}
 		return false;
 	}
@@ -169,7 +169,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		}
 		else
 		{
-			Framework::info(__METHOD__ . 'AAAAAAAAAAAAAAAAAAAA');
+			Framework::info(__METHOD__ . ' No current kit.');
 		}
 		return null;
 	}

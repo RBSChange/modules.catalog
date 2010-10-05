@@ -6,25 +6,6 @@
 class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase implements catalog_StockableDocument
 {
 	/**
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param array<string, string> $nodeAttributes
-	 */
-	//	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-	//	{
-	//	}
-	
-
-	/**
-	 * @param string $actionType
-	 * @param array $formProperties
-	 */
-	//	public function addFormProperties($propertiesNames, &$formProperties)
-	//	{	
-	//	}
-	
-
-	/**
 	 * @see catalog_persistentdocument_product::getDetailBlockName()
 	 *
 	 * @return String
@@ -36,7 +17,6 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	
 	/**
 	 * @see catalog_persistentdocument_product::getAdditionnalVisualArray()
-	 *
 	 * @return media_persistentdocument_media[]
 	 */
 	public function getAdditionnalVisualArray()
@@ -79,8 +59,6 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	{
 		$this->newBundledItemQtt = $newBundledItemQtt;
 	}
-
-
 	
 	/**
 	 * @return string
@@ -241,17 +219,50 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 		$html[] = '</ol>';
 		return implode('', $html);
 	}
-		
-	///catalog_StockableDocument
+
+	/**
+	 * @var catalog_persistentdocument_price
+	 */
+	private $itemsPrices = array();
 	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param customer_persistentdocument_customer $customer nullable
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getItemsPrice($shop, $customer, $quantity = 1)
+	{
+		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
+		if (!isset($this->itemsPrices[$key]))
+		{
+			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $targetIds, $quantity);
+		}
+		return $this->itemsPrices[$key];
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param customer_persistentdocument_customer $customer nullable
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPriceDifference($shop, $customer, $quantity = 1)
+	{
+		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
+		$price2 = $this->getPrice($shop, $customer, $quantity);
+		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
+	}
+		
+	// catalog_StockableDocument
 
 	/**
 	 * @see catalog_StockableDocument::addStockQuantity()
-	 *
 	 * @param Double $quantity
 	 * @return Double
 	 */
-	function addStockQuantity($quantity)
+	public function addStockQuantity($quantity)
 	{
 		$stock = null;
 		if ($this->getBundleditemCount())
@@ -278,7 +289,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	 * @see catalog_StockableDocument::getStockLevel()
 	 * @return String
 	 */
-	function getStockLevel()
+	public function getStockLevel()
 	{
 		if ($this->getBundleditemCount())
 		{
@@ -300,10 +311,9 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	
 	/**
 	 * @see catalog_StockableDocument::getStockQuantity()
-	 *
 	 * @return Double
 	 */
-	function getStockQuantity()
+	public function getStockQuantity()
 	{
 		$quantity = null;
 		if ($this->getBundleditemCount())
@@ -330,10 +340,9 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	
 	/**
 	 * @see catalog_StockableDocument::mustSendStockAlert()
-	 *
 	 * @return boolean
 	 */
-	function mustSendStockAlert()
+	public function mustSendStockAlert()
 	{
 		return false;
 	}
