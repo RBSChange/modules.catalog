@@ -20,4 +20,18 @@ class catalog_PaymentfilterScriptDocumentElement extends import_ScriptDocumentEl
 	{
 		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/paymentfilter');
 	}
+	
+	/**
+	 * @return array
+	 */
+	protected function getDocumentProperties()
+	{
+		$properties = parent::getDocumentProperties();
+		if (isset($properties['query']))
+		{
+			$query = $this->replaceRefIdInString($properties['query']) ;
+			$properties['query'] = $query;
+		}
+		return $properties;
+	}
 }

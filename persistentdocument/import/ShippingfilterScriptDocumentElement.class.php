@@ -20,4 +20,18 @@ class catalog_ShippingfilterScriptDocumentElement extends import_ScriptDocumentE
 	{
 		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/shippingfilter');
 	}
+	
+	/**
+	 * @return array
+	 */
+	protected function getDocumentProperties()
+	{
+		$properties = parent::getDocumentProperties();
+		if (isset($properties['query']))
+		{
+			$query = $this->replaceRefIdInString($properties['query']) ;
+			$properties['query'] = $query;
+		}
+		return $properties;
+	}
 }
