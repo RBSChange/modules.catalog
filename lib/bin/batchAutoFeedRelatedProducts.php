@@ -30,4 +30,4 @@ catch (Exception $e)
 	$tm->rollBack($e);
 	throw $e;
 }
-return 'OK';
+echo 'OK';

@@ -17,7 +17,7 @@ class catalog_SendAlertsTask extends task_SimpleSystemTask
 		{
 			$result = f_util_System::execHTTPScript($batchPath, $chunk);
 			// Log fatal errors...
-			if ($result != '1')
+			if ($result != 'OK')
 			{
 				Framework::error(__METHOD__ . ' ' . $batchPath . ': "' . $result . '"');
 			}
