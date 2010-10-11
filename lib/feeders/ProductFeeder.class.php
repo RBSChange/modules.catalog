@@ -10,8 +10,8 @@ abstract class catalog_ProductFeeder
 	abstract static function getInstance();
 	
 	/**
-	 * @param Array<Strin, mixed> $parameters
-	 * @return catalog_persistentdocument_product[]
+	 * @param array<String, mixed> $parameters
+	 * @return array<array>
 	 */
 	abstract public function getProductArray($parameters);
 	

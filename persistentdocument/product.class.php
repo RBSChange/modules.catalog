@@ -607,7 +607,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return ($brand instanceof brand_persistentdocument_brand && $brand->isPublished());
 	}
 
-	
 	/**
 	 * @return boolean
 	 */
@@ -615,8 +614,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	{
 		return true;
 	}	
-	
-	
+
 	/**
 	 * @return shipping_persistentdocument_mode
 	 */
@@ -634,5 +632,13 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function handleRelatedProducts()
+	{
+		return true;
 	}
 }

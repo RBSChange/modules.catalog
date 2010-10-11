@@ -4,11 +4,6 @@
 		<locale lang="fr">préférence</locale>
 		<locale lang="de">Präferenzen</locale>
 	</entity>
-	<entity id="edition-form-title">
-		<locale lang="fr">préférences du module Catalogue</locale>
-		<locale lang="en">Catalog settings</locale>
-		<locale lang="de">Präferenzen des Moduls Katalog</locale>
-	</entity>
 	<entity id="defaultDetailVisual">
 		<locale lang="fr">visuel produit par défaut</locale>
 		<locale lang="en">default product visual</locale>
@@ -76,6 +71,30 @@
 	</entity>
 	<entity id="suggestUpsellFeederClass-help">
 		<locale lang="fr">en activant cette option, une bouton apparaitra à côté du champ "produits de gamme supérieure" permettant de suggérer des produits.</locale>
+	</entity>
+	<entity id="autoFeedComplementaryMaxCount">
+		<locale lang="fr">réactualisation automatique des complémentaires</locale>
+	</entity>
+	<entity id="autoFeedComplementaryMaxCount-help">
+		<locale lang="fr">Nombre de produits complémentaires à réactualiser automatiquement. Laisser vide pour ne rien faire automatiquement.</locale>
+	</entity>
+	<entity id="autoFeedSimilarMaxCount">
+		<locale lang="fr">réactualisation automatique des similaires</locale>
+	</entity>
+	<entity id="autoFeedSimilarMaxCount-help">
+		<locale lang="fr">Nombre de produits similaires à réactualiser automatiquement. Laisser vide pour ne rien faire automatiquement.</locale>
+	</entity>
+	<entity id="autoFeedUpsellMaxCount">
+		<locale lang="fr">réactualisation automatique des gammes supérieures</locale>
+	</entity>
+	<entity id="autoFeedUpsellMaxCount-help">
+		<locale lang="fr">Nombre de produits de gamme supérieure à réactualiser automatiquement. Laisser vide pour ne rien faire automatiquement.</locale>
+	</entity>
+	<entity id="autoFeedDelay">
+		<locale lang="fr">délai entre deux réactualisations</locale>
+	</entity>
+	<entity id="autoFeedDelay-help">
+		<locale lang="fr">Spécifiez le délai entre deux exécutions de la tâche de réactualisation des produits croisés.</locale>
 	</entity>
 	<entity id="section.cross-selling">
 		<locale lang="fr">produits croisés</locale>

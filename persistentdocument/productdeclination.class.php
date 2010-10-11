@@ -114,6 +114,14 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 		$visuals = array_unique(array_merge($visuals, $declinedProduct->getAdditionnalVisualArray()));
 		return $visuals;
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function handleRelatedProducts()
+	{
+		return false;
+	}
 		
 	//catalog_StockableDocument
 
