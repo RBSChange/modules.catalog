@@ -158,6 +158,17 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 
 	/**
+	 * @param string $codeReference
+	 * @return array<catalog_persistentdocument_product>
+	 */
+	public function getByCodeReference($codeReference)
+	{
+		return $this->createQuery('modules_catalog/product')
+			->add(Restrictions::eq('codeReference', $codeReference))
+			->find();
+	}	
+	
+	/**
 	 * @param integer $articleId
 	 * @return array<catalog_persistentdocument_product>
 	 */
