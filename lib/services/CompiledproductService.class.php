@@ -342,7 +342,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$compiledProduct->setShelfId($shelf->getId());	
 			$indexOfShelf = $product->getIndexofShelf($shelf);
 			$compiledProduct->setShelfIndex($indexOfShelf);
-			// TODO.
 			$compiledProduct->setPosition($product->getId());
 		}
 		else 
