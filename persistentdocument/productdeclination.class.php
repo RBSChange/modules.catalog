@@ -5,13 +5,22 @@
  */
 class catalog_persistentdocument_productdeclination extends catalog_persistentdocument_productdeclinationbase implements catalog_StockableDocument
 {
+	/**
+	 * @var catalog_persistentdocument_declinedproduct
+	 */
+	private $relatedDeclinedProduct;
 	
 	/**
+	 * @param boolean $refreshCache
 	 * @return catalog_persistentdocument_declinedproduct
 	 */
-	public function getRelatedDeclinedProduct()
+	public function getRelatedDeclinedProduct($refreshCache = false)
 	{
-		return f_util_ArrayUtils::firstElement($this->getDeclinedproductArrayInverse(0, 1));
+		if ($this->relatedDeclinedProduct === null || $refreshCache)
+		{
+			$this->relatedDeclinedProduct = f_util_ArrayUtils::firstElement($this->getDeclinedproductArrayInverse(0, 1));
+		}
+		return $this->relatedDeclinedProduct;
 	}
 	
 	/**
