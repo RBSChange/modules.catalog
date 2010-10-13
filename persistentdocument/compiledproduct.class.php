@@ -25,6 +25,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 				
 				// Facet/sort fields
 				$indexDocument->setVolatileIntegerField('primaryShelfId', $this->getShelfId());
+				$indexDocument->setVolatileIntegerField('shelfId', catalog_ProductService::getInstance()->getShelfIdsByShop($product, $this->getShop(), $this->getLang()), true);
 				$brandId = $this->getBrandId();
 				if ($brandId !== null)
 				{

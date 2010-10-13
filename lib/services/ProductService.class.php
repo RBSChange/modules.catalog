@@ -505,7 +505,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param catalog_persistentdocument_product $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
@@ -1233,5 +1233,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$excludedIds = $document->getMetaMultiple($metaExcludedKey);
 		$value = array_merge(array_diff($idsInMeta, $currentIds), array_diff($excludedIds, $currentIds));
 		$document->setMetaMultiple($metaExcludedKey, f_util_ArrayUtils::isEmpty($value) ? null : $value);
+	}
+	
+    /**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getShelfIdsByShop($product, $shop, $lang)
+	{
+		return catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product.id', $product->getId()))
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('lang', $lang))
+			->add(Restrictions::published())
+			->setProjection(Projections::property('shelfId', 'shelfId'))->findColumn('shelfId');
 	}
 }
