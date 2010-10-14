@@ -29,7 +29,7 @@ class catalog_patch_0317 extends patch_BasePatch
 		$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
 		$task->setSystemtaskclassname('catalog_AutoFeedRelatedProductsTask');
 		$task->setLabel('catalog_AutoFeedRelatedProductsTask');
-		$task->setUniqueExecutiondate(date_Calendar::getInstance()->toString());
+		$task->setUniqueExecutiondate(date_Calendar::getInstance());
 		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
 	}
 
