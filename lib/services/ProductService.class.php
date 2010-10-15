@@ -484,7 +484,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param catalog_persistentdocument_product $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
@@ -1088,4 +1088,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$query->setProjection(Projections::property('relatedId'));
 		return $query->findColumn('relatedId');
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getShelfIdsByShop($product, $shop, $lang)
+	{
+		return catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product.id', $product->getId()))
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('lang', $lang))
+			->add(Restrictions::published())
+			->setProjection(Projections::property('shelfId', 'shelfId'))->findColumn('shelfId');
+	}
 }
+	

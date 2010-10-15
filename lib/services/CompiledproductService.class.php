@@ -230,6 +230,23 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$query->delete();
 			catalog_ProductService::getInstance()->setCompiled($product->getId());
 			
+			foreach ($CPIds as $cpId)
+			{
+				$cproduct = DocumentHelper::getDocumentInstance($cpId);
+				if ($cproduct->isPublished() && $cproduct->getIndexed())
+				{
+					try
+					{
+						$rqc->beginI18nWork($cproduct->getLang());
+						indexer_IndexService::getInstance()->update($cproduct);
+						$rqc->endI18nWork();
+					}
+					catch (Exception $e)
+					{
+						$rqc->endI18nWork($e);
+					}
+				}
+			}
 			$this->tm->commit();
 		}
 		catch (Exception $e)
@@ -336,8 +353,30 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		else
 		{
+			$oldPublicationStatus = $document->getPublicationstatus();
 			$this->publishDocumentIfPossible($document, array('cause' => 'compilation'));
+			if ($oldPublicationStatus === 'PUBLICATED' && $document->isPublished())
+			{
+				// Reindex when product is updated bu compiled product not
+				indexer_IndexService::getInstance()->update($document);
+			}
 		}
+		
+		if (!$document->getIndexed())
+		{
+			$this->reindexProduct($document);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $compiledproduct
+	 */
+	private function reindexProduct($compiledproduct)
+	{
+		$indexedProduct = $this->createQuery()->add(Restrictions::eq('product', $compiledproduct->getProduct()))
+								->add(Restrictions::published())
+								->add(Restrictions::eq('indexed', true))
+								->add(Restrictions::eq('shopId', $compiledproduct->getShopId()))->findUnique();	
 	}
 	
 	/**
