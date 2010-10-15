@@ -11,7 +11,7 @@
 	<td>
 		<ul>
 			<li><a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></li>
-			<li tal:condition="product/getBrand" change:translate="modules.catalog.frontoffice.from-brand; name product/getBrandLabel;" />
+			<li tal:condition="product/getBrand" change:translate="modules.catalog.frontoffice.from-brand; name product/getBrandLabelAsHtml" />
 			<tal:block tal:condition="displayConfig/showProductDescription">
 				<li tal:condition="product/getShortDescription">${product/getShortDescription}</li>
 			</tal:block>
