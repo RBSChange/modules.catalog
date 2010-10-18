@@ -9,7 +9,8 @@
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_shelfContextualList" />
 				<changeblock type="modules_catalog_productContextualList" />
-			</changecontent>
+			</changecontent>	
+			<execute method="setPageRefAsIndex" />
 		</page>
 		<page label="Détail d'une fiche produit" navigationVisibility="hidden">
 			<tag name="functional_catalog_product-detail" />

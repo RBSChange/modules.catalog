@@ -66,6 +66,10 @@ Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nul
 	<mode id="shipping" byLabel="Colissimo"  />
 	<chequeconnector id="payment" byLabel="Paiement par chèque" />
 	
+	<page byLabel="Contenu du rayon">
+		<execute method="setPageRefAsIndex" />
+	</page>
+	
 	<shippingfilter byLabel="Collisimo 10€" shop-refid="shop" mode-refid="shipping" 
 		taxCode="1" valueWithTax="10" valueWithoutTax="8.04"/>
 		

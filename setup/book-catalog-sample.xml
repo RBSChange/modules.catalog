@@ -66,7 +66,11 @@
 			<shop byLabel="Boutique" id="shop" topShelf-refids="r1,r2" />
 		</shopfolder>
 	</rootfolder>
-	
+
+	<page byLabel="Contenu du rayon">
+		<execute method="setPageRefAsIndex" />
+	</page>
+		
 	<simpleproduct label="Windows Vista et Internet pour les Nuls" shelf-refids="r1-1" codeReference="L1" id="product1" visual-refid="V-L1-1" additionnalVisual-refids="V-L1-2" brand-refid="brand1" stockQuantity="30" description="&lt;p&gt;de Andy Rathbone (Auteur), John-R Levine (Auteur), Margaret Levine Young (Auteur), Carol Baroudi (Auteur)&lt;/p&gt;
 &lt;p&gt;Un nouveau matériel ou un nouveau logiciel vient de débarquer dans votre vie et vous n'avez pas de temps à perdre pour en apprendre l'utilisation. Deux solutions s'offrent à vous, attendre un miracle, solution peu probable, ou faire confiance à votre Mégapoche qui vous donnera toutes les informations essentielles pour démarrer un apprentissage efficace dans la joie et la bonne humeur ! Pour tout savoir sur Windows Vista et Internet ! Windows Vista et Internet Mégapoche Pour les Nuls va vous donner en quelques 700 pages tous les outils qui vous permettront de maîtriser Windows et Internet comme un virtuose. La première partie est consacrée au coeur du PC Windows Vista vous y apprendrez tout ce qu'il faut savoir pour bien utiliser votre PC et ses périphériques. La deuxième partie vous fera partir pour une croisière à la découverte du monde merveilleux d'Internet.&lt;/p&gt;">
 		<price shop-refid="shop" taxCode="2" value="16.06" oldValue="16.90" discountDetail="5%" />
