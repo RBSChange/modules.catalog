@@ -6,7 +6,7 @@
 			- payment/sample.xml 
 			- shipping/sample.xml
 	-->
-	
+
 	<binding fileName="modules/generic/persistentdocument/import/generic_binding.xml" />
 	<binding fileName="modules/payment/persistentdocument/import/payment_binding.xml" />
 	<binding fileName="modules/shipping/persistentdocument/import/shipping_binding.xml" />
@@ -15,7 +15,7 @@
 	<binding fileName="modules/website/persistentdocument/import/website_binding.xml" />
 	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
 	<binding fileName="modules/comment/persistentdocument/import/comment_binding.xml" />
-	
+
 	<rootfolder module="media">
 		<folder label="Média liés aux exemples de catalogues">
 			<media path="modules/catalog/setup/sample/Anniversaire3.jpg" label="Anniversaire 3" id="photo1" />
@@ -27,19 +27,17 @@
 			<media path="modules/catalog/setup/sample/adidas_logo.jpg" label="Logo Adidas" id="photo7" />
 		</folder>
 	</rootfolder>
-	
+
+	<attribute name="brandDescription" default="true">
+		<![CDATA[<p>Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.</p>]]>
+	</attribute>
 	<rootfolder module="brand">
 		<folder byLabel="Marques liées aux exemples de catalogues">
-			<brand label="Nike" visual-refid="photo6" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;" websiteUrl="http://www.nike.com" id="brand1" />
-		
-			<brand label="Adidas" visual-refid="photo7" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;" websiteUrl="http://www.adidas.com" id="brand2" />
-		</folder>	
+			<brand label="Nike" visual-refid="photo6" description-attr="brandDescription" id="brand1" />
+			<brand label="Adidas" visual-refid="photo7" description-attr="brandDescription" websiteUrl="http://www.adidas.com" id="brand2" />
+		</folder>
 	</rootfolder>
-		
+
 	<rootfolder module="catalog">
 		<topshelf label="rayon 1" visual-refid="photo5" id="r1">
 			<shelf label="sous-rayon 1 avec un nom très long" visual-refid="photo4" id="r1-1" />
@@ -57,66 +55,49 @@ Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nul
 			<shelf label="sous-rayon 1" visual-refid="photo4" id="r6-1" />
 			<shelf label="sous-rayon 2" visual-refid="photo2" id="r6-2" />
 		</topshelf>
-		
+
 		<shopfolder byLabel="Boutiques">
 			<shop byLabel="Boutique" id="shop" topShelf-refids="r1,r2,r5,r6" />
 		</shopfolder>
-	</rootfolder>	
-	
-	<mode id="shipping" byLabel="Colissimo"  />
+	</rootfolder>
+
+	<mode id="shipping" byLabel="Colissimo" />
 	<chequeconnector id="payment" byLabel="Paiement par chèque" />
-	
+
 	<page byLabel="Contenu du rayon">
 		<execute method="setPageRefAsIndex" />
 	</page>
-	
-	<shippingfilter byLabel="Collisimo 10€" shop-refid="shop" mode-refid="shipping" 
-		taxCode="1" valueWithTax="10" valueWithoutTax="8.04"/>
-		
+
+	<shippingfilter byLabel="Collisimo 10€" shop-refid="shop" mode-refid="shipping" taxCode="1" valueWithTax="10"
+		valueWithoutTax="8.04" />
+
 	<paymentfilter byLabel="Cheque" shop-refid="shop" connector-refid="payment" />
-	
-	<simpleproduct label="produit 1" id="product1" shelf-refids="r1-1,r2" visual-refid="photo1"
-		brand-refid="brand1" stockQuantity="5" codeReference="P1" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;
-&lt;p&gt;
-Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.
-&lt;/p&gt;
-&lt;p&gt;
-Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
-&lt;/p&gt;">
+
+	<attribute name="productDescription" default="true">
+		<![CDATA[<p>Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.</p>
+		<p>Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.</p>
+		<p>Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.</p>]]>
+	</attribute>
+	<simpleproduct label="produit 1" id="product1" shelf-refids="r1-1,r2" visual-refid="photo1" brand-refid="brand1"
+		stockQuantity="5" codeReference="P1" description-attr="productDescription">
 		<price shop-refid="shop" taxCode="1" value="90" oldValue="100" discountDetail="10%" ecoTax="5" />
 		<price shop-refid="shop" taxCode="1" value="89" oldValue="95" ecoTax="5" thresholdMin="5" />
 		<price shop-refid="shop" taxCode="1" value="79" oldValue="85" ecoTax="5" thresholdMin="10" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Super !" rating="5" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="Moi j'ai eu plein de problèmes avec..." rating="1" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="Moi j'ai eu plein de problèmes avec..."
+			rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Le design est top mais ça ne marche pas toujours bien." rating="3" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
 	</simpleproduct>
-	<simpleproduct label="produit 2" id="product2" shelf-refids="r1-1,r2-1" visual-refid="photo2"
-		brand-refid="brand2" stockQuantity="10" codeReference="P2" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;
-&lt;p&gt;
-Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.
-&lt;/p&gt;
-&lt;p&gt;
-Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
-&lt;/p&gt;">
+	<simpleproduct label="produit 2" id="product2" shelf-refids="r1-1,r2-1" visual-refid="photo2" brand-refid="brand2"
+		stockQuantity="10" codeReference="P2" description-attr="productDescription">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 		<price shop-refid="shop" taxCode="2" value="125" oldValue="140" thresholdMin="5" />
 		<price shop-refid="shop" taxCode="2" value="105" oldValue="130" thresholdMin="10" />
 	</simpleproduct>
-	<declinedproduct label="produit 3 avec un nom très long" id="product3" shelf-refids="r2-1" visual-refid="photo3" synchronizePrices="false"
-		complementary-refids="product1,product2" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;
-&lt;p&gt;
-Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.
-&lt;/p&gt;
-&lt;p&gt;
-Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
-&lt;/p&gt;">
+	<declinedproduct label="produit 3 avec un nom très long" id="product3" shelf-refids="r2-1" visual-refid="photo3"
+		synchronizePrices="false" complementary-refids="product1,product2" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
+		description-attr="productDescription">
 		<productdeclination label="produit 3, déclinaison 1" codeReference="P3-1">
 			<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
 		</productdeclination>
@@ -124,39 +105,15 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 			<price shop-refid="shop" taxCode="2" value="529" oldValue="559" />
 		</productdeclination>
 	</declinedproduct>
-	<simpleproduct label="produit 4" id="product4" shelf-refids="r3,r4" visual-refid="photo4"
-		codeReference="P4" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;
-&lt;p&gt;
-Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.
-&lt;/p&gt;
-&lt;p&gt;
-Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
-&lt;/p&gt;">
+	<simpleproduct label="produit 4" id="product4" shelf-refids="r3,r4" visual-refid="photo4" codeReference="P4"
+		description-attr="productDescription">
 		<price shop-refid="shop" taxCode="2" value="90" oldValue="100" />
 	</simpleproduct>
-	<simpleproduct label="produit 5" id="product5" shelf-refid="r3" visual-refid="photo5"
-		codeReference="P5" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;
-&lt;p&gt;
-Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.
-&lt;/p&gt;
-&lt;p&gt;
-Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
-&lt;/p&gt;">
+	<simpleproduct label="produit 5" id="product5" shelf-refid="r3" visual-refid="photo5" codeReference="P5" description-attr="productDescription">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 6" id="product6"  shelf-refids="r4" complementary-refids="product4,product5" synchronizePrices="true" description="&lt;p&gt;
-Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.
-&lt;/p&gt;
-&lt;p&gt;
-Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.
-&lt;/p&gt;
-&lt;p&gt;
-Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.
-&lt;/p&gt;">
+	<declinedproduct label="produit 6" id="product6" shelf-refids="r4" complementary-refids="product4,product5"
+		synchronizePrices="true" description-attr="productDescription">
 		<productdeclination label="produit 6, déclinaison 1" codeReference="P6-1" />
 		<productdeclination label="produit 6, déclinaison 2" codeReference="P6-2" />
 		<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
@@ -167,7 +124,8 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 	<simpleproduct label="produit 8" id="product8" shelf-refids="r4,r5,r6" visual-refid="photo2" codeReference="P8">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"	complementary-refids="product2,product3,product4" synchronizePrices="false">
+	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
+		complementary-refids="product2,product3,product4" synchronizePrices="false">
 		<productdeclination label="produit 9, déclinaison 1" codeReference="P9-1">
 			<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
 			<price shop-refid="shop" taxCode="2" value="470" oldValue="490" thresholdMin="5" />
@@ -179,32 +137,40 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 			<price shop-refid="shop" taxCode="2" value="489" oldValue="539" thresholdMin="10" />
 		</productdeclination>
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !" rating="1" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !"
+			rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
 	</declinedproduct>
-	<simpleproduct label="produit 13 avec un nom très long" id="product13" shelf-refids="r4,r5-1,r6-1,r6-2" visual-refid="photo3" codeReference="P13">
+	<simpleproduct label="produit 13 avec un nom très long" id="product13" shelf-refids="r4,r5-1,r6-1,r6-2" visual-refid="photo3"
+		codeReference="P13">
 		<price shop-refid="shop" taxCode="2" value="89" />
 	</simpleproduct>
-	<simpleproduct label="produit 14" id="product14" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P14" complementary-refids="product2,product3,product4">
+	<simpleproduct label="produit 14" id="product14" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P14"
+		complementary-refids="product2,product3,product4">
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
-	<simpleproduct label="produit 15" id="product15" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo3" codeReference="P15" complementary-refids="product2,product3,product4">
+	<simpleproduct label="produit 15" id="product15" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo3" codeReference="P15"
+		complementary-refids="product2,product3,product4">
 		<price shop-refid="shop" taxCode="2" value="90" oldValue="100" />
 	</simpleproduct>
-	<simpleproduct label="produit 16" id="product16" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P16" complementary-refids="product4,product5">
+	<simpleproduct label="produit 16" id="product16" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P16"
+		complementary-refids="product4,product5">
 		<price shop-refid="shop" taxCode="2" value="129" oldValue="150" />
 	</simpleproduct>
-	<simpleproduct label="produit 17" id="product17" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P17" complementary-refids="product2,product3,product4">
+	<simpleproduct label="produit 17" id="product17" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P17"
+		complementary-refids="product2,product3,product4">
 		<price shop-refid="shop" taxCode="2" value="79" oldValue="100" />
 	</simpleproduct>
 	<simpleproduct label="produit 18" id="product18" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P18">
 		<price shop-refid="shop" taxCode="2" value="125" />
 	</simpleproduct>
-	<simpleproduct label="produit 20" id="product20" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P20" complementary-refids="product4,product5">
+	<simpleproduct label="produit 20" id="product20" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P20"
+		complementary-refids="product4,product5">
 		<price shop-refid="shop" taxCode="2" value="119" />
 	</simpleproduct>
-	<simpleproduct label="produit 21" id="product21" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P21" complementary-refids="product4,product5">
+	<simpleproduct label="produit 21" id="product21" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P21"
+		complementary-refids="product4,product5">
 		<price shop-refid="shop" taxCode="2" value="140" />
 	</simpleproduct>
 	<simpleproduct label="produit 23" id="product23" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P23">
@@ -214,15 +180,16 @@ Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh aucto
 		<price shop-refid="shop" taxCode="2" value="130" oldValue="150" />
 	</simpleproduct>
 	<declinedproduct label="produit 25" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true"
-		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product3,product4"
-		similar-refids="product1,product5,product6,product7,product8" upsell-refids="product13,product14,product15">
+		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product3,product4" similar-refids="product1,product5,product6,product7,product8"
+		upsell-refids="product13,product14,product15">
 		<productdeclination label="produit 25, déclinaison 1" codeReference="P9-1" />
 		<productdeclination label="produit 25, déclinaison 2" codeReference="P9-2" />
 		<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
 		<price shop-refid="shop" taxCode="2" value="470" oldValue="490" thresholdMin="5" />
 		<price shop-refid="shop" taxCode="2" value="450" oldValue="480" thresholdMin="10" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !" rating="1" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !"
+			rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
 	</declinedproduct>

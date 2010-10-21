@@ -2,7 +2,9 @@
 <script>
 	<binding fileName="modules/website/persistentdocument/import/website_binding.xml" />
 	
-	<systemtopic template="webfactory/tplTwo">
+	<attribute name="template" default="true">webfactory/tplTwo</attribute>
+	
+	<systemtopic byDocumentId-attr="">
 		<page label="Contenu du rayon" isIndexPage="true" navigationVisibility="hidden">
 			<tag name="functional_catalog_product-list" />
 			<tag name="functional_catalog_shelf-list" />
