@@ -1,7 +1,6 @@
 <?php
 /**
- * catalog_GaugeObject
- * @package modules.catalog
+ * @deprecated use change:gauge
  */
 class catalog_GaugeObject
 {
@@ -12,21 +11,17 @@ class catalog_GaugeObject
 	private static $maxScore;
 	
 	/**
-	 * @param Double $value
+	 * @deprecated
 	 */
 	public function __construct($value)
 	{
 		if (self::$imageBaseName == null)
 		{
-			try
+			$delegateClassName = Framework::getConfiguration('modules/catalog/gaugeDelegate', false);
+			if ($delegateClassName)
 			{
-				$delegateClassName = Framework::getConfiguration('modules/catalog/gaugeDelegate');
 				self::setDelegate($delegateClassName);
-			} 
-			catch (ConfigurationException $e)
-			{
-				// Nothing to do here
-			}
+			}			
 			
 			if (self::$imageBaseName == null)
 			{
@@ -47,7 +42,7 @@ class catalog_GaugeObject
 	}
 	
 	/**
-	 * @param Integer $value
+	 * @deprecated
 	 */
 	public function setGauge($value)
 	{
@@ -55,7 +50,7 @@ class catalog_GaugeObject
 	}
 	
 	/**
-	 * @param String $className
+	 * @deprecated
 	 */
 	public static function setDelegate($className)
 	{
@@ -79,7 +74,7 @@ class catalog_GaugeObject
 	}
 	
 	/**
-	 * @return String
+	 * @deprecated
 	 */
 	public function getImageUrl()
 	{
@@ -87,7 +82,7 @@ class catalog_GaugeObject
 	}
 	
 	/**
-	 * @return String
+	 * @deprecated
 	 */
 	public function getAltText()
 	{
@@ -95,7 +90,7 @@ class catalog_GaugeObject
 	}
 	
 	/**
-	 * @return String
+	 * @deprecated
 	 */
 	public function getClassName()
 	{
