@@ -55,7 +55,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param website_pesistentdocument_website $website
 	 * @return catalog_persistentdocument_shelf
 	 */
-	public function getPrimaryShelf($product, $website = null)
+	public function getPrimaryShelf($product, $website = null, $publlishedOnly = false)
 	{
 		if ($website === null)
 		{
@@ -64,7 +64,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		else 
 		{
 			$compiledProduct = $this->getPrimaryCompiledProductForWebsite($product, $website);
-			if ($compiledProduct !== null)
+			if ($compiledProduct !== null && (!$publlishedOnly || $compiledProduct->isPublished()))
 			{
 				return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId(), 'modules_catalog/shelf');
 			}
@@ -660,7 +660,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$model = $document->getPersistentModel();
 		if ($model->hasURL() && $document->isPublished())
 		{
-			$shelf = $this->getPrimaryShelf($document, website_WebsiteModuleService::getInstance()->getCurrentWebsite());
+			$shelf = $this->getPrimaryShelf($document, website_WebsiteModuleService::getInstance()->getCurrentWebsite(), true);
 			if ($shelf !== null)
 			{
 				$topic = $shelf->getDocumentService()->getRelatedTopicByShop($shelf, catalog_ShopService::getInstance()->getCurrentShop());
