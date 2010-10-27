@@ -161,10 +161,24 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		return $this->getChildrenOf($shelf, 'modules_catalog/shelf');
 	}
-
+	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return Array<catalog_persistentdocument_shelf>
+	 * @return catalog_persistentdocument_shelf[]
+	 */
+	public function getPublishedSubShelvesInCurrentShop($shelf)
+	{
+		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		$query = website_SystemtopicService::getInstance()->createQuery();
+		$query->add(Restrictions::published())->add(Restrictions::descendentOf($website->getId()));
+		$query->createPropertyCriteria('referenceId', 'modules_catalog/shelf')->add(Restrictions::childOf($shelf->getId()));
+		$query->setProjection(Projections::property('referenceId'));
+		return $this->createShelfQuery()->add(Restrictions::in('id', $query->findColumn('referenceId')))->find();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @return catalog_persistentdocument_shelf[]
 	 */
 	public function getPublishedSubShelves($shelf)
 	{

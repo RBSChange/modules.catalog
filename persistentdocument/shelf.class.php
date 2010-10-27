@@ -35,6 +35,14 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
+	 * @return array<catalog_persistentdocument_shelf>
+	 */
+	public function getPublishedSubShelvesInCurrentShop()
+	{
+		return $this->getDocumentService()->getPublishedSubShelvesInCurrentShop($this);
+	}
+	
+	/**
 	 * Return true if the shelf is a top shelf else return false
 	 * @return Boolean
 	 */
