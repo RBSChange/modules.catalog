@@ -23,7 +23,7 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	 */
 	public function getUrl()
 	{
-		return LinkHelper::getUrl($this);
+		return LinkHelper::getDocumentUrl($this);
 	}
 	
 	/**

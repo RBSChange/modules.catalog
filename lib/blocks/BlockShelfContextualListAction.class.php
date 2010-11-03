@@ -17,7 +17,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 		$subShelves = $this->getSubShelves();
 		$request->setAttribute('currentShelf', $this->getCurrentEcommerceContainer());
 		$request->setAttribute('shelves', $this->getSubShelves());
-		$request->setAttribute('redirectFormAction', LinkHelper::getUrl('catalog', 'Redirect'));
+		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect'));
 		if ($this->isInBackoffice() && count($subShelves) < 1)
 		{
 			return block_BlockView::NONE;
