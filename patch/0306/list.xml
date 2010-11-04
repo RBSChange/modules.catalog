@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<script>
-	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
-
-	<systemfolder module="list" relatedmodule="catalog">
-		<dynamiclist listid="modules_catalog/declinationsbyproduct" 
-			label="Déclinaisons d'un produit" description="Liste des déclinaisons d'un produit" />
-	</systemfolder>
-</script>
