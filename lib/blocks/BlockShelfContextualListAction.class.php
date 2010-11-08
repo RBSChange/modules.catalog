@@ -20,11 +20,11 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect'));
 		if ($this->isInBackoffice() && count($subShelves) < 1)
 		{
-			return block_BlockView::NONE;
+			return website_BlockView::NONE;
 		}
 		else
 		{
-			return block_BlockView::SUCCESS;
+			return website_BlockView::SUCCESS;
 		}
 	}
 	
