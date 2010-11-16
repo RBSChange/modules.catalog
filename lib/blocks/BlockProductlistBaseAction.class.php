@@ -419,7 +419,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			$maxresults = $this->getMaxresults($request);
 			$paginator = new paginator_Paginator('catalog', $request->getParameter(
-					paginator_Paginator::REQUEST_PARAMETER_NAME, 1), $products, $maxresults);
+					paginator_Paginator::PAGEINDEX_PARAMETER_NAME, 1), $products, $maxresults);
 			$request->setAttribute('products', $paginator);
 		}
 		else
