@@ -106,7 +106,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		foreach ($kit->getKititemArray() as $kitItem) 
 		{	
-			if (DocumentHelper::isEquals($product, $kitItem->getProduct()))
+			if (DocumentHelper::equals($product, $kitItem->getProduct()))
 			{
 				return $kitItem;
 			}
