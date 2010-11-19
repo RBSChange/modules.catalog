@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <script>
-  <binding name="preferences" className="catalog_PreferencesScriptDocumentElement"/>
-  <binding name="catalogpreferences" className="catalog_PreferencesScriptDocumentElement"/>
-  <binding name="topshelf" className="catalog_TopshelfScriptDocumentElement"/>
-  <binding name="shelf" className="catalog_ShelfScriptDocumentElement"/>
-  <binding name="shop" className="catalog_ShopScriptDocumentElement"/>
-  <binding name="shopfolder" className="catalog_ShopfolderScriptDocumentElement"/>
-  <binding name="declinedproduct" className="catalog_DeclinedproductScriptDocumentElement"/>
-  <binding name="productdeclination" className="catalog_ProductdeclinationScriptDocumentElement"/>
-  <binding name="simpleproduct" className="catalog_SimpleproductScriptDocumentElement"/>
-  <binding name="price" className="catalog_PriceScriptDocumentElement"/>
-  <binding name="product" className="catalog_ProductScriptDocumentElement"/>
-  <binding name="compiledproduct" className="catalog_CompiledproductScriptDocumentElement"/>
-  <binding name="productlist" className="catalog_ProductlistScriptDocumentElement"/>
-  <binding name="shippingfilter" className="catalog_ShippingfilterScriptDocumentElement"/>
-  <binding name="paymentfilter" className="catalog_PaymentfilterScriptDocumentElement"/>
-  <binding name="attributefolder" className="catalog_AttributefolderScriptDocumentElement"/>
-  <binding name="bundleproduct" className="catalog_BundleproductScriptDocumentElement"/>
-  <binding name="bundleditem" className="catalog_BundleditemScriptDocumentElement"/>
-  <binding name="alert" className="catalog_AlertScriptDocumentElement"/>
-  <binding name="kititem" className="catalog_KititemScriptDocumentElement"/>
-  <binding name="kit" className="catalog_KitScriptDocumentElement"/>
-  <binding name="lockedprice" className="catalog_LockedpriceScriptDocumentElement"/>
-  <binding name="virtualproduct" className="catalog_VirtualproductScriptDocumentElement"/>
+	<binding fileName="modules/generic/persistentdocument/import/generic_binding.xml" />
+	<binding name="preferences" className="catalog_PreferencesScriptDocumentElement" />
+	<binding name="catalogpreferences" className="catalog_PreferencesScriptDocumentElement" />
+	<binding name="topshelf" className="catalog_TopshelfScriptDocumentElement" />
+	<binding name="shelf" className="catalog_ShelfScriptDocumentElement" />
+	<binding name="shop" className="catalog_ShopScriptDocumentElement" />
+	<binding name="shopfolder" className="catalog_ShopfolderScriptDocumentElement" />
+	<binding name="declinedproduct" className="catalog_DeclinedproductScriptDocumentElement" />
+	<binding name="productdeclination" className="catalog_ProductdeclinationScriptDocumentElement" />
+	<binding name="simpleproduct" className="catalog_SimpleproductScriptDocumentElement" />
+	<binding name="price" className="catalog_PriceScriptDocumentElement" />
+	<binding name="product" className="catalog_ProductScriptDocumentElement" />
+	<binding name="compiledproduct" className="catalog_CompiledproductScriptDocumentElement" />
+	<binding name="productlist" className="catalog_ProductlistScriptDocumentElement" />
+	<binding name="shippingfilter" className="catalog_ShippingfilterScriptDocumentElement" />
+	<binding name="paymentfilter" className="catalog_PaymentfilterScriptDocumentElement" />
+	<binding name="attributefolder" className="catalog_AttributefolderScriptDocumentElement" />
+	<binding name="bundleproduct" className="catalog_BundleproductScriptDocumentElement" />
+	<binding name="bundleditem" className="catalog_BundleditemScriptDocumentElement" />
+	<binding name="alert" className="catalog_AlertScriptDocumentElement" />
+	<binding name="kititem" className="catalog_KititemScriptDocumentElement" />
+	<binding name="kit" className="catalog_KitScriptDocumentElement" />
+	<binding name="lockedprice" className="catalog_LockedpriceScriptDocumentElement" />
+	<binding name="virtualproduct" className="catalog_VirtualproductScriptDocumentElement" />
 </script>
