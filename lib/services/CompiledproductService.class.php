@@ -369,31 +369,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		else
 		{
-			$oldPublicationStatus = $document->getPublicationstatus();
 			$this->publishDocumentIfPossible($document, array('cause' => 'compilation'));
-			if ($oldPublicationStatus === 'PUBLICATED' && $document->isPublished())
-			{
-				// Reindex when product is updated bu compiled product not
-				indexer_IndexService::getInstance()->update($document);
-			}
 		}
-		
-		if (!$document->getIndexed())
-		{
-			$this->reindexProduct($document);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_compiledproduct $compiledproduct
-	 */
-	private function reindexProduct($compiledproduct)
-	{
-		$indexedProduct = $this->createQuery()->add(Restrictions::eq('product', $compiledproduct->getProduct()))
-								->add(Restrictions::published())
-								->add(Restrictions::eq('indexed', true))
-								->add(Restrictions::eq('shopId', $compiledproduct->getShopId()))->findUnique();
-		
 	}
 	
 	/**

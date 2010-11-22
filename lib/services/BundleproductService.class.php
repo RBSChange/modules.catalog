@@ -61,7 +61,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	{
 		foreach ($bundleProduct->getBundleditemArray() as $bundledItem) 
 		{	
-			if (DocumentHelper::isEquals($product, $bundledItem->getProduct()))
+			if (DocumentHelper::equals($product, $bundledItem->getProduct()))
 			{
 				return $bundledItem;
 			}

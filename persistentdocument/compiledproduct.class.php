@@ -25,7 +25,17 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 				
 				// Facet/sort fields
 				$indexDocument->setVolatileIntegerField('primaryShelfId', $this->getShelfId());
-				$indexDocument->setVolatileIntegerField('shelfId', catalog_ProductService::getInstance()->getShelfIdsByShop($product, $this->getShop(), $this->getLang()), true);
+				$shelfIds = catalog_ProductService::getInstance()->getShelfIdsByShop($product, $this->getShop(), $this->getLang());
+				$indexDocument->setVolatileIntegerField('shelfId', $shelfIds, true);
+				$compiledShelfIds = $shelfIds;
+				$shelfService = catalog_ShelfService::getInstance();
+				foreach ($shelfIds as $shelfId)
+				{
+					$shelf = DocumentHelper::getDocumentInstance($shelfId, "modules_catalog/shelf");
+					$compiledShelfIds = array_merge($compiledShelfIds, $shelfService->getShelfAncestorIds($shelf));
+				}
+				$compiledShelfIds = array_unique($compiledShelfIds);
+				$indexDocument->setVolatileIntegerField('shelfIdCompiled', $compiledShelfIds, true);
 				$brandId = $this->getBrandId();
 				if ($brandId !== null)
 				{

@@ -47,7 +47,27 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	public final function createShelfQuery()
 	{
 		return $this->pp->createQuery('modules_catalog/shelf');
-	}	
+	}
+	
+	private $getShelfAncestorIdsCache = array();
+	/**
+	 * Warning: this method is cached at PHP process level and not invalidated.
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @return Integer[]
+	 */
+	public function getShelfAncestorIds($shelf)
+	{
+		if ($shelf instanceof catalog_persistentdocument_topshelf)
+		{
+			return array();
+		}
+		$shelfId = $shelf->getId();
+		if (!isset($this->getShelfAncestorIdsCache[$shelfId]))
+		{
+			$this->getShelfAncestorIdsCache[$shelfId] = $this->createQuery()->add(Restrictions::ancestorOf($shelfId))->setProjection(Projections::property("id"))->findColumn("id");
+		}
+		return $this->getShelfAncestorIdsCache[$shelfId];
+	}
 
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf

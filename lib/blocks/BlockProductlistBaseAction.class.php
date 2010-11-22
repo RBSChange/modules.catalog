@@ -65,7 +65,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['showRatingAverage'] = catalog_ModuleService::getInstance()->areCommentsEnabled() ? $this->getConfigurationValue('displayratingaverage', false) : false;
 		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
 		$displayConfig['showProductPictograms'] = $this->getConfigurationValue('displayproductpicto', false);
-		$displayConfig['showAvailability'] = $this->getConfigurationValue('displayavailability', true);
+		$displayConfig['showAvailability'] = $shop->getDisplayOutOfStock() && $this->getConfigurationValue('displayavailability', true);
 		$displayConfig['showQuantitySelector'] = $this->getConfigurationValue('activatequantityselection', true);
 		$displayConfig['showSortMenu'] = $this->getConfigurationValue('displaysortmenu', false);
 		$displayConfig['showDisplayModeSelector'] = $this->getConfigurationValue('displaydisplaymode', false);
