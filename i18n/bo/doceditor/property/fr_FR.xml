@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.property" lcid="fr_FR">
+  <key id="compiled">à jour sur le site</key>
+  <key id="alert-count">alertes activées par les visiteurs</key>
+  <key id="itemscount">nombre de produits</key>
+</i18n>

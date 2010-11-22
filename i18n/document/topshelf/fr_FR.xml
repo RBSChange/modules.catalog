@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.topshelf" lcid="fr_FR">
+  <include id="m.catalog.document.shelf"/>
+  <key id="document-name">rayon de premier niveau</key>
+  <key id="edition-form-title">propriétés du rayon de premier niveau</key>
+</i18n>

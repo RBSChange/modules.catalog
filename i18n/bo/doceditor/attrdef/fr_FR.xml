@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.attrdef" lcid="fr_FR">
+  <key id="confirm-delete">Etes vous sur de vouloir supprimer cette attribut ?</key>
+  <key id="action-save">Sauvegarder</key>
+  <key id="type-text">Texte</key>
+  <key id="type-numeric">Numerique</key>
+  <key id="labelcolumn">Libellé</key>
+  <key id="codecolumn">Code</key>
+  <key id="typecolumn">type</key>
+  <key id="actionscolumn">Actions</key>
+  <key id="action-create">Ajouter un attribut</key>
+</i18n>

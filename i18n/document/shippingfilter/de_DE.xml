@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.shippingfilter" lcid="de_DE">
+  <key id="taxcode">MwSt. Kode</key>
+  <key id="startpublicationdate">Gültigkeitsanfang</key>
+  <key id="endpublicationdate">Gültigkeitsende</key>
+</i18n>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productpromotion" lcid="fr_FR">
+  <include id="m.catalog.bo.blocks.productlistbase"/>
+  <key id="label">intitulé</key>
+  <key id="label-help">intitulé du bloc utilisé sur le site</key>
+  <key id="products">produits à afficher</key>
+  <key id="products-help">produits à afficher</key>
+  <key id="destinationpage">page de destination</key>
+  <key id="destinationpage-help">page de destination pouvant contenir la liste complète des produits mis en avant</key>
+  <key id="mode">mode d'affichage</key>
+  <key id="mode-help">mode d'affichage</key>
+</i18n>

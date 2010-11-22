@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productcrosssellinglist" lcid="fr_FR">
+  <include id="m.catalog.bo.blocks.productlistbase"/>
+  <key id="block-label">liste complète des produits associées</key>
+  <key id="cmpref">Document lié</key>
+  <key id="cmpref-help">Document lié</key>
+</i18n>

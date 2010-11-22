@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.attr" lcid="fr_FR">
+  <key id="confirm-delete">Etes-vous sur de vouloir supprimer cette attribut ?</key>
+  <key id="action-save">Sauvegarder</key>
+  <key id="labelcolumn">Libellé</key>
+  <key id="valuecolumn">Valeur</key>
+  <key id="actionscolumn">Actions</key>
+  <key id="action-create">Ajouter un attribut</key>
+  <key id="no-attributes-msg">Veuillez d'abord définir des attributs étendus en éditant le dossier ″Attributs″ du module catalogue.</key>
+</i18n>

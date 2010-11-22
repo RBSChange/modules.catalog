@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.lockedprice" lcid="fr_FR">
+  <include id="m.catalog.document.price"/>
+  <key id="document-name">lockedprice</key>
+  <key id="lockedfor">[TO TRANSLATE] lockedFor</key>
+  <key id="lockedfor-help">[TO TRANSLATE] lockedFor-help</key>
+</i18n>

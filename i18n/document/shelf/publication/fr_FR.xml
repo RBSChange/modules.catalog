@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.shelf.publication" lcid="fr_FR">
+  <key id="no-published-content">ne contient aucun produit ni aucun sous-rayon publié</key>
+</i18n>

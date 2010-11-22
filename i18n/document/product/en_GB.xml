@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.product" lcid="en_GB">
+  <key id="edition-form-title">product properties</key>
+  <key id="document-name">product</key>
+  <key id="codereference">reference code</key>
+  <key id="codereference-help">reference code</key>
+  <key id="price">price</key>
+  <key id="parent-shelf">shelf</key>
+  <key id="labelforurl">label in URL</key>
+</i18n>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.catalog" lcid="en_GB">
+  <key id="document-name">catalog</key>
+  <key id="edition-form-title">catalog properties</key>
+  <key id="label">label</key>
+  <key id="label-help">catalog label</key>
+  <key id="description">description</key>
+  <key id="description-help">catalog description</key>
+  <key id="topic">related topic</key>
+  <key id="topic-help">related topic</key>
+  <key id="shippingzone">shipping zone</key>
+  <key id="shippingzone-help">shipping zone; select a zone from the resource tree.</key>
+  <key id="billingzone">billing zone</key>
+  <key id="billingzone-help">billing zone</key>
+  <key id="isdefaultcatalog">default catalog</key>
+  <key id="isdefaultcatalog-help">the default catalog is the one used inside pages outside any catalog. There can only be one default catalog per website.</key>
+  <key id="currencycode">currency</key>
+  <key id="currencycode-help">currency: €, $, £, ...</key>
+  <key id="currencyposition">symbol position</key>
+  <key id="currencyposition-help">when displaying a price, the currency symbol may be place at the left or at the right of the amount.</key>
+  <key id="displayprice">display price with taxes</key>
+  <key id="displayprice-help">indicates whether the tax-included price should be displayed in this catalog.</key>
+  <key id="displaypricewithouttax">display price without taxes</key>
+  <key id="displaypricewithouttax-help">indicates whether the price without tax should be displayed in this catalog.</key>
+  <key id="defaultdetailvisual">default product visual</key>
+  <key id="defaultdetailvisual-help">default product visual in detail mode.</key>
+  <key id="defaultlistvisual">default product visual (list mode)</key>
+  <key id="defaultlistvisual-help">default product visual in list mode.</key>
+  <key id="compile-catalog-description"></key>
+  <key id="start-compilation"></key>
+  <key id="compiling-shelf"></key>
+  <key id="stop-compilation"></key>
+  <key id="compilation-aborted-by-user"></key>
+  <key id="compilation-failed"></key>
+  <key id="compilation-success"></key>
+</i18n>

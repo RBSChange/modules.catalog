@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.errors.topshelf" lcid="fr_FR">
+  <key id="cannot-delete-non-empty-node">Vous ne pouvez pas supprimer un rayon contenant d'autres rayons.</key>
+</i18n>

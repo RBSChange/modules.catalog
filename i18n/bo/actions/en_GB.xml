@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.actions" lcid="en_GB">
+  <key id="createshop">create shop</key>
+  <key id="createtopshelf">create top shelf</key>
+  <key id="createshelf">create shelf</key>
+  <key id="createdeclinedproduct">create product declined</key>
+  <key id="createsimpleproduct">create simple product</key>
+  <key id="createbundleproduct">create bundle product</key>
+  <key id="createkit">create kit</key>
+  <key id="createvirtualproduct">create virtual product</key>
+  <key id="create-price">create normal price</key>
+  <key id="createrootfolder_">create...</key>
+  <key id="createshelf_">create...</key>
+  <key id="createtopshelf_">create...</key>
+  <key id="createshopfolder_">create...</key>
+  <key id="createdeclinedproduct_">create...</key>
+  <key id="createfilter_">create...</key>
+</i18n>

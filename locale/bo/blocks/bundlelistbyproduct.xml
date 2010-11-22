@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<localization>
-	<entity id="title">
-		<locale lang="fr">Groupe(s) de produits associés</locale>
-	</entity>
-	<entity id="blocktitle">
-		<locale lang="fr">Groupe(s) de produits associés</locale>
-	</entity>
-</localization>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.shop" lcid="en_GB">
+  <key id="edition-form-title">shop properties</key>
+  <key id="document-name">shop</key>
+  <key id="label">label</key>
+  <key id="description">description</key>
+  <key id="topic">related topic</key>
+  <key id="topshelf">shelves</key>
+  <key id="topshelf-help">top shelves of the shop</key>
+  <key id="shippingzone">shipping zone</key>
+  <key id="billingzone">billing zone</key>
+  <key id="currencycode">currency</key>
+  <key id="currencyposition">symbol position</key>
+  <key id="currencyposition-help">when displaying a price, the currency symbol may be place at the left or at the right of the amount.</key>
+  <key id="displaypricewithtax">display price with taxes</key>
+  <key id="displaypricewithouttax">display price without taxes</key>
+  <key id="defaultdetailvisual">default product visual</key>
+  <key id="defaultdetailvisual-help">default product visual in detail mode.</key>
+  <key id="defaultlistvisual">default product visual (list mode)</key>
+  <key id="defaultlistvisual-help">default product visual in list mode.</key>
+  <key id="displayoutofstock">display products out of stock</key>
+  <key id="displayoutofstock-help">display products out of stock.</key>
+  <key id="alloworderoutofstock">enable out of stock products order</key>
+  <key id="alloworderoutofstock-help">enable out of stock products order.</key>
+  <key id="published-product-count">published products count</key>
+  <key id="nbproductperpage">number of products per page</key>
+  <key id="nbproductperpage-help">number of products per page by default in the shop's product lists.</key>
+  <key id="enablecomments">enable comments</key>
+</i18n>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.bundleditem" lcid="fr_FR">
+  <key id="products">produits du groupe</key>
+  <key id="products-help">liste des produits simples qui composeront le groupe, sélectionnables à l’aide du sélecteur de ressource.</key>
+</i18n>

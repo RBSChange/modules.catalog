@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.actions" lcid="fr_FR">
+  <key id="createshop">créer une boutique</key>
+  <key id="createtopshelf">créer un rayon de premier niveau</key>
+  <key id="createshelf">créer un rayon</key>
+  <key id="createdeclinedproduct">créer un produit décliné</key>
+  <key id="createsimpleproduct">créer un produit simple</key>
+  <key id="createbundleproduct">créer un groupe de produit</key>
+  <key id="createkit">créer un kit</key>
+  <key id="createvirtualproduct">créer un produit à télécharger</key>
+  <key id="create-price">créer un prix normal</key>
+  <key id="createrootfolder_">créer...</key>
+  <key id="createshelf_">créer...</key>
+  <key id="createtopshelf_">créer...</key>
+  <key id="createshopfolder_">créer...</key>
+  <key id="createdeclinedproduct_">créer...</key>
+  <key id="createfilter_">créer...</key>
+  <key id="createshippingfilter">créer un filtre de livraison</key>
+  <key id="createpaymentfilter">créer un filtre de paiement</key>
+  <key id="compileproduct">Actualiser</key>
+  <key id="exportalertinfos">exporter les alertes</key>
+  <key id="edit-price">editer le prix</key>
+  <key id="initdefaultstructure">créer les pages par défaut</key>
+  <key id="shop-already-contains-pages">cette boutique contient déjà des pages.</key>
+  <key id="invalid-shop">boutique non valide.</key>
+  <key id="invalid-shop-import-script">le script d'initialisation est illisible.</key>
+  <key id="showpublicationinshops">publication dans les boutiques</key>
+  <key id="opentreenodeorder">définir l'ordre des rayons</key>
+  <key id="openorderproductsinshelf">définir l'ordre des produits</key>
+  <key id="add-discount">créer un prix promotionnel à partir de celui-ci</key>
+  <key id="remove-discount">retirer la promotion de ce prix</key>
+</i18n>

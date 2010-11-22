@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.shippingfilter" lcid="fr_FR">
+  <key id="document-name">filtre de livraison</key>
+  <key id="label">libellé</key>
+  <key id="label-help">libellé utilisé en backoffice pour identifier le filtre.</key>
+  <key id="shop">boutique</key>
+  <key id="mode">mode de livraion</key>
+  <key id="mode-help">mode de livraion associé au filtre. Lorsque le filtre est applicable il définira les frais associés à ce mode pour la commande en cours.</key>
+  <key id="query">Conditions d'application</key>
+  <key id="query-help">Conditions d'application du filtre de livraison, évalué à la deuxième étape du processus de commande standard.</key>
+  <key id="valuewithtax">Frais de livraison</key>
+  <key id="valuewithtax-help">Frais de livraison TTC de la commande lorsque le filtre est applicable et que l'internaute choisi le mode de livraison en question.</key>
+  <key id="taxcode">code TVA</key>
+  <key id="taxcode-help">code TVA utilisé pour les conversions HT/TTC ainsi que pour les calculs des montants de TVA dans les commandes.</key>
+  <key id="selectbyproduct">Spécifique produits</key>
+  <key id="selectbyproduct-help">Détermine si le filtre doit s'appliquer au mode de livraison lorsque ce mode provient du champ «Transporteur spécifique» de l'un des produits de la commande.</key>
+  <key id="startpublicationdate">début de validité</key>
+  <key id="startpublicationdate-help">début de validité du filtre. Avant cette date, le filtre n'est pas actif.</key>
+  <key id="endpublicationdate">fin de validité</key>
+  <key id="endpublicationdate-help">fin de validité du filtre. Au-delà de cette date, le filtre ne sera plus actif.</key>
+</i18n>

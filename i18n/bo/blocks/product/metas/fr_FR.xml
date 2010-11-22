@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.product.metas" lcid="fr_FR">
+  <key id="title">Titre de la fiche produit courante</key>
+  <key id="description">Description de la fiche produit courante</key>
+  <key id="keywords">Mots-clés de la fiche produit courante</key>
+  <key id="label">Libellé de la fiche produit courante</key>
+  <key id="topshelfabel">Libellé du rayon de premier niveau de la fiche produit courante</key>
+  <key id="shelflabel">Libellé du sous-rayon de la fiche produit courante</key>
+  <key id="price">Prix boutique de la fiche produit courante</key>
+  <key id="brandlabel">Libellé de la marque de la fiche produit courante</key>
+  <key id="coderef">Code référence de la fiche produit courante</key>
+</i18n>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productpromotion" lcid="en_GB">
+  <include id="m.catalog.bo.blocks.productlistbase"/>
+  <key id="label">label</key>
+  <key id="label-help">label</key>
+  <key id="products">products</key>
+  <key id="products-help">products</key>
+  <key id="destinationpage">destination page</key>
+  <key id="destinationpage-help">destination page</key>
+  <key id="mode">display mode</key>
+  <key id="mode-help">display mode</key>
+</i18n>

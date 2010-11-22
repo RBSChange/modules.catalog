@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.productdeclination" lcid="fr_FR">
+  <include id="m.catalog.document.product"/>
+  <key id="document-name">déclinaison de produit</key>
+  <key id="stockquantity">quantité en stock</key>
+  <key id="stockquantity-help">lorsque ce champ est vide, aucun stock ne sera géré pour le produit – il sera considéré comme toujours en stock. Une fois renseigné, correspond au stock du produit. En fonction des réglages de la boutique, lorsque ce stock atteint zéro le produit pourra être automatiquement retiré de la vente.</key>
+</i18n>

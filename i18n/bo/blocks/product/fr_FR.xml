@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.product" lcid="fr_FR">
+  <key id="activatezoom">activer le zoom</key>
+  <key id="activatezoom-help">activer ou non le zoom sur les visuels pour les internautes qui utilisent un navigateur web avec un moteur Javascript compatible.</key>
+  <key id="showshareblock">partage de liens</key>
+  <key id="showshareblock-help">afficher ou non le bloc de partage de liens vers les réseaux sociaux (nécessite le module partage de liens).</key>
+  <key id="displaypricewithtax">afficher les prix TTC</key>
+  <key id="displaypricewithtax-help">afficher ou non les prix TTC ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
+  <key id="displaypricewithouttax">afficher les prix hors taxe</key>
+  <key id="displaypricewithouttax-help">afficher ou non les prix hors taxe ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
+  <key id="as-in-shop">Comme spécifié dans la boutique</key>
+  <key id="yes">Oui</key>
+  <key id="no">Non</key>
+</i18n>

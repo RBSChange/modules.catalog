@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.lists.shippingmodeoptions" lcid="fr_FR">
+  <key id="free">choisi par l'internaute</key>
+  <key id="current">le mode fixé courant</key>
+</i18n>

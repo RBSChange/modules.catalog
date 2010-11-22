@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.tab" lcid="fr_FR">
+  <key id="prices">prix</key>
+  <key id="declinations">déclinaisons</key>
+  <key id="bundleditems">produits</key>
+  <key id="kititems">produits</key>
+</i18n>

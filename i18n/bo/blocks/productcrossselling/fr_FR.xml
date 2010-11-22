@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productcrossselling" lcid="fr_FR">
+  <include id="m.catalog.bo.blocks.productlistbase"/>
+  <key id="block-label">produits associées</key>
+  <key id="cmpref">document lié</key>
+  <key id="cmpref-help">document lié</key>
+  <key id="type">type d'association</key>
+  <key id="type-help">type d'association entre les produits</key>
+  <key id="sortby">trier par</key>
+  <key id="sortby-help">mode de tri des produits affichés</key>
+  <key id="maxdisplayed">nombre maximal affiché</key>
+  <key id="maxdisplayed-help">nombre maximal de produits affichés</key>
+  <key id="addlinktoall">lien vers la liste complète</key>
+  <key id="addlinktoall-help">ajouter le lien vers la liste complète des produits</key>
+</i18n>

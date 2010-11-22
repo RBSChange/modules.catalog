@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<localization>
-  <entity id="document-name">
-    <locale lang="fr">bundled item</locale>
-    <locale lang="en">bundled item</locale>
-  </entity>
-</localization>

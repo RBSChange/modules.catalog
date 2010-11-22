@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.preferences" lcid="en_GB">
+  <key id="defaultdetailvisual">default product visual</key>
+  <key id="defaultdetailvisual-help">default product visual in detail mode.</key>
+  <key id="defaultlistvisual">default product visual (list mode)</key>
+  <key id="defaultlistvisual-help">default product visual in list mode.</key>
+  <key id="stockalertnotificationuser">stock notifications recipients</key>
+  <key id="stockalertthreshold">stock alert threshold</key>
+  <key id="enablecomments">enable comments</key>
+</i18n>

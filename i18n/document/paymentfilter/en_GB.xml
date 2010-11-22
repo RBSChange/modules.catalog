@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.paymentfilter" lcid="en_GB">
+  <key id="label">label</key>
+  <key id="label-help">label used in backoffice only.</key>
+  <key id="shop">shop</key>
+</i18n>

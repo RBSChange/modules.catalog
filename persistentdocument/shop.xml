@@ -31,6 +31,7 @@
       <constraints>min:1;max:250</constraints>
     </add>
     <add name="enableComments" type="Boolean" default-value="true"/>
+    <add name="codeReference" type="String" db-size="50"/>
   </properties>
   <statuses default="ACTIVE"/>
 </document>

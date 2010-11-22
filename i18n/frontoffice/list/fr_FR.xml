@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.frontoffice.list" lcid="fr_FR">
+  <key id="summary">liste des produits de type {name}</key>
+</i18n>

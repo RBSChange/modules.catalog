@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.productlist" lcid="de_DE">
+  <key id="document-name">Produktliste</key>
+  <key id="edition-form-title">Eigenschaften Produktliste</key>
+  <key id="label">Name</key>
+  <key id="label-help">Name</key>
+  <key id="product">Produkte</key>
+  <key id="product-help">Produkte</key>
+</i18n>

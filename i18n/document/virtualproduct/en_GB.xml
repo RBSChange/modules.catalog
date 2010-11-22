@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.virtualproduct" lcid="en_GB">
+  <include id="m.catalog.document.product"/>
+  <key id="document-name">Downloadable product</key>
+  <key id="shippingmodeid">Download mode</key>
+  <key id="shippingmodeid-help">Download mode</key>
+  <key id="securemedia">Attached file</key>
+  <key id="securemedia-help">Attached file (secure)</key>
+</i18n>

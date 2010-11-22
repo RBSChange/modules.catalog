@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.general" lcid="en_GB">
+  <key id="module-name">catalog and shops</key>
+  <key id="tree-root-name">catalog</key>
+  <key id="system-folder-name">catalog and shops</key>
+  <key id="catalog-view">catalog</key>
+  <key id="articles">articles</key>
+  <key id="brands">brands</key>
+  <key id="products">products</key>
+  <key id="referencing">referencing</key>
+  <key id="additionnal-information">additionnal information</key>
+  <key id="stock-information">Stock</key>
+  <key id="validity-dates">validity dates</key>
+  <key id="general">main properties</key>
+  <key id="extendedattributes">extended attributes</key>
+  <key id="description">description</key>
+  <key id="zones-and-currency">zones and currency</key>
+  <key id="display">display</key>
+  <key id="zones">zones</key>
+  <key id="currency">currency</key>
+  <key id="price">price</key>
+  <key id="prices">prices</key>
+  <key id="default-visuals">default visuals</key>
+  <key id="tax">tax</key>
+  <key id="discount-value">discount value</key>
+  <key id="advanced">advanced</key>
+  <key id="find-article-header">articles search</key>
+  <key id="search-criteria">search criteria</key>
+  <key id="article-list-header">search results</key>
+  <key id="article-detail-header">article information</key>
+  <key id="article-detail-general-tab">general information</key>
+  <key id="article-detail-price-tab">prices</key>
+  <key id="wizard-price-value">value</key>
+  <key id="wizard-price-erp">ERP</key>
+  <key id="wizard-price-threshold">threshold</key>
+  <key id="wizard-price-discount">discount</key>
+  <key id="wizard-price-customer">customer</key>
+  <key id="wizard-price-zone">zone</key>
+  <key id="product-list-default-feeder">shelf products list</key>
+  <key id="weight-units-list-label">weight units list</key>
+  <key id="weight-units-list-desc">weight units list</key>
+</i18n>

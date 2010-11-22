@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor" lcid="en_GB">
+  <key id="common-properties">common properties</key>
+  <key id="first-declination">first declination</key>
+  <key id="second-declination">second declination</key>
+  <key id="url-for-website">URL for website {website}</key>
+</i18n>

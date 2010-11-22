@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.compiledproduct.publication" lcid="en_GB">
+  <key id="no-price">does not have shop price</key>
+  <key id="product-not-published">the product is not published</key>
+  <key id="shop-not-published">the shop is not published</key>
+  <key id="product-not-displayable">the product can't be displayed in shop</key>
+</i18n>

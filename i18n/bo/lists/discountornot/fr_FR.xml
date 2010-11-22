@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.lists.discountornot" lcid="fr_FR">
+  <key id="label">en promotion / hors promotion</key>
+  <key id="discount">en promotion</key>
+  <key id="not-discount">hors promotion</key>
+</i18n>

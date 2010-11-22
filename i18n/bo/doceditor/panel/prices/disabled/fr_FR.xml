@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.panel.prices.disabled" lcid="fr_FR">
+  <key id="declinedproduct-not-synchronized">la synchronisation des prix entre les déclinaisons est désactivée. Pour éditer les prix d'une déclinaison, rendez-vous dans l'onglet ″Prix″ de cette déclinaison. Pour réactiver la synchronisation des prix, rendez-vous dans l'onglet ″Propriétés″ du produit décliné.</key>
+  <key id="productdeclination-synchronized">la synchronisation des prix entre les déclinaisons est activée. Pour éditer les prix, rendez-vous dans l'onglet ″Prix″ du produit décliné. Pour désactiver la synchronisation des prix, rendez-vous dans l'onglet ″Propriétés″ du produit décliné.</key>
+</i18n>

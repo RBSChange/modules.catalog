@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.comments" lcid="fr_FR">
+  <key id="comments">commentaires du produit</key>
+  <key id="cmpref">Document lié</key>
+  <key id="cmpref-help">Document lié</key>
+  <key id="nbitemperpage">Commentaires par page</key>
+  <key id="nbitemperpage-help">Commentaires par page</key>
+  <key id="enablerating">activer la notation</key>
+  <key id="enablerating-help">activer la notation sur les produits</key>
+  <key id="showratingdistribution">afficher la répartition des notes</key>
+  <key id="showratingdistribution-help">afficher la répartition des notes atribuées à ce produit</key>
+  <key id="displaysortoptions">activer le tri</key>
+  <key id="displaysortoptions-help">activer le tri des commentaires</key>
+  <key id="enableevaluation">activer l'évaluation</key>
+  <key id="enableevaluation-help">activer l'évaluation des commentaires</key>
+  <key id="showgravatars">Afficher l'avatar</key>
+  <key id="showgravatars-help">Afficher l'avatar (site www.gravatar.com)</key>
+</i18n>

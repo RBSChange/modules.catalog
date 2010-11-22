@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.shelfcontextuallist" lcid="fr_FR">
+  <key id="displaysubshelves">afficher les sous-rayons</key>
+  <key id="displaysubshelves-help">activer ou non l'affichage de la liste de sélection d'un sous-rayon d'un rayon.</key>
+  <key id="displayshelvesdescription">afficher la description</key>
+  <key id="displayshelvesdescription-help">activer ou non l'affichage de la description d'un rayon.</key>
+</i18n>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.compiledproduct" lcid="fr_FR">
+  <key id="document-name">produit compilé</key>
+  <key id="firstpublicationdate">date de première publication</key>
+  <key id="lastpublicationdate">date de dernière publication</key>
+</i18n>

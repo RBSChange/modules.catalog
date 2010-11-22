@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.kititem" lcid="fr_FR">
+  <key id="products">produits du kit</key>
+  <key id="products-help">liste des produits qui composeront le kit, sélectionnables à l’aide du sélecteur de ressource.</key>
+</i18n>

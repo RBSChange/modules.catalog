@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.dialog.add-discount-on-price" lcid="fr_FR">
+  <key id="title">création d'un prix promotionnel</key>
+  <key id="discount-value">prix promotionnel</key>
+  <key id="current-value">prix actuel</key>
+  <key id="discount-detail">description courte</key>
+  <key id="discount-start-date">début de la promotion</key>
+  <key id="current-start-date">début de validité</key>
+  <key id="discount-end-date">fin de promotion</key>
+  <key id="current-end-date">fin de validité</key>
+</i18n>

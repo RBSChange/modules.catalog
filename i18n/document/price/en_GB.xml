@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.price" lcid="en_GB">
+  <key id="document-name">price</key>
+  <key id="shop-price">shop price</key>
+  <key id="label">label</key>
+  <key id="startpublicationdate">validity begin date</key>
+  <key id="endpublicationdate">validity end date</key>
+  <key id="productid">related product</key>
+  <key id="shopid">related shop</key>
+  <key id="shopid-help">shop where the price may be applied; select a shop from the resource tree.</key>
+  <key id="valuewithtax">value with tax</key>
+  <key id="valuewithouttax">value without tax</key>
+  <key id="oldvaluewithtax">old value with tax</key>
+  <key id="oldwithouttax">old value without tax</key>
+  <key id="taxcode">VAT code</key>
+  <key id="ecotax">eco-tax</key>
+  <key id="ecotax-help">tax applied on all electrical and electronical products.</key>
+  <key id="thresholdmin">minimal threshold</key>
+  <key id="thresholdmin-help">quantity from which the price may be applied.</key>
+  <key id="thresholdmax">maximal threshold</key>
+  <key id="thresholdmax-help">quantity up to which the price may be applied.</key>
+  <key id="targetid">target</key>
+  <key id="discountdetail">short description</key>
+  <key id="value">price</key>
+  <key id="value-help">price</key>
+  <key id="discountvalue">discount price</key>
+</i18n>

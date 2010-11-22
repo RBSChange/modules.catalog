@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.shop" lcid="de_DE">
+  <key id="published-product-count">Anzahl veröffentlichte Produkte</key>
+</i18n>
