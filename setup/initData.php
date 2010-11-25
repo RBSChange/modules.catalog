@@ -16,6 +16,21 @@ class catalog_Setup extends object_InitDataSetup
 		$this->addBackGroundCompileTask();
 		$this->addAlertTasks();
 		$this->addRelatedProductAutoFeedTask();
+		
+		/*
+		$query = array();
+		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `productid` `productid` INT( 11 ) NOT NULL";
+		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `shopid` `shopid` INT( 11 ) NOT NULL";
+		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `thresholdmin` `thresholdmin` INT( 11 ) NOT NULL";
+		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `targetid` `targetid` INT( 11 ) NOT NULL";
+		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `priority` `priority` INT( 11 ) NOT NULL";
+		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `document_publicationstatus` `document_publicationstatus` enum('DRAFT','CORRECTION','ACTIVE','PUBLICATED','DEACTIVATED','FILED','DEPRECATED','TRASH','WORKFLOW') NOT NULL";
+		$query[] ="ALTER TABLE `m_catalog_doc_price` ADD INDEX `GETPRICE` ( `productid` , `shopid` , `thresholdmin` , `targetid` , `priority` , `document_publicationstatus` )";
+		foreach ($query as $sql) 
+		{
+			$this->getPersistentProvider()->executeSQLScript($sql);
+		}
+		*/
 	}
 	
 	/**

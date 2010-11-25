@@ -5,6 +5,12 @@
 	<properties>
 		<add name="shopId" type="Integer" min-occurs="1" from-list="modules_catalog/shops" />
 		<add name="productId" type="Integer" min-occurs="1" />
+		<add name="thresholdMin" type="Integer" min-occurs="1" default-value="1">
+			<constraints>min:1</constraints>
+		</add>
+		
+		<add name="targetId" type="Integer" min-occurs="1" default-value="0" />
+		<add name="priority" type="Integer" min-occurs="1" default-value="25" />
 		<add name="taxCode" type="String" min-occurs="1" db-size="5" from-list="modules_catalog/taxcode" />
 		<add name="valueWithTax" type="Double" min-occurs="1">
 			<constraints>min:0</constraints>
@@ -22,11 +28,6 @@
 		<add name="ecoTax" type="Double">
 			<constraints>min:0</constraints>
 		</add>
-		<add name="thresholdMin" type="Integer">
-			<constraints>min:1</constraints>
-		</add>
-		<add name="targetId" type="Integer" min-occurs="1" default-value="0" />
-		<add name="priority" type="Integer" min-occurs="1" default-value="25" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

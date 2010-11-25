@@ -688,6 +688,221 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		return $diff;
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_price $tmpPriceInfo
+	 * @return catalog_persistentdocument_price
+	 */	
+	public function insertPrice($tmpPriceInfo)
+	{
+		if (!$tmpPriceInfo->isNew())
+		{
+			throw new Exception("tmpPriceInfo is not a temporary price: " . $tmpPriceInfo->getId());
+		}		
+		$startDate = $tmpPriceInfo->getStartpublicationdate();
+		$endDate = $tmpPriceInfo->getEndpublicationdate();
+		
+		try 
+		{
+			$this->tm->beginTransaction();	
+				
+			$query = $this->createQuery()
+				->add(Restrictions::eq('productId', $tmpPriceInfo->getProductId()))
+				->add(Restrictions::eq('shopId', $tmpPriceInfo->getShopId()))
+				->add(Restrictions::eq('targetId', $tmpPriceInfo->getTargetId()))
+				->add(Restrictions::eq('priority', $tmpPriceInfo->getPriority()))
+				->add(Restrictions::eq('thresholdMin', $tmpPriceInfo->getThresholdMin()));
+				
+			if ($startDate !== null)
+			{
+				$query->add(Restrictions::orExp(Restrictions::isNull('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
+			}
+			
+			if ($endDate !== null)
+			{
+				$query->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)));
+			}
+			$query->addOrder(Order::asc('startpublicationdate'));
+			$prices = $query->find();
+	
+			$result = $this->insertPriceInternal($tmpPriceInfo, $prices);
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+			throw $e;
+		}
+		return $result;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $tmpPriceInfo
+	 * @param catalog_persistentdocument_price[] prices
+	 * @return catalog_persistentdocument_price
+	 */
+	private function insertPriceInternal($tmpPriceInfo, $prices)
+	{
+		$nbPrices = count($prices);
+		if ($nbPrices == 0)
+		{
+			$tmpPriceInfo->save();
+			return $tmpPriceInfo;
+		}
+		
+		$firstPrice = $prices[0];
+		$lastPrice = ($nbPrices > 1) ? $prices[$nbPrices - 1] : null;
+		foreach ($prices as $toDelete) 
+		{
+			if ($toDelete === $lastPrice || $toDelete === $firstPrice) {continue;}
+			//Framework::info(__METHOD__ . " delete:" . $toDelete->__toString());	
+			$toDelete->delete();
+		}
+		
+		$compare = $this->compareDate($tmpPriceInfo, $firstPrice);
+		$dataProperties = array('taxCode', 'valueWithTax', 'valueWithoutTax', 'oldValueWithTax', 
+								'oldValueWithoutTax', 'discountDetail', 'ecoTax', 'lockedFor');
+		
+		//Framework::info(__METHOD__ . " compare:" . $compare);	
+		switch ($compare) 
+		{
+			case 'equal':
+				$tmpPriceInfo->copyPropertiesListTo($firstPrice, $dataProperties, false);
+				$firstPrice->save();
+				return $firstPrice;
+				
+			case 'part':
+				$lastPrice = $firstPrice->getDocumentService()->getNewDocumentInstance();
+				$firstPrice->copyPropertiesTo($lastPrice, false);
+				$firstPrice->setEndpublicationdate($tmpPriceInfo->getStartpublicationdate());
+				$lastPrice->setStartpublicationdate($tmpPriceInfo->getEndpublicationdate());
+				$firstPrice->save();
+				$lastPrice->save();
+				$tmpPriceInfo->save();
+				return $tmpPriceInfo;
+				
+			case 'include':
+				if ($lastPrice !== null)
+				{
+					if ($this->compareDate($tmpPriceInfo, $lastPrice) === 'endbefore') 
+					{
+						$lastPrice->setStartpublicationdate($tmpPriceInfo->getEndpublicationdate());
+						$lastPrice->save();
+					}
+					else
+					{
+						$lastPrice->delete();
+					}
+				}
+				$tmpPriceInfo->copyPropertiesListTo($firstPrice, $dataProperties, false);
+				$firstPrice->setEndpublicationdate($tmpPriceInfo->getEndpublicationdate());
+				$firstPrice->setStartpublicationdate($tmpPriceInfo->getStartpublicationdate());
+				$firstPrice->save();
+				return $firstPrice;
+				
+			case 'startafter':
+				$firstPrice->setEndpublicationdate($tmpPriceInfo->getStartpublicationdate());
+				$firstPrice->save();
+				if ($lastPrice !== null)
+				{
+					if ($this->compareDate($tmpPriceInfo, $lastPrice) === 'endbefore') 
+					{
+						$lastPrice->setStartpublicationdate($tmpPriceInfo->getEndpublicationdate());
+						$lastPrice->save();
+					}
+					else
+					{
+						$lastPrice->delete();
+					}
+				}
+				$tmpPriceInfo->save();
+				return $tmpPriceInfo;
+				
+			case 'endbefore':	
+				$firstPrice->setStartpublicationdate($tmpPriceInfo->getEndpublicationdate());
+				$firstPrice->save();
+				
+				$tmpPriceInfo->save();
+				return $tmpPriceInfo;
+		}
+		throw new Exception('Unable to insert price:' . $compare);
+	}
+
+	
+	/**
+	 * @param integer $productId
+	 * @param integer $shopId
+	 * @param integer $targetId
+	 * @param integer $thresholdMin
+	 * @param integer $priority
+	 * @param datetime $forDate
+	 */
+	public function findPrice($productId, $shopId, $targetId, $thresholdMin, $priority, $forDate)
+	{
+		$query = $this->createQuery()
+			->add(Restrictions::eq('productId', $productId))
+			->add(Restrictions::eq('shopId', $shopId))
+			->add(Restrictions::eq('targetId', $targetId))
+			->add(Restrictions::eq('priority', $priority))
+			->add(Restrictions::eq('thresholdMin', $thresholdMin))
+			->add(Restrictions::orExp(Restrictions::isNull('endpublicationdate'), Restrictions::gt('endpublicationdate', $forDate)))
+			->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::le('startpublicationdate', $forDate)));
+			
+		return 	$query->findUnique();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $priceA
+	 * @param catalog_persistentdocument_price $priceB
+	 * @return priceA equal | part | include | startafter | endbefore | exclude
+	 */
+	private function compareDate($priceA, $priceB)
+	{
+		$startA = $priceA->getStartpublicationdate();
+		if ($startA === null) {$startA = "0000-00-00 00:00:00";}
+		
+		$endA = $priceA->getEndpublicationdate();
+		if ($endA === null) {$endA = "9999-99-99 99:99:99";}
+		
+		$startB = $priceB->getStartpublicationdate();
+		if ($startB === null) {$startB = "0000-00-00 00:00:00";}
+		
+		$endB = $priceB->getEndpublicationdate();
+		if ($endB === null) {$endB = "9999-99-99 99:99:99";}
+		
+		//Framework::info(__METHOD__ . "($startA / $endA) ($startB / $endB)");
+		
+		if ($startA === $startB && $endA === $endB)
+		{
+			return 'equal';
+		}
+		else if ($endA === $endB)
+		{
+			return ($startB < $startA) ?  'startafter' : 'include';
+		}
+		else if ($startA === $startB)
+		{
+			return ($endA < $endB) ? 'endbefore' : 'include';
+		}
+		else if ($endA <= $startB || $startA >= $endB)
+		{
+			return 'exclude';
+		}
+		else if ($startA > $startB && $endA < $endB)
+		{
+			return 'part';
+		}
+		else if ($endB > $endA)
+		{
+			return 'endbefore';
+		}
+		else if ($startA > $startB)
+		{
+			return 'startafter';
+		}
+		return 'include';
+		
+	}
+	
 	// Deprecated.
 		
 	/**
