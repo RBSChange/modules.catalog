@@ -52,48 +52,12 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @param website_pesistentdocument_website $website
-	 * @return catalog_persistentdocument_shelf
-	 */
-	public function getPrimaryShelf($product, $website = null, $publlishedOnly = false)
-	{
-		if ($website === null)
-		{
-			return $product->getShelf(0);
-		}
-		else 
-		{
-			$compiledProduct = $this->getPrimaryCompiledProductForWebsite($product, $website);
-			if ($compiledProduct !== null && (!$publlishedOnly || $compiledProduct->isPublished()))
-			{
-				return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId(), 'modules_catalog/shelf');
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * @param unknown_type $product
-	 * @param unknown_type $shop
-	 */
-	public function getPrimaryCompiledProductForWebsite($product, $website)
-	{
-		return catalog_CompiledproductService::getInstance()->createQuery()
-			->add(Restrictions::eq('product', $product))
-			->add(Restrictions::eq('indexed', true))
-			->add(Restrictions::eq('websiteId', $website->getId()))
-			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-			->findUnique();
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return string
 	 */
 	public function getPathForShop($product, $shop)
 	{
-		$primaryShelf = $this->getPrimaryShelf($product, $shop->getWebsite());
+		$primaryShelf = $this->getShopPrimaryShelf($product, $shop);
 		if ($primaryShelf === null)
 		{
 			return '';
@@ -360,7 +324,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$query = catalog_CompiledproductService::getInstance()->createQuery()
 				->add(Restrictions::eq('lang', $lang))
 				->add(Restrictions::eq('product.id', $document->getId()))
-				->add(Restrictions::eq('indexed', true))
+				->add(Restrictions::eq('primary', true))
 				->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
 			foreach ($query->find() as $row)
 			{
@@ -652,6 +616,36 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * Filter the parameters used to generate the document url.
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param string $lang
+	 * @param array $parameters may be an empty array
+	 */
+	public function filterDocumentUrlParams($document, $lang, $parameters)
+	{
+		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		$shopService = catalog_ShopService::getInstance();
+		$defaultShop = $shopService->getDefaultByWebsite($website);
+		if  ($defaultShop !== null)
+		{
+			$defaultShopId = $defaultShop->getId();
+			if (isset($parameters['catalogParam']['shopId']) && $defaultShopId == $parameters['catalogParam']['shopId'])
+			{
+				unset($parameters['catalogParam']['shopId']);
+			}
+			else 
+			{
+				$currentShop = $shopService->getCurrentShop();
+				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
+				{
+					$parameters['catalogParam']['shopId'] = $currentShop->getId();
+				}
+			}
+		}
+		return $parameters;
+	}
+		
+	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @return website_persistentdocument_page
 	 */
@@ -660,10 +654,25 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$model = $document->getPersistentModel();
 		if ($model->hasURL() && $document->isPublished())
 		{
-			$shelf = $this->getPrimaryShelf($document, website_WebsiteModuleService::getInstance()->getCurrentWebsite(), true);
+			$shopService = catalog_ShopService::getInstance();
+			$shop = $shopService->getShopFromRequest('shopId');
+			if ($shop !== null)
+			{
+				$shopService->setCurrentShop($shop);
+			}
+			else 
+			{
+				$shop = $shopService->getCurrentShop();
+			}
+			if ($shop === null)
+			{
+				return null;
+			}
+			
+			$shelf = $this->getShopPrimaryShelf($document, $shop, true);
 			if ($shelf !== null)
 			{
-				$topic = $shelf->getDocumentService()->getRelatedTopicByShop($shelf, catalog_ShopService::getInstance()->getCurrentShop());
+				$topic = $shelf->getDocumentService()->getRelatedTopicByShop($shelf, $shop);
 				$page = website_PageService::getInstance()->createQuery()->add(Restrictions::childOf($topic->getId()))->add(Restrictions::published())->add(Restrictions::hasTag('functional_catalog_product-detail'))->findUnique();
 				return $page;
 			}
@@ -915,7 +924,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		$query = catalog_CompiledproductService::getInstance()->createQuery()
 			->add(Restrictions::eq('product.id', $product->getId()))
-			->add(Restrictions::eq('indexed', true))
+			->add(Restrictions::eq('primary', true))
 			->addOrder(Order::asc('shopId'));
 		
 		$compiledByShopId = array();
@@ -981,7 +990,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function getReplacementsForTweet($document, $websiteId)
 	{
-		$shop = catalog_ShopService::getInstance()->getPublishedByWebsiteId($websiteId);
+		$shop = catalog_ShopService::getInstance()->getDefaultByWebsiteId($websiteId);
 		if ($shop === null)
 		{
 			return array();
@@ -1053,7 +1062,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$websites = array();
 		$query = catalog_CompiledproductService::getInstance()->createQuery()
 			->add(Restrictions::eq('product.id', $product->getId()))
-			->add(Restrictions::eq('indexed', true))
+			->add(Restrictions::eq('primary', true))
 			->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
 		foreach ($query->find() as $row)
 		{
@@ -1078,7 +1087,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$query = catalog_CompiledproductService::getInstance()->createQuery()
 			->add(Restrictions::eq('product.id', $document->getId()))
 			->add(Restrictions::eq('websiteId', $websiteId))
-			->add(Restrictions::eq('indexed', true));
+			->add(Restrictions::eq('primary', true));
 		foreach ($query->find() as $compiledProduct)
 		{
 			$compiledProduct->setMeta('modules.twitterconnect.tweetOnPublish', $document->getId());
@@ -1098,7 +1107,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$query = catalog_CompiledproductService::getInstance()->createQuery()
 			->add(Restrictions::eq('product.id', $document->getId()))
 			->add(Restrictions::eq('websiteId', $websiteId))
-			->add(Restrictions::eq('indexed', true));
+			->add(Restrictions::eq('primary', true));
 		foreach ($query->find() as $compiledProduct)
 		{
 			$compiledProduct->setMeta('modules.twitterconnect.tweetOnPublish', null);
@@ -1246,5 +1255,71 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('lang', $lang))
 			->add(Restrictions::published())
 			->setProjection(Projections::property('shelfId', 'shelfId'))->findColumn('shelfId');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param website_pesistentdocument_website $website
+	 * @return catalog_persistentdocument_shelf
+	 */
+	public function getBoPrimaryShelf($product)
+	{
+		return $product->getShelf(0);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param website_pesistentdocument_website $website
+	 * @return catalog_persistentdocument_shelf
+	 */
+	public function getShopPrimaryShelf($product, $shop, $publlishedOnly = false)
+	{
+		$compiledProduct = $this->getPrimaryCompiledProductForShop($product, $shop);
+		if ($compiledProduct !== null && (!$publlishedOnly || $compiledProduct->isPublished()))
+		{
+			return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId(), 'modules_catalog/shelf');
+		}
+		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getPrimaryCompiledProductForShop($product, $shop)
+	{
+		return catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product', $product))
+			->add(Restrictions::eq('primary', true))
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+			->findUnique();
+	}
+	
+	// Deprecated
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
+	 */
+	public function getPrimaryShelf($product, $website = null, $publlishedOnly = false)
+	{
+		if ($website === null)
+		{
+			return $this->getBoPrimaryShelf($product);
+		}
+		else 
+		{
+			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
+			return $this->getShopPrimaryShelf($product, $shop, $publlishedOnly = false);
+		}
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
+	 */
+	public function getPrimaryCompiledProductForWebsite($product, $website)
+	{
+		$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
+		return $this->getPrimaryCompiledProductForShop($product, $shop);
 	}
 }

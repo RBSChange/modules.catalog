@@ -101,13 +101,8 @@ class catalog_SimpleproductService extends catalog_ProductService
 	 */
 	public function getIdsForSitemap($website, $maxUrl)
 	{
-		$shop = catalog_ShopService::getInstance()->getPublishedByWebsite($website);
-		if ($shop === null)
-		{
-			return array();
-		}
 		$query = $this->createQuery();
-		$criteria = $query->createCriteria('compiledproduct')->add(Restrictions::eq('shopId', $shop->getId()))->add(Restrictions::published());
+		$criteria = $query->createCriteria('compiledproduct')->add(Restrictions::eq('websiteId', $website->getId()))->add(Restrictions::published());
 		if (!$website->getLocalizebypath())
 		{
 			$criteria->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()));

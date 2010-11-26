@@ -168,7 +168,13 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		}
 		else if ($shelf instanceof catalog_persistentdocument_shelf)
 		{
-			return f_util_ArrayUtils::firstElement($this->getAncestorsOf($shelf, 'modules_catalog/topshelf'));
+			foreach ($this->getAncestorsOf($shelf) as $ancestor)
+			{
+				if ($ancestor instanceof catalog_persistentdocument_topshelf)
+				{
+					return $ancestor;
+				}
+			}
 		}
 		throw new Exception(__METHOD__ . ' Invalid parameter shelf');
 	}
@@ -754,6 +760,36 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * Filter the parameters used to generate the document url.
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param string $lang
+	 * @param array $parameters may be an empty array
+	 */
+	public function filterDocumentUrlParams($document, $lang, $parameters)
+	{
+		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		$shopService = catalog_ShopService::getInstance();
+		$defaultShop = $shopService->getDefaultByWebsite($website);
+		if  ($defaultShop !== null)
+		{
+			$defaultShopId = $defaultShop->getId();
+			if (isset($parameters['catalogParam']['shopId']) && $defaultShopId == $parameters['catalogParam']['shopId'])
+			{
+				unset($parameters['catalogParam']['shopId']);
+			}
+			else 
+			{
+				$currentShop = $shopService->getCurrentShop();
+				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
+				{
+					$parameters['catalogParam']['shopId'] = $currentShop->getId();
+				}
+			}
+		}
+		return $parameters;
+	}
+
+	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @return website_persistentdocument_page
 	 */
@@ -762,12 +798,27 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$model = $document->getPersistentModel();
 		if ($model->hasURL() && $document->isPublished())
 		{
-			$topic = $this->getRelatedTopicByShop($document, catalog_ShopService::getInstance()->getCurrentShop());
+			$shopService = catalog_ShopService::getInstance();
+			$shop = $shopService->getShopFromRequest('shopId');
+			if ($shop !== null)
+			{
+				$shopService->setCurrentShop($shop);
+			}
+			else 
+			{
+				$shop = $shopService->getCurrentShop();
+			}
+			if ($shop === null)
+			{
+				return null;
+			}
+			
+			$topic = $this->getRelatedTopicByShop($document, $shop);
 			if ($topic !== null)
 			{
 				return $topic->getDocumentService()->getDisplayPage($topic);
 			}
 		}
 		return null;
-	}	
+	}
 }

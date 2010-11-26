@@ -1,9 +1,13 @@
 <img change:productvisual="name 'visual'; mode 'list'; product item/getDocument/getProduct" change:media="document visual; format 'modules.catalog.frontoffice/productList'; class 'float-right'" />
+<p tal:define="global shop item/getDocument/getShop">
+	<strong change:translate="modules.catalog.frontoffice.ShopLabel"></strong>
+	<a change:link="document shelf">${shop/getLabelAsHtml}</a>
+</p>
 <p tal:define="shelf item/getDocument/getShelf">
 	<strong change:translate="modules.catalog.frontoffice.ShelfLabel"></strong>
 	<a change:link="document shelf">${shelf/getLabelAsHtml}</a>
 </p>
-<tal:block tal:define="shop php:catalog_ShopService::getInstance().getCurrentShop()" change:productprice="name 'price'; product item/getDocument/getProduct" tal:condition="price">
+<tal:block change:productprice="name 'price'; product item/getDocument/getProduct; shop shop" tal:condition="price">
 	<p tal:condition="shop/getDisplayPriceWithTax">
 		<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
 		<tal:block tal:condition="price/isDiscount">

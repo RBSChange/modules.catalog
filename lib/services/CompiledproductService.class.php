@@ -64,12 +64,12 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			if ($product->hasMeta(twitterconnect_TweetService::META_TWEET_ON_PUBLISH_FOR_WEBSITE))
 			{
 				$meta = twitterconnect_TweetService::META_TWEET_ON_PUBLISH;
-				if ($document->getIndexed() && !$document->hasMeta($meta))
+				if ($document->getPrimary() && !$document->hasMeta($meta))
 				{
 					$document->setMeta($meta, $product->getId());
 					$document->saveMeta();
 				}
-				else if (!$document->getIndexed() && $document->hasMeta($meta))
+				else if (!$document->getPrimary() && $document->hasMeta($meta))
 				{
 					$document->setMeta($meta, null);
 					$document->saveMeta();
@@ -106,7 +106,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				$alert->save();
 			}
 		}
-		if ($document->isPropertyModified('brandId') && $document->getIndexed())
+		if ($document->isPropertyModified('brandId') && $document->getPrimary())
 		{
 			$brandId = $document->getBrandId();
 			if ($brandId)
@@ -202,7 +202,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				try 
 				{
 					$rqc->beginI18nWork($lang);	
-					$indexedCP = array();
+					$cpByShopId = array();
 					if ($product->isLangAvailable($lang))
 					{
 						foreach ($topics as $topic)
@@ -212,21 +212,19 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 								$cp = $this->generate($product, $topic);
 								$CPIds[] = $cp->getId();
 								
-								//Prepare Indexed document
-								$key = $cp->getWebsiteId();
-								if (!isset($indexedCP[$key]))
+								$key = $cp->getShopId();
+								if (!isset($cpByShopId[$key]))
 								{
-									$indexedCP[$key] = array($cp);
+									$cpByShopId[$key] = array($cp);
 								}
 								else
 								{
-									$indexedCP[$key][] = $cp;
+									$cpByShopId[$key][] = $cp;
 								}
 							}
 						}
 					}
-		
-					$this->fixIndexedCompiledProduct($indexedCP);
+					$this->fixPrimaryCompiledProduct($cpByShopId);
 					$rqc->endI18nWork();
 				}
 				catch (Exception $rce)
@@ -245,7 +243,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			foreach ($CPIds as $cpId)
 			{
 				$cproduct = DocumentHelper::getDocumentInstance($cpId);
-				if ($cproduct->isPublished() && $cproduct->getIndexed())
+				if ($cproduct->isPublished() && $cproduct->getPrimary())
 				{
 					try 
 					{
@@ -267,48 +265,54 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 	}
 	
-	private function fixIndexedCompiledProduct($indexedCP)
+	/**
+	 * @param array $cpByShopId
+	 */
+	private function fixPrimaryCompiledProduct($cpByShopId)
 	{		
-		foreach ($indexedCP as $cps) 
+		foreach ($cpByShopId as $cps) 
 		{
-			$oldIndexed = null;
-			$newIndexed = null;
-			$newIndexedUnpublished = null;
+			$oldPrimary = null;
+			$newPrimary = null;
+			$newPrimaryUnpublished = null;
 			foreach ($cps as $cp) 
 			{
-				if ($cp->getIndexed()) {$oldIndexed = $cp;}
+				if ($cp->getPrimary())
+				{
+					$oldPrimary = $cp;
+				}
 				if ($cp->isPublished())
 				{
-					if ($newIndexed === null || ($newIndexed->getShelfIndex() > $cp->getShelfIndex()))
+					if ($newPrimary === null || ($newPrimary->getShelfIndex() > $cp->getShelfIndex()))
 					{
-						$newIndexed = $cp;		
+						$newPrimary = $cp;		
 					}
 				}
-				else if ($newIndexed === null)
+				else if ($newPrimary === null)
 				{
-					if ($newIndexedUnpublished === null || ($newIndexedUnpublished->getShelfIndex() > $cp->getShelfIndex()))
+					if ($newPrimaryUnpublished === null || ($newPrimaryUnpublished->getShelfIndex() > $cp->getShelfIndex()))
 					{
-						$newIndexedUnpublished = $cp;		
+						$newPrimaryUnpublished = $cp;		
 					}
 				}
 			}
 			
-			if ($newIndexed === null)
+			if ($newPrimary === null)
 			{
-				$newIndexed = $newIndexedUnpublished;
+				$newPrimary = $newPrimaryUnpublished;
 			}
 			
-			if ($oldIndexed !== $newIndexed)
+			if ($oldPrimary !== $newPrimary)
 			{
-				if ($oldIndexed !== null)
+				if ($oldPrimary !== null)
 				{
-					$oldIndexed->setIndexed(false);
-					$this->save($oldIndexed);
+					$oldPrimary->setPrimary(false);
+					$this->save($oldPrimary);
 				}
-				if ($newIndexed !== null)
+				if ($newPrimary !== null)
 				{
-					$newIndexed->setIndexed(true);
-					$this->save($newIndexed);
+					$newPrimary->setPrimary(true);
+					$this->save($newPrimary);
 				}
 			}
 		}
@@ -525,7 +529,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
 		{
-			if ($document->getIndexed() && $document->getBrandId() !== null)
+			if ($document->getPrimary() && $document->getBrandId() !== null)
 			{
 				brand_BrandService::getInstance()->setNeedCompile(array($document->getBrandId()));
 			}
@@ -650,7 +654,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getRelatedForTweets($document)
 	{
-		return $document->getIndexed() ? $document->getProduct() : null;
+		return $document->getPrimary() ? $document->getProduct() : null;
 	}
 
 	/**

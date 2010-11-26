@@ -47,8 +47,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getIndexedDocumentForShop($shop)
 	{
-		$website = $shop->getWebsite();
-		$primaryShelf = $this->getPrimaryShelf($website);
+		$primaryShelf = $this->getShopPrimaryShelf($shop);
 		$topic = catalog_ShelfService::getInstance()->getRelatedTopicByShop($primaryShelf, $shop);
 		
 		$indexedDoc = new indexer_IndexedDocument();
@@ -61,9 +60,9 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			f_util_StringUtils::htmlToText($this->getDescription())
 			. ' ' . $this->getBrandLabel()
 			. ' ' . $primaryShelf->getLabel()
-			. ' ' . $this->getPrimaryTopShelf($website)->getLabel()
+			. ' ' . $this->getShopPrimaryTopShelf($shop)->getLabel()
 		);
-		$indexedDoc->setParentWebsiteId($website->getId());
+		$indexedDoc->setParentWebsiteId($shop->getWebsite()->getId());
 		$indexedDoc->setParentTopicId($topic->getId());
 		
 		return $indexedDoc;
@@ -144,18 +143,37 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 * @param website_pesistentdocument_website $website
 	 * @return catalog_persistentdocument_shelf
 	 */
-	public function getPrimaryShelf($website = null)
+	public function getBoPrimaryShelf()
 	{
-		return $this->getDocumentService()->getPrimaryShelf($this, $website);
+		return $this->getDocumentService()->getBoPrimaryShelf($this);
 	}
 	
 	/**
 	 * @param website_pesistentdocument_website $website
 	 * @return catalog_persistentdocument_shelf
 	 */
-	public function getPrimaryTopShelf($website = null)
+	public function getShopPrimaryShelf($shop)
 	{
-		$shelf = $this->getDocumentService()->getPrimaryShelf($this, $website);
+		return $this->getDocumentService()->getShopPrimaryShelf($this, $shop);
+	}
+	
+	/**
+	 * @param website_pesistentdocument_website $website
+	 * @return catalog_persistentdocument_shelf
+	 */
+	public function getBoPrimaryTopShelf()
+	{
+		$shelf = $this->getDocumentService()->getBoPrimaryShelf($this);
+		return catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf);
+	}
+	
+	/**
+	 * @param website_pesistentdocument_website $website
+	 * @return catalog_persistentdocument_shelf
+	 */
+	public function getShopPrimaryTopShelf($shop)
+	{
+		$shelf = $this->getDocumentService()->getShopPrimaryShelf($this, $shop);
 		return catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf);
 	}
 	
@@ -640,5 +658,39 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function handleRelatedProducts()
 	{
 		return true;
+	}
+	
+	// Deprecated 
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
+	 */
+	public function getPrimaryShelf($website = null)
+	{
+		if ($website === null)
+		{
+			return $this->getBoPrimaryShelf();
+		}
+		else 
+		{
+			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
+			return $this->getShopPrimaryShelf($shop);
+		}
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getBoPrimaryTopShelf or getShopPrimaryTopShelf instead
+	 */
+	public function getPrimaryTopShelf($website = null)
+	{
+		if ($website === null)
+		{
+			return $this->getBoPrimaryTopShelf();
+		}
+		else 
+		{
+			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
+			return $this->getShopPrimaryTopShelf($shop);
+		}
 	}
 }

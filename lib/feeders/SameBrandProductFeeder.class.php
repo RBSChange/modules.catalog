@@ -39,7 +39,7 @@ class catalog_SameBrandProductFeeder extends catalog_ProductFeeder
 		{
 			$query->add(Restrictions::notin('product.id', $parameters['excludedId']));
 		}
-		$query->add(Restrictions::eq('indexed', true));
+		$query->add(Restrictions::eq('primary', true));
 		$query->add(Restrictions::eq('brandId', $brand->getId()));
 		$query->setProjection(Projections::property('product', 'product'));
 		$products = $query->findColumn('product');

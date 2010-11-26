@@ -66,7 +66,7 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	 */
 	public function getShop()
 	{
-		return catalog_ShopService::getInstance()->getPublishedByWebsiteId($this->getWebsiteId());
+		return catalog_ShopService::getInstance()->getDefaultByWebsiteId($this->getWebsiteId());
 	}
 	
 	/**

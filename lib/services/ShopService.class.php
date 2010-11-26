@@ -77,45 +77,114 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		return $query->findUnique();
 	}
 
+	private $currentShop;
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function setCurrentShop($shop)
+	{
+		$this->currentShop = $shop;
+	}
+	
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */
 	public function getCurrentShop()
 	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		if ($website === null)
+		if ($this->currentShop === null)
 		{
-			return null;
+			// From page...
+			$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+			$this->currentShop = $this->getShopFromPageId($pageId);
+			
+			// or from cart...
+			// TODO: without recursion...
+			/*if ($this->currentShop === null && catalog_ModuleService::getInstance()->isCartEnabled())
+			{
+				$cart = order_CartService::getInstance()->getDocumentInstanceFromSession();
+				if ($cart !== null && $cart->getShopId() !== null)
+				{
+					$this->currentShop = $cart->getShop();
+				}
+			}*/
+	
+			// or default one for website.
+			if ($this->currentShop === null)
+			{
+				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+				if ($website !== null)
+				{
+					$this->currentShop = $this->getDefaultByWebsite($website);
+				}
+			}
 		}
-		return $this->getPublishedByWebsite($website);
+		return $this->currentShop;
+	}
+	
+	/**
+	 * @param string $idParamName
+	 * @return catalog_persistentdocument_shop
+	 */
+	public function getShopFromRequest($idParamName)
+	{
+		if ($idParamName !== null)
+		{
+			$request = HttpController::getInstance()->getContext()->getRequest();
+			if ($request->hasModuleParameter('catalog', $idParamName))
+			{
+				$shopId = $request->getModuleParameter('catalog', $idParamName);
+				return DocumentHelper::getDocumentInstance($shopId, 'modules_catalog/shop');
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param integer $pageId
+	 * @return catalog_persistentdocument_shop
+	 */
+	private function getShopFromPageId($pageId)
+	{
+		if ($pageId !== null)
+		{
+			$page = DocumentHelper::getDocumentInstance($pageId, 'modules_website/page');
+			$query = $this->createQuery()->add(Restrictions::published());
+			$query->createCriteria('topic')->add(Restrictions::ancestorOf($page->getId()));
+			$shop = $query->findUnique();
+			if ($shop !== null)
+			{
+				return $shop;
+			}
+		}
+		return null;
 	}
 	
 	/**
 	 * @param website_persistentdocument_website $website
-	 * @return catalog_persistentdocument_shop
 	 */
-	public function getPublishedByWebsite($website)
+	public function getDefaultByWebsite($website)
 	{
-		return $this->getPublishedByWebsiteId($website->getId());
+		return $this->getDefaultByWebsiteId($website->getId());
 	}
 	
 	/**
 	 * @var catalog_persistentdocument_shop[]
 	 */
-	private $shopByWebsiteId = array();
+	private $defaultShopByWebsiteId = array();
 	
 	/**
 	 * @param integer $websiteId
-	 * @return catalog_persistentdocument_shop
 	 */
-	public function getPublishedByWebsiteId($websiteId)
+	public function getDefaultByWebsiteId($websiteId)
 	{
-		if (!isset($this->shopByWebsiteId[$websiteId]))
+		// TODO: add a default property on shop ?
+		if (!isset($this->defaultShopByWebsiteId[$websiteId]))
 		{
-			$this->shopByWebsiteId[$websiteId] = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
-				->add(Restrictions::published())->findUnique();
+			$query = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))->add(Restrictions::published());
+			$this->defaultShopByWebsiteId[$websiteId] = f_util_ArrayUtils::firstElement($query->find());
 		}
-		return $this->shopByWebsiteId[$websiteId];
+		return $this->defaultShopByWebsiteId[$websiteId];
 	}
 	
 	/**
@@ -418,7 +487,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		$count =  catalog_CompiledproductService::getInstance()->createQuery()
 					->add(Restrictions::published())
 					->add(Restrictions::eq('shopId', $shop->getId()))
-					->add(Restrictions::eq('indexed', true))
+					->add(Restrictions::eq('primary', true))
 					->setProjection(Projections::rowCount('count'))->findColumn('count');
 		return f_util_ArrayUtils::firstElement($count);
 	}
@@ -433,6 +502,32 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		$data['properties']['publishedproductcount'] = $this->getPublishedProductCountByShop($document);
 		return $data;
 	}
-
 	
+	// Depreacted
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
+	 */
+	public function getPublishedByWebsite($website)
+	{
+		return $this->getPublishedByWebsiteId($website->getId());
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	private $shopByWebsiteId = array();
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
+	 */
+	public function getPublishedByWebsiteId($websiteId)
+	{
+		if (!isset($this->shopByWebsiteId[$websiteId]))
+		{
+			$this->shopByWebsiteId[$websiteId] = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
+				->add(Restrictions::published())->findUnique();
+		}
+		return $this->shopByWebsiteId[$websiteId];
+	}
 }

@@ -196,6 +196,7 @@
   <key id="bundleditems">Produits du groupe</key>
   <key id="go-to-bundle">retourner au groupe de produit {bundleLabel}</key>
   <key id="refresh-declined">Recharger</key>
+  <key id="shop">boutique</key>
   <key id="shelf">rayon</key>
   <key id="notifiy-me-for-availability">m'avertir de la disponibilité</key>
   <key id="notifiy-me-for-price">m'avertir si le prix baisse</key>

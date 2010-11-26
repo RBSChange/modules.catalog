@@ -89,15 +89,6 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		return $this->getRelatedDeclinedProduct()->getLabelForUrl();
 	}
-	
-	/**
-	 * @param website_pesistentdocument_website $website
-	 * @return catalog_persistentdocument_shelf
-	 */
-	public function getPrimaryShelf($website = null)
-	{
-		return $this->getRelatedDeclinedProduct()->getPrimaryShelf($website);
-	}
 
 	/**
 	 * @return media_persistentdocument_media[]

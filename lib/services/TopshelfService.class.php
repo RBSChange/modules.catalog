@@ -74,7 +74,6 @@ class catalog_TopshelfService extends catalog_ShelfService
 		// Nothing to do: top shelves may only be re-ordered and it doesn't affect related compiledproducts.
 	}
 	
-
 	/**
 	 * @see f_persistentdocument_DocumentService::preDelete()
 	 *
@@ -90,5 +89,4 @@ class catalog_TopshelfService extends catalog_ShelfService
 			$shop->save();
 		}
 	}
-
 }

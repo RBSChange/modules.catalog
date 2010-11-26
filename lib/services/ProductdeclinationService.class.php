@@ -53,18 +53,30 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	}
 	
 	/**
-	 * @see catalog_ProductService::getPrimaryShelf()
+	 * @see catalog_ProductService::getBoPrimaryShelf()
 	 *
 	 * @param catalog_persistentdocument_productdeclination $product
-	 * @param website_pesistentdocument_website $website
 	 * @return catalog_persistentdocument_shelf
 	 */
-	public function getPrimaryShelf($product, $website)
+	public function getBoPrimaryShelf($product)
 	{
 		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getPrimaryShelf($declinedProduct, $website);
+		return $declinedProduct->getDocumentService()->getBoPrimaryShelf($declinedProduct);
 	}
-
+	
+	/**
+	 * @see catalog_ProductService::getShopPrimaryShelf()
+	 *
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @param catalog_pesistentdocument_shop $shop
+	 * @return catalog_persistentdocument_shelf
+	 */
+	public function getShopPrimaryShelf($product, $shop)
+	{
+		$declinedProduct = $product->getRelatedDeclinedProduct();
+		return $declinedProduct->getDocumentService()->getShopPrimaryShelf($declinedProduct, $shop);
+	}
+	
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param catalog_persistentdocument_shop $shop
@@ -244,10 +256,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 * @param catalog_persistentdocument_productdeclination $product
 	 * @param catalog_persistentdocument_shop $shop
 	 */
-	public function getPrimaryCompiledProductForWebsite($product, $website)
+	public function getPrimaryCompiledProductForShop($product, $shop)
 	{
 		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForWebsite($declinedProduct, $website);
+		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForShop($declinedProduct, $shop);
 	}
 	
 	/**
@@ -259,5 +271,25 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	{
 		$parameters['catalogParam']['declinationId'] = $document->getId();
 		return LinkHelper::getDocumentUrl($document->getRelatedDeclinedProduct(), $lang, $parameters);
+	}
+	
+	// Deprecated
+
+	/**
+	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
+	 */
+	public function getPrimaryShelf($product, $website)
+	{
+		$declinedProduct = $product->getRelatedDeclinedProduct();
+		return $declinedProduct->getDocumentService()->getPrimaryShelf($declinedProduct, $website);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
+	 */
+	public function getPrimaryCompiledProductForWebsite($product, $website)
+	{
+		$declinedProduct = $product->getRelatedDeclinedProduct();
+		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForWebsite($declinedProduct, $website);
 	}
 }

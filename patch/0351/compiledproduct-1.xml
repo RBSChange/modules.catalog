@@ -21,7 +21,7 @@
 		<add name="isDiscount" type="Boolean" />
 		<add name="isAvailable" type="Boolean" />
 		<!-- Misc. properties -->
-		<add name="primary" type="Boolean" />
+		<add name="indexed" type="Boolean" />
 		<add name="firstpublicationdate" type="DateTime" />
 		<add name="lastpublicationdate" type="DateTime" />
 	</properties>
