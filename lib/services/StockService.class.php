@@ -30,36 +30,120 @@ class catalog_StockService extends BaseService
 	}
 	
 	/**
-	 * @param catalog_StockableDocument $document
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @return catalog_StockableDocument
+	 */
+	public function getStockableDocument($document)
+	{
+		if ($document instanceof catalog_StockableDocument)
+		{
+			return $document;
+		}	
+		return null;
+	}
+	
+	/**
+	 * @param f_persistentdocument_PersistentDocument $document
 	 * @param Double $quantity
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return Boolean
 	 */
-	public function isAvailable($document, $quantity = 1)
+	public function isAvailable($document, $quantity = 1, $shop = null)
 	{
-		$stock = $document->getStockQuantity();
-		return ($stock === null || ($stock - $quantity) >= 0);
+		$stDoc = $this->getStockableDocument($document);
+		if ($stDoc !== null)
+		{
+			$stock = $stDoc->getCurrentStockQuantity();
+			return ($stock === null || ($stock - $quantity) >= 0);
+		}
+		return true;
 	}
-
-
-
+	
 	/**
-	 * @param catalog_StockableDocument $document
-	 * @param Integer $nb
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param double $quantity
+	 * @param order_CartInfo $cart
 	 */
-	public function decreaseQuantity($document, $nb)
+	public function isValidCartQuantity($document, $quantity, $cart)
 	{
-		$document->addStockQuantity(-$nb);
-		$document->save();
+		$stDoc = $this->getStockableDocument($document);
+		if ($stDoc !== null)
+		{
+			$stock = $stDoc->getCurrentStockQuantity();
+			return ($stock === null || ($stock - $quantity) >= 0);
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return string | null
+	 */
+	public function getAvailability($document, $shop = null)
+	{
+		$stDoc = $this->getStockableDocument($document);
+		if ($stDoc !== null)
+		{
+			return catalog_AvailabilityStrategy::getStrategy()->getAvailability($stDoc->getCurrentStockLevel());
+		}
+		return catalog_AvailabilityStrategy::getStrategy()->getAvailability(null);
 	}
 
 	/**
-	 * @param catalog_StockableDocument $document
-	 * @param Integer $nb
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param double $nb
+	 * @return double new quantity
 	 */
 	public function increaseQuantity($document, $nb)
 	{
-		$document->addStockQuantity($nb);
-		$document->save();
+		$result = null;
+		$stDoc = $this->getStockableDocument($document);
+		if ($stDoc !== null)
+		{
+			$result = $stDoc->addStockQuantity($nb);
+			$document->save();
+		}
+		return $result; 
+	}
+	
+	/**
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param integer $nb
+	 * @param integer $orderId
+	 * @return double new quantity
+	 */
+	public function decreaseQuantity($document, $nb, $orderId = null)
+	{
+		$result = null;
+		$stDoc = $this->getStockableDocument($document);
+		if ($stDoc !== null)
+		{
+			$result = $stDoc->addStockQuantity(-$nb);
+			$document->save();
+		}
+		return $result; 		
+	}
+	
+	/**
+	 * @param f_persistentdocument_PersistentDocument $document
+	 */
+	public function handleStockAlert($document)
+	{
+		$stDoc = $this->getStockableDocument($document);
+		if ($stDoc !== null)
+		{
+			if ($stDoc->mustSendStockAlert())
+			{
+				$recipients = ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertNotificationUser');
+				if ($recipients !== null && count($recipients) > 0)
+				{
+					$this->sendStockAlertNotification($recipients, $document);
+				}
+			}			
+		}
+
 	}
 		
 	/**
@@ -71,53 +155,12 @@ class catalog_StockService extends BaseService
 		$productdeclinations = catalog_ProductdeclinationService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
 		return array_merge($simpleproducts, $productdeclinations);
 	}
-	
-	/**
-	 * @param catalog_StockableDocument $document
-	 */
-	public function handleStockAlert($document)
-	{
-		if ($document->mustSendStockAlert())
-		{
-			$recipients = ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertNotificationUser');
-			if ($recipients !== null && count($recipients) > 0)
-			{
-				$this->sendStockAlertNotification($recipients, $document);
-			}
-			else
-			{
-				if (Framework::isDebugEnabled())
-				{
-					Framework::debug(__METHOD__ . ' no recipient.');
-				}
-			}
-		}
-	}
-	
+		
 	// Private methods.
 	
 	/**
-	 * @param catalog_StockableDocument $document
-	 * @return Double
-	 */
-	private function getAlertThreshold($document)
-	{
-		$threshold = null;
-		if (f_util_ClassUtils::methodExists($document, 'getStockAlertThreshold'))
-		{
-			$threshold = $document->getStockAlertThreshold();
-		}
-		
-		if ($threshold === null)
-		{
-			return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
-		}
-		return $threshold;
-	}
-	
-	/**
 	 * @param Array<users_persistentdocument_backenduser> $recipients
-	 * @param catalog_StockableDocument $document
+	 * @param f_persistentdocument_PersistentDocument $document
 	 * @return boolean
 	 */
 	private function sendStockAlertNotification($users, $document)
@@ -142,30 +185,23 @@ class catalog_StockService extends BaseService
 			'catalog'
 		);
 	}
-	
-	
+
 	/**
-	 * @deprecated use $document->getStockQuantity()
+	 * @param f_persistentdocument_PersistentDocument $document
+	 * @return Double
 	 */
-	public function getDisplayableQuantity($document)
+	private function getAlertThreshold($document)
 	{
-		return $document->getStockQuantity();
-	}
-	
-	/**
-	 * @deprecated 
-	 */
-	public function updateLevel($document)
-	{
-		$document->addStockQuantity(0);
-		$document->save();
-	}
+		$threshold = null;
+		if (f_util_ClassUtils::methodExists($document, 'getStockAlertThreshold'))
+		{
+			$threshold = $document->getStockAlertThreshold();
+		}
 		
-	/**
-	 * @deprecated 
-	 */
-	public function setLevelFromQuantity($document)
-	{
-		$document->addStockQuantity(0);
+		if ($threshold === null)
+		{
+			return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
+		}
+		return $threshold;
 	}
 }

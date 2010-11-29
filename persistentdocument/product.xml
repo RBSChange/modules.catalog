@@ -16,6 +16,9 @@
 		<add name="serializedattributes" type="Lob" />
 		<add name="compiled" type="Boolean" />
 		<add name="shippingModeId" type="Integer" />
+		<add name="stockQuantity" type="Double" />
+		<add name="stockLevel" type="String" default-value="A" />
+		<add name="stockAlertThreshold" type="Double" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

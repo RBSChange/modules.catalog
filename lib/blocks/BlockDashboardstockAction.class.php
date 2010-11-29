@@ -33,6 +33,7 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 				array('label' => f_Locale::translate('&modules.catalog.document.product.StockQuantity;'), 'width' => '10%')
 			);
 			$widget['lines'] = array();
+			$stSrv = catalog_StockService::getInstance();
 			foreach ($products as $product)
 			{
 				$widget['lines'][] = array(
@@ -40,7 +41,7 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 					'id' => $product->getId(),
 					'model' => str_replace('/', '_', $product->getDocumentModelName()),
 					'reference' => $product->getCodeReference(), 
-					'quantity' => $product->getStockQuantity()
+					'quantity' => $stSrv->getStockableDocument($product)->getCurrentStockQuantity()
 				);
 			}
 			$widget['header'] = f_Locale::translate('&modules.catalog.bo.dashboard.Out-of-stock-products;')." : ".$productsCount;

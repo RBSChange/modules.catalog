@@ -234,4 +234,85 @@ class catalog_BundleproductService extends catalog_ProductService
 		}
 		return $itemsPrice;	
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_bundleproduct $product
+	 * @param double $quantity
+	 * @return double | null
+	 */
+	public function addStockQuantity($product, $quantity)
+	{
+		$stock = null;
+		if ($product->getBundleditemCount())
+		{
+			$stSrv = catalog_StockService::getInstance();
+			foreach ($product->getBundleditemArray() as $bundledItem) 
+			{
+				$itemStock = $stSrv->increaseQuantity($bundledItem->getProduct(), $quantity * $bundledItem->getQuantity());
+				if ($itemStock !== null)
+				{
+					$newStock = $itemStock / $bundledItem->getQuantity();
+					if ($stock === null || $newStock < $stock)
+					{
+						$stock = $newStock;
+					}
+				}
+			}
+		}
+		return $stock;
+		
+	}
+
+	/**
+	 * @param catalog_persistentdocument_bundleproduct $product
+	 * @return string
+	 */
+	public function getCurrentStockLevel($product)
+	{
+		if ($product->getBundleditemCount())
+		{
+			foreach ($product->getBundleditemArray() as $bundledItem) 
+			{
+				$stDoc = $bundledItem->getProduct()->getStockableDocument();
+				if ($stDoc !== null)
+				{
+					if ($stDoc->getCurrentStockLevel() === catalog_StockService::LEVEL_UNAVAILABLE)
+					{
+						return catalog_StockService::LEVEL_UNAVAILABLE;
+					}
+				}
+			}
+			return catalog_StockService::LEVEL_AVAILABLE;
+		}	
+		return catalog_StockService::LEVEL_UNAVAILABLE;
+	}
+
+	/**
+	 * @param catalog_persistentdocument_bundleproduct $product
+	 * @return string
+	 */
+	public function getCurrentStockQuantity($product)
+	{
+		$quantity = null;
+		if ($product->getBundleditemCount())
+		{
+			foreach ($product->getBundleditemArray() as $bundledItem) 
+			{
+				$stDoc = $bundledItem->getProduct()->getStockableDocument();
+				if ($stDoc !== null)
+				{
+					$newStock = $stDoc->getCurrentStockQuantity();
+					if ($newStock !== null && $bundledItem->getQuantity() > 0)
+					{
+						$realStock = $newStock / $bundledItem->getQuantity();
+						if ($quantity === null || $quantity > $realStock)
+						{
+							$quantity = $realStock;
+						}
+					}
+				}
+			}
+		}
+		return $quantity;
+	}
 }

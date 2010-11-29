@@ -300,17 +300,23 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			->findUnique() > 0;
 	}
 	
+	// Gestion du stock du produit
+	/**
+	 * @return catalog_StockableDocument
+	 */
+	public function getStockableDocument()
+	{
+		return catalog_StockService::getInstance()->getStockableDocument($this);
+	}
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param double $quantity
 	 * @return Boolean
 	 */
-	public function isAvailable($shop)
+	public function isAvailable($shop = null, $quantity = 1)
 	{
-		if ($this instanceof catalog_StockableDocument)
-		{
-			return catalog_StockService::getInstance()->isAvailable($this);
-		}
-		return true;
+		return catalog_StockService::getInstance()->isAvailable($this, $quantity, $shop);
 	}
 	
 	/**
@@ -319,11 +325,50 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getAvailability($shop = null)
 	{
-		if ($this instanceof catalog_StockableDocument)
-		{
-			return catalog_AvailabilityStrategy::getStrategy()->getAvailability($this->getStockLevel());
-		}
-		return null;
+		return catalog_StockService::getInstance()->getAvailability($this, $shop);
+	}
+	
+	/**
+	 * @param double $quantity
+	 * @return double | null new quantity
+	 */
+	public function addStockQuantity($quantity)
+	{
+		return $this->getDocumentService()->addStockQuantity($this, $quantity);
+	}
+
+	/**
+	 * @return double | null
+	 */
+	public function getCurrentStockQuantity()
+	{
+		return $this->getDocumentService()->getCurrentStockQuantity($this);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCurrentStockLevel()
+	{
+		return $this->getDocumentService()->getCurrentStockLevel($this);
+	}
+	
+	/**
+	 * @var boolean
+	 */
+	private $sendStockAlert = false;
+	
+	public function setMustSendStockAlert($sendStockAlert = true)
+	{
+		$this->sendStockAlert = $sendStockAlert;
+	}
+		
+	/**
+	 * @return boolean
+	 */
+	public function mustSendStockAlert()
+	{
+		return $this->sendStockAlert;
 	}
 	
 	/**

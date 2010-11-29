@@ -6,15 +6,20 @@
 interface catalog_StockableDocument
 {			
 	/**
-	 * @return Double
+	 * @return double | null
 	 */
-	function getStockQuantity();
+	function getCurrentStockQuantity();
+	
+	/**
+	 * @return string
+	 */
+	function getCurrentStockLevel();
 		
 	/**
 	 * >0 increase Quantity
 	 * <0 decrease Quantity
-	 * @param Double $quantity
-	 * @return Double new quantity
+	 * @param double $quantity
+	 * @return double | null new quantity
 	 */
 	function addStockQuantity($quantity);
 	
@@ -23,9 +28,4 @@ interface catalog_StockableDocument
 	 */
 	function mustSendStockAlert();
 	
-	/**
-	 * @return String
-	 */
-	function getStockLevel();
-
 }

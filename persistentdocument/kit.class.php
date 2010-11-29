@@ -6,23 +6,6 @@
 class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase implements catalog_StockableDocument
 {
 	/**
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param array<string, string> $nodeAttributes
-	 */
-//	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-//	{
-//	}
-	
-	/**
-	 * @param string $actionType
-	 * @param array $formProperties
-	 */
-//	public function addFormProperties($propertiesNames, &$formProperties)
-//	{	
-//	}
-
-	/**
 	 * @see catalog_persistentdocument_product::getDetailBlockName()
 	 *
 	 * @return String
@@ -159,102 +142,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase 
 		$this->kitItemsToDelete = null;
 		return $result;
 	}
-	
-	/**
-	 * @see catalog_StockableDocument::addStockQuantity()
-	 *
-	 * @param Double $quantity
-	 * @return Double
-	 */
-	function addStockQuantity($quantity)
-	{
-		$stock = null;
-		if ($this->getKititemCount())
-		{
-			foreach ($this->getKititemArray() as $kitItem) 
-			{
-				$product = $kitItem->getProduct();
-				if ($product instanceof catalog_StockableDocument)
-				{
-					$newStock = $product->addStockQuantity($quantity * $kitItem->getQuantity());
-					$product->save();
-					
-					if ($newStock !== null && ($stock === null || $newStock < $stock))
-					{
-						$stock = $newStock;
-					}
-				}
-			}
-		}
-		return $stock;
-	}
-	
-	/**
-	 * @see catalog_StockableDocument::getStockLevel()
-	 *
-	 * @return String
-	 */
-	function getStockLevel()
-	{
-		if ($this->getKititemCount())
-		{
-			foreach ($this->getKititemArray() as $kitItem) 
-			{
-				$product = $kitItem->getDefaultProduct();
-				if ($product instanceof catalog_StockableDocument)
-				{
-					if ($product->getStockLevel() === catalog_StockService::LEVEL_UNAVAILABLE)
-					{
-						return catalog_StockService::LEVEL_UNAVAILABLE;
-					}
-				}
-			}
-			return catalog_StockService::LEVEL_AVAILABLE;
-		}	
-		return catalog_StockService::LEVEL_UNAVAILABLE;
-	}
-	
-	/**
-	 * @see catalog_StockableDocument::getStockQuantity()
-	 *
-	 * @return Double
-	 */
-	function getStockQuantity()
-	{
-		$quantity = null;
-		if ($this->getKititemCount())
-		{
-			foreach ($this->getKititemArray() as $kitItem) 
-			{
-				$product = $kitItem->getDefaultProduct();
-				if ($product instanceof catalog_StockableDocument)
-				{
-					$newStock = $product->getStockQuantity();
-					if ($newStock !== null && $kitItem->getQuantity() > 0)
-					{
-						$realStock = $newStock / $kitItem->getQuantity();
-						if ($quantity === null || $quantity > $realStock)
-						{
-							$quantity = $realStock;
-						}
-					}
-				}
-			}
-		}
-		return $quantity;
-	}
-	
-	/**
-	 * @see catalog_StockableDocument::mustSendStockAlert()
-	 *
-	 * @return boolean
-	 */
-	function mustSendStockAlert()
-	{
-		return false;
-	}
-	
-	
+		
 	//TEMPLATING FUNCTION
 	
 	/**

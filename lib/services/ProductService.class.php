@@ -386,6 +386,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$this->synchronizeField($document, 'similar');
 		}
 		
+		if ($document->isPropertyModified('stockQuantity') && !$document->isPropertyModified('stockLevel'))
+		{
+			$this->updateStockLevel($document);
+		}
+		
 		// Generate compiled products.
 		$this->updateCompiledProperty($document, false);
 	}
@@ -1321,5 +1326,76 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	{
 		$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
 		return $this->getPrimaryCompiledProductForShop($product, $shop);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param double $quantity
+	 * @return double | null 
+	 */
+	public function addStockQuantity($product, $quantity)
+	{
+		$oldQuantity = $product->getStockQuantity();
+		if ($oldQuantity !== null)
+		{
+			$newQuantity = $oldQuantity + $quantity;		
+			$product->setStockQuantity($newQuantity);
+			if ($quantity < 0)
+			{
+				$theshold = $product->getStockAlertThreshold();
+				if ($theshold === null)
+				{
+					$theshold = intval(ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold'));
+				}
+				$product->setMustSendStockAlert($oldQuantity > $theshold && $newQuantity <= $theshold);			
+			}
+			$this->updateStockLevel($product);
+			return $newQuantity;
+		}
+		return $oldQuantity;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 */
+	protected function updateStockLevel($product)
+	{
+		$quantity = $product->getStockQuantity();
+		if ($quantity === null || $quantity >= 1)
+		{
+			$product->setStockLevel(catalog_StockService::LEVEL_AVAILABLE);
+		}
+		else
+		{
+			$product->setStockLevel(catalog_StockService::LEVEL_UNAVAILABLE);
+		}				
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return double | null 
+	 */
+	public function getCurrentStockQuantity($product)
+	{
+		return $product->getStockQuantity();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return string [catalog_StockService::LEVEL_AVAILABLE] 
+	 */
+	public function getCurrentStockLevel($product)
+	{
+		$lvl = $product->getStockLevel();
+		return $lvl === NULL ? catalog_StockService::LEVEL_AVAILABLE : $lvl;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return boolean
+	 */
+	public function mustSendStockAlert($product)
+	{
+		return false;
 	}
 }

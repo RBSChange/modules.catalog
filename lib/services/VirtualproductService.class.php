@@ -140,5 +140,5 @@ class catalog_VirtualproductService extends catalog_ProductService
 			}
 		}
 		return $result;
-	}
+	}	
 }

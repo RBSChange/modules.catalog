@@ -359,4 +359,83 @@ class catalog_KitService extends catalog_ProductService
 			}
 		}
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @param double $quantity
+	 * @return double | null
+	 */
+	public function addStockQuantity($product, $quantity)
+	{
+		$stock = null;
+		if ($product->getKititemCount())
+		{
+			foreach ($product->getKititemArray() as $kitItem) 
+			{
+				$itemStock = catalog_StockService::getInstance()->increaseQuantity($kitItem->getProduct(), $quantity * $kitItem->getQuantity());
+				if ($itemStock !== null)
+				{
+					$newStock = $itemStock / $kitItem->getQuantity();
+					if ($stock === null || $newStock < $stock)
+					{
+						$stock = $newStock;
+					}
+				}
+			}
+		}
+		return $stock;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @return string
+	 */
+	public function getCurrentStockLevel($product)
+	{
+		if ($product->getKititemCount())
+		{
+			foreach ($product->getKititemArray() as $kitItem) 
+			{
+				$stDoc = $kitItem->getDefaultProduct()->getStockableDocument();
+				if ($stDoc !== null)
+				{
+					if ($stDoc->getCurrentStockLevel() === catalog_StockService::LEVEL_UNAVAILABLE)
+					{
+						return catalog_StockService::LEVEL_UNAVAILABLE;
+					}
+				}
+			}
+			return catalog_StockService::LEVEL_AVAILABLE;
+		}	
+		return catalog_StockService::LEVEL_UNAVAILABLE;		
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @return string
+	 */
+	public function getCurrentStockQuantity($product)
+	{
+		$quantity = null;
+		if ($product->getKititemCount())
+		{
+			foreach ($product->getKititemArray() as $kitItem) 
+			{
+				$stDoc = $kitItem->getDefaultProduct()->getStockableDocument();
+				if ($stDoc !== null)
+				{
+					$newStock = $stDoc->getCurrentStockQuantity();
+					if ($newStock !== null && $kitItem->getQuantity() > 0)
+					{
+						$realStock = $newStock / $kitItem->getQuantity();
+						if ($quantity === null || $quantity > $realStock)
+						{
+							$quantity = $realStock;
+						}
+					}
+				}
+			}
+		}
+		return $quantity;		
+	}
 }

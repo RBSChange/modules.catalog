@@ -363,18 +363,16 @@ class catalog_DeclinedproductService extends catalog_ProductService
 		$data['offset'] = 0;
 		$data['nodes'] = array();
 		$lang = RequestContext::getInstance()->getLang();
-		
+		$stSrv = catalog_StockService::getInstance();
 		foreach ($declinations as $declination)
 		{
-
 			$langAvailable = $declination->getI18nInfo()->isLangAvailable($lang);
-			
 			$data['nodes'][] = array(
 				'id' => $declination->getId(),
 				'langAvailable' => $langAvailable,
 				'label' => ($langAvailable ? $declination->getLabel() : ($declination->getVoLabel() . ' [' . f_Locale::translateUI('&modules.uixul.bo.languages.' . ucfirst($declination->getLang()) . ';') . ']')),
 				'codeReference' => $declination->getCodeReference(),
-				'stockQuantity' => $declination->getStockQuantity(),
+				'stockQuantity' => $stSrv->getStockableDocument($declination)->getCurrentStockQuantity(),
 				'stockLevel' => $declination->getAvailability()
 			);
 		}
