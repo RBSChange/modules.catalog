@@ -5,23 +5,7 @@
  */
 class catalog_ProductCompilationListener
 {
-	/**
-	 * @param f_persistentdocument_PersistentDocument $sender
-	 * @param array $params
-	 * @return void
-	 */
-	public function onPersistentDocumentUpdated($sender, $params)
-	{
-		$document = $params['document'];
-		if ($document instanceof brand_persistentdocument_brand)
-		{
-			if (in_array('label', $params['modifiedPropertyNames']))
-			{
-				catalog_ProductService::getInstance()->setNeedCompileForBrand($document);
-			}
-		}
-	}
-	
+
 	/**
 	 * @param f_persistentdocument_DocumentService $sender
 	 * @param array $params

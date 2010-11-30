@@ -102,8 +102,16 @@ class catalog_StockService extends BaseService
 		$stDoc = $this->getStockableDocument($document);
 		if ($stDoc !== null)
 		{
-			$result = $stDoc->addStockQuantity($nb);
-			$document->save();
+			try 
+			{
+				$this->getTransactionManager()->beginTransaction();
+				$result = $stDoc->addStockQuantity($nb);
+				$this->getTransactionManager()->commit();
+			}
+			catch (Exception $e)
+			{
+				$this->getTransactionManager()->rollBack($e);
+			}
 		}
 		return $result; 
 	}
@@ -120,8 +128,16 @@ class catalog_StockService extends BaseService
 		$stDoc = $this->getStockableDocument($document);
 		if ($stDoc !== null)
 		{
-			$result = $stDoc->addStockQuantity(-$nb);
-			$document->save();
+			try 
+			{
+				$this->getTransactionManager()->beginTransaction();
+				$result = $stDoc->addStockQuantity(-$nb);
+				$this->getTransactionManager()->commit();
+			}
+			catch (Exception $e)
+			{
+				$this->getTransactionManager()->rollBack($e);
+			}
 		}
 		return $result; 		
 	}

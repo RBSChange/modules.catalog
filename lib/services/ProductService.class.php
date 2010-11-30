@@ -365,6 +365,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_product $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preSave($document, $parentNodeId)
+	{
+		if ($document->isPropertyModified('stockQuantity') && !$document->isPropertyModified('stockLevel'))
+		{
+			$this->updateStockLevel($document);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
@@ -386,10 +399,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$this->synchronizeField($document, 'similar');
 		}
 		
-		if ($document->isPropertyModified('stockQuantity') && !$document->isPropertyModified('stockLevel'))
-		{
-			$this->updateStockLevel($document);
-		}
+		
 		
 		// Generate compiled products.
 		$this->updateCompiledProperty($document, false);
@@ -1350,6 +1360,17 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 				$product->setMustSendStockAlert($oldQuantity > $theshold && $newQuantity <= $theshold);			
 			}
 			$this->updateStockLevel($product);
+			if ($product->isModified())
+			{
+				if ($product->isPropertyModified('stockLevel'))
+				{
+					$product->save();
+				}
+				else
+				{
+					$this->pp->updateDocument($product);
+				}
+			}
 			return $newQuantity;
 		}
 		return $oldQuantity;
@@ -1398,4 +1419,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	{
 		return false;
 	}
+
+
 }

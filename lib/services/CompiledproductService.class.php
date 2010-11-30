@@ -106,19 +106,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				$alert->save();
 			}
 		}
-		if ($document->isPropertyModified('brandId') && $document->getPrimary())
-		{
-			$brandId = $document->getBrandId();
-			if ($brandId)
-			{
-				brand_BrandService::getInstance()->setNeedCompile(array($brandId));
-			}
-			$oldBrandId = $document->getBrandIdOldvalue();
-			if ($oldBrandId)
-			{
-				brand_BrandService::getInstance()->setNeedCompile(array($oldBrandId));
-			}
-		}
 	}
 
 	/**
@@ -420,22 +407,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		
 		// Top shelf ID
 		$document->setTopshelfId(catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf)->getId());
-			
-		// Brand synchro.
-		$brand = $product->getBrand();
-		if ($brand !== null)
-		{
-			if ($brand->getId() != $document->getBrandId())
-			{
-				$document->setBrandId($brand->getId());
-				$this->refreshBrandInfo($document);
-			}
-		}
-		else if ($document->getBrandId() !== null)
-		{
-			$document->setBrandId(null);
-			$this->refreshBrandInfo($document);
-		}
+
 	}
 	
 	/**
@@ -459,20 +431,17 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	private function refreshBrandInfo($document)
 	{
-		$brand = $document->getBrand();
-		if ($brand !== null)
+		$product = $document->getProduct();
+		$brand = ($product) ? $product->getBrand() : null;
+		
+		if ($brand !== null && $brand->isPublished())
 		{
-			if ($brand->isContextLangAvailable())
-			{
-				$document->setBrandLabel($brand->getLabel());
-			}
-			else
-			{
-				$document->setBrandLabel($brand->getVoLabel());
-			}
+			$document->setBrandId($brand->getId());
+			$document->setBrandLabel($brand->getLabel());
 		}
 		else
 		{
+			$document->setBrandId(null);
 			$document->setBrandLabel(null);
 		}
 	}
@@ -529,10 +498,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
 		{
-			if ($document->getPrimary() && $document->getBrandId() !== null)
-			{
-				brand_BrandService::getInstance()->setNeedCompile(array($document->getBrandId()));
-			}
 			if (!isset($params['cause']) || $params["cause"] != "delete")
 			{
 				website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
