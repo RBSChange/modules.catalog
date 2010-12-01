@@ -96,7 +96,7 @@
 		<parameter name="listWidget" />
 		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
-			this.executeJSON("CompileProduct", {cmpref: document.id, lang:this.getContextLang()});
+			this.executeJSON("CompileProduct", {cmpref: document.id, lang: this.getContextLang()});
 		]]></body>
 	</action>
 	<action name="onCompileProductSuccess">
@@ -150,6 +150,20 @@
 				wCore.error('publicationInShopsDialog', [], e);
 				this.refreshMainViewDeck();
 			}
+		]]></body>
+	</action>
+	
+	<action name="setAsDefault">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var document = listWidget.getSelectedItems()[0];
+			this.executeJSON("SetDefaultShop", {cmpref: document.id, lang: this.getContextLang()});
+		]]></body>
+	</action>
+	<action name="onSetDefaultShopSuccess">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			this.refreshMainViewDeck();
 		]]></body>
 	</action>
 </actions>

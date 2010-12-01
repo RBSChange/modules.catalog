@@ -24,6 +24,7 @@
 			</children>
 			<columns>
 				<column name="website" label="Website" />
+				<column name="isDefault" label="IsDefault" />
 				<column name="startpublicationdate" label="Startpublicationdate" />
 				<column name="endpublicationdate" label="Endpublicationdate" />
 			</columns>
@@ -56,6 +57,7 @@
 					<contextaction name="createPaymentfilter" />
 					<contextaction name="initDefaultStructure" />
 				</groupactions>
+				<contextaction name="setAsDefault" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/shippingfilter">
@@ -244,5 +246,6 @@
 		<action name="compileProduct" single="true" icon="admin" />
 		<action name="exportAlertInfos" single="true" icon="download" />
 		<action name="showPublicationInShops" single="true" icon="status-detail" />
+		<action name="setAsDefault" single="true" icon="check" />
 	</actions>
 </perspective>

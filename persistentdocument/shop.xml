@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0" icon="shop" publish-on-day-change="true">
-  <properties>
-    <add name="publicationstatus" localized="true"/>
-    <add name="description" type="XHTMLFragment" localized="true"/>
-    <add name="topic" type="modules_website/systemtopic" min-occurs="1" inverse="true" cascade-delete="true">
-      <constraints>unique:true</constraints>
-    </add>
-    <add name="website" type="modules_website/website" min-occurs="1" inverse="true"/>
-    <add name="topShelf" type="modules_catalog/topshelf" min-occurs="0" max-occurs="-1" inverse="true" preserve-old-value="true"/>
-    <add name="shippingZone" type="modules_zone/zone" min-occurs="1"/>
-    <add name="billingZone" type="modules_zone/zone" min-occurs="1"/>
-    <add name="currencyCode" type="String" min-occurs="1" from-list="modules_catalog/currencycode" default-value="EUR"/>
-    <add name="currencyPosition" type="String" min-occurs="1" localized="true" from-list="modules_catalog/currencyposition" default-value="right"/>
-    <add name="defaultDetailVisual" type="modules_media/media"/>
-    <add name="defaultListVisual" type="modules_media/media"/>
-    <add name="displayPriceWithTax" type="Boolean" default-value="true"/>
-    <add name="displayPriceWithoutTax" type="Boolean" default-value="false"/>
-    <add name="displayOutOfStock" type="Boolean" default-value="false"/>
-    <add name="allowOrderOutOfStock" type="Boolean" default-value="false"/>
-    <add name="priceMode" type="String" default-value="btoc" from-list="modules_catalog/pricemodes"/>
-    <add name="pageTitle" type="LongString" localized="true"/>
-    <add name="pageDescription" type="LongString" localized="true"/>
-    <add name="pageKeywords" type="LongString" localized="true"/>
-    <add name="enableAvailabilityAlerts" type="Boolean" default-value="true"/>
-    <add name="availabilityAlertsDuration" type="String" default-value="3m"/>
-    <add name="enablePriceAlerts" type="Boolean" default-value="true"/>
-    <add name="priceAlertsDuration" type="String" default-value="3m"/>
-    <add name="enableCaptchaForAlerts" type="Boolean" default-value="true"/>
-    <add name="nbproductperpage" type="Integer" default-value="10">
-      <constraints>min:1;max:250</constraints>
-    </add>
-    <add name="enableComments" type="Boolean" default-value="true"/>
-    <add name="codeReference" type="String" db-size="50"/>
-  </properties>
-  <statuses default="ACTIVE"/>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
+	model-version="1.0" icon="shop" publish-on-day-change="true">
+	<properties>
+		<add name="publicationstatus" localized="true" />
+		<add name="description" type="XHTMLFragment" localized="true" />
+		<add name="topic" type="modules_website/systemtopic" min-occurs="1" inverse="true" cascade-delete="true">
+			<constraints>unique:true</constraints>
+		</add>
+		<add name="website" type="modules_website/website" min-occurs="1" inverse="true" />
+		<add name="topShelf" type="modules_catalog/topshelf" min-occurs="0" max-occurs="-1" inverse="true" preserve-old-value="true" />
+		<add name="shippingZone" type="modules_zone/zone" min-occurs="1" />
+		<add name="billingZone" type="modules_zone/zone" min-occurs="1" />
+		<add name="currencyCode" type="String" min-occurs="1" from-list="modules_catalog/currencycode" default-value="EUR" />
+		<add name="currencyPosition" type="String" min-occurs="1" localized="true" from-list="modules_catalog/currencyposition" default-value="right" />
+		<add name="defaultDetailVisual" type="modules_media/media" />
+		<add name="defaultListVisual" type="modules_media/media" />
+		<add name="displayPriceWithTax" type="Boolean" default-value="true" />
+		<add name="displayPriceWithoutTax" type="Boolean" default-value="false" />
+		<add name="displayOutOfStock" type="Boolean" default-value="false" />
+		<add name="allowOrderOutOfStock" type="Boolean" default-value="false" />
+		<add name="priceMode" type="String" default-value="btoc" from-list="modules_catalog/pricemodes" />
+		<add name="pageTitle" type="LongString" localized="true" />
+		<add name="pageDescription" type="LongString" localized="true" />
+		<add name="pageKeywords" type="LongString" localized="true" />
+		<add name="enableAvailabilityAlerts" type="Boolean" default-value="true" />
+		<add name="availabilityAlertsDuration" type="String" default-value="3m" />
+		<add name="enablePriceAlerts" type="Boolean" default-value="true" />
+		<add name="priceAlertsDuration" type="String" default-value="3m" />
+		<add name="enableCaptchaForAlerts" type="Boolean" default-value="true" />
+		<add name="nbproductperpage" type="Integer" default-value="10">
+			<constraints>min:1;max:250</constraints>
+		</add>
+		<add name="enableComments" type="Boolean" default-value="true" />
+		<add name="codeReference" type="String" db-size="50" />
+		<add name="isDefault" type="Boolean" />
+	</properties>
+	<statuses default="ACTIVE" />
 </document>

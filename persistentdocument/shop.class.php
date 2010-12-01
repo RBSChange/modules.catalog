@@ -85,6 +85,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 		if ($treeType === 'wlist')
 		{
 			$nodeAttributes['website'] = $this->getWebsite()->getLabel();
+			$nodeAttributes['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($this->getIsDefault() ? 'true' : 'false'));
 		}
 	}
 	
