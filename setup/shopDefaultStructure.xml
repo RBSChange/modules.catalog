@@ -25,7 +25,7 @@
 				<changeblock type="modules_catalog_comments" />
 			</changecontent>
 		</page>
-		<page label="Liste des produits assoicés" navigationVisibility="hidden">
+		<page label="Liste des produits associés" navigationVisibility="hidden">
 			<tag name="functional_catalog_crosssellinglist-page" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_productCrossSellingList" />
