@@ -3,7 +3,7 @@
  * Class where to put your custom methods for document catalog_persistentdocument_bundleproduct
  * @package modules.catalog.persistentdocument
  */
-class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase implements catalog_StockableDocument
+class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase implements catalog_StockableDocument, catalog_BundleProduct
 {
 	/**
 	 * @see catalog_persistentdocument_product::getDetailBlockName()
@@ -325,7 +325,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 					$newStock = $product->getStockQuantity();
 					if ($newStock !== null && $bundledItem->getQuantity() > 0)
 					{
-						$realStock = $newStock / $bundledItem->getQuantity();
+						$realStock = intval($newStock / $bundledItem->getQuantity());
 						if ($quantity === null || $quantity > $realStock)
 						{
 							$quantity = $realStock;
@@ -344,5 +344,18 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	public function mustSendStockAlert()
 	{
 		return false;
+	}
+	
+	/**
+	 * catalog_BundledProduct[]
+	 */
+	function getBundledProducts()
+	{
+		$bundledProducts = array();
+		foreach ($this->getBundleditemArray() as $bundledItem)
+		{
+			$bundledProducts[] = new catalog_BundledProductImpl($bundledItem->getProduct(), $bundledItem->getQuantity());
+		}
+		return $bundledProducts;
 	}
 }

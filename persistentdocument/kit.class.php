@@ -3,7 +3,7 @@
  * Class where to put your custom methods for document catalog_persistentdocument_kit
  * @package modules.catalog.persistentdocument
  */
-class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase implements catalog_StockableDocument
+class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase implements catalog_StockableDocument, catalog_BundleProduct 
 {
 	/**
 	 * @param string $moduleName
@@ -384,5 +384,19 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase 
 		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
 		$price2 = $this->getPrice($shop, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
+	}
+	
+	/**
+	 * catalog_BundledProduct[]
+	 */
+	function getBundledProducts()
+	{
+		$bundledProducts = array();
+		foreach ($this->getKititemArray() as $kitItem) 
+		{
+			$kitProduct = $kitItem->getDefaultProduct();
+			$bundledProducts[] = new catalog_BundledProductImpl($kitProduct, $kitItem->getQuantity());
+		}
+		return $bundledProducts;
 	}
 }
