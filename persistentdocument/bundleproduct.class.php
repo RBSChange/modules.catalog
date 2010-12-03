@@ -293,15 +293,14 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	{
 		if ($this->getBundleditemCount())
 		{
+			$stockService = catalog_StockService::getInstance();
 			foreach ($this->getBundleditemArray() as $bundledItem) 
 			{
 				$product = $bundledItem->getProduct();
-				if ($product instanceof catalog_StockableDocument)
+				if ($product instanceof catalog_StockableDocument
+					&& !$stockService->isAvailable($product, $bundledItem->getQuantity()))
 				{
-					if ($product->getStockLevel() === catalog_StockService::LEVEL_UNAVAILABLE)
-					{
-						return catalog_StockService::LEVEL_UNAVAILABLE;
-					}
+					return catalog_StockService::LEVEL_UNAVAILABLE;
 				}
 			}
 			return catalog_StockService::LEVEL_AVAILABLE;
