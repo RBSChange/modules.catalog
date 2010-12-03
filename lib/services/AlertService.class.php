@@ -268,10 +268,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			}
 		}
 		
-		if (!$document->hasUser())
-		{
-			$document->setPassword(f_util_StringUtils::randomString());
-		}
+		$document->setPassword(f_util_StringUtils::randomString());
 	}
 
 	/**
@@ -295,10 +292,8 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		$productLink = '<a href="'.$productUrl.'" class="link">'.$prpductLabel.'</a>';
 		
 		$catalogParam = array('alertId' => $alert->getId(), 'website_BlockAction_submit' => array('productAlertManagement' => array('RemoveAlert' => 'true')));
-		if (!$alert->hasUser())
-		{
-			$catalogParam['password'] = $alert->getPassword();
-		}
+		$catalogParam['password'] = $alert->getPassword();
+
 		$removeAlertParameters = array('catalogParam' => $catalogParam);
 		$removeAlertUrl = LinkHelper::getTagUrl('contextual_website_website_modules_catalog_product-alert-management', null, $removeAlertParameters);
 		$removeAlertLink = '<a href="'.$removeAlertUrl.'" class="link">'.f_Locale::translate('&modules.catalog.frontoffice.remove-alert;').'</a>';
