@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.general.column" lcid="fr_FR">
   <key id="website">site web</key>
+  <key id="isdefault">par défaut</key>
   <key id="startpublicationdate">début de publication</key>
   <key id="endpublicationdate">fin de publication</key>
 </i18n>

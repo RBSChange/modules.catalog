@@ -514,7 +514,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				$topic->delete();
 			}
 		}
-	}
+	}	
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document

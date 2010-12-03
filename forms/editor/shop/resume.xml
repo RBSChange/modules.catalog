@@ -4,6 +4,8 @@
 		<property name="label" labeli18n="modules.uixul.bo.doceditor.property.Label" />
 		<property name="author" labeli18n="modules.uixul.bo.doceditor.property.Author" />
 		<property name="creationdate" labeli18n="modules.uixul.bo.doceditor.property.Creationdate" />
+		<property name="website" labeli18n="modules.catalog.document.shop.Website" />
+		<property name="isDefault" class="action" type="setAsDefault" labeli18n="modules.catalog.document.shop.Isdefault" />
 		<property name="publishedproductcount" labeli18n="modules.catalog.document.shop.Published-product-count" />
 	</section>
 	<section name="publication" linkedtab="publication" labeli18n="modules.uixul.bo.doceditor.section.Status" image="{IconsBase}/small/status.png">

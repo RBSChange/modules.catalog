@@ -178,13 +178,22 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	public function getDefaultByWebsiteId($websiteId)
 	{
-		// TODO: add a default property on shop ?
 		if (!isset($this->defaultShopByWebsiteId[$websiteId]))
 		{
-			$query = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))->add(Restrictions::published());
-			$this->defaultShopByWebsiteId[$websiteId] = f_util_ArrayUtils::firstElement($query->find());
+			$query = catalog_ShopService::getInstance()->createQuery();
+			$query->add(Restrictions::eq('isDefault', true));
+			$query->add(Restrictions::eq('website.id', $websiteId));
+			$this->defaultShopByWebsiteId[$websiteId] = $query->findUnique();
 		}
 		return $this->defaultShopByWebsiteId[$websiteId];
+	}
+	
+	/**
+	 * @param integer $websiteId
+	 */
+	private function setDefaultByWebsiteId($websiteId, $shop)
+	{
+		$this->defaultShopByWebsiteId[$websiteId] = $shop;
 	}
 	
 	/**
@@ -301,6 +310,18 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	}
 
 	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function setAsDefault($shop)
+	{
+		if (!$shop->getIsDefault())
+		{
+			$shop->setIsDefault(true);
+			$shop->save();
+		}
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_shop $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
@@ -314,6 +335,20 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		
 		// Generate compiled products.
 		catalog_ProductService::getInstance()->setNeedCompileForShop($document);
+	}
+
+	/**
+	 * @param catalog_persistentdocument_shop $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preInsert($document, $parentNodeId)
+	{
+		// If there is no default shop for this website, set this shop ad default.
+		if (!$document->getIsDefault() && $this->getDefaultByWebsite($document->getWebsite()) === null)
+		{
+			$document->setIsDefault(true);
+		}
 	}
 
 	/**
@@ -357,32 +392,27 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function postSave($document, $parentNodeId)
 	{
-		// Ensure that there may be only one valid shop by website on a given time period.
-		$query = $this->createQuery()
-			->add(Restrictions::ne('id', $document->getId()))
-			->add(Restrictions::eq('website', $document->getWebsite()));
-		$endDate = $document->getEndpublicationdate();
-		if ($endDate !== null)
-		{
-			$query->add(Restrictions::orExp(Restrictions::isEmpty('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)));
-		}
-		$startDate = $document->getStartpublicationdate();
-		if ($startDate !== null)
-		{
-			$query->add(Restrictions::orExp(Restrictions::isEmpty('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
-		}
-
-		if ($query->findUnique() !== null)
-		{
-			throw new BaseException('There may be only one valid shop by website on a given time period.', 'modules.catalog.document.shop.exception.Publication-period-conflict');
-		}
-		
 		// Fix referenceId if set to -1 (when the topic is created in the pre-save).
 		$topic = $document->getTopic();
 		if ($topic->getReferenceId() === -1)
 		{
 			$topic->setReferenceId($document->getId());
 			$topic->save();
+		}
+		
+		// If this shop is now default, update other shops of this website.
+		if ($document->isPropertyModified('isDefault') && $document->getIsDefault())
+		{
+			$query = catalog_ShopService::getInstance()->createQuery();
+			$query->add(Restrictions::eq('isDefault', true));
+			$query->add(Restrictions::eq('website', $document->getWebsite()));
+			$query->add(Restrictions::ne('id', $document->getId()));
+			foreach ($query->find() as $shop)
+			{
+				$shop->setIsDefault(false);
+				$shop->save();	
+			}
+			$this->setDefaultByWebsiteId($document->getWebsite()->getId(), $document);
 		}
 	}
 
@@ -499,6 +529,8 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	public function getResume($document, $forModuleName, $allowedSections = null)
 	{
 		$data = parent::getResume($document, $forModuleName, $allowedSections);
+		$data['properties']['website'] = $document->getWebsite()->getLabel();
+		$data['properties']['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		$data['properties']['publishedproductcount'] = $this->getPublishedProductCountByShop($document);
 		return $data;
 	}
