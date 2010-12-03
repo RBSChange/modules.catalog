@@ -92,19 +92,19 @@ class catalog_BlockProductAlertManagementAction extends website_BlockAction
 		{
 			return false;
 		}
-	
+		
+		$password = $alert->getPassword();
+		if ($password !== null && $password === $request->getParameter('password'))
+		{
+			return true;
+		}
+		
 		$currentUser = users_UserService::getInstance()->getCurrentFrontEndUser();
 		if ($currentUser !== null && $currentUser->getId() == $alert->getUserId())
 		{
 			return true;
 		}
-				
-		$password = $alert->getPassword();
-		if ($password !== null && $request->hasParameter('password') && $password == $request->getParameter('password'))
-		{
-			return true;
-		}
-		
+
 		return false;
 	}
 }
