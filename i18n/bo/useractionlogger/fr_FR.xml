@@ -102,4 +102,6 @@
   <key id="log-update-virtualproduct">log-update-virtualproduct</key>
   <key id="compileproduct-virtualproduct">compileproduct.virtualproduct {lang} {documentlabel}</key>
   <key id="log-compileproduct-virtualproduct">log-compileproduct-virtualproduct</key>
+  <key id="reactivate-declinedproduct">reactivate.declinedproduct {lang} {documentlabel}</key>
+  <key id="log-reactivate-declinedproduct">log reactivate declinedproduct</key>
 </i18n>

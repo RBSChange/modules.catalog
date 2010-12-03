@@ -55,4 +55,5 @@
   <actiondef modulename="catalog" actionname="insert.virtualproduct" label="modules.catalog.bo.useractionlogger.insert-virtualproduct"/>
   <actiondef modulename="catalog" actionname="update.virtualproduct" label="modules.catalog.bo.useractionlogger.update-virtualproduct"/>
   <actiondef modulename="catalog" actionname="compileproduct.virtualproduct" label="modules.catalog.bo.useractionlogger.compileproduct-virtualproduct"/>
+  <actiondef modulename="catalog" actionname="reactivate.declinedproduct" label="m.catalog.bo.useractionlogger.reactivate-declinedproduct"/>
 </script>

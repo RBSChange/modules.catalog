@@ -734,7 +734,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_price $tmpPriceInfo
 	 * @param catalog_persistentdocument_price[] prices
@@ -826,6 +826,142 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		throw new Exception('Unable to insert price:' . $compare);
 	}
+	
+	/**
+	 * @param integer $productId
+	 * @param integer $shopId
+	 * @param integer $targetId
+	 * @param integer $thresholdMin
+	 * @param integer $priority
+	 * @param datetime $startDate
+	 * @param datetime $endDate
+	 * @return integer
+	 */
+	public function deletePrice($productId, $shopId, $targetId, $thresholdMin, $priority, $startDate, $endDate)
+	{
+		try 
+		{
+			$this->tm->beginTransaction();	
+				
+			$query = $this->createQuery()
+				->add(Restrictions::eq('productId', $productId))
+				->add(Restrictions::eq('shopId', $shopId))
+				->add(Restrictions::eq('targetId', $targetId))
+				->add(Restrictions::eq('priority', $priority))
+				->add(Restrictions::eq('thresholdMin', $thresholdMin));
+				
+			if ($startDate !== null)
+			{
+				$query->add(Restrictions::orExp(Restrictions::isNull('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
+			}
+			
+			if ($endDate !== null)
+			{
+				$query->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)));
+			}
+			$query->addOrder(Order::asc('startpublicationdate'));
+			$prices = $query->find();
+			
+			$result = $this->deletePriceInternal($startDate, $endDate, $prices);
+
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+			throw $e;
+		}
+		return $result;
+	}
+	
+	/**
+	 * @param datetime $startDate
+	 * @param datetime $endDate
+	 * @param catalog_persistentdocument_price[] prices
+	 * @return integer
+	 */
+	private function deletePriceInternal($startDate, $endDate, $prices)
+	{
+		$nbPrices = count($prices);
+		if ($nbPrices == 0)
+		{
+			return $nbPrices;
+		}
+		$result = 0;
+		
+		$firstPrice = $prices[0];
+		$lastPrice = ($nbPrices > 1) ? $prices[$nbPrices - 1] : null;
+		foreach ($prices as $toDelete) 
+		{
+			if ($toDelete === $lastPrice || $toDelete === $firstPrice) {continue;}
+			$toDelete->delete();
+			$result++;
+		}
+		
+		$compare = $this->comparePublicationDate($startDate, $endDate, $firstPrice->getStartpublicationdate(), $firstPrice->getEndpublicationdate());
+		//Framework::info(__METHOD__ . " compare:" . $compare);	
+		switch ($compare) 
+		{
+			case 'equal':
+				$firstPrice->delete();
+				$result++;
+				return $result;
+				
+			case 'part':
+				$result--;
+				$lastPrice = $firstPrice->getDocumentService()->getNewDocumentInstance();
+				$firstPrice->copyPropertiesTo($lastPrice, false);
+				$firstPrice->setEndpublicationdate($startDate);
+				$lastPrice->setStartpublicationdate($endDate);
+				$firstPrice->save();
+				$lastPrice->save();
+				return $result;
+				
+			case 'include':
+				if ($lastPrice !== null)
+				{
+					if ($this->comparePublicationDate($startDate, $endDate, $lastPrice->getStartpublicationdate(), $lastPrice->getEndpublicationdate()) === 'endbefore') 
+					{
+						$lastPrice->setStartpublicationdate($endDate);
+						$lastPrice->save();
+					}
+					else
+					{
+						$result++;
+						$lastPrice->delete();
+					}
+				}
+				$result++;
+				$firstPrice->delete();
+				return $result;
+				
+			case 'startafter':
+				$firstPrice->setEndpublicationdate($startDate);
+				$firstPrice->save();
+				if ($lastPrice !== null)
+				{
+					if ($this->compareDate($startDate, $endDate, $lastPrice->getStartpublicationdate(), $lastPrice->getEndpublicationdate()) === 'endbefore') 
+					{
+						$lastPrice->setStartpublicationdate($endDate);
+						$lastPrice->save();
+					}
+					else
+					{
+						$result++;
+						$lastPrice->delete();
+					}
+				}
+				return $result;
+				
+			case 'endbefore':	
+				$firstPrice->setStartpublicationdate($endDate);
+				$firstPrice->save();
+				return $result;
+		}
+		throw new Exception('Unable to insert price:' . $compare);
+	}
+	
+
 
 	
 	/**
@@ -858,15 +994,24 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	private function compareDate($priceA, $priceB)
 	{
 		$startA = $priceA->getStartpublicationdate();
-		if ($startA === null) {$startA = "0000-00-00 00:00:00";}
-		
 		$endA = $priceA->getEndpublicationdate();
-		if ($endA === null) {$endA = "9999-99-99 99:99:99";}
-		
 		$startB = $priceB->getStartpublicationdate();
-		if ($startB === null) {$startB = "0000-00-00 00:00:00";}
-		
 		$endB = $priceB->getEndpublicationdate();
+		return $this->comparePublicationDate($startA, $endA, $startB, $endB);
+	}
+
+	/**
+	 * @param datetime $startA
+	 * @param datetime $endA
+	 * @param datetime $startB
+	 * @param datetime $endB
+	 * @return priceA equal | part | include | startafter | endbefore | exclude
+	 */
+	private function comparePublicationDate($startA, $endA, $startB, $endB)
+	{
+		if ($startA === null) {$startA = "0000-00-00 00:00:00";}
+		if ($endA === null) {$endA = "9999-99-99 99:99:99";}
+		if ($startB === null) {$startB = "0000-00-00 00:00:00";}
 		if ($endB === null) {$endB = "9999-99-99 99:99:99";}
 		
 		//Framework::info(__METHOD__ . "($startA / $endA) ($startB / $endB)");
@@ -902,7 +1047,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		return 'include';
 		
 	}
-	
 	// Deprecated.
 		
 	/**
