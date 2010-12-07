@@ -60,13 +60,12 @@ class catalog_StockService extends BaseService
 	}
 	
 	/**
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param catalog_StockableDocument $stDoc
 	 * @param double $quantity
 	 * @param order_CartInfo $cart
 	 */
-	public function isValidCartQuantity($document, $quantity, $cart)
+	protected function isValidCartQuantity($stDoc, $quantity, $cart)
 	{
-		$stDoc = $this->getStockableDocument($document);
 		if ($stDoc !== null)
 		{
 			$stock = $stDoc->getCurrentStockQuantity();
@@ -75,6 +74,25 @@ class catalog_StockService extends BaseService
 		return true;
 	}
 	
+	
+	/**
+	 * @param array $productArray
+	 * @param order_CartInfo $cart
+	 * @return array
+	 */
+	public function validCartQuantities($productArray, $cart)
+	{
+		$result = array();
+		foreach ($productArray as $productInfo) 
+		{
+			$stDoc = $this->getStockableDocument($productInfo[0]);
+			if (!$this->isValidCartQuantity($stDoc, $productInfo[1], $cart))
+			{
+				$result[] = $productInfo;
+			}
+		}
+		return $result;
+	}	
 	
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document

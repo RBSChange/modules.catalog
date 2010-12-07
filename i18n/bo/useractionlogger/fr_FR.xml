@@ -104,4 +104,6 @@
   <key id="log-compileproduct-virtualproduct">log-compileproduct-virtualproduct</key>
   <key id="reactivate-declinedproduct">reactivate.declinedproduct {lang} {documentlabel}</key>
   <key id="log-reactivate-declinedproduct">log reactivate declinedproduct</key>
+  <key id="savepermissions-rootfolder">savepermissions.rootfolder {documentlabel}</key>
+  <key id="log-savepermissions-rootfolder">log savepermissions rootfolder</key>
 </i18n>

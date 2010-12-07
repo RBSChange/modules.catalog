@@ -3,7 +3,8 @@
  * Class where to put your custom methods for document catalog_persistentdocument_bundleproduct
  * @package modules.catalog.persistentdocument
  */
-class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase implements catalog_StockableDocument
+class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase 
+	implements catalog_StockableDocument, catalog_BundleProduct
 {
 	/**
 	 * @see catalog_persistentdocument_product::getDetailBlockName()
@@ -253,5 +254,18 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
 		$price2 = $this->getPrice($shop, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
+	}
+	
+	/**
+	 * catalog_BundledProduct[]
+	 */
+	public function getBundledProducts()
+	{
+		$bundledProducts = array();
+		foreach ($this->getBundleditemArray() as $bundledItem)
+		{
+			$bundledProducts[] = new catalog_BundledProductImpl($bundledItem->getProduct(), $bundledItem->getQuantity());
+		}
+		return $bundledProducts;
 	}
 }
