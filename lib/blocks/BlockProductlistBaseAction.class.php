@@ -290,101 +290,55 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig = $this->getDisplayConfig($shop);
 		$request->setAttribute('displayConfig', $displayConfig);
 		
-		if ($displayConfig['showQuantitySelector'])
+		// Handle quanities field.
+		$quantities = array();
+		if ($request->hasParameter('quantities'))
 		{
-			// Handle quanities field.
-			$quantities = array();
-			if ($request->hasParameter('quantities'))
+			foreach ($request->getParameter('quantities') as $id => $quantity)
 			{
-				foreach ($request->getParameter('quantities') as $id => $quantity)
-				{
-					$quantities[$id] =  intval($quantity);
-				}
+				$quantities[$id] =  intval($quantity);
 			}
-			$request->setAttribute('quantities', $quantities);
 		}
+		$request->setAttribute('quantities', $quantities);
 		
 		if (!$request->hasParameter('formBlockId') || $request->getParameter('formBlockId') == $this->getBlockId())
 		{
-			if ($displayConfig['showAddToFavorite'])
+			// Handle "Add to favorite".
+			if ($displayConfig['showAddToFavorite'] && $request->hasParameter('addToFavorite'))
 			{
-				// Handle "Add to favorite".
-				if ($request->hasParameter('addToFavorite'))
+				foreach ($request->getParameter('selected_product') as $id)
 				{
-					foreach ($request->getParameter('selected_product') as $id)
-					{
-						$this->addToFavorite(DocumentHelper::getDocumentInstance($id));
-					}
-					$this->addMessagesToBlock('add-to-favorite');
+					$this->addToFavorite(DocumentHelper::getDocumentInstance($id));
 				}
+				$this->addMessagesToBlock('add-to-favorite');
 			}
 			
-			if ($displayConfig['showAddToCart'])
+			// Handle "Add to cart".
+			if ($displayConfig['showAddToCart'] && $request->hasParameter('addToCart'))
 			{
-				// Handle "Add to cart".
-				if ($request->hasParameter('addToCart'))
+				$productIdsToAdd = array();
+				$addToCart = $request->getParameter('addToCart');
+				if (is_array($addToCart))
 				{
-					$productsToAdd = array();
-					
-					// List all products to add.		
-					$addToCart = $request->getParameter('addToCart');
-					if (is_array($addToCart))
-					{
-						foreach (array_keys($addToCart) as $id)
-						{
-							if ($displayConfig['showQuantitySelector'])
-							{
-								$quantity = max(intval($quantities[$id]), 1);
-							}
-							else
-							{
-								$quantity = 1;
-							}
-							$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => $quantity);
-						}
-					}
-					else if ($request->hasParameter('selected_product'))
-					{	
-						$addToCart = $request->getParameter('selected_product');
-						if (is_array($addToCart))
-						{			
-							// Add each product with no quantity but the checkbox checked (with quantity of 1).
-							foreach ($addToCart as $id)
-							{
-								if (!array_key_exists($id, $productsToAdd))
-								{
-									$productsToAdd[$id] = array('product' => DocumentHelper::getDocumentInstance($id), 'quantity' => max(intval($quantities[$id]), 1));
-								}
-							}
-						}
-					}
-					
-					// Really add the products to the cart.			
-					$cs = order_CartService::getInstance();
-					$cart = $cs->getDocumentInstanceFromSession();
-					
-					$productAdded = false;
-					foreach ($productsToAdd as $item)
-					{
-						if ($cs->addProductToCart($cart, $item['product'], $item['quantity']))
-						{
-							$this->addedProductLabels[] = $item['product']->getLabelAsHtml();
-							$productAdded = true;
-						}
-						else
-						{
-							$this->notAddedProductLabels[] = $item['product']->getLabelAsHtml();
-						}
-					}
-					
-					if ($productAdded)
-					{
-						$cart->refresh();						
-					}
-								
-					// Set the messages.
-					$this->addMessagesToBlock('add-to-cart');
+					$productIdsToAdd = $addToCart;
 				}
+				else if ($request->hasParameter('selected_product'))
+				{	
+					$addToCart = $request->getParameter('selected_product');
+					if (is_array($addToCart))
+					{		
+						$productIdsToAdd = array_flip($addToCart);
+					}
+				}
+				
+				$params = array(
+					'backurl' => LinkHelper::getCurrentUrl(),
+					'shopId' => $shop->getId(),
+					'quantities' => array_intersect_key($quantities, $productIdsToAdd),
+					'productIds' => array_keys($productIdsToAdd)
+				);
+				$url = LinkHelper::getActionUrl('order', 'AddToCartMultiple', $params);
+				$this->redirectToUrl($url);
 			}
 		}
 		
@@ -394,7 +348,6 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}
 		$request->setAttribute('customer', $customer);
-		
 		
 		$templateName = 'Catalog-Block-Productlist-' . ucfirst($this->getDisplayMode($request));
 		if ($this->useCache())

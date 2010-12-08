@@ -90,36 +90,44 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */
-	public function getCurrentShop()
+	public function getCurrentShop($useCache = true)
 	{
-		if ($this->currentShop === null)
+		$shop = null;
+		if ($useCache)
+		{
+			$shop = $this->currentShop;
+		}
+		if ($shop === null)
 		{
 			// From page...
 			$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
-			$this->currentShop = $this->getShopFromPageId($pageId);
+			$shop = $this->getShopFromPageId($pageId);
 			
 			// or from cart...
-			// TODO: without recursion...
-			/*if ($this->currentShop === null && catalog_ModuleService::getInstance()->isCartEnabled())
+			if ($shop === null && catalog_ModuleService::getInstance()->isCartEnabled())
 			{
 				$cart = order_CartService::getInstance()->getDocumentInstanceFromSession();
 				if ($cart !== null && $cart->getShopId() !== null)
 				{
-					$this->currentShop = $cart->getShop();
+					$shop = $cart->getShop();
 				}
-			}*/
+			}
 	
 			// or default one for website.
-			if ($this->currentShop === null)
+			if ($shop === null)
 			{
 				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
 				if ($website !== null)
 				{
-					$this->currentShop = $this->getDefaultByWebsite($website);
+					$shop = $this->getDefaultByWebsite($website);
 				}
 			}
 		}
-		return $this->currentShop;
+		if ($useCache)
+		{
+			$this->currentShop = $shop;
+		}
+		return $shop;
 	}
 	
 	/**
@@ -181,6 +189,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		if (!isset($this->defaultShopByWebsiteId[$websiteId]))
 		{
 			$query = catalog_ShopService::getInstance()->createQuery();
+			$query->add(Restrictions::published());
 			$query->add(Restrictions::eq('isDefault', true));
 			$query->add(Restrictions::eq('website.id', $websiteId));
 			$this->defaultShopByWebsiteId[$websiteId] = $query->findUnique();
@@ -514,11 +523,11 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function getPublishedProductCountByShop($shop)
 	{
-		$count =  catalog_CompiledproductService::getInstance()->createQuery()
-					->add(Restrictions::published())
-					->add(Restrictions::eq('shopId', $shop->getId()))
-					->add(Restrictions::eq('primary', true))
-					->setProjection(Projections::rowCount('count'))->findColumn('count');
+		$count = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::published())
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('primary', true))
+			->setProjection(Projections::rowCount('count'))->findColumn('count');
 		return f_util_ArrayUtils::firstElement($count);
 	}
 	
@@ -534,7 +543,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		$data['properties']['publishedproductcount'] = $this->getPublishedProductCountByShop($document);
 		return $data;
 	}
-	
+		
 	// Depreacted
 	
 	/**

@@ -3,6 +3,8 @@
 
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
 
+<tal:block change:block="" module="order" name="CartMessages" />
+
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
 
@@ -24,7 +26,7 @@
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
 			<strong change:translate="modules.catalog.frontoffice.BrandLabel"></strong>
 			<a change:link="document brand">
-				<tal:block tal:condition="not:brandVisual">${brand/getlabelAsHtml}</tal:block>
+				<tal:block tal:condition="not:brandVisual">${brand/getLabelAsHtml}</tal:block>
 				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 			</a>
 		</tal:block>
@@ -36,57 +38,54 @@
 				</li>
 				<li>				
 					<fieldset>		
-						<ol>
-							<li>						
-								<label for="product-declination" change:translate="modules.catalog.frontoffice.Detail-declinationsLabel"></label>
-								<select class="textfield" id="product-declination" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
-									<tal:block tal:repeat="adeclination php: product.getDisplayableDeclinations(shop)">
-										<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
-										<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
-									</tal:block>
-								</select>
-								<noscript>
-									<input type="submit" class="button" change:i18nattr="value &modules.catalog.frontoffice.Refresh-declined;" />
-								</noscript>
-							</li>
-							<li>						
-								<label for="product-quantity" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
-								<input class="textfield" id="product-quantity" type="text" size="3" name="catalogParam[quantity]" value="${quantity}" />
-							</li>
-						</ol>
+						<label for="product-declination" change:translate="modules.catalog.frontoffice.Detail-declinationsLabel"></label>
+						<select class="textfield" id="product-declination" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
+							<tal:block tal:repeat="adeclination php: product.getDisplayableDeclinations(shop)">
+								<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
+								<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
+							</tal:block>
+						</select>
+						<noscript>
+							<input type="submit" class="button" change:i18nattr="value &modules.catalog.frontoffice.Refresh-declined;" />
+						</noscript>
 					</fieldset>
 				</li>
-			</ol>
-			
-			<!-- Disponibilité -->
-			<p tal:define="availability declination/getAvailability" tal:condition="availability" class="normal availability">${availability}</p>
-			
-			<ul>
-				<!-- Prix HT -->
-				<li tal:condition="displayConfig/showPricesWithoutTax">
-					<strong change:translate="modules.catalog.frontoffice.PricehtLabel"></strong>
-					<span class="priceht">				
-						<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithoutTax}</del></tal:block>
-						${defaultPrice/getFormattedValueWithoutTax}
-					</span>
-				</li>
-		    	
-				<!-- Prix TTC -->
-				<li tal:condition="displayConfig/showPricesWithTax">
-					<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
-					<span class="pricettc">				
-						<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithTax}</del></tal:block>		
-						${defaultPrice/getFormattedValueWithTax}
-					</span>
-				</li>
-			</ul>
-			
-			<!-- ajouter au panier -->
-			<p class="buttons" tal:condition="php: declination.canBeOrdered(shop)">
-				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.TitleHrefAddToCart;"></input>
-			</p>
+			</ol>			
 		</form>
 		
+		<!-- Disponibilité -->
+		<p tal:define="availability declination/getAvailability" tal:condition="availability" class="normal availability">${availability}</p>
+		
+		<ul>
+			<!-- Prix HT -->
+			<li tal:condition="displayConfig/showPricesWithoutTax">
+				<strong change:translate="modules.catalog.frontoffice.PricehtLabel"></strong>
+				<span class="priceht">				
+					<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithoutTax}</del></tal:block>
+					${defaultPrice/getFormattedValueWithoutTax}
+				</span>
+			</li>
+	    	
+			<!-- Prix TTC -->
+			<li tal:condition="displayConfig/showPricesWithTax">
+				<strong change:translate="modules.catalog.frontoffice.PricettcLabel"></strong>
+				<span class="pricettc">				
+					<tal:block tal:condition="defaultPrice/isDiscount"><del>${defaultPrice/getFormattedOldValueWithTax}</del></tal:block>		
+					${defaultPrice/getFormattedValueWithTax}
+				</span>
+			</li>
+		</ul>
+			
+		<!-- ajouter au panier -->
+		<form tal:condition="php: declination.canBeOrdered(shop)" class="product-form" change:link="module order; action AddToCart" method="post">
+			<fieldset>		
+				<label for="product-quantity" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
+				<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="${quantity}" />
+			</fieldset>			
+			<p class="buttons">
+				<tal:block change:addtocartbutton="shop shop; product declination" />
+			</p>
+		</form>
 		<tal:block change:block="" module="catalog" name="ProductAlert" />
 	</div>
 	<!-- End - Product information -->

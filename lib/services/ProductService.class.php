@@ -279,6 +279,16 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}	
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param array $properties
+	 * @return void
+	 */
+	public function updateProductFromRequestParameters($product, $parameters)
+	{
+		return;
+	}	
+	
+	/**
 	 * @var catalog_persistentdocument_shop
 	 */
 	private $currentShopForResume = null;
@@ -650,7 +660,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 			else 
 			{
-				$currentShop = $shopService->getCurrentShop();
+				$currentShop = $shopService->getCurrentShop(false);
 				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
 				{
 					$parameters['catalogParam']['shopId'] = $currentShop->getId();
@@ -677,7 +687,8 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 			else 
 			{
-				$shop = $shopService->getCurrentShop();
+				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+				$shop = $shopService->getDefaultByWebsite($website);
 			}
 			if ($shop === null)
 			{

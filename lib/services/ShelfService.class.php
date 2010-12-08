@@ -770,7 +770,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
 		$shopService = catalog_ShopService::getInstance();
 		$defaultShop = $shopService->getDefaultByWebsite($website);
-		if  ($defaultShop !== null)
+		if ($defaultShop !== null)
 		{
 			$defaultShopId = $defaultShop->getId();
 			if (isset($parameters['catalogParam']['shopId']) && $defaultShopId == $parameters['catalogParam']['shopId'])
@@ -779,7 +779,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			}
 			else 
 			{
-				$currentShop = $shopService->getCurrentShop();
+				$currentShop = $shopService->getCurrentShop(false);
 				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
 				{
 					$parameters['catalogParam']['shopId'] = $currentShop->getId();
@@ -796,7 +796,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	public function getDisplayPage($document)
 	{
 		$model = $document->getPersistentModel();
-		if ($model->hasURL() && $document->isPublished())
+		if ($document->isPublished())
 		{
 			$shopService = catalog_ShopService::getInstance();
 			$shop = $shopService->getShopFromRequest('shopId');
@@ -806,7 +806,8 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			}
 			else 
 			{
-				$shop = $shopService->getCurrentShop();
+				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+				$shop = $shopService->getDefaultByWebsite($website);
 			}
 			if ($shop === null)
 			{

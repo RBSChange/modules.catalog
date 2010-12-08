@@ -6,6 +6,8 @@
 
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module 'catalog'; template 'Catalog-Inc-ProductListOrderOptions'; type 'html'; displayConfig displayConfig; valueSortOption valueSortOption;"/>
 
+<tal:block change:block="" module="order" name="CartMessages" />
+
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
 

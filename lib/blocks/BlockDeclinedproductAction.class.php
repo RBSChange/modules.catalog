@@ -56,12 +56,6 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			return website_BlockView::NONE;
 		}
 		
-		// Add to cart if needed.
-		if ($request->getParameter('addToCart') !== null)
-		{
-			$this->addProductToCart($declination);
-		}
-
 		// Add to product list if needed.
 		if ($request->getParameter('addToList') !== null)
 		{

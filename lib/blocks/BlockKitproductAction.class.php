@@ -5,7 +5,6 @@
  */
 class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 {
-	
 	/**
 	 * @return catalog_persistentdocument_kit
 	 */
@@ -24,30 +23,10 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 	function execute($request, $response)
 	{
 		$product = $this->getCurrentKit();
+		$kis = $product->getDocumentService();
+		$kis->updateProductFromRequestParameters($product, $request->getParameters());
 		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
 		
-		$kis = $product->getDocumentService();		
-		if ($request->hasParameter('customitems'))
-		{
-			$customItems = $request->getParameter('customitems');
-			if (!is_array($customItems))
-			{
-				$customItems = array();
-			}
-		}
-		else
-		{
-			$customItems = array();
-		}		
-		$kis->setCustomItemsInfo($product, $shop, $customItems);
-		
-		
-		// Add to cart if needed.
-		if ($request->getParameter('addToCart') !== null)
-		{
-			$this->addProductToCart($product);
-		}
-
 		// Add to product list if needed.
 		if ($request->getParameter('addToList') !== null)
 		{

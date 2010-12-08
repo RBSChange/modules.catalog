@@ -8,6 +8,19 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 	/** 
 	 * @param catalog_persistentdocument_product $product
 	 */
+	protected function addProductToFavorites($product)
+	{
+		if (catalog_ModuleService::getInstance()->addFavoriteProduct($product))
+		{
+			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Product-added-to-list;'));
+		}
+	}
+	
+	// Deprecated.
+	
+	/** 
+	 * @deprecated (will be removed in 4.0) use order_AddToCartAction
+	 */
 	protected function addProductToCart($product)
 	{
 		$ocs = order_CartService::getInstance();
@@ -25,17 +38,6 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 				$this->addError($msg);
 			}
 			$cart->clearErrorMessages();
-		}
-	}
-	
-	/** 
-	 * @param catalog_persistentdocument_product $product
-	 */
-	protected function addProductToFavorites($product)
-	{
-		if (catalog_ModuleService::getInstance()->addFavoriteProduct($product))
-		{
-			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Product-added-to-list;'));
 		}
 	}
 }

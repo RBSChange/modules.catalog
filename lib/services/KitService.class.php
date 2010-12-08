@@ -361,6 +361,29 @@ class catalog_KitService extends catalog_ProductService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param array $properties
+	 * @return void
+	 */
+	public function updateProductFromRequestParameters($product, $parameters)
+	{
+		if (array_key_exists('customitems', $parameters))
+		{
+			$customItems = $parameters['customitems'];
+			if (!is_array($customItems))
+			{
+				$customItems = array();
+			}
+		}
+		else
+		{
+			$customItems = array();
+		}		
+		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
+		$this->setCustomItemsInfo($product, $shop, $customItems);
+	}
+
+	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @param double $quantity
 	 * @return double | null

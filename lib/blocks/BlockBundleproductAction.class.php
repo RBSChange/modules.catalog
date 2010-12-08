@@ -16,12 +16,6 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 	{
 		$product = $this->getDocumentParameter();
 		
-		// Add to cart if needed.
-		if ($request->getParameter('addToCart') !== null)
-		{
-			$this->addProductToCart($product);
-		}
-
 		// Add to product list if needed.
 		if ($request->getParameter('addToList') !== null)
 		{

@@ -1,10 +1,11 @@
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
 
 <h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
-
 <div tal:condition="blockDescription" class="product-list-description">${blockDescription}</div>
 
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module 'catalog'; template 'Catalog-Inc-ProductListOrderOptions'; type 'html'; displayConfig displayConfig; valueSortOption valueSortOption;"/>
+
+<tal:block change:block="" module="order" name="CartMessages" />
 
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>

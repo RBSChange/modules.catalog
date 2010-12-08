@@ -6,6 +6,8 @@
 
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true';"/>
 
+<tal:block change:block="" module="order" name="CartMessages" />
+
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
 
@@ -16,7 +18,7 @@
 	<div class="shelves-display compare">
 		<ol class="table-view">
 			<tal:block tal:repeat="product products">
-				<li tal:define="id product/getId" change:productprice="name 'price'; product product">
+				<li class="product-line" tal:define="id product/getId" change:productprice="name 'price'; product product">
 					<ul class="sub-list">
 						<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]; fieldid string:catalogParam_selected_product_$id">
 							<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; name name; value id" type="checkbox"/>
