@@ -18,13 +18,15 @@
 	<div class="shelves-display compare">
 		<ol class="table-view">
 			<tal:block tal:repeat="product products">
-				<li class="product-line" tal:define="id product/getId" change:productprice="name 'price'; product product">
+				<li class="product-line" tal:define="id product/getId; canBeOrdered php: product.canBeOrdered(shop)" change:productprice="name 'price'; product product">
 					<ul class="sub-list">
+						<tal:block tal:condition="canBeOrdered">
 						<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]; fieldid string:catalogParam_selected_product_$id">
 							<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; name name; value id" type="checkbox"/>
 							<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id fieldid; name name; value id" type="checkbox"/>
-							<label tal:attributes="for fieldid" change:translate="modules.catalog.frontoffice.Select"></label>	
+							<label tal:attributes="for fieldid" change:translate="modules.catalog.frontoffice.Select"></label>
 						</li>
+						</tal:block>
 						<li change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual">
 							<a change:link="document product" tal:attributes="title product/getLinkTitle">
 		          				<img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" />
@@ -54,7 +56,7 @@
 							</span>
 						</li>
 						<tal:block tal:condition="displayConfig/showAddToCart">
-							<li tal:condition="php: product.canBeOrdered(shop)">
+							<li tal:condition="canBeOrdered">
 								<tal:block tal:condition="displayConfig/showQuantitySelector">
 									<label class="invisible" for="catalogParam_quantities_${id}" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
 	                				<input class="textfield quantity-selector" type="text" size="3" id="catalogParam_quantities_${id}" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
