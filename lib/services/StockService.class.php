@@ -83,6 +83,10 @@ class catalog_StockService extends BaseService
 	public function validCartQuantities($productArray, $cart)
 	{
 		$result = array();
+		if ($cart->getShop()->getAllowOrderOutOfStock())
+		{
+			return $result;
+		}
 		foreach ($productArray as $productInfo) 
 		{
 			$stDoc = $this->getStockableDocument($productInfo[0]);
