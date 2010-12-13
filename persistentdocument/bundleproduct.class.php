@@ -255,7 +255,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 		$price2 = $this->getPrice($shop, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
 	}
-	
+
 	/**
 	 * catalog_BundledProduct[]
 	 */
