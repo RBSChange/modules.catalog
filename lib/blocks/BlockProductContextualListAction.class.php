@@ -165,6 +165,21 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	
 	protected function persistSortOptions($request)
 	{
+		$topicId = $this->getPage()->getNearestContainerId();
+		$sessionKey = "ProductContextualListSortOptions";
+		if (!isset($_SESSION[$sessionKey]))
+		{
+			$_SESSION[$sessionKey] = array();
+		}
+		if (!isset($_SESSION[$sessionKey][$topicId]))
+		{
+			// we changed topic: reset filter info
+			if (count($_SESSION[$sessionKey]) > 0)
+			{
+				$_SESSION[$sessionKey] = array();
+			}
+			$_SESSION[$sessionKey][$topicId] = array();
+		}
 		// Get selected values.
 		$valueSortOption = array();
 		if ($request->hasParameter('updateSortOptions'))
@@ -174,12 +189,14 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 				if ($request->hasParameter($sortOptionName))
 				{
 					$paramValue = $request->getParameter($sortOptionName);
-					$_SESSION[$sortOptionName] = $paramValue;
+					$_SESSION[$sessionKey][$topicId][$sortOptionName] = $paramValue;
 					$valueSortOption[$sortOptionName . $paramValue] = true;
+					$request->setAttribute($sortOptionName, $paramValue);
 				}
 				else
 				{
-					$_SESSION[$sortOptionName] = null;
+					$_SESSION[$sessionKey][$topicId][$sortOptionName] = null;
+					$request->setAttribute($sortOptionName, "");
 				}
 			}
 		}
@@ -187,11 +204,15 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			foreach (self::$sortOptions as $sortOptionName)
 			{
-				if (array_key_exists($sortOptionName, $_SESSION))
+				if (array_key_exists($sortOptionName, $_SESSION[$sessionKey][$topicId]))
 				{
-					$paramValue = $_SESSION[$sortOptionName];
+					$paramValue = $_SESSION[$sessionKey][$topicId][$sortOptionName];
 					$request->setAttribute($sortOptionName, $paramValue);
 					$valueSortOption[$sortOptionName . $paramValue] = true;
+				}
+				else
+				{
+					$request->setAttribute($sortOptionName, "");
 				}
 			}
 		}

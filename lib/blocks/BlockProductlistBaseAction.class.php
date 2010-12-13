@@ -147,9 +147,10 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	protected function getMaxresults($request)
 	{
-		if ($request->hasParameter('nbresultsperpage') && $request->getParameter('nbresultsperpage') > 0)
+		$nbresultsperpage = $this->findParameterValue("nbresultsperpage");
+		if ($nbresultsperpage > 0)
 		{
-			return $request->getParameter('nbresultsperpage');
+			return $nbresultsperpage;
 		}
 		$defaultProductsPerPage = self::DEFAULT_PRODUCTS_PER_PAGE;
 		$currentShop = catalog_ShopService::getInstance()->getCurrentShop();

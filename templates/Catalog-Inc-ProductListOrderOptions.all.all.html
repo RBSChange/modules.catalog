@@ -33,7 +33,8 @@
 		              			
 		              			<option value="25" tal:condition="valueSortOption/nbresultsperpage25" selected="selected">25</option>
 		              			<option value="25" tal:condition="not: valueSortOption/nbresultsperpage25">25</option>
-		                    </select>   
+		                    </select>
+		                    <input type="hidden" name="catalogParam[page]" value="1" />
 						</li>
 					</ol>
 				</tal:block>
