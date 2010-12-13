@@ -112,8 +112,12 @@ class catalog_DeclinedproductService extends catalog_ProductService
 			$product->setMeta($metaName, implode(',', $sortedIds));
 			$product->saveMeta();
 		}
-		
-		return explode(',', $product->getMeta($metaName));
+		$meta = $product->getMeta($metaName);
+		if (f_util_StringUtils::isEmpty($meta))
+		{
+			return array();
+		}
+		return explode(',', $meta);
 	}
 	
 	/**
