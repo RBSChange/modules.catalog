@@ -17,7 +17,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 			'shopId' => $this->findParameterValue('shop')->getId(),
 			'displayMode' => $request->getParameter('displayMode', 'list'));
 		
-		if ($displayConfig['displayCustomerPrice'])
+		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
 		{
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 			if ($customer)
@@ -43,7 +43,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		}
 		
 		$displayConfig = $this->findParameterValue('displayConfig');
-		if ($displayConfig['displayCustomerPrice'])
+		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
 		{
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 			if ($customer)
@@ -65,7 +65,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		Framework::info(__METHOD__ . ' -> ' . $this->getDocumentIdParameter());
 		
 		$displayConfig = $request->getParameter('displayConfig', array());
-		if ($displayConfig['displayCustomerPrice'])
+		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
 		{
 			$request->setAttribute('customer', customer_CustomerService::getInstance()->getCurrentCustomer());
 		}
