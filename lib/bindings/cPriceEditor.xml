@@ -308,11 +308,13 @@
 						this.getElementByAnonId('price-filters-box').setAttribute('hidden', 'true');
 						this.getElementByAnonId('price-list-box').setAttribute('hidden', 'true');
 						this.showWarningMessage(result.contents.message);
+						this.getElementByAnonId('button-new').setAttribute('hidden', 'true');
 					}
 					else
 					{
 						this.getElementByAnonId('price-filters-box').setAttribute('hidden', 'false');
 						this.getElementByAnonId('price-list-box').setAttribute('hidden', 'false');
+						this.getElementByAnonId('button-new').setAttribute('hidden', 'false');
 															
 						var shops = result.contents.shops;
 						var shopNode = this.fields.shop;
