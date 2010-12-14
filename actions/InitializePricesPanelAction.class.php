@@ -60,25 +60,25 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 			}
 			if (!array_key_exists('targetType', $data)){$data['targetType'] = 'all';}
 			
-			$targetId = $request->hasParameter('targetId') ? $request->getParameter('targetId') : '';
-			if (f_util_StringUtils::isEmpty($targetId)) {$targetId = '';}	
-			$data['targetIds'] = array();
-			foreach ($cps->getAvailableTargets($data['targetType'], $product, $data['shop']) as $value => $infos) 
+			$targetId = $request->getParameter('targetId');
+			$targetInfo = $cps->getTargetInfo($data['targetType'], $data['shop']);
+			if ($targetInfo !== null)
 			{
-				if ($value == $targetId)
+				$data['targetInfo'] = $targetInfo;
+				if ($targetInfo["type"] == "dropdown" && isset($targetInfo["options"]) && count($targetInfo["options"]) > 0)
 				{
-					$data['targetId'] = $targetId;
+					$targetId = $targetInfo["options"][0]["id"];
+					$data['targetIdSelect'] = $targetId;
 				}
-				$data['targetIds'][] = array('value' => $value, 'label' => $infos['label']);
 			}
 			
-			if (!array_key_exists('targetId', $data))
+			if ($targetId !== null)
 			{
-				$data['targetId'] = count($data['targetIds']) ? $data['targetIds'][0]['value'] : '';
+				$data['targetId'] = $targetId;
 			}
 			
 			// Add price list.		
-			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $data['targetId'] == '' ? null : $data['targetId']);		
+			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $targetId);		
 			$pricelist = array();
 			foreach ($prices as $price)
 			{

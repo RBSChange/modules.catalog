@@ -193,7 +193,10 @@
 								</xul:row>
 								<xul:row anonid="row_targetId">
 									<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Target-id;" />
-									<xul:cfield anonid="field_targetId" name="targetId" fieldtype="dropdownlist" hidehelp="true" disabled="true" />
+									<xul:deck anonid="field_targetIdDeck">
+										<xul:cfield anonid="field_targetIdPicker" name="targetIdPicker" fieldtype="document" hidehelp="true" disabled="true" allow="modules_customer_customer" moduleselector="customer" />
+										<xul:cfield anonid="field_targetIdSelect" name="targetIdSelect" fieldtype="dropdownlist" hidehelp="true" disabled="true" />
+									</xul:deck>
 								</xul:row>
 							</xul:rows>
 						</xul:grid>
@@ -203,14 +206,13 @@
 							<xul:spacer flex="1" />
 							<xul:label anonid="result-count" />
 						</xul:hbox>					
-						<xul:cfield name="pricelist" anonid="field_pricelist" fieldtype="namedgridlist" flex="1">
-						</xul:cfield>
+						<xul:cfield name="pricelist" anonid="field_pricelist" fieldtype="namedgridlist" flex="1" />
 					</xul:vbox>
 				</xul:scrollbox>
 			</xul:vbox>
 		</content>
 		<implementation>	
-			<field name="mFieldNames">['shop', 'date', 'targetType', 'targetId', 'pricelist']</field>
+			<field name="mFieldNames">['shop', 'date', 'targetType', 'pricelist']</field>
 			
 			<constructor><![CDATA[
 				// Datepicker requires an id.
@@ -236,7 +238,8 @@
 					//wCore.debug('cPricesList.createNew');
 					var productId = this.documentEditor.documentid;
 					var shopId = this.fields.shop.value;
-					var targetId = this.fields.targetId.value;
+					var targetIdNode = this.getElementByAnonId('field_targetIdDeck').selectedPanel;
+					var targetId = (!targetIdNode.hasAttribute("disabled")) ? targetIdNode.value : null;
 					var uri = ['catalog', 'createPriceFromProduct', 'modules_catalog_price', productId, shopId, targetId].join(',');
 					wCore.debug('createNew: ' + uri);
 					openActionUri(uri);
@@ -331,40 +334,66 @@
 							targetType = targetTypes[i];
 							targetTypeNode.appendItem(targetType.label, targetType.value);
 						}
-					
-						var targetIdNode = this.fields.targetId;
-						targetIdNode.removeItems();
-						if (result.contents.targetIds.length > 0)
+						
+						var targetId = (typeof(result.contents.targetId) != 'undefined') ? result.contents.targetId : null;
+						var targetDeck = this.getElementByAnonId("field_targetIdDeck");
+						if (result.contents.targetInfo)
 						{
-							var items = result.contents.targetIds;
-							for (var i = 0; i < items.length; i++)
+							var targetInfo = result.contents.targetInfo;
+							if (targetInfo.type == "document")
 							{
-								var item = items[i];
-								targetIdNode.appendItem(item.label, item.value);
+								targetDeck.selectedIndex = 0;
+								var picker = targetDeck.selectedPanel;
+								if (targetInfo.allow)
+								{
+									picker.setAttribute("allow", targetInfo.allow);
+								}
+								else
+								{
+									picker.removeAttribute("allow");
+								}
+								if (targetInfo.moduleselector)
+								{
+									picker.setAttribute("moduleselector", targetInfo.moduleselector);
+								}
+								else
+								{
+									picker.removeAttribute("moduleselector");
+								}
+							}
+							else if (targetInfo.type == "dropdown")
+							{
+								targetDeck.selectedIndex = 1;
+								var dropdown = targetDeck.selectedPanel;
+								dropdown.removeItems();
+								if (targetInfo.options)
+								{
+									var items = targetInfo.options;
+									for (var i = 0; i < items.length; i++)
+									{
+										var item = items[i];
+										dropdown.appendItem(item.label, item.value)
+									}
+								}
 							}
 							
-							if (items.length > 1)
-							{
-								targetIdNode.removeAttribute('disabled');
-							}
-							else
-							{
-								targetIdNode.setAttribute('disabled', true);
-							}
+							targetDeck.selectedPanel.removeAttribute('disabled');
 						}
 						else
 						{
-							targetIdNode.setAttribute('disabled', true);
+							targetDeck.selectedPanel.setAttribute('disabled', 'true');
 						}
-							
-						this.setInitialValues(this.fields, result.contents);					
+						
+						targetDeck.selectedPanel.setAttribute("value", targetId);
+						targetDeck.selectedPanel.value = targetId;
+						
+						this.setInitialValues(this.fields, result.contents);
 					
 						this.setAttribute('shop', result.contents.shop);
 						this.setAttribute('date', result.contents.date);
 						this.setAttribute('targetType', result.contents.targetType);
-						this.setAttribute('targetId', result.contents.targetId);
-							
-					}			
+						this.setAttribute('targetId', targetId);
+					}
 					this.mInitialized = true;
 					this.fireEvent("panelInitializeComplete");
 					this.gotoTop();
@@ -419,11 +448,19 @@
 							this.setAttribute('targetType', event.originalTarget.value);
 							this.removeAttribute('targetId');
 							this.refresh();
-							break;							
-						case 'targetId':
-							this.setAttribute('targetId', event.originalTarget.value);
+							break;
+						case 'targetIdPicker':
+						case 'targetIdSelect':
+							if (event.originalTarget.value == "")
+							{
+								this.removeAttribute('targetId');
+							}
+							else
+							{
+								this.setAttribute('targetId', event.originalTarget.value);
+							}
 							this.refresh();
-							break;	
+							break;
 					}
 				}
 				event.stopPropagation();

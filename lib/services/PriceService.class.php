@@ -216,6 +216,40 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param String $targetType
+	 * @param Integer $shopId
+	 * @return array
+	 */
+	public function getTargetInfo($targetType, $shopId)
+	{
+		switch ($targetType)
+		{
+			case 'customer' :
+				if (catalog_ModuleService::areCustomersEnabled())
+				{
+					return array("type" => "document", "allow" => "modules_customer_customer", "moduleselector" => "customer");	
+				}
+				break;
+			case 'group' :
+				if (catalog_ModuleService::areCustomersEnabled())
+				{
+					return array("type" => "document", "allow" => "modules_customer_tarifcustomergroup", "moduleselector" => "customer");
+				}
+				break;
+			case 'kit' :
+				return array("type" => "document", "allow" => "modules_catalog_kit", "moduleselector" => "catalog");
+				break;
+			case 'all' :
+				break;
+			case 'shop' :
+				$shop = DocumentHelper::getDocumentInstance($shopId);
+				return array("type" => "dropdown", "options" => array(array('id' => 0, 'label' => $shop->getLabel())));
+				break;
+		}
+		return null;
+	}
+	
+	/**
+	 * @param String $targetType
 	 * @param catalog_persistentdocument_product $product
 	 * @param Integer $shopId
 	 * @return array
@@ -253,7 +287,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			case 'all':
 				break;
 			case 'shop':
-				$targets[] = array('id' => 0, 'label' => $shop->getLabel());	
+				$targets[] = array('id' => 0, 'label' => $shop->getLabel());
 				break;
 		}
 		$result = array();
