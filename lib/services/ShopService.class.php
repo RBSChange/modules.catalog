@@ -408,21 +408,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$topic->setReferenceId($document->getId());
 			$topic->save();
 		}
-		
-		// If this shop is now default, update other shops of this website.
-		if ($document->isPropertyModified('isDefault') && $document->getIsDefault())
-		{
-			$query = catalog_ShopService::getInstance()->createQuery();
-			$query->add(Restrictions::eq('isDefault', true));
-			$query->add(Restrictions::eq('website', $document->getWebsite()));
-			$query->add(Restrictions::ne('id', $document->getId()));
-			foreach ($query->find() as $shop)
-			{
-				$shop->setIsDefault(false);
-				$shop->save();	
-			}
-			$this->setDefaultByWebsiteId($document->getWebsite()->getId(), $document);
-		}
 	}
 
 	/**

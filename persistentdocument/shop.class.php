@@ -51,6 +51,41 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isValid()
+	{
+		if (!parent::isValid())
+		{
+			return false;
+		}
+		
+		// Ensure that there may be only one published default shop by website on a given time period.
+		$query = catalog_ShopService::getInstance()->createQuery()
+			->add(Restrictions::ne('id', $this->getId()))
+			->add(Restrictions::eq('isDefault', true))
+			->add(Restrictions::eq('website', $this->getWebsite()));
+		$endDate = $this->getEndpublicationdate();
+		if ($endDate !== null)
+		{
+			$query->add(Restrictions::orExp(Restrictions::isEmpty('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)));
+		}
+		$startDate = $this->getStartpublicationdate();
+		if ($startDate !== null)
+		{
+			$query->add(Restrictions::orExp(Restrictions::isEmpty('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
+		}
+
+		if ($query->findUnique() !== null)
+		{
+			$message = LocaleService::getInstance()->transBO('modules.catalog.document.shop.exception.publication-period-conflict', array(ucf));
+			$this->validationErrors->rejectValue('previewStartDate', $message);
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * @return String
 	 * @throw catalog_Exception
 	 */

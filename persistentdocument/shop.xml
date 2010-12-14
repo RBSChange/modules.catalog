@@ -4,6 +4,7 @@
 	model-version="1.0" icon="shop" publish-on-day-change="true">
 	<properties>
 		<add name="publicationstatus" localized="true" />
+		<add name="isDefault" type="Boolean" localized="true" />
 		<add name="description" type="XHTMLFragment" localized="true" />
 		<add name="topic" type="modules_website/systemtopic" min-occurs="1" inverse="true" cascade-delete="true">
 			<constraints>unique:true</constraints>
@@ -34,7 +35,6 @@
 		</add>
 		<add name="enableComments" type="Boolean" default-value="true" />
 		<add name="codeReference" type="String" db-size="50" />
-		<add name="isDefault" type="Boolean" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

@@ -16,10 +16,23 @@ class catalog_patch_0352 extends patch_BasePatch
 		f_persistentdocument_PersistentProvider::getInstance()->addProperty('catalog', 'shop', $newProp);
 		
 		// Until now, there were no more than one published shop by website.
-		foreach (catalog_ShopService::getInstance()->createQuery()->add(Restrictions::published())->find() as $shop)
+		$rq = RequestContext::getInstance();
+		foreach ($rq->getSupportedLanguages() as $lang)
 		{
-			$shop->setIsDefault(true);
-			$shop->save();
+			try 
+			{
+				$rq->beginI18nWork($lang);
+				foreach (catalog_ShopService::getInstance()->createQuery()->add(Restrictions::published())->find() as $shop)
+				{
+					$shop->setIsDefault(true);
+					$shop->save();
+				}
+				$rq->endI18nWork();
+			}
+			catch (Exception $e)
+			{
+				$rq->endI18nWork($e);
+			}
 		}
 	}
 

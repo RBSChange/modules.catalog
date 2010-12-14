@@ -57,7 +57,6 @@
 					<contextaction name="createPaymentfilter" />
 					<contextaction name="initDefaultStructure" />
 				</groupactions>
-				<contextaction name="setAsDefault" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/shippingfilter">

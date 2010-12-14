@@ -58,5 +58,6 @@
 	<key id="enablecomments">activer les commentaires</key>
 	<key id="enablecomments-help">activer ou non les commentaires sur les produits.</key>
 	<key id="isdefault">boutique par défaut</key>
+	<key id="isdefault-help">Il ne peut y avoir qu'une boutique par défaut par site et par lanque sur une période de temps donnée.</key>
 	<key id="website">site web</key>
 </i18n>

@@ -2,6 +2,7 @@
 <panel>
 	<section labeli18n="modules.catalog.bo.general.General">
 		<field name="label" hidehelp="true" />
+		<field name="isDefault" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Currency">
 		<field name="currencyPosition" />
