@@ -193,7 +193,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		try 
 		{
 			RequestContext::getInstance()->beginI18nWork($lang);
-			Framework::info(f_util_ProcessUtils::getBackTrace());
 			$query = catalog_ShopService::getInstance()->createQuery()
 				->add(Restrictions::published())
 				->add(Restrictions::eq('isDefault', true))
