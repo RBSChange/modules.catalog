@@ -350,6 +350,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */	
 	protected function compile($document)
 	{
+		website_WebsiteModuleService::getInstance()->setCurrentWebsiteId($document->getWebsiteId());
+		catalog_ShopService::getInstance()->setCurrentShop($document->getShop());
 		$this->refreshProductInfo($document);
 		$this->refreshRatingInfo($document);
 		$this->refreshBrandInfo($document);
@@ -415,7 +417,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	private function refreshRatingInfo($document)
 	{
-		if (catalog_ModuleService::getInstance()->areCommentsEnabled())
+		if (catalog_ModuleService::getInstance()->areCommentsEnabled($document->getShop()))
 		{
 			$product = $document->getProduct();
 			$websiteId = $document->getWebsiteId();

@@ -60,4 +60,6 @@
   <actiondef modulename="catalog" actionname="insert.privateshop" label="modules.catalog.bo.useractionlogger.insert-privateshop"/>
   <actiondef modulename="catalog" actionname="update.privateshop" label="modules.catalog.bo.useractionlogger.update-privateshop"/>
   <actiondef modulename="catalog" actionname="savepermissions.rootfolder" label="m.catalog.bo.useractionlogger.savepermissions-rootfolder"/>
+  <actiondef modulename="catalog" actionname="deactivated.paymentfilter" label="m.catalog.bo.useractionlogger.deactivated-paymentfilter"/>
+  <actiondef modulename="catalog" actionname="reactivate.paymentfilter" label="m.catalog.bo.useractionlogger.reactivate-paymentfilter"/>
 </script>

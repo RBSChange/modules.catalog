@@ -225,10 +225,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function getFormattedRatingAverage()
 	{
 		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		
 		$ratingAverage = $this->getRatingMetaForWebsiteid($website->getId());
-		
-		//$ratingAverage = $this->getDocumentService()->getRatingAverage($this,);
 		if ($ratingAverage === null)
 		{
 			return f_Locale::translate('&modules.catalog.frontoffice.No-rating-yet;');

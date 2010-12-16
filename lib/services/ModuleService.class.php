@@ -44,17 +44,18 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return Boolean
 	 */
-	public function areCommentsEnabled()
+	public function areCommentsEnabled($shop = null)
 	{
 		$ms = ModuleService::getInstance();
 		if (!$ms->moduleExists('comment'))
 		{
 			return false;
 		}
-		$currentShop = catalog_ShopService::getInstance()->getCurrentShop();
-		if (!$currentShop)
+		$currentShop = $shop !== null ? $shop : catalog_ShopService::getInstance()->getCurrentShop();
+		if ($currentShop === null)
 		{
 			return $ms->getPreferenceValue('catalog', 'enableComments');
 		}

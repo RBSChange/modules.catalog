@@ -170,41 +170,46 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param website_persistentdocument_website $website
+	 * @param string $lang
 	 */
-	public function getDefaultByWebsite($website)
+	public function getDefaultByWebsite($website, $lang = null)
 	{
-		return $this->getDefaultByWebsiteId($website->getId());
+		return $this->getDefaultByWebsiteId($website->getId(), $lang);
 	}
 	
-	/**
-	 * @var catalog_persistentdocument_shop[]
-	 */
-	private $defaultShopByWebsiteId = array();
+	private $defaultShopForWebsite = array();
 	
 	/**
 	 * @param integer $websiteId
+	 * @param string $lang
 	 */
-	public function getDefaultByWebsiteId($websiteId)
+	public function getDefaultByWebsiteId($websiteId, $lang = null)
 	{
-		if (!isset($this->defaultShopByWebsiteId[$websiteId]))
+		if ($lang === null) { $lang = RequestContext::getInstance()->getLang();}
+		if (array_key_exists($websiteId.$lang, $this->defaultShopForWebsite))
 		{
-			$query = catalog_ShopService::getInstance()->createQuery();
-			$query->add(Restrictions::published());
-			$query->add(Restrictions::eq('isDefault', true));
-			$query->add(Restrictions::eq('website.id', $websiteId));
-			$this->defaultShopByWebsiteId[$websiteId] = $query->findUnique();
+			return $this->defaultShopForWebsite[$websiteId.$lang];
 		}
-		return $this->defaultShopByWebsiteId[$websiteId];
+		try 
+		{
+			RequestContext::getInstance()->beginI18nWork($lang);
+			Framework::info(f_util_ProcessUtils::getBackTrace());
+			$query = catalog_ShopService::getInstance()->createQuery()
+				->add(Restrictions::published())
+				->add(Restrictions::eq('isDefault', true))
+				->add(Restrictions::eq('website.id', $websiteId));
+			$shop = $query->findUnique();					
+			$this->defaultShopForWebsite[$websiteId.$lang] =  $shop;
+			RequestContext::getInstance()->endI18nWork();
+		}
+		catch (Exception $e)
+		{
+			RequestContext::getInstance()->endI18nWork($e);
+		}
+		return $shop;
 	}
 	
-	/**
-	 * @param integer $websiteId
-	 */
-	private function setDefaultByWebsiteId($websiteId, $shop)
-	{
-		$this->defaultShopByWebsiteId[$websiteId] = $shop;
-	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return String
@@ -456,6 +461,8 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
 		// Status transit from ACTIVE to PUBLICATED.
+		$this->defaultShopForWebsite = array();
+		
 		if ($document->isPublished())
 		{
 			$document->getTopic()->activate();
