@@ -216,14 +216,8 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */	
 	public function getCurrencySymbol($shop)
 	{
-		$ls = list_StaticlistService::getInstance();
-		$list = $ls->getDocumentInstanceByListId('modules_catalog/currencycode');
-		$symbol = $ls->getItemLabel($list, $shop->getCurrencyCode());
-		if (is_null($symbol))
-		{
-			throw new catalog_Exception($shop->getCurrencyCode() . " does not relate to an existing curreny code");
-		}
-		return $symbol;
+		
+		return catalog_PriceHelper::getCurrencySymbol($shop->getCurrencyCode());
 	}
 	
 	/**
@@ -236,7 +230,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		{
 			return "%s";
 		}
-		$currency = $shop->getCurrencySymbol();
+		$currency = catalog_PriceHelper::getCurrencySymbol($shop->getCurrencyCode());
 		switch ($shop->getCurrencyPosition())
 		{
 			case catalog_PriceHelper::CURRENCY_POSITION_LEFT :

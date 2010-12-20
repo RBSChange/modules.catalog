@@ -174,4 +174,31 @@ class catalog_PriceHelper
 	{
 		return $shop === null ? self::getDefaultPriceMode() : $shop->getPriceMode();
 	}
+	
+	private static $currencySymbols = null;
+	
+	/**
+	 * @param string $code
+	 * @return String
+	 * @throw catalog_Exception if the currencyCode does not related to an existing currency code
+	 */	
+	public static function getCurrencySymbol($code)
+	{
+		if (self::$currencySymbols === null)
+		{
+			self::$currencySymbols = array();
+			$ls = list_StaticlistService::getInstance();
+			$list = $ls->getDocumentInstanceByListId('modules_catalog/currencycode');
+			foreach ($list->getItems() as $item) 
+			{
+				self::$currencySymbols[$item->getValue()] = $item->getLabel();
+			}
+		}
+		
+		if (!isset(self::$currencySymbols[$code]))
+		{
+			throw new catalog_Exception($code . " does not relate to an existing curreny code");
+		}
+		return self::$currencySymbols[$code];
+	}
 }
