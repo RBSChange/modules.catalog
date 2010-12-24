@@ -27,11 +27,11 @@ class catalog_ListShopcurrencyService extends BaseService
 	public final function getItems()
 	{
 		$items = array();
-		foreach (list_StaticlistService::getInstance()->getByListId('modules_catalog/currencycode')->getItems() as $item)
+		foreach (catalog_CurrencyService::getInstance()->getCurrencySymbolsArray() as $code => $symbol)
 		{
 			$items[] = new list_Item(
-				$item->getLabel() . ' ('. $item->getValue() .')',
-				$item->getValue()
+				$code . ' ('. $symbol .')',
+				$code
 			);
 		}
 		return $items;

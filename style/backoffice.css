@@ -68,3 +68,9 @@ treechildren::-moz-tree-image(modules_catalog_virtualproduct){
 wdialog[template="orderProductsInShelf"] .dialog-header{
 	background: url(/changeicons/small/sort.png) transparent center  left no-repeat!important;
 }
+treechildren::-moz-tree-image(modules_catalog_tax){
+	list-style-image: url(/changeicons/small/document.png);
+}
+treechildren::-moz-tree-image(modules_catalog_currency){
+	list-style-image: url(/changeicons/small/document.png);
+}

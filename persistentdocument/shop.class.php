@@ -130,7 +130,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	public function formatPrice($value)
 	{
-		return catalog_PriceHelper::applyFormat($value, $this->getDocumentService()->getPriceFormat($this));
+		return catalog_PriceFormatter::getInstance()->format($value, $this->getCurrencyCode());
 	}
 	
 	/**

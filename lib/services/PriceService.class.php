@@ -302,10 +302,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 * @param Double $value
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return String
+	 * @deprecated
 	 */
 	public static function formatValue($value, $shop)
 	{
-		return catalog_PriceHelper::applyFormat($value, $shop->getDocumentService()->getPriceFormat($shop));
+		Framework::warn(__METHOD__ . ' is deprecated');
+		return $shop->formatPrice($value);
 	}
 		
 	// Protected methods.
@@ -403,6 +405,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('targetId', $document->getTargetId()))
 			->add(Restrictions::eq('thresholdMin', $document->getThresholdMin()))
 			->add(Restrictions::eq('priority', $document->getPriority()))
+			->add(Restrictions::eq('currencyId', $document->getCurrencyId()))
 			->add(Restrictions::ne('id', $document->getId()));
 			
 		$endDate = $document->getEndpublicationdate();
@@ -423,7 +426,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param catalog_persistentdocument_price $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
@@ -431,6 +434,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	{
 		parent::preInsert($document, $parentNodeId);		
 		$document->setInsertInTree(false);
+		$currency = catalog_CurrencyService::getInstance()->getByCode($document->getShop()->getCurrencyCode());
+		if ($currency === null)
+		{
+			throw new Exception("Invalid currency for price");
+		}
+		$document->setCurrencyId($currency->getId());
 	}
 	
 	/**

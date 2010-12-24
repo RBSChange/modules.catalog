@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<tax byCode="0" label-fr="Pas de taxe" rate="0" />
+	<!-- Compatibilité -->
+	<tax byCode="1" label-fr="19.6%" rate="0.196" />
+	<tax byCode="2" label-fr="5.5%" rate="0.055" />
+	<tax byCode="3" label-fr="8.5%" rate="0.085" />
+	<!-- FRANCE  -->
+	<tax byCode="FR01" label="19.6%" description="Taux normal France" rate="0.196" />
+	<tax byCode="FR02" label="5.5%" description="Taux réduit France" rate="0.055" />
+	<tax byCode="FR03" label="8.5%" description="Taux réduit DOM" rate="0.085" />
+	<tax byCode="FR04" label="2.1%" description="Taux super réduit France" rate="0.021" />
+	<!-- DEUTSCHLAND  -->
+	<tax byCode="DE01" label="19%" description="Taux normal Allemagne" rate="0.19" />
+	<tax byCode="DE02" label="7%" description="Taux réduit Allemagne" rate="0.07" />
+	<tax byCode="DE03" label="0" description="Taux null" rate="0.0" />
+	<!-- ESPAGNE  -->
+	<tax byCode="ES01" label="18%" description="Taux normal Espagne" rate="0.18" />
+	<tax byCode="ES02" label="8%" description="Taux réduit Espagne" rate="0.08" />
+	<tax byCode="ES03" label="4%" description="Taux null Espagne" rate="0.04" />
+</script>

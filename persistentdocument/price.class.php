@@ -83,7 +83,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedValueWithTax()
 	{
-		return $this->getDocumentService()->formatValue($this->getValueWithTax(), $this->getShop());
+		return catalog_PriceFormatter::getInstance()->format($this->getValueWithTax(), catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
 	}
 	
 	/**
@@ -91,7 +91,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedValueWithoutTax()
 	{
-		return $this->getDocumentService()->formatValue($this->getValueWithoutTax(), $this->getShop());
+		return catalog_PriceFormatter::getInstance()->format($this->getValueWithoutTax(), catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
 	}
 	
 	/**
@@ -99,8 +99,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedOldValueWithTax()
 	{
-		$value = $this->getOldValueWithTax();
-		return ($value !== null) ? $this->getDocumentService()->formatValue($value, $this->getShop()) : null;
+		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithTax(), catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
 	}
 	
 	/**
@@ -108,8 +107,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedOldValueWithoutTax()
 	{
-		$value = $this->getOldValueWithoutTax();
-		return ($value !== null) ? $this->getDocumentService()->formatValue($value, $this->getShop()) : null;
+		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithoutTax(), catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
 	}
 	
 	/**
@@ -117,8 +115,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedEcoTax()
 	{
-		$value = $this->getEcoTax();
-		return ($value !== null) ? $this->getDocumentService()->formatValue($value, $this->getShop()) : null;
+		return catalog_PriceFormatter::getInstance()->format($this->getEcoTax(), catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
 	}
 	
 	/**

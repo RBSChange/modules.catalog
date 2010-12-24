@@ -13,7 +13,7 @@
 		<add name="topShelf" type="modules_catalog/topshelf" min-occurs="0" max-occurs="-1" inverse="true" preserve-old-value="true" />
 		<add name="shippingZone" type="modules_zone/zone" min-occurs="1" />
 		<add name="billingZone" type="modules_zone/zone" min-occurs="1" />
-		<add name="currencyCode" type="String" min-occurs="1" from-list="modules_catalog/currencycode" default-value="EUR" />
+		<add name="currencyCode" type="String" min-occurs="1" from-list="modules_catalog/shopcurrency" default-value="EUR" />
 		<add name="currencyPosition" type="String" min-occurs="1" localized="true" from-list="modules_catalog/currencyposition" default-value="right" />
 		<add name="defaultDetailVisual" type="modules_media/media" />
 		<add name="defaultListVisual" type="modules_media/media" />

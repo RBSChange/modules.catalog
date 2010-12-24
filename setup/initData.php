@@ -6,18 +6,20 @@ class catalog_Setup extends object_InitDataSetup
 		try
 		{
 			$scriptReader = import_ScriptReader::getInstance();
-       	 	$scriptReader->executeModuleScript('catalog', 'init.xml');
+			$scriptReader->executeModuleScript('catalog', 'init.xml');
+			$scriptReader->executeModuleScript('catalog', 'currencies.xml');
+			$scriptReader->executeModuleScript('catalog', 'taxes.xml');
 		}
 		catch (Exception $e)
 		{
 			echo "ERROR: " . $e->getMessage() . "\n";
 			Framework::exception($e);
-		}		
+		}
 		$this->addBackGroundCompileTask();
 		$this->addAlertTasks();
 		$this->addRelatedProductAutoFeedTask();
 		
-		/*
+	/*
 		$query = array();
 		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `productid` `productid` INT( 11 ) NOT NULL";
 		$query[] ="ALTER TABLE `m_catalog_doc_price` CHANGE `shopid` `shopid` INT( 11 ) NOT NULL";

@@ -125,11 +125,11 @@ class catalog_PriceHelper
 	 * Calls the selected RoundPriceStrategy.
 	 * @param Double $value
 	 * @return Double
+	 * @deprecated
 	 */
 	public static function roundPrice($value)
 	{
-		$strategy = catalog_RoundPriceStrategy::getStrategy();
-		return $strategy->roundPrice($value);
+		return catalog_PriceFormatter::getInstance()->round($value);
 	}
 	
 	/**
@@ -137,10 +137,11 @@ class catalog_PriceHelper
 	 * @param String $format ex: "%s €"
 	 * @return string
 	 * @see getPriceFormat()
+	 * @deprecated
 	 */
 	public static function applyFormat($priceValue, $format)
 	{
-		$priceValue = self::roundPrice($priceValue);
+		$priceValue = catalog_PriceFormatter::getInstance()->round($priceValue);
 		return sprintf($format, number_format($priceValue, 2, ',', ' '));
 	}
 	
@@ -186,13 +187,7 @@ class catalog_PriceHelper
 	{
 		if (self::$currencySymbols === null)
 		{
-			self::$currencySymbols = array();
-			$ls = list_StaticlistService::getInstance();
-			$list = $ls->getDocumentInstanceByListId('modules_catalog/currencycode');
-			foreach ($list->getItems() as $item) 
-			{
-				self::$currencySymbols[$item->getValue()] = $item->getLabel();
-			}
+			self::$currencySymbols = catalog_CurrencyService::getInstance()->getCurrencySymbolsArray();
 		}
 		
 		if (!isset(self::$currencySymbols[$code]))

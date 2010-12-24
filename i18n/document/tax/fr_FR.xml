@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.tax" lcid="fr_FR">
+  <include id="m.generic.document.document"/>
+  <key id="document-name">tax</key>
+  <key id="label">[TO TRANSLATE] label</key>
+  <key id="label-help">[TO TRANSLATE] label-help</key>
+  <key id="description">[TO TRANSLATE] description</key>
+  <key id="description-help">[TO TRANSLATE] description-help</key>
+  <key id="rate">[TO TRANSLATE] rate</key>
+  <key id="rate-help">[TO TRANSLATE] rate-help</key>
+  <key id="code">[TO TRANSLATE] code</key>
+  <key id="code-help">[TO TRANSLATE] code-help</key>
+</i18n>

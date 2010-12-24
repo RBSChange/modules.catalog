@@ -5,7 +5,7 @@
  */
 class catalog_DefaultTaxRateResolverStrategy extends catalog_TaxRateResolverStrategy
 {
-	private $taxRates = array('0' => 0, '1' => 0.196, '2' => 0.055, '3' => 0.085);
+	private $taxRates = null;
 
 	/**
 	 * @return String
@@ -22,6 +22,7 @@ class catalog_DefaultTaxRateResolverStrategy extends catalog_TaxRateResolverStra
 	{
 		return 'Default tax rate resolver from a tax code to a tax rate.';
 	}
+	
 
 	/**
 	 * @param String $code
@@ -30,6 +31,14 @@ class catalog_DefaultTaxRateResolverStrategy extends catalog_TaxRateResolverStra
 	 */
 	public function getTaxRateByCode($code)
 	{
+		if ($this->taxRates === null)
+		{
+			$this->taxRates = array();
+			foreach (catalog_TaxService::getInstance()->createQuery()->setProjection(Projections::property('code', 'code'), Projections::property('rate', 'rate'))->find() as $line)
+			{
+				 $this->taxRates[$line['code']] = $line['rate'];
+			}
+		}
 		if (!isset($this->taxRates[$code]))
 		{
 			throw new catalog_Exception('The tax code "' . $code . '" is not defined.');
