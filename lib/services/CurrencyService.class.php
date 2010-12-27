@@ -95,6 +95,16 @@ class catalog_CurrencyService extends f_persistentdocument_DocumentService
 		}
 		return $this->currencyCodes;
 	}
+	
+	/**
+	 * 
+	 * @param unknown_type $code
+	 */
+	public function getByCode($code)
+	{
+		return catalog_CurrencyService::getInstance()->createQuery()->add(Restrictions::eq('code', $code))->findUnique();
+	}
+	
 /**
  * @param catalog_persistentdocument_currency $document
  * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
