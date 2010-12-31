@@ -29,5 +29,7 @@
 	<key id="openorderproductsinshelf">définir l'ordre des produits</key>
 	<key id="add-discount">créer un prix promotionnel à partir de celui-ci</key>
 	<key id="remove-discount">retirer la promotion de ce prix</key>
+	<key id="add-product">incrémenter la quantité</key>
+	<key id="remove-product">décrémenter la quantité</key>
 	<key id="setasdefault">en faire la boutique par défaut pour ce site</key>
 </i18n>

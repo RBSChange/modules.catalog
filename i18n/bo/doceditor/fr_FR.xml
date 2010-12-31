@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.doceditor" lcid="fr_FR">
-  <key id="common-properties">propriétés communes</key>
-  <key id="first-declination">première déclinaison</key>
-  <key id="second-declination">deuxième déclinaison</key>
-  <key id="url-for-website">URL pour le site {website}</key>
-  <key id="additional-declination-description">vous pourrez ajouter d'autres déclinaisons par la suite.</key>
-  <key id="additional-declination">déclinaisons additionnelles</key>
-  <key id="first-bundleditems">produits du groupe</key>
-  <key id="add-bundleditems">Produits à ajouter</key>
-  <key id="first-kititems">produits du kit</key>
-  <key id="add-kititems">Produits à ajouter</key>
-  <key id="update-success">Mise à jour réussie.</key>
+	<key id="common-properties">propriétés communes</key>
+	<key id="first-declination">première déclinaison</key>
+	<key id="second-declination">deuxième déclinaison</key>
+	<key id="url-for-website">URL pour le site {website}</key>
+	<key id="additional-declination-description">vous pourrez ajouter d'autres déclinaisons par la suite.</key>
+	<key id="additional-declination">déclinaisons additionnelles</key>
+	<key id="first-bundleditems">produits du groupe</key>
+	<key id="add-bundleditems">Produits à ajouter</key>
+	<key id="first-kititems">produits du kit</key>
+	<key id="add-kititems">Produits à ajouter</key>
+	<key id="update-success">Mise à jour réussie.</key>
+	<key id="suggest-products">suggestions de produits</key>
 </i18n>

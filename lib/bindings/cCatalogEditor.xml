@@ -768,8 +768,8 @@
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:toolbar class="actions">
-					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Add-product;" />
-					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.uixul.bo.actions.Remove-product;" />
+					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="&amp;modules.catalog.bo.actions.Add-product;" />
+					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.catalog.bo.actions.Remove-product;" />
 					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
 					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
 					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
