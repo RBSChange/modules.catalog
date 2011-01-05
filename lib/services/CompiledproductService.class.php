@@ -615,6 +615,16 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
+	 * @param indexer_IndexedDocument $indexDocument
+	 * @return boolean
+	 */
+	public function indexFacets($compiledProduct, $indexDocument)
+	{
+		return catalog_ProductFacetIndexer::getInstance()->populateIndexDocument($indexDocument, $compiledProduct);
+	}
+	
+	/**
 	 * @see twitterconnect_PlannerService::sendTweetsPlannedOnPublishByRelatedDocument()
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @return catalog_persistentdocument_product
