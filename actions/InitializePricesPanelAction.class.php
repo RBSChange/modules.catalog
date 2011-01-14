@@ -61,6 +61,10 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 			if (!array_key_exists('targetType', $data)){$data['targetType'] = 'all';}
 			
 			$targetId = $request->getParameter('targetId');
+			if (f_util_StringUtils::isEmpty($targetId))
+			{
+				$targetId = null;
+			}
 			$targetInfo = $cps->getTargetInfo($data['targetType'], $data['shop']);
 			if ($targetInfo !== null)
 			{
