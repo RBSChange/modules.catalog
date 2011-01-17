@@ -130,16 +130,14 @@ class catalog_KitService extends catalog_ProductService
 					$product = $kitItem->getProduct();
 					if (!$product->isPublished())
 					{
-						$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
-						$this->setActivePublicationStatusInfo($document, $statusInfo);
+						$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
 						return false;
 					}
 				}
 			}
 			else
 			{
-				$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Has-no-item;');
-				$this->setActivePublicationStatusInfo($document, $statusInfo);
+				$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Has-no-item;');
 				return false;
 			}
 		}

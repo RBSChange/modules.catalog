@@ -134,8 +134,7 @@ class catalog_VirtualproductService extends catalog_ProductService
 		{
 			if ($document->getSecureMedia() === null)
 			{
-				$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Has-no-securemedia;');
-				$this->setActivePublicationStatusInfo($document, $statusInfo);
+				$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Has-no-securemedia;');
 				return false;
 			}
 		}
