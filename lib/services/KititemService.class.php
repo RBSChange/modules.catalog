@@ -61,10 +61,43 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	public function createNew($kit, $product, $qtt = 1)
 	{
 		$item = $this->getNewDocumentInstance();
-		$item->setLabel($product->getVoLabel());
 		$item->setQuantity($qtt);
 		$item->setProduct($product);
 		return $item;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preInsert($document, $parentNodeId)
+	{
+		if (f_util_StringUtils::isEmpty($document->getLabel()))
+		{
+			$document->setLabel($document->getProduct()->getVoLabel());	
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function postInsert($document, $parentNodeId)
+	{
+		if ($parentNodeId)
+		{
+			$pdoc = DocumentHelper::getDocumentInstance($parentNodeId);
+			if ($pdoc instanceof catalog_persistentdocument_kit)
+			{
+				if ($pdoc->getIndexofKititem($document) === -1)
+				{
+					$pdoc->addKititem($document);
+					$pdoc->save();
+				}
+			}
+		}
 	}
 	
 	/**
@@ -79,7 +112,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	{	
 		$product = $kititem->getDefaultProduct();
 		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $kititem->getQuantity());
-		if ($price !== null)
+		if ($price instanceof catalog_persistentdocument_price)
 		{
 			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $kititem->getQuantity());
 			$kitPrice->setValueWithTax($kitPrice->getValueWithTax() +  $price->getValueWithTax() * $kititem->getQuantity());
@@ -93,7 +126,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 				$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $price->getValueWithoutTax() * $kititem->getQuantity());
 				$kitPrice->setOldValueWithTax($kitPrice->getOldValueWithTax() + $price->getValueWithTax() * $kititem->getQuantity());
 			}
-			
+			$kitPrice->setCurrencyId($price->getCurrencyId());
 			$kitPrice->setTaxCode($price->getTaxCode());
 			return true;
 		}

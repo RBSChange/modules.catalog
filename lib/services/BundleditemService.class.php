@@ -52,6 +52,41 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 		return $this->pp->createQuery('modules_catalog/bundleditem', false);
 	}
 	
+	
+	/**
+	 * @param catalog_persistentdocument_bundleditem $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preInsert($document, $parentNodeId)
+	{
+		if (f_util_StringUtils::isEmpty($document->getLabel()))
+		{
+			$document->setLabel($document->getProduct()->getVoLabel());	
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_bundleditem $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function postInsert($document, $parentNodeId)
+	{
+		if ($parentNodeId)
+		{
+			$pdoc = DocumentHelper::getDocumentInstance($parentNodeId);
+			if ($pdoc instanceof catalog_persistentdocument_bundleproduct)
+			{
+				if ($pdoc->getIndexofBundleditem($document) === -1)
+				{
+					$pdoc->addBundleditem($document);
+					$pdoc->save();
+				}
+			}
+		}
+	}
+
 	/**
 	 * @param catalog_persistentdocument_bundleditem $document
 	 * @param string $lang

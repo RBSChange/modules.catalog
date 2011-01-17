@@ -85,7 +85,6 @@ class catalog_BundleproductService extends catalog_ProductService
 			if ($bundledItem === null)
 			{
 				$bundledItem = $bis->getNewDocumentInstance();
-				$bundledItem->setLabel($product->getVoLabel());
 				$bundledItem->setQuantity(intval($document->getNewBundledItemQtt()));
 				$bundledItem->setProduct($product);
 				$bis->save($bundledItem);
@@ -113,7 +112,6 @@ class catalog_BundleproductService extends catalog_ProductService
 			if ($bundledItem === null)
 			{
 				$bundledItem = $bis->getNewDocumentInstance();
-				$bundledItem->setLabel($product->getVoLabel());
 				$bundledItem->setQuantity(intval($document->getNewBundledItemQtt()));
 				$bundledItem->setProduct($product);
 				$bis->save($bundledItem);
@@ -148,14 +146,23 @@ class catalog_BundleproductService extends catalog_ProductService
 		$result = parent::isPublishable($document);
 		if ($result)
 		{
-			foreach ($this->getBundledProductArray($document) as $product) 
+			if ($document->getBundleditemCount())
 			{
-				if (!$product->isPublished())
+				foreach ($this->getBundledProductArray($document) as $product) 
 				{
-					$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
-					$this->setActivePublicationStatusInfo($document, $statusInfo);
-					return false;
+					if (!$product->isPublished())
+					{
+						$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
+						$this->setActivePublicationStatusInfo($document, $statusInfo);
+						return false;
+					}
 				}
+			}
+			else
+			{
+				$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Has-no-item;');
+				$this->setActivePublicationStatusInfo($document, $statusInfo);
+				return false;
 			}
 		}
 		return $result;
