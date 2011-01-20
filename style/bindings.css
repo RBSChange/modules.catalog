@@ -5,9 +5,12 @@ cdocumenteditor row.discountHelper,
 wdialog[template="addDiscountOnPrice"] row.discountHelper{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cDiscountHelper);
 }
+
+/*
 cdocumenteditor cpricespanel{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesPanel);
 }
+*/
 gridlist.pricelist{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesList);
 }
@@ -17,11 +20,17 @@ gridlist.pricelist cactioncell{
 wdialog[template="addDiscountOnPrice"]{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cAddDiscountOnPriceDialog);
 }
-cdocumenteditor cdeclinationspanel{
-	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cDeclinationsPanel);
-}
+
 cdocumenteditor cdeclinationslist{
-	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cDeclinationsList);
+	-moz-binding: url(binding:modules.catalog.editors.declinedproduct#cDeclinationsList);
+}
+
+gridlist.bundleditemsJSON{
+	-moz-binding: url(binding:modules.catalog.editors.bundleproduct#cBundledItemsGrid);
+}
+
+gridlist.kititemsJSON{
+	-moz-binding: url(binding:modules.catalog.editors.kit#cKitItemsGrid);
 }
 
 cdocumenteditor#edt_catalog_simpleproduct cresumesection[sectionname="urlrewriting"],
@@ -44,25 +53,14 @@ cdocumenteditor#edt_catalog_attributefolder cfield[fieldtype="attributesdeflist"
 }
 cdocumenteditor#edt_catalog_simpleproduct cfield[fieldtype="attributeslist"],
 cdocumenteditor#edt_catalog_declinedproduct cfield[fieldtype="attributeslist"],
+cdocumenteditor#edt_catalog_productdeclination cfield[fieldtype="attributeslist"],
 cdocumenteditor#edt_catalog_bundleproduct cfield[fieldtype="attributeslist"],
 cdocumenteditor#edt_catalog_virtualproduct cfield[fieldtype="attributeslist"],
 cdocumenteditor#edt_catalog_kit cfield[fieldtype="attributeslist"]
 {
 	-moz-binding: url(binding:modules.catalog.cAttributes#cAttributes);
 }
-cdocumenteditor cbundleditemspanel{
-	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cBundledItemsPanel);
-}
-gridlist.bundleditemsJSON{
-	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cBundledItemsGrid);
-}
 
-cdocumenteditor ckititemspanel{
-	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cKitItemsPanel);
-}
-gridlist.kititemsJSON{
-	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cKitItemsGrid);
-}
 
 wdialog[template="publicationInShopsDialog"]{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cPublicationInShopsDialog);

@@ -6,4 +6,18 @@
   <key id="synchronizeprices-help">synchroniser ou non les prix entre les déclinaisons de ce produit.</key>
   <key id="synchronizepricesfrom">utiliser les prix de</key>
   <key id="synchronizepricesfrom-help">Ce champ est uniquement actif lorsque le champ « Synchroniser les prix » passe de Non à Oui. Il permet de choisir une déclinaison de référence pour initialiser la synchronisation des prix.</key>
+  
+
+  <key id="no-declination">Aucune déclinaison défini</key>
+  <key id="not-published">Le produit décliné n'est pas publié</key>
+  
+  <key id="axe1">1er axe</key>
+  <key id="axe1-help">Axe principal</key>
+  <key id="axe2">2ème axe</key>
+  <key id="axe2-help">Axe secondaire</key>
+  <key id="axe3">3ème axe</key>
+  <key id="axe2-help">Axe tertiaire</key>
+  
+  <key id="showaxeinlist">Axes visibles</key>
+  <key id="showaxeinlist-help">Axes visibles dans les listes de produits</key>
 </i18n>

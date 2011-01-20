@@ -52,43 +52,175 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		return $this->pp->createQuery('modules_catalog/productdeclination', false);
 	}
 	
+	
 	/**
-	 * @see catalog_ProductService::getBoPrimaryShelf()
-	 *
-	 * @param catalog_persistentdocument_productdeclination $product
-	 * @return catalog_persistentdocument_shelf
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param boolean $ordered
+	 * @return catalog_persistentdocument_productdeclination[]
 	 */
-	public function getBoPrimaryShelf($product)
+	public function getArrayByDeclinedProduct($declinedProduct, $ordered = true)
 	{
-		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getBoPrimaryShelf($declinedProduct);
+		$query = $this->createQuery()->add(Restrictions::eq('declinedproduct', $declinedProduct));
+		if ($ordered)
+		{
+			$query->addOrder(Order::asc('indexInDeclinedproduct'));
+		}
+		return $query->find();
+	}
+		
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param boolean $ordered
+	 * @return catalog_persistentdocument_productdeclination[]
+	 */
+	public function getPublishedArrayByDeclinedProduct($declinedProduct, $ordered = true)
+	{
+		$query = $this->createQuery()
+			->add(Restrictions::eq('declinedproduct', $declinedProduct))
+			->add(Restrictions::published());
+		if ($ordered)
+		{
+			$query->addOrder(Order::asc('indexInDeclinedproduct'));
+		}
+		return $query->find();
+	}	
+	
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param boolean $published
+	 * @return integer
+	 */
+	public function getCountByDeclinedProduct($declinedProduct, $published = false)
+	{
+		$query = $this->createQuery()
+			->add(Restrictions::eq('declinedproduct', $declinedProduct))
+			->setProjection(Projections::rowCount('count'));
+		if ($published)
+		{
+			$query->add(Restrictions::published());
+		}
+		$result = $query->find();
+		return is_array($result) ? intval($result[0]['count']): 0;
+	}		
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @return integer[]
+	 */
+	public function getIdArrayByDeclinedProduct($declinedProduct)
+	{
+		$query = $this->createQuery()->add(Restrictions::eq('declinedproduct', $declinedProduct))
+			->setProjection(Projections::property('id', 'id'));
+		return $query->findColumn('id');
 	}
 	
 	/**
-	 * @see catalog_ProductService::getShopPrimaryShelf()
-	 *
-	 * @param catalog_persistentdocument_productdeclination $product
-	 * @param catalog_pesistentdocument_shop $shop
-	 * @return catalog_persistentdocument_shelf
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @return catalog_persistentdocument_productdeclination
 	 */
-	public function getShopPrimaryShelf($product, $shop)
+	public function getFirstByDeclinedProduct($declinedProduct)
 	{
-		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getShopPrimaryShelf($declinedProduct, $shop);
+		$results = $this->createQuery()->add(Restrictions::eq('declinedproduct', $declinedProduct))
+					->addOrder(Order::asc('indexInDeclinedproduct'))
+					->setMaxResults(1)
+					->find();
+		return (count($results)) ? $results[0] : null;
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param String $type from list 'modules_catalog/crosssellingtypes'
-	 * @param String $sortBy from list 'modules_catalog/crosssellingsortby'
-	 * @return catalog_persistentdocument_product[]
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @return array('id', 'axe1', 'axe2', 'axe3')
 	 */
-	public function getDisplayableCrossSelling($document, $shop, $type = 'complementary', $sortBy = 'fieldorder')
+	public function getIdAndAxesArrayByDeclinedProduct($declinedProduct)
 	{
-		return $document->getDocumentService()->getDisplayableCrossSelling($document, $shop, $type, $sortBy);
-	}
+		$axeToSort = $declinedProduct->getShowAxeInList();
+		$query = $this->createQuery()
+			->add(Restrictions::eq('declinedproduct', $declinedProduct))
+			->setProjection(Projections::property('id'), Projections::property('axe1'), Projections::property('axe2'), Projections::property('axe3'));
+		if ($axeToSort > 0)
+		{
+			$query->addOrder(Order::asc('axe1'));
+			if ($axeToSort > 1)
+			{
+				$query->addOrder(Order::asc('axe2'));
+				if ($axeToSort > 2)
+				{
+					$query->addOrder(Order::asc('axe3'));
+				}
+			}
+		}
+		$query->addOrder(Order::asc('indexInDeclinedproduct'));
+		return $query->find();
+	}	
+	
 
+	/**
+	 * Synchronize properties shelf | brand | complementary | similar | upsell
+	 * 		| description | serializedattributes | shippingModeId |
+	 * 		| pageTitle | pageDescription | pageKeywords
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct								
+	 */
+	protected function synchronizePropertiesByDeclinedProduct($declination, $declinedProduct)
+	{
+		$syncPropModified = $declinedProduct->getDocumentService()->getSynchronizedPropertiesName();
+		foreach ($syncPropModified as $name) 
+		{
+			switch ($name) 
+			{
+				case 'shelf':
+					if (!DocumentHelper::documentArrayEquals($declination->getShelfArray(), $declinedProduct->getShelfArray()))
+					{
+						$declination->setShelfArray($declinedProduct->getShelfArray());
+					}
+					break;
+				case 'upsell':
+					if (!DocumentHelper::documentArrayEquals($declination->getUpsellArray(), $declinedProduct->getUpsellArray()))
+					{
+						$declination->setUpsellArray($declinedProduct->getUpsellArray());
+					}
+					break;
+				case 'brand': $declination->setBrand($declinedProduct->getBrand()); break;	
+				case 'description': $declination->setDescription($declinedProduct->getDescription()); break;	
+				case 'serializedattributes': $declination->setSerializedattributes($declinedProduct->getSerializedattributes());  break;
+				case 'shippingModeId': $declination->setShippingModeId($declinedProduct->getShippingModeId()); break;
+				case 'pageTitle': $declination->setPageTitle($declinedProduct->getPageTitle()); break;
+				case 'pageDescription': $declination->setPageDescription($declinedProduct->getPageDescription()); break;
+				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;	
+			}
+		}		
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @return void
+	 */
+	protected function preSave($document, $parentNodeId = null)
+	{	
+		parent::preSave($document, $parentNodeId);
+		if ($document->getDeclinedproduct() === null)
+		{
+			$declinedproduct = catalog_persistentdocument_declinedproduct::getInstanceById($parentNodeId);
+			$document->setDeclinedproduct($declinedproduct);
+		}
+		$this->synchronizePropertiesByDeclinedProduct($document, $document->getDeclinedproduct());
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param Integer $parentNodeId
+	 */
+	protected function preInsert($document, $parentNodeId)
+	{
+		if ($document->getIndexInDeclinedproduct() < 0)
+		{
+			$index = $this->getCountByDeclinedProduct($document->getDeclinedproduct());
+			$document->setIndexInDeclinedproduct($index);
+		}
+	}
+		
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
@@ -96,28 +228,95 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 */
 	protected function postInsert($document, $parentNodeId)
 	{
-		if ($parentNodeId !== null)
+		$declinedProduct = $document->getDeclinedproduct();
+		if ($declinedProduct->getSynchronizePrices())
 		{
-			$declinedProduct = DocumentHelper::getDocumentInstance($parentNodeId);
-			$declinedProduct->addDeclination($document);
-			$declinedProduct->save();
-			
-			// Price replication.
-			if ($declinedProduct->getSynchronizePrices())
-			{
-				$prices = catalog_PriceService::getInstance()->createQuery()->add(Restrictions::eq('productId', $declinedProduct->getId()))->find();
-				$this->replicatePricesOnDeclinationIds($prices, array($document->getId()));
-			}
+			$prices = catalog_PriceService::getInstance()->createQuery()
+				->add(Restrictions::eq('productId', $declinedProduct->getId()))->find();
+			$this->copyPricesOnDeclinationIds($prices, array($document->getId()));
+		}
+
+		$this->populatesAxes($document);
+		if ($document->isModified())
+		{
+			$this->pp->updateDocument($document);
 		}
 		
+		$declinedProduct->getDocumentService()->declinationAdded($declinedProduct, $document);		
 		parent::postInsert($document, $parentNodeId);
+	}	
+	
+	
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preUpdate($document, $parentNodeId)
+	{
+		$this->populatesAxes($document);
+	}
+
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 */
+	public function isPublishable($document)
+	{
+		$result = parent::isPublishable($document);
+		if ($result)
+		{
+			if (!$document->getDeclinedproduct()->isPublished())
+			{
+				$this->setActivePublicationStatusInfo($document, '&m.catalog.document.declinedproduct.not-published;');
+				$result = false;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @return void
+	 */
+	protected function postSave($document, $parentNodeId = null)
+	{	
+		parent::postSave($document, $parentNodeId);		
+		// Handle stock alerts
+		catalog_StockService::getInstance()->handleStockAlert($document);
+	}
+
+	/**
+	 * @param catalog_persistentdocument_productdeclination $targetProduct
+	 * @param string $fieldName
+	 * @param catalog_persistentdocument_product $product
+	 */
+	public function addProductToTargetField($targetProduct, $fieldName, $product)
+	{
+		parent::addProductToTargetField($targetProduct, $fieldName, $product);
+		$declinedProduct = $targetProduct->getDeclinedproduct();
+		$declinedProduct->getDocumentService()->addProductToTargetField($declinedProduct, $fieldName, $product, $targetProduct);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $targetProduct
+	 * @param string $fieldName
+	 * @param catalog_persistentdocument_product $product
+	 */
+	public function removeProductFromTargetField($targetProduct, $fieldName, $product)
+	{
+		parent::removeProductFromTargetField($targetProduct, $fieldName, $product);
+		
+		$declinedProduct = $targetProduct->getDeclinedproduct();
+		$declinedProduct->getDocumentService()->removeProductFromTargetField($declinedProduct, $fieldName, $product, $targetProduct);
+	}
+
 	/**
 	 * @param catalog_persistentdocument_price[] $prices
 	 * @param integer[] $declinationIds
 	 */
-	public function replicatePricesOnDeclinationIds($prices, $declinationIds)
+	public function copyPricesOnDeclinationIds($prices, $declinationIds)
 	{
 		try 
 		{
@@ -132,7 +331,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				
 				foreach ($declinationIds as $declinationId)
 				{
-					$this->replicatePriceOnDeclinationId($price, $declinationId);
+					$newPrices = $this->copyPriceOnDeclinationId($price, $declinationId);
 				}
 			}
 			$this->tm->commit();
@@ -144,12 +343,14 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		}
 	}
 	
+	
+	
 	/**
 	 * @param catalog_persistentdocument_price $price
-	 * @param integer $productId
+	 * @param integer $declinationId
 	 * @return catalog_persistentdocument_lockedprice
 	 */
-	protected function replicatePriceOnDeclinationId($price, $productId)
+	protected function copyPriceOnDeclinationId($price, $declinationId)
 	{
 		$newPrice = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
 		$price->copyPropertiesTo($newPrice, true);
@@ -159,68 +360,119 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		$newPrice->setCreationdate(null);
 		$newPrice->setModificationdate(null);
 		$newPrice->setDocumentversion(0);
-		$newPrice->setProductId($productId);
+		$newPrice->setProductId($declinationId);
 		$newPrice->setLockedFor($price->getId());
 		$newPrice->save();	
 		return $newPrice;
 	}	
 	
 	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
-	 * @return void
+	 * @param catalog_persistentdocument_productdeclination $productDeclination
 	 */
-	protected function postUpdate($document, $parentNodeId)
+	protected function populatesAxes($productDeclination)
 	{
-		if ($document->isStatusModified('en'))
+		$declinedProduct = $productDeclination->getDeclinedproduct();
+		foreach ($declinedProduct->getAxes() as $axe) 
 		{
-			$declinedProduct = $document->getRelatedDeclinedProduct();
-			$declinedProduct->getDocumentService()->publishIfPossible($declinedProduct->getId());
+			if ($axe instanceof catalog_ProductAxe) 
+			{
+				$axe->populateAxeValue($productDeclination);
+			}
 		}
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
-	 * @return void
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
 	 */
-	protected function postSave($document, $parentNodeId = null)
-	{	
-		parent::postSave($document, $parentNodeId);
+	public function updateCompiledProduct($product, $compiledProduct)
+	{
+		parent::updateCompiledProduct($product, $compiledProduct);
+		$declinationId = intval($product->getId());
 		
-		// Handle stock alerts
-		catalog_StockService::getInstance()->handleStockAlert($document);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 */
-	protected function onShelfPropertyModified($document)
-	{
-		//productdeclination do not update shelfCount
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 */
-	protected function deleteRelatedCompiledProducts($document)
-	{
-		$this->updateCompiledProperty($document, false);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param String $oldPublicationStatus
-	 * @return void
-	 */
-	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
-	{
-		$declinedProduct = $document->getRelatedDeclinedProduct();
-		if ($declinedProduct !== null)
+		$data = catalog_DeclinedproductService::getInstance()->getShowInListInfos($product->getDeclinedProduct());
+		$found = false;
+		foreach ($data as $grpIndex => $declinationIds) 
 		{
-			$declinedProduct->getDocumentService()->publishIfPossible($declinedProduct->getId());
+			if (in_array($declinationId, $declinationIds, true))
+			{
+				$found = true;
+				break;
+			}
 		}
-		parent::publicationStatusChanged($document, $oldPublicationStatus, $params);
+		
+		if (!$found)
+		{
+			Framework::warn(__METHOD__ . ' Declination not found :' . $declinationId);
+			$compiledProduct->setShowInList(false);
+			return;
+		}
+		
+		if (count($declinationIds) == 1)
+		{
+			$compiledProduct->setShowInList(true);
+			return;	
+		}
+		
+		$before = true;
+		$affected = false;
+		$needsCompile = array();
+		foreach ($declinationIds as $subDeclinationId) 
+		{
+			if ($declinationId == $subDeclinationId)
+			{
+				$before = false;
+				if (!$affected && $compiledProduct->getPublicationCode() == 0)
+				{
+					$compiledProduct->setShowInList(true);
+					$affected = true;
+				}
+				else
+				{
+					$compiledProduct->setShowInList(false);
+				}
+			}
+			else
+			{
+				$cp = $this->getCompiledDeclinationProduct($compiledProduct->getLang(), 
+						$compiledProduct->getTopicId(), $subDeclinationId);
+				if ($cp === null) 
+				{
+					Framework::warn(__METHOD__ . ' No compiled product for :' .$subDeclinationId);
+					continue;
+				}
+				
+				if (!$affected && $cp->getPublicationCode() == 0)
+				{
+					if (!$cp->getShowInList()) {$needsCompile[] = $subDeclinationId;}
+					$affected = true;
+				}
+				else if ($cp->getShowInList())
+				{
+					$needsCompile[] = $subDeclinationId;
+				} 
+			}
+		}
+		
+		if (count($needsCompile))
+		{
+			$this->setNeedCompile($needsCompile);
+		}
+	}	
+	
+	/**
+	 * @param string $lang
+	 * @param integer $topicId
+	 * @param integer $declinationId
+	 * @return catalog_persistentdocument_compiledproduct
+	 */
+	private function getCompiledDeclinationProduct($lang, $topicId, $declinationId)
+	{
+		return catalog_CompiledproductService::getInstance()->createQuery()
+				->add(Restrictions::eq('lang', $lang))
+				->add(Restrictions::eq('topicId', $topicId))
+				->add(Restrictions::eq('product.id', $declinationId))
+				->findUnique();
 	}
 		
 	/**
@@ -251,45 +503,40 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			)
 		);
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $product
-	 * @param catalog_persistentdocument_shop $shop
-	 */
-	public function getPrimaryCompiledProductForShop($product, $shop)
-	{
-		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForShop($declinedProduct, $shop);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param string $lang
-	 * @param array $parameters
-	 */
-	public function generateUrl($document, $lang, $parameters)
-	{
-		$parameters['catalogParam']['declinationId'] = $document->getId();
-		return LinkHelper::getDocumentUrl($document->getRelatedDeclinedProduct(), $lang, $parameters);
-	}
-	
-	// Deprecated
 
 	/**
-	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
+	 * @param catalog_persistentdocument_productdeclination $productdeclination
+	 * @return catalog_persistentdocument_declinedproduct
 	 */
-	public function getPrimaryShelf($product, $website)
+	public function getTargetForComment($productdeclination)
 	{
-		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getPrimaryShelf($declinedProduct, $website);
+		return $productdeclination->getDeclinedproduct();
 	}
 	
 	/**
-	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return catalog_persistentdocument_productdeclination[]
 	 */
-	public function getPrimaryCompiledProductForWebsite($product, $website)
+	public function getPublishedDeclinationsInShop($declinedProduct, $shop)
 	{
-		$declinedProduct = $product->getRelatedDeclinedProduct();
-		return $declinedProduct->getDocumentService()->getPrimaryCompiledProductForWebsite($declinedProduct, $website);
+		$query = $this->createQuery()
+			->add(Restrictions::eq('declinedproduct', $declinedProduct))
+			->addOrder(Order::asc('indexInDeclinedproduct'));
+			
+		$query->createCriteria('compiledproduct')
+			->add(Restrictions::published())
+			->add(Restrictions::eq('shopId', $shop->getId()));						
+		return $query->find();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return catalog_persistentdocument_productdeclination
+	 */
+	public function getPublishedDefaultDeclinationInShop($declinedProduct, $shop)
+	{
+		return f_util_ArrayUtils::firstElement($this->getPublishedDeclinationsInShop($declinedProduct, $shop));
 	}
 }

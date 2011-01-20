@@ -36,10 +36,6 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
     	$product = $this->getDocumentParameter();
-    	if ($product instanceof catalog_persistentdocument_productdeclination)
-    	{
-    		$product = $product->getRelatedDeclinedProduct();
-    	}
     	$request->setAttribute('globalProduct', $product);
     	
 	    if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())

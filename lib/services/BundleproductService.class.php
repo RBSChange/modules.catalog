@@ -107,7 +107,6 @@ class catalog_BundleproductService extends catalog_ProductService
 		$bis = catalog_BundleditemService::getInstance();
 		foreach ($newProducts as $product) 
 		{
-			Framework::info(__METHOD__ . ' ' . $product->__toString());
 			$bundledItem = $this->getBundledItemByProduct($document, $product);
 			if ($bundledItem === null)
 			{
@@ -115,7 +114,6 @@ class catalog_BundleproductService extends catalog_ProductService
 				$bundledItem->setQuantity(intval($document->getNewBundledItemQtt()));
 				$bundledItem->setProduct($product);
 				$bis->save($bundledItem);
-				Framework::info(__METHOD__ . ' item ' . $bundledItem->__toString());
 				$document->addBundleditem($bundledItem);
 			}
 		}

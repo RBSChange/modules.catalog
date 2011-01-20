@@ -47,30 +47,35 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		
 		if ($request->hasParameter('kititemid'))
 		{
-			$kititem = DocumentHelper::getDocumentInstance($request->getParameter('kititemid'), 'modules_catalog/kititem');
+			$kititem = catalog_persistentdocument_kititem::getInstanceById($request->getParameter('kititemid'));
 			$request->setAttribute('kititem', $kititem);
-			if ($request->hasParameter('declinationid'))
+			if ($kititem->getDeclinable() && $request->hasParameter('declinationid'))
 			{
-				$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinationid'), 'modules_catalog/productdeclination');
-				$kititem->setCurrentProduct($declination);
+				$customProduct = catalog_persistentdocument_product::getInstanceById($request->getParameter('declinationid'));
+				foreach ($kititem->getProduct()->getDeclinations() as $declination)
+				{
+					if ($customProduct === $declination)
+					{
+						$kititem->setCurrentProduct($customProduct);
+					}
+				}
 			}
 			
-			if ($kititem->getProduct() instanceof catalog_persistentdocument_declinedproduct) 
+			if ($kititem->getDeclinable()) 
 			{
-				if ($kititem->getCurrentProduct())
+				if ($kititem->getCurrentProduct() == null)
 				{
-					$declination = $kititem->getCurrentProduct();
+					$kititem->setDefaultProductForShop($shop);
 				}
-				else
-				{
-					$declination = $kititem->getProduct()->getDefaultDeclination($shop);
-				}
-				
+				$declination = $kititem->getCurrentProduct();
 				$request->setAttribute('declination', $declination);
+				$request->setAttribute('kititemproduct', $declination);
 			}
-			
+			else
+			{
+				$request->setAttribute('kititemproduct', $kititem->getProduct());
+			}
 			$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
-			$request->setAttribute('kititemproduct', $kititem->getProduct());
 			return 'Kititem';
 		}
 		

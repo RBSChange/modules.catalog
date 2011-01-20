@@ -8,6 +8,14 @@
 			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
 			<field name="brand" />
 		</section>
+		
+		<section labeli18n="modules.catalog.bo.general.Axes">
+			<field name="axe1" />
+			<field name="axe2" />
+			<field name="axe3" />
+			<field name="showAxeInList" />
+		</section>	
+			
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.First-declination">
 		<field name="declinationLabel0" type="text" required="true"
@@ -24,6 +32,8 @@
 			<constraint name="min" parameter="0" />
 		</field>
 	</section>
+	
+	
 	<section labeli18n="modules.catalog.bo.doceditor.Additional-declination">
 		<label value="&amp;modules.catalog.bo.doceditor.Additional-declination-description;" />
 	</section>

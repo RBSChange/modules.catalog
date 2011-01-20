@@ -106,4 +106,14 @@
   <key id="log-reactivate-declinedproduct">log reactivate declinedproduct</key>
   <key id="savepermissions-rootfolder">savepermissions.rootfolder {documentlabel}</key>
   <key id="log-savepermissions-rootfolder">log savepermissions rootfolder</key>
+  <key id="activate-declinedproduct">activate.declinedproduct {lang} {documentlabel}</key>
+  <key id="log-activate-declinedproduct">log activate declinedproduct</key>
+  <key id="deactivated-productdeclination">deactivated.productdeclination {lang} {documentlabel}</key>
+  <key id="log-deactivated-productdeclination">log deactivated productdeclination</key>
+  <key id="reactivate-productdeclination">reactivate.productdeclination {lang} {documentlabel}</key>
+  <key id="log-reactivate-productdeclination">log reactivate productdeclination</key>
+  <key id="savedeclinationslist-declinedproduct">savedeclinationslist.declinedproduct {lang} {documentlabel}</key>
+  <key id="log-savedeclinationslist-declinedproduct">log savedeclinationslist declinedproduct</key>
+  <key id="compileproduct">compileproduct</key>
+  <key id="log-compileproduct">log compileproduct</key>
 </i18n>

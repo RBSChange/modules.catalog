@@ -62,4 +62,7 @@
   <key id="has-no-securemedia">Ne contient pas de fichier à télécharger</key>
   <key id="order-product-in-shelf-panel-title">ordonner les produits du rayon</key>
   <key id="condition-filters">conditions d'application</key>
+  
+  <key id="no-published-content">aucun contenu publié</key>
+  <key id="axes">Axes de déclinaison</key>
 </i18n>

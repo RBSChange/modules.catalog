@@ -68,7 +68,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	}
 	
 	/**
-	 * @return catalog_persistentdocument_product[]
+	 * @return f_persistentdocument_PersistentDocument[]
 	 */
 	public function getNewKitItemProductsDocument()
 	{
@@ -78,7 +78,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 			$ids = explode(',', $this->newKitItemProductIds);
 			foreach ($ids as $id) 
 			{
-				$result[] = DocumentHelper::getDocumentInstance($id, 'modules_catalog/product');
+				$result[] = DocumentHelper::getDocumentInstance($id);
 			}
 		}
 		return $result;
@@ -119,7 +119,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 			$qtt = intval($datas['qtt']);	
 			if ($qtt > 0)
 			{
-				$id = intval($datas['id']);
+				$id = intval($datas['id']);				
 				$kitItem = $this->kitItemsToDelete[$id];
 				$kitItem->setQuantity($qtt);
 				$this->addKititem($kitItem);

@@ -11,7 +11,7 @@
 		<add name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
 		<add name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
 		<add name="upsell" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
-		<add name="codeReference" type="String" />
+		<add name="codeReference" type="String" db-size="25"/>
 		<add name="articleId" type="Integer" />
 		<add name="serializedattributes" type="Lob" />
 		<add name="compiled" type="Boolean" />

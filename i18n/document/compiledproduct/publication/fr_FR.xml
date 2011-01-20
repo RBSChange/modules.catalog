@@ -3,5 +3,6 @@
   <key id="no-price">n'a pas de prix boutique</key>
   <key id="product-not-published">le produit n'est pas publié</key>
   <key id="shop-not-published">la boutique n'est pas publiée</key>
+  <key id="shelf-not-published">le rayon n'est pas publié</key>
   <key id="product-not-displayable">le produit n'est pas affichable dans la boutique</key>
 </i18n>

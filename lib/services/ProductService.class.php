@@ -78,6 +78,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
 	 */
 	public function getDefaultVisual($product, $shop)
 	{
@@ -249,7 +250,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		if (intval($product->getShippingModeId()) > 0)
 		{
 			$properties['shippingModeId'] = $product->getShippingModeId();
-			Framework::info(__METHOD__ . ' shippingModeId :' . $product->getShippingModeId());
 		}
 		else if (isset($properties['shippingModeId']))
 		{
@@ -398,6 +398,46 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$this->onShelfPropertyModified($document);
 		}
 		
+		$this->synchronizeFields($document);
+		
+		// Generate compiled products.
+		$this->updateCompiledProperty($document, false);
+	}
+		
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 */
+	protected function onShelfPropertyModified($document)
+	{
+		$oldIds = $document->getShelfOldValueIds();
+		$currentShelves = $document->getShelfArray();
+		$ss = catalog_ShelfService::getInstance();
+		
+		$currentIds = array();
+		foreach ($currentShelves as $shelf)
+		{
+			if (!in_array($shelf->getId(), $oldIds))
+			{
+				$ss->productPublished($shelf, $document);
+			}
+			$currentIds[] = $shelf->getId();
+		}
+		
+		foreach ($oldIds as $shelfId)
+		{
+			if (!in_array($shelfId, $currentIds))
+			{
+				$shelf = DocumentHelper::getDocumentInstance($shelfId);
+				$ss->productUnpublished($shelf, $document);
+			}
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 */
+	protected function synchronizeFields($document)
+	{
 		// Handle similar and complementary products synchronization.
 		$cms = catalog_ModuleService::getInstance();
 		if ($document->isPropertyModified('complementary') && $cms->isComplementarySynchroEnabled())
@@ -407,47 +447,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		if ($document->isPropertyModified('similar') && $cms->isSimilarSynchroEnabled())
 		{
 			$this->synchronizeField($document, 'similar');
-		}
-		
-		
-		
-		// Generate compiled products.
-		$this->updateCompiledProperty($document, false);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 */
-	protected function onShelfPropertyModified($document)
-	{
-		// Update shelves counters.
-		// This must be done here, because recursive post count is
-		// refreshed by a query so, the update must be done at this time.
-
-		$oldIds = $document->getShelfOldValueIds();
-		$currentShelves = $document->getShelfArray();
-		$ss = catalog_ShelfService::getInstance();
-		
-		// Increment product count for added shelves.
-		$currentIds = array();
-		foreach ($currentShelves as $shelf)
-		{
-			if (!in_array($shelf->getId(), $oldIds))
-			{
-				$ss->incrementPublishedDocumentCount($shelf);
-			}
-			$currentIds[] = $shelf->getId();
-		}
-		
-		// Decrement product count for removed shelves.
-		foreach ($oldIds as $shelfId)
-		{
-			if (!in_array($shelfId, $currentIds))
-			{
-				$shelf = DocumentHelper::getDocumentInstance($shelfId);
-				$ss->decrementPublishedDocumentCount($shelf);
-			}
-		}
+		}		
 	}
 	
 	/**
@@ -461,17 +461,12 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$currentProducts = $document->{'get'.$ucfirstFieldName.'Array'}();
 		
 		// Update added products.
-		$productsToSave = array();
 		$currentIds = array();
 		foreach ($currentProducts as $product)
 		{
 			if (!in_array($product->getId(), $oldIds))
 			{
-				if ($product->{'getIndexof'.$ucfirstFieldName}($document) == -1)
-				{
-					$product->{'add'.$ucfirstFieldName}($document);
-					$product->save();
-				}
+				$product->getDocumentService()->addProductToTargetField($product, $fieldName, $document);
 			}
 			$currentIds[] = $product->getId();
 		}
@@ -482,15 +477,41 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			if (!in_array($productId, $currentIds))
 			{
 				$product = DocumentHelper::getDocumentInstance($productId);
-				if ($product->{'getIndexof'.$ucfirstFieldName}($document) != -1)
-				{
-					$product->{'remove'.$ucfirstFieldName}($document);
-					$product->save();
-				}
+				$product->getDocumentService()->removeProductFromTargetField($product, $fieldName, $document);
 			}
 		}
-		
-		return $productsToSave;
+	}
+	
+	/**
+	 * 
+	 * @param catalog_persistentdocument_product $targetProduct
+	 * @param string $fieldName
+	 * @param catalog_persistentdocument_product $product
+	 */
+	public function addProductToTargetField($targetProduct, $fieldName, $product)
+	{
+		if ($targetProduct === $product) {return;}
+		$ucfirstFieldName = ucfirst($fieldName);
+		if ($targetProduct->{'getIndexof'.$ucfirstFieldName}($product) == -1)
+		{
+			$targetProduct->{'add'.$ucfirstFieldName}($product);
+			$this->save($targetProduct);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $targetProduct
+	 * @param string $fieldName
+	 * @param catalog_persistentdocument_product $product
+	 */
+	public function removeProductFromTargetField($targetProduct, $fieldName, $product)
+	{
+		$ucfirstFieldName = ucfirst($fieldName);
+		if ($targetProduct->{'getIndexof'.$ucfirstFieldName}($product) != -1)
+		{
+			$targetProduct->{'remove'.$ucfirstFieldName}($product);
+			$this->save($targetProduct);
+		}
 	}
 	
 	/**
@@ -593,8 +614,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		$this->refreshShelfPublishedDocumentCount($document, $oldPublicationStatus);	
-		
+		$this->refreshShelfPublicationStatus($document, $oldPublicationStatus);			
 		// Handle compilation.
 		if (!isset($params['cause']) || $params["cause"] != "delete")
 		{
@@ -609,7 +629,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_product $document
 	 * @param String $oldPublicationStatus
 	 */
-	protected function refreshShelfPublishedDocumentCount($document, $oldPublicationStatus)
+	protected function refreshShelfPublicationStatus($document, $oldPublicationStatus)
 	{		
 		// Status transit from ACTIVE to PUBLICATED.
 		if ($document->isPublished())
@@ -617,7 +637,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$ss = catalog_ShelfService::getInstance();
 			foreach ($document->getShelfArray() as $shelf)
 			{
-				$ss->incrementPublishedDocumentCount($shelf);
+				$ss->productPublished($shelf, $document);
 			}
 		}
 		// Status transit from PUBLICATED to ACTIVE.
@@ -626,7 +646,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$ss = catalog_ShelfService::getInstance();
 			foreach ($document->getShelfArray() as $shelf)
 			{
-				$ss->decrementPublishedDocumentCount($shelf);
+				$ss->productUnpublished($shelf, $document);
 			}
 		}		
 	}
@@ -877,7 +897,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function updateCompiledProperty($document, $compiled)
 	{
-		$product = $document->getProductToCompile();
+		$product = $document;
 		if ($product !== null && $product->getCompiled() != $compiled)
 		{
 			if ($product->isModified())
@@ -906,11 +926,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_price $price
+	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
 	 */
-	public function replicatePrice($product, $price)
+	public function updateCompiledProduct($product, $compiledProduct)
 	{
-		// Nothing to do by default.
+		//TODO update compiledproduct properties if needed
 	}
 	
 	/**
@@ -994,15 +1014,23 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		return $result;
 	}
+		
+	/**
+	 * This method is called after à price has added on document
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_price $price
+	 */
+	public function priceAdded($product, $price)
+	{
+		// Nothing to do by default.
+	}
 	
 	/**
-	 * This method is called before compiled product properties update.
-	 * @see catalog_CompiledproductService::generate()
-	 * 
+	 * This method is called before à price has added on document
 	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_price $price
 	 */
-	public function updateCompiledMetas($product, $shop)
+	public function priceRemoved($product, $price)
 	{
 		// Nothing to do by default.
 	}

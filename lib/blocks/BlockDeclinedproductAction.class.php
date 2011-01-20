@@ -15,7 +15,6 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 	function execute($request, $response)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		
 		$customer = null;
 		if (catalog_ModuleService::areCustomersEnabled())
 		{
@@ -25,25 +24,15 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		if ($request->hasNonEmptyParameter('declinationId'))
 		{
 			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinationId'), 'modules_catalog/productdeclination');
-			$product = $declination->getRelatedDeclinedProduct();
-		}
-		// declinedProductId parameter is deprecated. Use declinationId instead.
-		else if ($request->hasNonEmptyParameter('declinedProductId'))
-		{
-			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinedProductId'), 'modules_catalog/productdeclination');
-			$product = $declination->getRelatedDeclinedProduct();
+			$product = $declination->getDeclinedProduct();
 		}
 		else
 		{
 			$product = $this->getDocumentParameter();
-			if ($product instanceof catalog_persistentdocument_declinedproduct)
-			{
-				$declination = $product->getDefaultDeclination($shop);
-			}
-			else if ($product instanceof catalog_persistentdocument_productdeclination)
+			if ($product instanceof catalog_persistentdocument_productdeclination)
 			{
 				$declination = $product;
-				$product = $declination->getRelatedDeclinedProduct();
+				$product = $declination->getDeclinedProduct();
 			}
 		}
 		
@@ -67,11 +56,10 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		$quantity = max(1, intval($this->findParameterValue('quantity')));
 		
 		$request->setAttribute('quantity', $quantity);
-		$request->setAttribute('product', $product);
-		$request->setAttribute('declination', $declination);
+		$request->setAttribute('declinedproduct', $product);
+		$request->setAttribute('product', $declination);
 		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('thresholdPrices', $prices);
-		
+		$request->setAttribute('thresholdPrices', $prices);		
 		return website_BlockView::SUCCESS;
 	}
 }

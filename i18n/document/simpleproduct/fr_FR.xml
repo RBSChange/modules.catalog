@@ -2,8 +2,4 @@
 <i18n baseKey="m.catalog.document.simpleproduct" lcid="fr_FR">
   <include id="m.catalog.document.product"/>
   <key id="document-name">produit simple</key>
-  <key id="stockquantity">quantité en stock</key>
-  <key id="stockquantity-help">lorsque ce champ est vide, aucun stock ne sera géré pour le produit – il sera considéré comme toujours en stock. Une fois renseigné, correspond au stock du produit. En fonction des réglages de la boutique, lorsque ce stock atteint zéro le produit pourra être automatiquement retiré de la vente.</key>
-  <key id="stockalertthreshold">seuil d'alerte de stock</key>
-  <key id="stockalertthreshold-help">valeur de la quantité en stock en deçà de laquelle sera déclenché l’envoi de la notification « Alerte concernant le stock » (Notifications &gt; Catalogue et boutiques &gt; Alerte concernant le stock) aux destinataires paramétrés dans les préférences du module « Catalogue et boutiques » (champ « Destinataires des alertes liées aux stocks »). Lorsque ce champ est vide, aucune alerte de stock ne sera envoyée..</key>
 </i18n>

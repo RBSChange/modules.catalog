@@ -238,52 +238,50 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function isPublishable($shelf)
 	{
-		if ($shelf->getPublishedDocumentCount() < 1)
+		$result = parent::isPublishable($shelf);
+		if ($result)
 		{
-			$this->setActivePublicationStatusInfo($shelf, '&modules.catalog.document.declinedproduct.publication.no-published-content;');
+			$query = $this->createShelfQuery()->add(Restrictions::published());
+			$query->add(Restrictions::childOf($shelf->getId()));
+			$query->setProjection(Projections::rowCount('count'));
+			$result = $query->findUnique();
+			if ($result['count'] > 0) 
+			{
+				return true;
+			}
+			$query = catalog_ProductService::getInstance()->createQuery()->add(Restrictions::published());
+			$query->add(Restrictions::eq('shelf.id', $shelf->getId()));
+			$query->setProjection(Projections::rowCount('count'));
+			$result = $query->findUnique();
+			if ($result['count'] > 0)
+			{
+				return true;
+			}
+			
+			$this->setActivePublicationStatusInfo($shelf, '&m.catalog.bo.general.no-published-content;');
 			return false;
 		}
-		return parent::isPublishable($shelf);
-	}
-
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 */
-	public function incrementPublishedDocumentCount($shelf)
-	{
-		$this->changePublishedDocumentCount($shelf, $shelf->getPublisheddocumentcount()+1);
-	}
-
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 */
-	public function decrementPublishedDocumentCount($shelf)
-	{
-		$this->changePublishedDocumentCount($shelf, $shelf->getPublisheddocumentcount()-1);
+		return $result;
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_product $document
 	 */
-	public function refreshPublishedDocumentCount($shelf)
+	public function productPublished($shelf, $document)
 	{
-		
-		// Get the published sub-shelf count.
-		$query = $this->createShelfQuery()->add(Restrictions::published());
-		$query->add(Restrictions::childOf($shelf->getId()));
-		$query->setProjection(Projections::rowCount('count'));
-		$result = $query->findUnique();
-		$count1 = $result['count'];
-
-		// Get the published product count.
-		$query = catalog_ProductService::getInstance()->createQuery()->add(Restrictions::published());
-		$query->add(Restrictions::eq('shelf.id', $shelf->getId()));
-		$query->setProjection(Projections::rowCount('count'));
-		$result = $query->findUnique();
-		$count2 = $result['count'];
-		
-		// Set the total value.
-		$shelf->setPublishedDocumentCount($count1 + $count2);
+		if ($shelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE)
+		{
+			$shelf->getDocumentService()->publishDocument($shelf, array('cause' => 'productPublished'));
+		}
+	}
+	
+	public function productUnpublished($shelf, $document)
+	{
+		if ($shelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_PUBLISHED)
+		{
+			$shelf->getDocumentService()->publishDocument($shelf, array('cause' => 'productUnpublished'));
+		}		
 	}
 	
 	/**
@@ -484,23 +482,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shelf $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
-	 * @return void
-	 */
-	protected function preUpdate($document, $parentNodeId)
-	{
-		// Refresh compiled product publication if there is a new translation.
-		$rqc = RequestContext::getInstance();
-		foreach ($document->getNewTranslationLangs() as $lang)
-		{
-			$rqc->beginI18nWork($lang);
-			$this->refreshPublishedDocumentCount($document);
-			$rqc->endI18nWork();
-		}
-	}
-	
-	/**
 	 * @see f_persistentdocument_DocumentService::preDeleteLocalized()
 	 *
 	 * @param catalog_persistentdocument_shelf $document
@@ -564,32 +545,28 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		// Update parent shelf's published document count.
-		if ($document->getParentShelf() !== null)
+		$parentShelf = $document->getParentShelf();
+		if ($parentShelf !== null)
 		{
-			if ($document->isPublished())
+			if ($document->isPublished() && $parentShelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE)
 			{
-				$this->incrementPublishedDocumentCount($document->getParentShelf());
+				$parentShelf->getDocumentService()->publishDocument($parentShelf, array('cause' => 'shelfPublished'));
 			}
-			else if ("PUBLICATED" == $oldPublicationStatus)
+			else if ($oldPublicationStatus === 'PUBLICATED' && $parentShelf->isPublished())
 			{
-				$this->decrementPublishedDocumentCount($document->getParentShelf());
+				$parentShelf->getDocumentService()->publishDocument($parentShelf, array('cause' => 'shelfUnpublished'));
 			}
 		}
-		
-		// Handle compilation.
-		if (!isset($params['cause']) || $params["cause"] != "delete")
+		if ($document->isPublished() || $oldPublicationStatus === 'PUBLICATED')
 		{
-			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
-			{	
+			// Handle compilation.
+			if (!isset($params['cause']) || $params["cause"] != "delete")
+			{
 				catalog_ProductService::getInstance()->setNeedCompileForShelf($document);
 			}
-		}
-		
-		// Update associated topics visibility.
-		foreach ($document->getTopicArray() as $topic)
-		{
-			if ($document->isPublished() || "PUBLICATED" == $oldPublicationStatus)
+			
+			// Update associated topics visibility.
+			foreach ($document->getTopicArray() as $topic)
 			{
 				website_SystemtopicService::getInstance()->publishIfPossible($topic->getId());
 			}
@@ -700,39 +677,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			$rq->endI18nWork($e);
 		}
 		return $topic;
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @param Integer $newCount
-	 */
-	private function changePublishedDocumentCount($shelf, $newCount)
-	{
-		// This method has effect only if there is a version of the shelf for the current lang.
-		$rq = RequestContext::getInstance();
-		if ($shelf->isLangAvailable($rq->getLang()))
-		{
-			try
-			{
-				$this->tm->beginTransaction();
-				$oldCount = $shelf->getPublisheddocumentcount();
-				$shelf->setPublisheddocumentcount($newCount);
-				$this->pp->updateDocument($shelf);
-				if (($newCount == 0 && $oldCount > 0) || ($newCount > 0 && $oldCount == 0))
-				{
-					$this->publishDocumentIfPossible($shelf);
-				}
-				$this->tm->commit();
-			}
-			catch (Exception $e)
-			{
-				$this->tm->rollBack($e);
-			}
-		}
-		else if (Framework::isDebugEnabled())
-		{
-			Framework::debug(__METHOD__ . ' : the shelf ' . $shelf->getId() . ' has no version for the current lang (' . $rq->getLang() . '), so the published document count is not updated.');
-		}
 	}
 	
 	/**

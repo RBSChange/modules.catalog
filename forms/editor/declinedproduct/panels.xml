@@ -2,23 +2,22 @@
 <panels>
 	<panel name="resume"/>
 	<panel name="properties"/>
+	<panel name="declinations" icon="product" labeli18n="m.catalog.bo.doceditor.tab.declinations" />
+	<panel name="prices" icon="price" labeli18n="m.catalog.bo.doceditor.tab.prices" />
 	<panel name="publication"/>
 	<panel name="localization" />
 	<panel name="history"/>
-	<panel name="redirect" />
 	<panel name="create"/>
 	<xul>
 		<javascript>
 			<constructor><![CDATA[
-				this.addTab('declinations', '&modules.catalog.bo.doceditor.tab.Declinations;', 'product');
-				this.addTab('prices', '&modules.catalog.bo.doceditor.tab.Prices;', 'price');
-				if (getController().checkModuleVersion('comment', '3.0.0'))
+				if (getController().hasModule('comment'))
 				{
-					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments');
+					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments', 'history');
 				}
-				if (getController().checkModuleVersion('twitterconnect', '3.0.3'))
+				if (getController().hasModule('twitterconnect'))
 				{
-					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet');
+					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet', 'history');
 				}
 			]]></constructor>
 		</javascript>

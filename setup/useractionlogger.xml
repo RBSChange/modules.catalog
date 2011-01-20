@@ -63,4 +63,10 @@
   <actiondef modulename="catalog" actionname="deactivated.paymentfilter" label="m.catalog.bo.useractionlogger.deactivated-paymentfilter"/>
   <actiondef modulename="catalog" actionname="reactivate.paymentfilter" label="m.catalog.bo.useractionlogger.reactivate-paymentfilter"/>
   <actiondef modulename="catalog" actionname="move.shelf" label="modules.catalog.bo.useractionlogger.move-shelf"/>
+  <actiondef modulename="catalog" actionname="activate.declinedproduct" label="m.catalog.bo.useractionlogger.activate-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="deactivated.productdeclination" label="m.catalog.bo.useractionlogger.deactivated-productdeclination"/>
+  <actiondef modulename="catalog" actionname="reactivate.productdeclination" label="m.catalog.bo.useractionlogger.reactivate-productdeclination"/>
+  <actiondef modulename="catalog" actionname="savedeclinationslist.declinedproduct" label="m.catalog.bo.useractionlogger.savedeclinationslist-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="activate.declinedproduct" label="m.catalog.bo.useractionlogger.activate-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="compileproduct" label="m.catalog.bo.useractionlogger.compileproduct"/>
 </script>

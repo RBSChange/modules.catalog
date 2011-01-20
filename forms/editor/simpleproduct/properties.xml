@@ -19,9 +19,9 @@
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
-		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" />
-		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" />
-		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" />
+		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
+		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
+		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
 		<field name="shippingModeId" type="document" moduleselector="shipping" allow="modules_shipping_mode" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">

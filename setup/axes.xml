@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<systemfolder module="list" relatedmodule="catalog">
+		<dynamiclist listid="modules_catalog/axes" 
+			label="&amp;modules.catalog.list.Axes-label;" 
+			description="&amp;modules.catalog.list.Axes-description;" />
+			
+		<staticlist listid="modules_catalog/axesinlist" label="&amp;modules.catalog.list.Axesinlist-label;"
+			description="&amp;modules.catalog.list.Axesinlist-description;">			
+			<staticitem value="0" label="&amp;modules.catalog.list.Axesinlist-0;" />
+			<staticitem value="1" label="&amp;modules.catalog.list.Axesinlist-1;" />
+			<staticitem value="2" label="&amp;modules.catalog.list.Axesinlist-2;" />
+			<staticitem value="3" label="&amp;modules.catalog.list.Axesinlist-3;" />
+		</staticlist>
+	</systemfolder>
+</script>

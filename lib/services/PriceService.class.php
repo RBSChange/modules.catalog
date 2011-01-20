@@ -278,9 +278,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				}
 				break;
 			case 'kit':
-				$productToCmpile = $product->getProductToCompile();
 				$targets = catalog_KitService::getInstance()->createQuery()
-					->add(Restrictions::eq('kititem.product', $productToCmpile))
+					->add(Restrictions::eq('kititem.product', $product))
 					->setProjection(Projections::property('id'), Projections::property('label'))
 					->find();
 				break;
@@ -449,11 +448,31 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	protected function postInsert($document, $parentNodeId)
 	{
-		$product = $document->getProduct();
-		if ($product instanceof catalog_persistentdocument_product)
+		$product = $document->getAttachedDocument();
+		if ($product instanceof f_persistentdocument_PersistentDocument)
 		{
-			$product->getDocumentService()->replicatePrice($product, $document);
+			$ds = $product->getDocumentService();
+			if (f_util_ClassUtils::methodExists($ds, 'priceAdded'))
+			{
+				$ds->priceAdded($product, $document);
+			}
 		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_price $document
+	 */	
+	protected function preDelete($document)
+	{
+		$product = $document->getAttachedDocument();
+		if ($product instanceof f_persistentdocument_PersistentDocument)
+		{
+			$ds = $product->getDocumentService();
+			if (f_util_ClassUtils::methodExists($ds, 'priceRemoved'))
+			{
+				$ds->priceRemoved($product, $document);
+			}
+		}		
 	}
 	
 	/**
@@ -796,8 +815,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$lastPrice = ($nbPrices > 1) ? $prices[$nbPrices - 1] : null;
 		foreach ($prices as $toDelete) 
 		{
-			if ($toDelete === $lastPrice || $toDelete === $firstPrice) {continue;}
-			//Framework::info(__METHOD__ . " delete:" . $toDelete->__toString());	
+			if ($toDelete === $lastPrice || $toDelete === $firstPrice) {continue;}	
 			$toDelete->delete();
 		}
 		
@@ -805,7 +823,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$dataProperties = array('taxCode', 'valueWithTax', 'valueWithoutTax', 'oldValueWithTax', 
 								'oldValueWithoutTax', 'discountDetail', 'ecoTax', 'lockedFor');
 		
-		//Framework::info(__METHOD__ . " compare:" . $compare);	
 		switch ($compare) 
 		{
 			case 'equal':
@@ -942,7 +959,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		
 		$compare = $this->comparePublicationDate($startDate, $endDate, $firstPrice->getStartpublicationdate(), $firstPrice->getEndpublicationdate());
-		//Framework::info(__METHOD__ . " compare:" . $compare);	
 		switch ($compare) 
 		{
 			case 'equal':

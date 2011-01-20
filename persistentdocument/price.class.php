@@ -6,17 +6,34 @@
 class catalog_persistentdocument_price extends catalog_persistentdocument_pricebase
 {
 	/**
-	 * @return catalog_persistentdocument_product
+	 * @return f_persistentdocument_PersistentDocument | null
+	 */	
+	public function getAttachedDocument()
+	{
+		if (intval($this->getProductId()) > 0)
+		{
+			try 
+			{
+				return DocumentHelper::getDocumentInstance($this->getProductId());
+			}
+			catch (Exception $e)
+			{
+				Framework::exception($e);
+			}
+		}
+		return null;		
+	}
+	
+	
+	/**
+	 * @return catalog_persistentdocument_product | null
 	 */
 	public function getProduct()
 	{
-		if ($this->getProductId())
+		$product = $this->getAttachedDocument();
+		if ($product instanceof catalog_persistentdocument_product)
 		{
-			$product = DocumentHelper::getDocumentInstance($this->getProductId());
-			if ($product instanceof catalog_persistentdocument_product)
-			{
-				return $product;
-			}
+			return $product;
 		}
 		return null;
 	}

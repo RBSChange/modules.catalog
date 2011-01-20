@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+	<binding id="declinedproduct_declinations" extends="layout.cDocumentEditor#cDocumentEditorPanel">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+						image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+						image="{IconsBase}/small/undo.png" />
+					<xul:button anonid="add_declination" oncommand="addDeclination()" label="&amp;modules.catalog.bo.doceditor.panel.declinations.New;"
+						image="{IconsBase}/small/add.png" />
+					<xul:spacer flex="1" />
+					<xul:label anonid="result-count" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cdeclinationslist anonid="declinationlist" flex="1" />
+					<xul:spacer flex="1" />
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+		<implementation>
+			<field name="documentInfos">null</field>
+
+			<property name="gridlist" readonly="true">
+				<getter><![CDATA[
+					return this.getElementByAnonId('declinationlist');
+				]]></getter>
+			</property>
+
+			<property name="modified">
+				<getter><![CDATA[
+					return this.getAttribute("modified") === "true";
+				]]></getter>
+				<setter><![CDATA[
+					var oldval = this.modified;
+					if (val != oldval) 
+					{
+						if (val)
+						{
+							this.setAttribute("modified", "true");
+						}
+						else
+						{
+							this.removeAttribute("modified");
+						}
+						this.updateCommandsUI();
+					}
+				]]></setter>
+			</property>
+
+			<method name="updateCommandsUI">
+				<body><![CDATA[						
+					this.getElementByAnonId('save_properties').disabled = !this.modified;
+					this.getElementByAnonId('reset_properties').disabled = !this.modified;
+					this.getElementByAnonId('add_declination').disabled = this.modified;
+					
+					this.documentEditor.lockTabs(this.modified);
+				]]></body>
+			</method>
+
+			<method name="lockCommandsUI">
+				<body><![CDATA[													
+					this.getElementByAnonId('save_properties').disabled = true;
+					this.getElementByAnonId('reset_properties').disabled = true;
+					this.getElementByAnonId('add_declination').disabled = true;
+				]]></body>
+			</method>
+
+			<method name="onCloseEditor">
+				<body><![CDATA[	
+					//wCore.debug("onCloseEditor:" + this.tagName);
+					this.documentInfos = null;
+					var gridlist = this.gridlist;
+					if ('initJSONDataset' in gridlist)
+					{
+						gridlist.initJSONDataset(null);
+					}
+				]]></body>
+			</method>
+
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					return {
+						action: 'InitializeDeclinationsPanel',
+						cmpref: this.documentEditor.documentid, 
+						lang : this.documentEditor.documentInfos.vo
+					};
+				]]></body>
+			</method>
+
+			<method name="fireInitializeComplete">
+				<parameter name="result" />
+				<body><![CDATA[
+					if (result.status == 'OK')
+					{			
+						var contents = result.contents;
+						this.documentInfos = {id: contents.id, vo: contents.lang, revision: contents.documentversion};
+						var node = this.getElementByAnonId('result-count');
+						var totalResultsCount = contents.totalCount;
+						var resultsCount = contents.count;
+						if (resultsCount == 0)
+						{
+							node.setAttribute('value', "&amp;modules.uixul.bo.general.search.NoResults;");
+						}
+						else if (resultsCount == totalResultsCount)
+						{
+							node.setAttribute('value', "&amp;modules.uixul.bo.general.search.SearchResultCountLabel;" + " " + totalResultsCount);
+						}
+						else
+						{
+							node.setAttribute('value', "&amp;modules.uixul.bo.general.search.FirstHundred;" + " (" +"&amp;modules.uixul.bo.general.search.TotalSearchResultCountLabel;" + totalResultsCount + " )");
+						}
+						
+						var dataset = (contents.nodes.length > 0) ? contents.nodes : null;
+						this.gridlist.initJSONDataset(dataset);						
+						this.modified = false;
+						this.collapseContentZone(false);
+						this.updateCommandsUI();
+						this.mInitialized = true;
+						this.fireEvent("panelInitializeComplete");
+						this.gotoTop();
+					}
+					else
+					{
+						this.documentInfos = null
+						this.gridlist.initJSONDataset(null);
+						
+						this.showErrorMessage(result.contents.errorMessage);
+						this.modified = false;						
+						this.collapseContentZone(true);						
+						this.mInitialized = true;
+					}
+				]]></body>
+			</method>
+
+			<method name="resetProperties">
+				<body><![CDATA[
+					this.documentEditor.executeServerAction('declinations', 'Initialize');
+				]]></body>
+			</method>
+
+			<method name="addDeclination">
+				<body><![CDATA[
+					var productId = this.documentEditor.documentid;
+					var uri = ['catalog', 'createDeclinationFromProduct', 'modules_catalog_productdeclination', productId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+
+			<method name="saveProperties">
+				<body><![CDATA[
+					this.lockCommandsUI();
+					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.documentEditor.executeServerAction('declinations', 'Update');
+				]]></body>
+			</method>
+
+			<method name="getUpdateParameters">
+				<body><![CDATA[
+				var dataset = this.gridlist.getJSONDataset();
+				declinationIds = dataset.map(function(datarow){return datarow.id;}); 
+				return {
+						action: 'SaveDeclinationsList',
+						cmpref: this.documentInfos.id, 
+						lang : this.documentInfos.vo,
+						documentversion: this.documentInfos.revision,
+						declinationIds: declinationIds
+				};
+				]]></body>
+			</method>
+
+			<method name="fireUpdateComplete">
+				<parameter name="result" />
+				<body><![CDATA[			
+					if (result.status == "OK")
+					{
+						this.modified = false;						
+						this.documentEditor.clearTabs();
+						//wCore.debug('onUpdateComplete' + wCore.dump(result));						
+						this.fireInitializeComplete(result);						
+						this.showTextMessage("&modules.uixul.bo.doceditor.message.Document-updated;");
+					}
+					else
+					{
+						this.showErrorMessage(result.contents.errorMessage);					
+					}
+				]]></body>
+			</method>
+		</implementation>
+
+		<handlers>
+			<handler event="gridChanged"><![CDATA[
+				this.modified = this.gridlist.isModified();
+			]]></handler>
+		</handlers>
+	</binding>
+	
+	<!--  modules.catalog.editors.declinedproduct#cDeclinationsList -->
+	<binding id="cDeclinationsList" extends="widgets.cGrid#cAbstractOrderableGrid">
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column flex="1" />
+					<xul:column flex="1" />
+					<xul:column flex="1" />
+					<xul:column flex="1" />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-label;" />
+						<xul:label name="codeReference" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-codeReference;" />
+						<xul:label name="stockQuantity" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockQuantity;" />
+						<xul:label name="stockLevel" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-stockLevel;" />
+						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.panel.declinations.Column-actions;" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+
+			<xul:row anonid="template-row" class="document orderable" hidden="true">
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="action">
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
+					<xul:toolbarbutton action="editPrice" image="{IconsBase}/small/price.png" tooltiptext="&amp;modules.catalog.bo.doceditor.panel.declinations.Prices;" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
+				</xul:toolbar>
+			</xul:row>
+		</content>
+		<implementation>
+
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>
+
+			<method name="getDatarowKey">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					return datarow.id;
+				]]></body>
+			</method>
+
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'properties'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+
+			<method name="execute_editPrice">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'prices'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+
+			<method name="execute_delete">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (!confirm("&modules.catalog.bo.general.Confirm-delete-declination"))
+					{
+						return;
+					}
+					var dataset = this.buildDataset();
+					if (dataset.length > 1)
+					{						
+						this.updateDataset(dataset.filter(function(row, indice, ds){return row !== rowData}));
+					}
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+</bindings>

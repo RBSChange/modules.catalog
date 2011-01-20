@@ -89,9 +89,25 @@ class catalog_persistentdocument_kititem extends catalog_persistentdocument_kiti
 		return $this->currentProduct;
 	}
 
+	/**
+	 * 
+	 * @param catalog_persistentdocument_product $product
+	 */
 	public function setCurrentProduct($product)
 	{
 		$this->currentProduct = $product;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function setDefaultProductForShop($shop)
+	{
+		if ($this->getDeclinable())
+		{
+			$declinedproduct = $this->getProduct()->getDeclinedproduct();
+			$this->currentProduct = catalog_ProductdeclinationService::getInstance()->getPublishedDefaultDeclinationInShop($declinedproduct ,$shop);
+		}
 	}
 	
 	/**

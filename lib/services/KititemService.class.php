@@ -145,23 +145,37 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	public function transformToArray($kitItem, &$result)
 	{
 		$product = $kitItem->getProduct();	
-		$statusOk = $product->isContextLangAvailable();
-		$label = $statusOk ? $product->getLabel() : $product->getVoLabel();
-		$showDeclination = ($product instanceof catalog_persistentdocument_declinedproduct && !$product->getSynchronizePrices());
+		$showDeclination = false;
+		$master = $product;
+		if ($product instanceof catalog_DeclinableProduct)
+		{
+			if ($kitItem->getDeclinable())
+			{
+				$master = $product->getDeclinedproduct();
+				if (!$master->getSynchronizePrices())
+				{
+					$showDeclination = true;
+				}
+			}
+		}
+		$statusOk = $master->isContextLangAvailable();
+		$label = $statusOk ? $master->getLabel() : $master->getVoLabel();
+		
+		
 		$result[] =  array(
 				'id' => $kitItem->getId(),
-				'productType' => str_replace('/', '_', $product->getDocumentModelName()),
-				'productId' => $product->getId(),
+				'productType' => str_replace('/', '_', $master->getDocumentModelName()),
+				'productId' => $master->getId(),
 				'actionrow' => $showDeclination ? '1' : '0',
 				'statusOk' => $statusOk ? '': 'Non disponible',
 			    'label' => $label,
 			    'qtt' => $kitItem->getQuantity(),
-			);	
+		);	
 			
 		if ($showDeclination)
 		{
-			foreach ($product->getDeclinationArray() as $declination) 
-			{
+			foreach ($product->getDeclinations() as $declination) 
+			{				
 				$declinationstatusOk = $declination->isContextLangAvailable();
 				$declinationlabel = $declinationstatusOk ? $declination->getLabel() : $declination->getVoLabel();
 				$result[] =  array(
@@ -172,7 +186,9 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 					'actionrow' => '2',
 				    'label' => $label,
 					'sublabel' => $declinationlabel,
-				    'qtt' => '');
+				    'qtt' => '',
+					'declinable' => false,
+				);
 			}
 		}
 	}
@@ -202,7 +218,10 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		}
 		else
 		{
-			Framework::info(__METHOD__ . ' No current kit.');
+			if (Framework::isInfoEnabled())
+			{
+				Framework::info(__METHOD__ . ' No current kit.');
+			}
 		}
 		return null;
 	}

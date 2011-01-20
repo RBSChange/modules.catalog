@@ -28,7 +28,7 @@ class catalog_SameBrandProductFeeder extends catalog_ProductFeeder
 	 */
 	public function getProductArray($parameters)
 	{
-		$product = DocumentHelper::getDocumentInstance($parameters['productId'], 'modules_catalog/product');			
+		$product = DocumentHelper::getDocumentInstance($parameters['productId']);			
 		$brand = $product->getBrand();
 		if ($brand === null)
 		{

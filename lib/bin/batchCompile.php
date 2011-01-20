@@ -9,8 +9,7 @@ else
 {
 	$productIdArray = $_POST['argv'];
 }
-
-Controller::newInstance("controller_ChangeController");
+Framework::info(__FILE__ . ' -> ' . implode(', ', $productIdArray));
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {
@@ -19,6 +18,7 @@ try
 	{
 		Framework::info(date_Calendar::getInstance()->toString() . " Compile $productId ...");
 		$product = DocumentHelper::getDocumentInstance($productId, 'modules_catalog/product');
+		
 		catalog_CompiledproductService::getInstance()->generateForProduct($product);
 	}
 	$tm->commit();

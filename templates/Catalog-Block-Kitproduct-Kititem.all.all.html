@@ -5,7 +5,7 @@
 	<!-- Product information -->
 	<div class="column-33 margin-left float-right">
 		<ul class="mini-navigation">
-			<li><a change:link="document product; catalogParam[customitems] customitems" change:translate="modules.catalog.frontoffice.Go-to-kit; kitLabel product/getLabelAsHtml"></a></li>
+			<li><a change:link="document product; catalogParam[customitems] customitems">${trans:m.catalog.frontoffice.go-to-kit,ucf,kitLabel=product/getLabelAsHtml}</a></li>
 		</ul>		
 		<ul tal:condition="kititemproduct/getPictogramCount" class="associated-pictograms">
 			<li tal:repeat="pictogram kititemproduct/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
@@ -13,21 +13,21 @@
 		
 		<h1 class="title">${kititemproduct/getLabelAsHtml}</h1>
 		<tal:block tal:condition="not: declination">
-			<div class="product-ref"><strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong> ${kititemproduct/getCodeReferenceAsHtml}</div> 
+			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${kititemproduct/getCodeReferenceAsHtml}</div> 
 		</tal:block>
 		<tal:block tal:condition="declination">
-			<p change:translate="modules.catalog.frontoffice.Need-article-selection-one; label kititemproduct/getLabelAsHtml" />
-			<div class="product-ref"><strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong></div>
+			<p>${trans:m.catalog.frontoffice.need-article-selection-one,label=declination/getLabelAsHtml}</p>
+			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong>${declination/getCodeReferenceAsHtml}</div>
 			<form class="product-form" change:link="document product; catalogParam[customitems] customitems" method="post">	
 				<input type="hidden" name="catalogParam[kititemid]" value="${kititem/getId}" />
 				<select tal:condition="declination" conditionclass="textfield" id="product-declination" name="catalogParam[declinationid]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
-						<tal:block tal:repeat="adeclination php: kititemproduct.getDisplayableDeclinations(shop)">
+						<tal:block tal:repeat="adeclination php: kititemproduct.getPublishedDeclinationsInShop(shop)">
 							<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
 							<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
 						</tal:block>
 				</select>
 				<noscript>
-					<input type="submit" class="button" change:i18nattr="value &modules.catalog.frontoffice.Refresh-declined;" />
+					<input type="submit" class="button" value="${trans:m.catalog.frontoffice.refresh-declined,ucf,attr}" />
 				</noscript>
 			</form>
 		</tal:block>

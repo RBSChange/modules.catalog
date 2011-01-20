@@ -109,7 +109,6 @@ class catalog_VirtualproductService extends catalog_ProductService
 	 */
 	public function hasMediaAccess($product, $customer, $expeditionId, $expeditionLineId)
 	{
-		Framework::info(__METHOD__ . ' User ' .$customer->getId() . " (" . $customer->getLabel() . ") acces granted expedition $expeditionId, line $expeditionLineId, product " . $product->getId());
 		$expeditionLine = DocumentHelper::getDocumentInstance($expeditionLineId, 'modules_order/expeditionline');
 		if ($expeditionLine->hasMeta('MediaAccessGranted'))
 		{

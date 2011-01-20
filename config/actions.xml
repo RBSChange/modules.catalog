@@ -105,6 +105,20 @@
 			this.refreshMainViewDeck();
 		]]></body>
 	</action>
+	
+	<action name="compileDeclinedProduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var document = listWidget.getSelectedItems()[0];
+			this.executeJSON("CompileDeclinedProduct", {cmpref: document.id, lang: this.getContextLang()});
+		]]></body>
+	</action>
+	<action name="onCompileDeclinedProductSuccess">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			this.refreshMainViewDeck();
+		]]></body>
+	</action>
 
 	<action name="exportAlertInfos">
 		<parameter name="listWidget" />

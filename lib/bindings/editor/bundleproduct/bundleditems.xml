@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">	
+	<binding id="bundleproduct_bundleditems" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+						image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+						image="{IconsBase}/small/undo.png" />
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="&amp;modules.uixul.bo.doceditor.button.Nexterror;"
+						image="{IconsBase}/small/next-invalid-field.png" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cfield name="bundleditemsJSON" id="catalog_bundleproduct_bundleditemsJSON" anonid="field_bundleditemsJSON" fieldtype="namedgridlist"
+						flex="1">
+					</xul:cfield>
+
+					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.Add-bundleditems;">
+						<xul:row anonid="row_newBundledItemProducts">
+							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemProducts_label" control="catalog_bundleproduct_bundleditems_newBundledItemProducts"
+								value="&amp;modules.catalog.bo.doceditor.bundleditem.Products;" />
+							<xul:cfield name="newBundledItemProducts" id="catalog_bundleproduct_bundleditems_newBundledItemProducts" anonid="field_newBundledItemProducts"
+								fieldtype="documentarray" 
+								allow="modules_catalog_virtualproduct,modules_catalog_productdeclination,modules_catalog_bundleproduct,modules_catalog_simpleproduct" 
+								dialog="productselector" moduleselector="catalog"
+								shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
+							</xul:cfield>
+						</xul:row>
+						<xul:row anonid="row_newBundledItemQtt">
+							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemQtt_label" control="catalog_bundleproduct_bundleditems_newBundledItemQtt"
+								value="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity;" />
+							<xul:cfield name="newBundledItemQtt" id="catalog_bundleproduct_bundleditems_newBundledItemQtt" anonid="field_newBundledItemQtt"
+								fieldtype="integer" required="true" shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
+								<xul:cconstraint name="min" parameter="1" />
+							</xul:cfield>
+						</xul:row>
+					</xul:cfieldsgroup>
+					<xul:spacer flex="1" />
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+		<implementation>
+			<field name="mFieldNames">["bundleditemsJSON","newBundledItemProducts","newBundledItemQtt"]
+			</field>
+
+			<method name="saveProperties">
+				<body><![CDATA[
+					this.lockCommandsUI();
+					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.documentEditor.executeServerAction('bundleditems', 'Update');
+				]]></body>
+			</method>
+
+		</implementation>
+	</binding>
+	
+	<binding id="cBundledItemsGrid" extends="widgets.cGrid#cAbstractOrderableGrid">
+		<implementation>
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>
+
+			<method name="getDatarowKey">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					return datarow.id + ',' + datarow.qtt;
+				]]></body>
+			</method>
+
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					var uri = ['catalog', 'openDocument', rowData.productType, rowData.productId].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+
+			<method name="execute_delete">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					var olddataset = this.buildDataset();
+					if (olddataset.length <= 1) return;
+					
+					var dataset = [];
+					for (var i = 0; i < olddataset.length; i++)
+					{
+						if (olddataset[i] !== rowData)
+						{
+							dataset.push(olddataset[i]);
+						}
+					}
+					
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>
+
+			<method name="execute_addproduct">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					rowData.qtt += 1;
+					
+					var dataset = this.buildDataset();
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>
+
+			<method name="execute_removeproduct">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (this.disabled || rowData.qtt <= 1) {return;}
+					rowData.qtt -= 1;
+					
+					var dataset = this.buildDataset();
+					this.mCurrentDatasetKey = this.generateDatasetKey(dataset);
+					this.refreshUI(dataset);
+					this.dispatchChanged();
+				]]></body>
+			</method>
+		</implementation>
+
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column flex="1" />
+					<xul:column />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.bundleditems.Label-column;" />
+						<xul:label name="qtt" value="&amp;modules.catalog.bo.doceditor.bundleditems.Qtt-column;" />
+						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.bundleditems.Actions-column;" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+
+			<xul:row anonid="template-row" class="document orderable" hidden="true">
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="actions">
+					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="&amp;modules.catalog.bo.actions.Add-product;" />
+					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.catalog.bo.actions.Remove-product;" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
+				</xul:toolbar>
+			</xul:row>
+		</content>
+	</binding>
+</bindings>

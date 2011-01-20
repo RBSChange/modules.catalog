@@ -61,21 +61,44 @@ class catalog_KitService extends catalog_ProductService
 	protected function preSave($document, $parentNodeId = null)
 	{
 		parent::preSave($document, $parentNodeId);
-		$newProducts = $document->getNewKitItemProductsDocument();
-		$document->setNewKitItemProductIds(null);
+		$this->addNewBOKitItems($document);
+	}
+	
+	/**
+	 * 
+	 * @param catalog_persistentdocument_kit $kit
+	 */
+	protected function addNewBOKitItems($kit)
+	{
+		$newProducts = $kit->getNewKitItemProductsDocument();
+		$kit->setNewKitItemProductIds(null);
 		
-		$qtt = intval($document->getNewKitItemQtt());
+		$qtt = intval($kit->getNewKitItemQtt());
 		$kis = catalog_KititemService::getInstance();
-		foreach ($newProducts as $product)
+		foreach ($newProducts as $document)
 		{
-			$kitItem = $this->getKitItemByProduct($document, $product);
+			$declinable = false;
+			if ($document instanceof catalog_persistentdocument_product)
+			{
+				$product = $document;
+			}
+			else if ($document instanceof catalog_persistentdocument_declinedproduct)
+			{
+				$product = $document->getFirstDeclination();
+				$declinable = true;
+			}
+			
+			if ($product === null) {continue;}
+			
+			$kitItem = $this->getKitItemByProduct($kit, $product);
 			if ($kitItem === null)
 			{
-				$kitItem = $kis->createNew($document, $product, $qtt);
+				$kitItem = $kis->createNew($kit, $product, $qtt);
+				$kitItem->setDeclinable($declinable);
 				$kis->save($kitItem);
-				$document->addKititem($kitItem);
+				$kit->addKititem($kitItem);
 			}
-		}
+		}		
 	}
 	
 	/**
@@ -246,43 +269,38 @@ class catalog_KitService extends catalog_ProductService
 	{
 		foreach ($product->getKititemArray() as $kitItem) 
 		{
-			$kitItem->setCurrentKit($product);
-			$kitItemProduct = $kitItem->getProduct();
-			
-			$key = $kitItem->getCurrentKey();
-			if (isset($customItems[$key]))
+			if ($kitItem instanceof catalog_persistentdocument_kititem) 
 			{
-				try 
+				$kitItem->setCurrentKit($product);
+				if ($kitItem->getDeclinable())
 				{
-					$customProduct = DocumentHelper::getDocumentInstance($customItems[$key], 'modules_catalog/product');
-					if ($customProduct instanceof catalog_persistentdocument_productdeclination) 
+					$kitItemProduct = $kitItem->getProduct();
+					$key = $kitItem->getCurrentKey();
+					if (isset($customItems[$key]))
 					{
-						if ($customProduct->getRelatedDeclinedProduct() === $kitItemProduct)
+						try 
 						{
-							$kitItem->setCurrentProduct($customProduct);
+							$customProduct = DocumentHelper::getDocumentInstance($customItems[$key], 'modules_catalog/product');
+							foreach ($kitItemProduct->getDeclinations() as $declination)
+							{
+								if($customProduct === $declination)
+								{
+									$kitItem->setCurrentProduct($customProduct);
+								}
+							}
 						}
-						else
+						catch (Exception $e)
 						{
-							Framework::warn(__METHOD__ . ' Invalid product declination ' . $customProduct->__toString() . ' for kititem ' . $kitItem->__toString());
-							$kitItem->setCurrentProduct($kitItemProduct->getDefaultDeclination($shop));
+							Framework::warn(__METHOD__ . ' ' . $e->getMessage());
 						}
 					}
-					else
+					if ($kitItem->getCurrentProduct() === null)
 					{
-						Framework::warn(__METHOD__ . ' Invalid custom product type ' . get_class($customProduct) . ' for kititem ' . $kitItem->__toString());
-					}
-
-				}
-				catch (Exception $e)
-				{
-					Framework::warn(__METHOD__ . ' ' . $e->getMessage());
+						$kitItem->setDefaultProductForShop($shop);
+					}				
 				}
 			}
 			
-			if ($kitItem->getCurrentProduct() === null && $kitItem->getProduct() instanceof catalog_persistentdocument_declinedproduct)
-			{
-				$kitItem->setCurrentProduct($kitItem->getProduct()->getDefaultDeclination($shop));
-			}
 		}
 	}
 	
@@ -296,7 +314,7 @@ class catalog_KitService extends catalog_ProductService
 		$kitItem = new catalog_persistentdocument_kititem();
 		foreach ($product->getKititemArray() as $kitItem) 
 		{
-			if ($kitItem->getCurrentProduct() !== null)
+			if ($kitItem->getDeclinable() && $kitItem->getCurrentProduct() !== null)
 			{
 				$customItems['k'. $kitItem->getId()] = $kitItem->getCurrentProduct()->getId();
 			}
@@ -333,27 +351,38 @@ class catalog_KitService extends catalog_ProductService
 	{
 		foreach ($product->getKititemArray() as $kitItem) 
 		{
-			$kitItem->setCurrentKit($product);			
-			$key = $kitItem->getCurrentKey();
-			if (isset($properties[$key]))
+			if ($kitItem instanceof catalog_persistentdocument_kititem) 
 			{
-				try 
+				$kitItem->setCurrentKit($product);			
+				$key = $kitItem->getCurrentKey();
+				if ($kitItem->getDeclinable())
 				{
-					$customProduct = DocumentHelper::getDocumentInstance($properties[$key], 'modules_catalog/product');
-					$kitItem->setCurrentProduct($customProduct);
+					$kitItemProduct = $kitItem->getProduct();
+					$key = $kitItem->getCurrentKey();
+					if (isset($properties[$key]))
+					{
+						try 
+						{
+							$customProduct = catalog_persistentdocument_product::getInstanceById($properties[$key]);
+							foreach ($kitItemProduct->getDeclinations() as $declination)
+							{
+								if ($customProduct === $declination)
+								{
+									$kitItem->setCurrentProduct($customProduct);
+								}
+							}
+						}
+						catch (Exception $e)
+						{
+							Framework::warn(__METHOD__ . ' ' . $e->getMessage());
+						}
+					}
+					
+					if ($kitItem->getCurrentProduct() === null)
+					{
+						$kitItem->setDefaultProductForShop(catalog_ShopService::getInstance()->getCurrentShop());
+					}	
 				}
-				catch (Exception $e)
-				{
-					Framework::warn(__METHOD__ . ' ' . $e->getMessage());
-				}
-			}
-			else if ($kitItem->getProduct() instanceof catalog_persistentdocument_declinedproduct)
-			{
-				$kitItem->setCurrentProduct($kitItem->getProduct()->getDefaultDeclination());
-			}
-			else
-			{
-				$kitItem->setCurrentProduct(null);
 			}
 		}
 	}

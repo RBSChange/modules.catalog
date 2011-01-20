@@ -2,16 +2,10 @@
 <panels>
 	<panel name="resume"/>
 	<panel name="properties"/>
+	<panel name="prices" icon="price" labeli18n="m.catalog.bo.doceditor.tab.prices" />
 	<panel name="publication"/>
 	<panel name="localization" />
+	<panel name="redirect" />
 	<panel name="history"/>
-	<panel name="create"/>
-	
-	<xul>
-		<javascript>
-			<constructor><![CDATA[
-				this.addTab('prices', '&modules.catalog.bo.doceditor.tab.Prices;', 'price');
-			]]></constructor>
-		</javascript>
-	</xul>	 	
+	<panel name="create"/>	
 </panels>

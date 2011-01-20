@@ -7,4 +7,8 @@
 		<field name="stockQuantity" />
 		<field name="stockAlertThreshold" />
 	</section>
+	
+	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
+		<fieldinput name="attributesJSON" type="attributeslist"/>
+	</section>
 </panel>

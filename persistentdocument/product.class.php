@@ -388,22 +388,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}	
 	
 	/**
-	 * @return boolean
-	 */
-	public function isCompilable()
-	{
-		return true;
-	}
-	
-	/**
-	 * @return catalog_persistentdocument_product
-	 */
-	public function getProductToCompile()
-	{
-		return $this;
-	}
-	
-	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param String $type from list 'modules_catalog/crosssellingtypes'
 	 * @param String $sortBy from list 'modules_catalog/crosssellingsortby'
@@ -702,6 +686,44 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return true;
 	}
 	
+	/**
+	 * @return catalog_persistentdocument_compiledproduct | null
+	 */
+	public function getContextualCompiledProduct()
+	{
+		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		if ($pageId)
+		{
+			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+			$topic = f_util_ArrayUtils::lastElement($ancestors);
+			if ($topic instanceof website_persistentdocument_systemtopic)
+			{
+				return catalog_CompiledproductService::getInstance()->createQuery()
+					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+					->add(Restrictions::eq('topicId', $topic->getId()))
+					->add(Restrictions::eq('product', this))->findUnique();
+			}
+		}
+		return  null;
+	}
+
+	/**
+	 * @return catalog_persistentdocument_compiledproduct | null
+	 */
+	public function getPrimaryContextualCompiledProduct()
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if ($shop instanceof  catalog_persistentdocument_shop)
+		{
+			return catalog_CompiledproductService::getInstance()->createQuery()
+					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+					->add(Restrictions::eq('primary', true))
+					->add(Restrictions::eq('shopId', $shop->getId()))
+					->add(Restrictions::eq('product', this))
+					->findUnique();
+		}
+		return  null;
+	}
 	// Deprecated 
 	
 	/**

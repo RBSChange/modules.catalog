@@ -313,4 +313,61 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		$recipients->setTo($alert->getEmail());
 		$ns->send($ns->getByCodeName('modules_catalog/newalert'), $recipients, $replacements, 'catalog');
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 */
+	public function setPendingForAvailability($document)
+	{
+		try 
+		{
+			$this->tm->beginTransaction();
+			
+			$query = $this->createQuery()
+				->add(Restrictions::published())
+				->add(Restrictions::eq('pending', false))
+				->add(Restrictions::eq('alertType', self::TYPE_AVAILABILITY));
+				
+			foreach ($query->find() as $alert)
+			{
+				$alert->setPending(true);
+				$this->pp->updateDocument($alert);
+			}				
+			
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+		}	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 */
+	public function setPendingForPrice($document)
+	{
+		try 
+		{
+			$this->tm->beginTransaction();
+			
+			$query = $this->createQuery()
+				->add(Restrictions::published())
+				->add(Restrictions::eq('pending', false))
+				->add(Restrictions::eq('alertType', self::TYPE_PRICE))
+				->add(Restrictions::gt('priceReference', $document->getPrice()));
+						
+			foreach ($query->find() as $alert)
+			{
+				$alert->setPending(true);
+				$this->pp->updateDocument($alert);
+			}
+			
+			$this->tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$this->tm->rollBack($e);
+		}		
+	}
 }

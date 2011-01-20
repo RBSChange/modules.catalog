@@ -18,6 +18,7 @@
 	<key id="createshippingfilter">créer un filtre de livraison</key>
 	<key id="createpaymentfilter">créer un filtre de paiement</key>
 	<key id="compileproduct">Actualiser</key>
+	<key id="compileDeclinedProduct">Actualiser</key>
 	<key id="exportalertinfos">exporter les alertes</key>
 	<key id="edit-price">editer le prix</key>
 	<key id="initdefaultstructure">créer les pages par défaut</key>

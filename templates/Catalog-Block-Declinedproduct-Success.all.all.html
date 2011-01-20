@@ -9,6 +9,7 @@
 <ul change:messages=""></ul>
 
 <div class="website-block">
+	<tal:block tal:define="global productUrl php: LinkHelper::getDocumentUrl(product)" />
 	<!-- Product information -->
 	<div class="column-33 margin-left float-right">
 		<tal:block change:include="module 'catalog'; template 'Catalog-Inc-Mininavigation'; type 'html'; primaryshelf primaryshelf"/>
@@ -20,7 +21,7 @@
 		
 		<h1 class="title">${product/getLabelAsHtml}</h1>
 		<div class="product-ref">
-			<strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong> ${declination/getCodeReferenceAsHtml}
+			<strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong> ${product/getCodeReferenceAsHtml}
 		</div>
 		                
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
@@ -40,9 +41,9 @@
 					<fieldset>		
 						<label for="product-declination" change:translate="modules.catalog.frontoffice.Detail-declinationsLabel"></label>
 						<select class="textfield" id="product-declination" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
-							<tal:block tal:repeat="adeclination php: product.getDisplayableDeclinations(shop)">
-								<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
-								<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
+							<tal:block tal:repeat="adeclination php: declinedproduct.getPublishedDeclinationsInShop(shop)">
+								<option tal:condition="php: adeclination.getId() == product.getId()" selected="selected" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
+								<option tal:condition="php: adeclination.getId() != product.getId()" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
 							</tal:block>
 						</select>
 						<noscript>
@@ -54,7 +55,7 @@
 		</form>
 		
 		<!-- Disponibilité -->
-		<p tal:define="availability declination/getAvailability" tal:condition="availability" class="normal availability">${availability}</p>
+		<p tal:define="availability product/getAvailability" tal:condition="availability" class="normal availability">${availability}</p>
 		
 		<ul>
 			<!-- Prix HT -->
@@ -77,13 +78,13 @@
 		</ul>
 			
 		<!-- ajouter au panier -->
-		<form tal:condition="php: declination.canBeOrdered(shop)" class="product-form" change:link="module order; action AddToCart" method="post">
+		<form tal:condition="php: product.canBeOrdered(shop)" class="product-form" change:link="module order; action AddToCart" method="post">
 			<fieldset>		
 				<label for="product-quantity" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
 				<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="${quantity}" />
 			</fieldset>			
 			<p class="buttons">
-				<tal:block change:addtocartbutton="shop shop; product declination" />
+				<tal:block change:addtocartbutton="shop shop; product product; backurl productUrl" />
 			</p>
 		</form>
 		<tal:block change:block="" module="catalog" name="ProductAlert" />
@@ -91,7 +92,7 @@
 	<!-- End - Product information -->
 	
 	<!-- Product Pics -->
-	<div class="column-66 margin-right product-pics" tal:define="visuals php: declination.getAllVisuals(shop); uniqueId product/getId">
+	<div class="column-66 margin-right product-pics" tal:define="visuals php: product.getAllVisuals(shop); uniqueId product/getId">
 		<tal:block tal:repeat="imageMini visuals">
 			<tal:block tal:define="global mainVisualBlockDOMId">mainVisualBlock_${uniqueId}-${imageMini/getId}</tal:block>				
 			<tal:block tal:condition="not: repeat/imageMini/start"><tal:block tal:define="global style">display: none;</tal:block></tal:block>

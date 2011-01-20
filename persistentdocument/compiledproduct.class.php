@@ -11,7 +11,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	 */
 	public function getIndexedDocument()
 	{
-		if ($this->getPrimary())
+		if ($this->getShowInList())
 		{
 			$product = $this->getProduct();
 			$indexDocument = $product->getIndexedDocumentForShop($this->getShop());
@@ -25,8 +25,6 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 		}
 		return null;
 	}
-	
-	private static $i = 1;
 	
 	/**
 	 * @return catalog_persistentdocument_shop

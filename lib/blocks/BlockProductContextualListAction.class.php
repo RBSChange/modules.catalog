@@ -13,9 +13,10 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	
 	/**
 	 * @param f_mvc_Response $response
+	 * @param boolean $idsOnly
 	 * @return catalog_persistentdocument_product[]
 	 */
-	protected function getProductArray($request)
+	protected function getProductArray($request, $idsOnly = false)
 	{
 		// Prepare display configuration.
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
@@ -26,42 +27,42 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			$this->persistSortOptions($request);
 		}
+		$masterQuery = catalog_ProductService::getInstance()->createQuery();
 		
-		// Get products to display.
-		$query = catalog_CompiledproductService::getInstance()->createQuery()
+		$query = $masterQuery->createCriteria('compiledproduct')
 			->add(Restrictions::published())
 			->add(Restrictions::eq('topicId', $this->getPage()->getNearestContainerId()))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-			->setProjection(Projections::property('product'))
-			->setFetchColumn('product');
+			->add(Restrictions::eq('showInList', true));
+
 		$priceorder = $this->findParameterValue('priceorder');
 		if ($priceorder == 1)
 		{
-			$query->addOrder(Order::asc('price'));
+			$masterQuery->addOrder(Order::asc('compiledproduct.price'));
 		}
 		else if ($priceorder == 2)
 		{
-			$query->addOrder(Order::desc('price'));
+			$masterQuery->addOrder(Order::desc('compiledproduct.price'));
 		}
 		$ratingaverageorder = $this->findParameterValue('ratingaverageorder');
 		if ($ratingaverageorder == 1)
 		{
-			$query->addOrder(Order::asc('ratingAverage'));
+			$masterQuery->addOrder(Order::asc('compiledproduct.ratingAverage'));
 		}
 		else if ($ratingaverageorder == 2)
 		{
-			$query->addOrder(Order::desc('ratingAverage'));
+			$masterQuery->addOrder(Order::desc('compiledproduct.ratingAverage'));
 		}
 		$brandorder = $this->findParameterValue('brandorder');
 		if ($brandorder == 1)
 		{
-			$query->addOrder(Order::asc('brandLabel'));
+			$masterQuery->addOrder(Order::asc('compiledproduct.brandLabel'));
 		}
 		else if ($brandorder == 2)
 		{
-			$query->addOrder(Order::desc('brandLabel'));
+			$masterQuery->addOrder(Order::desc('compiledproduct.brandLabel'));
 		}
-		$query->addOrder(Order::asc('position'));
+		$masterQuery->addOrder(Order::asc('compiledproduct.position'));
 		
 		$hideBlocIfEmpty = true;
 		$onlydiscount = $this->findParameterValue('onlydiscount');
@@ -76,12 +77,21 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 			$query->add(Restrictions::eq('isAvailable', true));
 			$hideBlocIfEmpty = false;
 		}
-		$products = $query->find();
+		
+		if ($idsOnly)
+		{
+			$masterQuery->setProjection(Projections::property('id'));
+			$products = $masterQuery->findColumn('id');
+		}
+		else
+		{	
+			$products = $masterQuery->find();		
+		}
+		
 		if (count($products) == 0 && $hideBlocIfEmpty)
 		{
 			return null;
 		}
-		
 		$request->setAttribute('blockTitle', $this->getBlockTitle());
 		return $products;
 	}
@@ -92,75 +102,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	protected function getProductIdArray($request)
 	{
-
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$displayConfig = $this->getDisplayConfig($shop);
-		
-		// Handle the sort configuration.
-		if ($displayConfig['showSortMenu'])
-		{
-			$this->persistSortOptions($request);
-		}
-		
-		$masterQuery = catalog_ProductService::getInstance()
-			->createQuery()
-			->setProjection(Projections::property('id'));
-			
-		$query = $masterQuery->createCriteria('compiledproduct')
-			->add(Restrictions::published())
-			->add(Restrictions::eq('topicId', $this->getPage()->getNearestContainerId()))
-			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()));
-			
-		$priceorder = $this->findParameterValue('priceorder');
-		if ($priceorder == 1)
-		{
-			$masterQuery->addOrder(Order::asc('compiledproduct.price'));
-		}
-		elseif ($priceorder == 2)
-		{
-			$masterQuery->addOrder(Order::desc('compiledproduct.price'));
-		}
-		
-		$ratingaverageorder = $this->findParameterValue('ratingaverageorder');
-		if ($ratingaverageorder == 1)
-		{
-			$masterQuery->addOrder(Order::asc('compiledproduct.ratingAverage'));
-		}
-		elseif ($ratingaverageorder == 2)
-		{
-			$masterQuery->addOrder(Order::desc('compiledproduct.ratingAverage'));
-		}
-		$brandorder = $this->findParameterValue('brandorder');
-		if ($brandorder == 1)
-		{
-			$masterQuery->addOrder(Order::asc('compiledproduct.brandLabel'));
-		}
-		elseif ($brandorder == 2)
-		{
-			$masterQuery->addOrder(Order::desc('compiledproduct.brandLabel'));
-		}
-		
-		$hideBlocIfEmpty = true;
-		$onlydiscount = $this->findParameterValue('onlydiscount');
-		if ($onlydiscount == 'true')
-		{
-			$query->add(Restrictions::eq('isDiscount', true));
-			$hideBlocIfEmpty = false;
-		}
-		$onlyavailable = $this->findParameterValue('onlyavailable');
-		if ($onlyavailable == 'true')
-		{
-			$query->add(Restrictions::eq('isAvailable', true));
-			$hideBlocIfEmpty = false;
-		}
-		$products = $masterQuery->findColumn('id');
-		if (count($products) == 0 && $hideBlocIfEmpty)
-		{
-			return null;
-		}
-		
-		$request->setAttribute('blockTitle', $this->getBlockTitle());
-		return $products;
+		return $this->getProductArray($request, true);
 	}
 	
 	protected function persistSortOptions($request)
