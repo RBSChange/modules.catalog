@@ -16,9 +16,12 @@ class catalog_patch_0354 extends patch_BasePatch
 		
 		$this->log('generate-database ...');
 		$this->execChangeCommand('generate-database');
+				
+		$pp = f_persistentdocument_PersistentProvider::getInstance();
 		
 		$sql ="SELECT `relation_id` FROM `f_relationname` WHERE `property_name` = 'declinedproduct'";
-		$stmt = $this->executeSQLSelect($sql);
+		$stmt = $pp->getDriver()->prepare($sql);
+		$stmt->execute();
 		$rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
 		if (is_array($rows) && count($rows) == 1)
 		{
@@ -31,7 +34,8 @@ class catalog_patch_0354 extends patch_BasePatch
 		}
 		
 		$sql ="SELECT `relation_id` FROM `f_relationname` WHERE `property_name` = 'declination'";
-		$stmt = $this->executeSQLSelect($sql);
+		$stmt = $pp->getDriver()->prepare($sql);
+		$stmt->execute();
 		$rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
 		if (is_array($rows) && count($rows) == 1)
 		{
@@ -41,8 +45,8 @@ class catalog_patch_0354 extends patch_BasePatch
 		{
 			$this->logError('Unable to find old declination relation id');
 			die();
-		}		
-		
+		}
+			
 		try 
 		{
 			$this->beginTransaction();
@@ -166,7 +170,8 @@ class catalog_patch_0354 extends patch_BasePatch
 		{
 			$this->beginTransaction();
 			$sql = "SELECT `document_id` FROM `m_catalog_doc_kititem` WHERE `product` IN (SELECT `document_id` FROM `m_catalog_doc_declinedproduct`)";
-			$stmt = $this->executeSQLSelect($sql);
+			$stmt = $pp->getDriver()->prepare($sql);
+			$stmt->execute();
 			foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) 
 			{
 				$kitItem = catalog_persistentdocument_kititem::getInstanceById($row['document_id']);
@@ -200,7 +205,6 @@ class catalog_patch_0354 extends patch_BasePatch
 
 	function executeSQLQueryAAA($sql)
 	{
-		echo "\n" .$sql ."\n";
 		$this->executeSQLQuery($sql);
 	}
 	
