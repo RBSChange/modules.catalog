@@ -182,8 +182,8 @@
 	<declinedproduct label="produit 25 (décliné)" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true"
 		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product3,product4" similar-refids="product1,product5,product6,product7,product8"
 		upsell-refids="product13,product14,product15">
-		<productdeclination id="product251" label="produit 25, déclinaison 1" codeReference="P9-1" />
-		<productdeclination label="produit 25, déclinaison 2" codeReference="P9-2" />
+		<productdeclination id="product251" label="produit 25, déclinaison 1" codeReference="P25-1" />
+		<productdeclination label="produit 25, déclinaison 2" codeReference="P25-2" />
 		<price shop-refid="shop" taxCode="2" value="490" oldValue="500" />
 		<price shop-refid="shop" taxCode="2" value="470" oldValue="490" thresholdMin="5" />
 		<price shop-refid="shop" taxCode="2" value="450" oldValue="480" thresholdMin="10" />
