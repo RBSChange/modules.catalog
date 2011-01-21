@@ -970,7 +970,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		$query = catalog_CompiledproductService::getInstance()->createQuery()
 			->add(Restrictions::eq('product.id', $product->getId()))
-			->add(Restrictions::eq('primary', true))
+			->add(Restrictions::eq('showInList', true))
 			->addOrder(Order::asc('shopId'));
 		
 		$compiledByShopId = array();
