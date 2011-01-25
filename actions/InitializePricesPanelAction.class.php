@@ -28,7 +28,11 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 		else
 		{
 			$data['enabled'] = true;
-			$data['date'] = $request->hasParameter('date') ? $request->getParameter('date') : date_Calendar::getInstance()->toString();
+			$date = $request->getParameter('date');
+			if (f_util_StringUtils::isEmpty($date)) {
+				$date = null;
+			}
+			$data['date'] = $date;
 			
 			$data['shops'] = array();
 			foreach (catalog_ShopService::getInstance()->createQuery()->find() as $shop)
