@@ -141,7 +141,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param String $date
+	 * @param String $date date can be null. If null, result is limited to 100 rows.
 	 * @param Integer $productId
 	 * @param Integer $shopId
 	 * @param String $orderBy
@@ -150,20 +150,25 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function getPricesForDate($date, $productId, $shopId, $targetId = null)
 	{
-		$startDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->toMidnight())->toString();
-		$endDate = date_Calendar::getInstance($startDate)->add(date_Calendar::DAY, 1)->toString();
-		
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $productId))
-			->add(Restrictions::eq('shopId', $shopId))
-			->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)))
+			->add(Restrictions::eq('shopId', $shopId));
+		if ($date !== null)
+		{
+			$startDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->toMidnight())->toString();
+			$endDate = date_Calendar::getInstance($startDate)->add(date_Calendar::DAY, 1)->toString();
+			$query->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)))
 			->add(Restrictions::orExp(Restrictions::isNull('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
+
+			$query->setMaxResults(100);
+		}
 			
 		if ($targetId !== null)
 		{
 			$query->add(Restrictions::eq('targetId', $targetId));
 		}
 		$query->addOrder(Order::desc('priority'));
+		$query->addOrder(Order::desc('publicationstatus'));
 		return $query->find();
 	}
 	
