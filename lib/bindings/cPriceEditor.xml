@@ -374,7 +374,7 @@
 									for (var i = 0; i < items.length; i++)
 									{
 										var item = items[i];
-										dropdown.appendItem(item.label, item.value)
+										dropdown.appendItem(item.label, item.id);
 									}
 								}
 							}
