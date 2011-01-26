@@ -75,7 +75,10 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 				$data['targetInfo'] = $targetInfo;
 				if ($targetInfo["type"] == "dropdown" && isset($targetInfo["options"]) && count($targetInfo["options"]) > 0)
 				{
-					$targetId = $targetInfo["options"][0]["id"];
+					if ($targetId === null)
+					{
+						$targetId = $targetInfo["options"][0]["id"];	
+					}
 					$data['targetIdSelect'] = $targetId;
 				}
 			}
