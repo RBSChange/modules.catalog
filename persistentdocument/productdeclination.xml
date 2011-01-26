@@ -5,9 +5,7 @@
 	model-version="1.0" extend="modules_catalog/product" edit-module="catalog" backoffice-indexable="false">
 	<properties>
 		<add name="codeReference" type="String" min-occurs="1"/>
-		<add name="stockQuantity" type="Double" preserve-old-value="true">
-			<constraints>min:0</constraints>
-		</add>
+		<add name="stockQuantity" type="Double" preserve-old-value="true"/>
 		<add name="stockLevel" type="String" min-occurs="1" preserve-old-value="true" default-value="A" />
 		<add name="stockAlertThreshold" type="Double" />
 		<add name="compiled" default-value="true"/>
