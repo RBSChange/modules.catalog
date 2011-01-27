@@ -198,6 +198,80 @@ class catalog_patch_0354 extends patch_BasePatch
 			$this->rollBack($e);
 			$this->logError($e->getMessage());
 			die();
+		}
+		
+		$this->log("Migration des produits déclinés dans les listes de produits et produits croisés...");
+		try 
+		{
+			$this->beginTransaction();
+			$sql = "SELECT DISTINCT(`relation_id1`) FROM `f_relation` WHERE `relation_id2` IN (SELECT `document_id` FROM `m_catalog_doc_declinedproduct`) AND `relation_name` IN ('complementary', 'similar', 'upsell', 'product')";
+			$stmt = $pp->getDriver()->prepare($sql);
+			$stmt->execute();
+			foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) 
+			{
+				$doc = DocumentHelper::getDocumentInstance($row['relation_id1']);
+				if ($doc instanceof catalog_persistentdocument_product || $doc instanceof catalog_persistentdocument_declinedproduct)
+				{
+					foreach ($doc->getComplementaryArray() as $declinedProduct)
+					{
+						if ($declinedProduct instanceof catalog_persistentdocument_declinedproduct) 
+						{
+							$doc->removeComplementary($declinedProduct);
+							foreach ($declinedProduct->getDeclinationArray() as $declination)
+							{
+								$doc->addComplementary($declination);
+							}
+							$doc->save();
+						}
+					}
+					foreach ($doc->getSimilarArray() as $declinedProduct)
+					{
+						if ($declinedProduct instanceof catalog_persistentdocument_declinedproduct) 
+						{
+							$doc->removeSimilar($declinedProduct);
+							foreach ($declinedProduct->getDeclinationArray() as $declination)
+							{
+								$doc->addSimilar($declination);
+							}
+							$doc->save();
+						}
+					}
+					foreach ($doc->getUpsellArray() as $declinedProduct)
+					{
+						if ($declinedProduct instanceof catalog_persistentdocument_declinedproduct) 
+						{
+							$doc->removeUpsell($declinedProduct);
+							foreach ($declinedProduct->getDeclinationArray() as $declination)
+							{
+								$doc->addUpsell($declination);
+							}
+							$doc->save();
+						}
+					}
+				}
+				else if ($doc instanceof catalog_persistentdocument_productlist)
+				{
+					foreach ($doc->getProductArray() as $declinedProduct)
+					{
+						if ($declinedProduct instanceof catalog_persistentdocument_declinedproduct) 
+						{
+							$doc->removeProduct($declinedProduct);
+							foreach ($declinedProduct->getDeclinationArray() as $declination)
+							{
+								$doc->addProduct($declination);
+							}
+							$doc->save();
+						}
+					}
+				}
+			}
+			$this->commit();			
+		}
+		catch (Exception $e)
+		{
+			$this->rollBack($e);
+			$this->logError($e->getMessage());
+			die();
 		}		
 		$this->execChangeCommand('compile-locales', array('catalog'));
 		$this->executeModuleScript('axes.xml', 'catalog');
