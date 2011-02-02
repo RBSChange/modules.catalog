@@ -134,9 +134,23 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 */
 	public function sendAlertsForEmail($email)
 	{
-		$query = $this->createQuery()->add(Restrictions::eq('pending', true))->add(Restrictions::published())->add(Restrictions::eq('email', $email));
-		$alerts = $query->find();
-		Framework::info(__METHOD__ . ' ' . count($alerts) . ' for email ' . $email);
+		$query = $this->createQuery()->add(Restrictions::eq('pending', true))
+			->add(Restrictions::published())
+			->add(Restrictions::eq('email', $email));
+			
+		$allAlerts = $query->find();
+		Framework::info(__METHOD__ . ' ' . count($allAlerts) . ' for email ' . $email);
+		
+		$alerts = array();
+		foreach ($allAlerts as $alert) 
+		{
+			$product = $alert->getProduct();
+			if ($product instanceof catalog_persistentdocument_product) 
+			{
+				$alerts[] = $alert;
+			}
+		}
+		
 		$ns = notification_NotificationService::getInstance();
 		if (count($alerts) > 1)
 		{
@@ -150,18 +164,24 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			$replacements = array('alertList' => implode("<br />\n<br />\n", $alertList));
 			$notification = $ns->getByCodeName('modules_catalog/severalalerts');			
 		}
-		else
+		else if (count($alerts) == 1)
 		{
 			$alert = f_util_ArrayUtils::firstElement($alerts);
 			$replacements = $this->getReplacementsForAlert($alert);			
 			$notification = $this->getNotificationByAlert($alert);
 		}
 		
-		$recipients = new mail_MessageRecipients();
-		$recipients->setTo($email);
-		$ns->send($notification, $recipients, $replacements, 'catalog');
+		if (count($alerts))
+		{
+			$recipients = new mail_MessageRecipients();
+			$recipients->setTo($email);
+			$ns->send($notification, $recipients, $replacements, 'catalog');
+		}
 		
-		$this->createQuery()->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($alerts)))->delete();
+		if (count($allAlerts))
+		{
+			$this->createQuery()->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($allAlerts)))->delete();
+		}
 	}
 	
 	/**
