@@ -116,4 +116,6 @@
   <key id="log-savedeclinationslist-declinedproduct">log savedeclinationslist declinedproduct</key>
   <key id="compileproduct">compileproduct</key>
   <key id="log-compileproduct">log compileproduct</key>
+  <key id="compileproduct-productdeclination">compileproduct.productdeclination {lang} {documentlabel}</key>
+  <key id="log-compileproduct-productdeclination">log compileproduct productdeclination</key>
 </i18n>
