@@ -48,6 +48,11 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function getIndexedDocumentForShop($shop)
 	{
 		$primaryShelf = $this->getShopPrimaryShelf($shop);
+		if ($primaryShelf === null)
+		{
+			// This may occurs during a save, before the compiled product is unpublished...
+			return null;
+		}
 		$topic = catalog_ShelfService::getInstance()->getRelatedTopicByShop($primaryShelf, $shop);
 		
 		$indexedDoc = new indexer_IndexedDocument();
