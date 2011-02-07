@@ -69,4 +69,5 @@
   <actiondef modulename="catalog" actionname="savedeclinationslist.declinedproduct" label="m.catalog.bo.useractionlogger.savedeclinationslist-declinedproduct"/>
   <actiondef modulename="catalog" actionname="activate.declinedproduct" label="m.catalog.bo.useractionlogger.activate-declinedproduct"/>
   <actiondef modulename="catalog" actionname="compileproduct" label="m.catalog.bo.useractionlogger.compileproduct"/>
+  <actiondef modulename="catalog" actionname="compileproduct.productdeclination" label="m.catalog.bo.useractionlogger.compileproduct-productdeclination"/>
 </script>
