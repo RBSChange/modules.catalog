@@ -767,4 +767,22 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		}
 		return null;
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $document
+	 * @param string $moduleName
+	 * @param string $treeType
+	 * @param unknown_type $nodeAttributes
+	 */
+	public function addTreeAttributes($document, $moduleName, $treeType, &$nodeAttributes)
+	{
+		if ($treeType == 'wlist')
+		{
+			$detailVisual = $document->getVisual();
+			if ($detailVisual)
+			{
+				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");
+			}
+		}	
+	}
 }

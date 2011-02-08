@@ -112,21 +112,4 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	{
 		return f_Locale::translate('&modules.catalog.frontoffice.Alert-on-' . $this->getAlertType() . '-for;');
 	}
-	
-	/**
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param array<string, string> $nodeAttributes
-	 */
-//	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-//	{
-//	}
-	
-	/**
-	 * @param string $actionType
-	 * @param array $formProperties
-	 */
-//	public function addFormProperties($propertiesNames, &$formProperties)
-//	{	
-//	}
 }

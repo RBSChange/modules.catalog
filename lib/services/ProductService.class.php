@@ -1459,5 +1459,36 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return false;
 	}
 
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param string $actionType
+	 * @param array $formProperties
+	 */
+	public function addFormProperties($product, $propertiesNames, &$formProperties)
+	{
+		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
+		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
+		$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
+		$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param string $moduleName
+	 * @param string $treeType
+	 * @param unknown_type $nodeAttributes
+	 */
+	public function addTreeAttributes($product, $moduleName, $treeType, &$nodeAttributes)
+	{
+		$nodeAttributes['block'] = 'modules_catalog_product'; 
+		if ($treeType == 'wlist')
+		{
+			$detailVisual = $product->getDefaultVisual();
+			if ($detailVisual)
+			{
+				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
+			}
+		}
+	}
 
 }

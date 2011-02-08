@@ -176,8 +176,12 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 * @param website_pesistentdocument_website $website
 	 * @return catalog_persistentdocument_shelf
 	 */
-	public function getShopPrimaryTopShelf($shop)
+	public function getShopPrimaryTopShelf($shop = null)
 	{
+		if ($shop === null)
+		{
+			$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		}
 		$shelf = $this->getDocumentService()->getShopPrimaryShelf($this, $shop);
 		return catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf);
 	}
@@ -542,38 +546,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	{
 		return $this->getLabelAsHtml();
 	}
-	
-	/**
-	 * @param string $actionType
-	 * @param array $formProperties
-	 */
-	public function addFormProperties($propertiesNames, &$formProperties)
-	{
-		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
-		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
-		$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
-		$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
-	}
-	
-	/**
-	 * @see f_persistentdocument_PersistentDocumentImpl::addTreeAttributes()
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param unknown_type $nodeAttributes
-	 */
-	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-	{
-		$nodeAttributes['block'] = 'modules_catalog_product'; 
-		if ($treeType == 'wlist')
-		{
-			$detailVisual = $this->getDefaultVisual();
-			if ($detailVisual)
-			{
-				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
-			}
-		}
-	}
-	
+
 	/**
 	 * @var Boolean
 	 */

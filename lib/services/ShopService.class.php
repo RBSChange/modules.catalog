@@ -528,6 +528,22 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		$data['properties']['publishedproductcount'] = $this->getPublishedProductCountByShop($document);
 		return $data;
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $document
+	 * @param string $moduleName
+	 * @param string $treeType
+	 * @param array<string, string> $nodeAttributes
+	 */
+	public function addTreeAttributes($document, $moduleName, $treeType, &$nodeAttributes)
+	{
+		$nodeAttributes['topicId'] = $document->getTopic()->getId();
+		if ($treeType === 'wlist')
+		{
+			$nodeAttributes['website'] = $document->getWebsite()->getLabel();
+			$nodeAttributes['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
+		}
+	}
 		
 	// Depreacted
 	

@@ -60,11 +60,17 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 			return false;
 		}
 		
+		if (!$this->getIsDefault())
+		{
+			return true;
+		}
+		
 		// Ensure that there may be only one published default shop by website on a given time period.
 		$query = catalog_ShopService::getInstance()->createQuery()
 			->add(Restrictions::ne('id', $this->getId()))
-			->add(Restrictions::eq('isDefault', true))
-			->add(Restrictions::eq('website', $this->getWebsite()));
+			->add(Restrictions::eq('website', $this->getWebsite()))
+			->add(Restrictions::eq('isDefault', true));
+	
 		$endDate = $this->getEndpublicationdate();
 		if ($endDate !== null)
 		{
@@ -78,7 +84,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 
 		if ($query->findUnique() !== null)
 		{
-			$message = LocaleService::getInstance()->transBO('modules.catalog.document.shop.exception.publication-period-conflict', array(ucf));
+			$message = LocaleService::getInstance()->transBO('modules.catalog.document.shop.exception.publication-period-conflict', array('ucf'));
 			$this->validationErrors->rejectValue('previewStartDate', $message);
 			return false;
 		}
@@ -106,21 +112,6 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 		else
 		{
 			return f_Locale::translateUI('&modules.catalog.document.price.WithoutTax;');
-		}
-	}
-	
-	/**
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param array<string, string> $nodeAttributes
-	 */
-	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-	{
-		$nodeAttributes['topicId'] = $this->getTopic()->getId();
-		if ($treeType === 'wlist')
-		{
-			$nodeAttributes['website'] = $this->getWebsite()->getLabel();
-			$nodeAttributes['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($this->getIsDefault() ? 'true' : 'false'));
 		}
 	}
 	

@@ -6,23 +6,6 @@
 class catalog_persistentdocument_bundleditem extends catalog_persistentdocument_bundleditembase 
 {
 	/**
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param array<string, string> $nodeAttributes
-	 */
-//	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-//	{
-//	}
-	
-	/**
-	 * @param string $actionType
-	 * @param array $formProperties
-	 */
-//	public function addFormProperties($propertiesNames, &$formProperties)
-//	{	
-//	}
-
-	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
 	 */
