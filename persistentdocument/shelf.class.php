@@ -96,24 +96,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @see f_persistentdocument_PersistentDocumentImpl::addTreeAttributes()
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param unknown_type $nodeAttributes
-	 */
-	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-	{
-		if ($treeType == 'wlist')
-		{
-			$detailVisual = $this->getVisual();
-			if ($detailVisual)
-			{
-				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($this->getVisual(), "modules.uixul.backoffice/thumbnaillistitem");
-			}
-		}	
-	}
-	
-	/**
 	 * @return String[]
 	 */
 	public function getNewTranslationLangs()

@@ -5,38 +5,6 @@
  */
 class catalog_persistentdocument_declinedproduct extends catalog_persistentdocument_declinedproductbase
 {	
-	
-	/**
-	 * @param string $actionType
-	 * @param array $formProperties
-	 */
-	public function addFormProperties($propertiesNames, &$formProperties)
-	{
-		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
-		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
-		$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
-		$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
-	}
-	
-	/**
-	 * @see f_persistentdocument_PersistentDocumentImpl::addTreeAttributes()
-	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param unknown_type $nodeAttributes
-	 */
-	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
-	{
-		$nodeAttributes['block'] = 'modules_catalog_product'; 
-		if ($treeType == 'wlist')
-		{
-			$detailVisual = $this->getDefaultVisual();
-			if ($detailVisual)
-			{
-				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
-			}
-		}
-	}
-	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
