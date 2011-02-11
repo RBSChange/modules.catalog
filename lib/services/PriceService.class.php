@@ -358,33 +358,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		{
 			$this->refreshLabel($document);
 		}
-		// This recomputes different prices when you change the VAT depending on the shop's price mode
-		if ($document->isPropertyModified('taxCode') && $document->getMustRecomputeValues())
-		{
-			$this->recomputeValues($document);
-		}
 	}
 	
-	/**
-	 * @param catalog_persistentdocument_price $document
-	 */
-	protected function recomputeValues($document)
-	{
-		$shop = $document->getShop();
-		$taxCode = $document->getTaxCode();
-		$priceMode = $shop->getPriceMode();
-		if ($priceMode === catalog_PriceHelper::MODE_B_TO_B)
-		{
-			$document->setValueWithTax(catalog_PriceHelper::addTax($document->getValueWithoutTax(), $taxCode));
-			$document->setOldValueWithTax(catalog_PriceHelper::addTax($document->getOldValueWithoutTax(), $taxCode));
-		}
-		else if ($priceMode === catalog_PriceHelper::MODE_B_TO_C)
-		{
-			$document->setValueWithoutTax(catalog_PriceHelper::removeTax($document->getValueWithTax(), $taxCode));
-			$document->setOldValueWithoutTax(catalog_PriceHelper::removeTax($document->getOldValueWithTax(), $taxCode));
-		}
-	}
-
 	/**
 	 * @param catalog_persistentdocument_price $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
@@ -732,9 +707,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function removeDiscountFromPrice($price)
 	{
-		$price->setValueWithTax($price->getOldValueWithTax());
 		$price->setValueWithoutTax($price->getOldValueWithoutTax());
-		$price->setOldValueWithTax(null);
 		$price->setOldValueWithoutTax(null);
 		$price->setDiscountDetail(null);
 		$price->save();
@@ -748,9 +721,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	public function getPriceDifference($price1, $price2)
 	{
 		$diff = $this->clonePrice($price1);
-		$diff->setValueWithTax($price1->getValueWithTax() - $price2->getValueWithTax());
 		$diff->setValueWithoutTax($price1->getValueWithoutTax() - $price2->getValueWithoutTax());
-		$diff->setOldValueWithTax(null);
 		$diff->setOldValueWithoutTax(null);
 		return $diff;
 	}

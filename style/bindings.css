@@ -33,6 +33,10 @@ gridlist.kititemsJSON{
 	-moz-binding: url(binding:modules.catalog.editors.kit#cKitItemsGrid);
 }
 
+gridlist.taxGridJSON{
+	-moz-binding: url(binding:modules.catalog.editors.shop#cTaxGrid);
+}
+
 cdocumenteditor#edt_catalog_simpleproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_declinedproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_bundleproduct cresumesection[sectionname="urlrewriting"],

@@ -5,4 +5,8 @@
  */
 class catalog_persistentdocument_tax extends catalog_persistentdocument_taxbase 
 {
+	public function getCode()
+	{
+		return $this->getTaxZone() . ',' . $this->getTaxCategory();
+	}
 }

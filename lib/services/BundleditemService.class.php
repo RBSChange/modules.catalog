@@ -128,19 +128,16 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 		if ($price !== null)
 		{
 			$itemsPrice->setValueWithoutTax($itemsPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $bundleditem->getQuantity());
-			$itemsPrice->setValueWithTax($itemsPrice->getValueWithTax() +  $price->getValueWithTax() * $bundleditem->getQuantity());
 			if ($price->isDiscount())
 			{
 				$itemsPrice->setOldValueWithoutTax($itemsPrice->getOldValueWithoutTax() + $price->getOldValueWithoutTax() * $bundleditem->getQuantity());
-				$itemsPrice->setOldValueWithTax($itemsPrice->getOldValueWithTax() + $price->getOldValueWithTax() * $bundleditem->getQuantity());
 			}
 			else
 			{
 				$itemsPrice->setOldValueWithoutTax($itemsPrice->getOldValueWithoutTax() + $price->getValueWithoutTax() * $bundleditem->getQuantity());
-				$itemsPrice->setOldValueWithTax($itemsPrice->getOldValueWithTax() + $price->getValueWithTax() * $bundleditem->getQuantity());
 			}
 			
-			$itemsPrice->setTaxCode($price->getTaxCode());
+			$itemsPrice->setTaxCategory($price->getTaxCategory());
 			return true;
 		}
 		else

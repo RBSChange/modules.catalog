@@ -105,13 +105,7 @@
 			<staticitem value="firstpublicationdate" label="&amp;modules.catalog.document.compiledproduct.firstpublicationdate;" />
 			<staticitem value="lastpublicationdate" label="&amp;modules.catalog.document.compiledproduct.lastpublicationdate;" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/pricemodes" label="Modes de saisie des prix"
-			description="Liste des modes de saisies des prix en bakcoffice.">
-			<staticitem value="btoc" label="TTC" />
-			<staticitem value="btob" label="Hors taxes" />
-		</staticlist>
-		
+				
 		<dynamiclist listid="modules_catalog/shopcurrency" label="Devises avec code" />
 		
 		<dynamiclist listid="modules_catalog/productsuggestionfeeders" label="Méthodes de suggestion des produits" />

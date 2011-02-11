@@ -8,8 +8,6 @@
 	<key id="topic">rubrique associée</key>
 	<key id="topshelf">rayons</key>
 	<key id="topshelf-help">liste des rayons de premier niveau qui seront mis en ligne dans la boutique.</key>
-	<key id="shippingzone">zone de livraison</key>
-	<key id="shippingzone-help">document « zone » du le module « Zones » qui sera utilisé pour valider les adresses de livraison lors du processus de commande.</key>
 	<key id="billingzone">zone de facturation</key>
 	<key id="billingzone-help">documnt « zone » du le module « Zones » qui sera utilisé pour valider les adresses de facturation lors du processus de commande.</key>
 	<key id="currencycode">devise</key>
@@ -40,8 +38,10 @@
 	<key id="pagedescription-help">description de la page utilisable dans les métas de la page d'accueil de la boutique.</key>
 	<key id="pagekeywords">mots-clés de la page</key>
 	<key id="pagekeywords-help">mots-clés de la page utilisable dans les métas de la page d'accueil de la boutique.</key>
-	<key id="pricemode">mode de saisie des prix</key>
-	<key id="pricemode-help">Lors de la saisie des prix en backoffice définit si le prix est à prendre hors taxes (HT) ou toutes taxes comprises (TTC). Ce paramétrage n’est disponible qu’à la création de la boutique, il est donc important de créer la boutique initialement dans le bon mode.</key>
+	<key id="defaulttaxzone">zone de taxe de la boutique</key>
+	<key id="defaulttaxzone-help">zone de taxe utilisé par défaut pour la boutique</key>
+	<key id="botaxzone">saisie TTC des prix back-office</key>
+	<key id="botaxzone-help">Séléctioner une zone de taxe pour activer la saisie TTC des prix en back-office</key>
 	<key id="enableavailabilityalerts">activer les alertes disponibilité</key>
 	<key id="enableavailabilityalerts-help">activer ou non la possibilité pour le visiteur de placer une alerte sur la disponibilité d'un produit.</key>
 	<key id="availabilityalertsduration">durée des alertes disponibilité</key>

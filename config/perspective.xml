@@ -247,5 +247,6 @@
 		<action name="exportAlertInfos" single="true" icon="download" />
 		<action name="showPublicationInShops" single="true" icon="status-detail" />
 		<action name="setAsDefault" single="true" icon="check" />
+		<action name="createTax" single="true" icon="add" />
 	</actions>
 </perspective>

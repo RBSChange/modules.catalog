@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">
-		<field name="shopId" moduleselector="catalog" hidehelp="true" />
-		<field name="boTaxCode" type="dropdownlist" required="true" listid="modules_catalog/taxcode"
-			labeli18n="modules.catalog.document.price.TaxCode" hidehelp="true" />
-		<field name="boValue" type="price" required="true" labeli18n="modules.catalog.document.price.Value" shorthelp="&amp;modules.catalog.document.price.Value-help;" hidehelp="true">
+		<field name="shopId" moduleselector="catalog" hidehelp="true" disabled="true"/>
+		<field name="boValueJSON" type="price" required="true" 
+			labeli18n="modules.catalog.document.price.Value"
+			hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="ecoTax" />
@@ -12,28 +12,26 @@
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Discount">
-		<row class="discountHelper" reference="catalog_price_boValue" pricefield="catalog_price_create_boDiscountValue" detailfield="catalog_price_create_discountDetail" />
-		<field name="boDiscountValue" type="price" labeli18n="modules.catalog.document.price.DiscountValue" shorthelp="&amp;modules.catalog.document.price.DiscountValue-help;" hidehelp="true">
+		<row class="discountHelper" reference="catalog_price_boValueJSON" 
+			pricefield="catalog_price_create_boDiscountValueJSON" 
+			detailfield="catalog_price_create_discountDetail" />
+		<field name="boDiscountValueJSON" type="price" 
+			   labeli18n="modules.catalog.document.price.DiscountValue" 
+			   shorthelp="&amp;modules.catalog.document.price.DiscountValue-help;" 
+			   hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="discountDetail" />
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Restrictions">
 		<field name="thresholdMin" />
-		<field name="target" type="document" moduleselector="customer" allow="modules_customer_customer,modules_customer_tarifcustomergroup"
+		<field name="target" type="document"
+			moduleselector="catalog" 
+			allow="modules_catalog_kit,modules_customer_customer,modules_customer_tarifcustomergroup"
 			labeli18n="modules.catalog.document.price.TargetId" shorthelp="&amp;modules.catalog.document.price.TargetId-help;" hidehelp="true" />
 	</section>
 	<xul>
-		<javascript>
-			<constructor><![CDATA[
-				// Check customer module existence.
-				var controller = document.getElementById("wcontroller");
-    			if (!controller.checkModuleVersion('customer', '3.0.0'))
-				{
-					document.getAnonymousElementByAttribute(this, 'anonid', 'row_target').setAttribute('collapsed', 'true');
-				}
-			]]></constructor>
-		
+		<javascript>		
 			<method name="prepareInitializeValues">
 				<parameter name="attributes" />
 				<body><![CDATA[

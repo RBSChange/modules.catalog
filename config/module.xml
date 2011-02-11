@@ -20,5 +20,10 @@
 		<entry name="productListConsultedClass">catalog_SessionProductList</entry>
 		<entry name="productListConsultedPersist">false</entry>
 		<entry name="productListConsultedMaxCount">10</entry>
+		
+		<!-- 
+			CLASSNAME must have a public function getCurrentTaxZone($shop, $cart)
+			<entry name="currentTaxZoneStrategyClass">CLASSNAME</entry>
+		 -->
 	</project>
 </config>

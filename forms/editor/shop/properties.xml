@@ -13,7 +13,6 @@
 		<field name="enableComments" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Zones">
-		<field name="shippingZone" hidehelp="true" />
 		<field name="billingZone" hidehelp="true" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Currency">
@@ -21,8 +20,10 @@
 		<field name="currencyPosition" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Prices">
+		<field name="defaultTaxZone" />
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
+		<field name="boTaxZone" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Default-visuals">
 		<field name="defaultDetailVisual" />

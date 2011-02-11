@@ -8,8 +8,8 @@ class catalog_Setup extends object_InitDataSetup
 			$scriptReader = import_ScriptReader::getInstance();
 			$scriptReader->executeModuleScript('catalog', 'init.xml');
 			$scriptReader->executeModuleScript('catalog', 'currencies.xml');
-			$scriptReader->executeModuleScript('catalog', 'taxes.xml');
-			$scriptReader->executeModuleScript('catalog', 'axes.xml');
+			$scriptReader->executeModuleScript('catalog', 'axes.xml');	
+			$scriptReader->executeModuleScript('catalog', 'list-taxcategory.xml');
 		}
 		catch (Exception $e)
 		{

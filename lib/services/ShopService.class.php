@@ -327,7 +327,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$shop->save();
 		}
 	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_shop $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
@@ -335,7 +335,12 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function postInsert($document, $parentNodeId)
 	{
+		if ($document->getDefaultTaxZone())
+		{
+			catalog_TaxService::getInstance()->addNoTaxForShopAndZone($document->getId(), $document->getDefaultTaxZone());
+		}
 		$topic = $document->getTopic();
+		
 		$topic->setReferenceId($document->getId());
 		$topic->save();
 		$topic->activate();
@@ -369,6 +374,22 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		if (count($newLangs) > 0)
 		{
 			catalog_ProductService::getInstance()->setNeedCompileForShop($document);
+		}
+		
+		if ($document->getNewTaxLabel())
+		{
+			$tax = catalog_TaxService::getInstance()->getTaxDocument($document->getId(), $document->getNewTaxCategory(), $document->getNewTaxZone());
+			if ($tax === null)
+			{
+				$tax = catalog_TaxService::getInstance()->getNewDocumentInstance();
+				$tax->setShopId($document->getId());
+				$tax->setTaxCategory($document->getNewTaxCategory());
+				$tax->setTaxZone($document->getNewTaxZone());
+			}
+			$tax->setLabel($document->getNewTaxLabel());
+			$tax->setRate($document->getNewTaxRate());
+			$document->resetNewTaxInfos();
+			$tax->save();
 		}
 	}
 	

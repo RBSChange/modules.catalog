@@ -2,4 +2,5 @@
 <i18n baseKey="m.catalog.bo.actions" lcid="de_DE">
   <key id="createshelf">Neues Regal</key>
   <key id="create-price">Neuer normaler Preis</key>
+  <key id="create-tax">neu</key>
 </i18n>

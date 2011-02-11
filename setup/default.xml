@@ -6,13 +6,15 @@
 	<binding fileName="modules/zone/persistentdocument/import/zone_binding.xml" />
 	
 	<attribute name="template" default="true">webfactory/tplTwo</attribute>
-	
-	<zone byCode="FR-ALL" id="zoneFR" />
 	<zone byCode="EURO" id="zoneEURO" />
 
 	<website byTag="default_modules_website_default-website">
-		<shop label="Boutique" shippingZone-refid="zoneFR" billingZone-refid="zoneEURO" currencyCode="EUR"
-				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false" />
+		<shop label="Boutique" defaultTaxZone="FR-ALL" boTaxZone="FR-ALL" billingZone-refid="zoneEURO" currencyCode="EUR"
+				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false">
+			<tax label="19.6%" taxCategory="1" taxZone="FR-ALL"  rate="0.196" />
+			<tax label="5.5%" taxCategory="2" taxZone="FR-ALL"  rate="0.055" />
+			<tax label="8.5%" taxCategory="3" taxZone="FR-ALL"  rate="0.085" />
+		</shop>
 				
 		<topic byLabel="Boutique" id="ShopTopic">
 			<execute method="setDocumentIdAttribute" />

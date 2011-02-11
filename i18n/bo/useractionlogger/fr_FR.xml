@@ -118,4 +118,8 @@
   <key id="log-compileproduct">log compileproduct</key>
   <key id="compileproduct-productdeclination">compileproduct.productdeclination {lang} {documentlabel}</key>
   <key id="log-compileproduct-productdeclination">log compileproduct productdeclination</key>
+  <key id="delete-tax">delete.tax {documentlabel}</key>
+  <key id="log-delete-tax">log delete tax</key>
+  <key id="update-tax">update.tax {documentlabel}</key>
+  <key id="log-update-tax">log update tax</key>
 </i18n>

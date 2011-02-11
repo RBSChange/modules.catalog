@@ -37,12 +37,19 @@
 				<body><![CDATA[
 					try
 					{
-						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_complementary');
-						this.setAttributesForSuggestions(field, result.contents.suggestComplementaryFeederClass);
-						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_similar');
-						this.setAttributesForSuggestions(field, result.contents.suggestSimilarFeederClass);
-						var field = document.getAnonymousElementByAttribute(this, 'anonid', 'field_upsell');
-						this.setAttributesForSuggestions(field, result.contents.suggestUpsellFeederClass);
+						var fields = this.fields;
+						if ('suggestComplementaryFeederClass' in result.contents)
+						{
+							this.setAttributesForSuggestions(fields.complementary, result.contents.suggestComplementaryFeederClass);
+						}
+						if ('suggestSimilarFeederClass' in result.contents)
+						{
+							this.setAttributesForSuggestions(fields.similar, result.contents.suggestSimilarFeederClass);
+						}
+						if ('suggestUpsellFeederClass' in result.contents)
+						{
+							this.setAttributesForSuggestions(fields.upsell, result.contents.suggestUpsellFeederClass);
+						}
 					}
 					catch (e)
 					{

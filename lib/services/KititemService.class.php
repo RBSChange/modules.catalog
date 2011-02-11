@@ -115,19 +115,16 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		if ($price instanceof catalog_persistentdocument_price)
 		{
 			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $kititem->getQuantity());
-			$kitPrice->setValueWithTax($kitPrice->getValueWithTax() +  $price->getValueWithTax() * $kititem->getQuantity());
 			if ($price->isDiscount())
 			{
 				$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $price->getOldValueWithoutTax() * $kititem->getQuantity());
-				$kitPrice->setOldValueWithTax($kitPrice->getOldValueWithTax() + $price->getOldValueWithTax() * $kititem->getQuantity());
 			}
 			else
 			{
 				$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $price->getValueWithoutTax() * $kititem->getQuantity());
-				$kitPrice->setOldValueWithTax($kitPrice->getOldValueWithTax() + $price->getValueWithTax() * $kititem->getQuantity());
 			}
 			$kitPrice->setCurrencyId($price->getCurrencyId());
-			$kitPrice->setTaxCode($price->getTaxCode());
+			$kitPrice->setTaxCategory($price->getTaxCategory());
 			return true;
 		}
 		else

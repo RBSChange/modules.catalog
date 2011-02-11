@@ -63,23 +63,10 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		$document->setInsertInTree(false);
 		if ($document->getShop() === null)
 		{
-			$document->setShop($this->pp->getDocumentInstance($parentNodeId, 'modules_catalog/shop'));
+			$document->setShop(catalog_persistentdocument_shop::getInstanceById($parentNodeId));
 		}
 	}
 	
-	/**
-	 * @param catalog_persistentdocument_shippingfilter $document
-	 * @param Integer $parentNodeId
-	 */
-	protected function preSave($document, $parentNodeId) 
-	{
-		if ($document->getTaxCode() === null)
-		{
-			$document->setTaxCode('0');
-		}
-		$document->setValueWithoutTax(catalog_PriceHelper::removeTax($document->getValueWithTax(), $document->getTaxCode()));
-	}
-
 	/**
 	 * @param order_CartInfo $cart
 	 * @return catalog_persistentdocument_shippingfilter[]
@@ -89,7 +76,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		$filters = $this->createQuery()->add(Restrictions::published())
 			->add(Restrictions::eq('shop', $cart->getShop()))
 			->add(Restrictions::eq('selectbyproduct', false))
-			->addOrder(Order::asc('valueWithTax'))
+			->addOrder(Order::asc('valueWithoutTax'))
 			->find();
 		$result = array();
 		foreach ($filters as $filter) 
@@ -122,7 +109,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 				->add(Restrictions::eq('shop', $cart->getShop()))
 				->add(Restrictions::eq('selectbyproduct', true))
 				->add(Restrictions::eq('mode.id', $shippingModeId))
-				->addOrder(Order::asc('valueWithTax'))
+				->addOrder(Order::asc('valueWithoutTax'))
 				->find();
 				
 			$shippingFilter = null;	

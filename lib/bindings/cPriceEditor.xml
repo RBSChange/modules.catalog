@@ -6,9 +6,17 @@
 			<xul:vbox>
 				<xul:hbox xbl:inherits="context,spellcheck" flex="1" align="center">
 					<xul:textbox size="5" anonid="internalcontrol" xbl:inherits="disabled,size,tabindex,accesskey" />
-					<xul:spinbuttons anonid="buttons" xbl:inherits="disabled,hidden=hidespinbuttons" style="margin-left:-5px;margin-top:3px;margin-bottom:3px;" />
+					<xul:spinbuttons anonid="buttons" xbl:inherits="disabled,hidden=hidespinbuttons" 
+						style="margin-left:-5px;margin-top:3px;margin-bottom:3px;" />
 					<xul:label xbl:inherits="value=currency" />
-					<xul:label xbl:inherits="value=mode" />
+					<xul:label value="${transui:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
+					<xul:label value="${transui:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
+					<xul:label value="${transui:m.catalog.bo.doceditor.tax-category,ucf,lab,space}" xbl:inherits="hidden=hideCategory" />
+					<xul:menulist anonid="categorySelector" xbl:inherits="disabled" xbl:inherits="hidden=hideCategory" >
+						<xul:menupopup>
+						</xul:menupopup>
+					</xul:menulist>			
+					<xul:label  />
 					<xul:toolbar>
 						<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" 
 							xbl:inherits="hidden=hidehelp" 
@@ -18,34 +26,128 @@
 			</xul:vbox>
 		</content>
 		<implementation>
+		
+			<xbl:field name="inititializeValue">true</xbl:field>
+			
+			<xbl:property readonly="true" name="categorySelector">
+				<xbl:getter><![CDATA[
+					return document.getAnonymousElementByAttribute(this, "anonid", "categorySelector");
+				]]></xbl:getter>
+			</xbl:property>
+		
 			<method name="setInitialValue">
 				<parameter name="val" />
 				<body><![CDATA[
+					this.inititializeValue = true;	
 					if (val.length > 1 && val.charAt(0) == '{')
-					{
+					{	
 						var jsonVal = wCore.parseJSON(val);
 						this.setAttribute('currency', jsonVal.currency);
-						this.setAttribute('mode', jsonVal.mode);
+						this.setAttribute('taxCategory', this.fixString(jsonVal.taxCategory));
+						this.setAttribute('hideCategory', ('hideCategory' in jsonVal) ? 'true' : false);
+						if (jsonVal.editTTC)
+						{
+							this.setAttribute('editTTC', 'true');
+							this.setAttribute('editHT', 'false');
+						}
+						else
+						{
+							this.setAttribute('editTTC', 'false');
+							this.setAttribute('editHT', 'true');
+						}
 						var fval = this.fixString(jsonVal.value);
+						this.internalControl.value = fval;
+						this.setAttribute("initialvalue", fval + ',' + this.getAttribute('taxCategory'));					
+						var catSelector = this.categorySelector;
+						catSelector.removeAllItems();
+						
+						for (var tcat in jsonVal.taxCategories)
+						{
+							var catInfo = jsonVal.taxCategories[tcat];
+							catSelector.appendItem(catInfo.label, tcat);
+						}
+						catSelector.value = this.getAttribute('taxCategory');
 					}
 					else
 					{
-						var fval = this.fixString(val);
+						var parts = val.split(',');
+						var fval = this.fixString(parts[0]);
+						this.internalControl.value = parts[0];
+						if (parts.length == 2) 
+						{
+							this.setAttribute('taxCategory', parts[1]);
+							this.categorySelector.value = parts[1];
+						}
 					}
-
-					this.setAttribute("initialvalue", fval);
-					this.internalControl.value = fval;
+					
 					if (this.modified)
 					{
 						this.removeAttribute("modified");
 						this.dispatchFieldEvent('fieldRestored');						
-					}
-					
+					}					
 					var errorMessage = this.checkRequired(fval);
-					this.setValidity(errorMessage);
+					this.setValidity(errorMessage);										
+					this.inititializeValue = false;
 				]]></body>
 			</method>
+
+			<method name="onCategoryChange">
+				<parameter name="event" />
+				<body><![CDATA[
+					if (!this.inititializeValue)
+					{
+						this.setAttribute('taxCategory', this.categorySelector.value);
+						this.dispatchValueChanged(this.value);
+					}
+				]]></body>
+			</method>
+			
+			<property name="value" >
+				<getter><![CDATA[
+					var val = this.internalControl.value;
+					return ((val.length > 0) ? val.replace(',', '.') : val) + ',' + this.getAttribute('taxCategory');
+				]]></getter>
+				<setter><![CDATA[
+					var fval = this.fixString(val);
+					var parts = fval.split(',');
+					this.internalControl.value = parts[0];
+					if (parts.length == 2) 
+					{
+						this.inititializeValue = true;
+						this.setAttribute('taxCategory', parts[1]);
+						this.categorySelector.value = parts[1];
+						this.inititializeValue = false;
+					}
+					this.valueChanged();
+				]]></setter>
+			</property>
+			
+			<method name="checkFormat">
+				<parameter name="val" />
+				<body><![CDATA[						
+					var str = this.getValueForConstraintChecking(val);
+					if (str.length > 0 && !str.match(/^[\-+]?\d{0,8}([\.,]\d*)?$/))
+					{
+						return "${transui:f.validation.validator.float.message,ucf,js}".replace('{field}', this.label);
+					}
+					return null;
+				]]></body>
+			</method>
+			
+			<method name="getValueForConstraintChecking">
+				<parameter name="val" />
+				<body><![CDATA[
+					return this.fixString(val).split(',')[0];
+				]]></body>
+			</method>								
 		</implementation>
+		
+		<handlers>
+			<handler event="select"><![CDATA[
+				this.onCategoryChange(event);
+			]]></handler>
+		</handlers>
+		
 	</binding>
 	
 	<binding id="cDiscountHelper">
@@ -65,12 +167,13 @@
 					var discountValue = document.getAnonymousElementByAttribute(this, 'anonid', 'mValue').value;
 					var valueField = document.getElementById(this.getAttribute('reference'));
 					
-					var value = valueField.value;
+					var valueParts = valueField.value.split(',');
+					var value = valueParts[0];
 					var description = '';
 					switch (discountType)
 					{
 						case 'percentage' :
-							value -= (value*discountValue)/100;
+							value -= (value * discountValue) / 100;
 							description = '-' + discountValue + '%';
 							break;
 							
@@ -79,8 +182,8 @@
 							description = '-' + discountValue + valueField.getAttribute('currency');
 							break;
 					}
-					value = Math.round(100*value)/100;
-					document.getElementById(this.getAttribute('pricefield')).value = value;
+					value = Math.round(100 * value)/100;
+					document.getElementById(this.getAttribute('pricefield')).value = value + ',' + valueParts[1];
 					document.getElementById(this.getAttribute('detailfield')).value = description;
 					this.cancel();
 				]]></body>
@@ -143,6 +246,7 @@
 				]]></body>
 			</method>
 		</implementation>
+		
 		<handlers>			
 			<handler event="fieldChanged"><![CDATA[
 				if (event.originalTarget.name == 'mType')
@@ -677,7 +781,7 @@
 					var result = wCore.executeJSON('catalog', 'LoadPriceInfoToAddDiscount', { cmpref: this.mPriceId }, null, true);
 					if (result.status === 'OK')
 					{
-						contents = result.contents;
+						var contents = result.contents;
 						this.setAttribute('currentStartDate', contents.currentStartDateFormatted);
 						this.setAttribute('currentEndDate', contents.currentEndDateFormatted);
 						if (contents.currentStartDate)
@@ -693,9 +797,18 @@
 						
 						var jsonVal = wCore.parseJSON(contents.currentPriceValue);
 						this.setAttribute('currentValue', jsonVal.value);
+						this.setAttribute('referenceValue', jsonVal.value + ',' + jsonVal.taxCategory);
 						this.setAttribute('currentCurrency', jsonVal.currency);
-						this.setAttribute('currentTaxMode', jsonVal.mode);
-						
+						if (jsonVal.editTTC)
+						{
+							this.setAttribute('editTTC', 'true');
+							this.setAttribute('editHT', 'false');
+						}
+						else
+						{
+							this.setAttribute('editTTC', 'false');
+							this.setAttribute('editHT', 'true');
+						}						
 						this.setFieldInitialValueByAnonId('discountValue', contents.discountPriceValue);
 						this.mInitialized = true;
 						this.refreshErrorState();
@@ -830,7 +943,7 @@
 			<method name="addDiscount">
 				<body><![CDATA[
 					var params = {
-						priceId: this.mPriceId,
+						cmpref: this.mPriceId,
 						value: this.getElementByAnonId('discountValue').value,
 						detail: this.getElementByAnonId('discountDetail').value,
 						start: this.getElementByAnonId('discountStartDate').value,
@@ -909,7 +1022,10 @@
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:spacer height="5px" />
 					<xul:vbox>
-						<xul:row align="right" class="discountHelper" reference="cAddDiscountOnPriceDialog_currentValue" pricefield="cAddDiscountOnPriceDialog_discountValue" detailfield="cAddDiscountOnPriceDialog_discountDetail" />
+						<xul:row align="right" class="discountHelper" 
+							reference="cAddDiscountOnPriceDialog_currentValue" 
+							pricefield="cAddDiscountOnPriceDialog_discountValue" 
+							detailfield="cAddDiscountOnPriceDialog_discountDetail" />
 						<xul:grid flex="1">
 							<xul:columns>
 								<xul:column flex="1" />
@@ -925,9 +1041,11 @@
 									</xul:cfield>
 									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-value;" />
 									<xul:hbox>
-										<xul:label id="cAddDiscountOnPriceDialog_currentValue" xbl:inherits="xbl:text=currentValue,value=currentValue,currency=currentCurrency,mode=currentTaxMode" class="allow-text-selection" />
+										<xul:label id="cAddDiscountOnPriceDialog_currentValue" xbl:inherits="value=referenceValue" hidden="true" />
+										<xul:label xbl:inherits="xbl:text=currentValue" class="allow-text-selection" />
 										<xul:label xbl:inherits="xbl:text=currentCurrency" class="allow-text-selection" />
-										<xul:label xbl:inherits="xbl:text=currentTaxMode" class="allow-text-selection" />
+										<xul:label value="${transui:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
+										<xul:label value="${transui:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
 									</xul:hbox>
 								</xul:row>
 								<xul:row align="center">

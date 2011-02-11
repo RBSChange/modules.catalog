@@ -6,10 +6,9 @@
 		<add name="shop" type="modules_catalog/shop" inverse="true" min-occurs="1" />
 		<add name="mode" type="modules_shipping/mode" min-occurs="1" />
 		<add name="query" type="LongString" />
-		<add name="taxCode" type="String" min-occurs="1" db-size="5" default-value="1" from-list="modules_catalog/taxcode" />
 		<add name="valueWithoutTax" type="Double" default-value="0" />
-		<add name="valueWithTax" type="Double" default-value="0" />
 		<add name="selectbyproduct" type="Boolean" default-value="false" />
+		<add name="taxCategory" type="String" min-occurs="1" db-size="20" default-value="0"/>
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

@@ -246,14 +246,14 @@ class catalog_KitService extends catalog_ProductService
 			}
 			if ($taxCode === false)
 			{
-				$taxCode = $kitPrice->getTaxCode();
+				$taxCode = $kitPrice->getTaxCategory();
 			}
-			else if ($taxCode != $kitPrice->getTaxCode())
+			else if ($taxCode != $kitPrice->getTaxCategory())
 			{
 				$taxCode = null;
 			}
 		}
-		$kitPrice->setTaxCode($taxCode);
+		$kitPrice->setTaxCategory($taxCode);
 		if ($kitPrice->getValueWithoutTax() >= $kitPrice->getOldValueWithoutTax())
 		{
 			$kitPrice->removeDiscount();

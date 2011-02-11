@@ -59,9 +59,10 @@ class catalog_PriceFormatter
 	}
 	
 	/**
-	 * @param Double $value
-	 * @param String $currencyCode
-	 * @param String $lang
+	 * @param double $value
+	 * @param string $currencyCode
+	 * @param string $lang
+	 * @return string
 	 */
 	function format($value, $currencyCode, $lang = null)
 	{
@@ -77,9 +78,10 @@ class catalog_PriceFormatter
 	}	
 	
 	/**
-	 * @param Double $value
-	 * @param String $currencyCode
-	 * @param String $lang
+	 * @param double $value
+	 * @param string $currencyCode
+	 * @param string $lang
+	 * @return double
 	 */
 	function round($value, $currencyCode = null, $lang = null)
 	{
@@ -108,7 +110,9 @@ class catalog_PriceFormatter
 	}
 	
 	/**
-	 * @param order_persistentdocument_creditnote $creditnote
+	 * @param double $value
+	 * @param string $currencyCode
+	 * @param string $lang
 	 * @return string
 	 */
 	protected function formatDefault($value, $currencyCode, $lang)
@@ -131,8 +135,10 @@ class catalog_PriceFormatter
 	}
 	
 	/**
-	 * @param order_persistentdocument_creditnote $creditnote
-	 * @return string
+	 * @param double $value
+	 * @param string $currencyCode
+	 * @param string $lang
+	 * @return double
 	 */
 	protected function roundDefault($value, $currencyCode, $lang)
 	{

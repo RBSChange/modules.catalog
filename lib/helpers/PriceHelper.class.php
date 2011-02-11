@@ -4,10 +4,7 @@
  * @package modules.catalog
  */
 class catalog_PriceHelper
-{
-	const MODE_B_TO_B = 'btob';
-	const MODE_B_TO_C = 'btoc';
-	
+{	
 	const CURRENCY_POSITION_LEFT = 'left';
 	const CURRENCY_POSITION_RIGHT = 'right';
 
@@ -27,9 +24,12 @@ class catalog_PriceHelper
 			$strategyClassName = Framework::getConfiguration('modules/catalog/taxRateResolverStrategyClass', false);
 			if ($strategyClassName === false)
 			{
-				$strategyClassName = 'catalog_DefaultTaxRateResolverStrategy';
+				self::$taxRateResolverStrategy = catalog_TaxService::getInstance();
 			}
-			self::$taxRateResolverStrategy = new $strategyClassName();
+			else
+			{
+				self::$taxRateResolverStrategy = new $strategyClassName();
+			}
 		}
 		return self::$taxRateResolverStrategy->getTaxRateByCode($code);
 	}
@@ -73,44 +73,6 @@ class catalog_PriceHelper
 	{
 		return ($value / (1 + self::getTaxRateByCode($taxCode)));
 	}
-
-	/**
-	 * If this is a btob project, add the tax, else return the value.
-	 * @param Double $value
-	 * @param String $taxCode
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return Double
-	 */
-	public static function getValueWithTax($value, $taxCode, $shop = null)
-	{
-		if (self::getPriceMode($shop) == self::MODE_B_TO_B)
-		{
-			return self::addTax($value, $taxCode);
-		}
-		else
-		{
-			return $value;
-		}
-	}
-
-	/**
-	 * If this is a btoc project, remove the tax, else return the value.
-	 * @param Double $value
-	 * @param String $taxCode
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return Double
-	 */
-	public static function getValueWithoutTax($value, $taxCode, $shop = null)
-	{
-		if (self::getPriceMode($shop) == self::MODE_B_TO_C)
-		{
-			return self::removeTax($value, $taxCode);
-		}
-		else
-		{
-			return $value;
-		}
-	}
 	
 	/**
 	 * @param Double $taxRate
@@ -144,38 +106,7 @@ class catalog_PriceHelper
 		$priceValue = catalog_PriceFormatter::getInstance()->round($priceValue);
 		return sprintf($format, number_format($priceValue, 2, ',', ' '));
 	}
-	
-	/**
-	 * @var String
-	 */
-	private static $priceMode = null;
-	
-	/**
-	 * @return String
-	 */
-	public static function getDefaultPriceMode()
-	{
-		if (self::$priceMode === null)
-		{
-			self::$priceMode = Framework::getConfiguration('modules/catalog/price-mode', false);
-			// If there is no defined price mode, set it to "btoc".
-			if (self::$priceMode === false)
-			{
-				self::$priceMode = catalog_PriceHelper::MODE_B_TO_C;
-			}
-		}
-		return self::$priceMode;
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 */
-	public static function getPriceMode($shop = null)
-	{
-		return $shop === null ? self::getDefaultPriceMode() : $shop->getPriceMode();
-	}
-	
+		
 	private static $currencySymbols = null;
 	
 	/**

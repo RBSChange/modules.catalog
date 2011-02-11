@@ -99,22 +99,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	{
 		return catalog_ShopService::getInstance()->getCurrencySymbol($this);
 	}
-	
-	/**
-	 * @return String
-	 */
-	public function getPriceModeLabel()
-	{
-		if ($this->getPriceMode() === catalog_PriceHelper::MODE_B_TO_C)
-		{
-			return f_Locale::translateUI('&modules.catalog.document.price.WithTax;');
-		}
-		else
-		{
-			return f_Locale::translateUI('&modules.catalog.document.price.WithoutTax;');
-		}
-	}
-	
+		
 	/**
 	 * @param double $value
 	 * @return string
@@ -147,5 +132,122 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 			}
 		}
 		return $langs;
+	}
+	
+	//BO Edition
+	
+	public function getTaxGridJSON()
+	{
+		$result = array();
+		foreach (catalog_TaxService::getInstance()->getByShop($this) as $tax) 
+		{
+			if ($tax instanceof catalog_persistentdocument_tax)
+			{
+				$result[] = array(
+					'id' => $tax->getId(),
+					'taxtype' => str_replace('/', '_', $tax->getDocumentModelName()),
+					'shopid' => $this->getId(),
+				    'shoptype' => str_replace('/', '_', $this->getDocumentModelName()),
+				    'label' => $tax->getLabel(),
+					'taxzone' => $tax->getTaxZone(),
+					'taxcategory' => $tax->getTaxCategory(),
+				    'rate' => $tax->getRate(),
+				);
+			}
+		}
+		return JsonService::getInstance()->encode($result);
+	}
+	
+	/**
+	 * @var string	 
+	 */
+	private $newTaxLabel;
+
+	/**
+	 * @var string	 
+	 */
+	private $newTaxZone;
+	
+	/**
+	 * @var string	 
+	 */
+	private $newTaxCategory;
+
+	/**
+	 * @var double	 
+	 */
+	private $newTaxRate;
+	
+	/**
+	 * @return string
+	 */
+	public function getNewTaxLabel()
+	{
+		return $this->newTaxLabel;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getNewTaxZone()
+	{
+		return $this->newTaxZone;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getNewTaxCategory()
+	{
+		return $this->newTaxCategory;
+	}
+
+	/**
+	 * @return double
+	 */
+	public function getNewTaxRate()
+	{
+		return $this->newTaxRate;
+	}
+
+	/**
+	 * @param string $newTaxLabel
+	 */
+	public function setNewTaxLabel($newTaxLabel)
+	{
+		$this->newTaxLabel = $newTaxLabel;
+		$this->setModificationdate(null);
+	}
+
+	/**
+	 * @param string $newTaxZone
+	 */
+	public function setNewTaxZone($newTaxZone)
+	{
+		$this->newTaxZone = $newTaxZone;
+	}
+	
+	/**
+	 * @param string $newTaxCategory
+	 */
+	public function setNewTaxCategory($newTaxCategory)
+	{
+		$this->newTaxCategory = $newTaxCategory;
+	}
+
+	/**
+	 * @param double $newTaxRate
+	 */
+	public function setNewTaxRate($newTaxRate)
+	{
+		$this->newTaxRate = $newTaxRate;
+	}
+	
+	public function resetNewTaxInfos()
+	{
+		$this->newTaxRate = null;
+		$this->newTaxCategory = null;
+		$this->newTaxZone = null;
+		$this->newTaxLabel = null;		
 	}
 }

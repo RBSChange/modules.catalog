@@ -52,19 +52,20 @@
 				<body><![CDATA[
 					try
 					{
-						var field = this.fields['synchronizePrices'];
+						var fields = this.fields;
+						var field = fields['synchronizePrices'];
 						if (field.initialvalue == "false" )
 						{
 							if (field.value == "true")
 							{
-								this.fields.synchronizePricesFrom.disable(false);
-								var field = this.fields.synchronizePricesFrom;
+								fields.synchronizePricesFrom.disable(false);
+								var field = fields.synchronizePricesFrom;
 								field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.documentEditor.documentid});
 							}
 							else
 							{
-								this.fields.synchronizePricesFrom.value = "";
-								this.fields.synchronizePricesFrom.disable(true);
+								fields.synchronizePricesFrom.value = "";
+								fields.synchronizePricesFrom.disable(true);
 							}
 						}
 						
@@ -81,16 +82,23 @@
 				<body><![CDATA[
 					try
 					{
-						var field = this.fields.complementary;
-						this.setAttributesForSuggestions(field, result.contents.suggestComplementaryFeederClass);
-						field = this.fields.similar;
-						this.setAttributesForSuggestions(field, result.contents.suggestSimilarFeederClass);
-						field = this.fields.upsell;
-						this.setAttributesForSuggestions(field, result.contents.suggestUpsellFeederClass);
-
-						if ('disable' in this.fields.synchronizePricesFrom)
+						var fields = this.fields;
+						if ('suggestComplementaryFeederClass' in result.contents)
 						{
-							this.fields.synchronizePricesFrom.disable(true);
+							this.setAttributesForSuggestions(fields.complementary, result.contents.suggestComplementaryFeederClass);
+						}
+						if ('suggestSimilarFeederClass' in result.contents)
+						{
+							this.setAttributesForSuggestions(fields.similar, result.contents.suggestSimilarFeederClass);
+						}
+						if ('suggestUpsellFeederClass' in result.contents)
+						{
+							this.setAttributesForSuggestions(fields.upsell, result.contents.suggestUpsellFeederClass);
+						}
+						
+						if ('disable' in fields.synchronizePricesFrom)
+						{
+							fields.synchronizePricesFrom.disable(true);
 						}	
 					}
 					catch (e)

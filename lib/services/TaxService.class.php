@@ -57,248 +57,18 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
-//	protected function preSave($document, $parentNodeId)
-//	{
-//
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
-	 * @return void
-	 */
-//	protected function preInsert($document, $parentNodeId)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
-	 * @return void
-	 */
-//	protected function postInsert($document, $parentNodeId)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
-	 * @return void
-	 */
-//	protected function preUpdate($document, $parentNodeId)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
-	 * @return void
-	 */
-//	protected function postUpdate($document, $parentNodeId)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
-	 * @return void
-	 */
-//	protected function postSave($document, $parentNodeId)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return void
-	 */
-//	protected function preDelete($document)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return void
-	 */
-//	protected function preDeleteLocalized($document)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return void
-	 */
-//	protected function postDelete($document)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return void
-	 */
-//	protected function postDeleteLocalized($document)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return boolean true if the document is publishable, false if it is not.
-	 */
-//	public function isPublishable($document)
-//	{
-//		$result = parent::isPublishable($document);
-//		return $result;
-//	}
-
-
-	/**
-	 * Methode à surcharger pour effectuer des post traitement apres le changement de status du document
-	 * utiliser $document->getPublicationstatus() pour retrouver le nouveau status du document.
-	 * @param catalog_persistentdocument_tax $document
-	 * @param String $oldPublicationStatus
-	 * @param array<"cause" => String, "modifiedPropertyNames" => array, "oldPropertyValues" => array> $params
-	 * @return void
-	 */
-//	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
-//	{
-//	}
-
-	/**
-	 * Correction document is available via $args['correction'].
-	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param Array<String=>mixed> $args
-	 */
-//	protected function onCorrectionActivated($document, $args)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param String $tag
-	 * @return void
-	 */
-//	public function tagAdded($document, $tag)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param String $tag
-	 * @return void
-	 */
-//	public function tagRemoved($document, $tag)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $fromDocument
-	 * @param f_persistentdocument_PersistentDocument $toDocument
-	 * @param String $tag
-	 * @return void
-	 */
-//	public function tagMovedFrom($fromDocument, $toDocument, $tag)
-//	{
-//	}
-
-	/**
-	 * @param f_persistentdocument_PersistentDocument $fromDocument
-	 * @param catalog_persistentdocument_tax $toDocument
-	 * @param String $tag
-	 * @return void
-	 */
-//	public function tagMovedTo($fromDocument, $toDocument, $tag)
-//	{
-//	}
-
-	/**
-	 * Called before the moveToOperation starts. The method is executed INSIDE a
-	 * transaction.
-	 *
-	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param Integer $destId
-	 */
-//	protected function onMoveToStart($document, $destId)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param Integer $destId
-	 * @return void
-	 */
-//	protected function onDocumentMoved($document, $destId)
-//	{
-//	}
-
-	/**
-	 * this method is call before saving the duplicate document.
-	 * If this method not override in the document service, the document isn't duplicable.
-	 * An IllegalOperationException is so launched.
-	 *
-	 * @param catalog_persistentdocument_tax $newDocument
-	 * @param catalog_persistentdocument_tax $originalDocument
-	 * @param Integer $parentNodeId
-	 *
-	 * @throws IllegalOperationException
-	 */
-//	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
-//	{
-//		throw new IllegalOperationException('This document cannot be duplicated.');
-//	}
-
-	/**
-	 * this method is call after saving the duplicate document.
-	 * $newDocument has an id affected.
-	 * Traitment of the children of $originalDocument.
-	 *
-	 * @param catalog_persistentdocument_tax $newDocument
-	 * @param catalog_persistentdocument_tax $originalDocument
-	 * @param Integer $parentNodeId
-	 *
-	 * @throws IllegalOperationException
-	 */
-//	protected function postDuplicate($newDocument, $originalDocument, $parentNodeId)
-//	{
-//	}
-
-	/**
-	 * Returns the URL of the document if has no URL Rewriting rule.
-	 *
-	 * @param catalog_persistentdocument_tax $document
-	 * @param string $lang
-	 * @param array $parameters
-	 * @return string
-	 */
-//	public function generateUrl($document, $lang, $parameters)
-//	{
-//	}
-
-	/**
-	 * Filter the parameters used to generate the document url.
-	 *
-	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param string $lang
-	 * @param array $parameters may be an empty array
-	 */
-//	public function filterDocumentUrlParams($document, $lang, $parameters)
-//	{
-//		return $parameters;
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return integer | null
-	 */
-//	public function getWebsiteId($document)
-//	{
-//	}
-
-	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @return website_persistentdocument_page | null
-	 */
-//	public function getDisplayPage($document)
-//	{
-//	}
+	protected function preSave($document, $parentNodeId)
+	{
+		$document->setInsertInTree(false);
+		if ($document->getShopId() === null && intval($parentNodeId) > 0)
+		{
+			$pDoc = DocumentHelper::getDocumentInstance(intval($parentNodeId));
+			if ($pDoc instanceof catalog_persistentdocument_shop)
+			{
+				$document->setShopId(intval($parentNodeId));
+			}
+		}
+	}
 
 	/**
 	 * @param catalog_persistentdocument_tax $document
@@ -312,13 +82,196 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 //		return $resume;
 //	}
 
+	private $currentTaxeZoneStrategy = null;
+
 	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param string $bockName
-	 * @return array with entries 'module' and 'template'. 
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param order_CartInfo $cart
+	 * @return string | null
 	 */
-//	public function getSolrserachResultItemTemplate($document, $bockName)
-//	{
-//		return array('module' => 'catalog', 'template' => 'Catalog-Inc-TaxResultDetail');
-//	}
+	public function getCurrentTaxZone($shop, $cart = null)
+	{
+		if ($this->currentTaxeZoneStrategy === null)
+		{
+			$class = Framework::getConfigurationValue('modules/catalog/currentTaxZoneStrategyClass', false);
+			if ($class !== false)
+			{
+				$this->currentTaxeZoneStrategy = new $class();
+			}
+			else
+			{
+				$this->currentTaxeZoneStrategy = false;
+			}
+		}
+		if ($this->currentTaxeZoneStrategy === false)
+		{
+			return $this->getDefaultShopTaxZone($shop);
+		}
+		return $this->currentTaxeZoneStrategy->getCurrentTaxZone($shop, $cart);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return string | null
+	 */
+	protected function getDefaultShopTaxZone($shop)
+	{
+		return ($shop) ? $shop->getDefaultTaxZone() : null;;
+	}
+
+	/**
+	 * 
+	 * @param integer $shopId
+	 * @param string $taxCategory
+	 * @param string $taxZone
+	 * @return double | null
+	 */
+	public function getTaxRate($shopId, $taxCategory, $taxZone)
+	{
+		$row = $this->createQuery()
+			->add(Restrictions::eq('shopId', $shopId))
+			->add(Restrictions::eq('taxCategory', $taxCategory))
+			->add(Restrictions::eq('taxZone', $taxZone))
+			->setProjection(Projections::property('rate'))
+			->findUnique();
+		return $row ? doubleval($row['rate']) : null;
+	}
+	
+	/**
+	 * @param integer $shopId
+	 * @param string $taxCategory
+	 * @param string $taxZone
+	 * @return catalog_persistentdocument_tax | null
+	 */
+	public function getTaxDocument($shopId, $taxCategory, $taxZone)
+	{
+		return $this->createQuery()
+			->add(Restrictions::eq('shopId', $shopId))
+			->add(Restrictions::eq('taxCategory', $taxCategory))
+			->add(Restrictions::eq('taxZone', $taxZone))
+			->findUnique();
+	}
+	
+	/**
+	 * @param string $code
+	 * @throws Exception
+	 * @return double
+	 */
+	public function getTaxRateByCode($code)
+	{
+		$parts = explode(',', $code);
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if ($shop === null) {throw new Exception('No current shop defined');}
+		if (count($parts) == 2)
+		{
+			list($taxZone, $taxCategory) = $parts;
+		}
+		else
+		{
+			$taxCategory = $code;
+			$taxZone = $this->getCurrentTaxZone($shop);
+		}
+		$rate = $this->getTaxRate($shop->getId(), $taxCategory, $taxZone);
+		Framework::info(__METHOD__ . " ($code, $taxCategory, $taxZone) : $rate");
+		return $rate;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return string[]
+	 */
+	public function getTaxZonesForShop($shop)
+	{
+		return $this->createQuery()
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->setProjection(Projections::groupProperty('taxZone', 'taxZone'))
+			->findColumn('taxZone');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $taxZone
+	 * @return zone_persistentdocument_zone[]
+	 */
+	public function getZonesForTaxZone($taxZone)
+	{
+		return zone_ZoneService::getInstance()->getZonesByCode($taxZone);
+	}	
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return zone_persistentdocument_zone[]
+	 */
+	public function getZonesForShop($shop)
+	{
+		$taxZones = $this->getTaxZonesForShop($shop);	
+		$result = array();
+		foreach ($taxZones as $taxZone) 
+		{
+			$result = array_merge($result, $this->getZonesForTaxZone($taxZone));
+		}
+		return $result;
+	}
+
+	/**
+	 * @param integer $shopId
+	 * @param string $taxZone
+	 * @return catalog_persistentdocument_tax
+	 */
+	public function addNoTaxForShopAndZone($shopId, $taxZone)
+	{
+		$tax = $this->getTaxDocument($shopId, '0' , $taxZone);
+		if ($tax === null)
+		{
+			$tax = $this->getNewDocumentInstance();
+			$tax->setLabel('-');
+			$tax->setShopId($shopId);
+			$tax->setTaxCategory('0');
+			$tax->setTaxZone($taxZone);
+			$tax->setRate(0.0);
+			$this->save($tax);
+		}
+		return $tax;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return catalog_persistentdocument_tax[]
+	 */
+	public function getByShop($shop)
+	{
+		return $this->createQuery()
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->find();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return array[taxCategory => [label =>, rate =>]
+	 */
+	public function getBoTaxeInfoForShop($shop)
+	{
+		$taxZone = $shop->getBoTaxZone() ? $shop->getBoTaxZone() : $shop->getDefaultTaxZone();
+		$rows = $this->createQuery()
+				->add(Restrictions::eq('shopId', $shop->getId()))
+				->add(Restrictions::eq('taxZone', $taxZone))
+				->setProjection(Projections::property('rate'), Projections::property('label'), Projections::property('taxCategory'))
+				->addOrder(Order::asc('rate'))
+				->find();
+		$result = array();
+		$hasNoTaxCategory = false;
+		
+		foreach ($rows as $row) 
+		{
+			if ($row['taxCategory'] === '0') {$hasNoTaxCategory = true;}
+			$result[$row['taxCategory']] = array('rate' => doubleval($row['rate']), 'label' => $row['label']);
+		}
+		
+		if (!$hasNoTaxCategory)
+		{
+			$tax = $this->addNoTaxForShopAndZone($shop->getId(), $taxZone);
+			$result = array_merge(array($tax->getTaxCategory() => array('rate' => $tax->getRate(), 'label' => $tax->getLabel())), $result);
+		}
+		
+		return $result;
+	}
 }

@@ -17,22 +17,18 @@ class catalog_PriceScriptDocumentElement extends import_ScriptDocumentElement
 		// Tax code must be set before setting values.
 		if (isset($this->attributes['taxCode']))
 		{
-			$price->setTaxCode($this->attributes['taxCode']);
+			$price->setTaxCategory($this->attributes['taxCode']);
 			unset($this->attributes['taxCode']);
-		}
-		else
-		{
-			$price->setTaxCode(1);
 		}
 
 		if (isset($this->attributes['value']))
 		{
-			$price->setPriceValue($this->attributes['value']);
+			$price->setImportPriceValue($this->attributes['value']);
 			unset($this->attributes['value']);
 		}
 		if (isset($this->attributes['oldValue']))
 		{
-			$price->setPriceOldValue($this->attributes['oldValue']);
+			$price->setImportPriceOldValue($this->attributes['oldValue']);
 			unset($this->attributes['oldValue']);
 		}
 		 

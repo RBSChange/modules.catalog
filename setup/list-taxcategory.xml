@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	
+	<systemfolder module="list" relatedmodule="catalog">
+		<dynamiclist listid="modules_catalog/taxcategory" label="&amp;modules.catalog.list.Taxcategory-label;"/>
+		
+		<valuededitablelist listid="modules_catalog/defaulttaxzones" label="Zones de taxe disponible">
+			<valueditem label="FR-ALL" byValue="FR-ALL" />
+		</valuededitablelist>
+		
+	</systemfolder>
+</script>
