@@ -4,16 +4,12 @@
 		<field name="label" hidehelp="true" />
 		<field name="mode" moduleselector="shipping" allow="[modules_shipping_mode]" hidehelp="true" />
 
+
 		<field name="boValueJSON" type="price" required="true" 
 			labeli18n="modules.catalog.document.shippingfilter.ValueWithTax" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		
-		<!-- 
-		<field name="taxCode" hidehelp="true" />
-		<field name="valueWithTax" hidehelp="true" />
-		 -->
-		 
 		<field name="selectbyproduct" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates">
