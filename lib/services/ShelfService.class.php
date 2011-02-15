@@ -368,7 +368,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.no-published-product-or-subshelf;');
 		return false;
 	}
-	
+		
 	/**
 	 * @var catalog_persistentdocument_shop
 	 */
@@ -702,6 +702,19 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$shopTopic = $shop->getTopic();
 		return $this->getRelatedTopicByTopicAncestor($shelf, $shopTopic);
 	}
+
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param website_persistentdocument_systemtopic $systemtopic
+	 * @param string $lang
+	 * @param array $parameters
+	 */
+	public function generateSystemtopicUrl($shelf, $systemtopic, $lang, $parameters)
+	{
+		$shop = catalog_ShopService::getInstance()->getByTopic($systemtopic);
+		$parameters['catalogParam']['shopId'] = $shop->getId();
+		return LinkHelper::getDocumentUrl($shelf, $lang, $parameters);
+	}
 	
 	/**
 	 * Filter the parameters used to generate the document url.
@@ -721,7 +734,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			{
 				unset($parameters['catalogParam']['shopId']);
 			}
-			else 
+			else if (!isset($parameters['catalogParam']['shopId']))
 			{
 				$currentShop = $shopService->getCurrentShop(false);
 				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
