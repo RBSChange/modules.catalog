@@ -85,31 +85,7 @@ class catalog_SimpleproductService extends catalog_ProductService
 	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
 	{
 	}
-	
-	/**
-	 * @return Boolean
-	 */
-	public function hasIdsForSitemap()
-	{
-		return true;
-	}
-	
-	/**
-	 * @param website_persistentdocument_website $website
-	 * @param Integer $maxUrl
-	 * @return array
-	 */
-	public function getIdsForSitemap($website, $maxUrl)
-	{
-		$query = $this->createQuery();
-		$criteria = $query->createCriteria('compiledproduct')->add(Restrictions::eq('websiteId', $website->getId()))->add(Restrictions::published());
-		if (!$website->getLocalizebypath())
-		{
-			$criteria->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()));
-		}
-		return $query->setMaxResults($maxUrl)->setProjection(Projections::groupProperty('id', 'id'))->findColumn('id');
-	}
-	
+		
 	/**
 	 * @return Boolean
 	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()

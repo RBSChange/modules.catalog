@@ -499,6 +499,30 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		return $document->getPrimary() ? $document->getProduct() : null;
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function hasIdsForSitemap()
+	{
+		return true;
+	}
+	
+	/**
+	 * @param website_persistentdocument_website $website
+	 * @param Integer $maxUrl
+	 * @return array
+	 */
+	public function getIdsForSitemap($website, $maxUrl)
+	{
+		$query = $this->createQuery()
+			->add(Restrictions::eq('websiteId', $website->getId()))
+			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+			->setProjection(Projections::groupProperty('id', 'id'))
+			->add(Restrictions::published());
+			
+		return $query->setMaxResults($maxUrl)->findColumn('id');
+	}
 
 	/**
 	 * DEPRECATED function
