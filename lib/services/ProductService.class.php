@@ -289,6 +289,23 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}	
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_compiledproduct $compiledproduct
+	 * @param string $lang
+	 * @param array $parameters
+	 */
+	public function generateCompiledproductUrl($product, $compiledproduct, $lang, $parameters)
+	{
+		$shop = $compiledproduct->getShop();
+		$this->currentShopForResume = $shop;
+		$parameters['catalogParam']['shopId'] = $compiledproduct->getShopId();
+		$parameters['catalogParam']['topicId'] = $compiledproduct->getTopicId();
+		$url = LinkHelper::getDocumentUrl($product, $lang, $parameters);
+		$this->currentShopForResume = null;
+		return $url;
+	}
+	
+	/**
 	 * @var catalog_persistentdocument_shop
 	 */
 	private $currentShopForResume = null;

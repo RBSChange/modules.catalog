@@ -102,9 +102,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	public function generateUrl($document, $lang, $parameters)
 	{
 		if (!is_array($parameters)) {$parameters = array();}
-		$parameters['catalogParam']['shopId'] = $document->getShopId();
-		$parameters['catalogParam']['topicId'] = $document->getTopicId();
-		return LinkHelper::getDocumentUrl($document->getProduct(), $document->getLang(), $parameters);
+		$product = $document->getProduct();
+		return $product->getDocumentService()->generateCompiledproductUrl($product, $document, $lang, $parameters);
 	}
 	
 	/**
@@ -518,6 +517,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$query = $this->createQuery()
 			->add(Restrictions::eq('websiteId', $website->getId()))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+			->add(Restrictions::eq('primary', true))
 			->setProjection(Projections::groupProperty('id', 'id'))
 			->add(Restrictions::published());
 			
