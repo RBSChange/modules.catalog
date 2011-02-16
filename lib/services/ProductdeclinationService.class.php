@@ -422,7 +422,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			if ($declinationId == $subDeclinationId)
 			{
 				$before = false;
-				if (!$affected && $compiledProduct->getPublicationCode() == 0)
+				if (!$affected && $compiledProduct->getPublicationCode() == 0 && $compiledProduct->getIsAvailable())
 				{
 					$compiledProduct->setShowInList(true);
 					$affected = true;
@@ -442,7 +442,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 					continue;
 				}
 				
-				if (!$affected && $cp->getPublicationCode() == 0)
+				if (!$affected && $cp->getPublicationCode() == 0  && $cp->getIsAvailable())
 				{
 					if (!$cp->getShowInList()) {$needsCompile[] = $subDeclinationId;}
 					$affected = true;
@@ -450,8 +450,14 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				else if ($cp->getShowInList())
 				{
 					$needsCompile[] = $subDeclinationId;
+					$affected = true;
 				} 
 			}
+		}
+		
+		if (!$affected)
+		{
+			$compiledProduct->setShowInList(true);
 		}
 		
 		if (count($needsCompile))

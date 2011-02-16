@@ -212,6 +212,24 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	/**
 	 * @return string
 	 */
+	public function getFormattedDiscountWithTax()
+	{
+		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithTax()-$this->getValueWithTax(), 
+			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFormattedDiscountWithoutTax()
+	{
+		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithoutTax()-$this->getValueWithoutTax(), 
+			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+	}
+	
+	/**
+	 * @return string
+	 */
 	public function getFormattedEcoTax()
 	{
 		return catalog_PriceFormatter::getInstance()->format($this->getEcoTax(), 
