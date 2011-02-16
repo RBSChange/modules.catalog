@@ -712,8 +712,11 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	public function generateSystemtopicUrl($shelf, $systemtopic, $lang, $parameters)
 	{
 		$shop = catalog_ShopService::getInstance()->getByTopic($systemtopic);
+		$this->currentShopForResume = $shop;
 		$parameters['catalogParam']['shopId'] = $shop->getId();
-		return LinkHelper::getDocumentUrl($shelf, $lang, $parameters);
+		$url = LinkHelper::getDocumentUrl($shelf, $lang, $parameters);
+		$this->currentShopForResume = null;
+		return $url;
 	}
 	
 	/**
