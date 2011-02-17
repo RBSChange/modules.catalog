@@ -299,7 +299,10 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		$shop = $compiledproduct->getShop();
 		$this->currentShopForResume = $shop;
 		$parameters['catalogParam']['shopId'] = $compiledproduct->getShopId();
-		$parameters['catalogParam']['topicId'] = $compiledproduct->getTopicId();
+		if (!$compiledproduct->getPrimary())
+		{
+			$parameters['catalogParam']['topicId'] = $compiledproduct->getTopicId();
+		}
 		$url = LinkHelper::getDocumentUrl($product, $lang, $parameters);
 		$this->currentShopForResume = null;
 		return $url;
