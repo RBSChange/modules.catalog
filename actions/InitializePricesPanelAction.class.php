@@ -38,7 +38,7 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 			foreach (catalog_ShopService::getInstance()->createQuery()->find() as $shop)
 			{ 
 				$data['shops'][] = array(
-					'label' => $shop->getLabel(),
+					'label' => $shop->isContextLangAvailable() ? $shop->getLabel() : $shop->getVoLabel(),
 					'id' => $shop->getId(),
 					'published' => $shop->isPublished(),
 					'contains' => $product->isInShop($shop->getId())
