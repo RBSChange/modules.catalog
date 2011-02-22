@@ -28,8 +28,6 @@ class catalog_patch_0356 extends patch_BasePatch
 				->add(Restrictions::like("content", "modules_catalog_productCrossSelling", MatchMode::ANYWHERE()))
 				->findColumn("i");
 				
-			var_export($ids);
-			
 			$idsCount = count($ids);
 			$offset = 0;
 			$chunkLength = 10;
