@@ -36,7 +36,7 @@ class commands_CompileCatalog extends commands_AbstractChangeCommand
 		$count = count($ids);			
 		$this->message('There are '.$count.' products to be compiled.');
 		$index = 0;	
-		foreach (array_chunk($ids, 10) as $chunk)
+		foreach (array_chunk($ids, 100) as $chunk)
 		{
 			$result = f_util_System::execHTTPScript($batchPath, $chunk);
 			// Log fatal errors...

@@ -12,7 +12,7 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 			Framework::info(__METHOD__ . ' product to compile: ' . count($ids));		
 		}
 		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
-		foreach (array_chunk($ids, 10) as $chunk)
+		foreach (array_chunk($ids, 100) as $chunk)
 		{
 			$result = f_util_System::execHTTPScript($batchPath, $chunk);
 			// Log fatal errors...
