@@ -52,15 +52,17 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	    }
 	    $request->setAttribute('product', $product);
 	    
-    	$configuration = $this->getConfiguration();
-    	$relatedProducts = $product->getDisplayableCrossSelling($shop, $configuration->getType(), $configuration->getSortby());
+	    $configuration = $this->getConfiguration();
+	    $sellingType = $configuration->getCrossSellingType();
+	    
+    	$relatedProducts = $product->getDisplayableCrossSelling($shop, $sellingType, $configuration->getSortby());
     	if (count($relatedProducts) == 0)
 		{
 			return array();	
 		}
 		
 		$list = list_ListService::getInstance()->getByListId('modules_catalog/crosssellingtypes');
-		$typeLabel = f_util_HtmlUtils::textToHtml($list->getItemByValue($configuration->getType())->getLabel());
+		$typeLabel = f_util_HtmlUtils::textToHtml($list->getItemByValue($sellingType)->getLabel());
 		$request->setAttribute('blockTitle', $typeLabel);
 		$request->setAttribute('typeLabel', f_util_StringUtils::lcfirst($typeLabel));
     	return array_slice($relatedProducts, 0, $configuration->getMaxdisplayed());

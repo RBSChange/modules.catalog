@@ -12,11 +12,11 @@
 		<locale lang="fr">document lié</locale>
 		<locale lang="en">linked document</locale>
 	</entity>
-	<entity id="type">
+	<entity id="crossSellingType">
 		<locale lang="fr">type d'association</locale>
 		<locale lang="en">relation type</locale>
 	</entity>
-	<entity id="type-help">
+	<entity id="crossSellingType-help">
 		<locale lang="fr">type d'association entre les produits</locale>
 	</entity>
 	<entity id="sortBy">
