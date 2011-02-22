@@ -1,10 +1,10 @@
 <div tal:condition="products" class="product-crossselling">
-	<h3 tal:condition="blockTitle" id="cross-selling-title-${configuration/getType}" change:h="">${blockTitle}</h3>
+	<h3 tal:condition="blockTitle" id="cross-selling-title-${configuration/getCrossSellingType}" change:h="">${blockTitle}</h3>
 	
 	<ul change:errors=""></ul>
 	<ul change:messages=""></ul>
 		
-	<form action="#cross-selling-title-${configuration/getType}" method="post">
+	<form action="#cross-selling-title-${configuration/getCrossSellingType}" method="post">
 		<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 		<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
 		<div class="shelves-display compare">
@@ -59,6 +59,6 @@
 	</form>
 	
 	<ul class="mini-navigation" tal:condition="configuration/getAddlinktoall">
-		<li><a change:link="tag functional_catalog_crosssellinglist-page; catalogParam[cmpref] globalProduct/getId; catalogParam[relationType] configuration/getType" change:translate="modules.catalog.frontoffice.Cross-selling-list; type typeLabel"></a></li>
+		<li><a change:link="tag functional_catalog_crosssellinglist-page; catalogParam[cmpref] globalProduct/getId; catalogParam[relationType] configuration/getCrossSellingType" change:translate="modules.catalog.frontoffice.Cross-selling-list; type typeLabel"></a></li>
 	</ul>
 </div>

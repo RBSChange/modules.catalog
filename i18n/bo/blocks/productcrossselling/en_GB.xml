@@ -4,6 +4,6 @@
   <key id="block-label">related products</key>
   <key id="cmpref">linked document</key>
   <key id="cmpref-help">linked document</key>
-  <key id="type">relation type</key>
+  <key id="crossSellingType">relation type</key>
   <key id="sortby">sort by</key>
 </i18n>
