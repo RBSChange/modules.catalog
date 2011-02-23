@@ -186,15 +186,6 @@ class catalog_ModuleService extends ModuleBaseService
 		{
 			$userList->addProduct($product);
 		}
-		
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		foreach ($userList->getProductArray() as $product) 
-		{
-			if (!$product->canBeDisplayed($shop))
-			{
-				$userList->removeProduct($product);
-			}
-		}
 		$userList->saveList();
 		
 		$this->instances[$listName] = $userList;
@@ -207,13 +198,13 @@ class catalog_ModuleService extends ModuleBaseService
 	 */
 	protected function convertIdsToProductArray($ids)
 	{
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		if (count($ids) > 0 && $shop !== null)
+		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		if (count($ids) > 0 && $website !== null)
 		{
 			$query = catalog_ProductService::getInstance()->createQuery()->add(Restrictions::published())
 				->add(Restrictions::in('id', $ids));
 			$query->createCriteria('compiledproduct')->add(Restrictions::published())
-				->add(Restrictions::eq('shopId', $shop->getId()));
+				->add(Restrictions::eq('websiteId', $website->getId()));
 			return $query->find();
 		}
 		return array();		

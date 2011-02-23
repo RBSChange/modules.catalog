@@ -49,11 +49,12 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 		}
 
 		// If not logged in, display the warning.
+		$ls = LocaleService::getInstance();
 		if (users_UserService::getInstance()->getCurrentFrontEndUser() === null)
 		{
-			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Warning-list-not-persisted;'));
+			$this->addError($ls->transFO('m.catalog.frontoffice.warning-list-not-persisted', array('ucf')));
 		}
-		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.My-favorite-products;'));
+		$request->setAttribute('blockTitle', $ls->transFO('m.catalog.frontoffice.my-favorite-products', array('ucf')));
 
 		return catalog_ModuleService::getInstance()->getFavoriteProducts();
 	}
