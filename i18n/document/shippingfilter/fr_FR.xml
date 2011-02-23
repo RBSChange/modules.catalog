@@ -18,4 +18,7 @@
   <key id="startpublicationdate-help">début de validité du filtre. Avant cette date, le filtre n'est pas actif.</key>
   <key id="endpublicationdate">fin de validité</key>
   <key id="endpublicationdate-help">fin de validité du filtre. Au-delà de cette date, le filtre ne sera plus actif.</key>
+  
+  <key id="feesid">Frais associé</key>
+  <key id="feesid-help">Frais associé</key>
 </i18n>

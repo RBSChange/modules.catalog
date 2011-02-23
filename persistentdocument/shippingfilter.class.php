@@ -100,7 +100,6 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	 */
 	public function setBoValueJSON($value)
 	{
-		Framework::info(__METHOD__ . "($value)");
 		$parts = explode(',', $value);
 		if (count($parts) != 2 || $parts[0] == '' || $parts[1] == '')
 		{
@@ -120,5 +119,19 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 			$valueHT = doubleval($parts[0]) / (1 + $rate);
 		}
 		$this->setValueWithoutTax($valueHT);
-	}	
+	}
+
+	/**
+	 * 
+	 * @param order_CartInfo $cartInfo
+	 * @return shipping_persistentdocument_mode
+	 */
+	public function evaluateValue($cartInfo)
+	{
+		if ($this->getFeesId())
+		{
+			$fees = order_persistentdocument_fees::getInstanceById($this->getFeesId());
+			$fees->getDocumentService()->simulateShippingFilter($fees, $this, $cartInfo);
+		}	
+	}
 }
