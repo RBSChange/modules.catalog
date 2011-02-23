@@ -122,4 +122,10 @@
   <key id="log-delete-tax">log delete tax</key>
   <key id="update-tax">update.tax {documentlabel}</key>
   <key id="log-update-tax">log update tax</key>
+  <key id="deactivated-shippingfilter">deactivated.shippingfilter {documentlabel}</key>
+  <key id="log-deactivated-shippingfilter">log deactivated shippingfilter</key>
+  <key id="reactivate-fees">reactivate.fees {documentlabel}</key>
+  <key id="log-reactivate-fees">log reactivate fees</key>
+  <key id="reactivate-shippingfilter">reactivate.shippingfilter {documentlabel}</key>
+  <key id="log-reactivate-shippingfilter">log reactivate shippingfilter</key>
 </i18n>

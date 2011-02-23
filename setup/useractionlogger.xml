@@ -72,4 +72,7 @@
   <actiondef modulename="catalog" actionname="compileproduct.productdeclination" label="m.catalog.bo.useractionlogger.compileproduct-productdeclination"/>
   <actiondef modulename="catalog" actionname="delete.tax" label="m.catalog.bo.useractionlogger.delete-tax"/>
   <actiondef modulename="catalog" actionname="update.tax" label="m.catalog.bo.useractionlogger.update-tax"/>
+  <actiondef modulename="catalog" actionname="deactivated.shippingfilter" label="m.catalog.bo.useractionlogger.deactivated-shippingfilter"/>
+  <actiondef modulename="catalog" actionname="reactivate.fees" label="m.catalog.bo.useractionlogger.reactivate-fees"/>
+  <actiondef modulename="catalog" actionname="reactivate.shippingfilter" label="m.catalog.bo.useractionlogger.reactivate-shippingfilter"/>
 </script>

@@ -65,6 +65,43 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		{
 			$document->setShop(catalog_persistentdocument_shop::getInstanceById($parentNodeId));
 		}
+		$this->updateFees($document);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shippingfilter $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @return void
+	 */
+	protected function preUpdate($document, $parentNodeId = null)
+	{
+		$this->updateFees($document);
+	}	
+	
+	/**
+	 * @param catalog_persistentdocument_shippingfilter $document
+	 */
+	protected function updateFees($document)
+	{
+		if ($document->isPropertyModified('valueWithoutTax'))
+		{
+			if ($document->getFeesId() == null)
+			{
+				$fees = order_FeesService::getInstance()->getNewDefaultFees($document);
+				$fees->save();
+				$document->setFeesId($fees->getId());
+			}
+			else
+			{
+				$fees = order_persistentdocument_fees::getInstanceById($document->getFeesId());
+				if ($fees->getApplicationstrategy() === order_FeesService::DEFAULT_SHIPPING_STRATEGY)
+				{
+					$fees->setStrategyParam('taxcategory', $document->getTaxCategory());
+					$fees->setStrategyParam('valuewithouttax', $document->getValueWithoutTax());	
+				}
+				$fees->save();
+			}
+		}  
 	}
 	
 	/**
