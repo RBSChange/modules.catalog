@@ -128,10 +128,37 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	 */
 	public function evaluateValue($cartInfo)
 	{
-		if ($this->getFeesId())
+		$fees = $this->getFees();
+		if ($fees !== null)
 		{
-			$fees = order_persistentdocument_fees::getInstanceById($this->getFeesId());
 			$fees->getDocumentService()->simulateShippingFilter($fees, $this, $cartInfo);
 		}	
 	}
+	
+	/**
+	 * @param order_persistentdocument_fees $fees
+	 */
+	public function setFees($fees)
+	{
+		if ($fees instanceof order_persistentdocument_fees) 
+		{
+			$this->setFeesId($fees->getId());
+		}
+		else
+		{
+			$this->setFeesId(null);
+		}
+	}
+	
+	/**
+	 * @return order_persistentdocument_fees
+	 */
+	public function getFees()
+	{
+		if ($this->getFeesId())
+		{
+			return order_persistentdocument_fees::getInstanceById($this->getFeesId());
+		}
+		return null;
+	}	
 }
