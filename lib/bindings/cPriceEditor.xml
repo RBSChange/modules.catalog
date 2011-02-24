@@ -12,7 +12,7 @@
 					<xul:label value="${transui:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
 					<xul:label value="${transui:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
 					<xul:label value="${transui:m.catalog.bo.doceditor.tax-category,ucf,lab,space}" xbl:inherits="hidden=hideCategory" />
-					<xul:menulist anonid="categorySelector" xbl:inherits="disabled" xbl:inherits="hidden=hideCategory" >
+					<xul:menulist anonid="categorySelector" xbl:inherits="disabled,hidden=hideCategory" >
 						<xul:menupopup>
 						</xul:menupopup>
 					</xul:menulist>			
