@@ -43,6 +43,14 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	}
 	
 	/**
+	 * @return catalog_persistentdocument_topshelf
+	 */
+	public function getTopShelf()
+	{
+		return catalog_persistentdocument_topshelf::getInstanceById($this->getTopshelfId());
+	}
+	
+	/**
 	 * @return website_persistentdocument_website
 	 */
 	public function getWebsite()
