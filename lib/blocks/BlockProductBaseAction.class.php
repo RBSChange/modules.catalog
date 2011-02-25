@@ -12,7 +12,7 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 	{
 		if (catalog_ModuleService::getInstance()->addFavoriteProduct($product))
 		{
-			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Product-added-to-list;'));
+			$this->addMessage(LocaleService::getInstance()->transFO('m.catalog.frontoffice.product-added-to-list', array('ucf')));
 		}
 	}
 	
@@ -29,15 +29,15 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 		if ($ocs->addProductToCart($cart, $product, $quantity))
 		{
 			$cart->refresh();
-			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.ProductJustAdded;'));
+			$this->addMessage(LocaleService::getInstance()->transFO('m.catalog.frontoffice.productjustadded', array('ucf')));
 		}	
 		else
 		{
-			foreach ($cart->getErrorMessageArray() as $msg)
+			foreach ($cart->getTransientErrorMessages() as $msg)
 			{
 				$this->addError($msg);
 			}
-			$cart->clearErrorMessages();
+			$cart->clearTransientErrorMessages();
 		}
 	}
 }
