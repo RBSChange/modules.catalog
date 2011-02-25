@@ -9,7 +9,7 @@ class catalog_KitService extends catalog_ProductService
 	 * @var catalog_KitService
 	 */
 	private static $instance;
-	
+
 
 	/**
 	 * @return catalog_KitService
@@ -41,7 +41,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		return $this->pp->createQuery('modules_catalog/kit');
 	}
-	
+
 	/**
 	 * Create a query based on 'modules_catalog/kit' model.
 	 * Only documents that are strictly instance of modules_catalog/kit
@@ -52,7 +52,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		return $this->pp->createQuery('modules_catalog/kit', false);
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
@@ -63,16 +63,16 @@ class catalog_KitService extends catalog_ProductService
 		parent::preSave($document, $parentNodeId);
 		$this->addNewBOKitItems($document);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param catalog_persistentdocument_kit $kit
 	 */
 	protected function addNewBOKitItems($kit)
 	{
 		$newProducts = $kit->getNewKitItemProductsDocument();
 		$kit->setNewKitItemProductIds(null);
-		
+
 		$qtt = intval($kit->getNewKitItemQtt());
 		$kis = catalog_KititemService::getInstance();
 		foreach ($newProducts as $document)
@@ -87,9 +87,9 @@ class catalog_KitService extends catalog_ProductService
 				$product = $document->getFirstDeclination();
 				$declinable = true;
 			}
-			
+
 			if ($product === null) {continue;}
-			
+
 			$kitItem = $this->getKitItemByProduct($kit, $product);
 			if ($kitItem === null)
 			{
@@ -98,9 +98,9 @@ class catalog_KitService extends catalog_ProductService
 				$kis->save($kitItem);
 				$kit->addKititem($kitItem);
 			}
-		}		
+		}
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document.
@@ -113,13 +113,13 @@ class catalog_KitService extends catalog_ProductService
 		if (count($kitItemsToDelete))
 		{
 			$kis = catalog_KititemService::getInstance();
-			foreach ($kitItemsToDelete as $kitItem) 
+			foreach ($kitItemsToDelete as $kitItem)
 			{
 				$kis->delete($kitItem);
 			}
 		}
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_product $product
@@ -127,8 +127,8 @@ class catalog_KitService extends catalog_ProductService
 	 */
 	protected function getKitItemByProduct($kit, $product)
 	{
-		foreach ($kit->getKititemArray() as $kitItem) 
-		{	
+		foreach ($kit->getKititemArray() as $kitItem)
+		{
 			if (DocumentHelper::equals($product, $kitItem->getProduct()))
 			{
 				return $kitItem;
@@ -136,7 +136,7 @@ class catalog_KitService extends catalog_ProductService
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $document
 	 * @return boolean true if the document is publishable, false if it is not.
@@ -148,7 +148,7 @@ class catalog_KitService extends catalog_ProductService
 		{
 			if ($document->getKititemCount())
 			{
-				foreach ($document->getKititemArray() as $kitItem) 
+				foreach ($document->getKititemArray() as $kitItem)
 				{
 					$product = $kitItem->getProduct();
 					if (!$product->isPublished())
@@ -166,7 +166,7 @@ class catalog_KitService extends catalog_ProductService
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $document
 	 * @param string $forModuleName
@@ -179,7 +179,7 @@ class catalog_KitService extends catalog_ProductService
 		$resume['properties']['itemscount'] = $document->getKititemCount();
 		return $resume;
 	}
-	
+
 	/**
 	 * @see catalog_ProductService::getPriceByTargetIds()
 	 *
@@ -194,10 +194,10 @@ class catalog_KitService extends catalog_ProductService
 		if (!in_array($kit->getId(), $targetIds))
 		{
 			$targetIds[] = $kit->getId();
-		}		
-		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);	
+		}
+		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @param catalog_persistentdocument_shop $shop
@@ -209,7 +209,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		throw new Exception('Not implemented');
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
@@ -221,7 +221,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
@@ -234,11 +234,11 @@ class catalog_KitService extends catalog_ProductService
 		$kitPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
 		$kitPrice->setToZero();
 		$taxCode = false;
-		
+
 		$kitPrice->setProductId($kit->getId());
 		$kitPrice->setShopId($shop->getId());
 		$kis = catalog_KititemService::getInstance();
-		foreach ($kit->getKititemArray() as $kititem) 
+		foreach ($kit->getKititemArray() as $kititem)
 		{
 			if (!$kis->appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity))
 			{
@@ -250,7 +250,7 @@ class catalog_KitService extends catalog_ProductService
 			}
 			else if ($taxCode != $kitPrice->getTaxCategory())
 			{
-				$taxCode = null;
+				$taxCode = '0';
 			}
 		}
 		$kitPrice->setTaxCategory($taxCode);
@@ -258,18 +258,18 @@ class catalog_KitService extends catalog_ProductService
 		{
 			$kitPrice->removeDiscount();
 		}
-		return $kitPrice;		
+		return $kitPrice;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @param array $customItems
 	 */
 	public function setCustomItemsInfo($product, $shop, $customItems)
 	{
-		foreach ($product->getKititemArray() as $kitItem) 
+		foreach ($product->getKititemArray() as $kitItem)
 		{
-			if ($kitItem instanceof catalog_persistentdocument_kititem) 
+			if ($kitItem instanceof catalog_persistentdocument_kititem)
 			{
 				$kitItem->setCurrentKit($product);
 				if ($kitItem->getDeclinable())
@@ -278,7 +278,7 @@ class catalog_KitService extends catalog_ProductService
 					$key = $kitItem->getCurrentKey();
 					if (isset($customItems[$key]))
 					{
-						try 
+						try
 						{
 							$customProduct = DocumentHelper::getDocumentInstance($customItems[$key], 'modules_catalog/product');
 							foreach ($kitItemProduct->getDeclinations() as $declination)
@@ -297,13 +297,13 @@ class catalog_KitService extends catalog_ProductService
 					if ($kitItem->getCurrentProduct() === null)
 					{
 						$kitItem->setDefaultProductForShop($shop);
-					}				
+					}
 				}
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @return array
@@ -312,7 +312,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		$customItems = array();
 		$kitItem = new catalog_persistentdocument_kititem();
-		foreach ($product->getKititemArray() as $kitItem) 
+		foreach ($product->getKititemArray() as $kitItem)
 		{
 			if ($kitItem->getDeclinable() && $kitItem->getCurrentProduct() !== null)
 			{
@@ -321,7 +321,7 @@ class catalog_KitService extends catalog_ProductService
 		}
 		return $customItems;
 	}
-	
+
 	/**
 	 * @see catalog_ProductService::getProductToAddToCart()
 	 *
@@ -334,13 +334,13 @@ class catalog_KitService extends catalog_ProductService
 	public function getProductToAddToCart($product, $shop, $quantity, &$properties)
 	{
 		parent::getProductToAddToCart($product, $shop, $quantity, $properties);
-		foreach ($this->getCustomItemsInfo($product) as $key => $value) 
+		foreach ($this->getCustomItemsInfo($product) as $key => $value)
 		{
 			$properties[$key] = $value;
 		}
 		return $product;
 	}
-	
+
 	/**
 	 * @see catalog_ProductService::updateProductFromCartProperties()
 	 *
@@ -349,11 +349,11 @@ class catalog_KitService extends catalog_ProductService
 	 */
 	public function updateProductFromCartProperties($product, $properties)
 	{
-		foreach ($product->getKititemArray() as $kitItem) 
+		foreach ($product->getKititemArray() as $kitItem)
 		{
-			if ($kitItem instanceof catalog_persistentdocument_kititem) 
+			if ($kitItem instanceof catalog_persistentdocument_kititem)
 			{
-				$kitItem->setCurrentKit($product);			
+				$kitItem->setCurrentKit($product);
 				$key = $kitItem->getCurrentKey();
 				if ($kitItem->getDeclinable())
 				{
@@ -361,7 +361,7 @@ class catalog_KitService extends catalog_ProductService
 					$key = $kitItem->getCurrentKey();
 					if (isset($properties[$key]))
 					{
-						try 
+						try
 						{
 							$customProduct = catalog_persistentdocument_product::getInstanceById($properties[$key]);
 							foreach ($kitItemProduct->getDeclinations() as $declination)
@@ -377,16 +377,16 @@ class catalog_KitService extends catalog_ProductService
 							Framework::warn(__METHOD__ . ' ' . $e->getMessage());
 						}
 					}
-					
+
 					if ($kitItem->getCurrentProduct() === null)
 					{
 						$kitItem->setDefaultProductForShop(catalog_ShopService::getInstance()->getCurrentShop());
-					}	
+					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param array $properties
@@ -405,8 +405,8 @@ class catalog_KitService extends catalog_ProductService
 		else
 		{
 			$customItems = array();
-		}		
-		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
+		}
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$this->setCustomItemsInfo($product, $shop, $customItems);
 	}
 
@@ -420,7 +420,7 @@ class catalog_KitService extends catalog_ProductService
 		$stock = null;
 		if ($product->getKititemCount())
 		{
-			foreach ($product->getKititemArray() as $kitItem) 
+			foreach ($product->getKititemArray() as $kitItem)
 			{
 				$itemStock = catalog_StockService::getInstance()->increaseQuantity($kitItem->getProduct(), $quantity * $kitItem->getQuantity());
 				if ($itemStock !== null)
@@ -435,7 +435,7 @@ class catalog_KitService extends catalog_ProductService
 		}
 		return $stock;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @return string
@@ -444,7 +444,7 @@ class catalog_KitService extends catalog_ProductService
 	{
 		if ($product->getKititemCount())
 		{
-			foreach ($product->getKititemArray() as $kitItem) 
+			foreach ($product->getKititemArray() as $kitItem)
 			{
 				$stDoc = $kitItem->getDefaultProduct()->getStockableDocument();
 				if ($stDoc !== null)
@@ -456,10 +456,10 @@ class catalog_KitService extends catalog_ProductService
 				}
 			}
 			return catalog_StockService::LEVEL_AVAILABLE;
-		}	
-		return catalog_StockService::LEVEL_UNAVAILABLE;		
+		}
+		return catalog_StockService::LEVEL_UNAVAILABLE;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @return string
@@ -469,7 +469,7 @@ class catalog_KitService extends catalog_ProductService
 		$quantity = null;
 		if ($product->getKititemCount())
 		{
-			foreach ($product->getKititemArray() as $kitItem) 
+			foreach ($product->getKititemArray() as $kitItem)
 			{
 				$stDoc = $kitItem->getDefaultProduct()->getStockableDocument();
 				if ($stDoc !== null)
@@ -486,6 +486,54 @@ class catalog_KitService extends catalog_ProductService
 				}
 			}
 		}
-		return $quantity;		
+		return $quantity;
 	}
+
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @param array $cartLineProperties
+	 * @param order_persistentdocument_orderline $orderLine
+	 * @param order_persistentdocument_order $order
+	 */
+	public function updateOrderLineProperties($product, &$cartLineProperties, $orderLine, $order)
+	{
+		parent::updateOrderLineProperties($product, $cartLineProperties, $orderLine, $order);
+		$shop = $order->getShop();
+		$customer = $order->getCustomer();
+		$cartLineProperties['variance'] = $product->getCodeReference();
+
+		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+		$targetIds[] = $product->getId();
+		
+		foreach ($product->getKititemArray() as $kititem)
+		{
+			if ($kititem instanceof catalog_persistentdocument_kititem)
+			{
+				$kititemPrice = $kititem->getDocumentService()->getKititemPrice($kititem, $shop, $targetIds, $orderLine->getQuantity());
+				$kititemProduct = $kititem->getDefaultProduct();
+				$quantity = $kititem->getQuantity() * $orderLine->getQuantity();
+				$netAmount = $kititemPrice->getValueWithTax() * $quantity;
+				
+				if ($kititemPrice->getOldValueWithoutTax())
+				{
+					$discount = $kititemPrice->getValueWithoutTax() / $kititemPrice->getOldValueWithoutTax();
+				}
+				else
+				{
+					$discount = 1;
+				}
+
+				$amountWithTax = $netAmount * $discount;
+
+				$cartLineProperties['kititems'][$kititem->getId()]['codeReference'] = $kititemProduct->getCodeReference();
+				$cartLineProperties['kititems'][$kititem->getId()]['designation'] = $kititemProduct->getLabel();
+				$cartLineProperties['kititems'][$kititem->getId()]['quantity'] = $quantity;
+				$cartLineProperties['kititems'][$kititem->getId()]['netAmount'] = catalog_PriceFormatter::getInstance()->round($netAmount, $order->getCurrencyCode());
+				$cartLineProperties['kititems'][$kititem->getId()]['discount'] = number_format((1 - $discount) * 100,1);
+				$cartLineProperties['kititems'][$kititem->getId()]['amountWithTax'] = catalog_PriceFormatter::getInstance()->round($amountWithTax, $order->getCurrencyCode());
+			}
+		}
+		return;
+	}
+
 }

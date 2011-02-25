@@ -545,4 +545,16 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	{
 		return f_util_ArrayUtils::firstElement($this->getPublishedDeclinationsInShop($declinedProduct, $shop));
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @param array $cartLineProperties
+	 * @param order_persistentdocument_orderline $orderLine
+	 * @param order_persistentdocument_order $order
+	 */
+	public function updateOrderLineProperties($product, &$cartLineProperties, $orderLine, $order)
+	{
+		parent::updateOrderLineProperties($product, $cartLineProperties, $orderLine, $order);
+		$cartLineProperties['variance'] = $product->getDeclinedproduct()->getCodeReference();
+	}
 }

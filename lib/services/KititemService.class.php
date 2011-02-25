@@ -102,6 +102,19 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_kititem $kititem
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param integer[] $targetIds
+	 * @param Double $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getKititemPrice($kititem, $shop, $targetIds, $quantity)
+	{
+		$product = $kititem->getDefaultProduct();
+		return $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $kititem->getQuantity());
+		
+	}
+	/**
+	 * @param catalog_persistentdocument_kititem $kititem
 	 * @param catalog_persistentdocument_price $kitPrice
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param integer[] $targetIds
@@ -110,8 +123,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 */
 	public function appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity)
 	{	
-		$product = $kititem->getDefaultProduct();
-		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $kititem->getQuantity());
+		$price = $this->getKititemPrice($kititem, $shop, $targetIds, $quantity);
 		if ($price instanceof catalog_persistentdocument_price)
 		{
 			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $kititem->getQuantity());

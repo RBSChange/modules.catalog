@@ -269,13 +269,20 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @param array $properties
-	 * @return void
+	 * @param catalog_persistentdocument_kit $product
+	 * @param array $cartLineProperties
+	 * @param order_persistentdocument_orderline $orderLine
+	 * @param order_persistentdocument_order $order
 	 */
-	public function updateOrderLineProperties($product, &$properties)
+	public function updateOrderLineProperties($product, &$cartLineProperties, $orderLine, $order)
 	{
-		return;
+		$shop = $order->getShop();
+		$cp = $product->getDocumentService()->getPrimaryCompiledProductForShop($product, $shop);
+		if ($cp !== null)
+		{
+			$cartLineProperties['shelf'] = catalog_persistentdocument_shelf::getInstanceById($cp->getTopshelfId())->getLabel();
+			$cartLineProperties['subshelf'] = $cp->getShelf()->getLabel();
+		}
 	}	
 	
 	/**
@@ -1359,6 +1366,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @return catalog_persistentdocument_compiledproduct
 	 */
 	public function getPrimaryCompiledProductForShop($product, $shop)
 	{
