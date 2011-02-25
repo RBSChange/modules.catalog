@@ -117,10 +117,11 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	
 	
 	/**
+	 * @param boolean $throwsException
 	 * @return catalog_persistentdocument_tax
 	 * @throws Exception
 	 */
-	public function getTax()
+	public function getTax($throwsException = true)
 	{
 		if ($this->taxDocumentId === null)
 		{
@@ -128,7 +129,11 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 			$taxDocument = catalog_TaxService::getInstance()->getTaxDocument($this->getShopId(), $this->getTaxCategory(), $taxZone);
 			if ($taxDocument === null)
 			{
-				throw new Exception('Tax document not found');
+				if ($throwsException)
+				{
+					throw new Exception('Tax document not found');
+				}
+				return null;
 			}
 			$this->taxDocumentId = $taxDocument->getId();
 			return $taxDocument;
@@ -142,7 +147,8 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	private function getTaxRate()
 	{
-		return $this->getTax()->getRate();
+		$tax = $this->getTax(false);
+		return ($tax === null) ? 0 : $tax->getRate();
 	}
 	
 	/**
@@ -241,7 +247,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getTaxCode()
 	{
-		return  $this->getTax()->getCode();
+		return $this->getTax()->getCode();
 	}
 	
 	//Back office editor
