@@ -46,14 +46,7 @@ class catalog_DeclinedproductScriptDocumentElement extends import_ScriptDocument
 		{
 			$brandCodeRef = trim($properties['brandCodeReference']);
 			$brand = brand_BrandService::getInstance()->createQuery()->add(Restrictions::eq('codeReference', $brandCodeRef))->findUnique();
-			if ($brand === null)
-			{
-				echo $brandCodeRef . "\n";				
-			}
-			else 
-			{
-				$properties['brand'] = $brand;
-			}
+			$properties['brand'] = $brand;
 			unset($properties['brandCodeReference']);
 		}
 		return $properties;
