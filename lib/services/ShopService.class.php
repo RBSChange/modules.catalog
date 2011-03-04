@@ -208,6 +208,14 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		return $shop;
 	}
 	
+	/**
+	 * @param website_persistentdocument_website[] $websites
+	 * @return catalog_persistentdocument_shop[]
+	 */
+	public function getPublishedByWebsites($websites)
+	{
+		return $this->createQuery()->add(Restrictions::published())->add(Restrictions::in('website', $websites))->find();
+	}
 
 	/**
 	 * @param catalog_persistentdocument_shop $shop

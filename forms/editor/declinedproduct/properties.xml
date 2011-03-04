@@ -68,7 +68,6 @@
 								fields.synchronizePricesFrom.disable(true);
 							}
 						}
-						
 					}
 					catch (e)
 					{
