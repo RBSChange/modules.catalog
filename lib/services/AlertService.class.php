@@ -345,6 +345,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			
 			$query = $this->createQuery()
 				->add(Restrictions::published())
+				->add(Restrictions::eq('productId', $document->getProduct()->getId()))
 				->add(Restrictions::eq('pending', false))
 				->add(Restrictions::eq('alertType', self::TYPE_AVAILABILITY));
 				
@@ -373,6 +374,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			
 			$query = $this->createQuery()
 				->add(Restrictions::published())
+				->add(Restrictions::eq('productId', $document->getProduct()->getId()))
 				->add(Restrictions::eq('pending', false))
 				->add(Restrictions::eq('alertType', self::TYPE_PRICE))
 				->add(Restrictions::gt('priceReference', $document->getPrice()));
