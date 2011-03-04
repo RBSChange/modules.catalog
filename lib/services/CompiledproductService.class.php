@@ -88,6 +88,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		if ($document->isPropertyModified('isAvailable') && $document->getIsAvailable())
 		{
 			$query = $alertService->createQuery()->add(Restrictions::published())->add(Restrictions::eq('pending', false))
+				->add(Restrictions::eq('productId', $document->getProduct()->getId()))
 				->add(Restrictions::eq('alertType', catalog_AlertService::TYPE_AVAILABILITY));
 			foreach ($query->find() as $alert)
 			{
@@ -98,6 +99,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		if ($document->isPropertyModified('price') && $document->getPrice() < $document->getPriceOldValue())
 		{
 			$query = $alertService->createQuery()->add(Restrictions::published())->add(Restrictions::eq('pending', false))
+				->add(Restrictions::eq('productId', $document->getProduct()->getId()))
 				->add(Restrictions::eq('alertType', catalog_AlertService::TYPE_PRICE))
 				->add(Restrictions::gt('priceReference', $document->getPrice()));
 			foreach ($query->find() as $alert)
