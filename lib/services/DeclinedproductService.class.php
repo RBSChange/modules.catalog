@@ -412,7 +412,14 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$declinations = catalog_ProductdeclinationService::getInstance()->getArrayByDeclinedProduct($document);
 			foreach ($declinations as $declination) 
 			{
-				$declination->getDocumentService()->publishDocumentIfPossible($declination);
+				if ($declination->isContextLangAvailable())
+				{
+					$declination->getDocumentService()->publishDocumentIfPossible($declination);
+				}
+				else if (Framework::isInfoEnabled())
+				{
+					Framework::info(__METHOD__ . ' declination not available in lang: ' . $declination->getId());
+				}
 			}
 		}
 	}
