@@ -270,15 +270,19 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function productPublished($shelf, $document)
 	{
-		if ($shelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE)
+		if ($shelf->isContextLangAvailable() && $shelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE)
 		{
 			$shelf->getDocumentService()->publishDocument($shelf, array('cause' => 'productPublished'));
 		}
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_product $document
+	 */
 	public function productUnpublished($shelf, $document)
 	{
-		if ($shelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_PUBLISHED)
+		if ($shelf->isContextLangAvailable() && $shelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_PUBLISHED)
 		{
 			$shelf->getDocumentService()->publishDocument($shelf, array('cause' => 'productUnpublished'));
 		}		
@@ -548,11 +552,11 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$parentShelf = $document->getParentShelf();
 		if ($parentShelf !== null)
 		{
-			if ($document->isPublished() && $parentShelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE)
+			if ($document->isPublished() && $parentShelf->isContextLangAvailable() && $parentShelf->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE)
 			{
 				$parentShelf->getDocumentService()->publishDocument($parentShelf, array('cause' => 'shelfPublished'));
 			}
-			else if ($oldPublicationStatus === 'PUBLICATED' && $parentShelf->isPublished())
+			else if ($oldPublicationStatus === 'PUBLICATED' && $parentShelf->isContextLangAvailable() && $parentShelf->isPublished())
 			{
 				$parentShelf->getDocumentService()->publishDocument($parentShelf, array('cause' => 'shelfUnpublished'));
 			}
