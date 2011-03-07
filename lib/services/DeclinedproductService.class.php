@@ -284,8 +284,15 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		$declinations = $cpds->getArrayByDeclinedProduct($declinedProduct);
 		foreach ($declinations as $declination) 
 		{
-			$declination->setModificationdate(null);
-			$declination->save();
+			if ($declination->isContextLangAvailable())
+			{
+				$declination->setModificationdate(null);
+				$declination->save();
+			}
+			else if (Framework::isInfoEnabled())
+			{
+				Framework::info(__METHOD__ . ' declination not available in lang: ' . $declination->getId());
+			}
 		}
 	}
 
