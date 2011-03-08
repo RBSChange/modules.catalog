@@ -267,7 +267,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function declinationAdded($declinedProduct, $productDeclination)
 	{
-		if ($declinedProduct->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE && 
+		if ($declinedProduct->isContextLangAvailable() && $declinedProduct->getPublicationstatus() === f_persistentdocument_PersistentDocument::STATUS_ACTIVE && 
 			count($declinedProduct->getDeclination0Infos()) === 0)
 		{
 			//Declination added by code
