@@ -706,4 +706,17 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			}
 		}
 	}
+	
+	/**
+	 * Returns the URL of the document if has no URL Rewriting rule.
+	 *
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param string $lang
+	 * @param array $parameters
+	 * @return string
+	 */
+	public function generateUrl($document, $lang, $parameters)
+	{
+		return LinkHelper::getDocumentUrl($document->getPublishedDefaultDeclinationInShop(), $lang, $parameters);
+	}
 }

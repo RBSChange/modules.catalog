@@ -168,10 +168,10 @@
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 		</parameters>
 	</block>
-	<block type="modules_catalog_comments" icon="comments" label="&amp;modules.catalog.bo.blocks.comments.Comments;">
+	<block type="modules_catalog_comments" icon="comments">
 		<parameters>
-			<parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
 			<parameter name="nbitemperpage" type="Integer" default-value="25" />
+			<parameter name="allowNotRegistered" type="Boolean" default-value="true" />
 			<parameter name="enableRating" type="Boolean" default-value="true" />
 			<parameter name="showRatingDistribution" type="Boolean" default-value="true" />
 			<parameter name="displaySortOptions" type="Boolean" default-value="true" />
