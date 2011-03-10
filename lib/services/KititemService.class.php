@@ -119,6 +119,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 				'id' => $kitItem->getId(),
 				'productType' => str_replace('/', '_', $product->getDocumentModelName()),
 				'productId' => $product->getId(),
+				'productCodeReference' => $product->getCodeReference(),
 				'actionrow' => $showDeclination ? '1' : '0',
 				'statusOk' => $statusOk ? '': 'Non disponible',
 			    'label' => $label,
@@ -139,6 +140,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 					'actionrow' => '2',
 				    'label' => $label,
 					'sublabel' => $declinationlabel,
+					'productCodeReference' => $declination->getCodeReference(),
 				    'qtt' => '');
 			}
 		}

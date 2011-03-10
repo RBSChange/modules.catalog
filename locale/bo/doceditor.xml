@@ -300,6 +300,9 @@
 	<entity id="kititems.qtt-column">
 		<locale lang="fr">Quantité</locale>
 	</entity>
+	<entity id="kititems.productCodeReference-column">
+		<locale lang="fr">Code référence</locale>
+	</entity>
 	<entity id="kititems.actions-column">
 		<locale lang="fr">Actions</locale>
 	</entity>

@@ -1066,6 +1066,7 @@
 			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
 				<xul:columns>
 					<xul:column />
+					<xul:column />
 					<xul:column flex="1" />
 					<xul:column />
 					<xul:column />
@@ -1073,6 +1074,7 @@
 				<xul:rows>
 					<xul:row class="head" anonid="head-row">
 						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.kititems.Label-column;" />
+						<xul:label name="productCodeReference" value="&amp;modules.catalog.bo.doceditor.kititems.ProductCodeReference-column;" />
 						<xul:label name="sublabel" value="&amp;modules.catalog.bo.doceditor.kititems.Declination-column;" />
 						<xul:label name="qtt" value="&amp;modules.catalog.bo.doceditor.kititems.Qtt-column;" />
 						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.kititems.Actions-column;" />
