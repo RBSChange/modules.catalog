@@ -109,6 +109,22 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	}
 	
 	/**
+	 * @return integer
+	 */
+	public function countAxes()
+	{
+		if ($this->getAxe3())
+		{
+			return 3;
+		}
+		elseif ($this->getAxe2())
+		{
+			return 2;
+		}
+		return 1;
+	}	
+	
+	/**
 	 * @return catalog_ProductAxe[]
 	 */
 	public function getAxes()

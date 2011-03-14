@@ -337,8 +337,6 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct);
 		$axeVisible = $declinedProduct->getShowAxeInList();
 		$result = array();
-		$pKey = '||';
-		$group = array();
 		foreach ($rows as $row) 
 		{
 			switch ($axeVisible) 
@@ -348,15 +346,9 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 				case 3: $key = $row['axe1'] . '|'.$row['axe2'].'|'.$row['axe3']; break;
 				default: $key = '||'; break;
 			}
-			if ($pKey !== $key)
-			{
-				if (count($group)) {$result[] = $group;}
-				$group = array();
-				$pKey = $key;
-			}
-			$group[] = intval($row['id']);
+			$result[$key][] = intval($row['id']);
 		}
-		if (count($group)) {$result[] = $group;}
+		$result = array_values($result);
 		return $result;
 	}
 	

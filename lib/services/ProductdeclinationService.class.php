@@ -134,22 +134,9 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 */
 	public function getIdAndAxesArrayByDeclinedProduct($declinedProduct)
 	{
-		$axeToSort = $declinedProduct->getShowAxeInList();
 		$query = $this->createQuery()
 			->add(Restrictions::eq('declinedproduct', $declinedProduct))
 			->setProjection(Projections::property('id'), Projections::property('axe1'), Projections::property('axe2'), Projections::property('axe3'));
-		if ($axeToSort > 0)
-		{
-			$query->addOrder(Order::asc('axe1'));
-			if ($axeToSort > 1)
-			{
-				$query->addOrder(Order::asc('axe2'));
-				if ($axeToSort > 2)
-				{
-					$query->addOrder(Order::asc('axe3'));
-				}
-			}
-		}
 		$query->addOrder(Order::asc('indexInDeclinedproduct'));
 		return $query->find();
 	}	
@@ -188,6 +175,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				case 'pageTitle': $declination->setPageTitle($declinedProduct->getPageTitle()); break;
 				case 'pageDescription': $declination->setPageDescription($declinedProduct->getPageDescription()); break;
 				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;	
+				
 			}
 		}		
 	}
