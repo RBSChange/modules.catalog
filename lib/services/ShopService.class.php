@@ -106,10 +106,14 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			// or from cart...
 			if ($shop === null && catalog_ModuleService::getInstance()->isCartEnabled())
 			{
-				$cart = order_CartService::getInstance()->getDocumentInstanceFromSession();
-				if ($cart !== null && $cart->getShopId() !== null)
+				$cs = order_CartService::getInstance();
+				if ($cs->hasCartInSession())
 				{
-					$shop = $cart->getShop();
+					$cart = $cs->getDocumentInstanceFromSession();
+					if ($cart->getShopId() !== null)
+					{
+						$shop = $cart->getShop();
+					}
 				}
 			}
 	

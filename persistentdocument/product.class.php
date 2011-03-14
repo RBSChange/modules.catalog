@@ -497,10 +497,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		}
 	}
 	
-	
 	/**
 	 * @see rss_Item::getRSSDate()
-	 *
 	 * @return String
 	 */
 	public function getRSSDate()
@@ -510,7 +508,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSDescription()
-	 *
 	 * @return String
 	 */
 	public function getRSSDescription()
@@ -529,7 +526,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSGuid()
-	 *
 	 * @return String
 	 */
 	public function getRSSGuid()
@@ -539,7 +535,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSLabel()
-	 *
 	 * @return String
 	 */
 	public function getRSSLabel()
