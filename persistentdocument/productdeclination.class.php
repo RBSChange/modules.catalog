@@ -23,7 +23,7 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 		}
 		return $this->getLabel();
 	}
-	
+
 	/**
 	 * @return media_persistentdocument_media[]
 	 */
@@ -46,6 +46,20 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 		
 		$visuals = array_unique(array_merge($visuals, $declinedProduct->getAdditionnalVisualArray()));
 		return $visuals;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getDefaultVisual($shop = null)
+	{
+		$media = $this->getVisual();
+		if ($media === null)
+		{
+			$media = $this->getDeclinedproduct()->getDefaultVisual($shop);
+		}
+		return $media;
 	}
 	
 	/**
