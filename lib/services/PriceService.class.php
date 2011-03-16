@@ -796,8 +796,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		
 		$compare = $this->compareDate($tmpPriceInfo, $firstPrice);
-		$dataProperties = array('taxCode', 'valueWithTax', 'valueWithoutTax', 'oldValueWithTax', 
-								'oldValueWithoutTax', 'discountDetail', 'ecoTax', 'lockedFor');
+		$dataProperties = array('valueWithoutTax', 'oldValueWithoutTax', 
+			'taxCategory', 'discountDetail', 'ecoTax', 'lockedFor');
 		
 		switch ($compare) 
 		{
