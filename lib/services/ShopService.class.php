@@ -298,9 +298,11 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			->findUnique();
 		$document->setWebsite($website);
 		
+		
 		// Refresh topic tree.
 		if ($document->isPropertyModified('topShelf'))
 		{
+			$updatedShelfArray = array();	
 			$ss = catalog_ShelfService::getInstance();
 			$oldShelvesIds = $document->getTopShelfOldValueIds();
 			$newShelvesIds = array();
@@ -312,6 +314,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 				$newShelvesIds[] = $shelfId;
 				if (!in_array($shelfId, $oldShelvesIds))
 				{
+					$updatedShelfArray[] = $shelfId;
 					$ss->addNewTopicToShelfRecursive($shelf, $topic);
 				}
 			}
@@ -322,9 +325,12 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			{
 				if (!in_array($shelfId, $newShelvesIds))
 				{
+					$updatedShelfArray[] = $shelfId;
 					$ss->deleteTopicFromShelfRecursive(DocumentHelper::getDocumentInstance($shelfId), $topic);
 				}
 			}
+			
+			$document->setUpdatedShelfArray($updatedShelfArray);
 		}
 	}
 
@@ -421,7 +427,16 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		// Generate compiled products.
 		if ($document->isPropertyModified('topShelf'))
 		{
-			catalog_ProductService::getInstance()->setNeedCompileForShop($document);
+			$shelfIds = $document->getUpdatedShelfArray();
+			if (is_array($shelfIds))
+			{
+				foreach ($shelfIds as $shelfId) 
+				{
+					$shelf = catalog_persistentdocument_shelf::getInstanceById($shelfId);
+					catalog_ProductService::getInstance()->setNeedCompileForShelf($shelf);
+				}
+				$document->setUpdatedShelfArray(null);
+			}
 		}
 	}
 

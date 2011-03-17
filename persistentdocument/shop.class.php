@@ -250,4 +250,26 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 		$this->newTaxZone = null;
 		$this->newTaxLabel = null;		
 	}
+	
+	/**
+	 * @var integer[]
+	 */
+	private $updatedShelfArray;
+	
+	/**
+	 * @return integer[]
+	 */
+	public function getUpdatedShelfArray()
+	{
+		return $this->updatedShelfArray;
+	}
+
+	/**
+	 * @param integer[] $updatedShelfArray
+	 */
+	public function setUpdatedShelfArray($updatedShelfArray)
+	{
+		$this->updatedShelfArray = $updatedShelfArray;
+	}
+
 }
