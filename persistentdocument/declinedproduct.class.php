@@ -289,7 +289,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		if ($shop === null)
 		{
 			$shop = catalog_ShopService::getInstance()->getCurrentShop();
-			if ($shop === null) {return  array();}
+			if ($shop === null) {return null;}
 		}
 		return $this->getDocumentService()->getPublishedDefaultDeclinationInShop($this, $shop);
 	}	

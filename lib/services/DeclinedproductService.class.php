@@ -709,6 +709,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function generateUrl($document, $lang, $parameters)
 	{
-		return LinkHelper::getDocumentUrl($document->getPublishedDefaultDeclinationInShop(), $lang, $parameters);
+		$defaultDeclination = $document->getPublishedDefaultDeclinationInShop();
+		if ($defaultDeclination instanceof catalog_persistentdocument_productdeclination)
+		{
+			return LinkHelper::getDocumentUrl($defaultDeclination, $lang, $parameters);
+		}
+		return null;
 	}
 }
