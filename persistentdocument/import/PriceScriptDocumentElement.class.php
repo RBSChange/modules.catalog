@@ -42,4 +42,17 @@ class catalog_PriceScriptDocumentElement extends import_ScriptDocumentElement
 	{
 		return catalog_PriceService::getInstance();
 	}
+	
+	/**
+	 * @see import_ScriptDocumentElement::saveDocument()
+	 */
+	protected function saveDocument()
+	{
+		$document = $this->getPersistentDocument();
+		if ($document instanceof catalog_persistentdocument_price)
+		{
+			$document->setProductId($this->getParentNodeId());
+			catalog_PriceService::getInstance()->insertPrice($document);
+		}
+	}
 }

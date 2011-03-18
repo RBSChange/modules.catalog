@@ -22,6 +22,9 @@ class catalog_DeclinedproductScriptDocumentElement extends import_ScriptDocument
 		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/declinedproduct');
 	}
 	
+	/**
+	 * @return array
+	 */
 	protected function getDocumentProperties()
 	{
 		$properties = parent::getDocumentProperties();
@@ -33,19 +36,20 @@ class catalog_DeclinedproductScriptDocumentElement extends import_ScriptDocument
 				$shelf = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::eq('codeReference', $shelfCodeRef))->findUnique();
 				if ($shelf === null)
 				{
-					echo $shelfCodeRef . "\n";				
+					throw new Exception("Shelf Code Reference : $shelfCodeRef not found");				
 				}
-				else 
-				{
-					$properties['shelf'][] = $shelf;
-				}
-				unset($properties['shelfCodeReferences']);
+				$properties['shelf'][] = $shelf;
 			}
+			unset($properties['shelfCodeReferences']);
 		}
 		if (isset($properties['brandCodeReference']) && f_util_StringUtils::isNotEmpty($properties['brandCodeReference']))
 		{
 			$brandCodeRef = trim($properties['brandCodeReference']);
 			$brand = brand_BrandService::getInstance()->createQuery()->add(Restrictions::eq('codeReference', $brandCodeRef))->findUnique();
+			if ($brand === null)
+			{
+				throw new Exception("Brand Code Reference : $brandCodeRef not found");				
+			}	
 			$properties['brand'] = $brand;
 			unset($properties['brandCodeReference']);
 		}
