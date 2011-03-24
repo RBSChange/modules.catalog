@@ -96,7 +96,7 @@
 	</simpleproduct>
 	<declinedproduct label="produit 3 avec un nom très long" id="product3" shelf-refids="r2-1" visual-refid="photo3"
 		synchronizePrices="false" complementary-refids="product1,product2" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
-		description-attr="productDescription">
+		codeReference="P3" description-attr="productDescription">
 		<productdeclination label="produit 3, déclinaison 1" codeReference="P3-1">
 			<price shop-refid="shop" taxCategory="2" value="490" oldValue="500" />
 		</productdeclination>
@@ -112,7 +112,7 @@
 		<price shop-refid="shop" taxCategory="2" value="130" oldValue="150" />
 	</simpleproduct>
 	<declinedproduct label="produit 6" id="product6" shelf-refids="r4" complementary-refids="product4,product5"
-		synchronizePrices="true" description-attr="productDescription">
+		codeReference="P6" synchronizePrices="true" description-attr="productDescription">
 		<productdeclination label="produit 6, déclinaison 1" codeReference="P6-1" />
 		<productdeclination label="produit 6, déclinaison 2" codeReference="P6-2" />
 		<price shop-refid="shop" taxCategory="2" value="490" oldValue="500" />
@@ -180,7 +180,7 @@
 	</simpleproduct>
 	<declinedproduct label="produit 25 (décliné)" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true"
 		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product3,product4" similar-refids="product1,product5,product6,product7,product8"
-		upsell-refids="product13,product14,product15" codeReference="P24">
+		upsell-refids="product13,product14,product15" codeReference="P25">
 		<productdeclination id="product251" label="produit 25, déclinaison 1" codeReference="P25-1" />
 		<productdeclination label="produit 25, déclinaison 2" codeReference="P25-2" />
 		<price shop-refid="shop" taxCategory="2" value="490" oldValue="500" />
