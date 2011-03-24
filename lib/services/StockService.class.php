@@ -217,7 +217,7 @@ class catalog_StockService extends BaseService
 		);
 		$ns = notification_NotificationService::getInstance();
 		return $ns->send(
-			$ns->getNotificationByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME), 
+			$ns->getByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME), 
 			$recipients, 
 			$parameters, 
 			'catalog'
