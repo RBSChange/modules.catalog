@@ -105,4 +105,10 @@
 	<entity id="remove-discount">
 		<locale lang="fr">retirer la promotion de ce prix</locale>
 	</entity>
+	<entity id="add-product">
+		<locale lang="fr">augmenter la quantité</locale>
+	</entity>
+	<entity id="remove-product">
+		<locale lang="fr">diminuer la quantité</locale>
+	</entity>
 </localization>
