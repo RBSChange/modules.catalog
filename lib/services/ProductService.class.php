@@ -401,6 +401,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * Used in productexporter to specify the products urls.
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @param array $parameters
+	 * @return string
+	 */
+	public function generateUrlForExporter($product, $shop, $lang = null, $parameters = array())
+	{
+		return $this->generateUrlForShop($product, $shop, $lang, $parameters, true);
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
