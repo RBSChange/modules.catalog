@@ -7,10 +7,20 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 	protected function execute()
 	{
 		$ids = catalog_ProductService::getInstance()->getProductIdsToCompile();
+		while (count($ids))
+		{
+			$this->compileProductIds($ids);
+			$ids = catalog_ProductService::getInstance()->getProductIdsToCompile();
+		}
+	}
+	
+	protected function compileProductIds($ids)
+	{
 		if (Framework::isInfoEnabled())
 		{
 			Framework::info(__METHOD__ . ' product to compile: ' . count($ids));		
 		}
+		f_persistentdocument_PersistentProvider::getInstance()->refresh();		
 		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
 		foreach (array_chunk($ids, 100) as $chunk)
 		{
@@ -20,6 +30,6 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 			{
 				Framework::error(__METHOD__ . ' ' . $batchPath . ' unexpected result: "' . $result . '"');
 			}
-		}	
+		}		
 	}
 }
