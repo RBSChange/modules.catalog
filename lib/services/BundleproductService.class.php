@@ -210,7 +210,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	{
 		$itemsPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
 		$itemsPrice->setToZero();
-		$taxCode = false;
+		$taxCategory = false;
 		
 		$itemsPrice->setProductId($bundle->getId());
 		$itemsPrice->setShopId($shop->getId());
@@ -221,16 +221,17 @@ class catalog_BundleproductService extends catalog_ProductService
 			{
 				return null;
 			}
-			if ($taxCode === false)
+			if ($taxCategory === false)
 			{
-				$taxCode = $itemsPrice->getTaxCode();
+				$taxCategory = $itemsPrice->getTaxCategory();
 			}
-			else if ($taxCode != $itemsPrice->getTaxCode())
+			else if ($taxCategory != $itemsPrice->getTaxCategory())
 			{
-				$taxCode = null;
+				$taxCategory = null;
 			}
+			
 		}
-		$itemsPrice->setTaxCode($taxCode);
+		$itemsPrice->setTaxCategory($taxCategory);
 		if ($itemsPrice->getValueWithoutTax() >= $itemsPrice->getOldValueWithoutTax())
 		{
 			$itemsPrice->removeDiscount();

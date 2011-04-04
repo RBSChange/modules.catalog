@@ -652,6 +652,17 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @param shipping_persistentdocument_mode $mode
+	 */
+	public function setShippingMode($mode)
+	{
+		if ($mode instanceof shipping_persistentdocument_mode)
+		{
+			$this->setShippingModeId($mode->getId());
+		}
+	}
+	
+	/**
 	 * @return boolean
 	 */
 	public function handleRelatedProducts()

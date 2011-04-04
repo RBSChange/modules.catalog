@@ -23,6 +23,10 @@ class catalog_PriceScriptDocumentElement extends import_ScriptDocumentElement
 
 		if (isset($this->attributes['value']))
 		{
+			if (isset($this->attributes['taxCategory']) && $price->getTaxCategory() == "0")
+			{
+				$price->setTaxCategory($this->attributes['taxCategory']);
+			}
 			$price->setImportPriceValue($this->attributes['value']);
 			unset($this->attributes['value']);
 		}

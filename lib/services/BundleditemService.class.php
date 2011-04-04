@@ -138,6 +138,7 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 			}
 			
 			$itemsPrice->setTaxCategory($price->getTaxCategory());
+			$itemsPrice->setCurrencyId($price->getCurrencyId());
 			return true;
 		}
 		else
