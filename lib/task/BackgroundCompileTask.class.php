@@ -7,10 +7,12 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 	protected function execute()
 	{
 		$ids = catalog_ProductService::getInstance()->getProductIdsToCompile();
-		while (count($ids))
+		$maxIteration = 4;
+		while ($maxIteration > 0 && count($ids))
 		{
 			$this->compileProductIds($ids);
 			$ids = catalog_ProductService::getInstance()->getProductIdsToCompile();
+			$maxIteration--;
 		}
 	}
 	
