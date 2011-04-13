@@ -139,19 +139,55 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			->add(Restrictions::eq('email', $email));
 			
 		$allAlerts = $query->find();
-		Framework::info(__METHOD__ . ' ' . count($allAlerts) . ' for email ' . $email);
+		if (Framework::isInfoEnabled())
+		{
+			Framework::info(__METHOD__ . ' ' . count($allAlerts) . ' for email ' . $email);
+		}
 		
-		$alerts = array();
+		$alertsByWebsiteId = array();
 		foreach ($allAlerts as $alert) 
 		{
 			$product = $alert->getProduct();
 			if ($product instanceof catalog_persistentdocument_product) 
 			{
-				$alerts[] = $alert;
+				$alertsByWebsiteId[$alert->getWebsiteId()][] = $alert;
 			}
 		}
 		
 		$ns = notification_NotificationService::getInstance();
+		foreach ($alertsByWebsiteId as $alerts)
+		{
+			if (count($alerts) == 1)
+			{
+				$notification = $this->getNotificationByAlert(f_util_ArrayUtils::firstElement($alerts));
+			}
+			else
+			{
+				$alert = f_util_ArrayUtils::firstElement($alerts);
+				$notification = $ns->getConfiguredByCodeName('modules_catalog/severalalerts', $alert->getWebsiteId(), $alert->getLang());
+			}
+			
+			if ($notification instanceof notification_persistentdocument_notification)
+			{
+				$recipients = new mail_MessageRecipients();
+				$recipients->setTo($email);
+				$notification->setSendingModuleName('catalog');
+				$ns->sendNotificationCallback($notification, $recipients, array($this, 'getNotificationParameters'), $alerts);
+			}
+		}
+		
+		if (count($allAlerts))
+		{
+			$this->createQuery()->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($allAlerts)))->delete();
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_alert[] $alerts
+	 * @return array<string, string>
+	 */
+	public function getNotificationParameters($alerts)
+	{
 		if (count($alerts) > 1)
 		{
 			$alertList = array();
@@ -161,27 +197,14 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 				$text = $this->getNotificationByAlert($alert)->getBody();
 				$alertList[] = $this->applyReplacements($text, $tempReplacements);
 			}
-			$replacements = array('alertList' => implode("<br />\n<br />\n", $alertList));
-			$notification = $ns->getByCodeName('modules_catalog/severalalerts');			
+			$replacements = array('alertList' => implode("<br />\n<br />\n", $alertList));			
 		}
 		else if (count($alerts) == 1)
 		{
 			$alert = f_util_ArrayUtils::firstElement($alerts);
-			$replacements = $this->getReplacementsForAlert($alert);			
-			$notification = $this->getNotificationByAlert($alert);
+			$replacements = $this->getReplacementsForAlert($alert);
 		}
-		
-		if (count($alerts))
-		{
-			$recipients = new mail_MessageRecipients();
-			$recipients->setTo($email);
-			$ns->send($notification, $recipients, $replacements, 'catalog');
-		}
-		
-		if (count($allAlerts))
-		{
-			$this->createQuery()->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($allAlerts)))->delete();
-		}
+		return $replacements;
 	}
 	
 	/**
@@ -193,7 +216,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		$product = $alert->getProduct();
 		$shop = $alert->getShop();
 		$price = $product->getPrice($shop, null);
-		$productUrl = LinkHelper::getDocumentUrl($product);
+		$productUrl = LinkHelper::getDocumentUrl($product, $alert->getLang(), array('catalogParam' => array('shopId' => $shop->getId())));
 		$prpductLabel = $product->getLabelAsHtml();
 		$productLink = '<a href="'.$productUrl.'" class="link">'.$prpductLabel.'</a>';
 		$replacements = array(
@@ -246,7 +269,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 */
 	public function getNotificationByAlert($alert)
 	{
-		return notification_NotificationService::getInstance()->getByCodeName('modules_catalog/'.$alert->getAlertType().'alert', $alert->getWebsiteId());
+		return notification_NotificationService::getInstance()->getConfiguredByCodeName('modules_catalog/'.$alert->getAlertType().'alert', $alert->getWebsiteId(), $alert->getLang());
 	}
 	
 	/**
@@ -256,15 +279,6 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	{
 		return $this->createQuery()->add(Restrictions::ne('publicationstatus', 'PUBLICATED'))->delete();
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_alert $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
-	 * @return void
-	 */
-//	protected function preSave($document, $parentNodeId = null)
-//	{
-//	}
 
 	/**
 	 * @param catalog_persistentdocument_alert $document
