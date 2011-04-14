@@ -327,7 +327,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			}
 		}
 		
-		if ($primaryCompiled === null && $publicationCode == 0)
+		if ($primaryCompiled === null && ($publicationCode == 0 || $publicationCode == 5))
 		{
 			$primaryCompiled = $compiledProduct;
 			$compiledProduct->setPrimary(true);

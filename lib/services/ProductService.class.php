@@ -442,6 +442,9 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		// Generate compiled products.
 		$this->updateCompiledProperty($document, false);
+		
+		//Send low stock alert notification
+		catalog_StockService::getInstance()->handleStockAlert($document);
 	}
 		
 	/**
@@ -754,7 +757,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			{
 				return null;
 			}
-			
 			$shelf = $this->getShopPrimaryShelf($document, $shop, true);
 			if ($shelf !== null)
 			{
@@ -1369,7 +1371,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	public function getShopPrimaryShelf($product, $shop, $publlishedOnly = false)
 	{
 		$compiledProduct = $this->getPrimaryCompiledProductForShop($product, $shop);
-		if ($compiledProduct !== null && (!$publlishedOnly || $compiledProduct->isPublished()))
+		if ($compiledProduct !== null && (!$publlishedOnly || $compiledProduct->isPublished() || $compiledProduct->getPublicationCode() == 5))
 		{
 			return DocumentHelper::getDocumentInstance($compiledProduct->getShelfId(), 'modules_catalog/shelf');
 		}
@@ -1405,7 +1407,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		else 
 		{
 			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-			return $this->getShopPrimaryShelf($product, $shop, $publlishedOnly = false);
+			return $this->getShopPrimaryShelf($product, $shop, $publlishedOnly);
 		}
 	}
 	

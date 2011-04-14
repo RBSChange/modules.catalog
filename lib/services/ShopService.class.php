@@ -135,6 +135,25 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return catalog_persistentdocument_shop[]
+	 */
+	public function getByProduct($product) 
+	{
+		$topShelfArray = array();
+		foreach ($product->getShelfArray() as $shelf) 
+		{
+			$topShelf = catalog_TopshelfService::getInstance()->getTopShelfByShelf($shelf);
+			$topShelfArray[$topShelf->getId()] = $topShelf;
+		}
+		if (count($topShelfArray) === 0)
+		{
+			return array();
+		}
+		return $this->createQuery()->add(Restrictions::in('topShelf', array_values($topShelfArray)))->find();
+	}
+	
+	/**
 	 * @param string $idParamName
 	 * @return catalog_persistentdocument_shop
 	 */

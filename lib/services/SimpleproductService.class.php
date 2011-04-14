@@ -69,18 +69,6 @@ class catalog_SimpleproductService extends catalog_ProductService
 		}
 	}
 	
-	/**
-	 * @param catalog_persistentdocument_simpleproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
-	 * @return void
-	 */
-	protected function postSave($document, $parentNodeId = null)
-	{
-		parent::postSave($document, $parentNodeId);
-		
-		// Handle stock alerts.
-		catalog_StockService::getInstance()->handleStockAlert($document);
-	}
 	
 	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
 	{

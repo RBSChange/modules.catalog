@@ -412,32 +412,6 @@ class catalog_KitService extends catalog_ProductService
 
 	/**
 	 * @param catalog_persistentdocument_kit $product
-	 * @param double $quantity
-	 * @return double | null
-	 */
-	public function addStockQuantity($product, $quantity)
-	{
-		$stock = null;
-		if ($product->getKititemCount())
-		{
-			foreach ($product->getKititemArray() as $kitItem)
-			{
-				$itemStock = catalog_StockService::getInstance()->increaseQuantity($kitItem->getProduct(), $quantity * $kitItem->getQuantity());
-				if ($itemStock !== null)
-				{
-					$newStock = $itemStock / $kitItem->getQuantity();
-					if ($stock === null || $newStock < $stock)
-					{
-						$stock = $newStock;
-					}
-				}
-			}
-		}
-		return $stock;
-	}
-
-	/**
-	 * @param catalog_persistentdocument_kit $product
 	 * @return string
 	 */
 	public function getCurrentStockLevel($product)

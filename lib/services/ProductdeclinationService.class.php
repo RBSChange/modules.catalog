@@ -264,18 +264,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	}
 
 	/**
-	 * @param catalog_persistentdocument_productdeclination $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
-	 * @return void
-	 */
-	protected function postSave($document, $parentNodeId = null)
-	{	
-		parent::postSave($document, $parentNodeId);		
-		// Handle stock alerts
-		catalog_StockService::getInstance()->handleStockAlert($document);
-	}
-
-	/**
 	 * @param catalog_persistentdocument_productdeclination $targetProduct
 	 * @param string $fieldName
 	 * @param catalog_persistentdocument_product $product

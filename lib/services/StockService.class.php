@@ -30,7 +30,7 @@ class catalog_StockService extends BaseService
 	}
 	
 	/**
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param catalog_persistentdocument_product $document
 	 * @return catalog_StockableDocument
 	 */
 	public function getStockableDocument($document)
@@ -43,7 +43,7 @@ class catalog_StockService extends BaseService
 	}
 	
 	/**
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param catalog_persistentdocument_product $document
 	 * @param Double $quantity
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Boolean
@@ -59,21 +59,59 @@ class catalog_StockService extends BaseService
 		return true;
 	}
 	
-	/**
-	 * @param catalog_StockableDocument $stDoc
-	 * @param double $quantity
+	
+	
+	/**	
 	 * @param order_CartInfo $cart
+	 * @param order_CartLineInfo $cartLine
+	 * @param array $globalProductsArray
 	 */
-	protected function isValidCartQuantity($stDoc, $quantity, $cart)
+	public function buildCartProductList($cart, $cartLine, &$globalProductsArray)
 	{
-		if ($stDoc !== null)
-		{
-			$stock = $stDoc->getCurrentStockQuantity();
-			return ($stock === null || ($stock - $quantity) >= 0);
-		}
-		return true;
+		
+		$product = $cartLine->getProduct();
+		$this->buildProductList($product, $cartLine->getQuantity(), $globalProductsArray);
 	}
 	
+	/**
+	 * 
+	 * @param catalog_persistentdocument_product $product
+	 * @param integer $quantity
+	 * @param array $globalProductsArray
+	 */
+	protected function buildProductList($product, $quantity, &$globalProductsArray)
+	{	
+		$productId = $product->getId();
+		if ($product instanceof catalog_BundleProduct)
+		{
+			foreach ($product->getBundledProducts() as $bundledProduct)
+			{
+				$product = $bundledProduct->getProduct();
+				$productId = $product->getId();
+				$productQty = $bundledProduct->getQuantity() * $quantity;
+				if (! isset($globalProductsArray[$productId]))
+				{
+					$globalProductsArray[$productId] = array($product, $productQty);
+				}
+				else
+				{
+					$globalProductsArray[$productId][1] += $productQty;
+				}
+			}
+		}
+		else
+		{
+			$productQty = $quantity;
+			if (! isset($globalProductsArray[$productId]))
+			{
+				$globalProductsArray[$productId] = array($product, $productQty);
+			}
+			else
+			{
+				$globalProductsArray[$productId][1] += $productQty;
+			}
+		}		
+	}
 	
 	/**
 	 * @param array $productArray
@@ -90,13 +128,17 @@ class catalog_StockService extends BaseService
 		foreach ($productArray as $productInfo) 
 		{
 			$stDoc = $this->getStockableDocument($productInfo[0]);
-			if (!$this->isValidCartQuantity($stDoc, $productInfo[1], $cart))
+			if ($stDoc !== null)
 			{
-				$result[] = $productInfo;
+				$stock = $stDoc->getCurrentStockQuantity();
+				if ($stock !== null && ($stock - $productInfo[1]) < 0)
+				{
+					$result[] = $productInfo;
+				}
 			}
 		}
 		return $result;
-	}	
+	}
 	
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document
@@ -112,60 +154,145 @@ class catalog_StockService extends BaseService
 		}
 		return catalog_AvailabilityStrategy::getStrategy()->getAvailability(null);
 	}
+		
+	/**
+	 * @return catalog_StockableDocument
+	 */
+	public function getOutOfStockProducts()
+	{
+		return catalog_productService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
+	}
+	
+	/**
+	 * @param order_CartInfo $cart
+	 * @param order_persistentdocument_order $order
+	 */
+	public function orderInitializedFromCart($cart, $order)
+	{
+		
+	}
 
 	/**
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param order_persistentdocument_order $order
+	 * @param string $oldStatus
+	 */
+	public function orderStatusChanged($order, $oldStatus)
+	{
+		if (Framework::isInfoEnabled())
+		{
+			Framework::info(__METHOD__ . ' ' . $order->getId() .  ' ' . $oldStatus . ' -> ' . $order->getOrderStatus());
+		}
+		switch ($order->getOrderStatus()) 
+		{
+			case order_OrderService::IN_PROGRESS:
+				try
+				{
+					$this->getTransactionManager()->beginTransaction();
+					$productIdsToCompile = array();
+					$globalProductsArray = array();
+					
+					foreach ($order->getLineArray() as $line) 
+					{
+						if ($line instanceof order_persistentdocument_orderline)
+						{
+							$product = $line->getProduct();
+							if ($product !== null && $line->getQuantity() > 0)
+							{
+								$productIdsToCompile[$product->getId()] = true;
+								$properties = $line->getGlobalPropertyArray();
+								$product->getDocumentService()->updateProductFromCartProperties($product, $properties);
+								$this->buildProductList($product, $line->getQuantity(), $globalProductsArray);
+							}
+						}
+					}
+					
+					foreach ($globalProductsArray as $productInfo) 
+					{
+						list($product, $quantity) = $productInfo;
+						$productId = $product->getId();
+						$productIdsToCompile[$productId] = true;
+						$this->increaseQuantity($product, -$quantity, $order);
+					}
+					
+					if (count($productIdsToCompile))
+					{
+						catalog_ProductService::getInstance()->setNeedCompile(array_keys($productIdsToCompile));
+					}				
+					$this->getTransactionManager()->commit();
+				}
+				catch (Exception $e)
+				{
+					$this->getTransactionManager()->rollBack($e);
+				}
+				break;
+			case order_OrderService::CANCELED:
+				if ($oldStatus == order_OrderService::IN_PROGRESS || $oldStatus == order_OrderService::COMPLETE)
+				{
+					try
+					{
+						$this->getTransactionManager()->beginTransaction();
+						$productIdsToCompile = array();
+						$globalProductsArray = array();
+						
+						foreach ($order->getLineArray() as $line) 
+						{
+							if ($line instanceof order_persistentdocument_orderline)
+							{
+								$product = $line->getProduct();
+								if ($product !== null && $line->getQuantity() > 0)
+								{
+									$productIdsToCompile[$product->getId()] = true;
+									$properties = $line->getGlobalPropertyArray();
+									$product->getDocumentService()->updateProductFromCartProperties($product, $properties);
+									$this->buildProductList($product, $line->getQuantity(), $globalProductsArray);
+
+								}
+							}
+						}	
+
+						foreach ($globalProductsArray as $productInfo) 
+						{
+							list($product, $quantity) = $productInfo;
+							$productId = $product->getId();
+							$productIdsToCompile[$productId] = $quantity;
+							$this->increaseQuantity($product, $quantity, $order);
+						}
+						
+						if (count($productIdsToCompile))
+						{
+							catalog_ProductService::getInstance()->setNeedCompile(array_keys($productIdsToCompile));
+						}
+					
+						$this->getTransactionManager()->commit();
+					}
+					catch (Exception $e)
+					{
+						$this->getTransactionManager()->rollBack($e);
+					}
+				}
+				break;
+		}		
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
 	 * @param double $nb
+	 * @param order_persistentdocument_order $order
 	 * @return double new quantity
 	 */
-	public function increaseQuantity($document, $nb)
+	protected function increaseQuantity($document, $nb, $order)
 	{
 		$result = null;
 		$stDoc = $this->getStockableDocument($document);
 		if ($stDoc !== null)
 		{
-			try 
-			{
-				$this->getTransactionManager()->beginTransaction();
-				$result = $stDoc->addStockQuantity($nb);
-				$this->getTransactionManager()->commit();
-			}
-			catch (Exception $e)
-			{
-				$this->getTransactionManager()->rollBack($e);
-			}
+			$result = $stDoc->addStockQuantity($nb);
 		}
 		return $result; 
 	}
-	
+
 	/**
-	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param integer $nb
-	 * @param integer $orderId
-	 * @return double new quantity
-	 */
-	public function decreaseQuantity($document, $nb, $orderId = null)
-	{
-		$result = null;
-		$stDoc = $this->getStockableDocument($document);
-		if ($stDoc !== null)
-		{
-			try 
-			{
-				$this->getTransactionManager()->beginTransaction();
-				$result = $stDoc->addStockQuantity(-$nb);
-				$this->getTransactionManager()->commit();
-			}
-			catch (Exception $e)
-			{
-				$this->getTransactionManager()->rollBack($e);
-			}
-		}
-		return $result; 		
-	}
-	
-	/**
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param catalog_persistentdocument_product $document
 	 */
 	public function handleStockAlert($document)
 	{
@@ -181,27 +308,14 @@ class catalog_StockService extends BaseService
 				}
 			}			
 		}
-
 	}
-		
-	/**
-	 * @return catalog_StockableDocument
-	 */
-	public function getOutOfStockProducts()
-	{
-		$simpleproducts = catalog_SimpleproductService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
-		$productdeclinations = catalog_ProductdeclinationService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
-		return array_merge($simpleproducts, $productdeclinations);
-	}
-		
-	// Private methods.
 	
 	/**
-	 * @param Array<users_persistentdocument_backenduser> $recipients
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param users_persistentdocument_backenduser[] $recipients
+	 * @param catalog_persistentdocument_product $document
 	 * @return boolean
 	 */
-	private function sendStockAlertNotification($users, $document)
+	protected function sendStockAlertNotification($users, $document)
 	{
 		$emailAddressArray = array();
 		foreach ($users as $user)
@@ -216,26 +330,17 @@ class catalog_StockService extends BaseService
 			'threshold' => $this->getAlertThreshold($document)
 		);
 		$ns = notification_NotificationService::getInstance();
-		return $ns->send(
-			$ns->getByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME), 
-			$recipients, 
-			$parameters, 
-			'catalog'
-		);
+		return $ns->send($ns->getByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME), 
+			$recipients, $parameters, 'catalog');
 	}
 
 	/**
-	 * @param f_persistentdocument_PersistentDocument $document
+	 * @param catalog_persistentdocument_product $document
 	 * @return Double
 	 */
-	private function getAlertThreshold($document)
+	protected function getAlertThreshold($document)
 	{
-		$threshold = null;
-		if (f_util_ClassUtils::methodExists($document, 'getStockAlertThreshold'))
-		{
-			$threshold = $document->getStockAlertThreshold();
-		}
-		
+		$threshold = $document->getStockAlertThreshold();
 		if ($threshold === null)
 		{
 			return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
