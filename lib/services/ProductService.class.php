@@ -1439,19 +1439,18 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 				{
 					$theshold = intval(ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold'));
 				}
-				$product->setMustSendStockAlert($oldQuantity > $theshold && $newQuantity <= $theshold);			
+				$mustSend = ($oldQuantity > $theshold && $newQuantity <= $theshold);
+				if ($mustSend)
+				{
+					$product->setMustSendStockAlert($mustSend);
+					$product->setModificationdate(null);
+				}	
 			}
+			
 			$this->updateStockLevel($product);
 			if ($product->isModified())
 			{
-				if ($product->isPropertyModified('stockLevel'))
-				{
-					$product->save();
-				}
-				else
-				{
-					$this->pp->updateDocument($product);
-				}
+				$product->save();
 			}
 			return $newQuantity;
 		}
