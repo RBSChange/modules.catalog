@@ -603,7 +603,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					if (!confirm("&modules.catalog.bo.general.Confirm-delete-declination"))
+					if (!confirm("&modules.catalog.bo.general.Confirm-delete-declination;"))
 					{
 						return;
 					}
