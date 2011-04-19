@@ -6,8 +6,7 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 	 */
 	public function getTitle()
 	{
-		$products = $this->getUnavailableProducts();
-		return f_Locale::translate('&modules.catalog.bo.blocks.Dashboardstock.title;').' ('.count($products).')';
+		return LocaleService::getInstance()->transBO('m.catalog.bo.blocks.dashboardstock.title');
 	}
 
 	/**
@@ -24,13 +23,14 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 		$products = $this->getUnavailableProducts();
 		$productsCount = count($products);
 		
+		$ls = LocaleService::getInstance();
 		$widget = array();
 		if ($productsCount > 0)
 		{
 			$widget['columns'] = array(
-				array('label' => f_Locale::translate('&modules.catalog.document.product.Label;'), 'width' => '70%'),
-				array('label' => f_Locale::translate('&modules.catalog.document.product.CodeReference;'), 'width' => '20%'),
-				array('label' => f_Locale::translate('&modules.catalog.document.product.StockQuantity;'), 'width' => '10%')
+				array('label' => $ls->transBO('m.catalog.document.product.label', array('ucf', 'html')), 'width' => '70%'),
+				array('label' => $ls->transBO('m.catalog.document.product.codereference', array('ucf', 'html')), 'width' => '20%'),
+				array('label' => $ls->transBO('m.catalog.document.product.stockquantity', array('ucf', 'html')), 'width' => '10%')
 			);
 			$widget['lines'] = array();
 			$stSrv = catalog_StockService::getInstance();
@@ -44,11 +44,11 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 					'quantity' => $stSrv->getStockableDocument($product)->getCurrentStockQuantity()
 				);
 			}
-			$widget['header'] = f_Locale::translate('&modules.catalog.bo.dashboard.Out-of-stock-products;')." : ".$productsCount;
+			$widget['header'] = $ls->transBO('m.catalog.bo.dashboard.out-of-stock-products', array('ucf', 'html'))." : ".$productsCount;
 		}
 		else
 		{
-			$widget['header'] = f_Locale::translate('&modules.catalog.bo.dashboard.No-out-of-stock-products;');
+			$widget['header'] = $ls->transBO('m.catalog.bo.dashboard.no-out-of-stock-products', array('ucf', 'html'));
 		}
 		$request->setAttribute('widget', $widget);
 	}

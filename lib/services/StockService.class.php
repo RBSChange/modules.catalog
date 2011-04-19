@@ -160,7 +160,7 @@ class catalog_StockService extends BaseService
 	 */
 	public function getOutOfStockProducts()
 	{
-		return catalog_productService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
+		return catalog_ProductService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
 	}
 	
 	/**
