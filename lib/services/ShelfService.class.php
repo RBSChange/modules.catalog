@@ -173,7 +173,14 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$query->add(Restrictions::published())->add(Restrictions::descendentOf($website->getId()));
 		$query->createPropertyCriteria('referenceId', 'modules_catalog/shelf')->add(Restrictions::childOf($shelf->getId()));
 		$query->setProjection(Projections::property('referenceId'));
-		return $this->createShelfQuery()->add(Restrictions::in('id', $query->findColumn('referenceId')))->find();
+		$subShelvesIds = $query->findColumn('referenceId');
+		$this->createShelfQuery()->add(Restrictions::in('id', $subShelvesIds))->find();
+		$subShelves = array();
+		foreach ($subShelvesIds as $subShelfId)
+		{
+			$subShelves[] = $this->pp->getDocumentInstance($subShelfId);
+		}
+		return $subShelves;
 	}
 	
 	/**
