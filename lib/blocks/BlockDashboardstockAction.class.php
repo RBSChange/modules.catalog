@@ -37,10 +37,10 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 			foreach ($products as $product)
 			{
 				$widget['lines'][] = array(
-					'label' => $product->getLabel(), 
+					'label' => $product->getLabelAsHtml(), 
 					'id' => $product->getId(),
 					'model' => str_replace('/', '_', $product->getDocumentModelName()),
-					'reference' => $product->getCodeReference(), 
+					'reference' => $product->getCodeReferenceAsHtml(), 
 					'quantity' => $stSrv->getStockableDocument($product)->getCurrentStockQuantity()
 				);
 			}
