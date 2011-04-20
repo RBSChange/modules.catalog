@@ -73,6 +73,9 @@ class catalog_persistentdocument_productlist extends catalog_persistentdocument_
 	 */
 	public function saveList()
 	{
-		$this->save();
+		if (!$this->isNew() || $this->getProductCount() > 0)
+		{
+			$this->save();
+		}
 	}
 }
