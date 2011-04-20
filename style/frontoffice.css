@@ -8,6 +8,13 @@
 	margin-left: 5px;
 	background-color: #eee;
 }
+.modules-catalog .shelves-display ol.table-view li.shelf-line{
+	height: 245px;
+}
+.modules-catalog .shelves-display ol.table-view li.product-line{
+	height: 265px;
+}
+
 .modules-catalog .price,
 .modules-catalog .priceht,
 .modules-catalog .priceoffer,

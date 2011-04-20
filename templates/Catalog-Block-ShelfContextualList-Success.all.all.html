@@ -3,7 +3,7 @@
 
 	<div class="shelves-display">	
 		<ol class="table-view">
-			<li tal:repeat="item shelves">
+			<li class="shelf-line" tal:repeat="item shelves">
 				<ul class="sub-list">
 					<li tal:condition="item/getVisual">
 						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;">
