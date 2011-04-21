@@ -23,4 +23,5 @@
   <binding name="kit" className="catalog_KitScriptDocumentElement"/>
   <binding name="lockedprice" className="catalog_LockedpriceScriptDocumentElement"/>
   <binding name="virtualproduct" className="catalog_VirtualproductScriptDocumentElement"/>
+  <binding name="noshelfproductfolder" className="catalog_NoshelfproductfolderScriptDocumentElement"/>
 </script>

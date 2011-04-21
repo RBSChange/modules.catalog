@@ -170,17 +170,7 @@ class catalog_DeclinedproductService extends catalog_ProductService
 	 */
 	protected function preSave($document, $parentNodeId = null)
 	{
-		parent::preSave($document, $parentNodeId);
-
-		// Synchronize shelf property with declinations.
-		if ($document->isPropertyModified('shelf'))
-		{
-			foreach ($document->getDeclinationArray() as $declination)
-			{
-				$declination->setShelfArray($document->getShelfArray());
-			}
-		}
-		
+		parent::preSave($document, $parentNodeId);		
 		// Label for url equals label by default.
 		$label = $document->getLabelForUrl();
 		if (is_null($label) || strlen($label) == 0)

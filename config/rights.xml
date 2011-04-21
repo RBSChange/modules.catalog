@@ -26,6 +26,7 @@
 		<document name="kit" />
 		<document name="lockedprice" />
 		<document name="virtualproduct" />
+		<document name="noshelfproductfolder"/>
 	</actions>
 	<roles>
 		<role name="Admin">
