@@ -19,6 +19,9 @@ treechildren::-moz-tree-image(modules_catalog_productdeclination){
 treechildren::-moz-tree-image(modules_catalog_simpleproduct){
 	list-style-image: url(/changeicons/small/simpleproduct.png) ;
 }
+treechildren::-moz-tree-image(modules_catalog_noshelfproductfolder){
+        list-style-image: url(/changeicons/small/noshelffolder.png);
+}
 treechildren::-moz-tree-image(modules_catalog_price){
 	list-style-image: url(/changeicons/small/currency-euro.png) ;
 }
