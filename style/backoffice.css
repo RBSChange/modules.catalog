@@ -64,6 +64,9 @@ treechildren::-moz-tree-image(modules_catalog_lockedprice){
 treechildren::-moz-tree-image(modules_catalog_virtualproduct){
 	list-style-image: url(/changeicons/small/virtualproduct.png);
 }
+treechildren::-moz-tree-image(modules_catalog_noshelfproductfolder){
+	list-style-image: url(/changeicons/small/noshelffolder.png);
+}
 
 wdialog[template="orderProductsInShelf"] .dialog-header{
 	background: url(/changeicons/small/sort.png) transparent center  left no-repeat!important;
