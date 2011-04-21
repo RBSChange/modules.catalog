@@ -177,5 +177,6 @@
 	<rootfolder module="catalog">
 		<attributefolder />
 		<shopfolder />
+		<noshelfproductfolder />
 	</rootfolder>
 </script>
