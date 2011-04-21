@@ -55,6 +55,7 @@ class catalog_NoshelfproductfolderService extends f_persistentdocument_DocumentS
 	public function getVirtualChildrenAt($document, $subModelNames, $locateDocumentId, $pageSize, &$startIndex, &$totalCount)
 	{
 		$totalCount = f_util_ArrayUtils::firstElement(catalog_ProductService::getInstance()->createQuery()
+			->add(Restrictions::ne("model", "modules_catalog/productdeclination"))
 			->add(Restrictions::isEmpty("shelf"))
 			->setProjection(Projections::rowCount("c"))
 			->findColumn("c"));
