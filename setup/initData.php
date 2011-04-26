@@ -10,6 +10,7 @@ class catalog_Setup extends object_InitDataSetup
 			$scriptReader->executeModuleScript('catalog', 'currencies.xml');
 			$scriptReader->executeModuleScript('catalog', 'axes.xml');	
 			$scriptReader->executeModuleScript('catalog', 'list-taxcategory.xml');
+			$scriptReader->executeModuleScript('catalog', 'order-process.xml');
 		}
 		catch (Exception $e)
 		{

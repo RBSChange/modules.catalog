@@ -25,6 +25,7 @@
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
 		<field name="boTaxZone" />
+		<field name="orderProcessClassName" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Default-visuals">
 		<field name="defaultDetailVisual" />

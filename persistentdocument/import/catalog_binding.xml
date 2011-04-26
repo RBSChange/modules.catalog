@@ -24,10 +24,7 @@
   <binding name="kit" className="catalog_KitScriptDocumentElement"/>
   <binding name="lockedprice" className="catalog_LockedpriceScriptDocumentElement"/>
   <binding name="virtualproduct" className="catalog_VirtualproductScriptDocumentElement"/>
-<<<<<<< HEAD
   <binding name="tax" className="catalog_TaxScriptDocumentElement"/>
   <binding name="currency" className="catalog_CurrencyScriptDocumentElement"/>
-=======
   <binding name="noshelfproductfolder" className="catalog_NoshelfproductfolderScriptDocumentElement"/>
->>>>>>> 8ff61ca... [FIX #32733] suppression d'un rayon contenant de produits
 </script>

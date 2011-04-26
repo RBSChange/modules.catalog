@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<systemfolder module="list" relatedmodule="catalog">			
+		<staticlist listid="modules_catalog/orderprocess" label="&amp;modules.catalog.list.Orderprocess-label;">			
+			<staticitem value="order_OrderProcess" label="Standard" />
+		</staticlist>
+	</systemfolder>
+</script>

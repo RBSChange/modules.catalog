@@ -61,4 +61,6 @@
 	<key id="isdefault-help">Il ne peut y avoir qu'une boutique par défaut par site et par lanque sur une période de temps donnée.</key>
 	<key id="website">site web</key>
 	<key id="codeReference">code référence</key>
+	<key id="orderprocessclassname">Processus de commande</key>
+	<key id="orderprocessclassname-help">Processus de commande à utiliser</key>
 </i18n>
