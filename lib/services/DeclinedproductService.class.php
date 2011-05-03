@@ -198,6 +198,14 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		}
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 */
+	protected function preDelete($document)
+	{
+		// Delete the declinations.
+		catalog_ProductdeclinationService::getInstance()->createQuery()->add(Restrictions::eq('declinedproduct', $document))->delete();
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
