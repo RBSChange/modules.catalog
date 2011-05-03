@@ -238,4 +238,25 @@ class catalog_BundleproductService extends catalog_ProductService
 		}
 		return $itemsPrice;	
 	}
+	
+	/**
+	 * @return boolean
+	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()
+	 */
+	public function mayAppearInCarts()
+	{
+		return true;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getPropertyNamesForMarkergas()
+	{
+		return array('catalog/bundleproduct' => array(
+			'label' => 'label',
+			'brand' => 'brand/label',
+			'codeReference' => 'codeReference'
+		));
+	}
 }

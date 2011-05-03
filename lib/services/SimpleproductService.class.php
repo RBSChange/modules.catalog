@@ -75,9 +75,8 @@ class catalog_SimpleproductService extends catalog_ProductService
 	}
 		
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()
-	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
 	 */
 	public function mayAppearInCarts()
 	{
@@ -85,8 +84,7 @@ class catalog_SimpleproductService extends catalog_ProductService
 	}
 	
 	/**
-	 * @return Boolean
-	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
+	 * @return array
 	 */
 	public function getPropertyNamesForMarkergas()
 	{

@@ -510,4 +510,24 @@ class catalog_KitService extends catalog_ProductService
 		return;
 	}
 
+	/**
+	 * @return boolean
+	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()
+	 */
+	public function mayAppearInCarts()
+	{
+		return true;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getPropertyNamesForMarkergas()
+	{
+		return array('catalog/kit' => array(
+			'label' => 'label',
+			'brand' => 'brand/label',
+			'codeReference' => 'codeReference'
+		));
+	}
 }

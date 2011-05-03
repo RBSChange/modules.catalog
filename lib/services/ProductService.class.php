@@ -1522,7 +1522,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function addTreeAttributes($product, $moduleName, $treeType, &$nodeAttributes)
 	{
-		$nodeAttributes['block'] = 'modules_catalog_product'; 
 		if ($treeType == 'wlist')
 		{
 			$detailVisual = $product->getDefaultVisual();

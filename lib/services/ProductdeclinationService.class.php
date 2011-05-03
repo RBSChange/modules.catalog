@@ -458,9 +458,8 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	}
 		
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()
-	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
 	 */
 	public function mayAppearInCarts()
 	{
@@ -468,8 +467,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	}
 	
 	/**
-	 * @return Boolean
-	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
+	 * @return array
 	 */
 	public function getPropertyNamesForMarkergas()
 	{
@@ -479,9 +477,9 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				'codeReference' => 'codeReference'
 			),
 			'catalog/declinedproduct' => array(
-				'label' => 'relatedDeclinedProduct/label',
-				'brand' => 'relatedDeclinedProduct/brand/label',
-				'codeReference' => 'relatedDeclinedProduct/codeReference'
+				'label' => 'declinedproduct/label',
+				'brand' => 'declinedproduct/brand/label',
+				'codeReference' => 'declinedproduct/codeReference'
 			)
 		);
 	}

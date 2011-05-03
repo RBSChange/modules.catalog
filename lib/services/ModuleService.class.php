@@ -95,7 +95,7 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
-	 * @return String[]
+	 * @return f_persistentdocument_PersistentDocumentModel[]
 	 */
 	public function getProductModelsThatMayAppearInCarts()
 	{
@@ -106,7 +106,7 @@ class catalog_ModuleService extends ModuleBaseService
 			$modelInstance = f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName($model);
 			if ($modelInstance->getDocumentService()->mayAppearInCarts())
 			{
-				$models[] = $model;
+				$models[] = $modelInstance;
 			}
 		}
 		return $models;

@@ -688,7 +688,6 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function addTreeAttributes($product, $moduleName, $treeType, &$nodeAttributes)
 	{
-		$nodeAttributes['block'] = 'modules_catalog_product'; 
 		if ($treeType == 'wlist')
 		{
 			$detailVisual = $product->getDefaultVisual();

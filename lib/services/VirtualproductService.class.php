@@ -138,5 +138,26 @@ class catalog_VirtualproductService extends catalog_ProductService
 			}
 		}
 		return $result;
-	}	
+	}
+
+	/**
+	 * @return boolean
+	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()
+	 */
+	public function mayAppearInCarts()
+	{
+		return true;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getPropertyNamesForMarkergas()
+	{
+		return array('catalog/virtualproduct' => array(
+			'label' => 'label',
+			'brand' => 'brand/label',
+			'codeReference' => 'codeReference'
+		));
+	}
 }

@@ -11,7 +11,7 @@
 <ul change:messages=""></ul>
 
 <div tal:condition="not:products" change:translate="modules.catalog.frontoffice.No-product-to-display"></div>
-<form tal:condition="products" action="#product-list-title" method="post">
+<form class="modules-catalog" tal:condition="products" action="#product-list-title" method="post">
 	<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
 	<div class="shelves-display compare">
