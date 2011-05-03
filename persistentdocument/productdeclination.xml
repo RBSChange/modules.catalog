@@ -2,7 +2,7 @@
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
-	model-version="1.0" extend="modules_catalog/product" edit-module="catalog" backoffice-indexable="false">
+	model-version="1.0" extend="modules_catalog/product" backoffice-indexable="false">
 	<properties>
 		<add name="codeReference" type="String" min-occurs="1" />
 				
