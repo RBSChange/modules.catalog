@@ -28,7 +28,7 @@ class catalog_StockService extends BaseService
 		}
 		return self::$instance;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @return catalog_StockableDocument
@@ -38,10 +38,10 @@ class catalog_StockService extends BaseService
 		if ($document instanceof catalog_StockableDocument)
 		{
 			return $document;
-		}	
+		}
 		return null;
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param Double $quantity
@@ -58,29 +58,29 @@ class catalog_StockService extends BaseService
 		}
 		return true;
 	}
-	
-	
-	
-	/**	
+
+
+
+	/**
 	 * @param order_CartInfo $cart
 	 * @param order_CartLineInfo $cartLine
 	 * @param array $globalProductsArray
 	 */
 	public function buildCartProductList($cart, $cartLine, &$globalProductsArray)
 	{
-		
+
 		$product = $cartLine->getProduct();
 		$this->buildProductList($product, $cartLine->getQuantity(), $globalProductsArray);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param catalog_persistentdocument_product $product
 	 * @param integer $quantity
 	 * @param array $globalProductsArray
 	 */
 	protected function buildProductList($product, $quantity, &$globalProductsArray)
-	{	
+	{
 		$productId = $product->getId();
 		if ($product instanceof catalog_BundleProduct)
 		{
@@ -110,9 +110,9 @@ class catalog_StockService extends BaseService
 			{
 				$globalProductsArray[$productId][1] += $productQty;
 			}
-		}		
+		}
 	}
-	
+
 	/**
 	 * @param array $productArray
 	 * @param order_CartInfo $cart
@@ -125,7 +125,7 @@ class catalog_StockService extends BaseService
 		{
 			return $result;
 		}
-		foreach ($productArray as $productInfo) 
+		foreach ($productArray as $productInfo)
 		{
 			$stDoc = $this->getStockableDocument($productInfo[0]);
 			if ($stDoc !== null)
@@ -139,7 +139,7 @@ class catalog_StockService extends BaseService
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document
 	 * @param catalog_persistentdocument_shop $shop
@@ -154,7 +154,7 @@ class catalog_StockService extends BaseService
 		}
 		return catalog_AvailabilityStrategy::getStrategy()->getAvailability(null);
 	}
-		
+
 	/**
 	 * @return catalog_StockableDocument
 	 */
@@ -162,14 +162,14 @@ class catalog_StockService extends BaseService
 	{
 		return catalog_ProductService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
 	}
-	
+
 	/**
 	 * @param order_CartInfo $cart
 	 * @param order_persistentdocument_order $order
 	 */
 	public function orderInitializedFromCart($cart, $order)
 	{
-		
+
 	}
 
 	/**
@@ -182,7 +182,7 @@ class catalog_StockService extends BaseService
 		{
 			Framework::info(__METHOD__ . ' ' . $order->getId() .  ' ' . $oldStatus . ' -> ' . $order->getOrderStatus());
 		}
-		switch ($order->getOrderStatus()) 
+		switch ($order->getOrderStatus())
 		{
 			case order_OrderService::IN_PROGRESS:
 				try
@@ -190,8 +190,8 @@ class catalog_StockService extends BaseService
 					$this->getTransactionManager()->beginTransaction();
 					$productIdsToCompile = array();
 					$globalProductsArray = array();
-					
-					foreach ($order->getLineArray() as $line) 
+						
+					foreach ($order->getLineArray() as $line)
 					{
 						if ($line instanceof order_persistentdocument_orderline)
 						{
@@ -205,19 +205,19 @@ class catalog_StockService extends BaseService
 							}
 						}
 					}
-					
-					foreach ($globalProductsArray as $productInfo) 
+						
+					foreach ($globalProductsArray as $productInfo)
 					{
 						list($product, $quantity) = $productInfo;
 						$productId = $product->getId();
 						$productIdsToCompile[$productId] = true;
 						$this->increaseQuantity($product, -$quantity, $order);
 					}
-					
+						
 					if (count($productIdsToCompile))
 					{
 						catalog_ProductService::getInstance()->setNeedCompile(array_keys($productIdsToCompile));
-					}				
+					}
 					$this->getTransactionManager()->commit();
 				}
 				catch (Exception $e)
@@ -233,8 +233,8 @@ class catalog_StockService extends BaseService
 						$this->getTransactionManager()->beginTransaction();
 						$productIdsToCompile = array();
 						$globalProductsArray = array();
-						
-						foreach ($order->getLineArray() as $line) 
+
+						foreach ($order->getLineArray() as $line)
 						{
 							if ($line instanceof order_persistentdocument_orderline)
 							{
@@ -248,21 +248,21 @@ class catalog_StockService extends BaseService
 
 								}
 							}
-						}	
+						}
 
-						foreach ($globalProductsArray as $productInfo) 
+						foreach ($globalProductsArray as $productInfo)
 						{
 							list($product, $quantity) = $productInfo;
 							$productId = $product->getId();
 							$productIdsToCompile[$productId] = $quantity;
 							$this->increaseQuantity($product, $quantity, $order);
 						}
-						
+
 						if (count($productIdsToCompile))
 						{
 							catalog_ProductService::getInstance()->setNeedCompile(array_keys($productIdsToCompile));
 						}
-					
+							
 						$this->getTransactionManager()->commit();
 					}
 					catch (Exception $e)
@@ -271,9 +271,9 @@ class catalog_StockService extends BaseService
 					}
 				}
 				break;
-		}		
+		}
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param double $nb
@@ -288,7 +288,7 @@ class catalog_StockService extends BaseService
 		{
 			$result = $stDoc->addStockQuantity($nb);
 		}
-		return $result; 
+		return $result;
 	}
 
 	/**
@@ -306,10 +306,10 @@ class catalog_StockService extends BaseService
 				{
 					$this->sendStockAlertNotification($recipients, $document);
 				}
-			}			
+			}
 		}
 	}
-	
+
 	/**
 	 * @param users_persistentdocument_backenduser[] $recipients
 	 * @param catalog_persistentdocument_product $document
@@ -317,21 +317,33 @@ class catalog_StockService extends BaseService
 	 */
 	protected function sendStockAlertNotification($users, $document)
 	{
-		$emailAddressArray = array();
-		foreach ($users as $user)
-		{
-			$emailAddressArray[] = $user->getEmail();
-		}
-		$recipients = new mail_MessageRecipients();
-		$recipients->setTo($emailAddressArray);
-
-		$parameters = array(
-			'label' => $document->getLabel(),
-			'threshold' => $this->getAlertThreshold($document)
-		);
 		$ns = notification_NotificationService::getInstance();
-		return $ns->send($ns->getByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME), 
-			$recipients, $parameters, 'catalog');
+		// Products and backendusers have no website or lang...
+		$configuredNotif = $ns->getConfiguredByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME);
+		if ($configuredNotif instanceof notification_persistentdocument_notification)
+		{
+			$configuredNotif->setSendingModuleName('catalog');
+			$emailAddressArray = array();
+			foreach ($users as $user)
+			{
+				$emailAddressArray[] = $user->getEmail();
+			}
+			$recipients = new mail_MessageRecipients($emailAddressArray);
+			return $ns->sendNotificationCallback($configuredNotif, $recipients, array($this, 'getStockAlertNotifParameters'), $document);
+		}
+		return true;
+	}
+
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return array
+	 */
+	public function getStockAlertNotifParameters($product)
+	{
+		return array(
+			'label' => $product->getLabelAsHtml(),
+			'threshold' => $this->getAlertThreshold($product)
+		);
 	}
 
 	/**

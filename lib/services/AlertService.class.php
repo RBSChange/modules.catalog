@@ -217,12 +217,12 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		$shop = $alert->getShop();
 		$price = $product->getPrice($shop, null);
 		$productUrl = LinkHelper::getDocumentUrl($product, $alert->getLang(), array('catalogParam' => array('shopId' => $shop->getId())));
-		$prpductLabel = $product->getLabelAsHtml();
-		$productLink = '<a href="'.$productUrl.'" class="link">'.$prpductLabel.'</a>';
+		$productLabel = $product->getLabelAsHtml();
+		$productLink = '<a href="'.$productUrl.'" class="link">'.$productLabel.'</a>';
 		$replacements = array(
 			'productPriceWithTax' => $price->getFormattedValueWithTax(),
 			'productPriceWithoutTax' => $price->getFormattedValueWithoutTax(),
-			'productLabel' => $prpductLabel,
+			'productLabel' => $productLabel,
 			'productDescription' => $product->getDescriptionAsHtml(),
 			'productUrl' => $productUrl,
 			'productLink' => $productLink
@@ -320,10 +320,24 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 */
 	protected function sendCreationNotification($alert)
 	{
-		$product = $alert->getProduct();
-		$productUrl = LinkHelper::getDocumentUrl($product);
-		$prpductLabel = $product->getLabelAsHtml();
-		$productLink = '<a href="'.$productUrl.'" class="link">'.$prpductLabel.'</a>';
+		$ns = notification_NotificationService::getInstance();
+		$configuredNotif = $ns->getConfiguredByCodeName('modules_catalog/newalert', $alert->getWebsiteId(), $alert->getLang());
+		if ($configuredNotif instanceof notification_persistentdocument_notification)
+		{
+			$configuredNotif->setSendingModuleName('catalog');
+			$callback = array($this, 'getCreationNotificationParameters');
+			$recipients = new mail_MessageRecipients($alert->getEmail());
+			$ns->sendNotificationCallback($configuredNotif, $recipients, $callback, $alert);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_alert $alert
+	 * @return array
+	 */
+	public function getCreationNotificationParameters($alert)
+	{
+		$params = $this->getReplacementsForAlert($alert);
 		
 		$catalogParam = array('alertId' => $alert->getId(), 'website_BlockAction_submit' => array('productAlertManagement' => array('RemoveAlert' => 'true')));
 		$catalogParam['password'] = $alert->getPassword();
@@ -331,21 +345,11 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		$removeAlertParameters = array('catalogParam' => $catalogParam);
 		$removeAlertUrl = LinkHelper::getTagUrl('contextual_website_website_modules_catalog_product-alert-management', null, $removeAlertParameters);
 		$removeAlertLink = '<a href="'.$removeAlertUrl.'" class="link">'.f_Locale::translate('&modules.catalog.frontoffice.remove-alert;').'</a>';
-		
-		$replacements = array(
-			'productLabel' => $prpductLabel,
-			'productDescription' => $product->getDescriptionAsHtml(),
-			'productUrl' => $productUrl,
-			'productLink' => $productLink,
-			'removeAlertUrl' => $removeAlertUrl,
-			'removeAlertLink' => $removeAlertLink,
-			'alertEndDate' => date_DateFormat::format($alert->getEndpublicationdate())
-		);
-		
-		$ns = notification_NotificationService::getInstance();
-		$recipients = new mail_MessageRecipients();
-		$recipients->setTo($alert->getEmail());
-		$ns->send($ns->getByCodeName('modules_catalog/newalert'), $recipients, $replacements, 'catalog');
+		$params['removeAlertUrl'] = $removeAlertUrl;
+		$params['removeAlertLink'] = $removeAlertLink;
+		$params['alertEndDate'] = date_DateFormat::format($alert->getUIEndpublicationdate());
+				
+		return $params;
 	}
 	
 	/**
