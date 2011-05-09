@@ -383,62 +383,79 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			$compiledProduct->setShowInList(false);
 			return;
 		}
-		
-		if (count($declinationIds) == 1)
-		{
-			$compiledProduct->setShowInList(true);
-			return;	
-		}
-		
-		$before = true;
-		$affected = false;
-		$needsCompile = array();
+			
+		$showInList = array();
+		$subPotentialDeclination = null;
 		foreach ($declinationIds as $subDeclinationId) 
 		{
-			if ($declinationId == $subDeclinationId)
+			$cp = $this->getCompiledDeclinationProduct($compiledProduct->getLang(), $compiledProduct->getTopicId(), $subDeclinationId);
+			if ($cp === null) {continue;}
+			if ($cp->getPublicationCode() == 0 && $subPotentialDeclination === null)
 			{
-				$before = false;
-				if (!$affected && $compiledProduct->getPublicationCode() == 0 && $compiledProduct->getIsAvailable())
+				$subPotentialDeclination = $subDeclinationId;
+			}
+			if ($cp->getShowInList()) 
+			{
+				$showInList[] = $subDeclinationId;
+			}
+		}
+		
+		if ($subPotentialDeclination === null)
+		{
+			$subPotentialDeclination = f_util_ArrayUtils::firstElement($declinationIds);
+			if (Framework::isInfoEnabled())
+			{
+				Framework::info(__METHOD__ . ' count(' . count($showInList) . ') ShowInList DEFAULT: ' .$subPotentialDeclination . ' ->  Axe Ids: '. implode(', ', $declinationIds));
+			}
+		}
+		else
+		{
+			if (Framework::isInfoEnabled())
+			{
+				Framework::info(__METHOD__ . ' count(' . count($showInList) . ') ShowInList: ' .$subPotentialDeclination . ' ->  Axe Ids: '. implode(', ', $declinationIds));
+			}
+		}
+		
+		$compiledProduct->setShowInList(($subPotentialDeclination == $declinationId));
+		$needsCompiles = array();
+		
+		if (count($showInList) == 0)
+		{
+			if ($subPotentialDeclination != $declinationId)
+			{
+				$needsCompiles[] = $subPotentialDeclination;
+			}
+		} 
+		else
+		{
+			
+			if ($showInList[0] != $subPotentialDeclination)
+			{
+				if ($subPotentialDeclination == $declinationId)
 				{
-					$compiledProduct->setShowInList(true);
-					$affected = true;
+					$needsCompiles[] = array($showInList[0]);
 				}
 				else
 				{
-					$compiledProduct->setShowInList(false);
+					$needsCompiles[] = array($subPotentialDeclination);
 				}
 			}
-			else
+			
+			if (count($showInList) > 1)
 			{
-				$cp = $this->getCompiledDeclinationProduct($compiledProduct->getLang(), 
-						$compiledProduct->getTopicId(), $subDeclinationId);
-				if ($cp === null) 
+				foreach (array_slice($showInList, 1) as $id) 
 				{
-					Framework::warn(__METHOD__ . ' No compiled product for :' .$subDeclinationId);
-					continue;
+					if ($id !== $declinationId && !in_array($id, $needsCompiles))
+					{
+						$needsCompiles[] = $id;
+					}
 				}
-				
-				if (!$affected && $cp->getPublicationCode() == 0  && $cp->getIsAvailable())
-				{
-					if (!$cp->getShowInList()) {$needsCompile[] = $subDeclinationId;}
-					$affected = true;
-				}
-				else if ($cp->getShowInList())
-				{
-					$needsCompile[] = $subDeclinationId;
-					$affected = true;
-				} 
 			}
 		}
 		
-		if (!$affected)
+		if (count($needsCompiles))
 		{
-			$compiledProduct->setShowInList(true);
-		}
-		
-		if (count($needsCompile))
-		{
-			$this->setNeedCompile($needsCompile);
+			$this->setNeedCompile($needsCompiles);	
 		}
 	}	
 	
