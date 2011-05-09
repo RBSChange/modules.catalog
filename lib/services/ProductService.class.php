@@ -761,8 +761,14 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			if ($shelf !== null)
 			{
 				$topic = $shelf->getDocumentService()->getRelatedTopicByShop($shelf, $shop);
-				$page = website_PageService::getInstance()->createQuery()->add(Restrictions::childOf($topic->getId()))->add(Restrictions::published())->add(Restrictions::hasTag('functional_catalog_product-detail'))->findUnique();
-				return $page;
+				if ($topic !== null)
+				{
+					return website_PageService::getInstance()->createQuery()
+						->add(Restrictions::childOf($topic->getId()))
+						->add(Restrictions::published())
+						->add(Restrictions::hasTag('functional_catalog_product-detail'))
+						->findUnique();
+				}
 			}
 		}
 		return null;

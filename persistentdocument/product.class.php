@@ -54,7 +54,12 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			return null;
 		}
 		$topic = catalog_ShelfService::getInstance()->getRelatedTopicByShop($primaryShelf, $shop);
-		
+		if ($topic === null)
+		{
+			// This may occurs before the compiled product is deleted...
+			return null;
+		}
+				
 		$indexedDoc = new indexer_IndexedDocument();
 		$indexedDoc->setId($this->getId());
 		$indexedDoc->setDocumentModel($this->getDocumentModelName());
