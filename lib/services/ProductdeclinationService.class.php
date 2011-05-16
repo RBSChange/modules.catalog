@@ -390,7 +390,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		{
 			$cp = $this->getCompiledDeclinationProduct($compiledProduct->getLang(), $compiledProduct->getTopicId(), $subDeclinationId);
 			if ($cp === null) {continue;}
-			if ($cp->getPublicationCode() == 0 && $subPotentialDeclination === null)
+			if ($cp->getPublicationCode() == 0 && $cp->getIsAvailable() && $subPotentialDeclination === null)
 			{
 				$subPotentialDeclination = $subDeclinationId;
 			}
@@ -433,11 +433,11 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			{
 				if ($subPotentialDeclination == $declinationId)
 				{
-					$needsCompiles[] = array($showInList[0]);
+					$needsCompiles[] = $showInList[0];
 				}
 				else
 				{
-					$needsCompiles[] = array($subPotentialDeclination);
+					$needsCompiles[] = $subPotentialDeclination;
 				}
 			}
 			
