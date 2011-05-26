@@ -8,30 +8,28 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 	{
 		$ids = catalog_ProductService::getInstance()->getProductIdsToCompile();
 		$maxIteration = 4;
+		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
+		$errors = array();
+		
 		while ($maxIteration > 0 && count($ids))
 		{
-			$this->compileProductIds($ids);
+			$this->plannedTask->ping();
+			foreach (array_chunk($ids, 100) as $chunk)
+			{
+				$result = f_util_System::execHTTPScript($batchPath, $chunk);
+				if ($result != 'OK')
+				{
+					$errors[] = $result;
+				}
+			}
 			$ids = catalog_ProductService::getInstance()->getProductIdsToCompile();
 			$maxIteration--;
 		}
-	}
-	
-	protected function compileProductIds($ids)
-	{
-		if (Framework::isInfoEnabled())
+		
+		if (count($errors))
 		{
-			Framework::info(__METHOD__ . ' product to compile: ' . count($ids));		
+			throw new Exception(implode("\n", $errors));
 		}
-		f_persistentdocument_PersistentProvider::getInstance()->refresh();		
-		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
-		foreach (array_chunk($ids, 100) as $chunk)
-		{
-			$result = f_util_System::execHTTPScript($batchPath, $chunk);
-			// Log fatal errors...
-			if ($result != 'OK')
-			{
-				Framework::error(__METHOD__ . ' ' . $batchPath . ' unexpected result: "' . $result . '"');
-			}
-		}		
+		
 	}
 }

@@ -7,6 +7,7 @@ class catalog_AutoFeedRelatedProductsTask extends task_SimpleSystemTask
 	protected function execute()
 	{
 		$ms = ModuleService::getInstance();
+		
 		$feeder = $ms->getPreferenceValue('catalog', 'suggestComplementaryFeederClass');
 		$complementaryMaxCount = ($feeder && $feeder != 'none') ? $ms->getPreferenceValue('catalog', 'autoFeedComplementaryMaxCount') : 0;
 		$feeder = $ms->getPreferenceValue('catalog', 'suggestComplementaryFeederClass');
@@ -19,19 +20,29 @@ class catalog_AutoFeedRelatedProductsTask extends task_SimpleSystemTask
 			return;
 		}
 		
+		$errors = array();
+		
 		$ids = catalog_ProductService::getInstance()->getAllProductIdsToFeedRelated();
 		$batchPath = 'modules/catalog/lib/bin/batchAutoFeedRelatedProducts.php';
 		foreach (array_chunk($ids, 10) as $chunk)
 		{
+			$this->plannedTask->ping();
 			$result = f_util_System::execHTTPScript($batchPath, $chunk);
 			// Log fatal errors...
 			if ($result != 'OK')
 			{
-				Framework::error(__METHOD__ . ' ' . $batchPath . ' unexpected result: "' . $result . '"');
+				$errors[] = $result;
 			}
 		}
 		
-		$this->reSchedule();
+		if (count($errors))
+		{
+			throw new Exception(implode("\n", $errors));
+		}
+		else
+		{		
+			$this->reSchedule();
+		}
 	}
 
 	private function reSchedule()

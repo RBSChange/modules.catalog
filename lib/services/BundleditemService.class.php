@@ -86,20 +86,20 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 			}
 		}
 	}
-
+	
 	/**
+	 * @param website_UrlRewritingService $urlRewritingService
 	 * @param catalog_persistentdocument_bundleditem $document
+	 * @param website_persistentdocument_website $website
 	 * @param string $lang
 	 * @param array $parameters
-	 * @return string
+	 * @return f_web_Link | null
 	 */
-	public function generateUrl($document, $lang, $parameters)
+	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
 	{
 		$bundleProducts = $document->getBundleproductArrayInverse();
 		if (count($bundleProducts) == 1)
 		{
-			if (!is_array($parameters)) {$parameters = array();}
-			
 			if (!isset($parameters['catalogParam']))
 			{
 				$parameters['catalogParam'] = array('bundleditemid' => $document->getId());
@@ -108,11 +108,12 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 			{
 				$parameters['catalogParam']['bundleditemid']  = $document->getId();
 			}
-			return LinkHelper::getDocumentUrl($bundleProducts[0], $lang, $parameters);
+			return $urlRewritingService->getDocumentLinkForWebsite($bundleProducts[0], $website, $lang, $parameters);
 		}
 		return null;
+		
 	}
-	
+
 	/**
 	 * @param catalog_persistentdocument_bundleditem $bundleditem
 	 * @param catalog_persistentdocument_price $itemsPrice

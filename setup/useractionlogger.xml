@@ -76,4 +76,5 @@
   <actiondef modulename="catalog" actionname="reactivate.fees" label="m.catalog.bo.useractionlogger.reactivate-fees"/>
   <actiondef modulename="catalog" actionname="reactivate.shippingfilter" label="m.catalog.bo.useractionlogger.reactivate-shippingfilter"/>
   <actiondef modulename="catalog" actionname="compileproduct.bundleproduct" label="m.catalog.bo.useractionlogger.compileproduct-bundleproduct"/>
+  <actiondef modulename="catalog" actionname="saveredirectinfo.simpleproduct" label="m.catalog.bo.useractionlogger.saveredirectinfo-simpleproduct"/>
 </script>

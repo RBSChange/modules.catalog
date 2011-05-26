@@ -707,19 +707,19 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
-	 * Returns the URL of the document if has no URL Rewriting rule.
-	 *
+	 * @param website_UrlRewritingService $urlRewritingService
 	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param website_persistentdocument_website $website
 	 * @param string $lang
 	 * @param array $parameters
-	 * @return string
+	 * @return f_web_Link | null
 	 */
-	public function generateUrl($document, $lang, $parameters)
+	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
 	{
 		$defaultDeclination = $document->getPublishedDefaultDeclinationInShop();
 		if ($defaultDeclination instanceof catalog_persistentdocument_productdeclination)
 		{
-			return LinkHelper::getDocumentUrl($defaultDeclination, $lang, $parameters);
+			return $urlRewritingService->getDocumentLinkForWebsite($defaultDeclination, $website, $lang, $parameters);
 		}
 		return null;
 	}

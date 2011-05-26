@@ -130,4 +130,6 @@
   <key id="log-reactivate-shippingfilter">log reactivate shippingfilter</key>
   <key id="compileproduct-bundleproduct">compileproduct.bundleproduct {lang} {documentlabel}</key>
   <key id="log-compileproduct-bundleproduct">log compileproduct bundleproduct</key>
+  <key id="saveredirectinfo-simpleproduct">saveredirectinfo.simpleproduct {lang} {documentlabel}</key>
+  <key id="log-saveredirectinfo-simpleproduct">log saveredirectinfo simpleproduct</key>
 </i18n>

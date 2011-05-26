@@ -94,17 +94,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 	}
 
-	/**
-	 * @param catalog_persistentdocument_compiledproduct $document
-	 * @param String $lang
-	 * @param Array $parameters
-	 */
-	public function generateUrl($document, $lang, $parameters)
-	{
-		if (!is_array($parameters)) {$parameters = array();}
-		$product = $document->getProduct();
-		return $product->getDocumentService()->generateCompiledproductUrl($product, $document, $lang, $parameters);
-	}
+
+	
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
@@ -432,6 +423,42 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	}	
 	
 	/**
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @return website_persistentdocument_page
+	 */
+	public function getDisplayPage($document)
+	{
+		return website_PageService::getInstance()->createQuery()
+						->add(Restrictions::childOf($document->getTopicId()))
+						->add(Restrictions::published())
+						->add(Restrictions::hasTag('functional_catalog_product-detail'))
+						->findUnique();
+	}
+		
+	/**
+	 * @param website_UrlRewritingService $urlRewritingService
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @param website_persistentdocument_website $website
+	 * @param string $lang
+	 * @param array $parameters
+	 * @return f_web_Link | null
+	 */
+	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
+	{
+		if ($website == null || $website->getId() == $document->getWebsiteId())
+		{
+			$catalogParam = isset($parameters['catalogParam']) ? $parameters['catalogParam'] : array();
+			$catalogParam['shopId'] = $document->getShopId();
+			$catalogParam['topicId'] = $document->getTopicId();			
+			$parameters['catalogParam'] = $catalogParam;
+			
+			if ($website == null) {$website = $document->getWebsite();}
+			return $urlRewritingService->getDocumentLinkForWebsite($document->getProduct(), $website, $lang, $parameters);
+		}
+		return null;
+	}
+
+	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param catalog_persistentdocument_shop $shop
 	 */
@@ -498,30 +525,28 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		return $document->getPrimary() ? $document->getProduct() : null;
 	}
-	
-	/**
-	 * @return boolean
-	 */
-	public function hasIdsForSitemap()
-	{
-		return true;
-	}
-	
+		
 	/**
 	 * @param website_persistentdocument_website $website
-	 * @param Integer $maxUrl
-	 * @return array
+	 * @param string $lang
+	 * @param string $modelName
+	 * @param integer $offset
+	 * @param integer $chunkSize
+	 * @return catalog_persistentdocument_compiledproduct[]
 	 */
-	public function getIdsForSitemap($website, $maxUrl)
+	public function getDocumentForSitemap($website, $lang, $modelName, $offset, $chunkSize)
 	{
-		$query = $this->createQuery()
-			->add(Restrictions::eq('websiteId', $website->getId()))
-			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-			->add(Restrictions::eq('primary', true))
-			->setProjection(Projections::groupProperty('id', 'id'))
-			->add(Restrictions::published());
-			
-		return $query->setMaxResults($maxUrl)->findColumn('id');
+		return array();
+		/*
+		return $this->pp->createQuery($modelName, false)->add(Restrictions::published())
+					->add(Restrictions::eq('websiteId', $website->getId()))
+					->add(Restrictions::eq('lang', $lang))
+					->add(Restrictions::eq('primary', true))
+					->addOrder(Order::asc('id'))
+					->setMaxResults($chunkSize)
+					->setFirstResult($offset)
+					->find();
+		*/
 	}
 
 	/**

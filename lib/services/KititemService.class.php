@@ -205,18 +205,18 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param website_UrlRewritingService $urlRewritingService
 	 * @param catalog_persistentdocument_kititem $document
+	 * @param website_persistentdocument_website $website
 	 * @param string $lang
 	 * @param array $parameters
-	 * @return string
+	 * @return f_web_Link | null
 	 */
-	public function generateUrl($document, $lang, $parameters)
+	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
 	{
 		$kit = $document->getCurrentKit();
 		if ($kit)
 		{
-			if (!is_array($parameters)) {$parameters = array();}
-			
 			if (!isset($parameters['catalogParam']))
 			{
 				$parameters['catalogParam'] = array('kititemid' => $document->getId());
@@ -225,14 +225,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 			{
 				$parameters['catalogParam']['kititemid']  = $document->getId();
 			}
-			return LinkHelper::getDocumentUrl($kit, $lang, $parameters);
-		}
-		else
-		{
-			if (Framework::isInfoEnabled())
-			{
-				Framework::info(__METHOD__ . ' No current kit.');
-			}
+			return $urlRewritingService->getDocumentLinkForWebsite($kit, $website, $lang, $parameters);
 		}
 		return null;
 	}
