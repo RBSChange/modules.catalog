@@ -1,11 +1,12 @@
 <img change:productvisual="name 'visual'; mode 'list'; product item/getDocument/getProduct" change:media="document visual; format 'modules.catalog.frontoffice/productList'; class 'float-right'" />
-<p tal:define="global shop item/getDocument/getShop">
+<p tal:define="global shop item/getDocument/getShop;">
 	<strong change:translate="modules.catalog.frontoffice.ShopLabel"></strong>
 	<a change:link="document shop">${shop/getLabelAsHtml}</a>
 </p>
+<tal:block tal:condition="not: shop/getIsDefault" tal:define="global shopId shop/getId" />
 <p tal:define="shelf item/getDocument/getShelf">
 	<strong change:translate="modules.catalog.frontoffice.ShelfLabel"></strong>
-	<a change:link="document shelf">${shelf/getLabelAsHtml}</a>
+	<a tal:condition="not: shop/getIsDefault" change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a>
 </p>
 <tal:block change:productprice="name 'price'; product item/getDocument/getProduct; shop shop" tal:condition="price">
 	<p tal:condition="shop/getDisplayPriceWithTax">
