@@ -6,7 +6,7 @@
 <tal:block tal:condition="not: shop/getIsDefault" tal:define="global shopId shop/getId" />
 <p tal:define="shelf item/getDocument/getShelf">
 	<strong change:translate="modules.catalog.frontoffice.ShelfLabel"></strong>
-	<a tal:condition="not: shop/getIsDefault" change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a>
+	<a change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a>
 </p>
 <tal:block change:productprice="name 'price'; product item/getDocument/getProduct; shop shop" tal:condition="price">
 	<p tal:condition="shop/getDisplayPriceWithTax">
