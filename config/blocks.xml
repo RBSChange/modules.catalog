@@ -92,12 +92,13 @@
 				<constructor><![CDATA[
 					var fields = this.getFields();
 					var me = this;
-					fields['displaysortmenu'].addEventListener('fieldChanged', function(event) {me.onDisplaysortmenuChange(event)}, true)
+					fields.displaysortmenu.addEventListener('fieldChanged', function(event) { me.onDisplaysortmenuChange(); }, true)
+					me.addEventListener('gridValuesUpdated', function(event) { me.onDisplaysortmenuChange(); }, true);
 				]]></constructor>
 				<method name="onDisplaysortmenuChange">
 					<body><![CDATA[
 						var fields = this.getFields();
-						var value = !(fields['displaysortmenu'].value == 'true');
+						var value = (fields.displaysortmenu.value != 'true');
 						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
 						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
@@ -204,7 +205,6 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
-			
 			<parameter name="useCache" type="Boolean" default-value="false" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 		</parameters>
@@ -213,49 +213,34 @@
 				<constructor><![CDATA[
 					var fields = this.getFields();
 					var me = this;
-					fields['displaysortmenu'].addEventListener('fieldChanged', function(event) {me.onDisplaysortmenuChange(event)}, true);
-					fields['mode'].addEventListener('fieldChanged', function(event) {me.onModeChange(event)}, true);
-					var modeCollapse = true;
-					this.getElementByAnonId('displayMode_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displayaddtocart_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('showaddtofavorite_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('activatequantityselection_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displayavailability_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displayratingaverage_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('showshareblock_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displayproductdescription_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displayproductpicto_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displaysortmenu_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displaydisplaymode_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = modeCollapse;
-					this.getElementByAnonId('displaybrandorder_cnt').collapsed = modeCollapse;
+					fields.displaysortmenu.addEventListener('fieldChanged', function(event) { me.onDisplaysortmenuChange(); }, true);
+					fields.mode.addEventListener('fieldChanged', function(event) { me.onModeChange(); }, true);
+					me.addEventListener('gridValuesUpdated', function(event) { me.onModeChange(); me.onDisplaysortmenuChange(); }, true);
 				]]></constructor>
 				<method name="onModeChange">
 					<body><![CDATA[
 						var fields = this.getFields();
-						var modeCollapse = (fields['mode'].value == 'random');
-						this.getElementByAnonId('displayMode_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displayaddtocart_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('showaddtofavorite_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('activatequantityselection_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displayavailability_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displayratingaverage_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('showshareblock_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displayproductdescription_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displayproductpicto_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displaysortmenu_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = modeCollapse;
-						this.getElementByAnonId('displaybrandorder_cnt').collapsed = modeCollapse;
+						var value = (fields.mode.value == 'random');
+						this.getElementByAnonId('displayMode_cnt').collapsed = value;
+						this.getElementByAnonId('displayaddtocart_cnt').collapsed = value;
+						this.getElementByAnonId('showaddtofavorite_cnt').collapsed = value;
+						this.getElementByAnonId('activatequantityselection_cnt').collapsed = value;
+						this.getElementByAnonId('displayavailability_cnt').collapsed = value;
+						this.getElementByAnonId('displayratingaverage_cnt').collapsed = value;
+						this.getElementByAnonId('showshareblock_cnt').collapsed = value;
+						this.getElementByAnonId('displayproductdescription_cnt').collapsed = value;
+						this.getElementByAnonId('displayproductpicto_cnt').collapsed = value;
+						this.getElementByAnonId('displaysortmenu_cnt').collapsed = value;
+						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
+						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
+						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
+						this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
 					]]></body>
 				</method>
 				<method name="onDisplaysortmenuChange">
 					<body><![CDATA[
 						var fields = this.getFields();
-						
-						var value = !(fields['displaysortmenu'].value == 'true' && fields['mode'].value != 'random');
+						var value = (fields.mode.value == 'random' || fields.displaysortmenu.value != 'true');
 						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
 						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
