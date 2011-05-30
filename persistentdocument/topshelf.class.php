@@ -5,4 +5,11 @@
  */
 class catalog_persistentdocument_topshelf extends catalog_persistentdocument_topshelfbase
 {
+	/**
+	 * @return Boolean
+	 */
+	public function isTopShelf()
+	{
+		return true;
+	}
 }

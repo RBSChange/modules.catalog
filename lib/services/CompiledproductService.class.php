@@ -53,6 +53,20 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param integer $topicId
+	 * @param string $lang
+	 * @return catalog_persistentdocument_compiledproduct
+	 */
+	public function getByProductInContext($product, $topicId, $lang)
+	{
+		return $this->createQuery()
+			->add(Restrictions::eq('product', $product))
+			->add(Restrictions::eq('topicId', $topicId))
+			->add(Restrictions::eq('lang', $lang))->findUnique();
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @param Integer $parentNodeId
 	 */
@@ -445,17 +459,37 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
 	{
-		if ($website == null || $website->getId() == $document->getWebsiteId())
+		$catalogParam = isset($parameters['catalogParam']) ? $parameters['catalogParam'] : array();
+		$lang = $document->getLang();
+		$website = $document->getWebsite();
+		$shop = $document->getShop();
+		if ($shop && !$shop->getIsDefaultForLang($lang))
 		{
-			$catalogParam = isset($parameters['catalogParam']) ? $parameters['catalogParam'] : array();
 			$catalogParam['shopId'] = $document->getShopId();
-			$catalogParam['topicId'] = $document->getTopicId();			
-			$parameters['catalogParam'] = $catalogParam;
-			
-			if ($website == null) {$website = $document->getWebsite();}
-			return $urlRewritingService->getDocumentLinkForWebsite($document->getProduct(), $website, $lang, $parameters);
 		}
-		return null;
+		else if (isset($catalogParam['shopId']))
+		{
+			unset($catalogParam['shopId']);
+		}
+		$topic = $document->getTopic();
+		if ($topic && !$document->getPrimary())
+		{
+			$catalogParam['topicId'] = $topic->getId();	
+		}
+		else if (isset($catalogParam['topicId']))
+		{
+			unset($catalogParam['topicId']);
+		}
+		
+		if (count($catalogParam))
+		{	
+			$parameters['catalogParam'] = $catalogParam;
+		}
+		else if (isset($parameters['catalogParam']))
+		{
+			unset($parameters['catalogParam']);
+		}
+		return $urlRewritingService->getDocumentLinkForWebsite($document->getProduct(), $website, $lang, $parameters);
 	}
 
 	/**

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productcontextuallist" lcid="fr_FR">
+  <include id="m.catalog.bo.blocks.productlistbase"/>
+</i18n>

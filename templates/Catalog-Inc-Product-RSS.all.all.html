@@ -7,7 +7,7 @@
 					<br />
 					<del>${price/getFormattedOldValueWithTax}</del>		
 				</tal:block>
-				<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="documentvisual; format 'modules.catalog.frontoffice/list'" />
+				<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document product/getDefaultVisual; format 'modules.catalog.frontoffice/list'" />
 			</td>
 			<td valign="top">
 				<strong>${product/getLabelAsHtml}</strong>		

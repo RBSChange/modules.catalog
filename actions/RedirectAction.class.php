@@ -7,12 +7,24 @@ class catalog_RedirectAction extends f_action_BaseAction
 {
 	/**
 	 * @param Context $context
-	 * @param Request $request
+	 * @param ChangeRequest $request
 	 */
 	public function _execute($context, $request)
     {
-		$subRef = DocumentHelper::getDocumentInstance($context->getRequest()->getParameter('subRef'));
-		header('Location: ' . str_replace('&amp;', '&', LinkHelper::getDocumentUrl($subRef)));
+		$subRef = DocumentHelper::getDocumentInstance($request->getParameter('subRef'));
+		if ($subRef instanceof catalog_persistentdocument_shelf && $request->hasParameter('parentTopic')) 
+		{
+			 $sytemTopic = website_SystemtopicService::getInstance()->createQuery()
+					->add(Restrictions::descendentOf($request->getParameter('parentTopic')))
+					->add(Restrictions::eq('referenceId', $subRef->getId()))
+					->findUnique();
+					
+			if ($sytemTopic)
+			{
+				$subRef = $sytemTopic;
+			}
+		}
+		header('Location: ' . LinkHelper::getDocumentUrl($subRef));
         return View::NONE ;
     }
 

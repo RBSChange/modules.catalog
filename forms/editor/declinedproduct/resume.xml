@@ -17,4 +17,5 @@
 		image="{IconsBase}/small/history.png">
 		<property name="modificationdate" labeli18n="modules.uixul.bo.doceditor.property.Modificationdate" />
 	</section>
+	<section flex="1" name="urlrewriting" labeli18n="modules.uixul.bo.doceditor.section.Urlrewriting" image="{IconsBase}/small/urlrewriting.png" />
 </panel>

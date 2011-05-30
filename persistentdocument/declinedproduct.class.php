@@ -3,7 +3,7 @@
  * catalog_persistentdocument_declinedproduct
  * @package modules.catalog
  */
-class catalog_persistentdocument_declinedproduct extends catalog_persistentdocument_declinedproductbase
+class catalog_persistentdocument_declinedproduct extends catalog_persistentdocument_declinedproductbase implements rss_Item 
 {	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
@@ -292,6 +292,48 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 			if ($shop === null) {return null;}
 		}
 		return $this->getDocumentService()->getPublishedDefaultDeclinationInShop($this, $shop);
-	}	
+	}
 	
+	/**
+	 * @see rss_Item::getRSSDate()
+	 */
+	public function getRSSDate()
+	{
+		return $this->getModificationdate();
+	}
+
+	/**
+	 * @see rss_Item::getRSSDescription()
+	 */
+	public function getRSSDescription()
+	{
+		
+		$template = TemplateLoader::getInstance()
+			->setMimeContentType(K::HTML)
+			->setPackageName('modules_catalog')
+			->setDirectory('templates')
+			->load('Catalog-Inc-Product-RSS');
+			
+		$template->setAttribute('product', $this->getFirstDeclination());
+		$template->setAttribute('shop', catalog_ShopService::getInstance()->getCurrentShop());
+		$template->setAttribute('customer', customer_CustomerService::getInstance()->getCurrentCustomer());
+		return $template->execute(true);
+	}
+
+	/**
+	 * @see rss_Item::getRSSGuid()
+	 */
+	public function getRSSGuid()
+	{
+		return LinkHelper::getDocumentUrl($this);
+	}
+
+	/**
+	 * @see rss_Item::getRSSLabel()
+	 */
+	public function getRSSLabel()
+	{
+		return $this->getLabelAsHtml();
+		
+	}
 }

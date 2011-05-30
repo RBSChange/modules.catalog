@@ -287,6 +287,11 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();	
 		$request->setAttribute('shop', $shop);
+		if (!$shop->getIsDefault())
+		{
+			$request->setAttribute('contextShopId', $shop->getId());
+			$systemTopic = $this->getContext()->getParent();
+		}
 		
 		$displayConfig = $this->getDisplayConfig($shop);
 		$request->setAttribute('displayConfig', $displayConfig);

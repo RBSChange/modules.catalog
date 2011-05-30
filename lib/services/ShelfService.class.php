@@ -194,10 +194,23 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function getPublishedSubShelvesInCurrentShop($shelf)
 	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		$query = website_SystemtopicService::getInstance()->createQuery();
-		$query->add(Restrictions::published())->add(Restrictions::descendentOf($website->getId()));
-		$query->createPropertyCriteria('referenceId', 'modules_catalog/shelf')->add(Restrictions::childOf($shelf->getId()));
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		return $this->getPublishedSubShelvesInShop($shelf, $shop);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return catalog_persistentdocument_shelf[]
+	 */
+	public function getPublishedSubShelvesInShop($shelf, $shop)
+	{
+		$query = website_SystemtopicService::getInstance()->createQuery()
+			->add(Restrictions::published())
+			->add(Restrictions::descendentOf($shop->getTopic()->getId()));
+		$query->createPropertyCriteria('referenceId', 'modules_catalog/shelf')
+			->add(Restrictions::childOf($shelf->getId()));
+			
 		$query->setProjection(Projections::property('referenceId'));
 		$subShelvesIds = $query->findColumn('referenceId');
 		$this->createShelfQuery()->add(Restrictions::in('id', $subShelvesIds))->find();
@@ -379,22 +392,13 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.no-published-product-or-subshelf;');
 		return false;
 	}
-		
-	/**
-	 * @var catalog_persistentdocument_shop
-	 */
-	private $currentShopForResume = null;
-	
+			
 	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @return integer
 	 */
 	public function getWebsiteId($document)
 	{
-		if ($this->currentShopForResume !== null)
-		{
-			return $this->currentShopForResume->getWebsite()->getId();
-		}
 		return null;
 	}
 	
@@ -408,35 +412,24 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		$data = parent::getResume($document, $forModuleName, array('properties' => true, 'publication' => true, 'localization' => true, 'history' => true));
 		$rc = RequestContext::getInstance();
+		$ls = LocaleService::getInstance();
 		$contextlang = $rc->getLang();
 		$lang = $document->isLangAvailable($contextlang) ? $contextlang : $document->getLang();
-			
 		try 
 		{
 			$rc->beginI18nWork($lang);
-			
 			$urlData = array();
-			
-			$shops = array();
-			foreach ($this->getContainingShops($document) as $shop)
+			$systemTopics = website_SystemtopicService::getInstance()->getByReferenceId($document->getId());			
+			foreach ($systemTopics as $systemTopic)
 			{
-				$websiteId = $shop->getWebsite()->getId();
-				if ($shop->isPublished() || !isset($shops[$websiteId]))
-				{
-					$shops[$websiteId] = $shop;
-				}				
-			}			
-			foreach ($shops as $shop)
-			{
-				$this->currentShopForResume = $shop;
+				$shop = catalog_ShopService::getInstance()->getByTopic($systemTopic);
+				$href = website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($systemTopic, null, $lang)->setArgSeparator('&')->getUrl();
 				$urlData[] = array(
-					'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.Url-for-website;', array('website' => $shop->getWebsite()->getLabel())), 
-					'href' => str_replace('&amp;', '&', LinkHelper::getDocumentUrl($document, $lang, array(), false)),
-					'class' => $shop->isPublished() ? 'link' : ''
+					'label' => $ls->transBO('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $shop->getWebsite()->getLabel())), 
+					'href' => $href,
+					'class' => $systemTopic->isPublished() ? 'link' : ''
 				);
 			}
-			$this->currentShopForResume = null;
-			
 			$data['urlrewriting'] = $urlData;
 									
 			$rc->endI18nWork();
@@ -714,52 +707,45 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		return $this->getRelatedTopicByTopicAncestor($shelf, $shopTopic);
 	}
 
+
 	/**
-	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param website_UrlRewritingService $urlRewritingService
+	 * @param catalog_persistentdocument_shelf $document
 	 * @param website_persistentdocument_systemtopic $systemtopic
 	 * @param string $lang
 	 * @param array $parameters
+	 * @return f_web_Link | null
 	 */
-	public function generateSystemtopicUrl($shelf, $systemtopic, $lang, $parameters)
+	public function getWebLinkForSystemTopic($urlRewritingService, $document, $systemtopic, $lang, $parameters)
 	{
 		$shop = catalog_ShopService::getInstance()->getByTopic($systemtopic);
-		$this->currentShopForResume = $shop;
-		$parameters['catalogParam']['shopId'] = $shop->getId();
-		$url = LinkHelper::getDocumentUrl($shelf, $lang, $parameters);
-		$this->currentShopForResume = null;
-		return $url;
-	}
-	
-	/**
-	 * Filter the parameters used to generate the document url.
-	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param string $lang
-	 * @param array $parameters may be an empty array
-	 */
-	public function filterDocumentUrlParams($document, $lang, $parameters)
-	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		$shopService = catalog_ShopService::getInstance();
-		$defaultShop = $shopService->getDefaultByWebsite($website, $lang);
-		if ($defaultShop !== null)
+		if ($shop)
 		{
-			$defaultShopId = $defaultShop->getId();
-			if (isset($parameters['catalogParam']['shopId']) && $defaultShopId == $parameters['catalogParam']['shopId'])
+			$website = $shop->getWebsite();
+			$catalogParam = isset($parameters['catalogParam']) ? $parameters['catalogParam'] : array();
+			if ($shop && !$shop->getIsDefaultForLang($lang))
 			{
-				unset($parameters['catalogParam']['shopId']);
+				$catalogParam['shopId'] = $shop->getId();
 			}
-			else if (!isset($parameters['catalogParam']['shopId']))
+			else if (isset($catalogParam['shopId']))
 			{
-				$currentShop = $shopService->getCurrentShop(false);
-				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
-				{
-					$parameters['catalogParam']['shopId'] = $currentShop->getId();
-				}
+				unset($catalogParam['shopId']);
 			}
+			
+			if (count($catalogParam))
+			{	
+				$parameters['catalogParam'] = $catalogParam;
+			}
+			else if (isset($parameters['catalogParam']))
+			{
+				unset($parameters['catalogParam']);
+			}	
+			return $urlRewritingService->getDocumentLinkForWebsite($document, $website, $lang, $parameters);	
 		}
-		return $parameters;
-	}
+		return null;
 
+	}	
+	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @return website_persistentdocument_page
