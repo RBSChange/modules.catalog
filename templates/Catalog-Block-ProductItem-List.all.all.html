@@ -6,12 +6,12 @@
 			<label tal:attributes="for fieldid" change:translate="modules.catalog.frontoffice.Select"></label>	
 		</li>
 		<li change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual">
-			<a change:link="document product" tal:attributes="title product/getLinkTitle">
+			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" />
 			</a>
 		</li>
 		<li>
-			<a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
+			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
 		</li>
 		<li tal:condition="displayConfig/showRatingAverage">
 			<span class="small"><tal:block change:translate="modules.catalog.frontoffice.Rating-averageLabel" /> ${product/getFormattedRatingAverage}</span>

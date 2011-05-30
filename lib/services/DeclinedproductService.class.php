@@ -573,6 +573,8 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	public function getResume($document, $forModuleName, $allowedSections = null)
 	{
 		$data = parent::getResume($document, $forModuleName, $allowedSections);
+		
+		$ls = LocaleService::getInstance();
 		$rc = RequestContext::getInstance();
 		$contextlang = $rc->getLang();
 		$lang = $document->isLangAvailable($contextlang) ? $contextlang : $document->getLang();
@@ -586,7 +588,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$compiled = $compiled && $declination->getCompiled();
 		}
 		
-		$data['properties']['compiled'] = LocaleService::getInstance()->transBO('framework.boolean.' . ($compiled ? 'true' : 'false'), array('ucf'));
+		$data['properties']['compiled'] = $ls->transBO('f.boolean.' . ($compiled ? 'true' : 'false'), array('ucf'));
 		
 		//TODO EHAU Alert on declination ?
 		$data['properties']['alertCount'] = catalog_AlertService::getInstance()->getPublishedCountByProduct($document);
@@ -601,25 +603,24 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 				$query = catalog_CompiledproductService::getInstance()->createQuery()
 					->add(Restrictions::eq('lang', $lang))
 					->add(Restrictions::eq('primary', true))
-					->add(Restrictions::eq('showInList', true))
-					->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
-					
+					->add(Restrictions::eq('showInList', true));		
 				$query->createCriteria('product')
-					->add(Restrictions::in('id', $declinationIds))
-					->setProjection(Projections::property('id', 'declinationid'));
+					->add(Restrictions::in('id', $declinationIds));
 				
-				foreach ($query->find() as $row)
+				foreach ($query->find() as $compiledProduct)
 				{
-					$shop = DocumentHelper::getDocumentInstance($row['shopId'], 'modules_catalog/shop');
-					$declination = catalog_persistentdocument_productdeclination::getInstanceById($row['declinationid']);
-					$urlData[] = array(
-						'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.Url-for-website;', array('website' => $shop->getWebsite()->getLabel())), 
-						'href' => str_replace('&amp;', '&', $declination->getDocumentService()->generateUrlForShop($declination, $shop, $lang, array(), false)),
-						'class' => ($row['publicationstatus'] == 'PUBLICATED') ? 'link' : ''
-					);
+					if ($compiledProduct instanceof catalog_persistentdocument_compiledproduct) 
+					{
+						$shop = $compiledProduct->getShop();
+						$website = $compiledProduct->getWebsite();
+						$href = website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($compiledProduct, $website, $lang)->setArgSeparator('&')->getUrl();
+						$urlData[] = array(
+							'label' => $ls->transBO('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $website->getLabel())), 
+							'href' => $href, 'class' => ($shop->isPublished() && $compiledProduct->isPublished()) ? 'link' : ''
+							);
+					}
 				}
-				$data['urlrewriting'] = $urlData;
-										
+				$data['urlrewriting'] = $urlData;					
 				$rc->endI18nWork();
 			}
 			catch (Exception $e)

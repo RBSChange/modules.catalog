@@ -296,40 +296,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}	
 	
 	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_compiledproduct $compiledproduct
-	 * @param string $lang
-	 * @param array $parameters
-	 */
-	public function generateCompiledproductUrl($product, $compiledproduct, $lang, $parameters)
-	{
-		$shop = $compiledproduct->getShop();
-		$this->currentShopForResume = $shop;
-		$parameters['catalogParam']['shopId'] = $compiledproduct->getShopId();
-		if (!$compiledproduct->getPrimary())
-		{
-			$parameters['catalogParam']['topicId'] = $compiledproduct->getTopicId();
-		}
-		$url = LinkHelper::getDocumentUrl($product, $lang, $parameters);
-		$this->currentShopForResume = null;
-		return $url;
-	}
-	
-	/**
-	 * @var catalog_persistentdocument_shop
-	 */
-	private $currentShopForResume = null;
-	
-	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @return integer
 	 */
 	public function getWebsiteId($document)
 	{
-		if ($this->currentShopForResume !== null)
-		{
-			return $this->currentShopForResume->getWebsite()->getId();
-		}
 		return null;
 	}
 	
@@ -340,40 +311,40 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @return array
 	 */
 	public function getResume($document, $forModuleName, $allowedSections = null)
-	{
+	{	
 		unset($allowedSections['urlrewriting']);
+		$ls = LocaleService::getInstance();
 		$data = parent::getResume($document, $forModuleName, $allowedSections);
 		$rc = RequestContext::getInstance();
 		$contextlang = $rc->getLang();
 		$lang = $document->isLangAvailable($contextlang) ? $contextlang : $document->getLang();
 		
-		$data['properties']['compiled'] = f_Locale::translateUI('&framework.boolean.' . 
-			($document->getCompiled() ? 'True' : 'False') . ';');
-		
-		$data['properties']['alertCount'] = catalog_AlertService::getInstance()->getPublishedCountByProduct($document);
-			
+		$data['properties']['compiled'] = $ls->transBO('f.boolean.' . ($document->getCompiled() ? 'true' : 'false'), array('ucf'));
+		$data['properties']['alertCount'] = catalog_AlertService::getInstance()->getPublishedCountByProduct($document);		
 		try 
 		{
-			$rc->beginI18nWork($lang);
-			
+			$rc->beginI18nWork($lang);	
 			$urlData = array();
 			
 			$query = catalog_CompiledproductService::getInstance()->createQuery()
 				->add(Restrictions::eq('lang', $lang))
 				->add(Restrictions::eq('product.id', $document->getId()))
-				->add(Restrictions::eq('primary', true))
-				->setProjection(Projections::property('shopId'), Projections::property('publicationstatus'));
-			foreach ($query->find() as $row)
+				->add(Restrictions::eq('primary', true));
+			foreach ($query->find() as $compiledProduct)
 			{
-				$shop = DocumentHelper::getDocumentInstance($row['shopId'], 'modules_catalog/shop');
-				$urlData[] = array(
-					'label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.Url-for-website;', array('website' => $shop->getWebsite()->getLabel())), 
-					'href' => str_replace('&amp;', '&', $this->generateUrlForShop($document, $shop, $lang, array(), false)),
-					'class' => ($shop->isPublished() && $row['publicationstatus'] == 'PUBLICATED') ? 'link' : ''
-				);
+				if ($compiledProduct instanceof catalog_persistentdocument_compiledproduct) 
+				{
+					$shop = $compiledProduct->getShop();
+					$website = $compiledProduct->getWebsite();
+					$href = website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($compiledProduct, $website, $lang)->setArgSeparator('&')->getUrl();
+					$urlData[] = array(
+						'label' => $ls->transBO('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $website->getLabel())), 
+						'href' => $href, 'class' => ($shop->isPublished() && $compiledProduct->isPublished()) ? 'link' : ''
+					);
+				}
+				
 			}
-			$data['urlrewriting'] = $urlData;
-									
+			$data['urlrewriting'] = $urlData;							
 			$rc->endI18nWork();
 		}
 		catch (Exception $e)
@@ -383,23 +354,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		return $data;
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param string $lang
-	 * @param array $parameters
-	 * @param Boolean $useCache
-	 * @return string
-	 */
-	public function generateUrlForShop($product, $shop, $lang = null, $parameters = array(), $useCache = true)
-	{
-		$this->currentShopForResume = $shop;
-		$url = LinkHelper::getDocumentUrl($product, $lang, $parameters, $useCache);
-		$this->currentShopForResume = null;
-		return $url;
-	}
-	
+		
 	/**
 	 * Used in productexporter to specify the products urls.
 	 * @param catalog_persistentdocument_product $product
@@ -410,7 +365,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function generateUrlForExporter($product, $shop, $lang = null, $parameters = array())
 	{
-		return $this->generateUrlForShop($product, $shop, $lang, $parameters, true);
+		if (!$shop->getIsDefault())
+		{
+			$parameters['catalogParam']['shopId'] = $shop->getId();
+		}
+		return website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($product, $shop->getWebsite(), $lang, $parameters)->getUrl();
 	}
 	
 	/**
@@ -702,70 +661,51 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	{
 		return false;
 	}
-	
-	/**
-	 * Filter the parameters used to generate the document url.
-	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param string $lang
-	 * @param array $parameters may be an empty array
-	 */
-	public function filterDocumentUrlParams($document, $lang, $parameters)
-	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		$shopService = catalog_ShopService::getInstance();
-		$defaultShop = $shopService->getDefaultByWebsite($website, $lang);
-		if  ($defaultShop !== null)
-		{
-			$defaultShopId = $defaultShop->getId();
-			if (isset($parameters['catalogParam']['shopId']) && $defaultShopId == $parameters['catalogParam']['shopId'])
-			{
-				unset($parameters['catalogParam']['shopId']);
-			}
-			else 
-			{
-				$currentShop = $shopService->getCurrentShop(false);
-				if ($currentShop !== null && $defaultShopId != $currentShop->getId())
-				{
-					$parameters['catalogParam']['shopId'] = $currentShop->getId();
-				}
-			}
-		}
-		return $parameters;
-	}
-		
+			
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @return website_persistentdocument_page
 	 */
 	public function getDisplayPage($document)
 	{
-		$model = $document->getPersistentModel();
-		if ($model->hasURL() && $document->isPublished())
+		if ($document->isPublished())
 		{
 			$shopService = catalog_ShopService::getInstance();
-			$shop = $shopService->getShopFromRequest('shopId');
-			if ($shop !== null)
+			$request = HttpController::getInstance()->getContext()->getRequest();	
+			$topicId = intval($request->getModuleParameter('catalog', 'topicId'));
+			if ($topicId > 0)
 			{
-				$shopService->setCurrentShop($shop);
+				$cp = catalog_CompiledproductService::getInstance()->getByProductInContext($document, $topicId, RequestContext::getInstance()->getLang());
+				if ($cp)
+				{
+					$shopService->setCurrentShop($cp->getShop());
+					return website_PageService::getInstance()->createQuery()->add(Restrictions::published())
+						->add(Restrictions::childOf($topicId))
+						->add(Restrictions::hasTag('functional_catalog_product-detail'))
+						->findUnique();
+				}
 			}
-			else 
+			
+			$shop = $shopService->getShopFromRequest('shopId');
+			if ($shop === null)
 			{
 				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
 				$shop = $shopService->getDefaultByWebsite($website);
+				if ($shop === null)
+				{
+					return null;
+				}
 			}
-			if ($shop === null)
-			{
-				return null;
-			}
+
+			$shopService->setCurrentShop($shop);
 			$shelf = $this->getShopPrimaryShelf($document, $shop, true);
 			if ($shelf !== null)
 			{
 				$topic = $shelf->getDocumentService()->getRelatedTopicByShop($shelf, $shop);
 				if ($topic !== null)
 				{
-					return website_PageService::getInstance()->createQuery()
+					return website_PageService::getInstance()->createQuery()->add(Restrictions::published())
 						->add(Restrictions::childOf($topic->getId()))
-						->add(Restrictions::published())
 						->add(Restrictions::hasTag('functional_catalog_product-detail'))
 						->findUnique();
 				}
@@ -1536,5 +1476,17 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	{
 		$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
 		return $this->getPrimaryCompiledProductForShop($product, $shop);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
+	 */
+	public function generateUrlForShop($product, $shop, $lang = null, $parameters = array(), $useCache = true)
+	{
+		if (!$shop->getIsDefault())
+		{
+			$parameters['catalogParam']['shopId'] = $shop->getId();
+		}
+		return website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($product, $shop->getWebsite(), $lang, $parameters)->getUrl();
 	}
 }

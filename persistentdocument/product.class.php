@@ -675,6 +675,31 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return true;
 	}
 	
+	public function getContextualTopicId()
+	{
+		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		if ($pageId)
+		{
+			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+			$topic = f_util_ArrayUtils::lastElement($ancestors);
+			if ($topic instanceof website_persistentdocument_systemtopic)
+			{
+				$result = catalog_CompiledproductService::getInstance()->createQuery()
+					->add(Restrictions::eq('primary', false))
+					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+					->add(Restrictions::eq('topicId', $topic->getId()))
+					->add(Restrictions::eq('product', $this))
+					->setProjection(Projections::property('id', 'id'))
+					->findUnique();
+				if (is_array($result))
+				{
+					return $topic->getId();
+				}
+			}
+		}
+		return  null;		
+	}
+	
 	/**
 	 * @return catalog_persistentdocument_compiledproduct | null
 	 */
@@ -690,7 +715,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 				return catalog_CompiledproductService::getInstance()->createQuery()
 					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 					->add(Restrictions::eq('topicId', $topic->getId()))
-					->add(Restrictions::eq('product', this))->findUnique();
+					->add(Restrictions::eq('product', $this))->findUnique();
 			}
 		}
 		return  null;
@@ -708,7 +733,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 					->add(Restrictions::eq('primary', true))
 					->add(Restrictions::eq('shopId', $shop->getId()))
-					->add(Restrictions::eq('product', this))
+					->add(Restrictions::eq('product', $this))
 					->findUnique();
 		}
 		return  null;

@@ -43,13 +43,13 @@
 							<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id fieldid; name name; value id" type="checkbox"/>
 						</td>
 						<td>
-							<a change:link="document product" class="link" tal:attributes="title product/getLinkTitle" >
+							<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" class="link" tal:attributes="title product/getLinkTitle" >
 								<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.catalog.frontoffice/list'" />
 							</a>
 						</td>
 						<td>
 							<ul>
-								<li><a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></li>
+								<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></li>
 								<li tal:condition="product/getBrand" change:translate="modules.catalog.frontoffice.from-brand; name product/getBrandLabelAsHtml" />
 								<tal:block tal:condition="displayConfig/showProductDescription">
 									<li tal:condition="product/getShortDescription">${product/getShortDescription}</li>

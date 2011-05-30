@@ -39,6 +39,7 @@ gridlist.taxGridJSON{
 
 cdocumenteditor#edt_catalog_simpleproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_declinedproduct cresumesection[sectionname="urlrewriting"],
+cdocumenteditor#edt_catalog_productdeclination cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_bundleproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_virtualproduct cresumesection[sectionname="urlrewriting"],
 cdocumenteditor#edt_catalog_kit cresumesection[sectionname="urlrewriting"],

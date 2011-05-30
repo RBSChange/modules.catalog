@@ -23,6 +23,11 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	 */
 	public function getUrl()
 	{
+		$topic = $this->getContextualSystemTopic();
+		if ($topic)
+		{
+			return LinkHelper::getDocumentUrl($topic);
+		}
 		return LinkHelper::getDocumentUrl($this);
 	}
 	
@@ -43,15 +48,10 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * Return true if the shelf is a top shelf else return false
 	 * @return Boolean
 	 */
 	public function isTopShelf()
 	{
-		if (is_null($this->getParentShelf()))
-		{
-			return true;
-		}
 		return false;
 	}
 		
@@ -123,5 +123,41 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 			$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		}
 		return $this->getDocumentService()->getPublishedProductCount($this, $shop, $lang);
+	}
+	
+	/**
+	 * @return website_persistentdocument_systemtopic || null
+	 */
+	public function getContextualSystemTopic()
+	{
+		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		if ($pageId)
+		{
+			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+			$topic = f_util_ArrayUtils::lastElement($ancestors);
+			if ($topic instanceof website_persistentdocument_systemtopic)
+			{
+				return website_SystemtopicService::getInstance()->createQuery()
+					->add(Restrictions::descendentOf($topic->getId()))
+					->add(Restrictions::eq('referenceId', $this->getId()))->findUnique();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return website_persistentdocument_systemtopic || null
+	 */
+	public function getDefaultContextualSystemTopic()
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$topic = $shop->getTopic();
+			return website_SystemtopicService::getInstance()->createQuery()
+					->add(Restrictions::descendentOf($topic->getId()))
+					->add(Restrictions::eq('referenceId', $this->getId()))->findUnique();
+		}
+		return  null;
 	}
 }

@@ -17,7 +17,8 @@
 	<div class="shelves-display compare">
 		<ol class="table-view">
 			<li tal:repeat="product products" class="product-line">
-				<tal:block module="catalog" container="" name="ProductItem" change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop;" displayMode="list" />
+				<tal:block module="catalog" container="" name="ProductItem" 
+					change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop;" displayMode="list" />
 			</li>
 		</ol>
 	</div>

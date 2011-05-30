@@ -39,7 +39,8 @@
 			<tbody>
 				<tal:block tal:repeat="product products">
 					<tr class="product-line row-${repeat/product/odd}">
-						<tal:block module="catalog" name="ProductItem" container="" change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop;" displayMode="table" />
+						<tal:block module="catalog" name="ProductItem" container="" 
+							change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop;" displayMode="table" />
 					</tr>
 				</tal:block>
 			</tbody>

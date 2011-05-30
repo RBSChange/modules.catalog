@@ -44,6 +44,18 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		if ($isOnDetailPage)
 		{
 			catalog_ModuleService::getInstance()->addConsultedProduct($product);
+			if (!$shop->getIsDefault())
+			{
+				$context->addCanonicalParam('shopId', $request->getParameter('shopId'), 'catalog');
+				$request->setAttribute('contextShopId', $shop->getId());
+			}
+			
+			$topicId =  $context->getParent()->getId();
+			$compiledProduct = catalog_CompiledproductService::getInstance()->getByProductInContext($product, $topicId, RequestContext::getInstance()->getLang());
+			if ($compiledProduct && !$compiledProduct->getPrimary())
+			{
+				$request->setAttribute('contextTopicId', $topicId);
+			}
 		}
 		$request->setAttribute('baseconfiguration', $this->getConfiguration());
 		$request->setAttribute('primaryshelf', $product->getDocumentService()->getShopPrimaryShelf($product, $shop));

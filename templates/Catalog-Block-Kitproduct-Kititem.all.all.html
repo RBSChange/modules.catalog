@@ -5,7 +5,7 @@
 	<!-- Product information -->
 	<div class="column-33 margin-left float-right">
 		<ul class="mini-navigation">
-			<li><a change:link="document product; catalogParam[customitems] customitems">${trans:m.catalog.frontoffice.go-to-kit,ucf,kitLabel=product/getLabelAsHtml}</a></li>
+			<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">${trans:m.catalog.frontoffice.go-to-kit,ucf,kitLabel=product/getLabelAsHtml}</a></li>
 		</ul>		
 		<ul tal:condition="kititemproduct/getPictogramCount" class="associated-pictograms">
 			<li tal:repeat="pictogram kititemproduct/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>

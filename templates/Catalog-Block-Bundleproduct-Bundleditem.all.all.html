@@ -5,14 +5,14 @@
 	<!-- Product information -->
 	<div class="column-33 margin-left float-right">
 		<ul class="mini-navigation">
-			<li><a change:link="document product" change:translate="modules.catalog.frontoffice.Go-to-bundle; bundleLabel product/getLabelAsHtml"></a></li>
+			<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">${trans:m.catalog.frontoffice.go-to-bundle,ucf,bundleLabel=product/getLabelAsHtml}</a></li>
 		</ul>		
 		<ul tal:condition="bundledproduct/getPictogramCount" class="associated-pictograms">
 			<li tal:repeat="pictogram bundledproduct/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
 		<h1 class="title">${bundledproduct/getLabelAsHtml}</h1>
-		<div class="product-ref"><strong change:translate="modules.catalog.frontoffice.Detail-referenceLabel"></strong> ${bundledproduct/getCodeReferenceAsHtml}</div>           
+		<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${bundledproduct/getCodeReferenceAsHtml}</div>           
 		<img tal:condition="bundledproduct/getBrand/getVisual" change:media="document bundledproduct/getBrand/getVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 	</div>
 	<!-- End - Product information -->
