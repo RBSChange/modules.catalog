@@ -77,7 +77,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		return $query->findUnique();
 	}
 
-	private $currentShop;
+	private $currentShop = false;
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
@@ -86,52 +86,85 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	{
 		$this->currentShop = $shop;
 	}
+		
+	/**
+	 * @return catalog_persistentdocument_shop
+	 */
+	public function getCurrentShop()
+	{
+		if ($this->currentShop === false)
+		{
+			$this->currentShop = $this->getDefaultShop();
+		}
+		return $this->currentShop;
+	}
 	
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */
-	public function getCurrentShop($useCache = true)
+	public function getDefaultShop()
 	{
-		$shop = null;
-		if ($useCache)
+		$className = Framework::getConfiguration('modules/catalog/defaultShopStrategyClass', false);
+		if ($className !== false)
 		{
-			$shop = $this->currentShop;
+			$strategy = new $className;
+			if ($strategy instanceof catalog_DefaultShopStrategy)
+			{
+				$shop = $strategy->getShop();
+				return $shop === null ? $this->getContextualDefaultShop() : $shop;
+			}
 		}
+		return $this->getContextualDefaultShop();
+	}
+	
+	/**
+	 * @return catalog_persistentdocument_shop
+	 */
+	protected function getContextualDefaultShop()
+	{
+		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		if (intval($pageId) > 0)
+		{
+			$query = $this->createQuery()->add(Restrictions::published());
+			$query->createCriteria('topic')->add(Restrictions::ancestorOf($pageId));
+			$shop = $query->findUnique();
+		}
+		
+		// or from cart...
+		if ($shop === null && catalog_ModuleService::getInstance()->isCartEnabled())
+		{		
+			$cs = order_CartService::getInstance();
+			if ($cs->hasCartInSession())
+			{
+				$cart = $cs->getDocumentInstanceFromSession();
+				if ($cart->getShopId() !== null)
+				{
+					$shop = $cart->getShop();
+				}
+			}
+		}
+
+		// or default one for website.
 		if ($shop === null)
 		{
-			// From page...
-			$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
-			$shop = $this->getShopFromPageId($pageId);
-			
-			// or from cart...
-			if ($shop === null && catalog_ModuleService::getInstance()->isCartEnabled())
+			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+			if ($website !== null)
 			{
-				$cs = order_CartService::getInstance();
-				if ($cs->hasCartInSession())
-				{
-					$cart = $cs->getDocumentInstanceFromSession();
-					if ($cart->getShopId() !== null)
-					{
-						$shop = $cart->getShop();
-					}
-				}
+				$shop = $this->getDefaultByWebsite($website);
 			}
-	
-			// or default one for website.
-			if ($shop === null)
-			{
-				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-				if ($website !== null)
-				{
-					$shop = $this->getDefaultByWebsite($website);
-				}
-			}
-		}
-		if ($useCache)
-		{
-			$this->currentShop = $shop;
-		}
+		}	
+
 		return $shop;
+	}
+	
+	/**
+	 * @param integer $pageId
+	 * @return catalog_persistentdocument_shop
+	 */
+	private function getShopFromPageId($pageId)
+	{
+		
+		return null;
 	}
 	
 	/**
@@ -171,25 +204,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		return null;
 	}
 	
-	/**
-	 * @param integer $pageId
-	 * @return catalog_persistentdocument_shop
-	 */
-	private function getShopFromPageId($pageId)
-	{
-		if ($pageId !== null)
-		{
-			$page = DocumentHelper::getDocumentInstance($pageId, 'modules_website/page');
-			$query = $this->createQuery()->add(Restrictions::published());
-			$query->createCriteria('topic')->add(Restrictions::ancestorOf($page->getId()));
-			$shop = $query->findUnique();
-			if ($shop !== null)
-			{
-				return $shop;
-			}
-		}
-		return null;
-	}
+
 	
 	/**
 	 * @param website_persistentdocument_website $website
@@ -639,4 +654,12 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		}
 		return $this->shopByWebsiteId[$websiteId];
 	}
+}
+
+interface catalog_DefaultShopStrategy 
+{
+	/**
+	 * @return catalog_persistentdocument_shop
+	 */
+	function getShop();
 }
