@@ -64,7 +64,7 @@ class catalog_ProductlistService extends f_persistentdocument_DocumentService
 		if ($list === null)
 		{
 			$list = $this->getNewDocumentInstance();
-			$list->setLabel($user->getFullname());
+			$list->setLabel($name . ' for ' . $user->getFullname());
 			$list->setUser($user);
 			$list->setListName($name);
 		}
