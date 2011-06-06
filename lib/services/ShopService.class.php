@@ -122,6 +122,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function getContextualDefaultShop()
 	{
+		$shop = null;
 		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
 		if (intval($pageId) > 0)
 		{
