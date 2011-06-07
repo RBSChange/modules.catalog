@@ -14,7 +14,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 		if ($this->getShowInList())
 		{
 			$product = $this->getProduct();
-			$indexDocument = $product->getIndexedDocumentForShop($this->getShop());
+			$indexDocument = $product->getIndexedDocumentByCompiledProduct($this);
 			if ($indexDocument !== null)
 			{
 				$indexDocument->setId($this->getId());
