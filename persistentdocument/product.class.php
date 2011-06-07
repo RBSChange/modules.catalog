@@ -39,42 +39,33 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return isset($ratings[$websiteid]) ? $ratings[$websiteid] : null;
 	}
 	
-	
 	/**
 	 * Get the indexable document
-	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_compiledproduct $compildedProduct
 	 * @return indexer_IndexedDocument
 	 */
-	public function getIndexedDocumentForShop($shop)
+	public function getIndexedDocumentByCompiledProduct($compildedProduct)
 	{
-		$primaryShelf = $this->getShopPrimaryShelf($shop);
-		if ($primaryShelf === null)
+		try 
 		{
-			// This may occurs during a save, before the compiled product is unpublished...
-			return null;
-		}
-		$topic = catalog_ShelfService::getInstance()->getRelatedTopicByShop($primaryShelf, $shop);
-		if ($topic === null)
+			$topic = $compildedProduct->getTopic();		
+			$topShelf = $compildedProduct->getTopShelf();						
+			$indexedDoc = new indexer_IndexedDocument();
+			$indexedDoc->setStringField('documentFamily', 'products');
+			$indexedDoc->setLabel($this->getLabel());
+			$indexedDoc->setLang($compildedProduct->getLang());
+			$indexedDoc->setText(
+				f_util_StringUtils::htmlToText($this->getDescription())
+				. ' ' . $this->getBrandLabel()
+				. ' ' . $topic->getLabel()
+				. ' ' . $topShelf->getLabel()
+			);					
+		} 
+		catch (Exception $e) 
 		{
-			// This may occurs before the compiled product is deleted...
-			return null;
+			Framework::exception($e);
+			$indexedDoc = null;
 		}
-				
-		$indexedDoc = new indexer_IndexedDocument();
-		$indexedDoc->setId($this->getId());
-		$indexedDoc->setDocumentModel($this->getDocumentModelName());
-		$indexedDoc->setStringField('documentFamily', 'products');
-		$indexedDoc->setLabel($this->getLabel());
-		$indexedDoc->setLang(RequestContext::getInstance()->getLang());
-		$indexedDoc->setText(
-			f_util_StringUtils::htmlToText($this->getDescription())
-			. ' ' . $this->getBrandLabel()
-			. ' ' . $primaryShelf->getLabel()
-			. ' ' . $this->getShopPrimaryTopShelf($shop)->getLabel()
-		);
-		$indexedDoc->setParentWebsiteId($shop->getWebsite()->getId());
-		$indexedDoc->setParentTopicId($topic->getId());
-		
 		return $indexedDoc;
 	}
 	
