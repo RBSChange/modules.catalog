@@ -23,7 +23,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		$product = $this->getDocumentParameter();
 		if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 		{
-			if ($isOnDetailPage)
+			if ($isOnDetailPage && !$this->isInBackofficePreview())
 			{
 				HttpController::getInstance()->redirect("website", "Error404");
 			}
