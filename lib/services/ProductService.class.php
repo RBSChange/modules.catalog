@@ -431,32 +431,27 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function onShelfPropertyModified($document)
 	{
-		// Update shelves counters.
-		// This must be done here, because recursive post count is
-		// refreshed by a query so, the update must be done at this time.
-
+		
 		$oldIds = $document->getShelfOldValueIds();
 		$currentShelves = $document->getShelfArray();
 		$ss = catalog_ShelfService::getInstance();
 		
-		// Increment product count for added shelves.
 		$currentIds = array();
 		foreach ($currentShelves as $shelf)
 		{
 			if (!in_array($shelf->getId(), $oldIds))
 			{
-				$ss->incrementPublishedDocumentCount($shelf);
+				$ss->productPublished($shelf, $document);
 			}
 			$currentIds[] = $shelf->getId();
 		}
 		
-		// Decrement product count for removed shelves.
 		foreach ($oldIds as $shelfId)
 		{
 			if (!in_array($shelfId, $currentIds))
 			{
 				$shelf = DocumentHelper::getDocumentInstance($shelfId);
-				$ss->decrementPublishedDocumentCount($shelf);
+				$ss->productUnpublished($shelf, $document);
 			}
 		}
 	}
@@ -604,7 +599,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		$this->refreshShelfPublishedDocumentCount($document, $oldPublicationStatus);	
+		$this->refreshShelfPublishedDocument($document, $oldPublicationStatus);	
 		
 		// Handle compilation.
 		if (!isset($params['cause']) || $params["cause"] != "delete")
@@ -620,7 +615,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_product $document
 	 * @param String $oldPublicationStatus
 	 */
-	protected function refreshShelfPublishedDocumentCount($document, $oldPublicationStatus)
+	protected function refreshShelfPublishedDocument($document, $oldPublicationStatus)
 	{		
 		// Status transit from ACTIVE to PUBLICATED.
 		if ($document->isPublished())
@@ -628,7 +623,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$ss = catalog_ShelfService::getInstance();
 			foreach ($document->getShelfArray() as $shelf)
 			{
-				$ss->incrementPublishedDocumentCount($shelf);
+				$ss->productPublished($shelf, $document);
 			}
 		}
 		// Status transit from PUBLICATED to ACTIVE.
@@ -637,9 +632,9 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$ss = catalog_ShelfService::getInstance();
 			foreach ($document->getShelfArray() as $shelf)
 			{
-				$ss->decrementPublishedDocumentCount($shelf);
+				$ss->productUnpublished($shelf, $document);
 			}
-		}		
+		}			
 	}
 	
 	
