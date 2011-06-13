@@ -306,6 +306,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_product $document
+	 * @return integer[] | null
+	 */
+	public function getWebsiteIds($document)
+	{
+		$ids = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product', $document))
+			->setProjection(Projections::groupProperty('websiteId', 'id'))
+			->findColumn('id');
+		return $ids;
+	}	
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
 	 * @param string $forModuleName
 	 * @param array $allowedSections
 	 * @return array
