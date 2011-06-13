@@ -18,22 +18,58 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		{
 			return website_BlockView::NONE;
 		}
-		$context = $this->getPage();
-		$isOnDetailPage = TagService::getInstance()->hasTag($context->getPersistentPage(), 'functional_catalog_product-detail');
+		
+		$request->setAttribute('isOnDetailPage', true);
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if (!($shop instanceof catalog_persistentdocument_shop))
+		{
+			Framework::warn(__METHOD__ . ' no current shop defined');
+			HttpController::getInstance()->redirect("website", "Error404");
+		}	
+			
 		$product = $this->getDocumentParameter();
 		if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 		{
-			if ($isOnDetailPage)
-			{
-				HttpController::getInstance()->redirect("website", "Error404");
-			}
-			return website_BlockView::NONE;
+			Framework::warn(__METHOD__ . ' no product defined: ' . $this->getDocumentIdParameter());
+			HttpController::getInstance()->redirect("website", "Error404");
 		}
-		$request->setAttribute('isOnDetailPage', $isOnDetailPage);
 		
+		
+		$context = $this->getPage();
+		$topicId =  $context->getParent()->getId();
+		$compiledProduct = catalog_CompiledproductService::getInstance()->getByProductInContext($product, $topicId, RequestContext::getInstance()->getLang());
+		if ($compiledProduct === null)
+		{
+			Framework::warn(__METHOD__ . ' no compiledproduct founded');
+			HttpController::getInstance()->redirect("website", "Error404");
+		}		
+		
+		$this->setDisplayConfig($request, $shop);
+		catalog_ModuleService::getInstance()->addConsultedProduct($product);
+		if (!$shop->getIsDefault())
+		{
+			$context->addCanonicalParam('shopId', $request->getParameter('shopId'), 'catalog');
+			$request->setAttribute('contextShopId', $shop->getId());
+		}
+		
+		if (!$compiledProduct->getPrimary())
+		{
+			$request->setAttribute('contextTopicId', $topicId);
+		}
+			
+		$request->setAttribute('baseconfiguration', $this->getConfiguration());
+		$request->setAttribute('primaryshelf', $product->getDocumentService()->getShopPrimaryShelf($product, $shop));
+		$request->setAttribute('cmpref', $product->getId());
+		return $this->forward($product->getDetailBlockModule(), $product->getDetailBlockName());
+	}
+	/**
+	 * @param f_mvc_Request $request
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	protected function setDisplayConfig($request, $shop)
+	{
 		// Prepare display configuration.
 		$displayConfig = array();
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$request->setAttribute('shop', $shop);
 		$displayConfig['showPricesWithTax'] = $this->getShowPricesWithTax($shop);
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
@@ -41,33 +77,14 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		$displayConfig['showShareBlock'] = $this->getShowShareBlock();
 		$displayConfig['showAnimPictogramBlock'] = ModuleService::getInstance()->moduleExists('marketing');
 		$request->setAttribute('displayConfig', $displayConfig);
-		if ($isOnDetailPage)
-		{
-			catalog_ModuleService::getInstance()->addConsultedProduct($product);
-			if (!$shop->getIsDefault())
-			{
-				$context->addCanonicalParam('shopId', $request->getParameter('shopId'), 'catalog');
-				$request->setAttribute('contextShopId', $shop->getId());
-			}
-			
-			$topicId =  $context->getParent()->getId();
-			$compiledProduct = catalog_CompiledproductService::getInstance()->getByProductInContext($product, $topicId, RequestContext::getInstance()->getLang());
-			if ($compiledProduct && !$compiledProduct->getPrimary())
-			{
-				$request->setAttribute('contextTopicId', $topicId);
-			}
-		}
-		$request->setAttribute('baseconfiguration', $this->getConfiguration());
-		$request->setAttribute('primaryshelf', $product->getDocumentService()->getShopPrimaryShelf($product, $shop));
-		$request->setAttribute('cmpref', $product->getId());
-		return $this->forward($product->getDetailBlockModule(), $product->getDetailBlockName());
 	}
+
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Boolean
 	 */
-	private function getShowPricesWithTax($shop)
+	protected function getShowPricesWithTax($shop)
 	{
 		switch ($this->getConfiguration()->getDisplayPriceWithTax())
 		{
@@ -85,7 +102,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Boolean
 	 */
-	private function getShowPricesWithoutTax($shop)
+	protected function getShowPricesWithoutTax($shop)
 	{
 		switch ($this->getConfiguration()->getDisplayPriceWithoutTax())
 		{
