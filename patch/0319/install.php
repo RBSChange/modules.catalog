@@ -23,13 +23,34 @@ class catalog_patch_0319 extends patch_BasePatch
 	 */
 	public function execute()
 	{
+		// FIX #32733
 		$rootId = ModuleService::getInstance()->getRootFolderId("catalog");
-		$folder = catalog_NoshelfproductfolderService::getInstance()->getNewDocumentInstance();
-		$folder->save($rootId);
+		$noshelfFolderService = catalog_NoshelfproductfolderService::getInstance();
+		$folder = $noshelfFolderService->createQuery()->findUnique();
+		if ($folder === null)
+		{
+			$folder = $noshelfFolderService->getNewDocumentInstance();
+			$folder->save($rootId);	
+		}
 		$ts = TreeService::getInstance();
 		$shopFolderId = catalog_ShopfolderService::getInstance()->createQuery()->findUnique()->getId();
 		$folderNode = $ts->getInstanceByDocument($folder); 
 		$ts->moveToNextSiblingForNode($folderNode, $shopFolderId);
+		
+		// FIX #35085
+		$newDeclinedProduct = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/declinedproduct.png");
+		$oldDeclinedProduct = f_util_FileUtils::buildWebeditPath("libs/icons/small/declinedproduct.png");
+		if (is_writeable($oldDeclinedProduct))
+		{
+			f_util_FileUtils::cp($newDeclinedProduct, $oldDeclinedProduct, f_util_FileUtils::OVERRIDE);
+		}
+		else
+		{
+			$this->logWarning("Could not create libs/icons/small/declinedproduct.png please do it manually using ".$newDeclinedProduct);
+		}
+		
+		$this->log("clear-webapp-cache");
+		$this->execChangeCommand("clear-webapp-cache");
 	}
 
 	/**

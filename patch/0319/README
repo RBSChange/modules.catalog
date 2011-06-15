@@ -1,3 +1,4 @@
 Version: 3.0.4
 
-Create noshelfproductfolder in catalog tree
+- Create noshelfproductfolder in catalog tree (FIX #32733)
+- Better declinedproduct icon (FIX #35085)
