@@ -5,13 +5,15 @@
 	<properties>
 		<add name="publicationstatus" localized="true" />
 		<add name="description" type="XHTMLFragment" localized="true" />
-		<add name="visual" type="modules_media/media" />
-		<add name="publishedDocumentCount" type="Integer" default-value="0" localized="true" />
+		<add name="visual" type="modules_media/media" />		
 		<add name="topic" type="modules_website/systemtopic" max-occurs="-1" inverse="true" cascade-delete="true" />
 		<add name="pageTitle" type="String" localized="true" />
 		<add name="pageDescription" type="String" localized="true" />
 		<add name="pageKeywords" type="String" localized="true" />
 		<add name="labelForUrl" type="String" localized="true" />
+		
+		<!-- Deprecated -->
+		<add name="publishedDocumentCount" type="Integer" default-value="0" localized="true" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

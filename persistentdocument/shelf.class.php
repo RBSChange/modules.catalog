@@ -114,7 +114,22 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @return String[]
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @return integer
+	 */
+	public function getPublishedProductCount($shop = null, $lang = null)
+	{
+		if ($shop === null)
+		{
+			$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		}
+		return $this->getDocumentService()->getPublishedProductCount($this, $shop, $lang);
+	}
+	
+	
+	/**
+	 * @deprecated
 	 */
 	public function getNewTranslationLangs()
 	{
@@ -127,19 +142,5 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 			}
 		}
 		return $langs;
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param string $lang
-	 * @return integer
-	 */
-	public function getPublishedProductCount($shop = null, $lang = null)
-	{
-		if ($shop === null)
-		{
-			$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		}
-		return $this->getDocumentService()->getPublishedProductCount($this, $shop, $lang);
 	}
 }

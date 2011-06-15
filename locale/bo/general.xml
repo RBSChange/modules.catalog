@@ -317,4 +317,8 @@
 	<entity id="condition-filters">
 		<locale lang="fr">conditions d'application</locale>
 	</entity>
+	
+	<entity id="no-published-content">
+		<locale lang="fr">aucun contenu publié</locale>
+	</entity>
 </localization>
