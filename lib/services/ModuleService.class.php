@@ -213,7 +213,17 @@ class catalog_ModuleService extends ModuleBaseService
 				->add(Restrictions::in('id', $ids));
 			$query->createCriteria('compiledproduct')->add(Restrictions::published())
 				->add(Restrictions::eq('shopId', $shop->getId()));
-			return $query->find();
+			$products = $query->find();
+			
+			$declinationQuery = catalog_ProductdeclinationService::getInstance()->createQuery()
+				->add(Restrictions::published())
+				->add(Restrictions::in('id', $ids));
+			$declinationQuery->createCriteria("declinedproduct")->createCriteria('compiledproduct')
+				->add(Restrictions::published())
+				->add(Restrictions::eq('shopId', $shop->getId()));
+			$declinations = $declinationQuery->find();
+			
+			return array_merge($products, $declinations);
 		}
 		return array();		
 	}
