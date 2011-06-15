@@ -51,6 +51,17 @@ class catalog_patch_0319 extends patch_BasePatch
 		
 		$this->log("clear-webapp-cache");
 		$this->execChangeCommand("clear-webapp-cache");
+		
+		// FIX #36776
+		$this->log("compile-documents");
+		$this->execChangeCommand("compile-documents");
+		$this->log("Add code reference to shop");
+		$shopModelPath = f_util_FileUtils::buildWebeditPath('modules/catalog/persistentdocument/shop.xml');
+        $shopModel = generator_PersistentModel::loadModelFromString(f_util_FileUtils::read($shopModelPath), 'catalog', 'shop');
+        $codeRef = $shopModel->getPropertyByName('codeReference');
+        f_persistentdocument_PersistentProvider::getInstance()->addProperty('catalog', 'shop', $codeRef);
+        $this->log("compile-locales catalog");
+        $this->execChangeCommand("compile-locales", array("catalog"));
 	}
 
 	/**

@@ -15,6 +15,9 @@
 	<entity id="label-help">
 		<locale lang="fr">champ texte utilisé à la fois dans les sites et dans l’interface d’administration pour identifier la boutique.</locale>
 	</entity>
+	<entity id="codeReference">
+		<locale lang="fr">code référence</locale>
+	</entity>
 	<entity id="description">
 		<locale lang="fr">description</locale>
 		<locale lang="en">description</locale>
