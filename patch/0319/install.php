@@ -38,6 +38,16 @@ class catalog_patch_0319 extends patch_BasePatch
 		$shopFolderId = catalog_ShopfolderService::getInstance()->createQuery()->findUnique()->getId();
 		$folderNode = $ts->getInstanceByDocument($folder); 
 		$ts->moveToNextSiblingForNode($folderNode, $shopFolderId);
+		$newNoShelfFolder = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/noshelffolder.png");
+		$oldNoShelfFolder = f_util_FileUtils::buildWebeditPath("libs/icons/small/noshelffolder.png");
+		if (is_writeable(dirname($oldNoShelfFolder)))
+		{
+			f_util_FileUtils::cp($newNoShelfFolder, $oldNoShelfFolder, f_util_FileUtils::OVERRIDE);
+		}
+		else
+		{
+			$this->logWarning("Could not create libs/icons/small/noshelffolder.png please do it manually using ".$newNoShelfFolder);
+		}
 		
 		// FIX #35085
 		$newDeclinedProduct = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/declinedproduct.png");
