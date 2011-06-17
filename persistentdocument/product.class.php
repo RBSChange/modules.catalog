@@ -384,13 +384,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param int $quantity
 	 * @return Boolean
 	 */
-	public function canBeOrdered($shop)
+	public function canBeOrdered($shop, $quantity = 1)
 	{
 		$cms = catalog_ModuleService::getInstance();
-		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop));
-	}	
+		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
