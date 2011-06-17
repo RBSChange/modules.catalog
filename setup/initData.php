@@ -16,6 +16,34 @@ class catalog_Setup extends object_InitDataSetup
 		$this->addBackGroundCompileTask();
 		$this->addAlertTasks();
 		$this->addRelatedProductAutoFeedTask();
+		$this->tempFunctionToRemoveIn350();
+	}
+	
+	private function tempFunctionToRemoveIn350()
+	{
+		// See FIX #32733
+		$newNoShelfFolder = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/noshelffolder.png");
+		$oldNoShelfFolder = f_util_FileUtils::buildWebeditPath("libs/icons/small/noshelffolder.png");
+		try
+		{
+			f_util_FileUtils::cp($newNoShelfFolder, $oldNoShelfFolder, f_util_FileUtils::OVERRIDE);
+		}
+		catch (Exception $e)
+		{
+			$this->logWarning("Could not create libs/icons/small/noshelffolder.png please do it manually using ".$newNoShelfFolder);
+		}
+		
+		// See FIX #35085
+		$newDeclinedProduct = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/declinedproduct.png");
+		$oldDeclinedProduct = f_util_FileUtils::buildWebeditPath("libs/icons/small/declinedproduct.png");
+		try
+		{
+			f_util_FileUtils::cp($newDeclinedProduct, $oldDeclinedProduct, f_util_FileUtils::OVERRIDE);
+		}
+		catch (Exception $e)
+		{
+			$this->logWarning("Could not create libs/icons/small/declinedproduct.png please do it manually using ".$newDeclinedProduct);
+		}
 	}
 	
 	/**

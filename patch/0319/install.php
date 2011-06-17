@@ -40,11 +40,11 @@ class catalog_patch_0319 extends patch_BasePatch
 		$ts->moveToNextSiblingForNode($folderNode, $shopFolderId);
 		$newNoShelfFolder = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/noshelffolder.png");
 		$oldNoShelfFolder = f_util_FileUtils::buildWebeditPath("libs/icons/small/noshelffolder.png");
-		if (is_writeable(dirname($oldNoShelfFolder)))
+		try
 		{
 			f_util_FileUtils::cp($newNoShelfFolder, $oldNoShelfFolder, f_util_FileUtils::OVERRIDE);
 		}
-		else
+		catch (Exception $e)
 		{
 			$this->logWarning("Could not create libs/icons/small/noshelffolder.png please do it manually using ".$newNoShelfFolder);
 		}
@@ -52,11 +52,11 @@ class catalog_patch_0319 extends patch_BasePatch
 		// FIX #35085
 		$newDeclinedProduct = f_util_FileUtils::buildWebeditPath("modules/catalog/patch/0319/declinedproduct.png");
 		$oldDeclinedProduct = f_util_FileUtils::buildWebeditPath("libs/icons/small/declinedproduct.png");
-		if (is_writeable($oldDeclinedProduct))
+		try
 		{
 			f_util_FileUtils::cp($newDeclinedProduct, $oldDeclinedProduct, f_util_FileUtils::OVERRIDE);
 		}
-		else
+		catch (Exception $e)
 		{
 			$this->logWarning("Could not create libs/icons/small/declinedproduct.png please do it manually using ".$newDeclinedProduct);
 		}
