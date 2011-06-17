@@ -16,10 +16,10 @@
 		<locale lang="en">shop</locale>
 	</entity>
 	<entity id="mode">
-		<locale lang="fr">mode de livraion</locale>
+		<locale lang="fr">mode de livraison</locale>
 	</entity>
 	<entity id="mode-help">
-		<locale lang="fr">mode de livraion associé au filtre. Lorsque le filtre est applicable il définira les frais associés à ce mode pour la commande en cours.</locale>
+		<locale lang="fr">mode de livraison associé au filtre. Lorsque le filtre est applicable il définira les frais associés à ce mode pour la commande en cours.</locale>
 	</entity>
 	<entity id="query">
 		<locale lang="fr">Conditions d'application</locale>
