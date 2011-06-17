@@ -4,7 +4,7 @@
   <key id="label">libellé</key>
   <key id="label-help">libellé utilisé en backoffice pour identifier le filtre.</key>
   <key id="shop">boutique</key>
-  <key id="mode">mode de livraion</key>
+  <key id="mode">mode de livraison</key>
   <key id="mode-help">mode de livraion associé au filtre. Lorsque le filtre est applicable il définira les frais associés à ce mode pour la commande en cours.</key>
   <key id="query">Conditions d'application</key>
   <key id="query-help">Conditions d'application du filtre de livraison, évalué à la deuxième étape du processus de commande standard.</key>
