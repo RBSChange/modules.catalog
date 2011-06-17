@@ -24,6 +24,8 @@ class catalog_patch_0319 extends patch_BasePatch
 	public function execute()
 	{
 		// FIX #32733
+		$this->log("compile-documents");
+		$this->execChangeCommand("compile-documents");
 		$rootId = ModuleService::getInstance()->getRootFolderId("catalog");
 		$noshelfFolderService = catalog_NoshelfproductfolderService::getInstance();
 		$folder = $noshelfFolderService->createQuery()->findUnique();
@@ -53,8 +55,6 @@ class catalog_patch_0319 extends patch_BasePatch
 		$this->execChangeCommand("clear-webapp-cache");
 		
 		// FIX #36776
-		$this->log("compile-documents");
-		$this->execChangeCommand("compile-documents");
 		$this->log("Add code reference to shop");
 		$shopModelPath = f_util_FileUtils::buildWebeditPath('modules/catalog/persistentdocument/shop.xml');
         $shopModel = generator_PersistentModel::loadModelFromString(f_util_FileUtils::read($shopModelPath), 'catalog', 'shop');
