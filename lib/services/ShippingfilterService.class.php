@@ -133,6 +133,8 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	}
 	
 	
+	
+	
 	/**
 	 * @param order_CartInfo $cart
 	 * @return boolean
@@ -175,6 +177,14 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	{
 		if ($filter->isPublished() && $filter->getMode()->isPublished())
 		{
+			$addrInfo = $cart->getAddressInfo();
+			if ($addrInfo && $addrInfo->shippingAddress && $addrInfo->shippingAddress->CountryId)
+			{
+				if (!$filter->getMode()->getDocumentService()->isValidForCountryId($filter->getMode(), $addrInfo->shippingAddress->CountryId))
+				{
+					return false;
+				}
+			}
 			$df = f_persistentdocument_DocumentFilterService::getInstance();
 			if ($df->checkValueFromJson($filter->getQuery(), $cart))
 			{
@@ -200,7 +210,21 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function getModesSelectedByProduct()
 	{
-		return catalog_ShippingfilterService::getInstance()->createQuery()->add(Restrictions::eq('selectbyproduct', true))
-			->setProjection(Projections::groupProperty('mode'))->findColumn('mode');
+		return catalog_ShippingfilterService::getInstance()->createQuery()
+			->add(Restrictions::eq('selectbyproduct', true))
+			->setProjection(Projections::groupProperty('mode'))
+			->findColumn('mode');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getAvailableCountriesForShop($shop)
+	{
+		$modes = $this->createQuery()->add(Restrictions::eq('shop', $shop))
+						->add(Restrictions::published())
+						->setProjection(Projections::groupProperty('mode', 'mode'))
+						->findColumn('mode');
+		return shipping_ModeService::getInstance()->getDeliveryCountriesForModes($modes);	
 	}
 }

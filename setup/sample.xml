@@ -70,11 +70,8 @@
 	</page>
 
 	<shippingfilter byLabel="Collisimo 10€" shop-refid="shop" mode-refid="shipping" taxCategory="1" valueWithoutTax="8.04" />
-
-	<attribute name="query"><![CDATA[{"operator":"and","elements":[{"class":"order_CartFilter","parameters":{"cart":["totalAmount","gt","0"]}}]}]]></attribute>
-	<paymentfilter byLabel="Chèque" shop-refid="shop" connector-refid="payment" query-attr="" />
-	<attribute name="query"><![CDATA[{"operator":"and","elements":[{"class":"order_CartFilter","parameters":{"cart":["totalAmount","eq","0"]}}]}]]></attribute>
-	<paymentfilter byLabel="Offert" shop-refid="shop" connector-refid="freepayment" query-attr="" />
+	<paymentfilter byLabel="Chèque" shop-refid="shop" connector-refid="payment" />
+	<paymentfilter byLabel="Offert" shop-refid="shop" connector-refid="freepayment" />
 
 	<attribute name="productDescription" default="true">
 		<![CDATA[<p>Sed sapien risus, rhoncus ac, vehicula ac, vulputate ut, nibh. Praesent nisi nulla, bibendum dapibus, tincidunt sed, dapibus ac, orci. Duis vulputate. Morbi nunc. Donec libero nulla, suscipit eget, hendrerit sit amet, sollicitudin et, libero. Integer metus arcu, malesuada et, vestibulum vel, accumsan in, mi. Curabitur molestie. Vestibulum ut purus. Duis vestibulum orci condimentum diam. Cras congue pharetra mauris! Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer mollis tortor. Donec velit mauris, facilisis vel, venenatis id, congue eget; nisi. Nullam dictum laoreet ligula. Pellentesque magna. In lobortis, eros a elementum dictum, est neque sodales quam, in tempor mi leo rhoncus nisi.</p>

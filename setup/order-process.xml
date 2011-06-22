@@ -3,8 +3,9 @@
 	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
 	<systemfolder module="list" relatedmodule="catalog">			
-		<staticlist listid="modules_catalog/orderprocess" label="&amp;modules.catalog.list.Orderprocess-label;">			
-			<staticitem value="order_OrderProcess" label="Standard" />
+		<staticlist listid="modules_catalog/orderprocess" label="m.catalog.list.orderprocess-label">			
+			<staticitem value="order_OrderProcess" label="m.catalog.list.orderprocess-default" />
+			<staticitem value="order_StandardOrderProcess" label="m.catalog.list.orderprocess-standard" />
 		</staticlist>
 	</systemfolder>
 </script>

@@ -14,7 +14,11 @@
 			</changecontent>	
 			<execute method="setPageRefAsIndex" />
 		</page>
-		<page label="Détail d'une fiche produit" navigationVisibility="hidden">
+		
+		<page label="Détail d'une fiche produit" navigationVisibility="hidden" indexingstatus="false" 
+			description="{catalog_product.description}" 
+			keywords="{catalog_product.coderef}" 
+			metatitle="{catalog_product.title}">
 			<tag name="functional_catalog_product-detail" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_product" />
@@ -25,19 +29,20 @@
 				<changeblock type="modules_catalog_comments" />
 			</changecontent>
 		</page>
+		
 		<page label="Liste des produits associés" navigationVisibility="hidden">
 			<tag name="functional_catalog_crosssellinglist-page" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_productCrossSellingList" />
 			</changecontent>
 		</page>
-		<page label="Mes produits favoris">
+		<page label="Mes produits favoris" indexingstatus="false" >
 			<tag name="contextual_website_website_modules_catalog_favorite-product-list" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_favoriteProductList" />
 			</changecontent>
 		</page>
-		<page label="Mes alertes produit">
+		<page label="Mes alertes produit" indexingstatus="false" >
 			<tag name="contextual_website_website_modules_catalog_product-alert-management" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_productAlertManagement" />

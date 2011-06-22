@@ -99,6 +99,28 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	{
 		if ($filter->isPublished() && $filter->getConnector()->isPublished())
 		{
+			$connector = $filter->getConnector();
+			if ($connector->getCurrencyCode() !== null)
+			{
+				if ($connector->getCurrencyCode() !== $cart->getShop()->getCurrencyCode())
+				{
+					return false;
+				}
+			}
+			if ($connector->getMaxValue() !== null)
+			{
+				if (($cart->getTotalAmount() - $connector->getMaxValue()) > 0)
+				{
+					return false;
+				}
+			}
+			if ($connector->getMinValue() !== null)
+			{
+				if (($connector->getMinValue() - $cart->getTotalAmount()) > 0.01)
+				{
+					return false;
+				}
+			}
 			$df = f_persistentdocument_DocumentFilterService::getInstance();
 			if ($df->checkValueFromJson($filter->getQuery(), $cart))
 			{
