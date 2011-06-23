@@ -59,7 +59,7 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		// Add to cart if needed.
 		if ($request->getParameter('addToCart') !== null)
 		{
-			$this->addProductToCart($declination);
+			$this->addProductToCartForCurrentBlock($declination);
 		}
 
 		// Add to product list if needed.

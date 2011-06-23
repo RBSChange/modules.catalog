@@ -19,7 +19,7 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 		// Add to cart if needed.
 		if ($request->getParameter('addToCart') !== null)
 		{
-			$this->addProductToCart($product);
+			$this->addProductToCartForCurrentBlock($product);
 		}
 
 		// Add to product list if needed.

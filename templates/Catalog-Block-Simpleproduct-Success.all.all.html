@@ -74,6 +74,7 @@
 			</small>
 			<!-- ajouter au panier -->
 			<p class="buttons" tal:condition="php: product.canBeOrdered(shop)">
+				<input type="hidden" name="catalogParam[formBlockId]" value="${formBlockId}" />
 				<input type="submit" name="catalogParam[addToCart]" class="button buy" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart; title &modules.catalog.frontoffice.TitleHrefAddToCart;"></input>
 			</p>
 		</form>

@@ -5,6 +5,11 @@
  */
 abstract class catalog_BlockProductBaseAction extends website_BlockAction
 {
+	public function initialize($request)
+	{
+		$request->setAttribute("formBlockId", $this->getBlockId());
+	}
+	
 	/** 
 	 * @param catalog_persistentdocument_product $product
 	 */
@@ -26,6 +31,19 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 			}
 			$cart->clearErrorMessages();
 		}
+	}
+	
+	/** 
+	 * @param catalog_persistentdocument_product $product
+	 */
+	protected function addProductToCartForCurrentBlock($product)
+	{
+		$request = website_BlockController::getInstance()->getRequest();
+		if ($request->hasParameter('formBlockId') && $request->getParameter('formBlockId') != $this->getBlockId())
+		{
+			return;
+		}
+		$this->addProductToCart($product);
 	}
 	
 	/** 
