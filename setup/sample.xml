@@ -83,11 +83,11 @@
 		<price shop-refid="shop" taxCategory="1" value="90" oldValue="100" discountDetail="10%" ecoTax="5" />
 		<price shop-refid="shop" taxCategory="1" value="89" oldValue="95" ecoTax="5" thresholdMin="5" />
 		<price shop-refid="shop" taxCategory="1" value="79" oldValue="85" ecoTax="5" thresholdMin="10" />
-		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Super !" rating="5" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="Moi j'ai eu plein de problèmes avec..."
+		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Super !" rating="5" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="Moi j'ai eu plein de problèmes avec..."
 			rating="1" />
-		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Le design est top mais ça ne marche pas toujours bien." rating="3" />
-		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
+		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Le design est top mais ça ne marche pas toujours bien." rating="3" />
+		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</simpleproduct>
 	<simpleproduct label="produit 2" id="product2" shelf-refids="r1-1,r2-1" visual-refid="photo2" brand-refid="brand2"
 		stockQuantity="10" codeReference="P2" description-attr="productDescription">
@@ -136,11 +136,11 @@
 			<price shop-refid="shop" taxCategory="2" value="499" oldValue="549" thresholdMin="5" />
 			<price shop-refid="shop" taxCategory="2" value="489" oldValue="539" thresholdMin="10" />
 		</productdeclination>
-		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !"
+		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !"
 			rating="1" />
-		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
-		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
+		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
+		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</declinedproduct>
 	<simpleproduct label="produit 13 avec un nom très long" id="product13" shelf-refids="r4,r5-1,r6-1,r6-2" visual-refid="photo3"
 		codeReference="P13">
@@ -187,11 +187,11 @@
 		<price shop-refid="shop" taxCategory="2" value="490" oldValue="500" />
 		<price shop-refid="shop" taxCategory="2" value="470" oldValue="490" thresholdMin="5" />
 		<price shop-refid="shop" taxCategory="2" value="450" oldValue="480" thresholdMin="10" />
-		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !"
+		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !"
 			rating="1" />
-		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
-		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
+		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
+		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</declinedproduct>
 	<bundleproduct id="produit26" codeReference="P26" label="produit 26 (bundle)"  shelf-refids="r1-1,r4,r5,r6"
 		complementary-refids="product2,product3,product4" 
@@ -202,11 +202,11 @@
 		<price shop-refid="shop" taxCategory="2" value="490" oldValue="500" />
 		<price shop-refid="shop" taxCategory="2" value="470" oldValue="490" thresholdMin="5" />
 		<price shop-refid="shop" taxCategory="2" value="450" oldValue="480" thresholdMin="10" />
-		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !"
+		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !"
 			rating="1" />
-		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
-		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
+		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
+		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</bundleproduct>
 	<kit id="produit27" codeReference="P27" label="produit 27 (kit)"  shelf-refids="r1-1,r4,r5,r6"
 		complementary-refids="product2,product3,product4" 
@@ -214,10 +214,10 @@
 		upsell-refids="product13,product14,product15">
 		<kititem product-refid="product23" quantity="9" />
 		<kititem product-refid="product21" quantity="1" />
-		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contents="Pas mal du tout !" rating="4" />
-		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contents="C'est nul !"
+		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
+		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !"
 			rating="1" />
-		<comment authorName="MacUser" email="macuser@rbs.fr" contents="Bof..." rating="2" />
-		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contents="Test." rating="3" />
+		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
+		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</kit>
 </script>
