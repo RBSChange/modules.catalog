@@ -354,7 +354,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$document->setThresholdMin(1);
 		}
 		
-		if ($document->getLabel() == '' || $document->isPropertyModified('targetId'))
+		if (f_util_StringUtils::isEmpty($document->getLabel()) || $document->isPropertyModified('targetId'))
 		{
 			$this->refreshLabel($document);
 		}
