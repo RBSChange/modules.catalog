@@ -5,7 +5,6 @@
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
 	<binding fileName="modules/zone/persistentdocument/import/zone_binding.xml" />
 	
-	<attribute name="template" default="true">webfactory/tplTwo</attribute>
 	<zone byCode="EURO" id="zoneEURO" />
 
 	<website byTag="default_modules_website_default-website">
