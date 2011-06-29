@@ -146,6 +146,7 @@
   <key id="product-family">famille de produits</key>
   <key id="add-to-list">ajouter à mes produits favoris</key>
   <key id="product-added-to-list">produit ajouté aux favoris</key>
+  <key id="product-already-in-list">ce produit est déjà dans vos favoris</key> 
   <key id="product-removed-from-list">le produit a bien été retiré de la liste.</key>
   <key id="add-to-favorite-button">ajouter à mes produits favoris</key>
   <key id="add-to-favorite-help">cochez les cases des produits à ajouter à mes produits favoris.</key>

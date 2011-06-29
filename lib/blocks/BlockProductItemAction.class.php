@@ -10,10 +10,9 @@ class catalog_BlockProductItemAction extends website_BlockAction
 	 */
 	public function getCacheKeyParameters($request)
 	{
-		$displayConfig = $request->getParameter('displayConfig');	
+		$displayConfig = $request->getParameter('displayConfig');
 		$keys = array('displayConfig' => $displayConfig,
 			'productid' => $this->getDocumentIdParameter(),
-			'lang' => RequestContext::getInstance()->getLang(),
 			'shopId' => $this->findParameterValue('shop')->getId(),
 			'displayMode' => $request->getParameter('displayMode', 'list'));
 		

@@ -5,8 +5,7 @@
 
 <tal:block change:block="" module="order" name="CartMessages" />
 
-<ul change:errors=""></ul>
-<ul change:messages=""></ul>
+<tal:block change:block="" module="website" name="messages" container="" />
 
 <div class="website-block">
 	<tal:block tal:define="global productUrl php: LinkHelper::getDocumentUrl(product)" />
@@ -32,12 +31,19 @@
 			</a>
 		</tal:block>
 		
+		<form class="product-form" change:link="module catalog; action AddToList" method="post">
+			<ol>
+				<li>
+					<input type="hidden" name="backurl" change:currentPageLink="" />
+					<input type="hidden" tal:attributes="value product/getId" name="productId" />
+					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.frontoffice.add-to-list,ucf,attr}" title="${trans:m.catalog.frontoffice.title.add-to-list,ucf}" />					
+				</li>
+			</ol>
+		</form>
 		<form class="product-form" change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" method="post">
 			<ol>
 				<li>
-					<input type="submit" name="catalogParam[addToList]" class="button" value="${trans:m.catalog.frontoffice.add-to-list,ucf,attr}" title="${trans:m.catalog.frontoffice.title.add-to-list,ucf}" />					
-				</li>
-				<li>				
+					<input type="hidden" tal:attributes="value product/getId" name="productId" />
 					<fieldset>		
 						<label for="product-declination">${trans:m.catalog.frontoffice.detail-declinations,ucf,lab}</label>
 						<select class="textfield" id="product-declination" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
@@ -51,7 +57,7 @@
 						</noscript>
 					</fieldset>
 				</li>
-			</ol>			
+			</ol>
 		</form>
 		
 		<!-- Disponibilité -->

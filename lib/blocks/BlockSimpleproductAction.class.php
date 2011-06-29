@@ -16,13 +16,13 @@ class catalog_BlockSimpleproductAction extends catalog_BlockProductBaseAction
 	{
 		$product = $this->getDocumentParameter();
 		
-		// Add to cart if needed.
+		// @deprecated this should not be used anymore. See catalog_AddToCartAction
 		if ($request->getParameter('addToCart') !== null)
 		{
-			$this->addProductToCart($product);
+			$this->addProductToCartForCurrentBlock($product);
 		}
 
-		// Add to product list if needed.
+		// @deprecated this should not be used anymore. See catalog_AddToListAction
 		if ($request->getParameter('addToList') !== null)
 		{
 			$this->addProductToFavorites($product);

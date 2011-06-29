@@ -10,7 +10,14 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 	 */
 	private function getCurrentKit()
 	{
-		return $this->getDocumentParameter('cmpref', 'catalog_persistentdocument_kit');
+		return $this->getDocumentParameter('cmpref', 'catalog_persistentdocument_kit'); 
+	}
+	
+	function getCacheKeyParameters($request)
+	{
+		return array('kititemid' => $request->getParameter('kititemid'),
+			'declinationid' => $request->getParameter('declinationid'),
+			'customitems' => $request->getParameter('customitems'));
 	}
 	
 	/**
@@ -27,7 +34,13 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		$kis->updateProductFromRequestParameters($product, $request->getParameters());
 		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
 		
-		// Add to product list if needed.
+		// @deprecated this should not be used anymore. See catalog_AddToCartAction
+		if ($request->getParameter('addToCart') !== null)
+		{
+			$this->addProductToCartForCurrentBlock($product);
+		}
+		
+		// @deprecated this should not be used anymore. See catalog_AddToListAction
 		if ($request->getParameter('addToList') !== null)
 		{
 			$this->addProductToFavorites($product);

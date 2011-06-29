@@ -1,6 +1,9 @@
 <script tal:condition="baseconfiguration/getActivatezoom" change:javascript="head 'modules.catalog.lib.js.jquery-jqzoom'"></script>
 <script change:javascript="src 'modules.catalog.lib.js.productAdditionalVisualsManagement'"></script>
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
+
+<tal:block change:block="" module="order" name="CartMessages" />
+
 <div class="website-block">
 	<!-- Product information -->
 	<div class="column-33 margin-left float-right">

@@ -5,6 +5,12 @@
  */
 class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 {
+	function getCacheKeyParameters($request)
+	{
+		return array("declinationId" => $request->getParameter('declinationId'),
+			"quantity" => $request->getParameter('quantity'));
+	}
+	
 	/**
 	 * @see website_BlockAction::execute()
 	 *
@@ -45,7 +51,13 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			return website_BlockView::NONE;
 		}
 		
-		// Add to product list if needed.
+		// @deprecated this should not be used anymore. See catalog_AddToCartAction
+  		if ($request->getParameter('addToCart') !== null)
+  		{
+  			$this->addProductToCartForCurrentBlock($declination);
+  		}
+		
+		// @deprecated this should not be used anymore. See catalog_AddToListAction
 		if ($request->getParameter('addToList') !== null)
 		{
 			$this->addProductToFavorites($declination);

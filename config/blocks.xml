@@ -89,7 +89,8 @@
 	</block>
 
 
-	<block type="modules_catalog_ProductItem" hidden="true" />
+	<block type="modules_catalog_ProductItem" hidden="true" 
+		cache="true"/>
 	<block type="modules_catalog_productContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Product-Contextual-List;">
 		<parameters>
 			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list" />
@@ -280,6 +281,14 @@
 			<parameter name="nbItemPerPage" type="Integer" default-value="20" />
 		</parameters>
 	</block>
+	
+	<!-- Hidden blocks -->
+	<block type="modules_catalog_simpleproduct" cache="120" cache-key="cmpref" hidden="true"/>
+	<block type="modules_catalog_declinedproduct" cache="120" cache-key="cmpref" hidden="true"/>
+	<block type="modules_catalog_kitproduct" cache="120" cache-key="cmpref" hidden="true"/>
+	<block type="modules_catalog_virtualproduct" cache="120" cache-key="cmpref" hidden="true"/>
+	<block type="modules_catalog_bundleproduct" cache="120" cache-key="cmpref" hidden="true"/>
+	
 	<!-- Dashboard blocks -->
 	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" label="&amp;modules.catalog.bo.blocks.Dashboardstock.Title;" />
 	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" label="&amp;modules.catalog.bo.dashboard.General-statistics;" />

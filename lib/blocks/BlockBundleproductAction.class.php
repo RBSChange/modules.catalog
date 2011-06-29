@@ -5,6 +5,11 @@
  */
 class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 {
+	function getCacheKeyParameters($request)
+	{
+		return array("bundleditemid" => $request->getParameter("bundleditemid"));
+	}
+	
 	/**
 	 * @see website_BlockAction::execute()
 	 *
@@ -16,7 +21,13 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 	{
 		$product = $this->getDocumentParameter();
 		
-		// Add to product list if needed.
+		// @deprecated this should not be used anymore. See catalog_AddToCartAction
+		if ($request->getParameter('addToCart') !== null)
+		{
+			$this->addProductToCartForCurrentBlock($product);
+		}
+		
+		// @deprecated this should not be used anymore. See catalog_AddToListAction
 		if ($request->getParameter('addToList') !== null)
 		{
 			$this->addProductToFavorites($product);
