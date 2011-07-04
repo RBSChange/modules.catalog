@@ -83,3 +83,7 @@ wdialog[template="orderProductsInShelf"] cdocumentlist{
 wdialog[template="productselector"]{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cProductSelectorDialog);
 }
+
+gridlist.stockQttJSON{
+	-moz-binding: url(binding:modules.catalog.cStockEditor#cStockQttGrid);
+}

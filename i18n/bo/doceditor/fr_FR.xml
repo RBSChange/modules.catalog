@@ -14,4 +14,7 @@
 	<key id="suggest-products">suggestions de produits</key>
 	
 	<key id="tax-category">catégorie de TVA</key>
+	<key id="reset-stock">effacer le stock</key>
+	<key id="stock-label">Emplacement de stockage</key>
+	<key id="master">Principal</key>
 </i18n>

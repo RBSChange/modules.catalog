@@ -59,20 +59,6 @@ class catalog_StockService extends BaseService
 		return true;
 	}
 
-
-
-	/**
-	 * @param order_CartInfo $cart
-	 * @param order_CartLineInfo $cartLine
-	 * @param array $globalProductsArray
-	 */
-	public function buildCartProductList($cart, $cartLine, &$globalProductsArray)
-	{
-
-		$product = $cartLine->getProduct();
-		$this->buildProductList($product, $cartLine->getQuantity(), $globalProductsArray);
-	}
-
 	/**
 	 *
 	 * @param catalog_persistentdocument_product $product
@@ -112,19 +98,47 @@ class catalog_StockService extends BaseService
 			}
 		}
 	}
-
+	
 	/**
+	 * @param order_CartInfo $cart
+	 * @return array
+	 */
+	public function validateCart($cart)
+	{
+		if ($cart->getShop()->getAllowOrderOutOfStock())
+		{
+			return array();
+		}
+		
+		$cartLines = $cart->getCartLineArray();
+		$productArray = array();	
+		foreach ($cartLines as $index => $cartLine)
+		{
+			$this->buildProductList($cartLine->getProduct(), $cartLine->getQuantity(), $productArray);
+		}	
+		
+		return $this->validateCartQuantities($productArray, $cart);
+	}
+	
+	/**
+	 * @param array $productArray
+	 * @param order_CartInfo $cart
+	 * @return array
+	 */
+	protected function validateCartQuantities($productArray, $cart)
+	{
+		return $this->validCartQuantities($productArray, $cart);
+	}
+	
+	/**
+	 * @deprecated use validCart
 	 * @param array $productArray
 	 * @param order_CartInfo $cart
 	 * @return array
 	 */
 	public function validCartQuantities($productArray, $cart)
 	{
-		$result = array();
-		if ($cart->getShop()->getAllowOrderOutOfStock())
-		{
-			return $result;
-		}
+		$result = array();		
 		foreach ($productArray as $productInfo)
 		{
 			$stDoc = $this->getStockableDocument($productInfo[0]);
@@ -284,7 +298,7 @@ class catalog_StockService extends BaseService
 	{
 		$result = null;
 		$stDoc = $this->getStockableDocument($document);
-		if ($stDoc !== null)
+		if ($stDoc instanceof catalog_persistentdocument_product)
 		{
 			$result = $stDoc->addStockQuantity($nb);
 		}
@@ -344,6 +358,47 @@ class catalog_StockService extends BaseService
 			'label' => $product->getLabelAsHtml(),
 			'threshold' => $this->getAlertThreshold($product)
 		);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param string[] $allowedProperties
+	 * @param array $data
+	 */
+	public function loadStockInfo($document, $allowedProperties, &$data)
+	{
+		if ($document instanceof catalog_persistentdocument_product && in_array('stockQttJSON', $allowedProperties)) 
+		{
+			$infos = array();
+			$infos[] = array('stocklabel' => LocaleService::getInstance()->transBO('m.catalog.bo.doceditor.master', array('ucf')), 
+				'stockQuantity' => $document->getStockQuantity() === null ? -1 : $document->getStockQuantity(), 
+				'stockAlertThreshold' => $document->getStockAlertThreshold() === null ? -1 : $document->getStockAlertThreshold());
+			
+			$data['stockQttJSON'] = JsonService::getInstance()->encode($infos);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param string[] $propertiesValue
+	 */	
+	public function updateStockInfo($document, $propertiesValue)
+	{
+		if ($document instanceof catalog_persistentdocument_product && isset($propertiesValue['stockQttJSON']))
+		{
+			$infos = JsonService::getInstance()->decode($propertiesValue['stockQttJSON']);
+			if (is_array($infos))
+			{
+				$stockQuantity = $infos[0]['stockQuantity'];
+				$stockQuantity =  ($stockQuantity === '' || $stockQuantity === '-1') ? null : intval($stockQuantity);
+				$document->setStockQuantity($stockQuantity);
+				
+				$stockAlertThreshold = $infos[0]['stockAlertThreshold'];
+				$stockAlertThreshold =  ($stockQuantity === null || $stockAlertThreshold === '' || $stockAlertThreshold === '-1') ? null : intval($stockAlertThreshold);
+				$document->setStockAlertThreshold($stockAlertThreshold);
+				$document->save();
+			}
+		} 
 	}
 
 	/**

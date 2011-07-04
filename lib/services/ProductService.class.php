@@ -549,7 +549,10 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	protected function preUpdate($document, $parentNodeId)
 	{
 		$document->persistHasNewTranslation();
-		
+		if ($document->getCodeSKU() === null)
+		{
+			$document->setCodeSKU(strval($document->getId()));
+		}
 		$this->updateRelatedProductsMetas($document, 'complementary');
 		$this->updateRelatedProductsMetas($document, 'similar');
 		$this->updateRelatedProductsMetas($document, 'upsell');
@@ -1441,9 +1444,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	public function addFormProperties($product, $propertiesNames, &$formProperties)
 	{
 		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
-		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
-		$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
-		$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
+		if (in_array('complementary', $propertiesNames))
+		{
+			$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
+			$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
+			$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
+		}
+		if (in_array('codeSKU', $propertiesNames))
+		{
+			if ($product->getCodeSKU() === null)
+			{
+				$formProperties['codeSKU'] = $product->getId();
+			} 		
+		}
 	}
 	
 	/**

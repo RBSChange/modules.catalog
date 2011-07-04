@@ -14,10 +14,6 @@
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Stock-information" class="toggle" hidden="true">
-		<field name="stockQuantity" />
-		<field name="stockAlertThreshold" />
-	</section>
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />

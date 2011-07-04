@@ -3,6 +3,7 @@
 	<panel name="resume" />
 	<panel name="properties" />
 	<panel name="prices" icon="price" labeli18n="m.catalog.bo.doceditor.tab.prices" />
+	<panel name="stock" icon="stock" labeli18n="m.catalog.bo.doceditor.tab.stock" />
 	<panel name="publication" />
 	<panel name="localization" />
 	<panel name="redirect" />

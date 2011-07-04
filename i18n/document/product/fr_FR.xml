@@ -51,4 +51,6 @@
   <key id="stockalertthreshold-help">valeur de la quantité en stock en deçà de laquelle sera déclenché l’envoi de la notification « Alerte concernant le stock » (Notifications &gt; Catalogue et boutiques &gt; Alerte concernant le stock) aux destinataires paramétrés dans les préférences du module « Catalogue et boutiques » (champ « Destinataires des alertes liées aux stocks »). Lorsque ce champ est vide, aucune alerte de stock ne sera envoyée..</key>
   
   <key id="stocklevel">niveau de stock</key>
+  <key id="codesku">code SKU</key>
+  <key id="codesku-help">identifiant unique de stock</key>
 </i18n>

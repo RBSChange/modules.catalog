@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="cStockPanel" extends="layout.cDocumentEditor#cDocumentEditorPanelFields">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" 
+						label="${transui:m.uixul.bo.doceditor.button.save,ucf,attr}" image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
+						label="${transui:m.uixul.bo.doceditor.button.canceledit,ucf,attr}" image="{IconsBase}/small/undo.png"/>
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" 
+						label="${transui:m.uixul.bo.doceditor.button.nexterror,ucf,attr}}" image="{IconsBase}/small/next-invalid-field.png"
+						hidden="true" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cfieldsgroup label="Gestion du stock">
+						<xul:row anonid="row_codeSKU">
+							<xul:clabel value="${transui:m.catalog.document.product.codesku,ucf,attr}" />
+							<xul:cfield name="codeSKU" anonid="field_codeSKU" fieldtype="text" shorthelp="m.catalog.document.product.codesku-help" />
+						</xul:row>
+					</xul:cfieldsgroup>
+					<xul:cfield name="stockQttJSON" anonid="field_stockQttJSON" fieldtype="namedgridlist" flex="1" />
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+		<implementation>
+			<field name="mFieldNames">['codeSKU', 'stockQttJSON']</field>
+
+			<constructor><![CDATA[	
+				var prefixId = 'catalog_' + this.documentEditor.documentname + '_';
+				wCore.debug('cStockPanel.construct : ' + prefixId);
+				var row_codeSKU = this.getElementByAnonId('row_codeSKU');
+				row_codeSKU.childNodes[1].setAttribute('id',  prefixId + 'codeSKU');
+				row_codeSKU.childNodes[0].setAttribute('id',  prefixId + 'codeSKU_label');
+				row_codeSKU.childNodes[0].setAttribute('control',  prefixId + 'codeSKU');	
+				
+				this.getElementByAnonId('field_stockQttJSON').setAttribute('id',  prefixId + 'stockQttJSON');
+			]]></constructor>
+			
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					var parameters = {
+						action: 'LoadStock',
+						cmpref: this.documentEditor.documentid, 
+						lang : this.documentEditor.documentInfos.vo,
+						documentproperties: this.mFieldNames.join(',')
+					};
+					return parameters;
+				]]></body>
+			</method>
+
+			<method name="fireInitializeComplete">
+				<parameter name="result" />
+				<body><![CDATA[
+					if (result.status == 'OK')
+					{														
+						var fields = this.fields;
+						var valid = this.setInitialValues(fields, result.contents);
+						
+						this.modified = false;
+						this.error = !valid;
+						
+						this.collapseContentZone(false);
+						this.updateCommandsUI();
+						this.mInitialized = true;
+						this.fireEvent("panelInitializeComplete");
+						this.gotoTop();
+					}
+					else
+					{
+						this.showErrorMessage(result.contents.errorMessage);
+						this.setInitialValues(fields, {});
+						this.modified = false;
+						this.error = true;
+						
+						this.collapseContentZone(true);						
+						this.mInitialized = true;
+					}
+				]]></body>
+			</method>
+			
+			<method name="saveProperties">
+				<body><![CDATA[
+					this.lockCommandsUI();
+					this.showTextMessage("${transui:m.uixul.bo.doceditor.Update-in-progress,ucf,js}");
+					this.documentEditor.executeServerAction('stock', 'Update');
+				]]></body>
+			</method>
+			
+			<method name="getUpdateParameters">
+				<body><![CDATA[
+					var documentInfos = this.documentEditor.documentInfos;
+					 
+					var attributes = {
+						action: 'UpdateStock',
+						cmpref: this.documentEditor.documentid, 
+						lang : this.documentEditor.documentInfos.vo,
+						documentproperties: this.mFieldNames.join(',')
+					};
+
+					var fields = this.fields;
+					var field = null;
+					for (var name in fields)
+					{
+						field = fields[name];
+						if (('modified' in field) && field.modified) 
+						{
+							attributes[name] = field.value;
+						}
+					}
+					return attributes;
+				]]></body>
+			</method>
+			
+			<method name="fireUpdateComplete">
+				<parameter name="result" />
+				<body><![CDATA[			
+					if (result.status == "OK")
+					{
+						this.modified = false;						
+						this.documentEditor.clearTabs();
+						this.fireInitializeComplete(result);
+					}
+					else
+					{
+						this.showErrorMessage(result.contents.errorMessage);
+						this.updateCommandsUI();					
+					}
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	
+	<binding id="cStockQttGrid" extends="widgets.cGrid#cAbstractGrid">
+		<implementation>
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>
+
+			<method name="execute_reset">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					rowData.stockQuantity = '-1';
+					rowData.stockAlertThreshold = '-1';
+					this.raiseUpdate();
+				]]></body>
+			</method>
+				
+			<method name="focus">
+				<body><![CDATA[
+					//wCore.debug('cEditableblocksGrid.focus');
+				]]></body>
+			</method>
+
+			<method name="raiseUpdate">
+				<body><![CDATA[
+					var dataset = this.buildDataset();
+					this.updateDataset(dataset);
+				]]></body>
+			</method>
+				
+			<method name="qttChange">
+				<parameter name="ctrl" />
+				<body><![CDATA[
+					var rowNode = ctrl.parentNode;
+					var rowData = rowNode.mDataRow;
+					rowData.stockQuantity = ctrl.value;
+					this.mCurrentDatasetKey = this.generateDatasetKey(this.buildDataset());
+					this.dispatchChanged();					
+				]]></body>
+			</method>
+			
+			<method name="thresholdChange">
+				<parameter name="ctrl" />
+				<body><![CDATA[
+					var rowNode = ctrl.parentNode;
+					var rowData = rowNode.mDataRow;
+					rowData.stockAlertThreshold = ctrl.value;
+					this.mCurrentDatasetKey = this.generateDatasetKey(this.buildDataset());
+					this.dispatchChanged();					
+				]]></body>
+			</method>		
+		</implementation>
+
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column flex="1"/>
+					<xul:column />
+					<xul:column />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="stocklabel" value="${transui:m.catalog.bo.doceditor.stock-label,ucf,attr}" />
+						<xul:label name="stockQuantity" value="${transui:m.catalog.document.product.stockquantity,ucf,attr}" />
+						<xul:label name="stockAlertThreshold" value="${transui:m.catalog.document.product.stockalertthreshold,ucf,attr}" />
+						<xul:label name="actionrow" value="${transui:m.uixul.bo.doceditor.actions,ucf,attr}" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+			<xul:row anonid="template-row" class="document" hidden="true">
+				<xul:label value="" />				
+				<xul:textbox value="" type="number" min="-1" oninput="document.getBindingParent(this).qttChange(this)" onchange="document.getBindingParent(this).qttChange(this)"/>
+				<xul:textbox value="" type="number" min="-1" oninput="document.getBindingParent(this).thresholdChange(this)" onchange="document.getBindingParent(this).thresholdChange(this)"/>
+				<xul:toolbar class="actions">
+					<xul:toolbarbutton action="reset" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.catalog.bo.doceditor.reset-stock,ucf,attr}" />
+				</xul:toolbar>
+			</xul:row>
+		</content>
+	</binding>
+</bindings>

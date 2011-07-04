@@ -14,14 +14,6 @@ interface catalog_StockableDocument
 	 * @return string
 	 */
 	function getCurrentStockLevel();
-		
-	/**
-	 * >0 increase Quantity
-	 * <0 decrease Quantity
-	 * @param double $quantity
-	 * @return double | null new quantity
-	 */
-	function addStockQuantity($quantity);
 	
 	/**
 	 * @return boolean

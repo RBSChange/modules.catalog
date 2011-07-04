@@ -1,0 +1,4 @@
+Version: 3.5.0
+
+Ajout du champs codeSKU sur le document product
+La taille du champ codeReference passe de 25 à 50 caractères 

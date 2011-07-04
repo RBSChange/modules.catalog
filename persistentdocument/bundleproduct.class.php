@@ -4,7 +4,7 @@
  * @package modules.catalog.persistentdocument
  */
 class catalog_persistentdocument_bundleproduct extends catalog_persistentdocument_bundleproductbase 
-	implements catalog_StockableDocument, catalog_BundleProduct
+	implements catalog_StockableDocument
 {
 	/**
 	 * @see catalog_persistentdocument_product::getDetailBlockName()
