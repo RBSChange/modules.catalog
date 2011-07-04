@@ -36,16 +36,11 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
     	$product = $this->getDocumentParameter();
-    	$request->setAttribute('globalProduct', $product);
-    	
-	    if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
+	    if ($shop === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 	    {
-	    	if ($product !== null)
-	    	{
-	    		Framework::warn(__METHOD__ . ' Invalid product');
-	    	}
 	    	return array();
 	    }
+	    $request->setAttribute('globalProduct', $product);
 	    $request->setAttribute('product', $product);
 	    
 	    $configuration = $this->getConfiguration();

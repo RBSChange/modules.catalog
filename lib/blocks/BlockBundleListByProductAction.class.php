@@ -14,19 +14,25 @@ class catalog_BlockBundleListByProductAction extends website_BlockAction
 	 */
 	function execute($request, $response)
 	{
-		if ($this->isInBackoffice())
+		if ($this->isInBackofficeEdition())
 		{
 			return website_BlockView::NONE;
 		}
 		
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		
     	$product = $this->getDocumentParameter();    	
-	    if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
+	    if (!($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 	    {
 	    	if ($product !== null)
 	    	{
 	    		Framework::error(__METHOD__ . ' Invalid product type');
 	    	}
+	    	return website_BlockView::NONE;
+	    }
+	    
+	    $shop = catalog_ShopService::getInstance()->getCurrentShop();
+	    if ($shop === null)
+	    {
 	    	return website_BlockView::NONE;
 	    }
 	    

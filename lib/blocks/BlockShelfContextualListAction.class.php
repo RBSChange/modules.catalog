@@ -15,17 +15,15 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	function execute($request, $response)
 	{
 		$subShelves = $this->getSubShelves();
-		$request->setAttribute('currentShelf', $this->getCurrentEcommerceContainer());
-		$request->setAttribute('shelves', $this->getSubShelves());
-		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $this->getContext()->getNearestContainerId())));
-		if ($this->isInBackoffice() && count($subShelves) < 1)
+		if (count($subShelves) < 1 || $this->isInBackofficeEdition())
 		{
 			return website_BlockView::NONE;
 		}
-		else
-		{
-			return website_BlockView::SUCCESS;
-		}
+		
+		$request->setAttribute('currentShelf', $this->getCurrentEcommerceContainer());
+		$request->setAttribute('shelves', $subShelves);
+		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $this->getContext()->getNearestContainerId())));
+		return website_BlockView::SUCCESS;
 	}
 	
 	/**

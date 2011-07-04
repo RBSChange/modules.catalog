@@ -12,19 +12,19 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 	 */
 	public function execute($request, $response, catalog_persistentdocument_alert $alert)
 	{
-		if ($this->isInBackoffice())
+		if ($this->isInBackofficeEdition())
 		{
 			return website_BlockView::NONE;
 		}
 		
 		$product = $this->getDocumentParameter();
-		if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if ($shop === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 		{
 			return website_BlockView::NONE;
 		}
 		
-		$request->setAttribute('product', $product);
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$request->setAttribute('product', $product);	
 		$request->setAttribute('shop', $shop);
 		$request->setAttribute('useCaptcha', $this->useCaptcha());
 		
