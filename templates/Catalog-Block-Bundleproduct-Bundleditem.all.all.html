@@ -14,7 +14,7 @@
 			<li tal:repeat="pictogram bundledproduct/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 class="title">${bundledproduct/getLabelAsHtml}</h1>
+		<h1 change:h="">${bundledproduct/getLabelAsHtml}</h1>
 		<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${bundledproduct/getCodeReferenceAsHtml}</div>           
 		<img tal:condition="bundledproduct/getBrand/getVisual" change:media="document bundledproduct/getBrand/getVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 	</div>

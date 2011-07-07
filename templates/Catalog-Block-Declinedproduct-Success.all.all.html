@@ -18,7 +18,7 @@
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 class="title">${product/getLabelAsHtml}</h1>
+		<h1 change:h="">${product/getLabelAsHtml}</h1>
 		<div class="product-ref">
 			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${product/getCodeReferenceAsHtml}
 		</div>

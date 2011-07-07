@@ -1,6 +1,8 @@
-<h3 change:h="">${blockTitle}</h3>
-<p change:translate="modules.catalog.frontoffice.Alert-already-set;"></p>
+<h2 change:h="">${blockTitle}</h2>
+<p>${trans:m.catalog.frontoffice.alert-already-set,ucf}</p>
 <form change:form="">
 	<input change:hiddeninput="value alert/getId" name="alertId" />
-	<p class="buttons"><input name="removeAlert" change:submit="label &modules.catalog.frontoffice.Remove-alert;" class="button" /></p>
+	<p class="buttons">
+		<input name="removeAlert" change:submit="labeli18n m.catalog.frontoffice.remove-alert,ucf" />
+	</p>
 </form>

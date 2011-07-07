@@ -1,9 +1,6 @@
-.products-display ol li{
+.modules-catalog .productlist-options ol li{
 	margin-right: 0px;
 }
-.shelves-display ol.table-view li{
+.ecom-list ol.table-view li{
 	display: inline;
-}
-.modules-catalog-choosearticles ol.table-view li{
-	width: 49%;
 }

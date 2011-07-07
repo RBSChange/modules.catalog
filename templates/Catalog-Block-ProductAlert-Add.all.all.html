@@ -1,9 +1,6 @@
-<h3 change:h="">${blockTitle}</h3>
+<h2 change:h="">${blockTitle}</h2>
 <form change:form="beanClass catalog_persistentdocument_alert" tal:define="hasUser alert/hasUser">
-	<div change:errors=""></div>
-	<input change:hiddeninput="value alert/getProductId" name="productId" />
-	<input change:hiddeninput="value alert/getAlertType" name="alertType" />
-	<input change:hiddeninput="value alert/getPriceReference" name="priceReference" />
+	<ul change:errors=""></ul>
 	<ul>
 		<li tal:condition="hasUser">
 			<input change:field="" name="email" readonly="readonly" />
@@ -16,5 +13,10 @@
 			<input change:captcha="key 'productAlert'" />
 		</li>
 	</ul>
-	<p class="buttons"><input name="addAlert" change:submit="label &modules.catalog.frontoffice.Add-alert;" class="button" /></p>
+	<p class="buttons">
+		<input change:hiddeninput="value alert/getProductId" name="productId" />
+		<input change:hiddeninput="value alert/getAlertType" name="alertType" />
+		<input change:hiddeninput="value alert/getPriceReference" name="priceReference" />
+		<input name="addAlert" change:submit="labeli18n m.catalog.frontoffice.add-alert" />
+	</p>
 </form>

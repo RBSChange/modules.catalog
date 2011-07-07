@@ -1,11 +1,11 @@
-<h3 change:h="">${blockTitle}</h3>
+<h2 change:h="">${blockTitle}</h2>
 <div class="content" tal:condition="product">
 	<ol>
 		<li change:productprice="name 'price'; product product">
 			<a change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual" change:link="document product" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/productList'" />
 			</a>
-			<h4 class="title"><a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></h4>
+			<h3 change:h=""><a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></h3>
 			<p tal:condition="product/getDescription" tal:content="product/getShortDescription" />
 
 			<p class="priceht" tal:condition="shop/getDisplayPriceWithoutTax">

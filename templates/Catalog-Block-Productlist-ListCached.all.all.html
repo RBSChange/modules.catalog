@@ -14,7 +14,7 @@
 <form class="modules-catalog" tal:condition="products" action="#product-list-title" method="post">
 	<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
-	<div class="shelves-display compare">
+	<div class="ecom-list">
 		<ol class="table-view">
 			<li tal:repeat="product products" class="product-line">
 				<tal:block module="catalog" container="" name="ProductItem" 
@@ -23,7 +23,7 @@
 		</ol>
 	</div>
 	<div class="cleaner"></div>
-	<div class="comparebutton" tal:repeat="button displayConfig/globalButtons">
+	<div class="list-buttons" tal:repeat="button displayConfig/globalButtons">
 		<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
 	</div>
 </form>

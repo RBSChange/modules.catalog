@@ -45,7 +45,7 @@
 				</tal:block>
 			</tbody>
 		</table>
-		<div class="comparebutton" tal:repeat="button displayConfig/globalButtons">
+		<div class="list-buttons" tal:repeat="button displayConfig/globalButtons">
 			<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
 		</div>
 	</form>

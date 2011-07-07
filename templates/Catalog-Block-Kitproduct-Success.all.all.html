@@ -17,7 +17,7 @@
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 class="title" tal:content="product/getLabelAsHtml"></h1>
+		<h1 change:h="" tal:content="product/getLabelAsHtml"></h1>
 		<div class="product-ref">
 			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${product/getCodeReferenceAsHtml}
 		</div>
@@ -131,8 +131,8 @@
 
 <!-- KitItems products information -->
 <div class="product-crossselling">
-	<h3 change:h="">${trans:m.catalog.frontoffice.kitItems,ucf}</h3>
-	<div class="shelves-display"> 
+	<h2 change:h="">${trans:m.catalog.frontoffice.kitItems,ucf}</h2>
+	<div class="ecom-list"> 
 		<ol class="table-view">
 			<li tal:repeat="kititem product/getKititemArray">
 				<ul class="sub-list">			
@@ -140,12 +140,12 @@
 						<a change:link="document kititem; catalogParam[customitems] customitems"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>
-						<h4 class="title">
+						<h3 change:h="">
 							<a change:link="document kititem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
 								${kititem/getTitleAsHtml}<br/> 
 								<tal:block tal:condition="kititem/getCurrentProduct">${trans:m.catalog.frontoffice.configure-kit-item,ucf}</tal:block>
 							</a>
-						</h4>
+						</h3>
 					</li>
 				</ul>
 			</li>

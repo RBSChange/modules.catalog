@@ -1,5 +1,5 @@
 <div tal:condition="products" class="product-crossselling">
-	<h3 tal:condition="blockTitle" id="cross-selling-title-${configuration/getCrossSellingType}" change:h="">${blockTitle}</h3>
+	<h2 tal:condition="blockTitle" id="cross-selling-title-${configuration/getCrossSellingType}" change:h="">${blockTitle}</h2>
 	
 	<ul change:errors=""></ul>
 	<ul change:messages=""></ul>
@@ -7,7 +7,7 @@
 	<form action="#cross-selling-title-${configuration/getCrossSellingType}" method="post">
 		<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 		<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
-		<div class="shelves-display compare">
+		<div class="ecom-list">
 			<ol class="table-view">
 				<li tal:repeat="product products">
 					<tal:block module="catalog" container="" name="ProductItem" 

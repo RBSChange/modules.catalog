@@ -11,7 +11,7 @@
 			<li tal:repeat="pictogram kititemproduct/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 class="title">${kititemproduct/getLabelAsHtml}</h1>
+		<h1 change:h="">${kititemproduct/getLabelAsHtml}</h1>
 		<tal:block tal:condition="not: declination">
 			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${kititemproduct/getCodeReferenceAsHtml}</div> 
 		</tal:block>

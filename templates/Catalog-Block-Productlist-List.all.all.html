@@ -9,7 +9,7 @@
 <form class="modules-catalog" tal:condition="products" action="#product-list-title" method="post"> 	
 	<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
-	<div class="shelves-display compare">
+	<div class="ecom-list">
 		<ol class="table-view">
 			<tal:block tal:repeat="product products">
 				<li class="product-line" tal:define="id product/getId; canBeOrdered php: product.canBeOrdered(shop)" change:productprice="name 'price'; product product">
@@ -65,7 +65,7 @@
 		</ol>
 	</div>
 	<div class="cleaner"></div>
-	<div class="comparebutton" tal:repeat="button displayConfig/globalButtons">
+	<div class="list-buttons" tal:repeat="button displayConfig/globalButtons">
 		<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
 	</div>
 </form>

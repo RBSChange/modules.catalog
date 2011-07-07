@@ -1,18 +1,31 @@
-.modules-catalog .products-display{
-	background-color: #eee;
-}
-.modules-catalog .shelves-display ol.table-view li{
+.ecom-list ol.table-view li{
 	width: 251px;
 	margin-bottom: 10px;
 	margin-right: 5px;
 	margin-left: 5px;
-	background-color: #eee;
+	text-align: center;
+	padding: 6px;
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	zoom: 1;
 }
-.modules-catalog .shelves-display ol.table-view li.shelf-line{
+.ecom-list ol.table-view li.shelf-line{
 	height: 245px;
 }
-.modules-catalog .shelves-display ol.table-view li.product-line{
+.ecom-list ol.table-view li.product-line{
 	height: 265px;
+}
+.ecom-list ol.table-view li form select.textfield{
+	width: 70%;
+}
+.ecom-list ol.table-view li ul li{
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+.ecom-list ol.table-view input.button{
+	margin-top: 2px;
 }
 
 .modules-catalog .price,
@@ -112,52 +125,30 @@
 .modules-catalog ul.ecom-menu li a:hover{
 	text-decoration: underline;
 }
-.modules-catalog .products-display{
+.modules-catalog .productlist-options{
 	clear: both;
 	width: 100%;
 	float: left;
 	display: block;
 	margin-bottom: 20px;
 }
-.modules-catalog .products-display div{
-	padding: 2%;
+.modules-catalog .productlist-options form{
+	padding: 20px;
 }
-.modules-catalog .products-display ol li{
+.modules-catalog .productlist-options ol li{
 	display: inline;
 	margin-right: 2px;
 }
-.modules-catalog .products-display ol li select{
+.modules-catalog .productlist-options ol li select{
 	width: 17%;
-}
-.modules-catalog .shelves-display ol.table-view li{
-	text-align: center;
-	padding: 6px;
-	display: -moz-inline-stack;
-	display: inline-block;
-	vertical-align: top;
-	zoom: 1;
-}
-.modules-catalog .shelves-display ol.table-view li form select.textfield{
-	width: 70%;
-}
-.modules-catalog .shelves-display ol.table-view li ul li{
-	border: none;
-	padding: 0;
-	margin: 0;
-}
-.modules-catalog .shelves-display ol.table-view input.button{
-	margin-top: 2px;
 }
 .modules-catalog .shelves-title input.textfield{
 	margin-bottom: 4px;
 }
-.modules-catalog .comparebutton{
+.modules-catalog .list-buttons{
 	display: block;
 	margin-bottom: 10px;
 	margin-top: 10px;
-}
-.modules-catalog span.small{
-	font-size: 0.7em;
 }
 
 .modules-catalog .invisible{
@@ -204,29 +195,6 @@
 	margin-left: -32px;
 }
 
-.modules-catalog-choosearticles ol.table-view li{
-	width: 48%;
-	padding: 0.5%;
-	margin: 1% 0.5%;
-	text-align: center;
-}
-.modules-catalog-choosearticles ol.table-view li ul{
-	padding: 6px;
-}
-.modules-catalog-choosearticles ol.table-view li ul li{
-	width: 100%;
-	text-align: left;
-}
-.modules-catalog-choosearticles ol.table-view li ul li.quantity{
-	text-align: center;
-}
-.modules-catalog-choosearticles ol.table-view li ul li.article-ref{
-	padding: 3px 0;
-	margin-bottom: 6px;
-	background-color: #b9c101;
-	color: #696a12;
-	font-weight: bold;
-}
 
 .modules-catalog p.all-products{
 	padding: 0 10px 10px 10px;
