@@ -18,7 +18,7 @@ class catalog_patch_0360 extends patch_BasePatch
 		
 		$this->log('Update codereference db-size to 50 ...');
 		$sql = "ALTER TABLE `m_catalog_doc_product` CHANGE `codereference` `codereference` VARCHAR( 50 ) NULL DEFAULT NULL";
-		
+		$this->executeSQLQuery($sql);
 		
 		$this->log('Compiles locales ...');
 		$this->execChangeCommand('compile-locales', array('catalog'));
