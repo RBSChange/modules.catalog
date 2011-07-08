@@ -283,11 +283,11 @@
 	</block>
 	
 	<!-- Hidden blocks -->
-	<block type="modules_catalog_simpleproduct" cache="120" cache-key="cmpref" hidden="true"/>
-	<block type="modules_catalog_declinedproduct" cache="120" cache-key="cmpref" hidden="true"/>
-	<block type="modules_catalog_kitproduct" cache="120" cache-key="cmpref" hidden="true"/>
-	<block type="modules_catalog_virtualproduct" cache="120" cache-key="cmpref" hidden="true"/>
-	<block type="modules_catalog_bundleproduct" cache="120" cache-key="cmpref" hidden="true"/>
+	<block type="modules_catalog_simpleproduct" hidden="true"/>
+	<block type="modules_catalog_declinedproduct" hidden="true"/>
+	<block type="modules_catalog_kitproduct" hidden="true"/>
+	<block type="modules_catalog_virtualproduct" hidden="true"/>
+	<block type="modules_catalog_bundleproduct" hidden="true"/>
 	
 	<!-- Dashboard blocks -->
 	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" label="&amp;modules.catalog.bo.blocks.Dashboardstock.Title;" />
