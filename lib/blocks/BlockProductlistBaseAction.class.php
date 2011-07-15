@@ -285,7 +285,11 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	public function execute($request, $response)
 	{
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();	
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		if ($shop === null)
+		{
+			return website_BlockView::NONE;
+		}
 		$request->setAttribute('shop', $shop);
 		if (!$shop->getIsDefault())
 		{
