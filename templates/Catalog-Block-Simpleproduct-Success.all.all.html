@@ -33,7 +33,7 @@
 		<form class="product-form" change:link="module catalog; action AddToList" method="post">
 			<ol>
 				<li>
-					<input type="hidden" name="backurl" change:currentPageLink="" />
+					<input type="hidden" name="backurl" change:currentpagelink="" />
 					<input type="hidden" tal:attributes="value product/getId" name="productId" />
 					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.frontoffice.add-to-list,ucf}" title="${trans:m.catalog.frontoffice.title.add-to-list,ucf}" />					
 				</li>

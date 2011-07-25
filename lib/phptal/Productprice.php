@@ -8,7 +8,7 @@
 /**
  * @package catalog.lib.phptal
  */
-class PHPTAL_Php_Attribute_CHANGE_productprice extends ChangeTalAttribute 
+class PHPTAL_Php_Attribute_CHANGE_Productprice extends ChangeTalAttribute 
 {
 	/**
 	 * @see ChangeTalAttribute::getEvaluatedParameters()
@@ -20,14 +20,14 @@ class PHPTAL_Php_Attribute_CHANGE_productprice extends ChangeTalAttribute
 	}
 	
 	/**
-	 * @see ChangeTalAttribute::start()
-	 */
-	public function start()
-	{
-		$this->initParams();
+     * Called before element printing.
+     */
+    public function before(PHPTAL_Php_CodeWriter $codewriter)
+    {
+		$this->initParams($codewriter);
 		$shopCode = $this->hasParameter('shop') ? $this->getParameter('shop') : 'catalog_ShopService::getInstance()->getCurrentShop()';
 		$customerCode = $this->hasParameter('customer') ? ('(' . $this->getParameter('customer') . ' == "null" ? null : ' . $this->getParameter('customer') . ')') : 'customer_CustomerService::getInstance()->getCurrentCustomer()';
 		$code = $this->getParameter('product') . '->getPrice(' . $shopCode . ', ' . $customerCode . ');';
-		$this->tag->generator->doSetVar('$ctx->{' . $this->getParameter('name') . '}', $code);
+		$codewriter->doSetVar('$ctx->{' . $this->getParameter('name') . '}', $code);
 	}
 }

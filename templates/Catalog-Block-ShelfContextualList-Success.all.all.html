@@ -18,7 +18,7 @@
 					<li tal:condition="configuration/getDisplaysubshelves">
 						<form tal:define="subShelves item/getPublishedSubShelvesInCurrentShop" tal:condition="php: count(subShelves) GT 0" method="post" 
 							change:link="module website; action Redirect">
-							<label class="invisible" for="second-level-shelf-${repeat/item/index}" i18n:translate="&modules.catalog.frontoffice.GoToSubshelf;"></label>
+							<label class="invisible" for="second-level-shelf-${repeat/item/index}">${trans:modules.catalog.frontoffice.gotosubshelf,ucf}</label>
 							<select name="location" id="second-level-shelf-${repeat/item/index}" class="textfield">
 								<option tal:repeat="subItem subShelves" tal:attributes="value subItem/getUrl">${subItem/getLabelAsHtml}</option>
 							</select>
