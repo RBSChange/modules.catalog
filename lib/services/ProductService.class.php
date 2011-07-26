@@ -988,18 +988,19 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$compiledByShopId[$shopId][] = $compiledProduct;
 		}
 		
+		$ls = LocaleService::getInstance();
 		$result = array();		
 		foreach ($compiledByShopId as $shopId => $compiledProducts)
 		{
 			$shopInfos = array();
 			$shop = DocumentHelper::getDocumentInstance($shopId, 'modules_catalog/shop');
-			$shopInfos['shopLabel'] = f_Locale::translateUI('&modules.catalog.bo.general.Shop-in-website;', array('shop' => $shop->getLabel(), 'website' => $shop->getWebsite()->getLabel()));		
+			$shopInfos['shopLabel'] = $ls->transBO('modules.catalog.bo.general.shop-in-website', array('ucf'), array('shop' => $shop->getLabel(), 'website' => $shop->getWebsite()->getLabel()));		
 			
 			$shopInfos['products'] = array();
 			foreach ($compiledProducts as $compiledProduct)
 			{
 				$lang = $compiledProduct->getLang();
-				$publication = f_Locale::translateUI(DocumentHelper::getPublicationstatusLocaleKey($compiledProduct));
+				$publication = $ls->transBO(DocumentHelper::getStatusLocaleKey($compiledProduct));
 				if ($compiledProduct->getPublicationStatus() === 'ACTIVE' && $compiledProduct->hasMeta('ActPubStatInf'.$lang))
 				{
 					$publication .= ' (' . f_Locale::translateUI($compiledProduct->getMeta('ActPubStatInf'.$lang)) . ')';

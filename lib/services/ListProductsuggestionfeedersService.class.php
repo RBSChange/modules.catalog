@@ -26,10 +26,10 @@ class catalog_ListProductsuggestionfeedersService extends BaseService
 	 */
 	public final function getItems()
 	{
-		$items = array(new list_Item(f_Locale::translateUI('&modules.catalog.bo.lists.product-suggestion-feeder.None;'), 'none'));
+		$items = array(new list_Item(LocaleService::getInstance()->transBO('m.catalog.bo.lists.product-suggestion-feeder.none', array('ucf')), 'none'));
 		
 		$ms = ModuleService::getInstance();
-		foreach ($ms->getModules() as $module)
+		foreach ($ms->getPackageNames() as $module)
 		{
 			$feeders = Framework::getConfiguration('modules/'.$ms->getShortModuleName($module).'/modulesCatalogProductSuggestionFeeder', false);
 			if (is_array($feeders))
