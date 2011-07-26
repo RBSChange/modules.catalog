@@ -344,10 +344,10 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 
 		$removeAlertParameters = array('catalogParam' => $catalogParam);
 		$removeAlertUrl = LinkHelper::getTagUrl('contextual_website_website_modules_catalog_product-alert-management', null, $removeAlertParameters);
-		$removeAlertLink = '<a href="'.$removeAlertUrl.'" class="link">'.f_Locale::translate('&modules.catalog.frontoffice.remove-alert;').'</a>';
+		$removeAlertLink = '<a href="'.$removeAlertUrl.'" class="link">'.LocaleService::getInstance()->transFO('m.catalog.frontoffice.remove-alert').'</a>';
 		$params['removeAlertUrl'] = $removeAlertUrl;
 		$params['removeAlertLink'] = $removeAlertLink;
-		$params['alertEndDate'] = date_DateFormat::format($alert->getUIEndpublicationdate());
+		$params['alertEndDate'] = date_Formatter::toDefaultDateTime($alert->getUIEndpublicationdate());
 				
 		return $params;
 	}

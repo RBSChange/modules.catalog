@@ -94,7 +94,7 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	 */
 	public function getFomatedExpirationDate()
 	{
-		return date_DateFormat::format($this->getEndpublicationdate(), f_Locale::translate('&framework.date.date.localized-data-format;'));
+		return date_Formatter::toDefaultDateTime($this->getUIEndpublicationdate());
 	}
 
 	/**
@@ -102,7 +102,7 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	 */
 	public function getBlockTitle()
 	{
-		return f_Locale::translate('&modules.catalog.frontoffice.Notifiy-me-for-' . $this->getAlertType() . ';');
+		return LocaleService::getInstance()->transFO('m.catalog.frontoffice.notifiy-me-for-' . $this->getAlertType(), array('ucf'));
 	}
 	
 	/**
@@ -110,6 +110,6 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	 */
 	public function getAlertTypeLabel()
 	{
-		return f_Locale::translate('&modules.catalog.frontoffice.Alert-on-' . $this->getAlertType() . '-for;');
+		return LocaleService::getInstance()->transFO('m.catalog.frontoffice.alert-on-' . $this->getAlertType() . '-for', array('ucf'));
 	}
 }
