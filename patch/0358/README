@@ -1,5 +1,0 @@
-Version: 3.5.0
-
-Ajout du champ 'orderProcessClassName' au document 'shop'
-A utiliser avec order_OrderProcessService::getInstance()->startOrderProcess(...);
-voir block 'order_BlockCartAction' -> executeOrder 
