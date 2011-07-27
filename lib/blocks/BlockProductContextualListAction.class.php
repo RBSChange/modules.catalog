@@ -31,7 +31,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		
 		$query = $masterQuery->createCriteria('compiledproduct')
 			->add(Restrictions::published())
-			->add(Restrictions::eq('topicId', $this->getPage()->getNearestContainerId()))
+			->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 			->add(Restrictions::eq('showInList', true));
 
@@ -107,7 +107,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	
 	protected function persistSortOptions($request)
 	{
-		$topicId = $this->getPage()->getNearestContainerId();
+		$topicId = $this->getContext()->getNearestContainerId();
 		$sessionKey = "ProductContextualListSortOptions";
 		if (!isset($_SESSION[$sessionKey]))
 		{
@@ -167,7 +167,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	protected function getBlockTitle()
 	{
-		$context = $this->getPage();
+		$context = $this->getContext();
 		$shelf = catalog_ShelfService::getInstance()->getByTopic(
 				DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
 		if ($shelf !== null)

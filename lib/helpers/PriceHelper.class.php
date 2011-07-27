@@ -82,31 +82,7 @@ class catalog_PriceHelper
 	{
 		return (round($taxRate * 100, 2)) . "%";
 	}
-	
-	/**
-	 * Calls the selected RoundPriceStrategy.
-	 * @param Double $value
-	 * @return Double
-	 * @deprecated
-	 */
-	public static function roundPrice($value)
-	{
-		return catalog_PriceFormatter::getInstance()->round($value);
-	}
-	
-	/**
-	 * @param Double $priceValue
-	 * @param String $format ex: "%s €"
-	 * @return string
-	 * @see getPriceFormat()
-	 * @deprecated
-	 */
-	public static function applyFormat($priceValue, $format)
-	{
-		$priceValue = catalog_PriceFormatter::getInstance()->round($priceValue);
-		return sprintf($format, number_format($priceValue, 2, ',', ' '));
-	}
-		
+			
 	private static $currencySymbols = null;
 	
 	/**
@@ -126,5 +102,20 @@ class catalog_PriceHelper
 			throw new catalog_Exception($code . " does not relate to an existing curreny code");
 		}
 		return self::$currencySymbols[$code];
+	}
+	
+	// Deprecated
+	
+	/**
+	 * @param Double $priceValue
+	 * @param String $format ex: "%s €"
+	 * @return string
+	 * @see getPriceFormat()
+	 * @deprecated
+	 */
+	public static function applyFormat($priceValue, $format)
+	{
+		$priceValue = catalog_PriceFormatter::getInstance()->round($priceValue);
+		return sprintf($format, number_format($priceValue, 2, ',', ' '));
 	}
 }

@@ -308,12 +308,4 @@ class catalog_ModuleService extends ModuleBaseService
 	{
 		return $this->getProductsFromList(catalog_ProductList::FAVORITE);
 	}
-	
-	/**
-	 * @deprecated just call getProductList instead
-	 */
-	public function mergeFavoriteProductWithList($productList)
-	{
-		$this->getProductList(catalog_ProductList::FAVORITE);
-	}
 }

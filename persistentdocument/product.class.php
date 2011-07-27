@@ -747,20 +747,4 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			return $this->getShopPrimaryShelf($shop);
 		}
 	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getBoPrimaryTopShelf or getShopPrimaryTopShelf instead
-	 */
-	public function getPrimaryTopShelf($website = null)
-	{
-		if ($website === null)
-		{
-			return $this->getBoPrimaryTopShelf();
-		}
-		else 
-		{
-			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-			return $this->getShopPrimaryTopShelf($shop);
-		}
-	}
 }

@@ -571,33 +571,5 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	public function getDocumentForSitemap($website, $lang, $modelName, $offset, $chunkSize)
 	{
 		return array();
-		/*
-		return $this->pp->createQuery($modelName, false)->add(Restrictions::published())
-					->add(Restrictions::eq('websiteId', $website->getId()))
-					->add(Restrictions::eq('lang', $lang))
-					->add(Restrictions::eq('primary', true))
-					->addOrder(Order::asc('id'))
-					->setMaxResults($chunkSize)
-					->setFirstResult($offset)
-					->find();
-		*/
-	}
-
-	/**
-	 * DEPRECATED function
-	 */
-	
-	/**
-	 * @deprecated 
-	 */
-	public function disableCompilation()
-	{
-	}
-	
-	/**
-	 * @deprecated 
-	 */
-	public function enableCompilation()
-	{
 	}
 }

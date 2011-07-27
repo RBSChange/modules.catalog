@@ -301,18 +301,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		return $result;
 	}
-	
-	/**
-	 * @param Double $value
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 * @deprecated
-	 */
-	public static function formatValue($value, $shop)
-	{
-		Framework::warn(__METHOD__ . ' is deprecated');
-		return $shop->formatPrice($value);
-	}
 		
 	// Protected methods.
 	
@@ -1081,20 +1069,5 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		return 'include';
 		
-	}
-	// Deprecated.
-		
-	/**
-	 * @deprecated
-	 */
-	protected function refreshThresholdMax($document)
-	{
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	protected function refreshNextThresholdMax($document)
-	{
 	}
 }

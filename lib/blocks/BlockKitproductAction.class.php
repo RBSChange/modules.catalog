@@ -13,7 +13,7 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		return $this->getDocumentParameter('cmpref', 'catalog_persistentdocument_kit'); 
 	}
 	
-	function getCacheKeyParameters($request)
+	public function getCacheKeyParameters($request)
 	{
 		return array('kititemid' => $request->getParameter('kititemid'),
 			'declinationid' => $request->getParameter('declinationid'),
@@ -21,30 +21,16 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 	}
 	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$product = $this->getCurrentKit();
 		$kis = $product->getDocumentService();
 		$kis->updateProductFromRequestParameters($product, $request->getParameters());
 		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
-		
-		// @deprecated this should not be used anymore. See catalog_AddToCartAction
-		if ($request->getParameter('addToCart') !== null)
-		{
-			$this->addProductToCartForCurrentBlock($product);
-		}
-		
-		// @deprecated this should not be used anymore. See catalog_AddToListAction
-		if ($request->getParameter('addToList') !== null)
-		{
-			$this->addProductToFavorites($product);
-		}
 		
 		$customer = null;
 		if (catalog_ModuleService::areCustomersEnabled())

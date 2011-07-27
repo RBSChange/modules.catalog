@@ -47,7 +47,7 @@ interface catalog_ProductList
 class catalog_SessionProductList implements catalog_ProductList
 {
 	/**
-	 * @var catalog_SessionLists[]
+	 * @var catalog_SessionProductList[]
 	 */
 	private static $instances = array();
 	
@@ -181,7 +181,7 @@ class catalog_SessionProductList implements catalog_ProductList
 class catalog_CookieProductList implements catalog_ProductList
 {
 	/**
-	 * @var catalog_SessionLists[]
+	 * @var catalog_CookieProductList[]
 	 */
 	private static $instances = array();
 	

@@ -1495,25 +1495,4 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			return $this->getShopPrimaryShelf($product, $shop, $publlishedOnly);
 		}
 	}
-
-	/**
-	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
-	 */
-	public function getPrimaryCompiledProductForWebsite($product, $website)
-	{
-		$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-		return $this->getPrimaryCompiledProductForShop($product, $shop);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
-	 */
-	public function generateUrlForShop($product, $shop, $lang = null, $parameters = array(), $useCache = true)
-	{
-		if (!$shop->getIsDefault())
-		{
-			$parameters['catalogParam']['shopId'] = $shop->getId();
-		}
-		return website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($product, $shop->getWebsite(), $lang, $parameters)->getUrl();
-	}
 }

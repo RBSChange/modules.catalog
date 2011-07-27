@@ -127,17 +127,6 @@ class catalog_StockService extends BaseService
 	 */
 	protected function validateCartQuantities($productArray, $cart)
 	{
-		return $this->validCartQuantities($productArray, $cart);
-	}
-	
-	/**
-	 * @deprecated use validCart
-	 * @param array $productArray
-	 * @param order_CartInfo $cart
-	 * @return array
-	 */
-	public function validCartQuantities($productArray, $cart)
-	{
 		$result = array();		
 		foreach ($productArray as $productInfo)
 		{

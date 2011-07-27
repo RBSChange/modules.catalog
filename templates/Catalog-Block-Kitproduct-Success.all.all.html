@@ -101,7 +101,7 @@
 			<tal:block tal:condition="not: repeat/imageMini/start"><tal:block tal:define="global style">display: none;</tal:block></tal:block>
 			<div class="product-big" tal:attributes="id mainVisualBlockDOMId; style style">
 				<tal:block tal:condition="baseconfiguration/getActivatezoom">
-					<tal:block tal:define="global visualUrl php: MediaHelper::getPublicUrl(imageMini)"/>				
+					<tal:block tal:define="global visualUrl php: LinkHelper::getDocumentUrl(imageMini)"/>				
 					<tal:block tal:define="global visualFormatedUrl php: MediaHelper::getPublicFormatedUrl(imageMini, 'modules.catalog.frontoffice/detailproduct')"/>				
 					<img tal:attributes="src visualFormatedUrl; alt visualUrl" class="jqzoom image" />
 				</tal:block>

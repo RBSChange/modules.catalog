@@ -35,7 +35,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		}
 		
 		
-		$context = $this->getPage();
+		$context = $this->getContext();
 		$topicId =  $context->getParent()->getId();
 		$compiledProduct = catalog_CompiledproductService::getInstance()->getByProductInContext($product, $topicId, RequestContext::getInstance()->getLang());
 		if ($compiledProduct === null)

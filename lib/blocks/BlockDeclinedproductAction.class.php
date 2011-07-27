@@ -5,20 +5,18 @@
  */
 class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 {
-	function getCacheKeyParameters($request)
+	public function getCacheKeyParameters($request)
 	{
 		return array("declinationId" => $request->getParameter('declinationId'),
 			"quantity" => $request->getParameter('quantity'));
 	}
 	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$customer = null;
@@ -49,18 +47,6 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 				HttpController::getInstance()->redirect("website", "Error404");
 			}
 			return website_BlockView::NONE;
-		}
-		
-		// @deprecated this should not be used anymore. See catalog_AddToCartAction
-  		if ($request->getParameter('addToCart') !== null)
-  		{
-  			$this->addProductToCartForCurrentBlock($declination);
-  		}
-		
-		// @deprecated this should not be used anymore. See catalog_AddToListAction
-		if ($request->getParameter('addToList') !== null)
-		{
-			$this->addProductToFavorites($declination);
 		}
 		
 		$prices = $declination->getPrices($shop, $customer);

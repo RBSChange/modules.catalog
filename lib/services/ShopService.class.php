@@ -627,34 +627,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$nodeAttributes['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		}
 	}
-		
-	// Depreacted
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
-	 */
-	public function getPublishedByWebsite($website)
-	{
-		return $this->getPublishedByWebsiteId($website->getId());
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	private $shopByWebsiteId = array();
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
-	 */
-	public function getPublishedByWebsiteId($websiteId)
-	{
-		if (!isset($this->shopByWebsiteId[$websiteId]))
-		{
-			$this->shopByWebsiteId[$websiteId] = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
-				->add(Restrictions::published())->findUnique();
-		}
-		return $this->shopByWebsiteId[$websiteId];
-	}
 }
 
 interface catalog_DefaultShopStrategy 
