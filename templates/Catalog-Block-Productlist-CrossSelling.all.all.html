@@ -19,6 +19,6 @@
 	</form>
 	
 	<ul class="mini-navigation" tal:condition="configuration/getAddlinktoall">
-		<li><a change:link="tag functional_catalog_crosssellinglist-page; catalogParam[cmpref] globalProduct/getId; catalogParam[relationType] configuration/getCrossSellingType" change:translate="modules.catalog.frontoffice.Cross-selling-list; type typeLabel"></a></li>
+		<li><a change:link="tag functional_catalog_crosssellinglist-page; catalogParam[cmpref] globalProduct/getId; catalogParam[relationType] configuration/getCrossSellingType" tal:content="trans:m.catalog.frontoffice.cross-selling-list,ucf,type=typeLabel"></a></li>
 	</ul>
 </div>

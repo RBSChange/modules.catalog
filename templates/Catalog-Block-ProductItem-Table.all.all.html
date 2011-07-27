@@ -11,7 +11,7 @@
 	<td>
 		<ul>
 			<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></li>
-			<li tal:condition="product/getBrand" change:translate="modules.catalog.frontoffice.from-brand; name product/getBrandLabelAsHtml" />
+			<li tal:condition="product/getBrand" tal:content="trans:m.catalog.frontoffice.from-brand,name=product/getBrandLabelAsHtml" />
 			<tal:block tal:condition="displayConfig/showProductDescription">
 				<li tal:condition="product/getShortDescription">${product/getShortDescription}</li>
 			</tal:block>
@@ -43,13 +43,13 @@
 	<tal:block tal:condition="displayConfig/showAddToCart">		
 		<td tal:condition="displayConfig/showQuantitySelector">
 			<tal:block tal:condition="php: product.canBeOrdered(shop)">
-				<label class="invisible" for="catalogParam_quantities_${id}" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
+				<label class="invisible" for="catalogParam_quantities_${id}" tal:content="trans:m.catalog.frontoffice.detail-quantity,ucf,lab"></label>
                	<input class="textfield quantity-selector" type="text" size="3" id="catalogParam_quantities_${id}" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
 			</tal:block>
 		</td>
 		<td>
 			<tal:block tal:condition="php: product.canBeOrdered(shop)">
-				<input type="submit" name="catalogParam[addToCart][${id}]" class="button" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart;" />
+				<input type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf,attr}" />
 			</tal:block>
 		</td>
 	</tal:block>
