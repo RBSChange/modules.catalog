@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <blocks>
-	<block type="modules_catalog_TopShelvesMenu" icon="menu" label="&amp;modules.catalog.bo.general.block.TopShelvesMenu;">
+	<block type="modules_catalog_TopShelvesMenu" icon="menu" labeli18n="m.catalog.bo.general.block.topshelvesmenu">
 		<parameters>
 			<parameter name="maxlevel" type="Integer" min-occurs="1" default-value="1">
 				<constraints>min:1</constraints>
 			</parameter>
 		</parameters>
 	</block>
-	<block type="modules_catalog_shelfContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Shelf-Contextual-List;">
+	<block type="modules_catalog_shelfContextualList" icon="list-block" labeli18n="m.catalog.bo.general.block.shelf-contextual-list">
 		<parameters>
 			<parameter name="displaysubshelves" type="Boolean" default-value="true" />
 			<parameter name="displayshelvesdescription" type="Boolean" default-value="false" />
@@ -18,7 +18,7 @@
 			<meta name="keywords" allow="keywords" />
 		</metas>
 	</block>
-	<block type="modules_catalog_product" icon="product" label="&amp;modules.catalog.bo.general.block.Detail;">
+	<block type="modules_catalog_product" icon="product" labeli18n="m.catalog.bo.general.block.detail">
 		<parameters>
 			<parameter name="activatezoom" type="Boolean" default-value="true" />
 			<parameter name="showShareBlock" type="Boolean" default-value="true" />
@@ -91,7 +91,7 @@
 
 	<block type="modules_catalog_ProductItem" hidden="true" 
 		cache="true"/>
-	<block type="modules_catalog_productContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Product-Contextual-List;">
+	<block type="modules_catalog_productContextualList" icon="list-block" labeli18n="m.catalog.bo.general.block.product-contextual-list">
 		<parameters>
 			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
@@ -136,7 +136,7 @@
 			</javascript>
 		</xul>
 	</block>
-	<block type="modules_catalog_favoriteProductList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Favorite-product-list;">
+	<block type="modules_catalog_favoriteProductList" icon="list-block" labeli18n="m.catalog.bo.general.block.favorite-product-list">
 		<parameters>
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="false" hidden="true" />
@@ -155,7 +155,7 @@
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 		</parameters>
 	</block>
-	<block type="modules_catalog_productCrossSelling" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrossselling.Block-label;">
+	<block type="modules_catalog_productCrossSelling" icon="list-block" labeli18n="m.catalog.bo.blocks.productcrossselling.block-label">
 		<parameters>
 			<parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
 			<parameter name="crossSellingType" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellingtypes" />
@@ -179,7 +179,7 @@
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" hidden="true" />
 		</parameters>
 	</block>
-	<block type="modules_catalog_productCrossSellingList" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrosssellinglist.Block-label;">
+	<block type="modules_catalog_productCrossSellingList" icon="list-block" labeli18n="m.catalog.bo.blocks.productcrosssellinglist.block-label">
 		<parameters>
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
@@ -209,7 +209,7 @@
 			<parameter name="showgravatars" type="Boolean" default-value="false" />
 		</parameters>
 	</block>
-	<block type="modules_catalog_productpromotion" icon="editable-animation" label="&amp;modules.catalog.bo.blocks.ProductPromotion;">
+	<block type="modules_catalog_productpromotion" icon="editable-animation" labeli18n="m.catalog.bo.blocks.productpromotion">
 		<parameters>
 			<parameter name="label" type="String" />
 			<parameter name="products" type="modules_catalog/product" allow="[modules_catalog_product]" max-occurs="-1" />
@@ -274,9 +274,9 @@
 			</javascript>
 		</xul>
 	</block>
-	<block type="modules_catalog_bundleListByProduct" icon="list-block" label="&amp;modules.catalog.bo.blocks.BundleListByProduct.Title;" />
-	<block type="modules_catalog_productAlert" icon="document" label="&amp;modules.catalog.bo.blocks.ProductAlert.Title;" hidden="true" />
-	<block type="modules_catalog_productAlertManagement" icon="edit" label="&amp;modules.catalog.bo.blocks.ProductAlertManagement.Title;">
+	<block type="modules_catalog_bundleListByProduct" icon="list-block" />
+	<block type="modules_catalog_productAlert" icon="document" hidden="true" />
+	<block type="modules_catalog_productAlertManagement" icon="edit">
 		<parameters>
 			<parameter name="nbItemPerPage" type="Integer" default-value="20" />
 		</parameters>
@@ -290,6 +290,6 @@
 	<block type="modules_catalog_bundleproduct" hidden="true"/>
 	
 	<!-- Dashboard blocks -->
-	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" label="&amp;modules.catalog.bo.blocks.Dashboardstock.Title;" />
-	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" label="&amp;modules.catalog.bo.dashboard.General-statistics;" />
+	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" />
+	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" labeli18n="m.catalog.bo.dashboard.general-statistics"/>
 </blocks>
