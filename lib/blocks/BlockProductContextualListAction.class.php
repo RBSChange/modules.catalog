@@ -29,9 +29,10 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		}
 		$masterQuery = catalog_ProductService::getInstance()->createQuery();
 		
+		$container = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 		$query = $masterQuery->createCriteria('compiledproduct')
 			->add(Restrictions::published())
-			->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
+			->add(Restrictions::eq('topicId', $container))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 			->add(Restrictions::eq('showInList', true));
 
@@ -107,7 +108,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	
 	protected function persistSortOptions($request)
 	{
-		$topicId = $this->getContext()->getNearestContainerId();
+		$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 		$sessionKey = "ProductContextualListSortOptions";
 		if (!isset($_SESSION[$sessionKey]))
 		{
@@ -167,9 +168,8 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	protected function getBlockTitle()
 	{
-		$context = $this->getContext();
-		$shelf = catalog_ShelfService::getInstance()->getByTopic(
-				DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
+		$containerId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
+		$shelf = catalog_ShelfService::getInstance()->getByTopic(DocumentHelper::getDocumentInstance($containerId));
 		if ($shelf !== null)
 		{
 			return $shelf->getLabelAsHtml();
@@ -205,8 +205,8 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	{
 		if ($this->container === null)
 		{
-			$topicId = $this->getContext()
-				->getNearestContainerId();
+			
+			$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 			$topic = DocumentHelper::getDocumentInstance($topicId);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{

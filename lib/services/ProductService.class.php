@@ -1477,22 +1477,4 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 		}
 	}
-	
-	// Deprecated
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
-	 */
-	public function getPrimaryShelf($product, $website = null, $publlishedOnly = false)
-	{
-		if ($website === null)
-		{
-			return $this->getBoPrimaryShelf($product);
-		}
-		else 
-		{
-			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-			return $this->getShopPrimaryShelf($product, $shop, $publlishedOnly);
-		}
-	}
 }

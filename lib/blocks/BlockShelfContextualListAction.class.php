@@ -22,7 +22,8 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 		
 		$request->setAttribute('currentShelf', $this->getCurrentEcommerceContainer());
 		$request->setAttribute('shelves', $subShelves);
-		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $this->getContext()->getNearestContainerId())));
+		$containerId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
+		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $containerId)));
 		return website_BlockView::SUCCESS;
 	}
 	
@@ -51,7 +52,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	{
 		if ($this->container === null)
 		{
-			$topicId = $this->getContext()->getNearestContainerId();
+			$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 			$topic = DocumentHelper::getDocumentInstance($topicId);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{
@@ -74,7 +75,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	 */
 	private function getSubShelves()
 	{
-		$topicId = $this->getContext()->getNearestContainerId();
+		$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 		$query = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::published());
 		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published());
 		return $query->find();
