@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.uixul.bo.doceditor.fieldsgroup.Title">
+	<section labeli18n="m.uixul.bo.doceditor.fieldsgroup.title">
 		<field name="label" hidehelp="true" />
 		<field name="mode" moduleselector="shipping" allow="[modules_shipping_mode]" hidehelp="true" />
 		<field name="boValueJSON" type="price" 
-			labeli18n="modules.catalog.document.shippingfilter.ValueWithTax" hidehelp="true">
+			labeli18n="m.catalog.document.shippingfilter.valuewithtax" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="feesId" type="document" moduleselector="catalog" allow="modules_order_fees" hidehelp="true" />
 		<field name="selectbyproduct" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Validity-dates">
+	<section labeli18n="m.catalog.bo.general.validity-dates">
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Condition-filters">
+	<section labeli18n="m.catalog.bo.general.condition-filters">
 		<field name="query" type="objectfilter" allow="order/cart,order/cartshipping::checkValue" hidehelp="true" />
 	</section>
 </panel>

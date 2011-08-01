@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.doceditor.Common-properties">
-		<section labeli18n="modules.catalog.bo.general.General">
-			<field name="label" />
-			<field name="codeReference" />
-			<field name="description" />
-			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
-			<field name="brand" />
-		</section>
+	<section labeli18n="m.catalog.bo.doceditor.common-properties">
+		<field name="label" />
+		<field name="codeReference" />
+		<field name="description" />
+		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="brand" />
 	</section>
 	
-	<section labeli18n="modules.catalog.bo.doceditor.First-bundleditems">
+	<section labeli18n="m.catalog.bo.doceditor.first-bundleditems">
 		<field name="newBundledItemProducts" type="documentarray" required="true"
 			allow="[modules_catalog_product],!modules_catalog_declinedproduct,!modules_catalog_kit" moduleselector="catalog" dialog="productselector"
-			labeli18n="modules.catalog.bo.doceditor.bundleditem.Products"
-			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
+			labeli18n="m.catalog.bo.doceditor.bundleditem.products"
+			shorthelpi18n="m.catalog.bo.doceditor.bundleditem.products-help">
 		</field>
 		<field name="newBundledItemQtt" type="integer" required="true"
-			labeli18n="modules.catalog.bo.doceditor.bundleditems.Defaultquantity"
-			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
+			labeli18n="m.catalog.bo.doceditor.bundleditems.defaultquantity"
+			shorthelpi18n="m.catalog.bo.doceditor.bundleditems.defaultquantity-help">
 			<constraint name="min" parameter="1" />
 		</field>
 	</section>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.general.General">
+	<section labeli18n="m.catalog.bo.general.general">
 		<field name="label" hidehelp="true" />
 		<field name="codeReference" hidehelp="true" />
 		<field name="mountParentId" type="document" allow="modules_website_website,modules_website_topic"
-			moduleselector="website" required="true" labeli18n="modules.catalog.document.shop.Mount-parent"
-			shorthelp="&amp;modules.catalog.document.shop.Mount-parent-help;" />
+			moduleselector="website" required="true" labeli18n="m.catalog.document.shop.mount-parent"
+			shorthelpi18n="m.catalog.document.shop.mount-parent-help" />
 		<field name="isDefault" />
 		<field name="topShelf" />
 		<field name="displayOutOfStock" hidehelp="true" />
@@ -13,19 +13,19 @@
 		<field name="nbproductperpage" />
 		<field name="enableComments" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Zones">
+	<section labeli18n="m.catalog.bo.general.zones">
 		<field name="billingZone" hidehelp="true" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Currency">
+	<section labeli18n="m.catalog.bo.general.currency">
 		<field name="currencyCode" hidehelp="true" listid="modules_catalog/shopcurrency" />
 		<field name="currencyPosition" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Prices">
+	<section labeli18n="m.catalog.bo.general.prices">
 		<field name="defaultTaxZone" />
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Validity-dates">
+	<section labeli18n="m.catalog.bo.general.validity-dates">
 		<field name="startpublicationdate" hidehelp="true" />
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>

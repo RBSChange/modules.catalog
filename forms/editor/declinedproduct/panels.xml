@@ -13,11 +13,11 @@
 			<constructor><![CDATA[
 				if (getController().hasModule('comment'))
 				{
-					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments', 'history');
+					this.addTab('comments', "${transui:m.comment.bo.doceditor.tab.comments,js,ucf}", 'comments', 'history');
 				}
 				if (getController().hasModule('twitterconnect'))
 				{
-					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet', 'history');
+					this.addTab('tweets', "${transui:m.twitterconnect.bo.doceditor.tab.tweets,js,ucf}", 'tweet', 'history');
 				}
 			]]></constructor>
 		</javascript>

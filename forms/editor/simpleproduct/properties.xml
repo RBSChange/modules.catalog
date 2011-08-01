@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.general.General">
+	<section labeli18n="m.catalog.bo.general.general">
 		<field name="label" />
 		<field name="codeReference" />
 		<field name="description" />
@@ -8,11 +8,11 @@
 		<field name="brand" />
 		<field name="shelf" moduleselector="catalog" allow="[modules_catalog_shelf]" required="true" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Validity-dates" class="toggle" hidden="true">
+	<section labeli18n="m.catalog.bo.general.validity-dates" class="toggle" hidden="true">
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
+	<section labeli18n="m.catalog.bo.general.additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
 		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
@@ -20,12 +20,12 @@
 		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
 		<field name="shippingModeId" type="document" moduleselector="shipping" allow="modules_shipping_mode" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
+	<section labeli18n="m.catalog.bo.general.referencing" class="toggle" hidden="true">
 		<field name="pageTitle" class="with-counter" rows="2" />
 		<field name="pageDescription" class="with-counter" rows="2" />
 		<field name="pageKeywords" class="with-counter" rows="2" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
+	<section labeli18n="m.catalog.bo.general.extendedattributes" class="toggle" hidden="true">
 		<fieldinput name="attributesJSON" type="attributeslist"/>
 	</section>
 	<xul>

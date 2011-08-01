@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.general.General">
+	<section labeli18n="m.catalog.bo.general.general">
 		<field name="defaultDetailVisual" />
 		<field name="defaultListVisual" />
 		<field name="stockAlertThreshold" />
 		<field name="stockAlertNotificationUser" hidehelp="true" />
 	</section>
-	<section labeli18n="modules.catalog.document.preferences.section.Cross-selling">
+	<section labeli18n="m.catalog.document.preferences.section.cross-selling">
 		<field name="suggestComplementaryFeederClass" />
 		<field name="autoFeedComplementaryMaxCount" />
 		<field name="synchronizeComplementary" />

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.general.General">
+	<section labeli18n="m.catalog.bo.general.general">
 		<field name="label" hidehelp="true" />
 		<field name="codeReference" hidehelp="true" />
 		<field name="mountParentId" type="document" allow="modules_website_website,modules_website_topic"
-			moduleselector="website" required="true" labeli18n="modules.catalog.document.shop.Mount-parent"
-			shorthelp="&amp;modules.catalog.document.shop.Mount-parent-help;" />
+			moduleselector="website" required="true" labeli18n="m.catalog.document.shop.mount-parent"
+			shorthelpi18n="m.catalog.document.shop.mount-parent-help" />
 		<field name="isDefault" />
 		<field name="topShelf" />
 		<field name="displayOutOfStock" hidehelp="true" />
@@ -13,36 +13,36 @@
 		<field name="nbproductperpage" />
 		<field name="enableComments" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Zones">
+	<section labeli18n="m.catalog.bo.general.zones">
 		<field name="billingZone" hidehelp="true" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Currency">
+	<section labeli18n="m.catalog.bo.general.currency">
 		<field name="currencyCode" hidehelp="true" listid="modules_catalog/shopcurrency" />
 		<field name="currencyPosition" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Prices">
+	<section labeli18n="m.catalog.bo.general.prices">
 		<field name="defaultTaxZone" />
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
 		<field name="boTaxZone" />
 		<field name="orderProcessClassName" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Default-visuals">
+	<section labeli18n="m.catalog.bo.general.default-visuals">
 		<field name="defaultDetailVisual" />
 		<field name="defaultListVisual" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Alerts">
+	<section labeli18n="m.catalog.bo.general.alerts">
 		<field name="enableAvailabilityAlerts" />
 		<field name="availabilityAlertsDuration" type="duration" />
 		<field name="enablePriceAlerts" />
 		<field name="priceAlertsDuration" type="duration" />
 		<field name="enableCaptchaForAlerts" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Validity-dates">
+	<section labeli18n="m.catalog.bo.general.validity-dates">
 		<field name="startpublicationdate" hidehelp="true" />
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Referencing">
+	<section labeli18n="m.catalog.bo.general.referencing">
 		<field name="pageTitle" class="with-counter" rows="2" />
 		<field name="pageDescription" class="with-counter" rows="2" />
 		<field name="pageKeywords" class="with-counter" rows="2" />
