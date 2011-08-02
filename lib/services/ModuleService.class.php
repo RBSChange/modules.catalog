@@ -34,7 +34,7 @@ class catalog_ModuleService extends ModuleBaseService
 		}
 		else if ($document instanceof catalog_persistentdocument_productdeclination)
 		{
-			return $document->getRelatedDeclinedProduct();
+			return $document->getDeclinedproduct();
 		}
 		else if ($document instanceof catalog_persistentdocument_product)
 		{
