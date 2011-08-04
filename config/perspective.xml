@@ -36,10 +36,10 @@
 				<child model="modules_catalog/shop" />
 			</children>
 			<columns>
-				<column name="website" label="Website" />
-				<column name="isDefault" label="IsDefault" />
-				<column name="startpublicationdate" label="Startpublicationdate" />
-				<column name="endpublicationdate" label="Endpublicationdate" />
+				<column name="website" />
+				<column name="isDefault" />
+				<column name="startpublicationdate" />
+				<column name="endpublicationdate" />
 			</columns>
 			<contextactions>
 				<contextaction name="edit" />
@@ -106,8 +106,8 @@
 				<drop model="modules_catalog/kit" action="move" />
 			</drops>
 			<columns>
-				<column name="startpublicationdate" label="Startpublicationdate" />
-				<column name="endpublicationdate" label="Endpublicationdate" />
+				<column name="startpublicationdate" />
+				<column name="endpublicationdate" />
 			</columns>
 			<contextactions>
 				<contextaction name="edit" />
@@ -144,8 +144,8 @@
 				<drop model="modules_catalog/kit" action="move" />
 			</drops>
 			<columns>
-				<column name="startpublicationdate" label="Startpublicationdate" />
-				<column name="endpublicationdate" label="Endpublicationdate" />
+				<column name="startpublicationdate" />
+				<column name="endpublicationdate" />
 			</columns>
 			<contextactions>
 				<contextaction name="edit" />
