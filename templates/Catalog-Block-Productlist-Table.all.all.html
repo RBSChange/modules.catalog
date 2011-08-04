@@ -1,7 +1,7 @@
 <tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
 
-<h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
-<div tal:condition="blockDescription" class="product-list-description">${blockDescription}</div>
+<h2 tal:condition="blockTitle" id="product-list-title" change:h="">${structure blockTitle}</h2>
+<div tal:condition="blockDescription" class="product-list-description">${structure blockDescription}</div>
 
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module 'catalog'; template 'Catalog-Inc-ProductListOrderOptions'; type 'html'; displayConfig displayConfig; valueSortOption valueSortOption;"/>
 
@@ -49,7 +49,7 @@
 						</td>
 						<td>
 							<ul>
-								<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></li>
+								<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${structure product/getLabelAsHtml}</a></li>
 								<li tal:condition="product/getBrand" tal:content="trans:m.catalog.frontoffice.from-brand,name=product/getBrandLabelAsHtml" />
 								<tal:block tal:condition="displayConfig/showProductDescription">
 									<li tal:condition="product/getShortDescription">${product/getShortDescription}</li>

@@ -3,11 +3,11 @@
  * catalog_RedirectAction
  * @author intportg
  */
-class catalog_RedirectAction extends f_action_BaseAction
+class catalog_RedirectAction extends change_Action
 {
 	/**
-	 * @param Context $context
-	 * @param ChangeRequest $request
+	 * @param change_Context $context
+	 * @param change_Request $request
 	 */
 	public function _execute($context, $request)
     {
@@ -25,12 +25,12 @@ class catalog_RedirectAction extends f_action_BaseAction
 			}
 		}
 		header('Location: ' . LinkHelper::getDocumentUrl($subRef));
-        return View::NONE ;
+        return change_View::NONE ;
     }
 
     public function getRequestMethods()
 	{
-		return Request::POST;
+		return change_Request::POST;
 	}
 
 	public function isSecure()

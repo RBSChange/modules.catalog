@@ -24,14 +24,14 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		if (!($shop instanceof catalog_persistentdocument_shop))
 		{
 			Framework::warn(__METHOD__ . ' no current shop defined');
-			HttpController::getInstance()->redirect("website", "Error404");
+			change_Controller::getInstance()->redirect("website", "Error404");
 		}	
 			
 		$product = $this->getDocumentParameter();
 		if ($product === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 		{
 			Framework::warn(__METHOD__ . ' no product defined: ' . $this->getDocumentIdParameter());
-			HttpController::getInstance()->redirect("website", "Error404");
+			change_Controller::getInstance()->redirect("website", "Error404");
 		}
 		
 		
@@ -41,7 +41,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		if ($compiledProduct === null)
 		{
 			Framework::warn(__METHOD__ . ' no compiledproduct founded');
-			HttpController::getInstance()->redirect("website", "Error404");
+			change_Controller::getInstance()->redirect("website", "Error404");
 		}		
 		
 		$this->setDisplayConfig($request, $shop);

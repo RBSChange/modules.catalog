@@ -28,7 +28,7 @@ class catalog_ListDeclinationsbyproductService extends BaseService
 	{
 		try 
 		{
-			$request = Controller::getInstance()->getContext()->getRequest();
+			$request = change_Controller::getInstance()->getContext()->getRequest();
 			$productId = intval($request->getParameter('productId', 0));
 			$product = DocumentHelper::getDocumentInstance($productId);
 		}

@@ -687,7 +687,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		if ($document->isPublished())
 		{
 			$shopService = catalog_ShopService::getInstance();
-			$request = HttpController::getInstance()->getContext()->getRequest();	
+			$request = change_Controller::getInstance()->getContext()->getRequest();	
 			$topicId = intval($request->getModuleParameter('catalog', 'topicId'));
 			if ($topicId > 0)
 			{

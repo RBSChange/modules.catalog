@@ -1,5 +1,5 @@
 <tal:block tal:condition="shelves">
-	<h2 change:h="">${currentShelf/getLabelAsHtml}</h2>
+	<h2 change:h="">${structure currentShelf/getLabelAsHtml}</h2>
 
 	<div class="ecom-list">	
 		<ol class="table-view">
@@ -11,7 +11,7 @@
 						</a>
 					</li>
 					<li>
-						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;">${item/getLabelAsHtml}</a>
+						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;">${structure item/getLabelAsHtml}</a>
 						<br/>
 						<tal:block tal:condition="configuration/getDisplayshelvesdescription">${item/getShortDescription}</tal:block>						
 					</li>
@@ -20,7 +20,7 @@
 							change:link="module website; action Redirect">
 							<label class="invisible" for="second-level-shelf-${repeat/item/index}">${trans:modules.catalog.frontoffice.gotosubshelf,ucf}</label>
 							<select name="location" id="second-level-shelf-${repeat/item/index}" class="textfield">
-								<option tal:repeat="subItem subShelves" tal:attributes="value subItem/getUrl">${subItem/getLabelAsHtml}</option>
+								<option tal:repeat="subItem subShelves" tal:attributes="value subItem/getUrl">${structure subItem/getLabelAsHtml}</option>
 							</select>
 							<input class="button" type="submit" value="ok" alt="ok" title="ok" />
 						</form>

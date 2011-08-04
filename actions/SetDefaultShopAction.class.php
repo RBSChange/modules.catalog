@@ -3,11 +3,11 @@
  * catalog_SetDefaultShopAction
  * @package modules.catalog.actions
  */
-class catalog_SetDefaultShopAction extends f_action_BaseJSONAction
+class catalog_SetDefaultShopAction extends change_JSONAction
 {
 	/**
-	 * @param Context $context
-	 * @param Request $request
+	 * @param change_Context $context
+	 * @param change_Request $request
 	 */
 	public function _execute($context, $request)
 	{
@@ -23,7 +23,7 @@ class catalog_SetDefaultShopAction extends f_action_BaseJSONAction
 	}
 	
 	/**
-	 * @param Request $request
+	 * @param change_Request $request
 	 * @return catalog_persistentdocument_shop
 	 */	
 	private function getShop($request)

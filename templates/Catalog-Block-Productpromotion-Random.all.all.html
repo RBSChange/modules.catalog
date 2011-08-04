@@ -5,7 +5,7 @@
 			<a change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual" change:link="document product" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/productList'" />
 			</a>
-			<h3 change:h=""><a change:link="document product" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a></h3>
+			<h3 change:h=""><a change:link="document product" tal:attributes="title product/getLinkTitle">${structure product/getLabelAsHtml}</a></h3>
 			<p tal:condition="product/getDescription" tal:content="product/getShortDescription" />
 
 			<p class="priceht" tal:condition="shop/getDisplayPriceWithoutTax">

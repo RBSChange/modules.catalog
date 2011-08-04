@@ -17,15 +17,15 @@
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 change:h="">${product/getLabelAsHtml}</h1>
+		<h1 change:h="">${structure product/getLabelAsHtml}</h1>
 		<div class="product-ref">
-			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${product/getCodeReferenceAsHtml}
+			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${structure product/getCodeReferenceAsHtml}
 		</div>
 		
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
 			<strong>${trans:m.catalog.frontoffice.brand,ucf,lab}</strong>
 			<a change:link="document brand">
-				<tal:block tal:condition="not:brandVisual">${brand/getLabelAsHtml}</tal:block>
+				<tal:block tal:condition="not:brandVisual">${structure brand/getLabelAsHtml}</tal:block>
 				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 			</a>
 		</tal:block>

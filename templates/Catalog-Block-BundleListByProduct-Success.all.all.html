@@ -8,7 +8,7 @@
 						<a change:link="document bundleProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>
-						<h4 change:h=""><a class="link" change:link="document bundleProduct">${bundleProduct/getLabelAsHtml}</a></h4>
+						<h4 change:h=""><a class="link" change:link="document bundleProduct">${structure bundleProduct/getLabelAsHtml}</a></h4>
 					</li>
 					<tal:block change:productprice="name 'price'; product bundleProduct">
 					<li tal:condition="price/isDiscount">

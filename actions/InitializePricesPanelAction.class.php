@@ -1,9 +1,9 @@
 <?php
-class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
+class catalog_InitializePricesPanelAction extends change_JSONAction
 {
 	
 	/**
-	 * @param Request $request
+	 * @param change_Request $request
 	 * @return catalog_persistentdocument_product
 	 */
 	private function getProductFromRequest($request)
@@ -12,8 +12,8 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 	}
 	
 	/**
-	 * @param Context $context
-	 * @param Request $request
+	 * @param change_Context $context
+	 * @param change_Request $request
 	 */
 	public function _execute($context, $request)
 	{

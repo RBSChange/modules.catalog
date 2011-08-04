@@ -195,7 +195,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	{
 		if ($idParamName !== null)
 		{
-			$request = HttpController::getInstance()->getContext()->getRequest();
+			$request = change_Controller::getInstance()->getContext()->getRequest();
 			if ($request->hasModuleParameter('catalog', $idParamName))
 			{
 				$shopId = $request->getModuleParameter('catalog', $idParamName);

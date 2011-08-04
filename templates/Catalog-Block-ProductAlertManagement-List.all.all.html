@@ -3,7 +3,7 @@
 	<ul class="normal">
 		<li tal:repeat="alert paginator">
 			${alert/getAlertTypeLabel}
-			<a tal:define="product alert/getProduct" change:link="document product">${product/getLabelAsHtml}</a> - 
+			<a tal:define="product alert/getProduct" change:link="document product">${structure product/getLabelAsHtml}</a> - 
 			${trans:m.catalog.frontoffice.alert-expiration,ucf,date=alert/getFomatedExpirationDate} - 
 			<a change:actionlink="" action="RemoveAlert" alertId="${alert/getId}" class="button">${trans:m.catalog.frontoffice.remove-alert,ucf}</a>
 		</li>

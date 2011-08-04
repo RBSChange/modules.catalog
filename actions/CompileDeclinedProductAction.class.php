@@ -3,11 +3,11 @@
  * catalog_CompileDeclinedProductAction
  * @package modules.catalog.actions
  */
-class catalog_CompileDeclinedProductAction extends f_action_BaseJSONAction
+class catalog_CompileDeclinedProductAction extends change_JSONAction
 {
 	/**
-	 * @param Context $context
-	 * @param Request $request
+	 * @param change_Context $context
+	 * @param change_Request $request
 	 */
 	public function _execute($context, $request)
 	{
@@ -25,7 +25,7 @@ class catalog_CompileDeclinedProductAction extends f_action_BaseJSONAction
 	}
 	
 	/**
-	 * @param Request $request
+	 * @param change_Request $request
 	 * @return catalog_persistentdocument_declinedproduct
 	 */	
 	private function getProduct($request)

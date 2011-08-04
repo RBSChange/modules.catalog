@@ -11,7 +11,7 @@
 			</a>
 		</li>
 		<li>
-			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
+			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${structure product/getLabelAsHtml}</a>
 		</li>
 		<li tal:condition="displayConfig/showRatingAverage">
 			<span class="small"><tal:block tal:content="trans:m.catalog.frontoffice.rating-average,ucf,lab" /> ${product/getFormattedRatingAverage}</span>

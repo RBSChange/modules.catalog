@@ -3,11 +3,11 @@
  * catalog_AddToListAction
  * @package modules.catalog.actions
  */
-class catalog_AddToListAction extends f_action_BaseAction
+class catalog_AddToListAction extends change_Action
 {
 	/**
-	 * @param Context $context
-	 * @param Request $request
+	 * @param change_Context $context
+	 * @param change_Request $request
 	 */
 	public function _execute($context, $request)
 	{
@@ -43,7 +43,7 @@ class catalog_AddToListAction extends f_action_BaseAction
 				$backUrl = LinkHelper::getDocumentUrlForWebsite($doc, $website);
 			}
 		}
-		HttpController::getInstance()->redirectToUrl($backUrl);
+		change_Controller::getInstance()->redirectToUrl($backUrl);
 	}
 	
 	/**

@@ -1,8 +1,8 @@
 <?php
-if (!defined("WEBEDIT_HOME"))
+if (!defined("PROJECT_HOME"))
 {
-	define("WEBEDIT_HOME", realpath('.'));
-	require_once WEBEDIT_HOME . "/framework/Framework.php";
+	define("PROJECT_HOME", realpath('.'));
+	require_once PROJECT_HOME . "/framework/Framework.php";
 	$emailArray = array_slice($_SERVER['argv'], 1);
 }
 else
@@ -10,7 +10,7 @@ else
 	$emailArray = $_POST['argv'];
 }
 
-Controller::newInstance("controller_ChangeController");
+change_Controller::newInstance('change_Controller');
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {

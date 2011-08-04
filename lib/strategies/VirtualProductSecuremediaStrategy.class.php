@@ -36,7 +36,7 @@ class catalog_VirtualProductSecuremediaStrategy extends media_DisplaySecuremedia
 			return self::KO;
 		}
 		
-		$trakingNumber = Controller::getInstance()->getContext()->getRequest()->getParameter('trakingNumber', null);
+		$trakingNumber = change_Controller::getInstance()->getContext()->getRequest()->getParameter('trakingNumber', null);
 		if (f_util_StringUtils::isEmpty($trakingNumber))
 		{
 			return self::KO;

@@ -44,7 +44,7 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 				$product = $line->getProduct();
 				catalog_ModuleService::getInstance()->addFavoriteProduct($product);
 			}
-			HttpController::getInstance()->redirectToUrl(LinkHelper::getTagUrl('contextual_website_website_modules_catalog_favorite-product-list'));
+			change_Controller::getInstance()->redirectToUrl(LinkHelper::getTagUrl('contextual_website_website_modules_catalog_favorite-product-list'));
 			return null;
 		}
 

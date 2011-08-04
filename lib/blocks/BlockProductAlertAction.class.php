@@ -92,7 +92,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		// Captcha is tested only for not logged-in users. 
 		if ($this->useCaptcha())
 		{
-			$code = Controller::getInstance()->getContext()->getRequest()->getModuleParameter('form', 'CHANGE_CAPTCHA');
+			$code = change_Controller::getInstance()->getContext()->getRequest()->getModuleParameter('form', 'CHANGE_CAPTCHA');
 			if (!FormHelper::checkCaptchaForKey($code, 'productAlert'))
 			{
 				$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Error-captcha;'));

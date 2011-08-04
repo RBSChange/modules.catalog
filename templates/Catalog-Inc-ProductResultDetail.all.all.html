@@ -1,6 +1,6 @@
-<tal:block tal:define="doc item/getDocument">
-	<img change:productvisual="name 'visual'; mode 'list'; product doc/getProduct" change:media="document visual; format 'modules.solrsearch.frontoffice/result-visual'; class 'document-visual'" />
-	<p class="normal">${item/getHighlightedText}<span>${trans:m.solrsearch.frontoffice.end-description,ucf,etc}</span></p>
+<tal:block tal:define="doc item/getDocument; product doc/getProduct">
+	<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.solrsearch.frontoffice/result-visual'; class 'document-visual'" />
+	<p class="normal">${structure item/getHighlightedText}<span>${trans:m.solrsearch.frontoffice.end-description,ucf,etc}</span></p>
 	<dl class="inline-list" tal:define="shop doc/getShop; shelf doc/getShelf">
 		<dt>${trans:m.solrsearch.frontoffice.type,ucf}</dt> 
 		<dd>
@@ -10,18 +10,18 @@
 		</dd>
 		<tal:block tal:condition="showDates">
 			<dt>${trans:m.solrsearch.frontoffice.creationdate,ucf}</dt>
-			<dd>${datetime:doc/getUICreationdate}<span> - </span></dd>
-			<tal:block tal:condition="php: item.getDocument().getCreationdate() < item.getDocument().getModificationdate()">
+			<dd>${datetime:product/getUICreationdate}<span> - </span></dd>
+			<tal:block tal:condition="php: product.getCreationdate() < product.getModificationdate()">
 				<dt>${trans:m.solrsearch.frontoffice.modificationdate,ucf}</dt>
-				<dd>${datetime:doc/getUIModificationdate}<span> - </span></dd>
+				<dd>${datetime:product/getUIModificationdate}<span> - </span></dd>
 			</tal:block>
 		</tal:block>
 		<dt>${trans:m.catalog.frontoffice.shop,ucf}</dt>
-		<dd><a change:link="document shop">${shop/getLabelAsHtml}</a><span> - </span></dd>
+		<dd><a change:link="document shop">${structure shop/getLabelAsHtml}</a><span> - </span></dd>
 		<tal:block tal:condition="not: shop/getIsDefault" tal:define="global shopId shop/getId" />
 		<dt>${trans:m.catalog.frontoffice.shelf,ucf}</dt>
-		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a><span> - </span></dd>
-		<tal:block change:productprice="name 'price'; product doc/getProduct; shop shop" tal:condition="price">
+		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${structure shelf/getLabelAsHtml}</a><span> - </span></dd>
+		<tal:block change:productprice="name 'price'; product product; shop shop" tal:condition="price">
 			<tal:block tal:condition="shop/getDisplayPriceWithTax">
 				<dt>${trans:m.catalog.frontoffice.pricettc,ucf}</dt>
 				<dd>

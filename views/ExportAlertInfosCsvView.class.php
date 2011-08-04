@@ -1,5 +1,5 @@
 <?php
-class catalog_ExportAlertInfosCsvView extends f_view_BaseView
+class catalog_ExportAlertInfosCsvView extends change_View
 {
 	public function _execute($context, $request)
 	{

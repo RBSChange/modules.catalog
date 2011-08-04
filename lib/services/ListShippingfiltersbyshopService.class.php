@@ -28,7 +28,7 @@ class catalog_ListShippingfiltersbyshopService extends BaseService
 	{
 		try 
 		{
-			$request = Controller::getInstance()->getContext()->getRequest();
+			$request = change_Controller::getInstance()->getContext()->getRequest();
 			$shopId = intval($request->getParameter('shopId', 0));
 			$shop = DocumentHelper::getDocumentInstance($shopId);
 		}

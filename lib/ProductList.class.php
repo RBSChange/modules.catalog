@@ -93,7 +93,7 @@ class catalog_SessionProductList implements catalog_ProductList
 		$key = 'ProductList'.ucfirst($listName);
 		$this->key = $key;
 		
-		$sessionUser = Controller::getInstance()->getContext()->getUser();
+		$sessionUser = change_Controller::getInstance()->getContext()->getUser();
 		if ($sessionUser->hasAttribute($key, 'catalog'))
 		{
 			$this->productIds = $sessionUser->getAttribute($key, 'catalog');
@@ -160,7 +160,7 @@ class catalog_SessionProductList implements catalog_ProductList
 	 */
 	public function saveList()
 	{
-		$sessionUser = Controller::getInstance()->getContext()->getUser();
+		$sessionUser = change_Controller::getInstance()->getContext()->getUser();
 		if (count($this->productIds) > 0)
 		{
 			$sessionUser->setAttribute($this->key, $this->productIds, 'catalog');

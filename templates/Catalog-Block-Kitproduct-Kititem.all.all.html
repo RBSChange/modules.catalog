@@ -11,19 +11,19 @@
 			<li tal:repeat="pictogram kititemproduct/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 change:h="">${kititemproduct/getLabelAsHtml}</h1>
+		<h1 change:h="">${structure kititemproduct/getLabelAsHtml}</h1>
 		<tal:block tal:condition="not: declination">
-			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${kititemproduct/getCodeReferenceAsHtml}</div> 
+			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${structure kititemproduct/getCodeReferenceAsHtml}</div> 
 		</tal:block>
 		<tal:block tal:condition="declination">
 			<p>${trans:m.catalog.frontoffice.need-article-selection-one,label=declination/getLabelAsHtml}</p>
-			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong>${declination/getCodeReferenceAsHtml}</div>
+			<div class="product-ref"><strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong>${structure declination/getCodeReferenceAsHtml}</div>
 			<form class="product-form" change:link="document product; catalogParam[customitems] customitems" method="post">	
 				<input type="hidden" name="catalogParam[kititemid]" value="${kititem/getId}" />
 				<select tal:condition="declination" conditionclass="textfield" id="product-declination" name="catalogParam[declinationid]" onchange="jQuery(this).parents('form.product-form').get(0).submit()">
 						<tal:block tal:repeat="adeclination php: kititemproduct.getPublishedDeclinationsInShop(shop)">
-							<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
-							<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}">${adeclination/getLabelAsHtml}</option>
+							<option tal:condition="php: adeclination.getId() == declination.getId()" selected="selected" value="${adeclination/getId}">${structure adeclination/getLabelAsHtml}</option>
+							<option tal:condition="php: adeclination.getId() != declination.getId()" value="${adeclination/getId}">${structure adeclination/getLabelAsHtml}</option>
 						</tal:block>
 				</select>
 				<noscript>

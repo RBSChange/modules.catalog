@@ -17,15 +17,15 @@
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 change:h="" tal:content="product/getLabelAsHtml"></h1>
+		<h1 change:h="" tal:content="structure product/getLabelAsHtml"></h1>
 		<div class="product-ref">
-			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${product/getCodeReferenceAsHtml}
+			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${structure product/getCodeReferenceAsHtml}
 		</div>
 		
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
 			<strong>${trans:m.catalog.frontoffice.brand,ucf,lab}</strong>
 			<a change:link="document brand">
-				<tal:block tal:condition="not:brandVisual">${brand/getLabelAsHtml}</tal:block>
+				<tal:block tal:condition="not:brandVisual">${structure brand/getLabelAsHtml}</tal:block>
 				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 			</a>
 		</tal:block>             
@@ -174,7 +174,7 @@
 						<a change:link="document bundleditem"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
 					</li>
 					<li>
-						<h3 change:h=""><a change:link="document bundleditem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">${bundleditem/getTitleAsHtml}</a></h3>
+						<h3 change:h=""><a change:link="document bundleditem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">${structure bundleditem/getTitleAsHtml}</a></h3>
 					</li>
 				</ul>
 			</li>
