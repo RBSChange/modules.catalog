@@ -127,6 +127,12 @@ class catalog_KitService extends catalog_ProductService
 			{
 				foreach ($document->getKititemArray() as $kitItem) 
 				{
+					if (!$kitItem->isPublished())
+					{
+						$statusInfo = f_Locale::translateUI('&modules.catalog.bo.general.Kititem-not-published;');
+						$this->setActivePublicationStatusInfo($document, $statusInfo);
+						return false;
+					}
 					$product = $kitItem->getProduct();
 					if (!$product->isPublished())
 					{
@@ -219,6 +225,10 @@ class catalog_KitService extends catalog_ProductService
 		$kis = catalog_KititemService::getInstance();
 		foreach ($kit->getKititemArray() as $kititem) 
 		{
+			if (!$kititem->isPublished())
+			{
+				return null;
+			}
 			if (!$kis->appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity))
 			{
 				return null;
@@ -248,6 +258,10 @@ class catalog_KitService extends catalog_ProductService
 	{
 		foreach ($product->getKititemArray() as $kitItem) 
 		{
+			if (!$kitItem->isPublished())
+			{
+				continue;
+			}
 			$kitItem->setCurrentKit($product);
 			$kitItemProduct = $kitItem->getProduct();
 			

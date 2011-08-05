@@ -78,6 +78,10 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	public function appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity)
 	{	
 		$product = $kititem->getDefaultProduct();
+		if ($product === null)
+		{
+			return false;
+		}
 		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $kititem->getQuantity());
 		if ($price !== null)
 		{
@@ -111,7 +115,12 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 */
 	public function transformToArray($kitItem, &$result)
 	{
-		$product = $kitItem->getProduct();	
+		$product = $kitItem->getProduct();
+		if ($product === null)
+		{
+			$result[] = array('id' => $kitItem->getId(), 'qtt' => $kitItem->getQuantity());
+			return;
+		}
 		$statusOk = $product->isContextLangAvailable();
 		$label = $statusOk ? $product->getLabel() : $product->getVoLabel();
 		$showDeclination = ($product instanceof catalog_persistentdocument_declinedproduct && !$product->getSynchronizePrices());
@@ -174,5 +183,42 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 			Framework::info(__METHOD__ . ' No current kit.');
 		}
 		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @return boolean
+	 */
+	public function isPublishable($document)
+	{
+		return $document->getProduct() !== null && parent::isPublishable($document);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @param int $parentId
+	 */
+	protected function preInsert($document, $parentId)
+	{
+		parent::preInsert($document, $parentId);
+		$document->justCreated = true;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @param String $oldPublicationStatus
+	 * @return void
+	 */
+	protected function onPublicationStatusChanged($document, $oldPublicationStatus)
+	{
+		if (isset($document->justCreated))
+		{
+			unset($document->justCreated);
+			return;
+		}
+		foreach ($document->getKitArrayInverse() as $kit)
+		{
+			$kit->getDocumentService()->publishIfPossible($kit->getId());	
+		}
 	}
 }
