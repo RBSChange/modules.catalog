@@ -176,8 +176,23 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
 			foreach ($query->find() as $lockedPrice)
 			{
-				$lockForDocument = DocumentHelper::getDocumentInstance($lockedPrice->getLockedFor());
-				$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
+				$lockedForId = $lockedPrice->getLockedFor();
+				if (intval($lockedForId) > 0)
+				{
+					try 
+					{
+						$lockForDocument = DocumentHelper::getDocumentInstance($lockedForId);
+						if ($lockForDocument instanceof catalog_persistentdocument_price)
+						{
+							$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
+						}
+					}
+					catch (Exception $e)
+					{
+						//$lockedForId is not a valid document id
+						Framework::exception($e);
+					}
+				}
 			}
 			
 			// Delete existing prices on the declined product.
