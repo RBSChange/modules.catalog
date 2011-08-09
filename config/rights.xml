@@ -37,7 +37,6 @@
 			<permission name="SavePermissions.*" />
 			<permission name="InitDefaultStructure.*" />
 			<permission name="GetPreferencesDocument" />
-			<permission name="EditLocale" />
 		</role>
 		<role name="Writer" extend="Guest">
 			<permission name="Order" />
