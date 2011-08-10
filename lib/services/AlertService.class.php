@@ -169,10 +169,9 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			
 			if ($notification instanceof notification_persistentdocument_notification)
 			{
-				$recipients = new mail_MessageRecipients();
-				$recipients->setTo($email);
 				$notification->setSendingModuleName('catalog');
-				$ns->sendNotificationCallback($notification, $recipients, array($this, 'getNotificationParameters'), $alerts);
+				$ns->sendNotificationCallback($notification, change_MailService::getInstance()->getRecipientsArray(array($email)), array($this, 'getNotificationParameters'), $alerts);
+				
 			}
 		}
 		
@@ -326,8 +325,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		{
 			$configuredNotif->setSendingModuleName('catalog');
 			$callback = array($this, 'getCreationNotificationParameters');
-			$recipients = new mail_MessageRecipients($alert->getEmail());
-			$ns->sendNotificationCallback($configuredNotif, $recipients, $callback, $alert);
+			$ns->sendNotificationCallback($configuredNotif, change_MailService::getInstance()->getRecipientsArray(array($alert->getEmail())), $callback, $alert);
 		}
 	}
 	

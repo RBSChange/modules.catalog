@@ -132,4 +132,8 @@
   <key id="log-compileproduct-bundleproduct">log compileproduct bundleproduct</key>
   <key id="saveredirectinfo-simpleproduct">saveredirectinfo.simpleproduct {lang} {documentlabel}</key>
   <key id="log-saveredirectinfo-simpleproduct">log saveredirectinfo simpleproduct</key>
+  <key id="deactivated-shelf">deactivated.shelf {lang} {documentlabel}</key>
+  <key id="log-deactivated-shelf">log deactivated shelf</key>
+  <key id="reactivate-shelf">reactivate.shelf {lang} {documentlabel}</key>
+  <key id="log-reactivate-shelf">log reactivate shelf</key>
 </i18n>

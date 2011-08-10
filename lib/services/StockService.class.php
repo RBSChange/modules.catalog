@@ -331,7 +331,7 @@ class catalog_StockService extends BaseService
 			{
 				$emailAddressArray[] = $user->getEmail();
 			}
-			$recipients = new mail_MessageRecipients($emailAddressArray);
+			$recipients = change_MailService::getInstance()->getRecipientsArray($emailAddressArray);
 			return $ns->sendNotificationCallback($configuredNotif, $recipients, array($this, 'getStockAlertNotifParameters'), $document);
 		}
 		return true;

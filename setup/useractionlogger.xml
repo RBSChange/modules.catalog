@@ -77,4 +77,6 @@
   <actiondef modulename="catalog" actionname="reactivate.shippingfilter" label="m.catalog.bo.useractionlogger.reactivate-shippingfilter"/>
   <actiondef modulename="catalog" actionname="compileproduct.bundleproduct" label="m.catalog.bo.useractionlogger.compileproduct-bundleproduct"/>
   <actiondef modulename="catalog" actionname="saveredirectinfo.simpleproduct" label="m.catalog.bo.useractionlogger.saveredirectinfo-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="deactivated.shelf" label="m.catalog.bo.useractionlogger.deactivated-shelf"/>
+  <actiondef modulename="catalog" actionname="reactivate.shelf" label="m.catalog.bo.useractionlogger.reactivate-shelf"/>
 </script>
