@@ -1,16 +1,5 @@
 <?php
-if (!defined("PROJECT_HOME"))
-{
-	define("PROJECT_HOME", realpath('.'));
-	require_once PROJECT_HOME . "/framework/Framework.php";
-	$emailArray = array_slice($_SERVER['argv'], 1);
-}
-else
-{
-	$emailArray = $_POST['argv'];
-}
-
-change_Controller::newInstance('change_Controller');
+$emailArray = $arguments;
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {

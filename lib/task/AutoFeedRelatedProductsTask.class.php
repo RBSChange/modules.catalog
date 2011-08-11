@@ -27,7 +27,7 @@ class catalog_AutoFeedRelatedProductsTask extends task_SimpleSystemTask
 		foreach (array_chunk($ids, 10) as $chunk)
 		{
 			$this->plannedTask->ping();
-			$result = f_util_System::execHTTPScript($batchPath, $chunk);
+			$result = f_util_System::execScript($batchPath, $chunk);
 			// Log fatal errors...
 			if ($result != 'OK')
 			{
