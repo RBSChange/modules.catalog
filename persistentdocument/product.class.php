@@ -510,7 +510,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function getRSSDescription()
 	{
 		$template = TemplateLoader::getInstance()
-			->setMimeContentType(K::HTML)
+			->setMimeContentType('html')
 			->setPackageName('modules_catalog')
 			->setDirectory('templates')
 			->load('Catalog-Inc-Product-RSS');

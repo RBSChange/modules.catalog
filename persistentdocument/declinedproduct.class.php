@@ -309,7 +309,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	{
 		
 		$template = TemplateLoader::getInstance()
-			->setMimeContentType(K::HTML)
+			->setMimeContentType('html')
 			->setPackageName('modules_catalog')
 			->setDirectory('templates')
 			->load('Catalog-Inc-Product-RSS');
