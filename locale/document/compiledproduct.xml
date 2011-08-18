@@ -25,7 +25,7 @@
 		<locale lang="en">the shop is not published</locale>
 	</entity>
 	<entity id="publication.shelf-not-published">
-		<locale lang="fr">le rayon n'est pas publiée</locale>
+		<locale lang="fr">le rayon n'est pas publié</locale>
 		<locale lang="en">the shelf is not published</locale>
 	</entity>
 	<entity id="publication.product-not-displayable">
