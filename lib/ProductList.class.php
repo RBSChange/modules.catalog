@@ -90,13 +90,12 @@ class catalog_SessionProductList implements catalog_ProductList
 	 */
 	private function __construct($listName, $maxCount)
 	{
-		$key = 'ProductList'.ucfirst($listName);
+		$key = 'catalog_ProductList' . ucfirst($listName);
 		$this->key = $key;
-		
-		$sessionUser = change_Controller::getInstance()->getContext()->getUser();
-		if ($sessionUser->hasAttribute($key, 'catalog'))
+		$sInfo = change_Controller::getInstance()->getStorage()->read($key);
+		if ($sInfo)
 		{
-			$this->productIds = $sessionUser->getAttribute($key, 'catalog');
+			$this->productIds = $sInfo;
 		}
 	}
 	
@@ -163,11 +162,11 @@ class catalog_SessionProductList implements catalog_ProductList
 		$sessionUser = change_Controller::getInstance()->getContext()->getUser();
 		if (count($this->productIds) > 0)
 		{
-			$sessionUser->setAttribute($this->key, $this->productIds, 'catalog');
+			change_Controller::getInstance()->getStorage()->write($this->key, $this->productIds);
 		}
 		else
 		{
-			$sessionUser->removeAttribute($this->key, 'catalog');
+			change_Controller::getInstance()->getStorage()->remove($this->key);
 		}
 	}
 }

@@ -109,57 +109,41 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	protected function persistSortOptions($request)
 	{
 		$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
-		$sessionKey = "ProductContextualListSortOptions";
-		if (!isset($_SESSION[$sessionKey]))
+		$sessionKey = "catalog_ProductContextualListSortOptions";
+		$storage = change_Controller::getInstance()->getStorage();
+		$sortOptions = $storage->read($sessionKey);
+		if (!is_array($sortOptions) || $sortOptions['topicId'] != $topicId)
 		{
-			$_SESSION[$sessionKey] = array();
+			$sortOptions = array('topicId' => $topicId);
 		}
-		if (!isset($_SESSION[$sessionKey][$topicId]))
-		{
-			// we changed topic: reset filter info
-			if (count($_SESSION[$sessionKey]) > 0)
-			{
-				$_SESSION[$sessionKey] = array();
-			}
-			$_SESSION[$sessionKey][$topicId] = array();
-		}
+			
+		$updateSession = $request->hasParameter('updateSortOptions');
 		// Get selected values.
 		$valueSortOption = array();
-		if ($request->hasParameter('updateSortOptions'))
+		foreach (self::$sortOptions as $sortOptionName)
 		{
-			foreach (self::$sortOptions as $sortOptionName)
+			if ($updateSession)
 			{
-				if ($request->hasParameter($sortOptionName))
-				{
-					$paramValue = $request->getParameter($sortOptionName);
-					$_SESSION[$sessionKey][$topicId][$sortOptionName] = $paramValue;
-					$valueSortOption[$sortOptionName . $paramValue] = true;
-					$request->setAttribute($sortOptionName, $paramValue);
-				}
-				else
-				{
-					$_SESSION[$sessionKey][$topicId][$sortOptionName] = null;
-					$request->setAttribute($sortOptionName, "");
-				}
+				$paramValue = $request->getParameter($sortOptionName);
+			}
+			else
+			{
+				$paramValue = isset($sortOptions[$sortOptionName]) ? $sortOptions[$sortOptionName] : null;
+			}
+			if ($paramValue !== null)
+			{
+				$sortOptions[$sortOptionName] = $paramValue;
+				$valueSortOption[$sortOptionName . $paramValue] = true;
+				$request->setAttribute($sortOptionName, $paramValue);
+			}
+			else
+			{
+				unset($sortOptions[$sortOptionName]);
+				$request->setAttribute($sortOptionName, "");
 			}
 		}
-		else
-		{
-			foreach (self::$sortOptions as $sortOptionName)
-			{
-				if (array_key_exists($sortOptionName, $_SESSION[$sessionKey][$topicId]))
-				{
-					$paramValue = $_SESSION[$sessionKey][$topicId][$sortOptionName];
-					$request->setAttribute($sortOptionName, $paramValue);
-					$valueSortOption[$sortOptionName . $paramValue] = true;
-				}
-				else
-				{
-					$request->setAttribute($sortOptionName, "");
-				}
-			}
-		}
-		$request->setAttribute('valueSortOption', $valueSortOption);		
+		$storage->write($sessionKey, $sortOptions);
+		$request->setAttribute('valueSortOption', $valueSortOption);
 	}
 		
 	/**
