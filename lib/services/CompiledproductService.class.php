@@ -527,7 +527,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$shelf = $document->getShelf();
 		if (!$shelf->isPublished())
 		{
-			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shop-not-published;');
+			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shelf-not-published;');
 			return false;
 		}
 		
