@@ -10,7 +10,7 @@
   <key id="type-customer">prix par client</key>
   <key id="type-all">tous les prix</key>
   <key id="type-kit">prix par kit</key>
-  <key id="column-value">montant</key>
+  <key id="column-value">montant TTC</key>
   <key id="column-is-discount">promo</key>
   <key id="column-target">groupe tarifaire/client</key>
   <key id="column-priority">priorité</key>
