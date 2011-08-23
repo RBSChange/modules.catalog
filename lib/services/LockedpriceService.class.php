@@ -17,7 +17,7 @@ class catalog_LockedpriceService extends catalog_PriceService
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = self::getServiceClassInstance(get_class());
+			self::$instance = new self();
 		}
 		return self::$instance;
 	}

@@ -17,7 +17,7 @@ class catalog_NoshelfproductfolderService extends f_persistentdocument_DocumentS
 	{
 		if (self::$instance === null)
 		{
-			self::$instance = self::getServiceClassInstance(get_class());
+			self::$instance = new self();
 		}
 		return self::$instance;
 	}
