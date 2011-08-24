@@ -1477,4 +1477,17 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 		}
 	}
+	
+	
+	/**
+	 * @param indexer_IndexedDocument $indexedDocument
+	 * @param catalog_persistentdocument_compiledproduct $compildedProduct
+	 * @param catalog_persistentdocument_product $product
+	 * @param indexer_IndexService $indexService
+	 */
+	public function getIndexedDocumentByCompiledProduct(&$indexedDocument, $compildedProduct, $product, $indexService)
+	{
+		$indexedDocument->setLabel($product->getLabel());					
+		$indexService->addIndexedDocumentProperties($indexedDocument, $product);							
+	}
 }

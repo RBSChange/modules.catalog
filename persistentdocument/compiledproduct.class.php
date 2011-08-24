@@ -3,29 +3,9 @@
  * catalog_persistentdocument_compiledproduct
  * @package modules.catalog
  */
-class catalog_persistentdocument_compiledproduct extends catalog_persistentdocument_compiledproductbase implements indexer_IndexableDocument
+class catalog_persistentdocument_compiledproduct extends catalog_persistentdocument_compiledproductbase
 {
-	/**
-	 * Get the indexable document
-	 * @return indexer_IndexedDocument
-	 */
-	public function getIndexedDocument()
-	{
-		if ($this->getShowInList())
-		{
-			$product = $this->getProduct();
-			$indexDocument = $product->getIndexedDocumentByCompiledProduct($this);
-			if ($indexDocument !== null)
-			{
-				$indexDocument->setId($this->getId());
-				$indexDocument->setDocumentModel("modules_catalog/compiledproduct");		
-				$this->getDocumentService()->indexFacets($this, $indexDocument);
-				return $indexDocument;
-			}
-		}
-		return null;
-	}
-	
+
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */

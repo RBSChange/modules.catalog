@@ -38,36 +38,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		$ratings = $this->getMetaMultiple(self::RATING_META_KEY);
 		return isset($ratings[$websiteid]) ? $ratings[$websiteid] : null;
 	}
-	
-	/**
-	 * Get the indexable document
-	 * @param catalog_persistentdocument_compiledproduct $compildedProduct
-	 * @return indexer_IndexedDocument
-	 */
-	public function getIndexedDocumentByCompiledProduct($compildedProduct)
-	{
-		try 
-		{
-			$topic = $compildedProduct->getTopic();		
-			$topShelf = $compildedProduct->getTopShelf();						
-			$indexedDoc = new indexer_IndexedDocument();
-			$indexedDoc->setStringField('documentFamily', 'products');
-			$indexedDoc->setLabel($this->getLabel());
-			$indexedDoc->setLang($compildedProduct->getLang());
-			$indexedDoc->setText(
-				f_util_StringUtils::htmlToText($this->getDescription())
-				. ' ' . $this->getBrandLabel()
-				. ' ' . $topic->getLabel()
-				. ' ' . $topShelf->getLabel()
-			);					
-		} 
-		catch (Exception $e) 
-		{
-			Framework::exception($e);
-			$indexedDoc = null;
-		}
-		return $indexedDoc;
-	}
+
 	
 	/**
 	 * Returns full product name in form of "{product} by {brand}".

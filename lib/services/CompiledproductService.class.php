@@ -572,4 +572,37 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		return array();
 	}
+	
+	/**
+	 * @param indexer_IndexedDocument $indexedDocument
+	 * @param catalog_persistentdocument_compiledproduct $document
+	 * @param indexer_IndexService $indexService
+	 */
+	protected function updateIndexDocument($indexedDocument, $document, $indexService)
+	{
+		try 
+		{	
+			$topic = $document->getTopic();		
+			$topShelf = $document->getTopShelf();		
+			if ($document->getShowInList() && $document->getProduct())
+			{
+				$indexedDocument->setLang($document->getLang());
+				$indexedDocument->setStringField('documentFamily', 'products');
+				$indexedDocument->addAggregateText($topic->getLabel());
+				$indexedDocument->addAggregateText($topShelf->getLabel());				
+				$product = $document->getProduct();	
+				$product->getDocumentService()->getIndexedDocumentByCompiledProduct($indexedDocument, $document, $product, $indexService);
+				$this->indexFacets($document, $indexedDocument);
+			}
+			else
+			{
+				$indexedDocument->foIndexable(false);
+			}
+		} 
+		catch (Exception $e) 
+		{
+			Framework::exception($e);
+			$indexedDocument->foIndexable(false);
+		}
+	}
 }
