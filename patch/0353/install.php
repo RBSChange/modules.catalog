@@ -11,7 +11,7 @@ class catalog_patch_0353 extends patch_BasePatch
 	public function execute()
 	{
 		// Implement your patch here.
-		$this->executeModuleScript('taxes.xml', 'catalog');
+		//$this->executeModuleScript('taxes.xml', 'catalog');
 		$this->executeModuleScript('currencies.xml', 'catalog');
 		
 		// Rajouter le currencyId.
