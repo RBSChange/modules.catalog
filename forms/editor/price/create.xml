@@ -11,8 +11,8 @@
 		<field name="startpublicationdate" hidehelp="true" />
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>
-	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.discount">
-		<row class="discountHelper" reference="catalog_price_boValueJSON" 
+	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Discount">
+		<row class="discountHelper" reference="catalog_price_create_boValueJSON" 
 			pricefield="catalog_price_create_boDiscountValueJSON" 
 			detailfield="catalog_price_create_discountDetail" />
 		<field name="boDiscountValueJSON" type="price" 
