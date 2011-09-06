@@ -7,11 +7,11 @@
 	<key id="newtaxzone">Zone</key>
 	<key id="newtaxzone-help">Zone d'application de la taxe</key>
 	
-	<key id="newtaxcategory">catégorie</key>
-	<key id="newtaxcategory-help">catégorie de la taxe d'un produit</key>
+	<key id="newtaxcategory">Catégorie</key>
+	<key id="newtaxcategory-help">Catégorie de la taxe d'un produit</key>
 	
-	<key id="newtaxrate">taux</key>
-	<key id="newtaxrate-help">taux de la taxe ex: 0.196 pour 19.6%</key>
+	<key id="newtaxrate">Taux</key>
+	<key id="newtaxrate-help">Taux de la taxe ex: 0.196 pour 19.6%</key>
 	
 	<key id="label-column">Identifiant</key>
 	<key id="taxzone-column">Zone</key>
