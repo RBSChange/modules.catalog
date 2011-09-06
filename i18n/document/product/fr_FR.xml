@@ -3,9 +3,9 @@
   <key id="edition-form-title">propriétés de la fiche produit</key>
   <key id="document-name">fiche produit</key>
   <key id="startpublicationdate">début de parution</key>
-  <key id="startpublicationdate-help">date à partir de laquelle le produit sera publié automatiquement. Lorsqu’elle est n’est pas renseignée, le produit sera publié jusqu’à la date de fin de parution (hors intervention manuelle de l’administrateur).</key>
+  <key id="startpublicationdate-help">date à partir de laquelle le produit sera publié automatiquement. Lorsqu’elle n’est pas renseignée, le produit sera publié jusqu’à la date de fin de parution (hors intervention manuelle de l’administrateur).</key>
   <key id="endpublicationdate">fin de parution</key>
-  <key id="endpublicationdate-help">date à partir de laquelle le produit sera dé-publié automatiquement. Lorsqu’elle est n’est pas renseignée, le produit ne sera jamais dé-publié automatiquement.</key>
+  <key id="endpublicationdate-help">date à partir de laquelle le produit sera dé-publié automatiquement. Lorsqu’elle n’est pas renseignée, le produit ne sera jamais dé-publié automatiquement.</key>
   <key id="label">libellé</key>
   <key id="label-help">champ texte utilisé dans l’interface d’administration et sur les sites pour identifier le produit.</key>
   <key id="codereference">code référence</key>
@@ -49,7 +49,6 @@
   <key id="stockquantity-help">lorsque ce champ est vide, aucun stock ne sera géré pour le produit – il sera considéré comme toujours en stock. Une fois renseigné, correspond au stock du produit. En fonction des réglages de la boutique, lorsque ce stock atteint zéro le produit pourra être automatiquement retiré de la vente.</key>
   <key id="stockalertthreshold">seuil d'alerte de stock</key>
   <key id="stockalertthreshold-help">valeur de la quantité en stock en deçà de laquelle sera déclenché l’envoi de la notification « Alerte concernant le stock » (Notifications &gt; Catalogue et boutiques &gt; Alerte concernant le stock) aux destinataires paramétrés dans les préférences du module « Catalogue et boutiques » (champ « Destinataires des alertes liées aux stocks »). Lorsque ce champ est vide, aucune alerte de stock ne sera envoyée..</key>
-  
   <key id="stocklevel">niveau de stock</key>
   <key id="codesku">code SKU</key>
   <key id="codesku-help">identifiant unique de stock</key>
