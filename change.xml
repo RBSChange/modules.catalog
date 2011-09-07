@@ -11,31 +11,31 @@
 		<dependency>
 			<name>change-module/filter</name>
 			<versions>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/rss</name>
 			<versions>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/brand</name>
 			<versions>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/shipping</name>
 			<versions>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/payment</name>
 			<versions>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 			</versions>
 		</dependency>
 	</dependencies>
