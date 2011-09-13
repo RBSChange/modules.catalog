@@ -517,10 +517,11 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	protected function addTreeAttributes($moduleName, $treeType, &$nodeAttributes)
 	{
 		$nodeAttributes['block'] = 'modules_catalog_product'; 
-		if ($treeType == 'wlist')
+		$detailVisual = $this->getDefaultVisual();
+		if ($detailVisual)
 		{
-			$detailVisual = $this->getDefaultVisual();
-			if ($detailVisual)
+			$nodeAttributes['hasPreviewImage'] = true;
+			if ($treeType == 'wlist')
 			{
 				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
 			}
