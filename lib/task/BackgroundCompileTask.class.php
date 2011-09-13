@@ -13,9 +13,9 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 		
 		while ($maxIteration > 0 && count($ids))
 		{
-			$this->plannedTask->ping();
 			foreach (array_chunk($ids, 100) as $chunk)
 			{
+				$this->plannedTask->ping();
 				$result = f_util_System::execScript($batchPath, $chunk);
 				if ($result != 'OK')
 				{
