@@ -77,3 +77,7 @@ treechildren::-moz-tree-image(modules_catalog_tax){
 treechildren::-moz-tree-image(modules_catalog_currency){
 	list-style-image: url(/changeicons/small/document.png);
 }
+
+wdialog[template="productselector"] .dialog-header{
+	background: url(/changeicons/small/misc.png) transparent center  left no-repeat!important;
+}
