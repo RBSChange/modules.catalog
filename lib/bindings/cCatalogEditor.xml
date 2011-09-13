@@ -568,8 +568,7 @@
 		<implementation>
 			<field name="mListSubproductConfig">null</field>	
 			<constructor><![CDATA[
-				wCore.debug("cProductSelectorDialog.constructor");	
-				
+				wCore.debug("cProductSelectorDialog.constructor");
 			]]></constructor>
 		</implementation>
 		
@@ -638,12 +637,14 @@
 							</toolbar>
 						</toolbox>
 						<cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
-						<spacer anonid="previewimage" hidden="true" />
+						<splitter width="5" />
+						<label class="change-toolbox-dark" style="max-height: 26px; min-height: 26px; margin: 0; padding: 5px;">
+							${transui:m.catalog.bo.dialog.productselector.declinations,ucf}
+						</label>
+						<cressourceslistselector anonid="list_subproduct" xbl:inherits="disabled,collapsed,hidden,hideheader" style="min-height: 56px;" />
 					</vbox>
 					<spacer width="5"/>
 					<vbox width="250" style="border: thin inset #e3e3e3;">
-						<label value="&amp;modules.catalog.bo.dialog.productselector.DeclinationsLabel;"/>
-						<cressourceslistselector anonid="list_subproduct" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
 						<vbox xbl:inherits="collapsed=hide-list" flex="1">
 							<spacer height="5" />
 							<label value="&amp;modules.uixul.bo.dialog.Ressource-selectionLabel;"/>
@@ -655,7 +656,11 @@
 								<rows anonid="document-rows">
 								</rows>
 							</grid>
-						</vbox>						
+						</vbox>		
+						<label value="${transui:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
+						<vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
+							<image anonid="previewimage" src="{IconsBase}/small/document.png" />
+						</vbox>				
 					</vbox>
 				</hbox>
 				<hbox pack="end" align="center">
