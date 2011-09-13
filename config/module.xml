@@ -13,6 +13,8 @@
 			<entry name="1">catalog_SameShelvesProductFeeder</entry>
 			<entry name="2">catalog_SameBrandProductFeeder</entry>
 		</modulesCatalogProductSuggestionFeeder>
+		<!-- Product compilation. -->
+		<entry name="compilationChunkSize">100</entry>
 		<!-- Favorite and consulted product list handling. -->
 		<entry name="productListFavoriteClass">catalog_SessionProductList</entry>
 		<entry name="productListFavoritePersist">true</entry>
