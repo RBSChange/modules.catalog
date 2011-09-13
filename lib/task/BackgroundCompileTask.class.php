@@ -13,7 +13,7 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 		
 		while ($maxIteration > 0 && count($ids))
 		{
-			foreach (array_chunk($ids, 100) as $chunk)
+			foreach (array_chunk($ids, Framework::getConfigurationValue('modules/catalog/compilationChunkSize', 100)) as $chunk)
 			{
 				$this->plannedTask->ping();
 				$result = f_util_System::execScript($batchPath, $chunk);
