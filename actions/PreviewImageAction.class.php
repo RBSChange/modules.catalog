@@ -13,18 +13,21 @@ class catalog_PreviewImageAction extends generic_PreviewImageAction
 	{
 		try 
 		{
-			$product = catalog_persistentdocument_product::getInstanceById($this->getDocumentIdFromRequest($request));
-			$visual = $product->getDefaultVisual();
-			if (!$visual)
+			$doc = $this->getDocumentInstanceFromRequest($request);
+			if (f_util_ClassUtils::methodExists($doc, 'getDefaultVisual'))
 			{
-				return parent::_execute($context, $request);
+				$visual = $doc->getDefaultVisual();
+				if ($visual)
+				{
+					$request->setParameter('cmpref', $visual->getId());
+					return $context->getController()->forward('media', 'Display');
+				}
 			}
-			$request->setParameter('cmpref', $visual->getId());
-			return $context->getController()->forward('media', 'Display');
 		}
 		catch (Exception $e)
 		{
-			return parent::_execute($context, $request);
+			// The document doesn't exist!
 		}
+		return parent::_execute($context, $request);
 	}
 }
