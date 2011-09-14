@@ -607,10 +607,10 @@
 		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xbl="http://www.mozilla.org/xbl">
 			<vbox flex="1">
 				<hbox class="dialog-header">
-					<label value="&amp;modules.uixul.bo.dialog.Select-ressources;" class="dialog-title" />
+					<label class="dialog-title">${transui:m.uixul.bo.dialog.select-ressources,ucf}</label>
 					<spacer flex="1" />
 					<vbox pack="center">
-						<toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="&amp;modules.uixul.bo.dialog.Cancel;" />
+						<toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${transui:m.uixul.bo.dialog.cancel,ucf,attr}" />
 					</vbox>
 				</hbox>
 				<cmessageinfo anonid="message-box" />	
@@ -632,39 +632,41 @@
 						<toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
 							<toolbar class="change-toolbar">	
 								<toolbarbutton anonid="searchButton" disabled="true" image="{IconsBase}/small/search.png" oncommand="toggleSearch()" 
-								tooltiptext="&amp;modules.uixul.bo.general.ToggleSearchResourceModeEllipsis;"
-								crop="end" label="&amp;modules.uixul.bo.general.ShowSearch;" />					
+								tooltiptext="${transui:m.uixul.bo.general.togglesearchresourcemode,ucf,attr,etc}"
+								crop="end" label="${transui:m.uixul.bo.general.showsearch,ucf,attr}" />					
 							</toolbar>
 						</toolbox>
 						<cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
 						<splitter width="5" />
-						<label class="change-toolbox-dark" style="max-height: 26px; min-height: 26px; margin: 0; padding: 5px;">
-							${transui:m.catalog.bo.dialog.productselector.declinations,ucf}
-						</label>
+						<label class="change-toolbox-dark">${transui:m.catalog.bo.dialog.productselector.declinations,ucf}</label>
 						<cressourceslistselector anonid="list_subproduct" xbl:inherits="disabled,collapsed,hidden,hideheader" style="min-height: 56px;" />
 					</vbox>
 					<spacer width="5"/>
-					<vbox width="250" style="border: thin inset #e3e3e3;">
-						<vbox xbl:inherits="collapsed=hide-list" flex="1">
-							<spacer height="5" />
-							<label value="&amp;modules.uixul.bo.dialog.Ressource-selectionLabel;"/>
-							<grid anonid="selectedList" width="250" flex="1" style="overflow-y: scroll; overflow-x: hidden; margin: 0; padding: 0;">
-								<columns>
-									<column width="200" />
-									<column width="20" />
-								</columns>
-								<rows anonid="document-rows">
-								</rows>
-							</grid>
+					<vbox width="250">
+						<vbox flex="1">
+							<vbox xbl:inherits="collapsed=hide-list" flex="1" style="border: thin inset #e3e3e3;">
+								<label class="change-toolbox-dark">${transui:m.uixul.bo.dialog.ressource-selection,ucf}</label>
+								<grid anonid="selectedList" width="250" flex="1" style="overflow-y: scroll; overflow-x: hidden; margin: 0; padding: 0;">
+									<columns>
+										<column width="200" />
+										<column width="20" />
+									</columns>
+									<rows anonid="document-rows">
+									</rows>
+								</grid>	
+							</vbox>					
+						</vbox>
+						<spacer height="5" />
+						<vbox style="border: thin inset #e3e3e3;">
+							<label class="change-toolbox-dark">${transui:m.uixul.bo.dialog.ressource-preview,ucf}</label>
+							<vbox width="250" height="200" align="center" pack="center">
+								<image anonid="previewimage" src="{IconsBase}/small/document.png" />
+							</vbox>
 						</vbox>		
-						<label value="${transui:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
-						<vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
-							<image anonid="previewimage" src="{IconsBase}/small/document.png" />
-						</vbox>				
 					</vbox>
 				</hbox>
 				<hbox pack="end" align="center">
-					<button image="{IconsBase}/small/check.png" oncommand="onOk();" label="&amp;modules.uixul.bo.dialog.Apply;" />
+					<button image="{IconsBase}/small/check.png" oncommand="onOk();" label="${transui:m.uixul.bo.dialog.apply,ucf,attr}" />
 				</hbox>
 			</vbox>
 		</xbl:content>
