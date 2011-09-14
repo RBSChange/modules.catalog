@@ -712,10 +712,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function addTreeAttributes($product, $moduleName, $treeType, &$nodeAttributes)
 	{
-		if ($treeType == 'wlist')
+		$detailVisual = $product->getDefaultVisual();
+		if ($detailVisual)
 		{
-			$detailVisual = $product->getDefaultVisual();
-			if ($detailVisual)
+			$nodeAttributes['hasPreviewImage'] = true;
+			if ($treeType == 'wlist')
 			{
 				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
 			}
