@@ -3,7 +3,7 @@
  * CompileCatalogTask
  * @package modules.catalog
  */
-class commands_CompileCatalog extends commands_AbstractChangeCommand
+class commands_CompileCatalog extends c_ChangescriptCommand
 {
 	/**
 	 * @return String
