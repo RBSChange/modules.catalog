@@ -10,9 +10,9 @@ class catalog_AutoFeedRelatedProductsTask extends task_SimpleSystemTask
 		
 		$feeder = $ms->getPreferenceValue('catalog', 'suggestComplementaryFeederClass');
 		$complementaryMaxCount = ($feeder && $feeder != 'none') ? $ms->getPreferenceValue('catalog', 'autoFeedComplementaryMaxCount') : 0;
-		$feeder = $ms->getPreferenceValue('catalog', 'suggestComplementaryFeederClass');
+		$feeder = $ms->getPreferenceValue('catalog', 'suggestSimilarFeederClass');
 		$similarMaxCount = ($feeder && $feeder != 'none') ? $ms->getPreferenceValue('catalog', 'autoFeedSimilarMaxCount') : 0;
-		$feeder = $ms->getPreferenceValue('catalog', 'suggestComplementaryFeederClass');
+		$feeder = $ms->getPreferenceValue('catalog', 'suggestUpsellFeederClass');
 		$upsellMaxCount = ($feeder && $feeder != 'none') ? $ms->getPreferenceValue('catalog', 'autoFeedUpsellMaxCount') : 0;
 		if (($complementaryMaxCount < 1) && ($similarMaxCount < 1) && ($upsellMaxCount < 1))
 		{

@@ -223,34 +223,32 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * WARN: This method does not do anything anymore
+	 * The job is now done in ProductdeclinationService::synchronizePropertiesByDeclinedProduct().
+	 * Please implement getSynchronizedPropertiesName() if you want to deactivate
+	 * or add some synchronization between declinedproduct and productdeclination.
+	 * Cf. http://www.rbschange.fr/tickets-42692.html
+	 * @deprecated will be removed in 4.0
 	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @return boolean
 	 */
 	protected function synchronizeFields($document)
 	{
-		$modified = false;
-		// Handle similar and complementary products synchronization.
-		$cms = catalog_ModuleService::getInstance();
-		if ($document->isPropertyModified('complementary') && $cms->isComplementarySynchroEnabled())
-		{
-			$this->synchronizeField($document, 'complementary');
-			$modified = true;
-		}
+		// Nothing there: if similar or complementary modified, this will be done by
+		// declination service because of "touchAllDeclinations" called in preUpdate()
 		
-		if ($document->isPropertyModified('similar') && $cms->isSimilarSynchroEnabled())
-		{
-			$this->synchronizeField($document, 'similar');
-			$modified = true;
-		}
-		return $modified;
+		return false;
 	}
 	
 	/**
+	 * WARN: is not called anymore
 	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @param String $fieldName
+	 * @deprecated will be removed in 4.0
 	 */
 	protected function synchronizeField($document, $fieldName)
 	{
+		// only there to preserve potential project specific code
 		$ucfirstFieldName = ucfirst($fieldName);
 		$oldIds = $document->{'get'.$ucfirstFieldName.'OldValueIds'}();
 		$currentProducts = $document->{'get'.$ucfirstFieldName.'Array'}();
@@ -321,7 +319,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 
 	public function getSynchronizedPropertiesName()
 	{
-		return array('shelf', 'brand', 'upsell',
+		return array('shelf', 'brand', 'upsell', 'similar', 'complementary',
 			'description', 'serializedattributes', 'shippingModeId', 
 			'pageTitle', 'pageDescription', 'pageKeywords');
 	}
