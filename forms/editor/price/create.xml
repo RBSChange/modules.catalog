@@ -20,7 +20,7 @@
 	</section>
 	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Restrictions">
 		<field name="thresholdMin" />
-		<field name="target" type="document" moduleselector="customer" allow="modules_customer_customer,modules_customer_tarifcustomergroup"
+		<field name="target" type="document" moduleselector="customer" allow="modules_customer_customer,modules_customer_tarifcustomergroup,modules_catalog_kit"
 			labeli18n="modules.catalog.document.price.TargetId" shorthelp="&amp;modules.catalog.document.price.TargetId-help;" hidehelp="true" />
 	</section>
 	<xul>
