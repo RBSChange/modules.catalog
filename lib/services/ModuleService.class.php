@@ -36,7 +36,7 @@ class catalog_ModuleService extends ModuleBaseService
 		{
 			return $document->getDeclinedproduct();
 		}
-		else if ($document instanceof catalog_persistentdocument_product)
+		else if ($document instanceof catalog_persistentdocument_product || $document instanceof catalog_persistentdocument_declinedproduct)
 		{
 			return $document->getShelf(0);
 		}
