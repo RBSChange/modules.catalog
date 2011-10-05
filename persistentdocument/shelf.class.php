@@ -78,8 +78,7 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	{
 		$desc = f_util_StringUtils::htmlToText($this->getDescription(), false);
 		$desc = f_util_StringUtils::shortenString($desc, 80);
-		$desc = str_replace(array('&', '<', '>', '\'', '"'), array('&amp;', '&lt;', '&gt;', '&#39;', '&quot;'), $desc);
-		return $desc;
+		return f_util_HtmlUtils::textToHtml($desc);
 	}
 	
 	/**
