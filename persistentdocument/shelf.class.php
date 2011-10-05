@@ -72,13 +72,22 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @return String
+	 * @param integer $maxCount
+	 * @return string
 	 */
-	public function getShortDescription()
+	public function getShortDescription($maxCount = 80)
 	{
 		$desc = f_util_StringUtils::htmlToText($this->getDescription(), false);
-		$desc = f_util_StringUtils::shortenString($desc, 80);
-		return f_util_HtmlUtils::textToHtml($desc);
+		return f_util_StringUtils::shortenString($desc, $maxCount);
+	}
+
+	/**
+	 * @param integer $maxCount
+	 * @return string
+	 */
+	public function getShortDescriptionAsHtml($maxCount = 80)
+	{
+		return f_util_HtmlUtils::textToHtml($this->getShortDescription($maxCount));
 	}
 	
 	/**
