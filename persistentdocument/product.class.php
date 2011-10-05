@@ -124,12 +124,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 
 	/**
+	 * @param integer $maxCount
 	 * @return String
 	 */
 	public function getShortDescription($maxCount = 80)
 	{
-		$desc = str_replace(array('&', '<', '>', '\'', '"'), array('&amp;', '&lt;', '&gt;', '&#39;', '&quot;'), f_util_StringUtils::htmlToText($this->getDescription(), false));
-		return f_util_StringUtils::shortenString($desc, $maxCount);
+		$desc = f_util_StringUtils::htmlToText($this->getDescription(), false);
+		$desc = f_util_StringUtils::shortenString($desc, $maxCount);
+		return f_util_HtmlUtils::textToHtml($desc);
 	}
 
 	/**
