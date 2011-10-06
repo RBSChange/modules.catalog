@@ -183,10 +183,20 @@ class catalog_ModuleService extends ModuleBaseService
 			return $this->instances[$listName];
 		}
 		
-		$maxCount = intval(Framework::getConfigurationValue('modules/catalog/productList'.ucfirst($listName).'MaxCount'));
+		if (strpos($listName, '_') !== false)
+		{
+			list($module, $name) = explode('_', $listName);
+		}
+		else
+		{
+			$module = 'catalog';
+			$name = $listName;
+		}		
+		
+		$maxCount = intval(Framework::getConfigurationValue('modules/'.$module.'/productList'.ucfirst($name).'MaxCount'));
 		$maxCount = ($maxCount < 1) ? null : $maxCount;
 			
-		$class = Framework::getConfigurationValue('modules/catalog/productList'.ucfirst($listName).'Class');
+		$class = Framework::getConfigurationValue('modules/'.$module.'/productList'.ucfirst($name).'Class');
 		if (!f_util_ClassUtils::classExists($class))
 		{
 			throw new Exception('the class "'.$class.'" does not exist!');
@@ -194,7 +204,7 @@ class catalog_ModuleService extends ModuleBaseService
 		$list = f_util_ClassUtils::callMethodArgs($class, 'getListInstance', array($listName, $maxCount));
 		
 		// If persistence is disabled, return the "volatile" list.
-		if (Framework::getConfigurationValue('modules/catalog/productList'.ucfirst($listName).'Persist') !== 'true')
+		if (Framework::getConfigurationValue('modules/'.$module.'/productList'.ucfirst($name).'Persist') !== 'true')
 		{
 			$this->instances[$listName] = $list;
 			return $this->instances[$listName];
