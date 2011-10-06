@@ -9,6 +9,7 @@
 
 <div class="website-block">
 	<!-- Product information -->
+	<div class="hproduct">
 	<div class="column-33 margin-left float-right">
 		<tal:block change:include="module 'catalog'; template 'Catalog-Inc-Mininavigation'; type 'html'; primaryshelf primaryshelf; contextShopId contextShopId"/>
 		
@@ -17,14 +18,14 @@
 			<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pic35x35'" /></li>
 		</ul>
 		
-		<h1 change:h="" tal:content="structure product/getLabelAsHtml"></h1>
-		<div class="product-ref">
-			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong> ${structure product/getCodeReferenceAsHtml}
+		<h1 change:h="" class="fn" tal:content="structure product/getLabelAsHtml"></h1>
+		<div class="product-ref identifier">
+			<strong>${trans:m.catalog.frontoffice.detail-reference,ucf,lab}</strong><span class="type hidden">SKU</span> <span class="value">${structure product/getCodeReferenceAsHtml}</span>
 		</div>
 		                
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
 			<strong>${trans:m.catalog.frontoffice.brand,ucf,lab}</strong>
-			<a change:link="document brand">
+			<a change:link="document brand; class-add brand fn">
 				<tal:block tal:condition="not:brandVisual">${structure brand/getLabelAsHtml}</tal:block>
 				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 			</a>
@@ -103,10 +104,10 @@
 				<tal:block tal:condition="baseconfiguration/getActivatezoom">
 					<tal:block tal:define="global visualUrl php: LinkHelper::getDocumentUrl(imageMini)"/>				
 					<tal:block tal:define="global visualFormatedUrl php: MediaHelper::getPublicFormatedUrl(imageMini, 'modules.catalog.frontoffice/detailproduct')"/>				
-					<img tal:attributes="src visualFormatedUrl; alt visualUrl" class="jqzoom image" />
+					<img tal:attributes="src visualFormatedUrl; alt visualUrl" class="jqzoom image photo" />
 				</tal:block>
 				<tal:block tal:condition="not: baseconfiguration/getActivatezoom">
-					<img change:media="document imageMini; format 'modules.catalog.frontoffice/detailproduct'"/>				
+					<img class="photo" change:media="document imageMini; format 'modules.catalog.frontoffice/detailproduct'"/>				
 				</tal:block>
 			</div>
 		</tal:block>
@@ -121,11 +122,10 @@
 		</div>
 	</div>
 	<!-- End - Product Pics -->
-</div>
 
 <!-- Additionnal product information -->
 <div class="row-100">	
-	<div class="product-description" tal:condition="product/getDescription">${structure product/getDescriptionAsHtml}</div>
+	<div class="product-description description" tal:condition="product/getDescription">${structure product/getDescriptionAsHtml}</div>
 </div>
 <!-- End - Additionnal product information -->
 
@@ -153,3 +153,12 @@
 	</div>
 </div>
 <!-- End - KitItems products information -->
+	<div style="display: none;">
+	    <a class="category" href="${primaryshelf/getUrl}" rel="tag">${primaryshelf/getLabel}</a>
+	    <a class="url" change:currentpagelink="" rel="product">${php: LinkHelper::getCurrentUrl()}</a>
+	    <span class="price">${defaultPrice/getValueWithTax} ${php: catalog_CurrencyService::getInstance().getCodeById(defaultPrice.getCurrencyId())}</span>
+	</div>
+
+    </div>
+
+</div>
