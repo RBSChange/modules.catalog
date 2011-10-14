@@ -59,6 +59,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 				. ' ' . $this->getBrandLabel()
 				. ' ' . $topic->getLabel()
 				. ' ' . $topShelf->getLabel()
+				. ' ' . $this->getCodeReference()
 			);					
 		} 
 		catch (Exception $e) 
