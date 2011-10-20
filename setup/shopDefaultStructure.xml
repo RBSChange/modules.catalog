@@ -18,9 +18,9 @@
 			<tag name="functional_catalog_product-detail" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_product" />
-				<changeblock type="modules_catalog_productCrossSelling" __type="complementary" __maxdisplayed="2" />
-				<changeblock type="modules_catalog_productCrossSelling" __type="similar" __maxdisplayed="2" />
-				<changeblock type="modules_catalog_productCrossSelling" __type="upsell" __maxdisplayed="2" />
+				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="complementary" __maxdisplayed="2" />
+				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="similar" __maxdisplayed="2" />
+				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="upsell" __maxdisplayed="2" />
 				<changeblock type="modules_catalog_bundleListByProduct" />
 				<changeblock type="modules_catalog_comments" />
 			</changecontent>
