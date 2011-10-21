@@ -270,7 +270,7 @@ class catalog_ReferencingService extends BaseService
 	 */
 	private function getCurrentWebsite()
 	{
-		return website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		return website_WebsiteService::getInstance()->getCurrentWebsite();
 	}
 	
 	/**

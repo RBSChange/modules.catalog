@@ -705,7 +705,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$shop = $shopService->getShopFromRequest('shopId');
 			if ($shop === null)
 			{
-				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+				$website = website_WebsiteService::getInstance()->getCurrentWebsite();
 				$shop = $shopService->getDefaultByWebsite($website);
 				if ($shop === null)
 				{

@@ -32,7 +32,7 @@ class catalog_AddToListAction extends change_Action
 		if (!$backUrl)
 		{
 			$tag = 'contextual_website_website_modules_catalog_'.$listName.'-product-list';
-			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+			$website = website_WebsiteService::getInstance()->getCurrentWebsite();
 			$doc = TagService::getInstance()->getDocumentByContextualTag($tag, $website, false);
 			if ($doc === null)
 			{

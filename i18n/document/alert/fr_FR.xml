@@ -4,6 +4,7 @@
   <key id="label">libellé</key>
   <key id="alerttype">type</key>
   <key id="email">e-mail</key>
+  <key id="email-help">e-mail du destinataire de l'alerte</key>
   <key id="endpublicationdate">date d'expiration</key>
   <key id="hasuser">utilisateur enregistré</key>
   <key id="label-patern-user">alerte sur le produit {productId} pour l'utilisateur {user}</key>

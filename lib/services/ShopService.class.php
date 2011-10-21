@@ -123,7 +123,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	protected function getContextualDefaultShop()
 	{
 		$shop = null;
-		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		$pageId = website_PageService::getInstance()->getCurrentPageId();
 		if (intval($pageId) > 0)
 		{
 			$query = $this->createQuery()->add(Restrictions::published());
@@ -148,7 +148,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		// or default one for website.
 		if ($shop === null)
 		{
-			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+			$website = website_WebsiteService::getInstance()->getCurrentWebsite();
 			if ($website !== null)
 			{
 				$shop = $this->getDefaultByWebsite($website);

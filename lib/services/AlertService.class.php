@@ -56,7 +56,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_frontenduser $user
+	 * @param users_persistentoducment_user $user
 	 * @param catalog_persistentdocument_product $product
 	 * @param string $type
 	 * @return boolean
@@ -67,7 +67,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_frontenduser $user
+	 * @param users_persistentoducment_user $user
 	 * @param catalog_persistentdocument_product $product
 	 * @param string $type
 	 * @return catalog_persistentdocument_alert
@@ -81,7 +81,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_frontenduser $user
+	 * @param users_persistentoducment_user $user
 	 * @return catalog_persistentdocument_alert[]
 	 */
 	public function getPublishedByUser($user)
@@ -99,7 +99,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_frontenduser $user
+	 * @param users_persistentoducment_user $user
 	 * @param integer[] $productIds
 	 * @return boolean
 	 */

@@ -11,7 +11,7 @@ class catalog_ProductlistPersistenceListener
 	 */
 	public function onUserLogin($sender, $params)
 	{
-		if ($params['user'] instanceof users_persistentdocument_frontenduser) 
+		if ($params['user'] instanceof users_persistentdocument_user) 
 		{
 			$cms = catalog_ModuleService::getInstance();
 			$cms->getProductList(catalog_ProductList::FAVORITE, true);

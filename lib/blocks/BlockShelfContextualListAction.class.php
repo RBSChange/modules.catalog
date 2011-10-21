@@ -53,6 +53,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 		if ($this->container === null)
 		{
 			$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
+			
 			$topic = DocumentHelper::getDocumentInstance($topicId);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{

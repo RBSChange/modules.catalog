@@ -110,12 +110,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 
 	/**
 	 * Returns the top-level shelf of the current shop for the current page.
-	 * @see website_WebsiteModuleService::getCurrentPageId()
+	 * @see website_PageService::getCurrentPageId()
 	 * @return catalog_persistentdocument_shelf
 	 */
 	public function getCurrentTopShelf()
 	{
-		$currentPageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		$currentPageId = website_PageService::getInstance()->getCurrentPageId();
 		// No current page, so no current top shelf.
 		if (!$currentPageId)
 		{
@@ -140,12 +140,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * Returns the top-level shelf of the current shop for the current page.
-	 * @see website_WebsiteModuleService::getCurrentPageId()
+	 * @see website_PageService::getCurrentPageId()
 	 * @return catalog_persistentdocument_shelf
 	 */
 	public function getCurrentShelf()
 	{
-		$currentPageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		$currentPageId = website_PageService::getInstance()->getCurrentPageId();
 		// No current page, so no current shelf.
 		if (!$currentPageId)
 		{
@@ -336,7 +336,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		if ($topicParent === null) { throw new Exception('no topic'); }
 		$topic = $this->getRelatedTopicByTopicAncestor($shelf, $topicParent);
-		website_WebsiteModuleService::getInstance()->removeIndexPage($topic);
+		$topic->getDocumentService()->removeIndexPage($topic);
 		foreach ($this->getChildrenOf($shelf) as $child)
 		{
 			if ($child instanceof catalog_persistentdocument_shelf)
@@ -763,7 +763,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			}
 			else 
 			{
-				$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+				$website = website_WebsiteService::getInstance()->getCurrentWebsite();
 				$shop = $shopService->getDefaultByWebsite($website);
 			}
 			if ($shop === null)

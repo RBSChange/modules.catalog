@@ -210,7 +210,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getFormattedRatingAverage()
 	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		$website = website_WebsiteService::getInstance()->getCurrentWebsite();
 		$ratingAverage = $this->getRatingMetaForWebsiteid($website->getId());
 		if ($ratingAverage === null)
 		{
@@ -650,10 +650,10 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	public function getContextualTopicId()
 	{
-		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		$pageId = website_PageService::getInstance()->getCurrentPageId();
 		if ($pageId)
 		{
-			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+			$ancestors = website_PageService::getInstance()->getCurrentPageAncestors();
 			$topic = f_util_ArrayUtils::lastElement($ancestors);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{
@@ -678,10 +678,10 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getContextualCompiledProduct()
 	{
-		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		$pageId = website_PageService::getInstance()->getCurrentPageId();
 		if ($pageId)
 		{
-			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+			$ancestors = website_PageService::getInstance()->getCurrentPageAncestors();
 			$topic = f_util_ArrayUtils::lastElement($ancestors);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{

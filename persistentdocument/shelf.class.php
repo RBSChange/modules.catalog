@@ -138,10 +138,10 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	 */
 	public function getContextualSystemTopic()
 	{
-		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+		$pageId = website_PageService::getInstance()->getCurrentPageId();
 		if ($pageId)
 		{
-			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+			$ancestors = website_PageService::getInstance()->getCurrentPageAncestors();
 			$topic = f_util_ArrayUtils::lastElement($ancestors);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{

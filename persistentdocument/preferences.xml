@@ -7,7 +7,7 @@
 		<add name="defaultDetailVisual" type="modules_media/media" min-occurs="1" />
 		<add name="defaultListVisual" type="modules_media/media" min-occurs="1" />
 		<add name="stockAlertThreshold" type="Double" default-value="0" />
-		<add name="stockAlertNotificationUser" type="modules_users/backenduser" max-occurs="-1" />
+		<add name="stockAlertNotificationUser" type="modules_users/user" max-occurs="-1" />
 		<add name="synchronizeComplementary" type="Boolean" default-value="true" />
 		<add name="synchronizeSimilar" type="Boolean" default-value="true" />
 		<add name="suggestComplementaryFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />

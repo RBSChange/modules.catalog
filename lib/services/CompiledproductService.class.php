@@ -254,7 +254,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 
 		$website = $shop->getWebsite();
-		website_WebsiteModuleService::getInstance()->setCurrentWebsite($website);
+		website_WebsiteService::getInstance()->setCurrentWebsite($website);
 		catalog_ShopService::getInstance()->setCurrentShop($shop);
 		
 		$compiledProduct->setShopId($shop->getId());

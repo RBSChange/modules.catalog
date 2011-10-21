@@ -6,7 +6,7 @@
 class catalog_persistentdocument_alert extends catalog_persistentdocument_alertbase 
 {
 	/**
-	 * @return users_persistentdocument_frontenduser
+	 * @return users_persistentdocument_user
 	 */
 	public function hasUser()
 	{
@@ -14,7 +14,7 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	}
 	
 	/**
-	 * @return users_persistentdocument_frontenduser
+	 * @return users_persistentdocument_user
 	 */
 	public function getUser()
 	{
@@ -23,14 +23,13 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 		{
 			try 
 			{
-				return DocumentHelper::getDocumentInstance($userId, 'modules_users/frontenduser');
+				return DocumentHelper::getDocumentInstance($userId, 'modules_users/user');
 			}
 			catch (Exception $e)
 			{
-				// User doesn't exist any more...
-				if (Framework::isDebugEnabled())
+				if (Framework::isInfoEnabled())
 				{
-					Framework::debug(__METHOD__ . ' ' . $e->getMessage());
+					Framework::exception($e);
 				}
 			}
 		}

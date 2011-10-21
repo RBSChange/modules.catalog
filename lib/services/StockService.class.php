@@ -314,14 +314,14 @@ class catalog_StockService extends BaseService
 	}
 
 	/**
-	 * @param users_persistentdocument_backenduser[] $recipients
+	 * @param users_persistentdocument_user[] $users
 	 * @param catalog_persistentdocument_product $document
 	 * @return boolean
 	 */
 	protected function sendStockAlertNotification($users, $document)
 	{
 		$ns = notification_NotificationService::getInstance();
-		// Products and backendusers have no website or lang...
+		// Products and users have no website or lang...
 		$configuredNotif = $ns->getConfiguredByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME);
 		if ($configuredNotif instanceof notification_persistentdocument_notification)
 		{

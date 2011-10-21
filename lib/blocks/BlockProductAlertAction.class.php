@@ -177,6 +177,6 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 	protected function useCaptcha()
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		return ($shop->getEnableCaptchaForAlerts() && users_WebsitefrontenduserService::getInstance()->getCurrentFrontEndUser() === null);
+		return ($shop->getEnableCaptchaForAlerts() && users_UserService::getInstance()->getCurrentFrontEndUser() === null);
 	}
 }

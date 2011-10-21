@@ -208,7 +208,7 @@ class catalog_ModuleService extends ModuleBaseService
 	 */
 	protected function convertIdsToProductArray($ids)
 	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+		$website = website_WebsiteService::getInstance()->getCurrentWebsite();
 		if (count($ids) > 0 && $website !== null)
 		{
 			$query = catalog_ProductService::getInstance()->createQuery()->add(Restrictions::published())
