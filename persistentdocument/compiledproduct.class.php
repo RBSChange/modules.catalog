@@ -13,17 +13,47 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	{
 		if ($this->getShowInList())
 		{
-			$product = $this->getProduct();
-			$indexDocument = $product->getIndexedDocumentByCompiledProduct($this);
-			if ($indexDocument !== null)
+			$userIds = $this->getIndexFrontendAccessorIds();
+			if (count($userIds))
 			{
-				$indexDocument->setId($this->getId());
-				$indexDocument->setDocumentModel("modules_catalog/compiledproduct");		
-				$this->getDocumentService()->indexFacets($this, $indexDocument);
-				return $indexDocument;
+				$product = $this->getProduct();
+				$indexDocument = $product->getIndexedDocumentByCompiledProduct($this);
+				if ($indexDocument !== null)
+				{
+					$indexDocument->setId($this->getId());
+					$indexDocument->setDocumentModel("modules_catalog/compiledproduct");	
+					$indexDocument->setDocumentAccessors($userIds);			
+					$this->getDocumentService()->indexFacets($this, $indexDocument);				
+					return $indexDocument;
+				}
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * @return Integer[]
+	 */
+	private function getIndexFrontendAccessorIds()
+	{
+		$userIds = array();
+		if ($this->getPrimary())
+		{
+			$page = $this->getDocumentService()->getDisplayPage($this);
+			if ($page !== null)
+			{
+				$userIds = f_permission_PermissionService::getInstance()->getAccessorIdsForRoleByDocumentId('modules_website.AuthenticatedFrontUser', $page->getId());
+				if (count($userIds) === 0)
+				{
+					$userIds[] = 0;
+				}
+			}
+		}
+		else
+		{
+			$userIds[] = -1;
+		}
+		return $userIds;
 	}
 	
 	/**

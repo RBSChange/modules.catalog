@@ -366,6 +366,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			$this->save($compiledProduct);
 		}
+		elseif ($compiledProduct->getShowInList())
+		{
+			indexer_IndexService::getInstance()->update($compiledProduct);
+		}
 		else
 		{
 			if (Framework::isInfoEnabled())
