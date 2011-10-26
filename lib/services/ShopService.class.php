@@ -315,7 +315,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		if ($topic === null)
 		{
 			$topic = website_SystemtopicService::getInstance()->getNewDocumentInstance();
-			$topic->setReferenceId($document->getId());
+			$topic->setReferenceId(abs($document->getId()));
 			$topic->setLabel($document->getLabel());
 			$topic->setDescription($document->getDescription());
 			$topic->setPublicationstatus('DRAFT');
@@ -392,8 +392,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		{
 			catalog_TaxService::getInstance()->addNoTaxForShopAndZone($document->getId(), $document->getDefaultTaxZone());
 		}
-		$topic = $document->getTopic();
-		
+		$topic = $document->getTopic();	
 		$topic->setReferenceId($document->getId());
 		$topic->save();
 		$topic->activate();
@@ -482,9 +481,9 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function postSave($document, $parentNodeId)
 	{
-		// Fix referenceId if set to -1 (when the topic is created in the pre-save).
+		// Fix referenceId
 		$topic = $document->getTopic();
-		if ($topic->getReferenceId() === -1)
+		if ($topic->getReferenceId() != $document->getId())
 		{
 			$topic->setReferenceId($document->getId());
 			$topic->save();
