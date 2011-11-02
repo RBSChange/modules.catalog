@@ -36,17 +36,14 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	 */
 	private function getIndexFrontendAccessorIds()
 	{
-		$userIds = array();
+		$page = $this->getDocumentService()->getDisplayPage($this);
+		if ($page === null) {return array();}
+		$userIds = f_permission_PermissionService::getInstance()->getAccessorIdsForRoleByDocumentId('modules_website.AuthenticatedFrontUser', $page->getId());
 		if ($this->getPrimary())
-		{
-			$page = $this->getDocumentService()->getDisplayPage($this);
-			if ($page !== null)
+		{			
+			if (count($userIds) === 0)
 			{
-				$userIds = f_permission_PermissionService::getInstance()->getAccessorIdsForRoleByDocumentId('modules_website.AuthenticatedFrontUser', $page->getId());
-				if (count($userIds) === 0)
-				{
-					$userIds[] = 0;
-				}
+				$userIds[] = 0;
 			}
 		}
 		else
