@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" 
-	model-version="1.0" icon="product">
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" icon="product">
   <properties>
-    <add name="publicationstatus" localized="true"/>
-    <add name="description" type="XHTMLFragment" localized="true" indexed="description"/>
-    <add name="visual" type="modules_media/media"/>
-    <add name="shelf" type="modules_catalog/shelf" max-occurs="-1" tree-node="true" inverse="true" preserve-old-value="true"/>
-    <add name="brand" type="modules_brand/brand" inverse="true"/>
-    <add name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
-    <add name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
-    <add name="upsell" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
-    <add name="codeReference" type="String" db-size="50" indexed="property"/>
-    <add name="articleId" type="Integer"/>
-    <add name="serializedattributes" type="Lob"/>
-    <add name="compiled" type="Boolean"/>
-    <add name="shippingModeId" type="Integer"/>
-    <add name="stockQuantity" type="Double"/>
-    <add name="stockLevel" type="String" default-value="A" indexed="none" />
-    <add name="stockAlertThreshold" type="Double"/>
-    <add name="codeSKU" type="String" db-size="50" indexed="none" />
+    <property name="publicationstatus" localized="true"/>
+    <property name="description" type="XHTMLFragment" localized="true" indexed="description"/>
+    <property name="visual" type="modules_media/media"/>
+    <property name="shelf" type="modules_catalog/shelf" max-occurs="-1" tree-node="true" inverse="true" preserve-old-value="true"/>
+    <property name="brand" type="modules_brand/brand" inverse="true"/>
+    <property name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
+    <property name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
+    <property name="upsell" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
+    <property name="codeReference" type="String" db-size="50" indexed="property"/>
+    <property name="articleId" type="Integer"/>
+    <property name="serializedattributes" type="Lob"/>
+    <property name="compiled" type="Boolean"/>
+    <property name="shippingModeId" type="Integer"/>
+    <property name="stockQuantity" type="Double"/>
+    <property name="stockLevel" type="String" default-value="A" indexed="none"/>
+    <property name="stockAlertThreshold" type="Double"/>
+    <property name="codeSKU" type="String" db-size="50" indexed="none"/>
   </properties>
   <statuses default="ACTIVE"/>
 </document>

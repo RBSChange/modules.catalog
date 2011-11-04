@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" model-version="1.0" icon="currency-euro" backoffice-indexable="false" has-url="false">
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" icon="currency-euro" backoffice-indexable="false" has-url="false">
   <properties>
-    <add name="shopId" type="Integer" min-occurs="1" from-list="modules_catalog/shops"/>
-    <add name="productId" type="Integer" min-occurs="1"/>
-    <add name="thresholdMin" type="Integer" min-occurs="1" default-value="1">
-      <constraints>min:1</constraints>
-    </add>
-    <add name="targetId" type="Integer" min-occurs="1" default-value="0"/>
-    <add name="currencyId" type="Integer" min-occurs="1"/>
-    <add name="priority" type="Integer" min-occurs="1" default-value="25"/>
-    <add name="valueWithoutTax" type="Double" min-occurs="1">
-      <constraints>min:0</constraints>
-    </add>
-    <add name="oldValueWithoutTax" type="Double">
-      <constraints>min:0</constraints>
-    </add>
-    <add name="discountDetail" type="String"/>
-    <add name="ecoTax" type="Double">
-      <constraints>min:0</constraints>
-    </add>
-    <add name="taxCategory" type="String" min-occurs="1" db-size="20" default-value="0"/>
+    <property name="shopId" type="Integer" min-occurs="1" from-list="modules_catalog/shops"/>
+    <property name="productId" type="Integer" min-occurs="1"/>
+    <property name="thresholdMin" type="Integer" min-occurs="1" default-value="1">
+      <constraint name="min" min="1"/>
+    </property>
+    <property name="targetId" type="Integer" min-occurs="1" default-value="0"/>
+    <property name="currencyId" type="Integer" min-occurs="1"/>
+    <property name="priority" type="Integer" min-occurs="1" default-value="25"/>
+    <property name="valueWithoutTax" type="Double" min-occurs="1">
+      <constraint name="min" min="0"/>
+    </property>
+    <property name="oldValueWithoutTax" type="Double">
+      <constraint name="min" min="0"/>
+    </property>
+    <property name="discountDetail" type="String"/>
+    <property name="ecoTax" type="Double">
+      <constraint name="min" min="0"/>
+    </property>
+    <property name="taxCategory" type="String" min-occurs="1" db-size="20" default-value="0"/>
   </properties>
   <statuses default="ACTIVE"/>
 </document>

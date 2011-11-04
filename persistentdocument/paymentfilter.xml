@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
-	model-version="1.0" icon="currency-euro" publish-on-day-change="false" has-url="false"
-	indexable="false" backoffice-indexable="false">
-	<properties>
-		<add name="shop" type="modules_catalog/shop" inverse="true" min-occurs="1"/>	
-		<add name="connector" type="modules_payment/connector" min-occurs="1"/>
-		<add name="query" type="LongString" />
-	</properties>
-	<statuses default="ACTIVE" />
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" icon="currency-euro" publish-on-day-change="false" has-url="false" indexable="false" backoffice-indexable="false">
+  <properties>
+    <property name="shop" type="modules_catalog/shop" inverse="true" min-occurs="1"/>
+    <property name="connector" type="modules_payment/connector" min-occurs="1"/>
+    <property name="query" type="LongString"/>
+  </properties>
+  <statuses default="ACTIVE"/>
 </document>
