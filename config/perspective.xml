@@ -218,6 +218,7 @@
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="showPublicationInShops" />
+				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
 	</models>
