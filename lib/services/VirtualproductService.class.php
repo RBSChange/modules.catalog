@@ -160,4 +160,13 @@ class catalog_VirtualproductService extends catalog_ProductService
 			'codeReference' => 'codeReference'
 		));
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_virtualproduct $newDocument
+	 * @param catalog_persistentdocument_virtualproduct $originalDocument
+	 * @param Integer $parentNodeId
+	 */
+	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
+	{
+	}
 }
