@@ -82,7 +82,7 @@
 						<tal:block tal:condition="displayConfig/showAddToCart">		
 							<td tal:condition="displayConfig/showQuantitySelector">
 								<tal:block tal:condition="php: product.canBeOrdered(shop)">
-									<label class="invisible" for="catalogParam_quantities_${id}" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
+									<label class="invisible" for="catalogParam_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
 				                	<input class="textfield quantity-selector" type="text" size="3" id="catalogParam_quantities_${id}" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
 								</tal:block>
 							</td>

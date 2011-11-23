@@ -22,7 +22,7 @@
 		</div>
 		
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
-			<strong change:translate="modules.catalog.frontoffice.BrandLabel"></strong>
+			<strong>${trans:m.catalog.frontoffice.brand,lab,ucf}</strong>
 			<a change:link="document brand">
 				<tal:block tal:condition="not:brandVisual">${brand/getLabelAsHtml}</tal:block>
 				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />

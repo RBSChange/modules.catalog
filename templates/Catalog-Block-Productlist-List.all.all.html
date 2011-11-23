@@ -30,7 +30,7 @@
 							<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
 						</li>
 						<li tal:condition="displayConfig/showRatingAverage">
-	       					<span class="small"><tal:block change:translate="modules.catalog.frontoffice.Rating-averageLabel" /> ${product/getFormattedRatingAverage}</span>
+	       					<span class="small">${trans:m.catalog.frontoffice.rating-average,lab,ucf} ${product/getFormattedRatingAverage}</span>
 						</li>
 						<tal:block tal:condition="displayConfig/showAvailability">
 							<li tal:define="availability product/getAvailability" tal:condition="availability">
@@ -52,7 +52,7 @@
 						<tal:block tal:condition="displayConfig/showAddToCart">
 							<li tal:condition="canBeOrdered">
 								<tal:block tal:condition="displayConfig/showQuantitySelector">
-									<label class="invisible" for="catalogParam_quantities_${id}" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
+									<label class="invisible" for="catalogParam_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
 	                				<input class="textfield quantity-selector" type="text" size="3" id="catalogParam_quantities_${id}" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
 	                				<br />
 	                			</tal:block>
