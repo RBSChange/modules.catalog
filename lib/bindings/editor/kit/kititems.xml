@@ -8,32 +8,32 @@
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="${transui:m.uixul.bo.doceditor.button.Save,ucf,attr}"
 						image="{IconsBase}/small/save.png" />
-					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="${transui:m.uixul.bo.doceditor.button.Canceledit,ucf,attr}"
 						image="{IconsBase}/small/undo.png" />
-					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="&amp;modules.uixul.bo.doceditor.button.Nexterror;"
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="${transui:m.uixul.bo.doceditor.button.Nexterror,ucf,attr}"
 						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:cfield name="kititemsJSON" id="catalog_kit_kititemsJSON" anonid="field_kititemsJSON" fieldtype="namedgridlist" flex="1" />
 
-					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.Add-kititems;">
+					<xul:cfieldsgroup label="${transui:m.catalog.bo.doceditor.Add-kititems,ucf,attr}">
 						<xul:row anonid="row_newBundledItemProducts">
 							<xul:clabel id="catalog_kit_kititems_newKitItemProductIds_label" control="catalog_kit_kititems_newKitItemProductIds"
-								value="&amp;modules.catalog.bo.doceditor.kititem.Products;" />
+								value="${transui:m.catalog.bo.doceditor.kititem.Products,ucf,attr}" />
 							<xul:cfield name="newKitItemProductIds" id="catalog_kit_kititems_newKitItemProductIds" anonid="field_newKitItemProductIds"
 								fieldtype="documentarray" 
 								allow="modules_catalog_virtualproduct,modules_catalog_declinedproduct,modules_catalog_productdeclination,modules_catalog_bundleproduct,modules_catalog_simpleproduct"
 								moduleselector="catalog" dialog="productselector"
-								shorthelp="&amp;modules.catalog.bo.doceditor.kititem.Products-help;">
+								shorthelp="${transui:m.catalog.bo.doceditor.kititem.Products-help,ucf,attr}">
 							</xul:cfield>
 						</xul:row>
 						<xul:row anonid="row_newKitItemQtt">
 							<xul:clabel id="catalog_kit_kititems_newKitItemQtt_label" control="catalog_kit_kititems_newKitItemQtt"
-								value="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity;" />
+								value="${transui:m.catalog.bo.doceditor.kititems.Defaultquantity,ucf,attr}" />
 							<xul:cfield name="newKitItemQtt" id="catalog_kit_kititems_newKitItemQtt" anonid="field_newKitItemQtt" fieldtype="integer"
-								required="true" shorthelp="&amp;modules.catalog.bo.doceditor.kititems.Defaultquantity-help;">
+								required="true" shorthelp="${transui:m.catalog.bo.doceditor.kititems.defaultquantity-help,ucf,attr}">
 								<xul:cconstraint name="min" parameter="1" />
 							</xul:cfield>
 						</xul:row>
@@ -297,11 +297,11 @@
 				</xul:columns>
 				<xul:rows>
 					<xul:row class="head" anonid="head-row">
-						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.kititems.Label-column;" />
-						<xul:label name="productCodeReference" value="&amp;modules.catalog.bo.doceditor.kititems.ProductCodeReference-column;" />
-						<xul:label name="sublabel" value="&amp;modules.catalog.bo.doceditor.kititems.Declination-column;" />
-						<xul:label name="qtt" value="&amp;modules.catalog.bo.doceditor.kititems.Qtt-column;" />
-						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.kititems.Actions-column;" />
+						<xul:label name="label" value="${transui:m.catalog.bo.doceditor.kititems.Label-column,ucf,attr}" />
+						<xul:label name="productCodeReference" value="${transui:m.catalog.bo.doceditor.kititems.ProductCodeReference-column,ucf,attr}" />
+						<xul:label name="sublabel" value="${transui:m.catalog.bo.doceditor.kititems.Declination-column,ucf,attr}" />
+						<xul:label name="qtt" value="${transui:m.catalog.bo.doceditor.kititems.Qtt-column,ucf,attr}" />
+						<xul:label name="actionrow" value="${transui:m.catalog.bo.doceditor.kititems.Actions-column,ucf,attr}" />
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
@@ -312,13 +312,13 @@
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:toolbar class="actions">
-					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
-					<xul:toolbarbutton action="price" image="{IconsBase}/small/price.png" tooltiptext="&amp;modules.catalog.bo.actions.Edit-price;" />
-					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="&amp;modules.catalog.bo.actions.Add-product;" />
-					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="&amp;modules.catalog.bo.actions.Remove-product;" />
-					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
-					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Up;" />
-					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="&amp;modules.uixul.bo.actions.Down;" />
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${transui:m.uixul.bo.actions.Edit,ucf,attr}" />
+					<xul:toolbarbutton action="price" image="{IconsBase}/small/price.png" tooltiptext="${transui:m.catalog.bo.actions.Edit-price,ucf,attr}" />
+					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="${transui:m.catalog.bo.actions.Add-product,ucf,attr}" />
+					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="${transui:m.catalog.bo.actions.Remove-product,ucf,attr}" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.uixul.bo.actions.Delete,ucf,attr}" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="${transui:m.uixul.bo.actions.Up,ucf,attr}" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="${transui:m.uixul.bo.actions.Down,ucf,attr}" />
 				</xul:toolbar>
 			</xul:row>
 		</content>

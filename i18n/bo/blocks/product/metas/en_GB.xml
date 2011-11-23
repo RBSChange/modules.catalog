@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.product.metas" lcid="en_GB">
-  <key id="title">Current product meta-title</key>
-  <key id="label">Current product label</key>
-  <key id="topshelfabel">Current product's topmost shelf label</key>
-  <key id="shelflabel">Current product's subshelf label</key>
-  <key id="price">Current product's price</key>
-  <key id="brandlabel">Current product's brand label</key>
-  <key id="coderef">Current product's reference code</key>
+  <key id="title">Title of the current product sheet</key>
+  <key id="label">Label of the current product sheet</key>
+  <key id="topshelfabel">Label of the top-level shelf of the current product sheet</key>
+  <key id="shelflabel">Label of the sub-shelf of the current product sheet</key>
+  <key id="price">Shop price of the current product sheet</key>
+  <key id="brandlabel">Brand label of the current product sheet</key>
+  <key id="coderef">Reference code of the current product sheet</key>
+  <key id="description">Description of the current product sheet</key>
+  <key id="keywords">Keywords of the current product sheet</key>
 </i18n>

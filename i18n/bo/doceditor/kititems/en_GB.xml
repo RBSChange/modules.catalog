@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.kititems" lcid="en_GB">
+  <key id="actions-column">Actions</key>
+  <key id="declination-column">Variant</key>
+  <key id="defaultquantity">Default quantity</key>
+  <key id="defaultquantity-help">The quantity of the kit's products entered in the "Kit products" field that will be added. The quantities can be modified later on in the "Products" tab of the kit editor.</key>
+  <key id="label-column">label</key>
+  <key id="productcodereference-column">Reference code</key>
+  <key id="qtt-column">Quantity</key>
+</i18n>

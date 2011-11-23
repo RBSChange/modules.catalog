@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.bundleditems" lcid="en_GB">
+  <key id="actions-column">Actions</key>
+  <key id="defaultquantity">Default quantity</key>
+  <key id="defaultquantity-help">Quantity of the group's products entered in the "Products of the group" field that will be added. The quantities can be modified later on in the "Products" tab of the product group editor.</key>
+  <key id="label-column">label</key>
+  <key id="qtt-column">Quantity</key>
+</i18n>

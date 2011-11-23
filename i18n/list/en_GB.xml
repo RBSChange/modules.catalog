@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.list" lcid="en_GB">
+  <key id="axes-description">List of authorised axes for the products</key>
+  <key id="axes-label">Liste of axes</key>
+  <key id="axesinlist-0">None</key>
+  <key id="axesinlist-1">Axis 1</key>
+  <key id="axesinlist-2">Axis 1 and 2</key>
+  <key id="axesinlist-3">All</key>
+  <key id="axesinlist-description">Liste of visible axes in the list of products</key>
+  <key id="axesinlist-label">List of visible axes</key>
+  <key id="orderprocess-default">By default</key>
+  <key id="orderprocess-label">Ordering process</key>
+  <key id="orderprocess-standard">Standard</key>
+  <key id="taxcategory-label">Tax category</key>
+</i18n>

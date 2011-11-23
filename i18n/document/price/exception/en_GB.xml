@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.price.exception" lcid="en_GB">
+  <key id="trying-making-duplicate">there is a price with the same characteristics (threshold, target and shop) within de specified period. You cannot create your price without first resolving this conflict.</key>
+</i18n>

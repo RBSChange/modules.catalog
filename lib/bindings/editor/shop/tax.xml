@@ -7,11 +7,11 @@
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save_properties" oncommand="saveProperties()" label="&amp;modules.uixul.bo.doceditor.button.Save;"
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="${transui:m.uixul.bo.doceditor.button.Save,ucf,attr}"
 						image="{IconsBase}/small/save.png" />
-					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="&amp;modules.uixul.bo.doceditor.button.Canceledit;"
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="${transui:m.uixul.bo.doceditor.button.Canceledit,ucf,attr}"
 						image="{IconsBase}/small/undo.png" />
-					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="&amp;modules.uixul.bo.doceditor.button.Nexterror;"
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="${transui:m.uixul.bo.doceditor.button.Nexterror,ucf,attr}"
 						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
@@ -19,34 +19,34 @@
 						flex="1">
 					</xul:cfield>
 
-					<xul:cfieldsgroup label="&amp;modules.catalog.bo.doceditor.tax.Add-tax;">
+					<xul:cfieldsgroup label="${transui:m.catalog.bo.doceditor.tax.Add-tax,ucf,attr}">
 						<xul:row anonid="row_newTaxLabel">
 							<xul:clabel id="shop_tax_newTaxLabel_label" control="shop_tax_newTaxLabel"
-								value="&amp;modules.catalog.bo.doceditor.tax.Newtaxlabel;" />
+								value="${transui:m.catalog.bo.doceditor.tax.Newtaxlabel,ucf,attr}" />
 							<xul:cfield name="newTaxLabel" id="shop_tax_newTaxLabel" anonid="field_newTaxLabel"
-								fieldtype="text" required="true" shorthelp="&amp;modules.catalog.bo.doceditor.tax.Newtaxlabel-help;" />	
+								fieldtype="text" required="true" shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxlabel-help,ucf,attr}" />	
 						</xul:row>
 						<xul:row anonid="row_newTaxZone">
 							<xul:clabel id="shop_tax_newTaxZone_label" control="shop_tax_newTaxZone"
-								value="&amp;modules.catalog.bo.doceditor.tax.newTaxZone;" />
+								value="${transui:m.catalog.bo.doceditor.tax.newTaxZone,ucf,attr}" />
 							<xul:cfield name="newTaxZone" id="shop_tax_newTaxZone" anonid="field_newTaxZone"
 								fieldtype="dropdownlist" required="true" listid="modules_catalog/defaulttaxzones"
-								shorthelp="&amp;modules.catalog.bo.doceditor.tax.newTaxZone-help;" />	
+								shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxzone-help,ucf,attr}" />	
 						</xul:row>
 						<xul:row anonid="row_newTaxCategory">
 							<xul:clabel id="shop_tax_newTaxCategory_label" control="shop_tax_newTaxCategory"
-								value="&amp;modules.catalog.bo.doceditor.tax.newTaxCategory;" />
+								value="${transui:m.catalog.bo.doceditor.tax.newTaxCategory,ucf,attr}" />
 							<xul:cfield name="newTaxCategory" id="shop_tax_newTaxCategory" anonid="field_newTaxCategory"
-								fieldtype="text" required="true" shorthelp="&amp;modules.catalog.bo.doceditor.tax.newTaxCategory-help;">
+								fieldtype="text" required="true" shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxcategory-help,ucf,attr}">
 								<xul:cconstraint name="maxSize" parameter="6" />
 							</xul:cfield>	
 						</xul:row>
 						<xul:row anonid="row_newTaxRate">
 							<xul:clabel id="shop_tax_newTaxRate_label" control="shop_tax_newTaxRate"
-								value="&amp;modules.catalog.bo.doceditor.tax.newTaxRate;" />
+								value="${transui:m.catalog.bo.doceditor.tax.newTaxRate,ucf,attr}" />
 							<xul:cfield name="newTaxRate" id="shop_tax_newTaxRate" anonid="field_newTaxRate"
 								fieldtype="double" required="true" increment="0.01" 
-								shorthelp="&amp;modules.catalog.bo.doceditor.tax.newTaxRate-help;" />	
+								shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxrate-help,ucf,attr}" />	
 						</xul:row>
 					</xul:cfieldsgroup>
 					<xul:spacer flex="1" />
@@ -97,11 +97,11 @@
 				</xul:columns>
 				<xul:rows>
 					<xul:row class="head" anonid="head-row">
-						<xul:label name="label" value="&amp;modules.catalog.bo.doceditor.tax.Label-column;" />
-						<xul:label name="taxzone" value="&amp;modules.catalog.bo.doceditor.tax.Taxzone-column;" sortonfield="true"/>
-						<xul:label name="taxcategory" value="&amp;modules.catalog.bo.doceditor.tax.Taxcategory-column;" sortonfield="true"/>
-						<xul:label name="rate" value="&amp;modules.catalog.bo.doceditor.tax.Rate-column;" />
-						<xul:label name="actionrow" value="&amp;modules.catalog.bo.doceditor.tax.Actions-column;" />
+						<xul:label name="label" value="${transui:m.catalog.bo.doceditor.tax.Label-column,ucf,attr}" />
+						<xul:label name="taxzone" value="${transui:m.catalog.bo.doceditor.tax.Taxzone-column,ucf,attr}" sortonfield="true"/>
+						<xul:label name="taxcategory" value="${transui:m.catalog.bo.doceditor.tax.Taxcategory-column,ucf,attr}" sortonfield="true"/>
+						<xul:label name="rate" value="${transui:m.catalog.bo.doceditor.tax.Rate-column,ucf,attr}" />
+						<xul:label name="actionrow" value="${transui:m.catalog.bo.doceditor.tax.Actions-column,ucf,attr}" />
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
@@ -112,7 +112,7 @@
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:toolbar class="actions">
-					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${transui:m.uixul.bo.actions.Edit,ucf,attr}" />
 				</xul:toolbar>
 			</xul:row>
 		</content>

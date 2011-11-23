@@ -17,7 +17,7 @@
 			detailfield="catalog_price_create_discountDetail" />
 		<field name="boDiscountValueJSON" type="price" 
 			   labeli18n="modules.catalog.document.price.DiscountValue" 
-			   shorthelp="&amp;modules.catalog.document.price.DiscountValue-help;" 
+			   shorthelp="${transui:m.catalog.document.price.discountvalue-help,ucf,attr}" 
 			   hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
@@ -28,7 +28,7 @@
 		<field name="target" type="document"
 			moduleselector="catalog" 
 			allow="modules_catalog_kit,modules_customer_customer,modules_customer_tarifcustomergroup"
-			labeli18n="modules.catalog.document.price.TargetId" shorthelp="&amp;modules.catalog.document.price.TargetId-help;" hidehelp="true" />
+			labeli18n="modules.catalog.document.price.TargetId" shorthelp="${transui:m.catalog.document.price.targetid-help,ucf,attr}" hidehelp="true" />
 	</section>
 	<xul>
 		<javascript>		

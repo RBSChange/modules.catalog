@@ -14,11 +14,11 @@
 		<field name="newBundledItemProducts" type="documentarray" required="true"
 			allow="[modules_catalog_product],!modules_catalog_declinedproduct,!modules_catalog_kit" moduleselector="catalog" dialog="productselector"
 			labeli18n="modules.catalog.bo.doceditor.bundleditem.Products"
-			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditem.Products-help;">
+			shorthelp="${transui:m.catalog.bo.doceditor.bundleditem.products-help,ucf,attr}">
 		</field>
 		<field name="newBundledItemQtt" type="integer" required="true"
 			labeli18n="modules.catalog.bo.doceditor.bundleditems.Defaultquantity"
-			shorthelp="&amp;modules.catalog.bo.doceditor.bundleditems.Defaultquantity-help;">
+			shorthelp="${transui:m.catalog.bo.doceditor.bundleditems.defaultquantity-help,ucf,attr}">
 			<constraint name="min" parameter="1" />
 		</field>
 	</section>

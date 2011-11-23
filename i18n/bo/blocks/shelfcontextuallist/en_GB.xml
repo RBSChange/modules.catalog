@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.shelfcontextuallist" lcid="en_GB">
+  <key id="displayshelvesdescription">display the description</key>
+  <key id="displayshelvesdescription-help">Activates or deactivates the display of a shelf's description.</key>
+  <key id="displaysubshelves">display the sub-shelves</key>
+  <key id="displaysubshelves-help">Activates or deactivates the display of the selection list of a shelf's sub-shelf.</key>
+</i18n>

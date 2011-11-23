@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.general.block" lcid="en_GB">
+  <key id="crossselling">related products</key>
+  <key id="detail">Product details</key>
+  <key id="favorite-product-list">favourite products</key>
+  <key id="product-contextual-list">Contextual list of products</key>
+  <key id="shelf-contextual-list">Contextual list of shelves</key>
+  <key id="text-with-banner">Header text</key>
+  <key id="topshelvesmenu">Top-level shelves menu</key>
+</i18n>

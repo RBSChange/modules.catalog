@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.comments" lcid="en_GB">
-	<include id="m.comment.bo.blocks.commentbase" />
-	<key id="title">comments on product</key>
-	<key id="enablerating-help">activate rating on products</key>
-	<key id="showratingdistribution-help">show rating distribution on this product</key>
+  <include id="m.comment.bo.blocks.commentbase"/>
+  <key id="title">product comments</key>
+  <key id="enablerating-help">Activates the rating on the products.</key>
+  <key id="showratingdistribution-help">Displays the rating distribution for this product.</key>
 </i18n>

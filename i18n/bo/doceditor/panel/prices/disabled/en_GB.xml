@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.panel.prices.disabled" lcid="en_GB">
+  <key id="declinedproduct-not-synchronized">The price synchronisation between variants is deactivated. In order to edit the prices of a variant, please go to the "Price" tab of this variant. In order to reactivate the price synchronisation, please go to the "Properties" tab of the associated product.</key>
+  <key id="productdeclination-synchronized">The price synchronisation between variants is activated. In order to edit the prices, please go to the "Price" tab of the associated product. In order to deactivate the price synchronisation, please go to the "Properties" tab of the associated product.</key>
+</i18n>

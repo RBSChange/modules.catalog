@@ -383,19 +383,19 @@
 						<xul:rows anonid="document-rows">
 							<xul:row class="head">
 								<xul:label sortonfield="label" anonid="label" 
-									value="&amp;modules.catalog.bo.doceditor.attrdef.LabelColumn;" />
+									value="${transui:m.catalog.bo.doceditor.attrdef.LabelColumn,ucf,attr}" />
 								<xul:label sortonfield="code" anonid="codeColumn"
-									value="&amp;modules.catalog.bo.doceditor.attrdef.CodeColumn;" />
+									value="${transui:m.catalog.bo.doceditor.attrdef.CodeColumn,ucf,attr}" />
 								<xul:label sortonfield="type" anonid="typeColumn"
-									value="&amp;modules.catalog.bo.doceditor.attrdef.TypeColumn;" />
+									value="${transui:m.catalog.bo.doceditor.attrdef.TypeColumn,ucf,attr}" />
 								<xul:label anonid="actionsColumn"
-									value="&amp;modules.catalog.bo.doceditor.attrdef.ActionsColumn;" />
+									value="${transui:m.catalog.bo.doceditor.attrdef.ActionsColumn,ucf,attr}" />
 							</xul:row>
 						</xul:rows>
 					</xul:grid>
 					<xul:toolbar>
 						<xul:toolbarbutton action="create" anonid="button-new" 
-						label="&amp;modules.catalog.bo.doceditor.attrdef.Action-create;" 
+						label="${transui:m.catalog.bo.doceditor.attrdef.Action-create,ucf,attr}" 
 						image="{IconsBase}/small/add.png"  />
 					</xul:toolbar>	
 					<xul:spacer />
@@ -806,23 +806,23 @@
 							<xul:rows anonid="document-rows">
 								<xul:row class="head">
 									<xul:label sortonfield="label" anonid="label" 
-										value="&amp;modules.catalog.bo.doceditor.attr.LabelColumn;" />
+										value="${transui:m.catalog.bo.doceditor.attr.LabelColumn,ucf,attr}" />
 									<xul:label anonid="valueColumn"
-										value="&amp;modules.catalog.bo.doceditor.attr.ValueColumn;" />
+										value="${transui:m.catalog.bo.doceditor.attr.ValueColumn,ucf,attr}" />
 									<xul:label anonid="actionsColumn"
-										value="&amp;modules.catalog.bo.doceditor.attr.ActionsColumn;" />
+										value="${transui:m.catalog.bo.doceditor.attr.ActionsColumn,ucf,attr}" />
 								</xul:row>
 							</xul:rows>
 						</xul:grid>
 						<xul:toolbar>
 							<xul:toolbarbutton action="create" anonid="button-new" 
-							label="&amp;modules.catalog.bo.doceditor.attr.Action-create;" 
+							label="${transui:m.catalog.bo.doceditor.attr.Action-create,ucf,attr}" 
 							image="{IconsBase}/small/add.png"  />
 						</xul:toolbar>	
 						<xul:spacer />
 					<children/>
 				</xul:vbox>		
-				<xul:description xbl:inherits="hidden=hide-empty-msg">&amp;modules.catalog.bo.doceditor.attr.No-attributes-msg;</xul:description>
+				<xul:description xbl:inherits="hidden=hide-empty-msg">${transui:m.catalog.bo.doceditor.attr.No-attributes-msg,ucf}</xul:description>
 			</xul:vbox>
 		</content>		
 	</binding>

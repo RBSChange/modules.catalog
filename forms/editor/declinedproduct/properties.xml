@@ -37,7 +37,7 @@
 	<section labeli18n="modules.catalog.bo.general.Prices" class="toggle" hidden="true">
 		<field name="synchronizePrices" />
 		<field name="synchronizePricesFrom"	labeli18n="modules.catalog.document.declinedproduct.SynchronizePricesFrom" 
-			 type="dropdownlist" disabled="true" shorthelp="&amp;modules.catalog.document.declinedproduct.SynchronizePricesFrom-help;" />
+			 type="dropdownlist" disabled="true" shorthelp="${transui:m.catalog.document.declinedproduct.synchronizepricesfrom-help,ucf,attr}">
 	</section>
 
 	<xul>

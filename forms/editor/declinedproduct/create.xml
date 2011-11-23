@@ -20,21 +20,21 @@
 	<section labeli18n="modules.catalog.bo.doceditor.First-declination">
 		<field name="declinationLabel0" type="text" required="true"
 			labeli18n="modules.catalog.document.productdeclination.Label"
-			shorthelp="&amp;modules.catalog.document.productdeclination.Label-help;" />
+			shorthelp="${transui:m.catalog.document.productdeclination.label-help,ucf,attr}" />
 		<field name="declinationCodeReference0" type="text" required="true"
 			labeli18n="modules.catalog.document.productdeclination.CodeReference"
-			shorthelp="&amp;modules.catalog.document.productdeclination.CodeReference-help;" />
+			shorthelp="${transui:m.catalog.document.productdeclination.codereference-help,ucf,attr}" />
 		<field name="declinationVisual0" type="document" allow="modules_media_media"
 			moduleselector="media" labeli18n="modules.catalog.document.productdeclination.Visual"
-			shorthelp="&amp;modules.catalog.document.productdeclination.Visual-help;" />
+			shorthelp="${transui:m.catalog.document.productdeclination.visual-help,ucf,attr}" />
 		<field name="declinationStockQuantity0" type="integer" labeli18n="modules.catalog.document.productdeclination.StockQuantity"
-			shorthelp="&amp;modules.catalog.document.productdeclination.StockQuantity-help;">
+			shorthelp="${transui:m.catalog.document.productdeclination.stockquantity-help,ucf,attr}">
 			<constraint name="min" parameter="0" />
 		</field>
 	</section>
 	
 	
 	<section labeli18n="modules.catalog.bo.doceditor.Additional-declination">
-		<label value="&amp;modules.catalog.bo.doceditor.Additional-declination-description;" />
+		<label value="${transui:m.catalog.bo.doceditor.Additional-declination-description,ucf,attr}" />
 	</section>
 </panel>
