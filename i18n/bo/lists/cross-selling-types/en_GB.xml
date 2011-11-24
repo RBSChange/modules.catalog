@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.lists.cross-selling-types" lcid="en_GB">
+  <key id="complementary">complementary products</key>
+  <key id="description">Types of relationships between associated products</key>
+  <key id="label">relationship types</key>
+  <key id="similar">Similar products</key>
+  <key id="upsell">Products in the upper range</key>
+</i18n>

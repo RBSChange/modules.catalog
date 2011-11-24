@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.document.kititem" lcid="fr_FR">
   <key id="document-name">kititem</key>
-  <key id="label">[TO TRANSLATE] label</key>
-  <key id="label-help">[TO TRANSLATE] label-help</key>
-  <key id="product">[TO TRANSLATE] product</key>
-  <key id="product-help">[TO TRANSLATE] product-help</key>
-  <key id="quantity">[TO TRANSLATE] quantity</key>
-  <key id="quantity-help">[TO TRANSLATE] quantity-help</key>
 </i18n>

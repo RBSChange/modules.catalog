@@ -2,10 +2,4 @@
 <i18n baseKey="m.catalog.document.currency" lcid="fr_FR">
   <include id="m.generic.document.document"/>
   <key id="document-name">currency</key>
-  <key id="label">[TO TRANSLATE] label</key>
-  <key id="label-help">[TO TRANSLATE] label-help</key>
-  <key id="symbol">[TO TRANSLATE] symbol</key>
-  <key id="symbol-help">[TO TRANSLATE] symbol-help</key>
-  <key id="code">[TO TRANSLATE] code</key>
-  <key id="code-help">[TO TRANSLATE] code-help</key>
 </i18n>

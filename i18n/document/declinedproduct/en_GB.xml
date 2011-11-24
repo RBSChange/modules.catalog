@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.document.declinedproduct" lcid="en_GB">
   <include id="m.catalog.document.product"/>
-  <key id="document-name">product declined</key>
+  <key id="document-name">declined product</key>
+  <key id="axe1">1st axis</key>
+  <key id="axe1-help">Main axis</key>
+  <key id="axe2">2nd axis</key>
+  <key id="axe2-help">Tertiary axis</key>
+  <key id="axe3">3rd axis</key>
+  <key id="no-declination">No declination defined</key>
+  <key id="not-published">The declined product has not been published</key>
+  <key id="showaxeinlist">Visible axes</key>
+  <key id="showaxeinlist-help">Visible axes in the products lists</key>
+  <key id="synchronizeprices">synchronise prices</key>
+  <key id="synchronizeprices-help">Synchronises or does not synchronise prices between declinations of this product.</key>
+  <key id="synchronizepricesfrom">use the prices of</key>
+  <key id="synchronizepricesfrom-help">This field is only active when the "Synchronise prices" field is toggled from "No" to "Yes". It allows choosing a reference declination to initialise price synchronisation.</key>
 </i18n>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.tax" lcid="en_GB">
+  <key id="actions-column">Actions</key>
+  <key id="add-tax">add tax</key>
+  <key id="label-column">ID</key>
+  <key id="newtaxcategory">Category</key>
+  <key id="newtaxcategory-help">Product tax category</key>
+  <key id="newtaxlabel">ID</key>
+  <key id="newtaxlabel-help">tax ID</key>
+  <key id="newtaxrate">rate</key>
+  <key id="newtaxrate-help">Tax rate, eg: 0.196 for 19.6%</key>
+  <key id="newtaxzone">Area</key>
+  <key id="newtaxzone-help">Tax application area</key>
+  <key id="rate-column">rate</key>
+  <key id="taxcategory-column">Category</key>
+  <key id="taxzone-column">Area</key>
+</i18n>

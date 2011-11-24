@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.tab" lcid="en_GB">
   <key id="prices">prices</key>
-  <key id="declinations">declinations</key>
+  <key id="declinations">variants</key>
+  <key id="bundleditems">products</key>
+  <key id="kititems">products</key>
+  <key id="stock">stock</key>
+  <key id="tax">taxes</key>
 </i18n>

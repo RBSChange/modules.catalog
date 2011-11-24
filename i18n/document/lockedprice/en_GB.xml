@@ -2,6 +2,4 @@
 <i18n baseKey="m.catalog.document.lockedprice" lcid="en_GB">
   <include id="m.catalog.document.price"/>
   <key id="document-name">lockedprice</key>
-  <key id="lockedfor">[TO TRANSLATE] lockedFor</key>
-  <key id="lockedfor-help">[TO TRANSLATE] lockedFor-help</key>
 </i18n>

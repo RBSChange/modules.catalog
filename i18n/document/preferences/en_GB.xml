@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.document.preferences" lcid="en_GB">
-  <key id="defaultdetailvisual">default product visual</key>
-  <key id="defaultdetailvisual-help">default product visual in detail mode.</key>
-  <key id="defaultlistvisual">default product visual (list mode)</key>
-  <key id="defaultlistvisual-help">default product visual in list mode.</key>
-  <key id="stockalertnotificationuser">stock notifications recipients</key>
+  <key id="defaultdetailvisual">default product visual element</key>
+  <key id="defaultdetailvisual-help">Default product visual element in detail mode (display of a product sheet).</key>
+  <key id="defaultlistvisual">default product visual element (list mode)</key>
+  <key id="defaultlistvisual-help">Default product visual element in list mode.</key>
+  <key id="stockalertnotificationuser">stock-related notification recipients</key>
   <key id="stockalertthreshold">stock alert threshold</key>
   <key id="enablecomments">enable comments</key>
+  <key id="autofeedcomplementarymaxcount">automatic refresh of complementary products</key>
+  <key id="autofeedcomplementarymaxcount-help">The number of complementary products to refresh automatically. Leave empty to never refresh automatically.</key>
+  <key id="autofeeddelay">delay between two refreshes</key>
+  <key id="autofeeddelay-help">Specify here the delay between two runs of the crossed product refresh task.</key>
+  <key id="autofeedsimilarmaxcount">automatic refresh of similar products</key>
+  <key id="autofeedsimilarmaxcount-help">The number of similar products to automatically refresh. Leave empty to never refresh automatically.</key>
+  <key id="autofeedupsellmaxcount">automatic refresh of products in the upper range</key>
+  <key id="autofeedupsellmaxcount-help">The number of products in the upper range to automatically refresh. Leave empty to never automatically refresh.</key>
+  <key id="document-name">preference</key>
+  <key id="enablecomments-help">enable or disable comments on products</key>
+  <key id="stockalertthreshold-help">The default stock quantity below which an alert must be sent. This property may be redefined locally for each product.</key>
+  <key id="suggestcomplementaryfeederclass">complementary product suggestions</key>
+  <key id="suggestcomplementaryfeederclass-help">When enabling this option, a button appears next to the "complementary products" field allowing product suggestions.</key>
+  <key id="suggestsimilarfeederclass">similar product suggestions</key>
+  <key id="suggestsimilarfeederclass-help">When enabling this option, a button appears next to the "similar products" field allowing product suggestions.</key>
+  <key id="suggestupsellfeederclass">upper range product suggestions</key>
+  <key id="suggestupsellfeederclass-help">when enabling this option, a button appears next to the "products in the upper range" field allowing product suggestions.</key>
+  <key id="synchronizecomplementary">synchronise complementary products</key>
+  <key id="synchronizecomplementary-help">When enabling this option, adding product A as a complementary product of product B will also trigger the reverse addition: product B will become a complementary product of product A.</key>
+  <key id="synchronizesimilar">synchronise similar products</key>
+  <key id="synchronizesimilar-help">When enabling this option, adding product A as a similar product of product B will also trigger the reverse addition: product B will become a similar product of product A.</key>
 </i18n>

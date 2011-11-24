@@ -273,7 +273,7 @@
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="button-new" oncommand="createNew()" label="&amp;modules.catalog.bo.doceditor.panel.prices.New;" image="{IconsBase}/small/add.png"/>
+					<xul:button anonid="button-new" oncommand="createNew()" label="${trans:m.catalog.bo.doceditor.panel.prices.New,ucf,attr}" image="{IconsBase}/small/add.png"/>
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:box anonid="price-filters-box">
@@ -284,19 +284,19 @@
 							</xul:columns>
 							<xul:rows>
 								<xul:row>
-									<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Shop;" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Shop,ucf,attr}" />
 									<xul:cfield anonid="field_shop" name="shop" fieldtype="dropdownlist" hidehelp="true" />
 								</xul:row>
 								<xul:row>
-									<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Date;" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Date,ucf,attr}" />
 									<xul:cfield anonid="field_date" name="date" fieldtype="datetime" hidehelp="true" hidetime="true" />
 								</xul:row>
 								<xul:row anonid="row_targetType">
-									<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Target-type;" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Target-type,ucf,attr}" />
 									<xul:cfield anonid="field_targetType" name="targetType" fieldtype="dropdownlist" hidehelp="true" />
 								</xul:row>
 								<xul:row anonid="row_targetId">
-									<xul:label value="&amp;modules.catalog.bo.doceditor.panel.prices.Target-id;" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Target-id,ucf,attr}" />
 									<xul:deck anonid="field_targetIdDeck">
 										<xul:cfield anonid="field_targetIdPicker" name="targetIdPicker" fieldtype="document" hidehelp="true" disabled="true" allow="modules_customer_customer" moduleselector="customer" />
 										<xul:cfield anonid="field_targetIdSelect" name="targetIdSelect" fieldtype="dropdownlist" hidehelp="true" disabled="true" />
@@ -577,13 +577,13 @@
 				var resultsCount = event.originalTarget.getRowCount();			
 				if (resultsCount == 0)
 				{
-					node.setAttribute('value', "&amp;modules.uixul.bo.general.search.NoResults;");
+					node.setAttribute('value', "${trans:m.uixul.bo.general.search.NoResults,ucf,js}");
 				}
 				else
 				{
-					node.setAttribute('value', "&amp;modules.uixul.bo.general.search.SearchResultCountLabel;" + " " + resultsCount);
+					node.setAttribute('value', "${trans:m.uixul.bo.general.search.SearchResultCount,lab,ucf,js}" + " " + resultsCount);
 				}
-				//node.setAttribute('value', "&amp;modules.uixul.bo.general.search.FirstHundred;" + " (" +"&amp;modules.uixul.bo.general.search.TotalSearchResultCountLabel;" + totalResultsCount + " )");			
+				//node.setAttribute('value', "${trans:m.uixul.bo.general.search.FirstHundred,ucf,js}" + " (" +"${trans:m.uixul.bo.general.search.TotalSearchResultCount,lab,ucf,js}" + totalResultsCount + " )");			
 				event.stopPropagation();
 			]]></handler>			
 		</handlers>
@@ -715,21 +715,21 @@
 					<xul:row class="head" anonid="head-row">
 						<xul:label name="status" value="" />
 						<xul:label name="valueWithTax" sortonfield="true"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-value;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-value,ucf,attr}" />
 						<xul:label name="isDiscountLabel" sortonfield="true"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-is-discount;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-is-discount,ucf,attr}" />
 						<xul:label name="priority" sortonfield="true"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-priority;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-priority,ucf,attr}" />
 						<xul:label name="targetLabel"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-target;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-target,ucf,attr}" />
 						<xul:label name="thresholdMin" sortonfield="true"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-threshold-min;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-threshold-min,ucf,attr}" />
 						<xul:label name="startpublicationdate"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-start-publication-date;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-start-publication-date,ucf,attr}" />
 						<xul:label name="endpublicationdate"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-end-publication-date;" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-end-publication-date,ucf,attr}" />
 						<xul:label name="actionrow"
-							value="&amp;modules.catalog.bo.doceditor.panel.prices.Column-actions;" />						
+							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-actions,ucf,attr}" />						
 					</xul:row>
 				</xul:rows>
 			</xul:grid>		
@@ -750,10 +750,10 @@
 	<binding id="cPricesListActionCell">
 		<content>
 			<xul:toolbar class="actions">
-				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="&amp;modules.uixul.bo.actions.Edit;" />
-				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="&amp;modules.uixul.bo.actions.Delete;" />
-				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="&amp;modules.catalog.bo.actions.Add-discount;" />
-				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="&amp;modules.catalog.bo.actions.Remove-discount;" />
+				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${trans:m.uixul.bo.actions.Edit,ucf,attr}" />
+				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${trans:m.uixul.bo.actions.Delete,ucf,attr}" />
+				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="${trans:m.catalog.bo.actions.Add-discount,ucf,attr}" />
+				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="${trans:m.catalog.bo.actions.Remove-discount,ucf,attr}" />
 			</xul:toolbar>
 		</content>
 	</binding>
@@ -1013,7 +1013,7 @@
 		<content>
 			<xul:vbox flex="1">
 				<xul:hbox class="wizardTitle">
-					<xul:label value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Title;" />
+					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Title,ucf,attr}" />
 					<xul:spacer flex="1" />
 					<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" />
 				</xul:hbox>
@@ -1035,11 +1035,11 @@
 							</xul:columns>
 							<xul:rows anonid="document-rows">
 								<xul:row align="center">
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-value;" control="cAddDiscountOnPriceDialog_discountValue" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-value,ucf,attr}" control="cAddDiscountOnPriceDialog_discountValue" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountValue" anonid="discountValue" name="discountValue" required="true" fieldtype="price" hidehelp="true">
 										<xul:cconstraint name="min" parameter="0" />
 									</xul:cfield>
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-value;" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Current-value,ucf,attr}" />
 									<xul:hbox>
 										<xul:label id="cAddDiscountOnPriceDialog_currentValue" xbl:inherits="value=referenceValue" hidden="true" />
 										<xul:label xbl:inherits="xbl:text=currentValue" class="allow-text-selection" />
@@ -1049,21 +1049,21 @@
 									</xul:hbox>
 								</xul:row>
 								<xul:row align="center">
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-detail;" control="cAddDiscountOnPriceDialog_discountDetail" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-detail,ucf,attr}" control="cAddDiscountOnPriceDialog_discountDetail" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountDetail" anonid="discountDetail" name="discountDetail" fieldtype="text" hidehelp="true" />
 									<xul:spacer />
 									<xul:spacer />
 								</xul:row>
 								<xul:row align="center">
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-start-date;" control="cAddDiscountOnPriceDialog_discountStartDate" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-start-date,ucf,attr}" control="cAddDiscountOnPriceDialog_discountStartDate" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountStartDate" anonid="discountStartDate" name="discountStartDate" fieldtype="datetime" required="true" hidehelp="true" timeoffset="30" initialvalue="" />
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-start-date;" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Current-start-date,ucf,attr}" />
 									<xul:label xbl:inherits="xbl:text=currentStartDate" class="allow-text-selection" />
 								</xul:row>
 								<xul:row align="center">
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-end-date;" control="cAddDiscountOnPriceDialog_discountEndDate" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-end-date,ucf,attr}" control="cAddDiscountOnPriceDialog_discountEndDate" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountEndDate" anonid="discountEndDate" name="discountEndDate" fieldtype="datetime" required="true" hidehelp="true" timeoffset="30" initialvalue="" />
-									<xul:clabel value="&amp;modules.catalog.bo.doceditor.dialog.add-discount-on-price.Current-end-date;" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Current-end-date,ucf,attr}" />
 									<xul:label xbl:inherits="xbl:text=currentEndDate" class="allow-text-selection" />
 								</xul:row>
 							</xul:rows>
@@ -1072,7 +1072,7 @@
 					<xul:spacer flex="1" />
 				</xul:scrollbox>
 				<xul:hbox pack="center">
-					<xul:button anonid="submit" image="{IconsBase}/small/check.png" oncommand="addDiscount();" label="&amp;modules.uixul.bo.dialog.Apply;" />
+					<xul:button anonid="submit" image="{IconsBase}/small/check.png" oncommand="addDiscount();" label="${trans:m.uixul.bo.dialog.Apply,ucf,attr}" />
 				</xul:hbox>
 			</xul:vbox>
 		</content>
