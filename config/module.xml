@@ -26,4 +26,8 @@
 			<entry name="currentTaxZoneStrategyClass">CLASSNAME</entry>
 		 -->
 	</project>
+	<!-- Add this in modules/media section of your project.xml if you use virtualproducts.
+	<secureMediaStrategyClass>
+		<entry name="virtualproduct">catalog_VirtualProductSecuremediaStrategy</entry>
+	</secureMediaStrategyClass>-->
 </config>
