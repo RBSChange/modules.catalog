@@ -37,7 +37,7 @@ class catalog_PreferencesService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/preferences');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/preferences');
 	}
 
 	/**
@@ -47,6 +47,6 @@ class catalog_PreferencesService extends f_persistentdocument_DocumentService
 	 */
 	protected function preSave($document, $parentNodeId)
 	{
-		$document->setLabel('&modules.catalog.bo.general.Module-name;');
+		$document->setLabel('catalog');
 	}
 }
