@@ -504,11 +504,9 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		foreach ($query->find() as $cp)
 		{
 			$product = $cp->getProduct();
-			$infos[] = array(
-				'id' => $product->getId(),
-				'label' => $product->getTreeNodeLabel(),
-				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
-			);
+			$pinfos = array('id' => $product->getId());
+			DocumentHelper::completeBOAttributes($product, $pinfos, DocumentHelper::MODE_ICON);
+			$infos[] = $pinfos;
 		}
 		return $infos;
 	}

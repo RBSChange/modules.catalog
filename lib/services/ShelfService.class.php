@@ -783,19 +783,20 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
+	 * @param array<string, string> $attributes
+	 * @param integer $mode
 	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param unknown_type $nodeAttributes
 	 */
-	public function addTreeAttributes($document, $moduleName, $treeType, &$nodeAttributes)
+	public function completeBOAttributes($document, &$attributes, $mode, $moduleName)
 	{
-		if ($treeType == 'wlist')
+		if (($mode & DocumentHelper::MODE_ITEM) || ($mode & DocumentHelper::MODE_CUSTOM))
 		{
-			$detailVisual = $document->getVisual();
-			if ($detailVisual)
+			$visual = $document->getVisual();
+			if ($visual && $mode & DocumentHelper::MODE_ITEM) { $attributes['hasPreviewImage'] = true; }
+			if ($visual && $mode & DocumentHelper::MODE_CUSTOM)
 			{
-				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");
+				$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($visual, "modules.uixul.backoffice/thumbnaillistitem");			
 			}
-		}	
+		}
 	}
 }

@@ -613,17 +613,17 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shop $document
+	 * @param array<string, string> $attributes
+	 * @param integer $mode
 	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param array<string, string> $nodeAttributes
 	 */
-	public function addTreeAttributes($document, $moduleName, $treeType, &$nodeAttributes)
+	public function completeBOAttributes($document, &$attributes, $mode, $moduleName)
 	{
-		$nodeAttributes['topicId'] = $document->getTopic()->getId();
-		if ($treeType === 'wlist')
+		$attributes['topicId'] = $document->getTopic()->getId(); // Used for structure initialization.
+		if ($mode & DocumentHelper::MODE_CUSTOM)
 		{
-			$nodeAttributes['website'] = $document->getWebsite()->getLabel();
-			$nodeAttributes['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
+			$attributes['website'] = $document->getWebsite()->getLabel();
+			$attributes['isDefault'] = LocaleService::getInstance()->trans('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		}
 	}
 }

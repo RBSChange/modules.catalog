@@ -690,20 +690,20 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_declinedproduct $product
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param array<string, string> $attributes
+	 * @param integer $mode
 	 * @param string $moduleName
-	 * @param string $treeType
-	 * @param unknown_type $nodeAttributes
 	 */
-	public function addTreeAttributes($product, $moduleName, $treeType, &$nodeAttributes)
+	public function completeBOAttributes($document, &$attributes, $mode, $moduleName)
 	{
-		$detailVisual = $product->getDefaultVisual();
-		if ($detailVisual)
+		if (($mode & DocumentHelper::MODE_ITEM) || ($mode & DocumentHelper::MODE_CUSTOM))
 		{
-			$nodeAttributes['hasPreviewImage'] = true;
-			if ($treeType == 'wlist')
+			$visual = $document->getDefaultVisual();
+			if ($visual && $mode & DocumentHelper::MODE_ITEM) { $attributes['hasPreviewImage'] = true; }
+			if ($visual && $mode & DocumentHelper::MODE_CUSTOM)
 			{
-				$nodeAttributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
+				$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($visual, "modules.uixul.backoffice/thumbnaillistitem");			
 			}
 		}
 	}
