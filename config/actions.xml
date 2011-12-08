@@ -1,48 +1,48 @@
 <?xml version="1.0"?>
 <actions extends="generic">
-  <action name="createTopshelf">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_topshelf', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createShelf">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_shelf', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createSimpleproduct">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_simpleproduct', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createDeclinedproduct">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_declinedproduct', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createShop">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_shop', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createShippingfilter">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_shippingfilter', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createPaymentfilter">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_paymentfilter', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createBundleproduct">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_bundleproduct', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createKit">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_kit', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="createVirtualproduct">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_virtualproduct', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
-  <action name="editPricesFromKit">
-    <parameter name="params"/>
-    <body><![CDATA[
+	<action name="createTopshelf">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_topshelf', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createShelf">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_shelf', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createSimpleproduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_simpleproduct', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createDeclinedproduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_declinedproduct', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createShop">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_shop', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createShippingfilter">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_shippingfilter', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createPaymentfilter">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_paymentfilter', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createBundleproduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_bundleproduct', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createKit">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_kit', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="createVirtualproduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_virtualproduct', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
+	<action name="editPricesFromKit">
+		<parameter name="params" />
+		<body><![CDATA[
 			wCore.debug('editPricesFromKit:' + params[4]);		
 			var editor = this.getDocumentEditor(params[2]);
 			if (editor)
@@ -53,10 +53,10 @@
 				this.openDocumentEditor(item, 'prices');
 			}
 		]]></body>
-  </action>
-  <action name="createPriceFromProduct">
-    <parameter name="params"/>
-    <body><![CDATA[
+	</action>
+	<action name="createPriceFromProduct">
+		<parameter name="params" />
+		<body><![CDATA[
 			var productId = params[3];
 			var shopId = params[4];
 			var targetId = params[5];
@@ -65,72 +65,71 @@
 			editor.setAttribute('targetId', targetId);
 			this.createDocumentEditor('modules_catalog_price', productId);
 		]]></body>
-  </action>
-  <action name="createDeclinationFromProduct">
-    <parameter name="params"/>
-    <body><![CDATA[
+	</action>
+	<action name="createDeclinationFromProduct">
+		<parameter name="params" />
+		<body><![CDATA[
 			var productId = params[3];
 			var editor = this.getDocumentEditor('modules_catalog_declination');
 			this.createDocumentEditor('modules_catalog_productdeclination', productId);
 		]]></body>
-  </action>
-  <action name="openOrderChildren">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="openOrderChildren">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			this.openOrderChildrenPanel(listWidget, null, ['modules_catalog/shelf', 'modules_catalog/topshelf', 
 				'modules_catalog/simpleproduct', 'modules_catalog/declinedproduct', 'modules_catalog/shop',
 				'modules_catalog/shopfolder']);
 		]]></body>
-  </action>
-  <action name="openOrderProductsInShelf">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="openOrderProductsInShelf">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			this.getController().openModalDialog(this, "orderProductsInShelf", { id: listWidget.getSelectedIds()[0] });
 		]]></body>
-  </action>
-  <action name="compileProduct">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="compileProduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
 			this.executeJSON("CompileProduct", {cmpref: document.id, lang: this.getContextLang()});
 		]]></body>
-  </action>
-  <action name="onCompileProductSuccess">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="onCompileProductSuccess">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			this.refreshMainViewDeck();
 		]]></body>
-  </action>
-  <action name="compileDeclinedProduct">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="compileDeclinedProduct">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
 			this.executeJSON("CompileDeclinedProduct", {cmpref: document.id, lang: this.getContextLang()});
 		]]></body>
-  </action>
-  <action name="onCompileDeclinedProductSuccess">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="onCompileDeclinedProductSuccess">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			this.refreshMainViewDeck();
 		]]></body>
-  </action>
-  <action name="exportAlertInfos">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="exportAlertInfos">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
 			var lang = this.getContextLang(listWidget);
 			wToolkit.openlink('catalog', 'ExportAlertInfos', {cmpref: document.id, output: 'csv', lang: lang});
 			this.refreshMainViewDeck();
 		]]></body>
-  </action>
-  <action name="initDefaultStructure">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="initDefaultStructure">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			try
 			{
 				var documentId = listWidget.getSelectedItems()[0].id;
 				var topicId = listWidget.getSelectedItems()[0].topicId;
-				wCore.debug(wCore.dump(listWidget.getSelectedItems()[0]));
 				var lang = this.getContextLang();
 				var callback = function (attributes) {
 					return wCore.executeJSON('website', 'InitializeStructure', { cmpref: documentId, moduleName: 'catalog', scriptName: 'shopDefaultStructure', attributes: attributes, lang: lang }, null, true);
@@ -142,10 +141,10 @@
 				wCore.error('catalog.initDefaultStructure', [], e);
 			}
 		]]></body>
-  </action>
-  <action name="showPublicationInShops">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="showPublicationInShops">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
 			try
 			{
@@ -157,22 +156,22 @@
 				this.refreshMainViewDeck();
 			}
 		]]></body>
-  </action>
-  <action name="setAsDefault">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="setAsDefault">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			var document = listWidget.getSelectedItems()[0];
 			this.executeJSON("SetDefaultShop", {cmpref: document.id, lang: this.getContextLang()});
 		]]></body>
-  </action>
-  <action name="onSetDefaultShopSuccess">
-    <parameter name="listWidget"/>
-    <body><![CDATA[
+	</action>
+	<action name="onSetDefaultShopSuccess">
+		<parameter name="listWidget" />
+		<body><![CDATA[
 			this.refreshMainViewDeck();
 		]]></body>
-  </action>
-  <action name="createTax">
-    <parameter name="listWidget"/>
-    <body><![CDATA[this.createDocumentEditor('modules_catalog_tax', listWidget.getSelectedItems()[0].id);]]></body>
-  </action>
+	</action>
+	<action name="createTax">
+		<parameter name="listWidget" />
+		<body><![CDATA[this.createDocumentEditor('modules_catalog_tax', listWidget.getSelectedItems()[0].id);]]></body>
+	</action>
 </actions>
