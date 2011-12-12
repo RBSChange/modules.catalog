@@ -29,6 +29,7 @@
 		<document name="tax" />
 		<document name="currency" />
 		<document name="noshelfproductfolder" />
+		<document name="productqueryfolder" />
 	</actions>
 	<roles>
 		<role name="Admin">

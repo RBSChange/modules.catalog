@@ -646,6 +646,16 @@
 				]]></body>
 			</method>
 			
+			<method name="execute_createFrom">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var parentId = this.getPricePanel().documentEditor.documentid;
+					var uri = ['catalog', 'createPriceFromPrice', 'modules_catalog_price', parentId, rowData.id].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
 			<method name="sortRowsBy">
 				<parameter name="name" />
 				<parameter name="dir" />
@@ -750,10 +760,16 @@
 	<binding id="cPricesListActionCell">
 		<content>
 			<xul:toolbar class="actions">
-				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${transui:m.uixul.bo.actions.Edit,ucf,attr}" />
-				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.uixul.bo.actions.Delete,ucf,attr}" />
-				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="${transui:m.catalog.bo.actions.Add-discount,ucf,attr}" />
-				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="${transui:m.catalog.bo.actions.Remove-discount,ucf,attr}" />
+				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png"
+					tooltiptext="${transui:m.uixul.bo.actions.edit,ucf,attr}" />
+				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png"
+					tooltiptext="${transui:m.uixul.bo.actions.delete,ucf,attr}" />
+				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png"
+					tooltiptext="${transui:m.catalog.bo.actions.add-discount,ucf,attr}" />
+				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png"
+					tooltiptext="${transui:m.catalog.bo.actions.remove-discount,ucf,attr}" />
+				<xul:toolbarbutton action="createFrom" image="{IconsBase}/small/duplicate.png"
+					tooltiptext="${transui:m.catalog.bo.actions.create-from-this,ucf,attr}" />
 			</xul:toolbar>
 		</content>
 	</binding>

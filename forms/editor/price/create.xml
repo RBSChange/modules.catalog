@@ -31,7 +31,37 @@
 			labeli18n="modules.catalog.document.price.TargetId" shorthelp="${transui:m.catalog.document.price.targetid-help,ucf,attr}" hidehelp="true" />
 	</section>
 	<xul>
-		<javascript>		
+		<javascript>
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					if (this.documentEditor.hasAttribute('copyFromPriceId'))
+					{
+						var attributes = {
+							action: 'LoadJSON',
+							cmpref: this.documentEditor.getAttribute('copyFromPriceId'), 
+							lang : this.documentEditor.documentInfos.vo, 
+							documentproperties: this.mFieldNames.join(',')
+						};
+						this.documentEditor.removeAttribute('copyFromPriceId');
+					}
+					else
+					{
+						var attributes = {
+							action: "DefaultValuesJSON",
+							parentref: this.documentEditor.parentid, 
+							lang: Context.W_LANG, 
+							modelname: this.documentEditor.documentmodelname,
+							documentproperties : this.mFieldNames.join(',')
+						};
+						if ("prepareInitializeValues" in this)
+						{
+							this.prepareInitializeValues(attributes);
+						}
+					}
+					return attributes;
+				]]></body>
+			</method>
+			
 			<method name="prepareInitializeValues">
 				<parameter name="attributes" />
 				<body><![CDATA[
@@ -48,12 +78,19 @@
 					}
 				]]></body>				
 			</method>
+			
 			<method name="preparePropertiesValues">
 				<parameter name="attributes" />
 				<body><![CDATA[
 					var fields = this.fields;
-					attributes['shopId'] = fields.shopId.value;
-					attributes['target'] = fields.target.value;
+					for (var name in fields)
+					{
+						var field = fields[name];
+						if (field.value != '' && !field.modified)
+						{
+							attributes[name] = field.value;
+						}
+					}
 				]]></body>
 			</method>
 		</javascript>

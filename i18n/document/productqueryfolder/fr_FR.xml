@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.productqueryfolder" lcid="fr_FR">
+	<include id="m.filter.document.queryfolder" />
+	<key id="document-name">dossier intelligent de produits</key>
+	<key id="query">requête</key>
+	<key id="query-help">La requête permettant de retrouver les produits de ce dossier.</key>
+</i18n>
