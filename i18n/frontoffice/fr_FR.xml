@@ -220,4 +220,5 @@
   <key id="kititems">produits du kit</key>
   <key id="go-to-kit">retourner au kit {kitLabel}</key>
   <key id="error-captcha">le code de sécurité est incorrect.</key>
+  <key id="last-consulted-products">derniers produits consultés</key>
 </i18n>

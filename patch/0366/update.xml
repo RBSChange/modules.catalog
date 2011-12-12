@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+
+	<systemfolder module="list" relatedmodule="catalog">
+		<staticlist listid="modules_catalog/lastconsultedproducts" label="&amp;modules.catalog.list.Lastconsultedproducts-label;">
+			<staticitem value="compact" label="&amp;modules.catalog.list.Lastconsultedproducts-compact;" />
+			<staticitem value="random" label="&amp;modules.catalog.list.Lastconsultedproducts-random;" />
+			<staticitem value="list" label="&amp;modules.catalog.list.Lastconsultedproducts-list;" />
+		</staticlist>
+	</systemfolder>
+</script>

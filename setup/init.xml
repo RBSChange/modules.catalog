@@ -95,6 +95,12 @@
 			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
 		</staticlist>
 		
+		<staticlist listid="modules_catalog/lastconsultedproducts" label="&amp;modules.catalog.list.Lastconsultedproducts-label;">
+			<staticitem value="compact" label="&amp;modules.catalog.list.Lastconsultedproducts-compact;" />
+			<staticitem value="random" label="&amp;modules.catalog.list.Lastconsultedproducts-random;" />
+			<staticitem value="list" label="&amp;modules.catalog.list.Lastconsultedproducts-list;" />
+		</staticlist>
+		
 		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.frontoffice.Discountornot-title;">
 			<staticitem value="discount" label="&amp;modules.catalog.frontoffice.Discountornot-discount;" />
 			<staticitem value="not-discount" label="&amp;modules.catalog.frontoffice.Discountornot-not-discount;" />

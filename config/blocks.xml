@@ -57,7 +57,6 @@
 			</javascript>
 		</xul>
 	</block>
-
 	<block type="modules_catalog_standaloneproduct" hidden="true" dropModels="[modules_catalog/product],modules_catalog/declinedproduct">
 		<parameters>
 			<parameter name="shop" type="modules_catalog/shop" list-id="modules_catalog/shops" required="true" />
@@ -87,10 +86,7 @@
 			</javascript>
 		</xul>
 	</block>
-
-
-	<block type="modules_catalog_ProductItem" hidden="true" 
-		cache="true"/>
+	<block type="modules_catalog_ProductItem" hidden="true" cache="true" />
 	<block type="modules_catalog_productContextualList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Product-Contextual-List;">
 		<parameters>
 			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="list" />
@@ -259,12 +255,83 @@
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
 						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
 						this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
+						this.getElementByAnonId('useCache_cnt').collapsed = value;
+						this.getElementByAnonId('displayCustomerPrice_cnt').collapsed = value;
 					]]></body>
 				</method>
 				<method name="onDisplaysortmenuChange">
 					<body><![CDATA[
 						var fields = this.getFields();
 						var value = (fields.mode.value == 'random' || fields.displaysortmenu.value != 'true');
+						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
+						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
+						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
+						this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
+					]]></body>
+				</method>
+			</javascript>
+		</xul>
+	</block>
+	<block type="modules_catalog_LastConsultedProducts" icon="dynamic-animation">
+		<parameters>
+			<parameter name="label" type="String" />
+			<parameter name="destinationpage" type="modules_website/page" />
+			<parameter name="mode" type="String" default-value="compact" min-occurs="1" from-list="modules_catalog/lastconsultedproducts" />
+			<parameter name="displayMode" type="String" list-id="modules_catalog/displaymode" default-value="table" />
+			<parameter name="nbresultsperpage" type="Integer" default-value="3" min-occurs="1" />
+			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
+			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
+			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
+			<parameter name="displayavailability" type="Boolean" default-value="true" />
+			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
+			<parameter name="showshareblock" type="Boolean" default-value="true" />
+			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displaysortmenu" type="Boolean" default-value="true" />
+			<parameter name="displaydisplaymode" type="Boolean" default-value="false" />
+			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
+			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
+			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
+			<parameter name="useCache" type="Boolean" default-value="false" />
+			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
+		</parameters>
+		<xul>
+			<javascript>
+				<constructor><![CDATA[
+					var fields = this.getFields();
+					var me = this;
+					fields.displaysortmenu.addEventListener('fieldChanged', function(event) { me.onDisplaysortmenuChange(); }, true);
+					fields.mode.addEventListener('fieldChanged', function(event) { me.onModeChange(); }, true);
+					me.addEventListener('gridValuesUpdated', function(event) { me.onModeChange(); me.onDisplaysortmenuChange(); }, true);
+				]]></constructor>
+				<method name="onModeChange">
+					<body><![CDATA[
+						var fields = this.getFields();
+						var value = (fields.mode.value == 'random' || fields.mode.value == 'compact');
+						this.getElementByAnonId('displayMode_cnt').collapsed = value;
+						this.getElementByAnonId('displayaddtocart_cnt').collapsed = value;
+						this.getElementByAnonId('showaddtofavorite_cnt').collapsed = value;
+						this.getElementByAnonId('activatequantityselection_cnt').collapsed = value;
+						this.getElementByAnonId('displayavailability_cnt').collapsed = value;
+						this.getElementByAnonId('displayratingaverage_cnt').collapsed = value;
+						this.getElementByAnonId('showshareblock_cnt').collapsed = value;
+						this.getElementByAnonId('displayproductdescription_cnt').collapsed = value;
+						this.getElementByAnonId('displayproductpicto_cnt').collapsed = value;
+						this.getElementByAnonId('displaysortmenu_cnt').collapsed = value;
+						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
+						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
+						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
+						this.getElementByAnonId('displaybrandorder_cnt').collapsed = value;
+						this.getElementByAnonId('useCache_cnt').collapsed = value;
+						this.getElementByAnonId('displayCustomerPrice_cnt').collapsed = value;
+						var value = (fields.mode.value == 'random');
+						this.getElementByAnonId('nbresultsperpage_cnt').collapsed = value;
+					]]></body>
+				</method>
+				<method name="onDisplaysortmenuChange">
+					<body><![CDATA[
+						var fields = this.getFields();
+						var value = (fields.mode.value == 'random' || fields.mode.value == 'compact' || fields.displaysortmenu.value != 'true');
 						this.getElementByAnonId('displaydisplaymode_cnt').collapsed = value;
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
 						this.getElementByAnonId('displaydiscountfilter_cnt').collapsed = value;
@@ -281,15 +348,14 @@
 			<parameter name="nbItemPerPage" type="Integer" default-value="20" />
 		</parameters>
 	</block>
-	
 	<!-- Hidden blocks -->
-	<block type="modules_catalog_simpleproduct" hidden="true"/>
-	<block type="modules_catalog_declinedproduct" hidden="true"/>
-	<block type="modules_catalog_kitproduct" hidden="true"/>
-	<block type="modules_catalog_virtualproduct" hidden="true"/>
-	<block type="modules_catalog_bundleproduct" hidden="true"/>
-	
+	<block type="modules_catalog_simpleproduct" hidden="true" />
+	<block type="modules_catalog_declinedproduct" hidden="true" />
+	<block type="modules_catalog_kitproduct" hidden="true" />
+	<block type="modules_catalog_virtualproduct" hidden="true" />
+	<block type="modules_catalog_bundleproduct" hidden="true" />
 	<!-- Dashboard blocks -->
 	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" label="&amp;modules.catalog.bo.blocks.Dashboardstock.Title;" />
-	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" label="&amp;modules.catalog.bo.dashboard.General-statistics;" />
+	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true"
+		label="&amp;modules.catalog.bo.dashboard.General-statistics;" />
 </blocks>
