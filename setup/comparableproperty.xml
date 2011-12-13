@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	
+	<rootfolder module="catalog">
+		<comparablepropertyfolder>
+			<comparableproperty byLabel="Description courte" className="catalog_ShortDescriptionComparableProperty">
+				<parameter value="250" />
+			</comparableproperty>
+			<comparableproperty byLabel="Prix hors taxes" className="catalog_PriceComparableProperty">
+				<parameter value="ht" />
+			</comparableproperty>
+			<comparableproperty byLabel="Prix TTC" className="catalog_PriceComparableProperty">
+				<parameter value="ttc" />
+			</comparableproperty>
+			<comparableproperty byLabel="Disponibilité" className="catalog_GetterComparableProperty">
+				<parameter value="getAvailability" />
+				<parameter value="m.catalog.frontoffice.availability" />
+			</comparableproperty>
+			<comparableproperty byLabel="Marque" className="catalog_PersistentComparableProperty">
+				<parameter value="brand" />
+			</comparableproperty>
+			<comparableproperty byLabel="Code SKU" className="catalog_PersistentComparableProperty">
+				<parameter value="codeSKU" />
+			</comparableproperty>
+			<comparableproperty byLabel="Avis clients (sans la note)" className="catalog_ReviewComparableProperty">
+				<parameter value="false" />
+			</comparableproperty>
+			<comparableproperty byLabel="Avis clients (avec la note)" className="catalog_ReviewComparableProperty">
+				<parameter value="true" />
+			</comparableproperty>
+		</comparablepropertyfolder>
+	</rootfolder>
+</script>

@@ -253,6 +253,10 @@
 	margin-bottom: 10px;
 }
 
+.hidden-without-js {
+	display: none !important;
+}
+
 @import url(/modules/catalog/style/frontoffice.trident.4.css);
 @import url(/modules/catalog/style/frontoffice.trident.5.css);
 @import url(/modules/catalog/style/frontoffice.gecko.2.css);

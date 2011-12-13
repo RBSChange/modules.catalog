@@ -348,6 +348,15 @@
 			<parameter name="nbItemPerPage" type="Integer" default-value="20" />
 		</parameters>
 	</block>
+
+	<block type="modules_catalog_ProductComparison" icon="list-block">
+		<parameters>
+			<parameter name="showQuantitySelector" type="Boolean" default-value="true" />
+			<parameter name="restrictProductsToContext" type="Boolean" default-value="false" />
+			<parameter name="comparableProperties" type="modules_catalog/comparableproperty" moduleselector="catalog" rows="10" max-occurs="-1" />
+		</parameters>
+	</block>
+	
 	<!-- Hidden blocks -->
 	<block type="modules_catalog_simpleproduct" hidden="true" />
 	<block type="modules_catalog_declinedproduct" hidden="true" />

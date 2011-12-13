@@ -7,14 +7,15 @@
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module 'catalog'; template 'Catalog-Inc-ProductListOrderOptions'; type 'html'; displayConfig displayConfig; valueSortOption valueSortOption;"/>
 
 <tal:block change:block="" module="order" name="CartMessages" />
-
+<tal:block change:block="" module="website" name="messages" container="" />
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
 
 <div tal:condition="not:products" change:translate="modules.catalog.frontoffice.No-product-to-display"></div>
 <div tal:condition="products" class="products-list-list modules-catalog">
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
-	<form action="#product-list-title" method="post" style="clear:both">
+	<script change:javascript="head 'modules.catalog.lib.js.product-list'"></script>
+	<form action="#product-list-title" method="post" style="clear:both" data-addtocomparison-url="${actionurl:'catalog','UpdateList',listName='catalog_comparison',attr,backurl=currenturl:}">
 		<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 		<table border="0" class="normal">
 			<thead>
@@ -47,6 +48,9 @@
 		</table>
 		<div class="list-buttons" tal:repeat="button displayConfig/globalButtons">
 			<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
+		</div>
+		<div class="list-buttons hidden-without-js">
+			<input class="button" name="mode[add]" type="submit" value="${trans:m.catalog.fo.add-to-comparison-list,ucf,attr}" onclick="onGlobalAddToComparisonButtonClick(this);" /> ${trans:m.catalog.fo.add-to-comparison-list-help,ucf}
 		</div>
 	</form>
 </div>

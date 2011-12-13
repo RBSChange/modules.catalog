@@ -8,10 +8,12 @@
 				<child model="modules_catalog/topshelf" />
 				<child model="modules_catalog/noshelfproductfolder" />
 				<child model="modules_catalog/productqueryfolder" />
+				<child model="modules_catalog/comparablepropertyfolder" />
 			</children>
 			<drops>
 				<drop model="modules_catalog/topshelf" action="move" />
 				<drop model="modules_catalog/productqueryfolder" action="move" />
+				<drop model="modules_catalog/comparablepropertyfolder" action="move" />
 			</drops>
 			<contextactions>
 				<contextaction name="edit" />
@@ -20,6 +22,22 @@
 					<contextaction name="createTopshelf" />
 					<contextaction name="createProductqueryfolder" />
 				</groupactions>
+			</contextactions>
+		</model>
+		<model name="modules_catalog/comparablepropertyfolder">
+			<children>
+				<child model="modules_catalog/comparableproperty" />
+			</children>
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="openFolder" />
+			</contextactions>
+		</model>
+		<model name="modules_catalog/comparableproperty">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/noshelfproductfolder">

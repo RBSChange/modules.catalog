@@ -132,4 +132,6 @@
   <key id="log-compileproduct-bundleproduct">log compileproduct bundleproduct</key>
   <key id="saveredirectinfo-simpleproduct">saveredirectinfo.simpleproduct {lang} {documentlabel}</key>
   <key id="log-saveredirectinfo-simpleproduct">log saveredirectinfo simpleproduct</key>
+  <key id="move-comparablepropertyfolder">move.comparablepropertyfolder {destinationlabel} {documentlabel}</key>
+  <key id="log-move-comparablepropertyfolder">log move comparablepropertyfolder</key>
 </i18n>

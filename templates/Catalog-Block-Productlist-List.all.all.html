@@ -2,13 +2,17 @@
 <h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
 <div tal:condition="blockDescription" class="product-list-description">${blockDescription}</div>
 <tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true';"/>
+
 <tal:block change:block="" module="order" name="CartMessages" />
+<tal:block change:block="" module="website" name="messages" container="" />
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
+
 <div tal:condition="not:products" change:translate="modules.catalog.frontoffice.No-product-to-display"></div>
-<form class="modules-catalog" tal:condition="products" action="#product-list-title" method="post"> 	
+<form class="modules-catalog" tal:condition="products" action="#product-list-title" method="post" data-addtocomparison-url="${actionurl:'catalog','UpdateList',listName='catalog_comparison',attr,backurl=currenturl:}"> 	
 	<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
 	<script change:javascript="src 'modules.catalog.lib.js.productListManagement'"></script>
+	<script change:javascript="head 'modules.catalog.lib.js.product-list'"></script>
 	<div class="ecom-list">
 		<ol class="table-view">
 			<tal:block tal:repeat="product products">
@@ -30,7 +34,7 @@
 							<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
 						</li>
 						<li tal:condition="displayConfig/showRatingAverage">
-	       					<span class="small">${trans:m.catalog.frontoffice.rating-average,lab,ucf} ${product/getFormattedRatingAverage}</span>
+	       					<span class="small"><tal:block change:translate="modules.catalog.frontoffice.Rating-averageLabel" /> ${product/getFormattedRatingAverage}</span>
 						</li>
 						<tal:block tal:condition="displayConfig/showAvailability">
 							<li tal:define="availability product/getAvailability" tal:condition="availability">
@@ -52,13 +56,16 @@
 						<tal:block tal:condition="displayConfig/showAddToCart">
 							<li tal:condition="canBeOrdered">
 								<tal:block tal:condition="displayConfig/showQuantitySelector">
-									<label class="invisible" for="catalogParam_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
+									<label class="invisible" for="catalogParam_quantities_${id}" change:translate="modules.catalog.frontoffice.Detail-quantityLabel"></label>
 	                				<input class="textfield quantity-selector" type="text" size="3" id="catalogParam_quantities_${id}" name="catalogParam[quantities][${id}]" value="${php: isset(quantities[id]) ? quantities[id] : 0}" />
 	                				<br />
 	                			</tal:block>
 	                			<input type="submit" name="catalogParam[addToCart][${id}]" class="button" change:i18nattr="value &modules.catalog.frontoffice.LabelHrefAddToCart;" />
 							</li>
 						</tal:block>
+						<li>
+							<a class="button" change:link="module catalog; action UpdateList; listName 'catalog_comparison'; mode 'add'; productIds[] id; backurl currenturl:">${trans:m.catalog.fo.add-to-comparisons,ucf}</a>
+						</li>
 					</ul>
 				</li>
 			</tal:block>
@@ -67,6 +74,9 @@
 	<div class="cleaner"></div>
 	<div class="list-buttons" tal:repeat="button displayConfig/globalButtons">
 		<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" /> ${button/help}
+	</div>
+	<div class="list-buttons hidden-without-js">
+		<input class="button" name="mode[add]" type="submit" value="${trans:m.catalog.fo.add-to-comparison-list,ucf,attr}" onclick="onGlobalAddToComparisonButtonClick(this);" /> ${trans:m.catalog.fo.add-to-comparison-list-help,ucf}
 	</div>
 </form>
 

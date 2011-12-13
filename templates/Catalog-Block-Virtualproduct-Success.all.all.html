@@ -22,19 +22,33 @@
 		</div>
 		
 		<tal:block tal:condition="product/hasPublishedBrand" tal:define="brand product/getBrand; brandVisual brand/getVisual">
-			<strong>${trans:m.catalog.frontoffice.brand,lab,ucf}</strong>
+			<strong change:translate="modules.catalog.frontoffice.BrandLabel"></strong>
 			<a change:link="document brand">
 				<tal:block tal:condition="not:brandVisual">${brand/getLabelAsHtml}</tal:block>
 				<img tal:condition="brandVisual" change:media="document brandVisual; format 'modules.catalog.frontoffice/brandrandompic'" />
 			</a>
 		</tal:block>
 		
-		<form class="product-form" change:link="module catalog; action AddToList" method="post">
+		<form class="product-form" action="${actionurl:'catalog','UpdateList',attr}" method="post">
 			<ol>
 				<li>
-					<input type="hidden" name="backurl" change:currentPageLink="" />
-					<input type="submit" name="addToList" class="button" change:i18nattr="value &modules.catalog.frontoffice.Add-to-list; title &modules.catalog.frontoffice.title.Add-to-list;" />
-					<input type="hidden" tal:attributes="value product/getId" name="productId" />					
+					<input type="hidden" name="backurl" value="${currenturl:attr}" />
+					<input type="hidden" value="${product/getId}" name="productIds[]" />
+					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.frontoffice.add-to-list,ucf}" 
+						title="${trans:m.catalog.frontoffice.title.add-to-list,ucf}" />					
+				</li>
+			</ol>
+		</form>
+		
+		<form class="product-form" action="${actionurl:'catalog','UpdateList',attr}" method="post">
+			<ol>
+				<li>
+					<input type="hidden" name="listName" value="catalog_comparison" />
+					<input type="hidden" name="backurl" value="${currenturl:attr}" />
+					<input type="hidden" value="${product/getId}" name="productIds[]" />
+					<input type="hidden" value="add" name="mode" />
+					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.fo.add-to-comparison-list,ucf}" 
+						title="${trans:m.catalog.fo.add-to-comparison-list,ucf}" />					
 				</li>
 			</ol>
 		</form>

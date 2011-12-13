@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.fo" lcid="fr_FR">
+	<key id="product-comparison">comparaison de produits</key>
+	<key id="add-to-comparison-list">ajouter à ma liste de comparaison</key>
+	<key id="add-to-comparison-list-help">Cochez les cases des produits à ajouter à votre liste de comparaisons.</key>
+	<key id="product-added-to-comparison-list">produit ajouté à votre liste de comparaisons</key>
+	<key id="product-already-in-comparison-list">ce produit est déjà dans votre liste de comparaisons</key>
+	<key id="product">produit</key>
+	<key id="reviews">avis clients</key>
+	<key id="reviews-count">{count} avis</key>
+	<key id="no-review-yet">aucun avis</key>
+	<key id="no-rating">N.A.</key>
+	<key id="selection">sélection</key>
+	<key id="clear-list">vider la liste</key>
+	<key id="no-selected-product">Aucun produit sélectionné.</key>	
+	<key id="productlist-favorite-updated">Votre liste de produits favoris a bien été mise à jour.</key>
+	<key id="productlist-comparison-updated">Votre liste de comparaison a bien été mise à jour.</key>
+	<key id="remove-checked">retirer la sélection de la liste</key>
+	<key id="keep-only-checked">restreindre la liste à la sélection</key>
+	<key id="add-selection-to-cart">ajouter la sélection au panier</key>
+	<key id="warning-restricted-list">Attention, cette liste est restreinte aux produits de ce rayon.</key>
+	<key id="remove-this-produit-from-list">retirer ce produit de la liste</key>
+	<key id="click-to-view-full-description">cliquez ici pour voir la description complète</key>
+	<key id="click-to-hide-full-description">cliquez ici pour masquer la description complète</key>
+	<key id="add-to-comparisons">ajouter aux comparaisons</key>
+</i18n>

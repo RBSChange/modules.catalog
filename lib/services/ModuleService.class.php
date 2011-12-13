@@ -4,6 +4,8 @@
  */
 class catalog_ModuleService extends ModuleBaseService
 {
+	const COMPARISON_LIST = 'catalog_comparison';
+	
 	/**
 	 * Singleton
 	 * @var catalog_ModuleService

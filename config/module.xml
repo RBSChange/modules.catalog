@@ -19,9 +19,14 @@
 		<entry name="productListFavoriteClass">catalog_SessionProductList</entry>
 		<entry name="productListFavoritePersist">true</entry>
 		<entry name="productListFavoriteMaxCount">-1</entry>
+		
 		<entry name="productListConsultedClass">catalog_SessionProductList</entry>
 		<entry name="productListConsultedPersist">false</entry>
 		<entry name="productListConsultedMaxCount">10</entry>
+		
+		<entry name="productListComparisonClass">catalog_SessionProductList</entry>
+		<entry name="productListComparisonPersist">false</entry>
+		<entry name="productListComparisonMaxCount">25</entry>
 		
 		<!-- 
 			CLASSNAME must have a public function getCurrentTaxZone($shop, $cart)

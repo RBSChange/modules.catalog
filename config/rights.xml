@@ -30,6 +30,8 @@
 		<document name="currency" />
 		<document name="noshelfproductfolder" />
 		<document name="productqueryfolder" />
+		<document name="comparableproperty" />
+		<document name="comparablepropertyfolder" />
 	</actions>
 	<roles>
 		<role name="Admin">

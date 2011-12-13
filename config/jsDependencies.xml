@@ -25,4 +25,14 @@
 			<dependency name="modules.website.lib.js.jquery-noconflict" />
 		</dependencies>
 	</script>
+	<script name="modules.catalog.lib.js.product-comparison">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+	<script name="modules.catalog.lib.js.product-list">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
 </scripts>

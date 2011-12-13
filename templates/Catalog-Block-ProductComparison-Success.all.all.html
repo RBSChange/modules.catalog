@@ -1,0 +1,65 @@
+<h1 change:h="">${trans:m.catalog.fo.product-comparison,ucf}</h1>
+
+<tal:block change:block="" module="order" name="CartMessages" />
+<tal:block change:block="" module="website" name="messages" container="" />
+<ul change:errors=""></ul>
+<ul change:messages=""></ul>
+
+<div tal:condition="not:products">${trans:m.catalog.frontoffice.no-product-to-display,ucf}</div>
+<div tal:condition="products" class="products-comparison-list">
+	<script change:javascript="head 'modules.catalog.lib.js.product-comparison'"></script>
+	<form change:link="module catalog; action UpdateList" method="post" style="clear:both" data-addtocart-url="${actionurl:'order','AddToCartMultiple',attr}" onsubmit="return onFormSubmitted(this);">
+		<ul class="inline-list">
+			<li><input class="button hidden-without-js" type="button" value="${trans:m.catalog.fo.add-selection-to-cart,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" /></li>
+			<li><input class="button" name="mode[remove]" type="submit" value="${trans:m.catalog.fo.remove-checked,ucf,attr}" /></li>
+			<li><input class="button" name="mode[replace]" type="submit" value="${trans:m.catalog.fo.keep-only-checked,ucf,attr}" /></li>
+			<li><input class="button" name="mode[clear]" type="submit" value="${trans:m.catalog.fo.clear-list,ucf,attr}" /></li>
+		</ul>
+		<div class="comparison-area" style="overflow-x: auto; max-width: 100%">
+			<input type="hidden" name="shopId" value="${shop/getId}" />
+			<input type="hidden" name="listName" value="catalog_comparison" />
+			<input type="hidden" name="backurl" change:currentPageLink="anchor 'product-list-title'" />
+			<input type="hidden" name="cmpref" value= "${product/getId}" />
+			<table border="0" class="normal" style="margin-bottom: 0">
+				<tbody>
+					<tr class="${alternateclass:lineCount}">
+						<th>${trans:m.catalog.fo.selection,ucf}</th>
+						<td tal:repeat="product products">
+							<tal:block tal:define="id product/getId; fieldid string:comparison_selected_product_$id">
+								<input class="product-selector" tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; value id" name="productIds[]" type="checkbox"/>
+								<input class="product-selector" tal:condition="not: checkboxes/$id" tal:attributes="id fieldid; value id" name="productIds[]" type="checkbox"/>
+								<label tal:attributes="for fieldid" change:translate="modules.catalog.frontoffice.Select"></label>
+							</tal:block>
+						</td>
+					</tr>
+					<tr class="${alternateclass:lineCount}" >
+						<th>${trans:m.catalog.fo.product,ucf}</th>
+						<td tal:repeat="product products">
+							<tal:block tal:define="id product/getId">
+								<a change:link="document product; catalogParam[shopId] shop/getId" tal:attributes="title product/getLinkTitle" >${product/getLabelAsHtml}</a>
+								<a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; mode 'remove'; productIds[] id; refererPageId context/getId" title="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}"><img change:img="icon/small/delete.png" alt="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}" /></a>
+								<br />
+								${product/getCodereferenceAsHtml}
+								<br />
+								<a change:link="document product; catalogParam[shopId] shop/getId" tal:attributes="title product/getLinkTitle" ><img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.catalog.frontoffice/pic200x200'" /></a>
+								<br />
+								<tal:block tal:condition="configuration/getShowQuantitySelector">
+									<label class="invisible" for="comparison_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,lab,ucf}</label>
+	                				<input class="textfield quantity-selector hidden-without-js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
+	                			</tal:block>
+	                			<input type="button" class="button hidden-without-js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
+	                			<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button hidden-with-js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+	                		</tal:block>
+						</td>
+					</tr>
+					<tal:block tal:repeat="property properties">
+						<tr class="${alternateclass:lineCount}">
+							<th>${property/getLabelAsHtml}</th>
+							<td tal:repeat="product products">${php:property.getValueAsHtml(product)}</td>
+						</tr>
+					</tal:block>
+				</tbody>
+			</table>
+		</div>
+	</form>
+</div>

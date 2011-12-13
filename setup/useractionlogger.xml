@@ -77,4 +77,5 @@
   <actiondef modulename="catalog" actionname="reactivate.shippingfilter" label="m.catalog.bo.useractionlogger.reactivate-shippingfilter"/>
   <actiondef modulename="catalog" actionname="compileproduct.bundleproduct" label="m.catalog.bo.useractionlogger.compileproduct-bundleproduct"/>
   <actiondef modulename="catalog" actionname="saveredirectinfo.simpleproduct" label="m.catalog.bo.useractionlogger.saveredirectinfo-simpleproduct"/>
+  <actiondef modulename="catalog" actionname="move.comparablepropertyfolder" label="m.catalog.bo.useractionlogger.move-comparablepropertyfolder"/>
 </script>

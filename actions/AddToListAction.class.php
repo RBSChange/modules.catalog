@@ -1,7 +1,6 @@
 <?php
 /**
- * catalog_AddToListAction
- * @package modules.catalog.actions
+ * @deprecated use catalog/UpdateList action
  */
 class catalog_AddToListAction extends f_action_BaseAction
 {

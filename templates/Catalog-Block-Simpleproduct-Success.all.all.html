@@ -30,12 +30,26 @@
 			</a>
 		</tal:block>
 		
-		<form class="product-form" change:link="module catalog; action AddToList" method="post">
+		<form class="product-form" action="${actionurl:'catalog','UpdateList',attr}" method="post">
 			<ol>
 				<li>
-					<input type="hidden" name="backurl" change:currentPageLink="" />
-					<input type="hidden" tal:attributes="value product/getId" name="productId" />
-					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.frontoffice.add-to-list,ucf}" title="${trans:m.catalog.frontoffice.title.add-to-list,ucf}" />					
+					<input type="hidden" name="backurl" value="${currenturl:attr}" />
+					<input type="hidden" value="${product/getId}" name="productIds[]" />
+					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.frontoffice.add-to-list,ucf}" 
+						title="${trans:m.catalog.frontoffice.title.add-to-list,ucf}" />					
+				</li>
+			</ol>
+		</form>
+		
+		<form class="product-form" action="${actionurl:'catalog','UpdateList',attr}" method="post">
+			<ol>
+				<li>
+					<input type="hidden" name="listName" value="catalog_comparison" />
+					<input type="hidden" name="backurl" value="${currenturl:attr}" />
+					<input type="hidden" value="${product/getId}" name="productIds[]" />
+					<input type="hidden" value="add" name="mode" />
+					<input type="submit" name="addToList" class="button" value="${trans:m.catalog.fo.add-to-comparison-list,ucf}" 
+						title="${trans:m.catalog.fo.add-to-comparison-list,ucf}" />					
 				</li>
 			</ol>
 		</form>
@@ -67,7 +81,7 @@
 		</small>
 			
 		<!-- ajouter au panier -->
-		<form tal:condition="php: product.canBeOrdered(shop)" class="product-form" change:link="module order; action AddToCart" method="post">
+		<form tal:condition="php: product.canBeOrdered(shop)" class="product-form" action="${actionurl:'order','AddToCart',attr}" method="post">
 			<fieldset>		
 				<label for="product-quantity">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
 				<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="1" />
