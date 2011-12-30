@@ -40,8 +40,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	private $newBundledItemQtt = 1;
 	
 	/**
-	 * @example "4526,785445,2355"
-	 * @var string
+	 * @var string for example "4526,785445,2355" 
 	 */
 	private $newBundledItemProducts = null;
 	

@@ -288,7 +288,6 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	}
 	
 	/**
-	 * @example 12.56,4
 	 * @param string $value
 	 */
 	public function setBoValueJSON($value)
@@ -362,8 +361,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	}
 	
 	/**
-	 * @example 12.56,4
-	 * @param string $value
+	 * @param string $value for example 12.56,4
 	 */
 	public function setBoDiscountValueJSON($value)
 	{
