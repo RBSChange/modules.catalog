@@ -2,7 +2,7 @@
 <i18n baseKey="m.catalog.document.shelf" lcid="fr_FR">
   <key id="document-name">rayon du catalogue</key>
   <key id="edition-form-title">propriétés du rayon</key>
-  <key id="codeReference">code référence</key>
+  <key id="codereference">code référence</key>
   <key id="label">libellé</key>
   <key id="label-help">champ texte  utilisé à la fois dans les sites et dans l’interface d’administration pour identifier le rayon.</key>
   <key id="visual">visuel</key>
