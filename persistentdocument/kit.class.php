@@ -23,8 +23,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	 */
 	private $newKitItemQtt = 1;
 	/**
-	 * @example "4526,785445,2355"
-	 * @var string
+	 * @var string for example "4526,785445,2355"
 	 */
 	private $newKitItemProductIds = null;
 

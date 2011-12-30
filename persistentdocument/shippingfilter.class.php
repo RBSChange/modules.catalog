@@ -95,8 +95,7 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	}
 	
 	/**
-	 * @example 12.56,4
-	 * @param string $value
+	 * @param string $value for example 12.56,4
 	 */
 	public function setBoValueJSON($value)
 	{
