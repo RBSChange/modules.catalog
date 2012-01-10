@@ -4,8 +4,8 @@
   <key id="block-label">produits associés</key>
   <key id="cmpref">document lié</key>
   <key id="cmpref-help">document lié</key>
-  <key id="crossSellingType">type d'association</key>
-  <key id="crossSellingType-help">type d'association entre les produits</key>
+  <key id="crosssellingtype">type d'association</key>
+  <key id="crosssellingtype-help">type d'association entre les produits</key>
   <key id="sortby">trier par</key>
   <key id="sortby-help">mode de tri des produits affichés</key>
   <key id="maxdisplayed">nombre maximal affiché</key>
