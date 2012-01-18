@@ -382,7 +382,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			$parameters['catalogParam']['shopId'] = $shop->getId();
 		}
-		return website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($product, $shop->getWebsite(), $lang, $parameters)->getUrl();
+		return LinkHelper::getDocumentUrlForWebsite($product, $shop->getWebsite(), $lang, $parameters);
 	}
 	
 	/**
