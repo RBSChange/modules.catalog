@@ -39,7 +39,9 @@ class catalog_PriceFormatter
 		if ($className !== false)
 		{
 			$this->strategy = new $className;
-			if (!($this->strategy instanceof catalog_PriceFormatter))
+			if (!($this->strategy instanceof catalog_PriceFormatStrategy)
+				// @deprecated (will be removed in 4.0) Second case for compatibility
+				&& !($this->strategy instanceof catalog_PriceFormatter))
 			{
 				$this->strategy = null;
 			}
