@@ -178,6 +178,14 @@ class catalog_StockService extends BaseService
 	}
 
 	/**
+	 * @return integer
+	 */
+	public function getOutOfStockProductsCount()
+	{
+		return f_util_ArrayUtils::firstElement(catalog_ProductService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->setProjection(Projections::rowCount('count'))->findColumn('count'));
+	}
+
+	/**
 	 * @param order_CartInfo $cart
 	 * @param order_persistentdocument_order $order
 	 */
