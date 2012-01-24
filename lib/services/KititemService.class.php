@@ -118,7 +118,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_price $kitPrice
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return boolean
 	 */
 	public function appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity)
@@ -126,15 +126,28 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		$price = $this->getKititemPrice($kititem, $shop, $targetIds, $quantity);
 		if ($price instanceof catalog_persistentdocument_price)
 		{
-			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $kititem->getQuantity());
+			$priceItem = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
+			$priceItem->setLockedFor($kititem->getId());
+			$priceItem->setProductId($price->getProductId());
+			$priceItem->setShopId($price->getShopId());
+			
+			$qtt = $kititem->getQuantity();
+			$priceItem->setValueWithoutTax($price->getValueWithoutTax() * $qtt);
+			$priceItem->setTaxCategory($price->getTaxCategory());
 			if ($price->isDiscount())
 			{
-				$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $price->getOldValueWithoutTax() * $kititem->getQuantity());
+				$priceItem->setOldValueWithoutTax($price->getOldValueWithoutTax() * $qtt);
 			}
 			else
 			{
-				$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $price->getValueWithoutTax() * $kititem->getQuantity());
+				$priceItem->setOldValueWithoutTax($priceItem->getValueWithoutTax());
 			}
+
+			$kitPrice->addPricePart($priceItem);
+			
+			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() + $priceItem->getValueWithoutTax());	
+			$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $priceItem->getOldValueWithoutTax());
+			
 			$kitPrice->setCurrencyId($price->getCurrencyId());
 			$kitPrice->setTaxCategory($price->getTaxCategory());
 			return true;
