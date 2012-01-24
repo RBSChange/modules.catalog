@@ -53,11 +53,6 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		}
 		
 		$request->setAttribute('product', $product);
-		
-		$price = $product->getPrice($shop, $customer);
-		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
-		
 		if ($request->hasParameter('kititemid'))
 		{
 			$kititem = catalog_persistentdocument_kititem::getInstanceById($request->getParameter('kititemid'));
@@ -91,6 +86,10 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 			$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
 			return 'Kititem';
 		}
+		
+		$price = $product->getPrice($shop, $customer);
+		$request->setAttribute('defaultPrice', $price);
+		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
 		
 		$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
 		return website_BlockView::SUCCESS;

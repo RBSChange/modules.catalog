@@ -214,8 +214,8 @@ class catalog_KitService extends catalog_ProductService
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_lockedprice
 	 */
 	public function getItemsPriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
 	{
@@ -224,16 +224,17 @@ class catalog_KitService extends catalog_ProductService
 
 	/**
 	 * @param catalog_persistentdocument_kit $kit
-	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_shop $shop 
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_lockedprice
 	 */
 	protected function calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
 	{
-		$kitPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
+		$kitPrice = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
+		$kitPrice->setLockedFor($kit->getId());
 		$kitPrice->setToZero();
-		$taxCode = false;
+		$taxCategory = false;
 
 		$kitPrice->setProductId($kit->getId());
 		$kitPrice->setShopId($shop->getId());
@@ -244,19 +245,24 @@ class catalog_KitService extends catalog_ProductService
 			{
 				return null;
 			}
-			if ($taxCode === false)
+			if ($taxCategory === false)
 			{
-				$taxCode = $kitPrice->getTaxCategory();
+				$taxCategory = $kitPrice->getTaxCategory();
 			}
-			else if ($taxCode != $kitPrice->getTaxCategory())
+			else if ($taxCategory != $kitPrice->getTaxCategory())
 			{
-				$taxCode = '0';
+				$taxCategory = '0';
 			}
 		}
-		$kitPrice->setTaxCategory($taxCode);
+		$kitPrice->setTaxCategory($taxCategory);
 		if ($kitPrice->getValueWithoutTax() >= $kitPrice->getOldValueWithoutTax())
 		{
-			$kitPrice->removeDiscount();
+			foreach ($kitPrice->getPricePartArray() as $pricePart)
+			{
+				/* @var $pricePart catalog_persistentdocument_lockedprice */
+				$pricePart->setOldValueWithoutTax(null);
+			}
+			$kitPrice->setOldValueWithoutTax(null);
 		}
 		return $kitPrice;
 	}

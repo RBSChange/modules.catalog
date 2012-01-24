@@ -10,15 +10,14 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */	
 	public function getAttachedDocument()
 	{
-		if (intval($this->getProductId()) > 0)
+		$id = intval($this->getProductId());
+		if ($id > 0)
 		{
-			try 
+			$pp = f_persistentdocument_PersistentProvider::getInstance();
+			$mn = $pp->getDocumentModelName($id);
+			if ($mn !== false)
 			{
-				return DocumentHelper::getDocumentInstance($this->getProductId());
-			}
-			catch (Exception $e)
-			{
-				Framework::exception($e);
+				return $pp->getDocumentInstance($id, $mn);
 			}
 		}
 		return null;		
@@ -47,12 +46,21 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	}
 	
 	/**
-	 * @return f_peristentoducument_PersistentDocument
+	 * @return f_persistentdocument_PersistentDocument | null
 	 */
 	public function getTarget()
 	{
-		$targetId = $this->getTargetId();
-		return ($targetId > 0) ? DocumentHelper::getDocumentInstance($targetId) : null;
+		$targetId = intval($this->getTargetId());
+		if ($targetId > 0)
+		{
+			$pp = f_persistentdocument_PersistentProvider::getInstance();
+			$mn = $pp->getDocumentModelName($targetId);
+			if ($mn !== false)
+			{
+				return $pp->getDocumentInstance($targetId, $mn);
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -60,12 +68,12 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getTargetLabel()
 	{
-		$targetId = $this->getTargetId();
-		return ($targetId > 0) ? DocumentHelper::getDocumentInstance($targetId)->getLabel() : '-';
+		$target = $this->getTarget();
+		return ($target instanceof f_persistentdocument_PersistentDocument) ? $target->getLabel() : '-';
 	}
 	
 	/**
-	 * @param f_persistentdocument_PersistentDocument $target
+	 * @param f_persistentdocument_PersistentDocument|integer $target
 	 */
 	public function setTarget($target)
 	{
@@ -115,7 +123,6 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 
 	private $taxDocumentId = null;
 	
-	
 	/**
 	 * @param boolean $throwsException
 	 * @return catalog_persistentdocument_tax
@@ -157,6 +164,17 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getOldValueWithTax()
 	{
+		if ($this->hasPricePart())
+		{
+			$value = 0.0;
+			foreach ($this->getPricePartArray() as $price)
+			{
+				/* @var $price catalog_persistentdocument_price */
+				$value += $price->getOldValueWithTax();
+			}
+			return $value;
+		}
+		
 		if ($this->getOldValueWithoutTax())
 		{
 			return $this->getOldValueWithoutTax() * (1 + $this->getTaxRate());
@@ -170,13 +188,87 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */	
 	public function getValueWithTax()
 	{
+		if ($this->hasPricePart())
+		{
+			$value = 0.0;
+			foreach ($this->getPricePartArray() as $price)
+			{
+				/* @var $price catalog_persistentdocument_price */
+				$value += $price->getValueWithTax();
+			}
+			return $value;
+		}
 		if ($this->getValueWithoutTax())
 		{
-			
 			return $this->getValueWithoutTax() * (1 + $this->getTaxRate());
 		}
 		return $this->getValueWithoutTax();
 	}
+	
+	/**
+	 * @var catalog_persistentdocument_price[]
+	 */
+	private $priceParts;
+	
+	/**
+	 * @return boolean
+	 */
+	public function hasPricePart()
+	{
+		return ($this->priceParts !== null && count($this->priceParts));
+	}
+	
+	/**
+	 * @return void
+	 */
+	public function removeAllPricePart()
+	{
+		$this->priceParts = null;
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_price $price
+	 * @return void
+	 */
+	public function addPricePart($price)
+	{
+		if ($this->priceParts === null)
+		{
+			$this->priceParts = array($price);
+		}
+		else
+		{
+			$this->priceParts[] = $price;
+		}
+	}	
+	
+	/**
+	 * @return catalog_persistentdocument_price[]
+	 */
+	public function getPricePartArray()
+	{
+		if ($this->hasPricePart())
+		{
+			return $this->priceParts;
+		}
+		return array();
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_price[] $priceArray
+	 */
+	public function setPricePartArray($priceArray)
+	{
+		$this->priceParts = null;
+		if (is_array($priceArray) && count($priceArray))
+		{
+			foreach ($priceArray as $price)
+			{
+				$this->addPricePart($price);
+			}
+		}
+	}	
+	
 
 	//Templating 
 	/**
@@ -292,7 +384,6 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function setBoValueJSON($value)
 	{
-		Framework::info(__METHOD__ . "($value)");
 		$parts = explode(',', $value);
 		if (count($parts) != 2 || $parts[0] == '' || $parts[1] == '')
 		{
@@ -365,7 +456,6 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function setBoDiscountValueJSON($value)
 	{
-		Framework::info(__METHOD__ . "($value)");
 		$parts = explode(',', $value);
 		$shop = $this->getShop();
 		$valueToSet = $parts[0] === '' ? null :  doubleval($parts[0]);
