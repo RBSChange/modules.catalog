@@ -529,12 +529,13 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	protected function postUpdate($document, $parentNodeId)
 	{
 		// Update related topics.
-		if ($document->isPropertyModified('description') || $document->isPropertyModified('label'))
+		if ($document->isPropertyModified('description') || $document->isPropertyModified('label') || $document->isPropertyModified('visual'))
 		{
 			foreach ($document->getTopicArray() as $topic)
 			{
 				$topic->setLabel($document->getLabel());
 				$topic->setDescription($document->getDescription());
+				$topic->setVisual($document->getVisual());
 				$topic->save();
 			}
 		}
@@ -646,6 +647,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			$topic->setReferenceId($shelf->getId());
 			$topic->setLabel($shelf->getLabel());
 			$topic->setDescription($shelf->getDescription());
+			$topic->setVisual($shelf->getVisual());
 			$topic->save($topicParent->getId());
 
 			$shelf->addTopic($topic);
