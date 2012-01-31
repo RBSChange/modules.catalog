@@ -670,6 +670,15 @@
 				<body><![CDATA[					
 					if (name == 'actionrow')
 					{
+						if (dataRow.allowDeletion)
+						{
+							cell.removeAttribute('hideDelete');
+						}
+						else
+						{
+							cell.setAttribute('hideDelete', 'true');
+						}
+						
 						if (dataRow.allowDiscountCreation)
 						{
 							cell.removeAttribute('hideAddDiscount');
@@ -678,6 +687,7 @@
 						{
 							cell.setAttribute('hideAddDiscount', 'true');
 						}
+						
 						if (dataRow.allowDiscountRemoval)
 						{
 							cell.removeAttribute('hideRemoveDiscount');
@@ -750,10 +760,10 @@
 	<binding id="cPricesListActionCell">
 		<content>
 			<xul:toolbar class="actions">
-				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${transui:m.uixul.bo.actions.Edit,ucf,attr}" />
-				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.uixul.bo.actions.Delete,ucf,attr}" />
-				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="${transui:m.catalog.bo.actions.Add-discount,ucf,attr}" />
-				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="${transui:m.catalog.bo.actions.Remove-discount,ucf,attr}" />
+				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${transui:m.uixul.bo.actions.edit,ucf,attr}" />
+				<xul:toolbarbutton action="delete" xbl:inherits="hidden=hideDelete" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.uixul.bo.actions.delete,ucf,attr}" />
+				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="${transui:m.catalog.bo.actions.add-discount,ucf,attr}" />
+				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="${transui:m.catalog.bo.actions.remove-discount,ucf,attr}" />
 			</xul:toolbar>
 		</content>
 	</binding>
