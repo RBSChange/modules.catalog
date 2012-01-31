@@ -245,12 +245,18 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_price|null
 	 */
 	public function getPriceDifference($shop, $customer, $quantity = 1)
 	{
 		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
+		// Unlike a kit, a bundle may include a product without price and be displayed in the shop. 
+		// In this case, price difference can't be calculated.
+		if ($price1 === null)
+		{
+			return null;
+		}
 		$price2 = $this->getPrice($shop, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
 	}

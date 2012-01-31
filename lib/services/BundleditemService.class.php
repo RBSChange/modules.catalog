@@ -119,7 +119,7 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_price $itemsPrice
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return boolean
 	 */
 	public function appendPrice($bundleditem, $itemsPrice, $shop, $targetIds, $quantity)
@@ -144,7 +144,8 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 		}
 		else
 		{
-			Framework::warn(__METHOD__ . ' ' . var_export($bundleditem->getDefaultProduct(), true));
+			// Unlike a kit, a bundle may include a product without price and be displayed in the shop.
+			Framework::info(__METHOD__ . ' No price on product ' . $bundleditem->getProduct()->getId());
 		}
 		return false;
 	}
