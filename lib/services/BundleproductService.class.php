@@ -203,8 +203,8 @@ class catalog_BundleproductService extends catalog_ProductService
 	 * @param catalog_persistentdocument_bundleproduct $bundle
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_price|null
 	 */
 	public function getItemsPriceByTargetIds($bundle, $shop, $targetIds, $quantity = 1)
 	{
@@ -214,10 +214,10 @@ class catalog_BundleproductService extends catalog_ProductService
 		
 		$itemsPrice->setProductId($bundle->getId());
 		$itemsPrice->setShopId($shop->getId());
-		$bis = catalog_BundleditemService::getInstance();
 		foreach ($bundle->getBundleditemArray() as $bundleitem) 
 		{
-			if (!$bis->appendPrice($bundleitem, $itemsPrice, $shop, $targetIds, $quantity))
+			/* @var $bundleitem catalog_persistentdocument_bundleditem */
+			if (!$bundleitem->getDocumentService()->appendPrice($bundleitem, $itemsPrice, $shop, $targetIds, $quantity))
 			{
 				return null;
 			}
@@ -229,7 +229,6 @@ class catalog_BundleproductService extends catalog_ProductService
 			{
 				$taxCategory = null;
 			}
-			
 		}
 		$itemsPrice->setTaxCategory($taxCategory);
 		if ($itemsPrice->getValueWithoutTax() >= $itemsPrice->getOldValueWithoutTax())
