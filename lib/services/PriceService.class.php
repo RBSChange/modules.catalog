@@ -188,6 +188,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			'valueWithTax' => $price->getFormattedValueWithTax(),
 			'isDiscount' => $price->isDiscount(),
 			'isDiscountLabel' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
+			'allowDeletion' => !$isLocked,
 			'allowDiscountCreation' => !$isLocked && !$price->isDiscount(),
 			'allowDiscountRemoval' => !$isLocked && $price->isDiscount(),
 			'tagrgetId' => $price->getTargetId(),
