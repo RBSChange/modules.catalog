@@ -333,7 +333,7 @@ class catalog_StockService extends BaseService
 	}
 
 	/**
-	 * @param users_persistentdocument_backenduser[] $recipients
+	 * @param users_persistentdocument_backenduser[] $users
 	 * @param catalog_persistentdocument_product $document
 	 * @return boolean
 	 */
@@ -344,14 +344,13 @@ class catalog_StockService extends BaseService
 		$configuredNotif = $ns->getConfiguredByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME);
 		if ($configuredNotif instanceof notification_persistentdocument_notification)
 		{
+			$result = true;
 			$configuredNotif->setSendingModuleName('catalog');
-			$emailAddressArray = array();
+			$configuredNotif->registerCallback($this, 'getStockAlertNotifParameters', $document);
 			foreach ($users as $user)
 			{
-				$emailAddressArray[] = $user->getEmail();
+				$result && $configuredNotif->sendToUser($user);
 			}
-			$recipients = new mail_MessageRecipients($emailAddressArray);
-			return $ns->sendNotificationCallback($configuredNotif, $recipients, array($this, 'getStockAlertNotifParameters'), $document);
 		}
 		return true;
 	}

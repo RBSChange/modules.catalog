@@ -154,7 +154,6 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			}
 		}
 		
-		$ns = notification_NotificationService::getInstance();
 		foreach ($alertsByWebsiteId as $alerts)
 		{
 			if (count($alerts) == 1)
@@ -164,15 +163,14 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			else
 			{
 				$alert = f_util_ArrayUtils::firstElement($alerts);
-				$notification = $ns->getConfiguredByCodeName('modules_catalog/severalalerts', $alert->getWebsiteId(), $alert->getLang());
+				$notification = notification_NotificationService::getInstance()->getConfiguredByCodeName('modules_catalog/severalalerts', $alert->getWebsiteId(), $alert->getLang());
 			}
 			
 			if ($notification instanceof notification_persistentdocument_notification)
 			{
-				$recipients = new mail_MessageRecipients();
-				$recipients->setTo($email);
 				$notification->setSendingModuleName('catalog');
-				$ns->sendNotificationCallback($notification, $recipients, array($this, 'getNotificationParameters'), $alerts);
+				$notification->registerCallback($this, 'getNotificationParameters', $alerts);
+				$notification->send($email);
 			}
 		}
 		
