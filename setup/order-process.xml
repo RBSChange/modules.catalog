@@ -4,7 +4,6 @@
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
 	<systemfolder module="list" relatedmodule="catalog">			
 		<staticlist listid="modules_catalog/orderprocess" label="m.catalog.list.orderprocess-label">			
-			<staticitem value="order_OrderProcess" label="m.catalog.list.orderprocess-default" />
 			<staticitem value="order_StandardOrderProcess" label="m.catalog.list.orderprocess-standard" />
 		</staticlist>
 	</systemfolder>

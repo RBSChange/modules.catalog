@@ -9,7 +9,9 @@
 
 	<website byTag="default_modules_website_default-website">
 		<shop label="Boutique" defaultTaxZone="FR-ALL" boTaxZone="FR-ALL" billingZone-refid="zoneEURO" currencyCode="EUR"
-				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false">
+				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false"
+				displayOutOfStock="true"
+				orderProcessClassName="order_StandardOrderProcess">
 			<tax label="19.6%" taxCategory="1" taxZone="FR-ALL"  rate="0.196" />
 			<tax label="5.5%" taxCategory="2" taxZone="FR-ALL"  rate="0.055" />
 			<tax label="8.5%" taxCategory="3" taxZone="FR-ALL"  rate="0.085" />

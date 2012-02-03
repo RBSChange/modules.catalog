@@ -33,7 +33,7 @@
     <add name="codeReference" type="String" db-size="50"/>
     <add name="defaultTaxZone" type="String" min-occurs="1" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
     <add name="boTaxZone" type="String" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
-    <add name="orderProcessClassName" type="String" default-value="order_OrderProcess" from-list="modules_catalog/orderprocess"/>
+    <add name="orderProcessClassName" type="String" default-value="order_StandardOrderProcess" from-list="modules_catalog/orderprocess"/>
   </properties>
   <statuses default="ACTIVE"/>
 </document>
