@@ -530,7 +530,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getRSSGuid()
 	{
-		return $this->getDocumentModelName() . '/'. RequestContext::getInstance()->getLang() .  '#' . $this->getId();
+		return LinkHelper::getPermalink($this);
 	}
 	
 	/**
