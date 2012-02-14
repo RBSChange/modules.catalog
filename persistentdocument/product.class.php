@@ -526,9 +526,18 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSGuid()
-	 * @return String
+	 * @return string
 	 */
 	public function getRSSGuid()
+	{
+		return $this->getDocumentModelName() . '/'. RequestContext::getInstance()->getLang() .  '#' . $this->getId();
+	}
+	
+	/**
+	 * @see rss_Item::getRSSLink()
+	 * @return string
+	 */
+	public function getRSSLink()
 	{
 		return LinkHelper::getDocumentUrl($this);
 	}

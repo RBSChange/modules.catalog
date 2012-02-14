@@ -322,8 +322,18 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 
 	/**
 	 * @see rss_Item::getRSSGuid()
+	 * @return string
 	 */
 	public function getRSSGuid()
+	{
+		return $this->getDocumentModelName() . '/'. RequestContext::getInstance()->getLang() .  '#' . $this->getId();
+	}
+	
+	/**
+	 * @see rss_Item::getRSSLink()
+	 * @return string
+	 */
+	public function getRSSLink()
 	{
 		return LinkHelper::getDocumentUrl($this);
 	}
@@ -333,7 +343,6 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	 */
 	public function getRSSLabel()
 	{
-		return $this->getLabelAsHtml();
-		
+		return $this->getLabelAsHtml();		
 	}
 }
