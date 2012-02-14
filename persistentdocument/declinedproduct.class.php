@@ -326,7 +326,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	 */
 	public function getRSSGuid()
 	{
-		return $this->getDocumentModelName() . '/'. RequestContext::getInstance()->getLang() .  '#' . $this->getId();
+		return LinkHelper::getPermalink($this);
 	}
 	
 	/**
