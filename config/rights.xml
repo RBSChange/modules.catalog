@@ -73,6 +73,9 @@
 		<role name="User">
 			<permission name="List.*" />
 		</role>
+		<frontendrole name="FrontValidator" extend="Trusted">
+			<permission name="Validate.comment" />
+		</frontendrole>
 		<frontendrole name="Trusted">
 			<permission name="Trusted.comment" />
 		</frontendrole>
