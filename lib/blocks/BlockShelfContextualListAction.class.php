@@ -12,7 +12,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$subShelves = $this->getSubShelves();
 		if (count($subShelves) < 1 || $this->isInBackofficeEdition())
@@ -29,7 +29,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	/**
 	 * @return array<String, String>
 	 */
-	function getMetas()
+	public function getMetas()
 	{
 		$container = $this->getCurrentEcommerceContainer();
 		if ($container instanceof catalog_persistentdocument_shelf)
@@ -76,7 +76,8 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	{
 		$topicId = $this->getContext()->getNearestContainerId();
 		$query = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::published());
-		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published());
+		$visibility = Restrictions::in('navigationVisibility', array(WebsiteConstants::VISIBILITY_VISIBLE, WebsiteConstants::VISIBILITY_HIDDEN_IN_SITEMAP_ONLY));
+		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published())->add($visibility);
 		return $query->find();
 	}
 }
