@@ -2,7 +2,7 @@
 <bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl"
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">	
-	<binding id="shop_tax" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
+	<binding id="billingarea_tax" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
 		<content>
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
@@ -15,36 +15,36 @@
 						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
-					<xul:cfield name="taxGridJSON" id="shop_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
+					<xul:cfield name="taxGridJSON" id="billingarea_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
 						flex="1">
 					</xul:cfield>
 
 					<xul:cfieldsgroup label="${transui:m.catalog.bo.doceditor.tax.Add-tax,ucf,attr}">
 						<xul:row anonid="row_newTaxLabel">
-							<xul:clabel id="shop_tax_newTaxLabel_label" control="shop_tax_newTaxLabel"
+							<xul:clabel id="billingarea_tax_newTaxLabel_label" control="billingarea_tax_newTaxLabel"
 								value="${transui:m.catalog.bo.doceditor.tax.Newtaxlabel,ucf,attr}" />
-							<xul:cfield name="newTaxLabel" id="shop_tax_newTaxLabel" anonid="field_newTaxLabel"
+							<xul:cfield name="newTaxLabel" id="billingarea_tax_newTaxLabel" anonid="field_newTaxLabel"
 								fieldtype="text" required="true" shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxlabel-help,ucf,attr}" />	
 						</xul:row>
 						<xul:row anonid="row_newTaxZone">
-							<xul:clabel id="shop_tax_newTaxZone_label" control="shop_tax_newTaxZone"
+							<xul:clabel id="billingarea_tax_newTaxZone_label" control="billingarea_tax_newTaxZone"
 								value="${transui:m.catalog.bo.doceditor.tax.newTaxZone,ucf,attr}" />
-							<xul:cfield name="newTaxZone" id="shop_tax_newTaxZone" anonid="field_newTaxZone"
+							<xul:cfield name="newTaxZone" id="billingarea_tax_newTaxZone" anonid="field_newTaxZone"
 								fieldtype="dropdownlist" required="true" listid="modules_catalog/defaulttaxzones"
 								shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxzone-help,ucf,attr}" />	
 						</xul:row>
 						<xul:row anonid="row_newTaxCategory">
-							<xul:clabel id="shop_tax_newTaxCategory_label" control="shop_tax_newTaxCategory"
+							<xul:clabel id="billingarea_tax_newTaxCategory_label" control="billingarea_tax_newTaxCategory"
 								value="${transui:m.catalog.bo.doceditor.tax.newTaxCategory,ucf,attr}" />
-							<xul:cfield name="newTaxCategory" id="shop_tax_newTaxCategory" anonid="field_newTaxCategory"
+							<xul:cfield name="newTaxCategory" id="billingarea_tax_newTaxCategory" anonid="field_newTaxCategory"
 								fieldtype="text" required="true" shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxcategory-help,ucf,attr}">
 								<xul:cconstraint name="maxSize" parameter="6" />
 							</xul:cfield>	
 						</xul:row>
 						<xul:row anonid="row_newTaxRate">
-							<xul:clabel id="shop_tax_newTaxRate_label" control="shop_tax_newTaxRate"
+							<xul:clabel id="billingarea_tax_newTaxRate_label" control="billingarea_tax_newTaxRate"
 								value="${transui:m.catalog.bo.doceditor.tax.newTaxRate,ucf,attr}" />
-							<xul:cfield name="newTaxRate" id="shop_tax_newTaxRate" anonid="field_newTaxRate"
+							<xul:cfield name="newTaxRate" id="billingarea_tax_newTaxRate" anonid="field_newTaxRate"
 								fieldtype="double" required="true" increment="0.01" 
 								shorthelp="${transui:m.catalog.bo.doceditor.tax.newtaxrate-help,ucf,attr}" />	
 						</xul:row>

@@ -60,28 +60,210 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	protected function preSave($document, $parentNodeId)
 	{
 		$document->setInsertInTree(false);
-		if ($document->getShopId() === null && intval($parentNodeId) > 0)
+		if ($document->getBillingAreaId() === null && intval($parentNodeId) > 0)
 		{
 			$pDoc = DocumentHelper::getDocumentInstance(intval($parentNodeId));
-			if ($pDoc instanceof catalog_persistentdocument_shop)
+			if ($pDoc instanceof catalog_persistentdocument_billingarea)
 			{
-				$document->setShopId(intval($parentNodeId));
+				$document->setBillingAreaId(intval($parentNodeId));
 			}
 		}
 	}
-
+	
 	/**
-	 * @param catalog_persistentdocument_tax $document
-	 * @param string $forModuleName
-	 * @param array $allowedSections
-	 * @return array
+	 * @param integer $billingAreaId
+	 * @return catalog_persistentdocument_tax[]
 	 */
-//	public function getResume($document, $forModuleName, $allowedSections = null)
-//	{
-//		$resume = parent::getResume($document, $forModuleName, $allowedSections);
-//		return $resume;
-//	}
-
+	public function getByBillingAreaId($billingAreaId)
+	{
+		return $this->createQuery()->add(Restrictions::eq('billingAreaId', $billingAreaId))->find();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @return catalog_persistentdocument_tax[]
+	 */
+	public function getByBillingArea($billingArea)
+	{
+		if ($billingArea instanceof catalog_persistentdocument_billingarea)
+		{
+			return $this->getByBillingAreaId($billingArea->getId());
+		}
+		return array();
+	}
+	
+	
+	/**
+	 * @param integer $billingAreaId
+	 * @param string $taxCategory
+	 * @param string $taxZone
+	 * @return catalog_persistentdocument_tax | null
+	 */
+	public function getTaxDocumentByKey($billingAreaId, $taxCategory, $taxZone)
+	{
+		return $this->createQuery()
+		->add(Restrictions::eq('billingAreaId', $billingAreaId))
+		->add(Restrictions::eq('taxCategory', $taxCategory))
+		->add(Restrictions::eq('taxZone', $taxZone))
+		->findUnique();
+	}
+	
+	
+	/**
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @return array[taxCategory => [label =>, rate =>]
+	 */
+	public function getBoTaxeInfoForBillingArea($billingArea)
+	{
+		$taxZone = $billingArea->getDefaultZone();		
+		$rows = $this->createQuery()
+			->add(Restrictions::eq('billingAreaId', $billingArea->getId()))
+			->add(Restrictions::eq('taxZone', $taxZone))
+			->setProjection(Projections::property('rate'), Projections::property('label'), Projections::property('taxCategory'))
+			->addOrder(Order::asc('rate'))
+			->find();
+		$result = array();
+		$hasNoTaxCategory = false;
+	
+		foreach ($rows as $row)
+		{
+			if ($row['taxCategory'] === '0') 
+			{
+				$hasNoTaxCategory = true;
+			}
+			$result[$row['taxCategory']] = array('rate' => doubleval($row['rate']), 'label' => $row['label']);
+		}
+	
+		if (!$hasNoTaxCategory)
+		{
+			$tax = $this->addNoTaxForBillingAreaAndZone($billingArea->getId(), $taxZone);
+			$result = array_merge(array($tax->getTaxCategory() => array('rate' => $tax->getRate(), 'label' => $tax->getLabel())), $result);
+		}
+	
+		return $result;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @return string[]
+	 */
+	public function getZonesCodeForBillingArea($billingArea)
+	{
+		return $this->createQuery()
+		->add(Restrictions::eq('billingAreaId', $billingArea->getId()))
+		->setProjection(Projections::groupProperty('taxZone', 'taxZone'))
+		->findColumn('taxZone');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @return zone_persistentdocument_zone[]
+	 */
+	public function getAllZonesForBillingArea($billingArea)
+	{
+		$taxZones = $this->getZonesCodeForBillingArea($billingArea);
+		$result = array();
+		foreach ($taxZones as $taxZone)
+		{
+			$result = array_merge($result, $this->getZonesForTaxZone($taxZone));
+		}
+		return $result;
+	}
+	
+	
+	/**
+	 * @param string $taxZone
+	 * @return zone_persistentdocument_zone[]
+	 */
+	public function getZonesForTaxZone($taxZone)
+	{
+		return zone_ZoneService::getInstance()->getZonesByCode($taxZone);
+	}
+	
+	
+	/**
+	 * @param integer $billingAreaId
+	 * @param string $taxZone
+	 * @return catalog_persistentdocument_tax
+	 */
+	public function addNoTaxForBillingAreaAndZone($billingAreaId, $taxZone)
+	{
+		$tax = $this->getTaxDocumentByKey($billingAreaId, '0' , $taxZone);
+		if ($tax === null)
+		{
+			$tax = $this->getNewDocumentInstance();
+			$tax->setLabel('-');
+			$tax->setBillingAreaId($billingAreaId);
+			$tax->setTaxCategory('0');
+			$tax->setTaxZone($taxZone);
+			$tax->setRate(0.0);
+			$this->save($tax);
+		}
+		return $tax;
+	}
+	
+	/**
+	 * @param integer $billingAreaId
+	 * @param string $taxCategory
+	 * @param string $taxZone
+	 * @return float | null
+	 */
+	public function getTaxRateByKey($billingAreaId, $taxCategory, $taxZone)
+	{
+		$row = $this->createQuery()
+		->add(Restrictions::eq('billingAreaId', $billingAreaId))
+		->add(Restrictions::eq('taxCategory', $taxCategory))
+		->add(Restrictions::eq('taxZone', $taxZone))
+		->setProjection(Projections::property('rate'))
+		->findUnique();
+		return $row ? doubleval($row['rate']) : null;
+	}	
+	
+	
+	/**
+	 * @param float $valueWithTax
+	 * @param float $valueWithoutTax
+	 * @return float
+	 */
+	public function getTaxRateByValue($valueWithTax, $valueWithoutTax)
+	{
+		if ($valueWithoutTax > 0)
+		{
+			return ($valueWithTax / $valueWithoutTax) - 1;
+		}
+		return 0;
+	}	
+	
+	/**
+	 * @param float $valueWithoutTax
+	 * @param float $taxRate
+	 * @return float
+	 */
+	public function addTaxByRate($valueWithoutTax, $taxRate)
+	{
+		return ($valueWithoutTax * (1 + $taxRate));
+	}	
+	
+	/**
+	 * @param float $valueWithTax
+	 * @param float $taxRate
+	 * @return float
+	 */
+	public function removeTaxByRate($valueWithTax, $taxRate)
+	{
+		return ($valueWithTax / (1 + $taxRate));
+	}
+	
+	/**
+	 * @param float $taxRate
+	 * @return string
+	 */
+	public function formatRate($taxRate)
+	{
+		return (round($taxRate * 100, 2)) . "%";
+	}
+	
+	
 	private $currentTaxeZoneStrategy = null;
 
 	/**
@@ -105,60 +287,81 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 		}
 		if ($this->currentTaxeZoneStrategy === false)
 		{
-			return $this->getDefaultShopTaxZone($shop);
+			return $this->getDefaultShopTaxZone($shop, $cart);
 		}
 		return $this->currentTaxeZoneStrategy->getCurrentTaxZone($shop, $cart);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param order_CartInfo $cart
 	 * @return string | null
 	 */
-	protected function getDefaultShopTaxZone($shop)
+	protected function getDefaultShopTaxZone($shop, $cart = null)
 	{
-		return ($shop) ? $shop->getDefaultTaxZone() : null;;
+		return ($shop) ? $shop->getCurrentBillingArea()->getDefaultZone() : null;;
 	}
-
+	
+	
+	//DEPRECATED
+	
 	/**
-	 * 
-	 * @param integer $shopId
-	 * @param string $taxCategory
-	 * @param string $taxZone
-	 * @return double | null
+	 * @deprecated use getTaxRateByKey
 	 */
 	public function getTaxRate($shopId, $taxCategory, $taxZone)
 	{
-		$row = $this->createQuery()
-			->add(Restrictions::eq('shopId', $shopId))
-			->add(Restrictions::eq('taxCategory', $taxCategory))
-			->add(Restrictions::eq('taxZone', $taxZone))
-			->setProjection(Projections::property('rate'))
-			->findUnique();
-		return $row ? doubleval($row['rate']) : null;
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		$shop = DocumentHelper::getDocumentInstanceIfExists($shopId);
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$billingAreaId = $shop->getDefaultBillingArea()->getId();
+			return $this->getTaxRateByKey($billingAreaId, $taxCategory, $taxZone);
+		}
+		return  null;
 	}
 	
 	/**
-	 * @param integer $shopId
-	 * @param string $taxCategory
-	 * @param string $taxZone
-	 * @return catalog_persistentdocument_tax | null
+	 * @deprecated use getTaxDocumentByKey
 	 */
 	public function getTaxDocument($shopId, $taxCategory, $taxZone)
 	{
-		return $this->createQuery()
-			->add(Restrictions::eq('shopId', $shopId))
-			->add(Restrictions::eq('taxCategory', $taxCategory))
-			->add(Restrictions::eq('taxZone', $taxZone))
-			->findUnique();
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		$shop = DocumentHelper::getDocumentInstanceIfExists($shopId);
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$billingAreaId = $shop->getDefaultBillingArea()->getId();
+			return $this->getTaxDocumentByKey($billingAreaId, $taxCategory, $taxZone);
+		}
+		return null;
 	}
 	
 	/**
-	 * @param string $code
-	 * @throws Exception
-	 * @return double
+	 * @deprecated
 	 */
 	public function getTaxRateByCode($code)
 	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
 		$parts = explode(',', $code);
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		if ($shop === null) {throw new Exception('No current shop defined');}
@@ -171,107 +374,93 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 			$taxCategory = $code;
 			$taxZone = $this->getCurrentTaxZone($shop);
 		}
-		$rate = $this->getTaxRate($shop->getId(), $taxCategory, $taxZone);
-		Framework::info(__METHOD__ . " ($code, $taxCategory, $taxZone) : $rate");
+		$rate = $this->getTaxRateByKey($shop->getCurrentBillingArea()->getId(), $taxCategory, $taxZone);
 		return $rate;
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return string[]
+	 * @deprecated use getZonesCodeForBillingArea
 	 */
 	public function getTaxZonesForShop($shop)
 	{
-		return $this->createQuery()
-			->add(Restrictions::eq('shopId', $shop->getId()))
-			->setProjection(Projections::groupProperty('taxZone', 'taxZone'))
-			->findColumn('taxZone');
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $this->getZonesCodeForBillingArea($shop->getDefaultBillingArea());
 	}
 	
+
 	/**
-	 * @param catalog_persistentdocument_shop $taxZone
-	 * @return zone_persistentdocument_zone[]
-	 */
-	public function getZonesForTaxZone($taxZone)
-	{
-		return zone_ZoneService::getInstance()->getZonesByCode($taxZone);
-	}	
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return zone_persistentdocument_zone[]
+	 * @deprecated use getAllZonesForBillingArea
 	 */
 	public function getZonesForShop($shop)
 	{
-		$taxZones = $this->getTaxZonesForShop($shop);	
-		$result = array();
-		foreach ($taxZones as $taxZone) 
+		if (Framework::inDevelopmentMode())
 		{
-			$result = array_merge($result, $this->getZonesForTaxZone($taxZone));
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 		}
-		return $result;
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $this->getAllZonesForBillingArea($shop->getDefaultBillingArea());
 	}
 
 	/**
-	 * @param integer $shopId
-	 * @param string $taxZone
-	 * @return catalog_persistentdocument_tax
+	 * @deprecated use addNoTaxForBillingAreaAndZone
 	 */
 	public function addNoTaxForShopAndZone($shopId, $taxZone)
 	{
-		$tax = $this->getTaxDocument($shopId, '0' , $taxZone);
-		if ($tax === null)
+		if (Framework::inDevelopmentMode())
 		{
-			$tax = $this->getNewDocumentInstance();
-			$tax->setLabel('-');
-			$tax->setShopId($shopId);
-			$tax->setTaxCategory('0');
-			$tax->setTaxZone($taxZone);
-			$tax->setRate(0.0);
-			$this->save($tax);
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 		}
-		return $tax;
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		$shop = DocumentHelper::getDocumentInstanceIfExists($shopId);
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$billingAreaId = $shop->getDefaultBillingArea()->getId();
+			return $this->addNoTaxForBillingAreaAndZone($billingAreaId, $taxZone);
+		}
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return catalog_persistentdocument_tax[]
-	 */
-	public function getByShop($shop)
-	{
-		return $this->createQuery()
-			->add(Restrictions::eq('shopId', $shop->getId()))
-			->find();
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return array[taxCategory => [label =>, rate =>]
+	 * @deprecated use getBoTaxeInfoForBillingArea
 	 */
 	public function getBoTaxeInfoForShop($shop)
 	{
-		$taxZone = $shop->getBoTaxZone() ? $shop->getBoTaxZone() : $shop->getDefaultTaxZone();
-		$rows = $this->createQuery()
-				->add(Restrictions::eq('shopId', $shop->getId()))
-				->add(Restrictions::eq('taxZone', $taxZone))
-				->setProjection(Projections::property('rate'), Projections::property('label'), Projections::property('taxCategory'))
-				->addOrder(Order::asc('rate'))
-				->find();
-		$result = array();
-		$hasNoTaxCategory = false;
-		
-		foreach ($rows as $row) 
+		if (Framework::inDevelopmentMode())
 		{
-			if ($row['taxCategory'] === '0') {$hasNoTaxCategory = true;}
-			$result[$row['taxCategory']] = array('rate' => doubleval($row['rate']), 'label' => $row['label']);
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 		}
-		
-		if (!$hasNoTaxCategory)
+		else
 		{
-			$tax = $this->addNoTaxForShopAndZone($shop->getId(), $taxZone);
-			$result = array_merge(array($tax->getTaxCategory() => array('rate' => $tax->getRate(), 'label' => $tax->getLabel())), $result);
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
 		}
+		return $this->getBoTaxeInfoForBillingArea($shop->getDefaultBillingArea());
+	}
 		
-		return $result;
+	/**
+	 * @deprecated
+	 */
+	public function getByShop($shop)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $this->getByBillingArea($shop->getDefaultBillingArea());
 	}
 }

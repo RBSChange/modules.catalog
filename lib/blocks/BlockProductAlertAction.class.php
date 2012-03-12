@@ -28,6 +28,9 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		$request->setAttribute('shop', $shop);
 		$request->setAttribute('useCaptcha', $this->useCaptcha());
 		
+		$billingArea = $shop->getCurrentBillingArea();	
+		$defaultPrice = $product->getPrice($shop, $billingArea, null);
+		
 		$type = null;
 		$alertService = catalog_AlertService::getInstance();
 		if (!$product->isAvailable($shop))
@@ -37,9 +40,10 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 				$type = catalog_AlertService::TYPE_AVAILABILITY;
 			}
 		}
-		else if ($shop->getEnablePriceAlerts())
+		else if ($shop->getEnablePriceAlerts() && $defaultPrice)
 		{
-			$alert->setPriceReference($product->getPrice($shop, null)->getValueWithTax());
+			
+			$alert->setPriceReference($defaultPrice->getValueWithTax());
 			$type = catalog_AlertService::TYPE_PRICE;
 		}
 		

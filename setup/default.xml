@@ -4,17 +4,17 @@
 	<binding fileName="modules/generic/persistentdocument/import/generic_binding.xml" />
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
 	<binding fileName="modules/zone/persistentdocument/import/zone_binding.xml" />
+		
+	<binding fileName="modules/catalog/setup/billingarea.xml" />
 	
 	<zone byCode="EURO" id="zoneEURO" />
+	
+	<billingarea byCodeReference="FR" id="areafr" />
 
 	<website byTag="default_modules_website_default-website">
-		<shop label="Boutique" defaultTaxZone="FR-ALL" boTaxZone="FR-ALL" billingZone-refid="zoneEURO" currencyCode="EUR"
-				currencyPosition="right" displayPriceWithTax="true" displayPriceWithoutTax="false"
-				displayOutOfStock="true"
-				orderProcessClassName="order_StandardOrderProcess">
-			<tax label="19.6%" taxCategory="1" taxZone="FR-ALL"  rate="0.196" />
-			<tax label="5.5%" taxCategory="2" taxZone="FR-ALL"  rate="0.055" />
-			<tax label="8.5%" taxCategory="3" taxZone="FR-ALL"  rate="0.085" />
+		<shop label="Boutique" billingAreas-refid="areafr"
+				displayPriceWithTax="true" displayPriceWithoutTax="true"
+				displayOutOfStock="true" orderProcessClassName="order_StandardOrderProcess">
 		</shop>
 				
 		<topic byLabel="Boutique" id="ShopTopic">

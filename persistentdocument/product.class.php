@@ -246,14 +246,15 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
 	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPrice($shop, $customer, $quantity = 1)
+	public function getPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
 		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $targetIds, $quantity);
+		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
 	}
 	
 	/**
@@ -262,7 +263,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function getFormattedCurrentShopPrice()
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$price = $this->getPrice($shop, null);
+		$billingArea = $shop->getCurrentBillingArea();
+		$price = $this->getPrice($shop, $billingArea, null);
 		if ($price !== null)
 		{
 			return $price->getFormattedValueWithTax();
@@ -271,26 +273,38 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return String
+	 * @return catalog_persistentdocument_price
 	 */
 	public function getPriceForCurrentShopAndCustomer()
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$curtomer = customer_CustomerService::getInstance()->getCurrentCustomer();
-		return $this->getPrice($shop, $curtomer);
+		$billingArea = $shop->getCurrentBillingArea();
+		$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		return $this->getPrice($shop, $billingArea, $customer);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPrices($shop, $customer)
+	public function getPrices($shop, $billingArea, $customer)
 	{
 		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-		return $this->getDocumentService()->getPricesByTargetIds($this, $shop, $targetIds);
+		return $this->getDocumentService()->getPricesByTargetIds($this, $shop, $billingArea, $targetIds);
 	}
 	
+	/**
+	 * @return catalog_persistentdocument_price[]
+	 */
+	public function getPricesForCurrentShopAndCustomer()
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$billingArea = $shop->getCurrentBillingArea();
+		$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		return $this->getPrices($shop, $billingArea, $customer);
+	}
 	/**
 	 * @param Integer $shopId
 	 * @return Boolean

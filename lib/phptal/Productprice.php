@@ -16,7 +16,7 @@ class PHPTAL_Php_Attribute_CHANGE_productprice extends ChangeTalAttribute
 	 */
 	public function getEvaluatedParameters()
 	{
-		return array('name', 'product', 'shop', 'customer');
+		return array('name', 'product', 'shop', 'customer', 'billingArea');
 	}
 	
 	/**
@@ -27,7 +27,8 @@ class PHPTAL_Php_Attribute_CHANGE_productprice extends ChangeTalAttribute
 		$this->initParams();
 		$shopCode = $this->hasParameter('shop') ? $this->getParameter('shop') : 'catalog_ShopService::getInstance()->getCurrentShop()';
 		$customerCode = $this->hasParameter('customer') ? ('(' . $this->getParameter('customer') . ' == "null" ? null : ' . $this->getParameter('customer') . ')') : 'customer_CustomerService::getInstance()->getCurrentCustomer()';
-		$code = $this->getParameter('product') . '->getPrice(' . $shopCode . ', ' . $customerCode . ');';
+		$billingAreaCode = $this->hasParameter('billingArea') ? $this->getParameter('billingArea') : $shopCode . '->getCurrentBillingArea()';		
+		$code = $this->getParameter('product') . '->getPrice(' . $shopCode . ', ' . $billingAreaCode . ', ' . $customerCode . ');';
 		$this->tag->generator->doSetVar('$ctx->{' . $this->getParameter('name') . '}', $code);
 	}
 }

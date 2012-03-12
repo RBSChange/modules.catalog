@@ -19,17 +19,10 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 	 * @return String
 	 */
 	function execute($request, $response)
-	{
-		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$customer = null;
-		if (catalog_ModuleService::areCustomersEnabled())
-		{
-			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
-		}
-		
+	{		
 		if ($request->hasNonEmptyParameter('declinationId'))
 		{
-			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinationId'), 'modules_catalog/productdeclination');
+			$declination = catalog_persistentdocument_productdeclination::getInstanceById($request->getParameter('declinationId'));
 			$product = $declination->getDeclinedProduct();
 		}
 		else
@@ -41,7 +34,7 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 				$product = $declination->getDeclinedProduct();
 			}
 		}
-		
+				
 		if (!$product || !$declination)
 		{
 			if ($request->getAttribute('isOnDetailPage'))
@@ -62,16 +55,20 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		{
 			$this->addProductToFavorites($declination);
 		}
-		
-		$prices = $declination->getPrices($shop, $customer);
-		$price = array_shift($prices);
-		$quantity = max(1, intval($this->findParameterValue('quantity')));
-		
+		$quantity = max(1, intval($this->findParameterValue('quantity')));	
 		$request->setAttribute('quantity', $quantity);
 		$request->setAttribute('declinedproduct', $product);
 		$request->setAttribute('product', $declination);
-		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('thresholdPrices', $prices);		
+				
+		$prices = $declination->getPricesForCurrentShopAndCustomer();
+		if (count($prices))
+		{
+			$price = array_shift($prices);
+			$request->setAttribute('defaultPrice', $price);
+			$request->setAttribute('thresholdPrices', $prices);	
+		}
+		
+		$price = array_shift($prices);
 		return website_BlockView::SUCCESS;
 	}
 }

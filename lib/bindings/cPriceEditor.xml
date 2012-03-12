@@ -64,7 +64,7 @@
 						for (var tcat in jsonVal.taxCategories)
 						{
 							var catInfo = jsonVal.taxCategories[tcat];
-							catSelector.appendItem(catInfo.label, tcat);
+							catSelector.appendItem(tcat + ' (' + catInfo.label + ')', tcat);
 						}
 						catSelector.value = this.getAttribute('taxCategory');
 					}
@@ -288,6 +288,10 @@
 									<xul:cfield anonid="field_shop" name="shop" fieldtype="dropdownlist" hidehelp="true" />
 								</xul:row>
 								<xul:row>
+									<xul:label value="${transui:m.catalog.document.billingarea.document-name,ucf,attr}" />
+									<xul:cfield anonid="field_billingArea" name="billingArea" fieldtype="dropdownlist" hidehelp="true" />	
+								</xul:row>
+								<xul:row>
 									<xul:label value="${transui:m.catalog.bo.doceditor.panel.prices.Date,ucf,attr}" />
 									<xul:cfield anonid="field_date" name="date" fieldtype="datetime" hidehelp="true" hidetime="true" />
 								</xul:row>
@@ -316,20 +320,12 @@
 			</xul:vbox>
 		</content>
 		<implementation>	
-			<field name="mFieldNames">['shop', 'date', 'targetType', 'pricelist']</field>
-			
+			<field name="mFieldNames">['shop', 'billingArea', 'date', 'targetType', 'pricelist']</field>	
+
 			<constructor><![CDATA[
 				// Datepicker requires an id.
 				var rand = Math.round(Math.random() * 100000); 
-				this.getElementByAnonId('field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);
-
-				// Check customer module existence.
-				var controller = getController();
-    			if (!controller.checkModuleVersion('customer', '3.0.0'))
-				{
-					this.getElementByAnonId('row_targetType').setAttribute('collapsed', 'true');
-					this.getElementByAnonId('row_targetId').setAttribute('collapsed', 'true');
-				}			
+				this.getElementByAnonId('field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);	
 			]]></constructor>
 			
 			<property name="modified">
@@ -342,9 +338,10 @@
 					//wCore.debug('cPricesList.createNew');
 					var productId = this.documentEditor.documentid;
 					var shopId = this.fields.shop.value;
+					var billingAreaId = this.fields.billingArea.value;
 					var targetIdNode = this.getElementByAnonId('field_targetIdDeck').selectedPanel;
 					var targetId = (!targetIdNode.hasAttribute("disabled")) ? targetIdNode.value : null;
-					var uri = ['catalog', 'createPriceFromProduct', 'modules_catalog_price', productId, shopId, targetId].join(',');
+					var uri = ['catalog', 'createPriceFromProduct', 'modules_catalog_price', productId, shopId, billingAreaId, targetId].join(',');
 					wCore.debug('createNew: ' + uri);
 					openActionUri(uri);
 				]]></body>
@@ -368,6 +365,10 @@
 					if (this.hasAttribute('shop'))
 					{
 						parameters.shop = this.getAttribute('shop');
+					}
+					if (this.hasAttribute('billingArea'))
+					{
+						parameters.billingArea = this.getAttribute('billingArea');
 					}
 					if (this.hasAttribute('date'))
 					{
@@ -421,14 +422,25 @@
 						this.getElementByAnonId('button-new').setAttribute('hidden', 'false');
 															
 						var shops = result.contents.shops;
+						var billingAreaNode = this.fields.billingArea;
+						billingAreaNode.removeItems();
+						
 						var shopNode = this.fields.shop;
 						shopNode.removeItems();
 						for (var i in shops)
 						{
-							var  shop = shops[i];
+							var shop = shops[i];
 							shopNode.appendItem(shop.label, shop.id);
 							shopNode.setAttribute('contains', shop.contains ? 'true' : 'false');
 							shopNode.setAttribute('published', shop.published ? 'true' : 'false');
+							if (shop.id == result.contents.shop)
+							{
+								for (var z in shop.billingAreas)
+								{
+									var ba = shop.billingAreas[z];
+									billingAreaNode.appendItem(ba.label, ba.id);
+								}
+							}
 						}
 						
 						var targetTypes = result.contents.targetTypes;
@@ -496,6 +508,7 @@
 						this.setInitialValues(this.fields, result.contents);
 					
 						this.setAttribute('shop', result.contents.shop);
+						this.setAttribute('billingArea', result.contents.billingArea);
 						this.setAttribute('date', result.contents.date);
 						this.setAttribute('targetType', result.contents.targetType);
 						this.setAttribute('targetId', targetId);
@@ -525,6 +538,7 @@
 							}
 						}
 						this.removeAttribute('shop');
+						this.removeAttribute('billingArea');
 						this.removeAttribute('date');
 						this.removeAttribute('targetType');
 						this.removeAttribute('targetId');	
@@ -544,6 +558,11 @@
 					{
 						case 'shop':
 							this.setAttribute('shop', event.originalTarget.value);
+							this.removeAttribute('billingArea');
+							this.refresh();
+							break;
+						case 'billingArea':
+							this.setAttribute('billingArea', event.originalTarget.value);
 							this.refresh();
 							break;
 						case 'date':

@@ -9,7 +9,8 @@
 		</add>		
 		<add name="taxCategory" type="String" min-occurs="1" db-size="20" />
 		<add name="taxZone" type="String" min-occurs="1" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
-		<add name="shopId" type="Integer" min-occurs="1" />
+		
+		<add name="billingAreaId" type="Integer" min-occurs="1"/>
 	</properties>
 	<statuses default="PUBLICATED" />
 </document>

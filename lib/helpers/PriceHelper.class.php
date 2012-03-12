@@ -1,7 +1,6 @@
 <?php
 /**
- * catalog_PriceHelper
- * @package modules.catalog
+ * @deprecated
  */
 class catalog_PriceHelper
 {	
@@ -9,122 +8,154 @@ class catalog_PriceHelper
 	const CURRENCY_POSITION_RIGHT = 'right';
 
 	/**
-	 * @var order_TaxRateResolverStrategy
-	 */
-	private static $taxRateResolverStrategy = null;
-
-	/**
-	 * @param String $code
-	 * @return Double
-	 */
-	public static function getTaxRateByCode($code)
-	{
-		if (is_null(self::$taxRateResolverStrategy))
-		{
-			$strategyClassName = Framework::getConfiguration('modules/catalog/taxRateResolverStrategyClass', false);
-			if ($strategyClassName === false)
-			{
-				self::$taxRateResolverStrategy = catalog_TaxService::getInstance();
-			}
-			else
-			{
-				self::$taxRateResolverStrategy = new $strategyClassName();
-			}
-		}
-		return self::$taxRateResolverStrategy->getTaxRateByCode($code);
-	}
-	
+	 * @deprecated
+	 */	
 	public static function getTaxRateByValue($price, $priceWithoutTaxe)
 	{
-		if ($priceWithoutTaxe > 0)
+		if (Framework::inDevelopmentMode())
 		{
-		 	return ($price / $priceWithoutTaxe) - 1;
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 		}
-		return 0;
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return catalog_TaxService::getInstance()->getTaxRateByValue($price, $priceWithoutTaxe);
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public static function getCurrencySymbol($code)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		$cs = catalog_CurrencyService::getInstance()->getCurrencySymbolsArray();
+		if (!isset($cs[$code]))
+		{
+			throw new catalog_Exception($code . " does not relate to an existing curreny code");
+		}
+		return $cs[$code];
 	}
 	
-
+	
 	/**
-	 * @param catalog_TaxRateResolverStrategy $strategy
-	 */
-	public static final function setTaxRateResolverStrategy($strategy)
-	{
-		self::$taxRateResolverStrategy = $strategy;
-	}
-
-	/**
-	 * @param Double $value
-	 * @param String $taxCode
-	 * @return Double
-	 * @throws catalog_Exception
+	 * @deprecated
 	 */
 	public static function addTax($value, $taxCode)
 	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
 		return ($value * (1 + self::getTaxRateByCode($taxCode)));
 	}
 
 	/**
-	 * @param Double $value
-	 * @param String $taxCode
-	 * @return Double
-	 * @throws catalog_Exception
+	 * @deprecated
 	 */
 	public static function removeTax($value, $taxCode)
 	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
 		return ($value / (1 + self::getTaxRateByCode($taxCode)));
 	}
 	
 	/**
-	 * @param Double $taxRate
-	 * @return String
+	 * @deprecated
 	 */
 	public static function formatTaxRate($taxRate)
 	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
 		return (round($taxRate * 100, 2)) . "%";
 	}
+
 	
 	/**
-	 * Calls the selected RoundPriceStrategy.
-	 * @param Double $value
-	 * @return Double
-	 * @deprecated
-	 */
-	public static function roundPrice($value)
-	{
-		return catalog_PriceFormatter::getInstance()->round($value);
-	}
-	
-	/**
-	 * @param Double $priceValue
-	 * @param String $format ex: "%s €"
-	 * @return string
-	 * @see getPriceFormat()
 	 * @deprecated
 	 */
 	public static function applyFormat($priceValue, $format)
 	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
 		$priceValue = catalog_PriceFormatter::getInstance()->round($priceValue);
 		return sprintf($format, number_format($priceValue, 2, ',', ' '));
 	}
-		
-	private static $currencySymbols = null;
 	
 	/**
-	 * @param string $code
-	 * @return String
-	 * @throw catalog_Exception if the currencyCode does not related to an existing currency code
-	 */	
-	public static function getCurrencySymbol($code)
+	 * @deprecated
+	 */
+	public static function roundPrice($value)
 	{
-		if (self::$currencySymbols === null)
+		if (Framework::inDevelopmentMode())
 		{
-			self::$currencySymbols = catalog_CurrencyService::getInstance()->getCurrencySymbolsArray();
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return catalog_PriceFormatter::getInstance()->round($value);
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public static function getTaxRateByCode($code)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return catalog_TaxService::getInstance()->getTaxRateByCode($code);
+	}
 		
-		if (!isset(self::$currencySymbols[$code]))
+	
+	/**
+	 * @deprecated
+	 */
+	public static final function setTaxRateResolverStrategy($strategy)
+	{
+		if (Framework::inDevelopmentMode())
 		{
-			throw new catalog_Exception($code . " does not relate to an existing curreny code");
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 		}
-		return self::$currencySymbols[$code];
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
 	}
 }

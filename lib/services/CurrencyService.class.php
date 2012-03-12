@@ -38,7 +38,7 @@ class catalog_CurrencyService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/currency');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/currency');
 	}
 	
 	/**
@@ -49,51 +49,7 @@ class catalog_CurrencyService extends f_persistentdocument_DocumentService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/currency', false);
-	}
-	
-	private $currencySymbols;
-	
-	/**
-	 * @return String[]
-	 */
-	public function getCurrencySymbolsArray()
-	{
-		if ($this->currencySymbols === null)
-		{
-			$this->currencySymbols = array();
-			$lines = catalog_CurrencyService::getInstance()->createQuery()->add(Restrictions::published())->setProjection(Projections::property('code', 'code'), Projections::property('symbol', 'symbol'))->find();
-			foreach ( $lines as $line )
-			{
-				$this->currencySymbols[$line['code']] = $line['symbol'];
-			}
-		}
-		return $this->currencySymbols;
-	}
-	
-	/**
-	 * 
-	 */
-	public function getCodeById($id)
-	{
-		$codes = $this->getCurrencyCodesArray();
-		return isset($codes[$id]) ? $codes[$id] : null;
-	}
-
-	private $currencyCodes;
-	
-	protected function getCurrencyCodesArray()
-	{
-		if ($this->currencyCodes === null)
-		{
-			$this->currencyCodes = array();
-			$lines = catalog_CurrencyService::getInstance()->createQuery()->add(Restrictions::published())->setProjection(Projections::property('code', 'code'), Projections::property('id', 'id'))->find();
-			foreach ( $lines as $line )
-			{
-				$this->currencyCodes[$line['id']] = $line['code'];
-			}
-		}
-		return $this->currencyCodes;
+		return $this->getPersistentProvider()->createQuery('modules_catalog/currency', false);
 	}
 	
 	/**
@@ -102,6 +58,42 @@ class catalog_CurrencyService extends f_persistentdocument_DocumentService
 	 */
 	public function getByCode($code)
 	{
-		return catalog_CurrencyService::getInstance()->createQuery()->add(Restrictions::eq('code', $code))->findUnique();
+		return $this->createQuery()->add(Restrictions::eq('code', $code))->findUnique();
+	}
+	
+	
+	/**
+	 * @return array<srtring => string>
+	 */
+	public function getCurrencySymbolsArray()
+	{
+		$result = array();
+		$lines = $this->createQuery()->add(Restrictions::published())
+			->setProjection(Projections::property('code', 'code'), Projections::property('symbol', 'symbol'))
+			->find();
+		foreach ($lines as $line )
+		{
+			$result[$line['code']] = $line['symbol'];
+		}
+		return $result;
+	}
+	
+	/**
+	 * @return string|null
+	 */
+	public function getSymbolByCode($code)
+	{
+		$currency = $this->getByCode($code);
+		return $currency ? $currency->getSymbol() : null;
+	}
+	
+	/**
+	 * @param integer $id
+	 * @return string|NULL
+	 */
+	public function getCodeById($id)
+	{
+		$currency = DocumentHelper::getDocumentInstanceIfExists($id);
+		return ($currency instanceof catalog_persistentdocument_currency) ? $currency->getCode() : null;
 	}
 }

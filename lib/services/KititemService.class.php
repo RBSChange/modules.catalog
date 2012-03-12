@@ -102,45 +102,49 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_kititem $kititem
-	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_shop $shop 
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getKititemPrice($kititem, $shop, $targetIds, $quantity)
+	public function getKititemPrice($kititem, $shop, $billingArea, $targetIds, $quantity)
 	{
 		$product = $kititem->getDefaultProduct();
-		return $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $kititem->getQuantity());
+		return $product->getDocumentService()->getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity * $kititem->getQuantity());
 		
 	}
 	/**
 	 * @param catalog_persistentdocument_kititem $kititem
 	 * @param catalog_persistentdocument_price $kitPrice
-	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_shop $shop 
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param float $quantity
 	 * @return boolean
 	 */
-	public function appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity)
+	public function appendPrice($kititem, $kitPrice, $shop, $billingArea, $targetIds, $quantity)
 	{	
-		$price = $this->getKititemPrice($kititem, $shop, $targetIds, $quantity);
+		$price = $this->getKititemPrice($kititem, $shop, $billingArea, $targetIds, $quantity);
 		if ($price instanceof catalog_persistentdocument_price)
 		{
 			$priceItem = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
 			$priceItem->setLockedFor($kititem->getId());
 			$priceItem->setProductId($price->getProductId());
 			$priceItem->setShopId($price->getShopId());
+			$priceItem->setBillingAreaId($price->getBillingAreaId());
+			$priceItem->setStoreWithTax($price->getStoreWithTax());
 			
 			$qtt = $kititem->getQuantity();
-			$priceItem->setValueWithoutTax($price->getValueWithoutTax() * $qtt);
+			$priceItem->setValue($price->getValue() * $qtt);
 			$priceItem->setTaxCategory($price->getTaxCategory());
 			if ($price->isDiscount())
 			{
-				$priceItem->setOldValueWithoutTax($price->getOldValueWithoutTax() * $qtt);
+				$priceItem->setValueWithoutDiscount($price->getValueWithoutDiscount() * $qtt);
 			}
 			else
 			{
-				$priceItem->setOldValueWithoutTax($priceItem->getValueWithoutTax());
+				$priceItem->setValueWithoutDiscount($priceItem->getValue());
 			}
 
 			$kitPrice->addPricePart($priceItem);
@@ -148,7 +152,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() + $priceItem->getValueWithoutTax());	
 			$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $priceItem->getOldValueWithoutTax());
 			
-			$kitPrice->setCurrencyId($price->getCurrencyId());
+
 			$kitPrice->setTaxCategory($price->getTaxCategory());
 			return true;
 		}

@@ -267,7 +267,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		
 		// Product synchro.
 		$compiledProduct->setLabel($product->getLabel());
-		$price = $product->getPrice($shop, null);
+		$price = $product->getPrice($shop, $shop->getDefaultBillingArea(), null);
 		if ($price === null)
 		{
 			$compiledProduct->setPrice(null);

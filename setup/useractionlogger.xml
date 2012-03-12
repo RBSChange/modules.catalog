@@ -78,4 +78,9 @@
   <actiondef modulename="catalog" actionname="compileproduct.bundleproduct" label="m.catalog.bo.useractionlogger.compileproduct-bundleproduct"/>
   <actiondef modulename="catalog" actionname="saveredirectinfo.simpleproduct" label="m.catalog.bo.useractionlogger.saveredirectinfo-simpleproduct"/>
   <actiondef modulename="catalog" actionname="move.comparablepropertyfolder" label="m.catalog.bo.useractionlogger.move-comparablepropertyfolder"/>
+  <actiondef modulename="catalog" actionname="insert.billingarea" label="m.catalog.bo.useractionlogger.insert-billingarea"/>
+  <actiondef modulename="catalog" actionname="update.billingarea" label="m.catalog.bo.useractionlogger.update-billingarea"/>
+  <actiondef modulename="catalog" actionname="delete.billingarea" label="m.catalog.bo.useractionlogger.delete-billingarea"/>
+  <actiondef modulename="catalog" actionname="deactivated.tax" label="m.catalog.bo.useractionlogger.deactivated-tax"/>
+  <actiondef modulename="catalog" actionname="reactivate.tax" label="m.catalog.bo.useractionlogger.reactivate-tax"/>
 </script>

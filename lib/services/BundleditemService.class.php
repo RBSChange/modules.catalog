@@ -118,14 +118,15 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_bundleditem $bundleditem
 	 * @param catalog_persistentdocument_price $itemsPrice
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param float $quantity
 	 * @return boolean
 	 */
-	public function appendPrice($bundleditem, $itemsPrice, $shop, $targetIds, $quantity)
+	public function appendPrice($bundleditem, $itemsPrice, $shop, $billingArea, $targetIds, $quantity)
 	{	
 		$product = 	$bundleditem->getProduct();
-		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $bundleditem->getQuantity());
+		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity * $bundleditem->getQuantity());
 		if ($price !== null)
 		{
 			$itemsPrice->setValueWithoutTax($itemsPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $bundleditem->getQuantity());
@@ -139,7 +140,6 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 			}
 			
 			$itemsPrice->setTaxCategory($price->getTaxCategory());
-			$itemsPrice->setCurrencyId($price->getCurrencyId());
 			return true;
 		}
 		else

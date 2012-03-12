@@ -86,11 +86,13 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 			$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
 			return 'Kititem';
 		}
-		
-		$price = $product->getPrice($shop, $customer);
-		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
-		
+		$billingArea = $shop->getCurrentBillingArea();
+		$price = $product->getPrice($shop, $billingArea, $customer);
+		if ($price)
+		{
+			$request->setAttribute('defaultPrice', $price);
+			$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $billingArea, $customer));
+		}
 		$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
 		return website_BlockView::SUCCESS;
 	}

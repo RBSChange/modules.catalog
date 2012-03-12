@@ -90,3 +90,9 @@ wdialog[template="productselector"] .dialog-header{
 treechildren::-moz-tree-image(modules_catalog_productqueryfolder){
 	list-style-image: url(/changeicons/small/product-folder.png);
 }
+treechildren::-moz-tree-image(modules_catalog_billingarea){
+	list-style-image: url(/changeicons/small/billingarea.png);
+}
+treechildren::-moz-tree-image(modules_catalog_billingareafolder){
+	list-style-image: url(/changeicons/small/folder.png);
+}

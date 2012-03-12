@@ -13,18 +13,10 @@
 		<field name="nbproductperpage" />
 		<field name="enableComments" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Zones">
-		<field name="billingZone" hidehelp="true" />
-	</section>
-	<section labeli18n="modules.catalog.bo.general.Currency">
-		<field name="currencyCode" hidehelp="true" listid="modules_catalog/shopcurrency" />
-		<field name="currencyPosition" />
-	</section>
 	<section labeli18n="modules.catalog.bo.general.Prices">
-		<field name="defaultTaxZone" />
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
-		<field name="boTaxZone" />
+		<field name="billingAreas" />
 		<field name="orderProcessClassName" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Default-visuals">

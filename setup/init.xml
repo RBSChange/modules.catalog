@@ -28,23 +28,7 @@
 			<staticitem value="percentage" label="&amp;modules.catalog.bo.general.Discount-types-percentage;" />
 			<staticitem value="value" label="&amp;modules.catalog.bo.general.Discount-types-value;" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/currencycode" label="&amp;modules.catalog.bo.general.Currency-code-list;"
-			description="&amp;modules.catalog.bo.general.Currency-code-list-description;">
-			<staticitem value="EUR" label="€" />
-			<staticitem value="GBP" label="£" />
-			<staticitem value="CHF" label="F" />
-			<staticitem value="USD" label="$" />
-			<staticitem value="CAD" label="$" />
-			<staticitem value="AUD" label="$" />
-			<staticitem value="NZD" label="$" />
-			<staticitem value="JPY" label="¥" />
-			<staticitem value="SEK" label="kr" />
-			<staticitem value="NOK" label="kr" />
-			<staticitem value="RUB" label="руб" />
-			<staticitem value="ZAR" label="R" />
-		</staticlist>
-		
+				
 		<staticlist listid="modules_catalog/currencyposition" label="&amp;modules.catalog.bo.general.Currency-position-list;"
 			description="&amp;modules.catalog.bo.general.Currency-position-list-description;">			
 			<staticitem value="left" label="&amp;modules.catalog.bo.general.Currency-position-left;" />
@@ -64,14 +48,7 @@
 			<staticitem value="products" label="&amp;modules.catalog.frontoffice.Search-products;" />
 			<staticitem value="others" label="&amp;modules.catalog.frontoffice.Search-others;" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/taxcode" label="&amp;modules.catalog.bo.general.Taxcode;">			
-			<staticitem value="0" label="&amp;modules.catalog.bo.general.No-tax;" />
-			<staticitem value="1" label="19.6 %" />
-			<staticitem value="2" label="5.5 %" />
-			<staticitem value="3" label="8.5 %" />
-		</staticlist>
-		
+				
 		<staticlist listid="modules_catalog/crosssellingtypes" label="&amp;modules.catalog.bo.lists.cross-selling-types.label;"
 			description="&amp;modules.catalog.bo.lists.cross-selling-types.description;">			
 			<staticitem value="complementary" label="&amp;modules.catalog.bo.lists.cross-selling-types.Complementary;" />
@@ -112,7 +89,7 @@
 			<staticitem value="lastpublicationdate" label="&amp;modules.catalog.document.compiledproduct.lastpublicationdate;" />
 		</staticlist>
 				
-		<dynamiclist listid="modules_catalog/shopcurrency" label="Devises avec code" />
+		<dynamiclist listid="modules_catalog/currency" label="Devises" />
 		
 		<dynamiclist listid="modules_catalog/productsuggestionfeeders" label="Méthodes de suggestion des produits" />
 		

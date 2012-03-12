@@ -227,37 +227,39 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
 	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getItemsPrice($shop, $customer, $quantity = 1)
+	public function getItemsPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
 		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
 		if (!isset($this->itemsPrices[$key]))
 		{
 			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $targetIds, $quantity);
+			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $billingArea, $shop, $targetIds, $quantity);
 		}
 		return $this->itemsPrices[$key];
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
 	 * @param float $quantity
 	 * @return catalog_persistentdocument_price|null
 	 */
-	public function getPriceDifference($shop, $customer, $quantity = 1)
+	public function getPriceDifference($shop, $billingArea, $customer, $quantity = 1)
 	{
-		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
+		$price1 = $this->getItemsPrice($shop, $billingArea, $customer, $quantity);
 		// Unlike a kit, a bundle may include a product without price and be displayed in the shop. 
 		// In this case, price difference can't be calculated.
 		if ($price1 === null)
 		{
 			return null;
 		}
-		$price2 = $this->getPrice($shop, $customer, $quantity);
+		$price2 = $this->getPrice($shop, $billingArea, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
 	}
 

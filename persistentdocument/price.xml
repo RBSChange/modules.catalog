@@ -7,19 +7,23 @@
       <constraints>min:1</constraints>
     </add>
     <add name="targetId" type="Integer" min-occurs="1" default-value="0"/>
-    <add name="currencyId" type="Integer" min-occurs="1"/>
     <add name="priority" type="Integer" min-occurs="1" default-value="25"/>
-    <add name="valueWithoutTax" type="Double" min-occurs="1">
-      <constraints>min:0</constraints>
-    </add>
-    <add name="oldValueWithoutTax" type="Double">
-      <constraints>min:0</constraints>
-    </add>
+    
     <add name="discountDetail" type="String"/>
     <add name="ecoTax" type="Double">
       <constraints>min:0</constraints>
     </add>
     <add name="taxCategory" type="String" min-occurs="1" db-size="20" default-value="0"/>
+    
+    <add name="billingAreaId" type="Integer" min-occurs="1"/>
+    
+	<add name="value" type="Double" min-occurs="1">
+	      <constraints>min:0</constraints>
+	</add>
+    <add name="valueWithoutDiscount" type="Double">
+      <constraints>min:0</constraints>
+    </add>	
+	<add name="storeWithTax" type="Boolean" default-value="false" />
   </properties>
   <statuses default="ACTIVE"/>
 </document>

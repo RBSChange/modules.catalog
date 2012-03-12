@@ -11,7 +11,7 @@
   <key id="endpublicationdate-help">fin de validité du prix. Au-delà de cette date, le prix ne sera plus actif.</key>
   <key id="productid">produit associé</key>
   <key id="shopid">boutique associée</key>
-  <key id="shopid-help">boutique dans laquelle s'applique ce prix. Ce champ n'est disponible que lors de la création du prix.</key>
+  <key id="shopid-help">boutique dans laquelle s'applique ce prix.</key>
   <key id="valuewithtax">valeur TTC</key>
   <key id="valuewithouttax">valeur HT</key>
   <key id="oldvaluewithtax">ancienne valeur TTC</key>
@@ -35,4 +35,7 @@
   <key id="withtax">TTC</key>
   <key id="withouttax">HT</key>
   <key id="unexpected-target-error">cible invalide !</key>
+  
+  <key id="billingareaid">zone de facturation</key>
+  <key id="shopid-help">zone de facturation dans laquelle s'applique ce prix.</key>
 </i18n>

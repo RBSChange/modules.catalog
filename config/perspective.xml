@@ -1,302 +1,326 @@
 <?xml version="1.0"?>
 <perspective>
-	<models>
-		<model name="modules_generic/rootfolder">
-			<children>
-				<child model="modules_catalog/shopfolder" />
-				<child model="modules_catalog/attributefolder" />
-				<child model="modules_catalog/topshelf" />
-				<child model="modules_catalog/noshelfproductfolder" />
-				<child model="modules_catalog/productqueryfolder" />
-				<child model="modules_catalog/comparablepropertyfolder" />
-			</children>
-			<drops>
-				<drop model="modules_catalog/topshelf" action="move" />
-				<drop model="modules_catalog/productqueryfolder" action="move" />
-				<drop model="modules_catalog/comparablepropertyfolder" action="move" />
-			</drops>
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="openTreeNodeOrder" />
-				<groupactions name="createRootfolder_">
-					<contextaction name="createTopshelf" />
-					<contextaction name="createProductqueryfolder" />
-				</groupactions>
-			</contextactions>
-		</model>
-		<model name="modules_catalog/comparablepropertyfolder">
-			<children>
-				<child model="modules_catalog/comparableproperty" />
-			</children>
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="openFolder" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/comparableproperty">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/noshelfproductfolder">
-			<children>
-				<child model="modules_catalog/simpleproduct" from="function" />
-				<child model="modules_catalog/virtualproduct" from="function" />
-				<child model="modules_catalog/declinedproduct" from="function" />
-				<child model="modules_catalog/bundleproduct" from="function" />
-				<child model="modules_catalog/kit" from="function" />
-			</children>
-			<contextactions>
-				<contextaction name="openFolder" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/shopfolder">
-			<children>
-				<child model="modules_catalog/shop" />
-			</children>
-			<columns>
-				<column name="website" label="Website" />
-				<column name="isDefault" label="IsDefault" />
-				<column name="startpublicationdate" label="Startpublicationdate" />
-				<column name="endpublicationdate" label="Endpublicationdate" />
-			</columns>
-			<contextactions>
-				<contextaction name="edit" />
-				<groupactions name="createShopfolder_">
-					<contextaction name="createShop" />
-				</groupactions>
-				<contextaction name="openFolder" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/attributefolder">
-			<contextactions>
-				<contextaction name="edit" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/shop">
-			<children>
-				<child model="modules_catalog/shippingfilter" from="shippingfilter" />
-				<child model="modules_catalog/paymentfilter" from="paymentfilter" />
-			</children>
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-				<contextaction name="duplicate" />
-				<groupactions name="createFilter_">
-					<contextaction name="createShippingfilter" />
-					<contextaction name="createPaymentfilter" />
-					<contextaction name="initDefaultStructure" />
-				</groupactions>
-			</contextactions>
-		</model>
-		<model name="modules_catalog/shippingfilter">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/paymentfilter">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/topshelf">
-			<children>
-				<child model="modules_catalog/simpleproduct" from="product" />
-				<child model="modules_catalog/virtualproduct" from="product" />
-				<child model="modules_catalog/declinedproduct" from="declinedproduct" />
-				<child model="modules_catalog/bundleproduct" from="product" />
-				<child model="modules_catalog/kit" from="product" />
-				<child model="modules_catalog/shelf" />
-			</children>
-			<drops>
-				<drop model="modules_catalog/shelf" action="move" />
-				<drop model="modules_catalog/simpleproduct" action="move" />
-				<drop model="modules_catalog/virtualproduct" action="move" />
-				<drop model="modules_catalog/declinedproduct" action="move" />
-				<drop model="modules_catalog/bundleproduct" action="move" />
-				<drop model="modules_catalog/kit" action="move" />
-			</drops>
-			<columns>
-				<column name="startpublicationdate" label="Startpublicationdate" />
-				<column name="endpublicationdate" label="Endpublicationdate" />
-			</columns>
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="refresh" />
-				<contextaction name="delete" />
-				<contextaction name="openOrderProductsInShelf" />
-				<contextaction name="openTreeNodeOrder" />
-				<groupactions name="createTopShelf_">
-					<contextaction name="createShelf" />
-					<contextaction name="createSimpleproduct" />
-					<contextaction name="createDeclinedproduct" />
-					<contextaction name="createBundleproduct" />
-					<contextaction name="createKit" />
-					<contextaction name="createVirtualproduct" />
-				</groupactions>
-				<contextaction name="openFolder" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/shelf">
-			<children>
-				<child model="modules_catalog/simpleproduct" from="product" />
-				<child model="modules_catalog/virtualproduct" from="product" />
-				<child model="modules_catalog/declinedproduct" from="declinedproduct" />
-				<child model="modules_catalog/bundleproduct" from="product" />
-				<child model="modules_catalog/kit" from="product" />
-				<child model="modules_catalog/shelf" />
-			</children>
-			<drops>
-				<drop model="modules_catalog/shelf" action="move" />
-				<drop model="modules_catalog/simpleproduct" action="move" />
-				<drop model="modules_catalog/virtualproduct" action="move" />
-				<drop model="modules_catalog/declinedproduct" action="move" />
-				<drop model="modules_catalog/bundleproduct" action="move" />
-				<drop model="modules_catalog/kit" action="move" />
-			</drops>
-			<columns>
-				<column name="startpublicationdate" label="Startpublicationdate" />
-				<column name="endpublicationdate" label="Endpublicationdate" />
-			</columns>
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="refresh" />
-				<contextaction name="delete" />
-				<contextaction name="openOrderProductsInShelf" />
-				<contextaction name="openTreeNodeOrder" />
-				<groupactions name="createShelf_">
-					<contextaction name="createShelf" />
-					<contextaction name="createSimpleproduct" />
-					<contextaction name="createDeclinedproduct" />
-					<contextaction name="createBundleproduct" />
-					<contextaction name="createKit" />
-					<contextaction name="createVirtualproduct" />
-				</groupactions>
-				<contextaction name="openFolder" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/simpleproduct">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-				<contextaction name="compileProduct" />
-				<contextaction name="exportAlertInfos" />
-				<contextaction name="showPublicationInShops" />
-				<contextaction name="duplicate" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/declinedproduct">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-				<contextaction name="compileDeclinedProduct" />
-				<contextaction name="exportAlertInfos" />
-				<contextaction name="showPublicationInShops" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/bundleproduct">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-				<contextaction name="compileProduct" />
-				<contextaction name="exportAlertInfos" />
-				<contextaction name="showPublicationInShops" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/kit">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-				<contextaction name="compileProduct" />
-				<contextaction name="exportAlertInfos" />
-				<contextaction name="showPublicationInShops" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/virtualproduct">
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="deactivated" />
-				<contextaction name="reactivate" />
-				<contextaction name="compileProduct" />
-				<contextaction name="exportAlertInfos" />
-				<contextaction name="showPublicationInShops" />
-				<contextaction name="duplicate" />
-			</contextactions>
-		</model>
-		<model name="modules_catalog/productqueryfolder">
-			<children>
-				<child model="modules_catalog/simpleproduct" from="function" />
-				<child model="modules_catalog/virtualproduct" from="function" />
-				<child model="modules_catalog/declinedproduct" from="function" />
-				<child model="modules_catalog/bundleproduct" from="function" />
-				<child model="modules_catalog/kit" from="function" />
-			</children>
-			<contextactions>
-				<contextaction name="edit" />
-				<contextaction name="delete" />
-				<contextaction name="openFolder" />
-			</contextactions>
-		</model>
-	</models>
-	<toolbar>
-		<toolbarbutton name="edit" />
-		<toolbarbutton name="delete" />
-		<toolbarbutton name="duplicate" />
-		<toolbarbutton name="deactivated" />
-		<toolbarbutton name="reactivate" />
-	</toolbar>
-	<actions>
-		<action name="refresh" single="true" icon="refresh" labeli18n="m.uixul.bo.actions.Refresh" />
-		<action name="edit" single="true" permission="Load" icon="edit" labeli18n="m.uixul.bo.actions.Edit" />
-		<action name="delete" permission="Delete" icon="delete" labeli18n="m.uixul.bo.actions.Delete" />
-		<action name="openTreeNodeOrder" single="true" permission="Order" icon="sort" />
-		<action name="openOrderProductsInShelf" single="true" permission="Order" icon="sort" />
-		<action name="deactivated" permission="Deactivated" icon="deactivated" labeli18n="m.uixul.bo.actions.Deactivate" />
-		<action name="reactivate" permission="ReActivate" icon="reactivate" labeli18n="m.uixul.bo.actions.ReActivate" />
-		<action name="duplicate" icon="duplicate" labeli18n="m.uixul.bo.actions.Duplicate" />
-		<action name="createShopfolder_" icon="add" />
-		<action name="createShop" single="true" permission="Insert_shop" icon="add" />
-		<action name="createShelf_" icon="add" />
-		<action name="createTopShelf_" icon="add" />
-		<action name="createShelf" single="true" permission="Insert_shelf" />
-		<action name="createSimpleproduct" single="true" permission="Insert_simpleproduct" />
-		<action name="createDeclinedproduct" single="true" permission="Insert_declinedproduct" icon="add" />
-		<action name="createBundleproduct" single="true" permission="Insert_bundleproduct" icon="add" />
-		<action name="createKit" single="true" permission="Insert_kit" icon="add" />
-		<action name="createVirtualproduct" single="true" permission="Insert_virtualproduct" icon="add" />
-		<action name="createRootfolder_" icon="add" />
-		<action name="createTopshelf" single="true" permission="Insert_topshelf" icon="add" />
-		<action name="openFolder" icon="open-folder" labeli18n="m.uixul.bo.actions.OpenFolder" />
-		<action name="move" permission="Move" icon="up_down" labeli18n="m.uixul.bo.actions.Move" />
-		<action name="createFilter_" icon="add" />
-		<action name="createShippingfilter" single="true" permission="Insert_shippingfilter" />
-		<action name="createPaymentfilter" single="true" permission="Insert_paymentfilter" />
-		<action name="initDefaultStructure" single="true" permission="InitDefaultStructure" />
-		<action name="compileProduct" single="true" icon="admin" />
-		<action name="compileDeclinedProduct" single="true" icon="admin" />
-		<action name="exportAlertInfos" single="true" icon="download" />
-		<action name="showPublicationInShops" single="true" icon="status-detail" />
-		<action name="setAsDefault" single="true" icon="check" />
-		<action name="createTax" single="true" icon="add" />
-		<action name="createProductqueryfolder" single="true" permission="Insert_productqueryfolder" icon="add" />
-	</actions>
+  <models>
+    <model name="modules_generic/rootfolder">
+      <children>
+        <child model="modules_catalog/shopfolder"/>
+        <child model="modules_catalog/attributefolder"/>
+        <child model="modules_catalog/topshelf"/>
+        <child model="modules_catalog/noshelfproductfolder"/>
+        <child model="modules_catalog/productqueryfolder"/>
+        <child model="modules_catalog/comparablepropertyfolder"/>
+        <child model="modules_catalog/billingareafolder"/>
+      </children>
+      <drops>
+        <drop model="modules_catalog/topshelf" action="move"/>
+        <drop model="modules_catalog/productqueryfolder" action="move"/>
+        <drop model="modules_catalog/comparablepropertyfolder" action="move"/>
+      </drops>
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="openTreeNodeOrder"/>
+        <groupactions name="createRootfolder_">
+          <contextaction name="createTopshelf"/>
+          <contextaction name="createProductqueryfolder"/>
+        </groupactions>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/comparablepropertyfolder">
+      <children>
+        <child model="modules_catalog/comparableproperty"/>
+      </children>
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="openFolder"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/comparableproperty">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/noshelfproductfolder">
+      <children>
+        <child model="modules_catalog/simpleproduct" from="function"/>
+        <child model="modules_catalog/virtualproduct" from="function"/>
+        <child model="modules_catalog/declinedproduct" from="function"/>
+        <child model="modules_catalog/bundleproduct" from="function"/>
+        <child model="modules_catalog/kit" from="function"/>
+      </children>
+      <contextactions>
+        <contextaction name="openFolder"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/shopfolder">
+      <children>
+        <child model="modules_catalog/shop"/>
+      </children>
+      <columns>
+        <column name="website" label="Website"/>
+        <column name="isDefault" label="IsDefault"/>
+        <column name="startpublicationdate" label="Startpublicationdate"/>
+        <column name="endpublicationdate" label="Endpublicationdate"/>
+      </columns>
+      <contextactions>
+        <contextaction name="edit"/>
+        <groupactions name="createShopfolder_">
+          <contextaction name="createShop"/>
+        </groupactions>
+        <contextaction name="openFolder"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/attributefolder">
+      <contextactions>
+        <contextaction name="edit"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/shop">
+      <children>
+        <child model="modules_catalog/shippingfilter" from="shippingfilter"/>
+        <child model="modules_catalog/paymentfilter" from="paymentfilter"/>
+      </children>
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+        <contextaction name="duplicate"/>
+        <groupactions name="createFilter_">
+          <contextaction name="createShippingfilter"/>
+          <contextaction name="createPaymentfilter"/>
+          <contextaction name="initDefaultStructure"/>
+        </groupactions>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/shippingfilter">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/paymentfilter">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/topshelf">
+      <children>
+        <child model="modules_catalog/simpleproduct" from="product"/>
+        <child model="modules_catalog/virtualproduct" from="product"/>
+        <child model="modules_catalog/declinedproduct" from="declinedproduct"/>
+        <child model="modules_catalog/bundleproduct" from="product"/>
+        <child model="modules_catalog/kit" from="product"/>
+        <child model="modules_catalog/shelf"/>
+      </children>
+      <drops>
+        <drop model="modules_catalog/shelf" action="move"/>
+        <drop model="modules_catalog/simpleproduct" action="move"/>
+        <drop model="modules_catalog/virtualproduct" action="move"/>
+        <drop model="modules_catalog/declinedproduct" action="move"/>
+        <drop model="modules_catalog/bundleproduct" action="move"/>
+        <drop model="modules_catalog/kit" action="move"/>
+      </drops>
+      <columns>
+        <column name="startpublicationdate" label="Startpublicationdate"/>
+        <column name="endpublicationdate" label="Endpublicationdate"/>
+      </columns>
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="refresh"/>
+        <contextaction name="delete"/>
+        <contextaction name="openOrderProductsInShelf"/>
+        <contextaction name="openTreeNodeOrder"/>
+        <groupactions name="createTopShelf_">
+          <contextaction name="createShelf"/>
+          <contextaction name="createSimpleproduct"/>
+          <contextaction name="createDeclinedproduct"/>
+          <contextaction name="createBundleproduct"/>
+          <contextaction name="createKit"/>
+          <contextaction name="createVirtualproduct"/>
+        </groupactions>
+        <contextaction name="openFolder"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/shelf">
+      <children>
+        <child model="modules_catalog/simpleproduct" from="product"/>
+        <child model="modules_catalog/virtualproduct" from="product"/>
+        <child model="modules_catalog/declinedproduct" from="declinedproduct"/>
+        <child model="modules_catalog/bundleproduct" from="product"/>
+        <child model="modules_catalog/kit" from="product"/>
+        <child model="modules_catalog/shelf"/>
+      </children>
+      <drops>
+        <drop model="modules_catalog/shelf" action="move"/>
+        <drop model="modules_catalog/simpleproduct" action="move"/>
+        <drop model="modules_catalog/virtualproduct" action="move"/>
+        <drop model="modules_catalog/declinedproduct" action="move"/>
+        <drop model="modules_catalog/bundleproduct" action="move"/>
+        <drop model="modules_catalog/kit" action="move"/>
+      </drops>
+      <columns>
+        <column name="startpublicationdate" label="Startpublicationdate"/>
+        <column name="endpublicationdate" label="Endpublicationdate"/>
+      </columns>
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="refresh"/>
+        <contextaction name="delete"/>
+        <contextaction name="openOrderProductsInShelf"/>
+        <contextaction name="openTreeNodeOrder"/>
+        <groupactions name="createShelf_">
+          <contextaction name="createShelf"/>
+          <contextaction name="createSimpleproduct"/>
+          <contextaction name="createDeclinedproduct"/>
+          <contextaction name="createBundleproduct"/>
+          <contextaction name="createKit"/>
+          <contextaction name="createVirtualproduct"/>
+        </groupactions>
+        <contextaction name="openFolder"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/simpleproduct">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+        <contextaction name="compileProduct"/>
+        <contextaction name="exportAlertInfos"/>
+        <contextaction name="showPublicationInShops"/>
+        <contextaction name="duplicate"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/declinedproduct">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+        <contextaction name="compileDeclinedProduct"/>
+        <contextaction name="exportAlertInfos"/>
+        <contextaction name="showPublicationInShops"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/bundleproduct">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+        <contextaction name="compileProduct"/>
+        <contextaction name="exportAlertInfos"/>
+        <contextaction name="showPublicationInShops"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/kit">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+        <contextaction name="compileProduct"/>
+        <contextaction name="exportAlertInfos"/>
+        <contextaction name="showPublicationInShops"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/virtualproduct">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+        <contextaction name="compileProduct"/>
+        <contextaction name="exportAlertInfos"/>
+        <contextaction name="showPublicationInShops"/>
+        <contextaction name="duplicate"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/productqueryfolder">
+      <children>
+        <child model="modules_catalog/simpleproduct" from="function"/>
+        <child model="modules_catalog/virtualproduct" from="function"/>
+        <child model="modules_catalog/declinedproduct" from="function"/>
+        <child model="modules_catalog/bundleproduct" from="function"/>
+        <child model="modules_catalog/kit" from="function"/>
+      </children>
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="openFolder"/>
+      </contextactions>
+    </model>
+    <model name="modules_catalog/billingareafolder">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="createBillingarea"/>
+        <contextaction name="openFolder"/>
+      </contextactions>
+      <children>
+        <child model="modules_catalog/billingarea"/>
+      </children>
+      <drops>
+        <drop model="modules_catalog/billingarea" action="move"/>
+      </drops>
+    </model>
+    <model name="modules_catalog/billingarea">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+        <contextaction name="activate"/>
+        <contextaction name="deactivated"/>
+        <contextaction name="reactivate"/>
+      </contextactions>
+    </model>
+  </models>
+  <toolbar>
+    <toolbarbutton name="edit"/>
+    <toolbarbutton name="delete"/>
+    <toolbarbutton name="duplicate"/>
+    <toolbarbutton name="deactivated"/>
+    <toolbarbutton name="reactivate"/>
+  </toolbar>
+  <actions>
+    <action name="refresh" single="true" icon="refresh" labeli18n="m.uixul.bo.actions.Refresh"/>
+    <action name="edit" single="true" permission="Load" icon="edit" labeli18n="m.uixul.bo.actions.Edit"/>
+    <action name="delete" permission="Delete" icon="delete" labeli18n="m.uixul.bo.actions.Delete"/>
+    <action name="openTreeNodeOrder" single="true" permission="Order" icon="sort"/>
+    <action name="openOrderProductsInShelf" single="true" permission="Order" icon="sort"/>
+    <action name="deactivated" permission="Deactivated" icon="deactivated" labeli18n="m.uixul.bo.actions.Deactivate"/>
+    <action name="reactivate" permission="ReActivate" icon="reactivate" labeli18n="m.uixul.bo.actions.ReActivate"/>
+    <action name="duplicate" icon="duplicate" labeli18n="m.uixul.bo.actions.Duplicate"/>
+    <action name="createShopfolder_" icon="add"/>
+    <action name="createShop" single="true" permission="Insert_shop" icon="add"/>
+    <action name="createShelf_" icon="add"/>
+    <action name="createTopShelf_" icon="add"/>
+    <action name="createShelf" single="true" permission="Insert_shelf"/>
+    <action name="createSimpleproduct" single="true" permission="Insert_simpleproduct"/>
+    <action name="createDeclinedproduct" single="true" permission="Insert_declinedproduct" icon="add"/>
+    <action name="createBundleproduct" single="true" permission="Insert_bundleproduct" icon="add"/>
+    <action name="createKit" single="true" permission="Insert_kit" icon="add"/>
+    <action name="createVirtualproduct" single="true" permission="Insert_virtualproduct" icon="add"/>
+    <action name="createRootfolder_" icon="add"/>
+    <action name="createTopshelf" single="true" permission="Insert_topshelf" icon="add"/>
+    <action name="openFolder" icon="open-folder" labeli18n="m.uixul.bo.actions.OpenFolder"/>
+    <action name="move" permission="Move" icon="up_down" labeli18n="m.uixul.bo.actions.Move"/>
+    <action name="createFilter_" icon="add"/>
+    <action name="createShippingfilter" single="true" permission="Insert_shippingfilter"/>
+    <action name="createPaymentfilter" single="true" permission="Insert_paymentfilter"/>
+    <action name="initDefaultStructure" single="true" permission="InitDefaultStructure"/>
+    <action name="compileProduct" single="true" icon="admin"/>
+    <action name="compileDeclinedProduct" single="true" icon="admin"/>
+    <action name="exportAlertInfos" single="true" icon="download"/>
+    <action name="showPublicationInShops" single="true" icon="status-detail"/>
+    <action name="setAsDefault" single="true" icon="check"/>
+    <action name="createTax" single="true" icon="add"/>
+    <action name="createProductqueryfolder" single="true" permission="Insert_productqueryfolder" icon="add"/>
+    <action name="createBillingarea" single="true" permission="Insert_billingarea" icon="add"/>
+  </actions>
 </perspective>

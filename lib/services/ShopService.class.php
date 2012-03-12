@@ -221,6 +221,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	/**
 	 * @param integer $websiteId
 	 * @param string $lang
+	 * @return catalog_persistentdocument_shop
 	 */
 	public function getDefaultByWebsiteId($websiteId, $lang = null)
 	{
@@ -254,42 +255,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	public function getPublishedByWebsites($websites)
 	{
 		return $this->createQuery()->add(Restrictions::published())->add(Restrictions::in('website', $websites))->find();
-	}
-
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 * @throw catalog_Exception if the currencyCode does not related to an existing currency code
-	 */	
-	public function getCurrencySymbol($shop)
-	{
-		
-		return catalog_PriceHelper::getCurrencySymbol($shop->getCurrencyCode());
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 */
-	public function getPriceFormat($shop)
-	{
-		if ($shop === null)
-		{
-			return "%s";
-		}
-		$currency = catalog_PriceHelper::getCurrencySymbol($shop->getCurrencyCode());
-		switch ($shop->getCurrencyPosition())
-		{
-			case catalog_PriceHelper::CURRENCY_POSITION_LEFT :
-				$format = $currency . " %s";
-				break;
-
-			case catalog_PriceHelper::CURRENCY_POSITION_RIGHT :
-			default :
-				$format = "%s ". $currency ;
-				break;
-		}
-		return $format;
 	}
 	
 	/**
@@ -388,10 +353,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function postInsert($document, $parentNodeId)
 	{
-		if ($document->getDefaultTaxZone())
-		{
-			catalog_TaxService::getInstance()->addNoTaxForShopAndZone($document->getId(), $document->getDefaultTaxZone());
-		}
 		$topic = $document->getTopic();
 		
 		$topic->setReferenceId($document->getId());
@@ -427,22 +388,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		if (count($newLangs) > 0)
 		{
 			catalog_ProductService::getInstance()->setNeedCompileForShop($document);
-		}
-		
-		if ($document->getNewTaxLabel())
-		{
-			$tax = catalog_TaxService::getInstance()->getTaxDocument($document->getId(), $document->getNewTaxCategory(), $document->getNewTaxZone());
-			if ($tax === null)
-			{
-				$tax = catalog_TaxService::getInstance()->getNewDocumentInstance();
-				$tax->setShopId($document->getId());
-				$tax->setTaxCategory($document->getNewTaxCategory());
-				$tax->setTaxZone($document->getNewTaxZone());
-			}
-			$tax->setLabel($document->getNewTaxLabel());
-			$tax->setRate($document->getNewTaxRate());
-			$document->resetNewTaxInfos();
-			$tax->save();
 		}
 	}
 	
@@ -629,6 +574,39 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	}
 		
 	// Depreacted
+	
+	/**
+	 * @deprecated
+	 */
+	public function getCurrencySymbol($shop)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}		
+		return $shop->getDefaultBillingArea()->getCurrency()->getSymbol();
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public function getPriceFormat($shop)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		if ($shop === null) {return "%s";}
+		return $shop->getDefaultBillingArea()->getPriceFormat();
+	}
 	
 	/**
 	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite

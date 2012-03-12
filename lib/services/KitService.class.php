@@ -185,27 +185,28 @@ class catalog_KitService extends catalog_ProductService
 	 *
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	public function getPriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
 		if (!in_array($kit->getId(), $targetIds))
 		{
 			$targetIds[] = $kit->getId();
 		}
-		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
+		return $this->calculatePriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPricesByTargetIds($product, $shop, $targetIds)
+	public function getPricesByTargetIds($product, $shop, $billingArea, $targetIds)
 	{
 		throw new Exception('Not implemented');
 	}
@@ -213,23 +214,25 @@ class catalog_KitService extends catalog_ProductService
 	/**
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param float $quantity
 	 * @return catalog_persistentdocument_lockedprice
 	 */
-	public function getItemsPriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	public function getItemsPriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
-		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
+		return $this->calculatePriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop 
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param float $quantity
 	 * @return catalog_persistentdocument_lockedprice
 	 */
-	protected function calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	protected function calculatePriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
 		$kitPrice = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
 		$kitPrice->setLockedFor($kit->getId());
@@ -238,10 +241,11 @@ class catalog_KitService extends catalog_ProductService
 
 		$kitPrice->setProductId($kit->getId());
 		$kitPrice->setShopId($shop->getId());
+		$kitPrice->setBillingAreaId($billingArea->getId());
 		$kis = catalog_KititemService::getInstance();
 		foreach ($kit->getKititemArray() as $kititem)
 		{
-			if (!$kis->appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity))
+			if (!$kis->appendPrice($kititem, $kitPrice, $shop, $billingArea, $targetIds, $quantity))
 			{
 				return null;
 			}

@@ -134,4 +134,14 @@
   <key id="log-saveredirectinfo-simpleproduct">log saveredirectinfo simpleproduct</key>
   <key id="move-comparablepropertyfolder">move.comparablepropertyfolder {destinationlabel} {documentlabel}</key>
   <key id="log-move-comparablepropertyfolder">log move comparablepropertyfolder</key>
+  <key id="insert-billingarea">insert.billingarea {lang} {documentlabel}</key>
+  <key id="log-insert-billingarea">log insert billingarea</key>
+  <key id="update-billingarea">update.billingarea {lang} {documentlabel}</key>
+  <key id="log-update-billingarea">log update billingarea</key>
+  <key id="delete-billingarea">delete.billingarea {documentlabel} {lang}</key>
+  <key id="log-delete-billingarea">log delete billingarea</key>
+  <key id="deactivated-tax">deactivated.tax {documentlabel}</key>
+  <key id="log-deactivated-tax">log deactivated tax</key>
+  <key id="reactivate-tax">reactivate.tax {documentlabel}</key>
+  <key id="log-reactivate-tax">log reactivate tax</key>
 </i18n>

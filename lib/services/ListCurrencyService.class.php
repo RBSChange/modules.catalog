@@ -2,15 +2,15 @@
 /**
  * @package module.catalog
  */
-class catalog_ListShopcurrencyService extends BaseService
+class catalog_ListCurrencyService extends BaseService
 {
 	/**
-	 * @var catalog_ListShopsService
+	 * @var catalog_ListCurrencyService
 	 */
 	private static $instance;
 
 	/**
-	 * @return catalog_ListShopsService
+	 * @return catalog_ListCurrencyService
 	 */
 	public static function getInstance()
 	{
@@ -27,11 +27,12 @@ class catalog_ListShopcurrencyService extends BaseService
 	public final function getItems()
 	{
 		$items = array();
-		foreach (catalog_CurrencyService::getInstance()->getCurrencySymbolsArray() as $code => $symbol)
+		foreach (catalog_CurrencyService::getInstance()->getPublished() as $currency)
 		{
+			/* @var $currency catalog_persistentdocument_currency */
 			$items[] = new list_Item(
-				$code . ' ('. $symbol .')',
-				$code
+				$currency->getLabel() . ' ('. $currency->getSymbol() .')',
+				$currency->getId()
 			);
 		}
 		return $items;

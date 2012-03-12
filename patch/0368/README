@@ -1,0 +1,44 @@
+Version: 3.6.0
+
+Add billingarea document
+	+ billingarea/currency (Document) <=  shop/currencyCode
+	+ billingarea/currencyPosition <= shop/currencyPosition
+	+ billingarea/defaultZone <= shop/defaultTaxZone
+	+ billingarea/boEditWithTax (Boolean) <= shop/boTaxZone
+	+ billingarea/billingAddressZone <= shop/billingZone
+	
+	+ billingarea/storePriceWithTax 
+	+ billingarea/zone (Used by startegy)
+	+ billingarea/codeReference (Used for import/export)
+		
+Update shop document :
+ 	+ shop/billingAreas
+ 	- shop/currencyCode
+ 	- shop/currencyPosition
+ 	- shop/defaultTaxZone
+ 	- shop/boTaxZone
+ 	- shop/billingZone
+   
+Update tax document :
+ 	+ tax/billingAreaId		
+ 	- tax/shopId
+ 	
+Update price document :		
+ 	- price/valueWithoutTax
+ 	- price/oldValueWithoutTax	
+ 	- price/currencyId	
+ 	
+ 	+ price/storeWithTax
+  	+ price/value (from valueWithoutTax)	
+  	+ price/valueWithoutDiscount (from oldValueWithoutTax)
+  	+ price/billingAreaId
+  	
+Add new List : modules_catalog/currency
+
+
+catalog_PriceService Updated :
+	->getPrice
+	->getPriceByTargetIds
+	->getPrices
+	->getPricesByTargetIds
+	->getPricesForDate

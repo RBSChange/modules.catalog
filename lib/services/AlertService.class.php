@@ -213,7 +213,8 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	{
 		$product = $alert->getProduct();
 		$shop = $alert->getShop();
-		$price = $product->getPrice($shop, null);
+		$billingArea = $shop->getCurrentBillingArea();
+		$price = $product->getPrice($shop, $billingArea, null);
 		$productUrl = LinkHelper::getDocumentUrl($product, $alert->getLang(), array('catalogParam' => array('shopId' => $shop->getId())));
 		$productLabel = $product->getLabelAsHtml();
 		$productLink = '<a href="'.$productUrl.'" class="link">'.$productLabel.'</a>';

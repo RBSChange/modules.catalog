@@ -940,25 +940,26 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceByTargetIds($product, $shop, $targetIds, $quantity = 1)
+	public function getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
-		return catalog_PriceService::getInstance()->getPriceByTargetIds($product, $shop, $targetIds, $quantity);
+		return catalog_PriceService::getInstance()->getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPricesByTargetIds($product, $shop, $targetIds)
+	public function getPricesByTargetIds($product, $shop, $billingArea, $targetIds)
 	{
-		return catalog_PriceService::getInstance()->getPricesByTargetIds($product, $shop, $targetIds);
+		return catalog_PriceService::getInstance()->getPricesByTargetIds($product, $shop, $billingArea, $targetIds);
 	}
 	
 	/**
@@ -988,18 +989,22 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$compiledByShopId[$shopId][] = $compiledProduct;
 		}
 		
+		$ls = LocaleService::getInstance();
+		$formatter = array('ucf');
+		
 		$result = array();		
 		foreach ($compiledByShopId as $shopId => $compiledProducts)
 		{
 			$shopInfos = array();
-			$shop = DocumentHelper::getDocumentInstance($shopId, 'modules_catalog/shop');
-			$shopInfos['shopLabel'] = f_Locale::translateUI('&modules.catalog.bo.general.Shop-in-website;', array('shop' => $shop->getLabel(), 'website' => $shop->getWebsite()->getLabel()));		
+			$shop = catalog_persistentdocument_shop::getInstanceById($shopId);
+			$billingArea = $shop->getDefaultBillingArea();
 			
+			$shopInfos['shopLabel'] = $ls->transBO('m.catalog.bo.general.shop-in-website', $formatter, array('shop' => $shop->getLabel(), 'website' => $shop->getWebsite()->getLabel()));					
 			$shopInfos['products'] = array();
 			foreach ($compiledProducts as $compiledProduct)
 			{
 				$lang = $compiledProduct->getLang();
-				$publication = f_Locale::translateUI(DocumentHelper::getPublicationstatusLocaleKey($compiledProduct));
+				$publication = $ls->transBO('f.persistentdocument.status.'. strtolower($compiledProduct->getPublicationstatus()), $formatter);
 				if ($compiledProduct->getPublicationStatus() === 'ACTIVE' && $compiledProduct->hasMeta('ActPubStatInf'.$lang))
 				{
 					$publication .= ' (' . f_Locale::translateUI($compiledProduct->getMeta('ActPubStatInf'.$lang)) . ')';
@@ -1007,7 +1012,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 				
 				$shopInfos['products'][] = array(
 					'lang' => $lang,
-					'price' => ($compiledProduct->getPrice() !== null) ? $shop->formatPrice($compiledProduct->getPrice()) : '',
+					'price' => $billingArea->formatPrice($compiledProduct->getPrice(), $lang),
 					'shelfLabel' => $compiledProduct->getShelf()->getLabel(),
 					'plublication' => $publication
 				);
@@ -1053,15 +1058,15 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			return array();
 		}
-		
+		$ls = LocaleService::getInstance();
 		$label = array(
 			'name' => 'label',
-			'label' => f_Locale::translateUI('&modules.catalog.document.product.Label;'),
+			'label' => $ls->transBO('m.catalog.document.product.label', array('ucf')),
 			'maxLength' => 80
 		);
 		$shortUrl = array(
 			'name' => 'shortUrl', 
-			'label' => f_Locale::translateUI('&modules.twitterconnect.bo.general.Short-url;'),
+			'label' => $ls->transBO('m.twitterconnect.bo.general.short-url', array('ucf')),
 			'maxLength' => 30
 		);		
 		if ($document !== null)
@@ -1073,13 +1078,14 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		
 		if ($document !== null)
 		{
-			$price = $document->getPrice($shop, null);
+			$billingArea = $shop->getDefaultBillingArea();
+			$price = $document->getPrice($shop, $billingArea, null);
 			if ($price !== null)
 			{
 				$replacements[] = array(
 					'name' => 'price',
-					'value' => $shop->formatPrice($price->getValueWithTax()),
-					'label' => f_Locale::translateUI('&modules.catalog.bo.general.Price;'),
+					'value' => $billingArea->formatPrice($price->getValueWithTax()),
+					'label' => $ls->transBO('m.catalog.bo.general.price', array('ucf')),
 					'maxLength' => 10
 				);
 			}			
@@ -1089,7 +1095,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 				$replacements[] = array(
 					'name' => 'brand',
 					'value' => f_util_StringUtils::shortenString($brand->getLabel()),
-					'label' => f_Locale::translateUI('&modules.catalog.document.product.Brand;'),
+					'label' => $ls->transBO('m.catalog.document.product.brand', array('ucf')),
 					'maxLength' => 40
 				);
 			}
@@ -1098,12 +1104,12 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			$replacements[] = array(
 				'name' => 'price',
-				'label' => f_Locale::translateUI('&modules.catalog.bo.general.Price;'),
+				'label' => $ls->transBO('m.catalog.bo.general.price', array('ucf')),
 				'maxLength' => 10
 			);
 			$replacements[] = array(
 				'name' => 'brand',
-				'label' => f_Locale::translateUI('&modules.catalog.document.product.Brand;'),
+				'label' => $ls->transBO('m.catalog.document.product.brand', array('ucf')),
 				'maxLength' => 40
 			);
 		}

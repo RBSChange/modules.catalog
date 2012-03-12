@@ -360,9 +360,7 @@ class catalog_PriceComparableProperty extends catalog_BaseComparableProperty
 		$id = $product->getId();
 		if (!isset(self::$pricesByProduct[$id]))
 		{
-			$shop = catalog_ShopService::getInstance()->getCurrentShop();
-			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
-			self::$pricesByProduct[$id] = $product->getPrice($shop, $customer);
+			self::$pricesByProduct[$id] = $product->getPriceForCurrentShopAndCustomer();
 		}
 		return self::$pricesByProduct[$id];
 	}

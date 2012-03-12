@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">
-		<field name="shopId" moduleselector="catalog" hidehelp="true" disabled="true"/>
+	<fieldinput name="storeWithTax" type="hidden" />
+	<section labeli18n="modules.catalog.bo.doceditor.fieldsgroup.Amount-tax-validity">			
+		<field name="shopId" moduleselector="catalog" disabled="true" type="document" />
+		<field name="billingAreaId" moduleselector="catalog" disabled="true" type="document" />
 		<field name="boValueJSON" type="price" required="true" 
 			labeli18n="modules.catalog.document.price.Value"
 			hidehelp="true">
@@ -71,6 +73,11 @@
 						attributes.shopId = editor.getAttribute('shopId');
 						editor.removeAttribute('shopId');
 					}
+					if (editor.hasAttribute('billingAreaId'))
+					{
+						attributes.billingAreaId = editor.getAttribute('billingAreaId');
+						editor.removeAttribute('billingAreaId');
+					}
 					if (editor.hasAttribute('targetId'))
 					{
 						attributes.targetId = editor.getAttribute('targetId');
@@ -81,17 +88,11 @@
 			
 			<method name="preparePropertiesValues">
 				<parameter name="attributes" />
-				<body><![CDATA[
+				<body><![CDATA[	
 					var fields = this.fields;
-					for (var name in fields)
-					{
-						var field = fields[name];
-						if (field.value != '' && !field.modified)
-						{
-							attributes[name] = field.value;
-						}
-					}
-				]]></body>
+					attributes.shopId = fields.shopId.value;
+					attributes.billingAreaId = fields.billingAreaId.value;
+				]]></body>				
 			</method>
 		</javascript>
 	</xul>

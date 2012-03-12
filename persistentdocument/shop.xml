@@ -9,9 +9,6 @@
     </add>
     <add name="website" type="modules_website/website" min-occurs="1" inverse="true"/>
     <add name="topShelf" type="modules_catalog/topshelf" min-occurs="0" max-occurs="-1" inverse="true" preserve-old-value="true"/>
-    <add name="billingZone" type="modules_zone/zone" min-occurs="1"/>
-    <add name="currencyCode" type="String" min-occurs="1" from-list="modules_catalog/shopcurrency" default-value="EUR"/>
-    <add name="currencyPosition" type="String" min-occurs="1" localized="true" from-list="modules_catalog/currencyposition" default-value="right"/>
     <add name="defaultDetailVisual" type="modules_media/media"/>
     <add name="defaultListVisual" type="modules_media/media"/>
     <add name="displayPriceWithTax" type="Boolean" default-value="true"/>
@@ -31,9 +28,9 @@
     </add>
     <add name="enableComments" type="Boolean" default-value="true"/>
     <add name="codeReference" type="String" db-size="50"/>
-    <add name="defaultTaxZone" type="String" min-occurs="1" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
-    <add name="boTaxZone" type="String" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
     <add name="orderProcessClassName" type="String" default-value="order_StandardOrderProcess" from-list="modules_catalog/orderprocess"/>
+
+    <add name="billingAreas" type="modules_catalog/billingarea" max-occurs="-1" min-occurs="1" inverse="true"/>
   </properties>
   <statuses default="ACTIVE"/>
 </document>

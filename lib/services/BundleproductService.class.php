@@ -202,11 +202,12 @@ class catalog_BundleproductService extends catalog_ProductService
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $bundle
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @param float $quantity
 	 * @return catalog_persistentdocument_price|null
 	 */
-	public function getItemsPriceByTargetIds($bundle, $shop, $targetIds, $quantity = 1)
+	public function getItemsPriceByTargetIds($bundle, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
 		$itemsPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
 		$itemsPrice->setToZero();
@@ -214,10 +215,11 @@ class catalog_BundleproductService extends catalog_ProductService
 		
 		$itemsPrice->setProductId($bundle->getId());
 		$itemsPrice->setShopId($shop->getId());
+		$itemsPrice->setBillingAreaId($billingArea->getId());
 		foreach ($bundle->getBundleditemArray() as $bundleitem) 
 		{
 			/* @var $bundleitem catalog_persistentdocument_bundleditem */
-			if (!$bundleitem->getDocumentService()->appendPrice($bundleitem, $itemsPrice, $shop, $targetIds, $quantity))
+			if (!$bundleitem->getDocumentService()->appendPrice($bundleitem, $itemsPrice, $shop, $billingArea, $targetIds, $quantity))
 			{
 				return null;
 			}

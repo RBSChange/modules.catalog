@@ -1,0 +1,11 @@
+Version: 3.6.0
+
+Remove Deprecated DB Fields.
+ - m_catalog_doc_shop / currencycode, currencyposition, defaulttaxzone, botaxzone
+ - m_catalog_doc_price / currencyid, valuewithouttax, oldvaluewithouttax
+ - m_catalog_doc_tax / shopid
+ 
+Remove list:
+ - modules_catalog/taxcode
+ - modules_catalog/currencycode
+ - modules_catalog/shopcurrency

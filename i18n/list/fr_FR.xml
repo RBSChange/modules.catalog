@@ -16,4 +16,6 @@
 	<key id="lastconsultedproducts-compact">Liste compacte</key>
 	<key id="lastconsultedproducts-random">Aléatoire</key>
 	<key id="lastconsultedproducts-list">Liste détaillée</key>
+	<key id="pricesorting">plage de prix</key>
+	<key id="pricesorting-description">plage de prix</key>
 </i18n>

@@ -5,18 +5,19 @@ interface catalog_PriceFormatStrategy
 	/**
 	 * Formats the value as a price using the currency identified by currencyCode in the given lang
 	 * 
-	 * @param Double $value
-	 * @param String $currencyCode
-	 * @param String $lang
+	 * @param double $value
+	 * @param string $currencyCode
+	 * @param string $lang
+	 * @param string $symbolPosition
 	 */
-	function format($value, $currencyCode, $lang = null);
+	function format($value, $currencyCode, $lang, $symbolPosition);
 	
 	/**
-	 * @param Double $value
-	 * @param String $currencyCode
-	 * @param String $lang
+	 * @param double $value
+	 * @param string $currencyCode
+	 * @param string $lang
 	 */
-	function round($value, $currencyCode = null, $lang = null);
+	function round($value, $currencyCode, $lang);
 } 
 
 
@@ -32,8 +33,7 @@ class catalog_PriceFormatter
 	 */
 	private $strategy = null;
 
-
-	private function __construct()
+	protected function __construct()
 	{
 		$className = Framework::getConfiguration('modules/catalog/priceFormatStrategyClass', false);
 		if ($className !== false)
@@ -55,37 +55,107 @@ class catalog_PriceFormatter
 	{
 		if (is_null(self::$instance))
 		{
-			self::$instance = new self();
+			$finalClassName = Injection::getFinalClassName(__CLASS__);
+			self::$instance = new $finalClassName();
 		}
 		return self::$instance;
 	}
 	
 	/**
-	 * @param double $value
+	 * @return void
+	 */
+	public static function clearInstance()
+	{
+		self::$instance = null;
+	}
+	
+	/**
 	 * @param string $currencyCode
 	 * @param string $lang
+	 * @param string $symbolPosition
 	 * @return string
 	 */
-	function format($value, $currencyCode, $lang = null)
+	public function getFormat($currencyCode, $lang = null,  $symbolPosition = null)
 	{
 		if ($lang === null)
 		{
 			$lang = RequestContext::getInstance()->getLang();
 		}
+		
+		if ($symbolPosition === null)
+		{
+			$symbolPosition = $this->getSymbolPositionByLang($lang);
+		}
+		
+		$currencySymbol = $this->getSymbolByCode($currencyCode);
+		if ($currencySymbol === null)
+		{
+			return '%s';
+		}
+		elseif ($symbolPosition === 'left')
+		{
+			return $currencySymbol . ' %s';
+		}
+		return '%s '. $currencySymbol;
+	}
+	
+	/**
+	 * @param float $value
+	 * @param string $format
+	 * @param string $currencyCode
+	 * @param string $lang
+	 * @return string
+	 */
+	public function applyFormat($value, $format, $currencyCode,  $lang = null)
+	{
+		if (f_util_StringUtils::isEmpty($format))
+		{
+			return $this->format($value, $currencyCode, $lang);
+		}
+		if (!is_numeric($value)) {return $value;}
+				
+		if ($lang === null)
+		{
+			$lang = RequestContext::getInstance()->getLang();
+		}
+		$d = $this->getDecimalByCode($currencyCode);
+		$value = $this->roundDefault($value, $currencyCode, $lang);	
+		return sprintf($format, number_format($value, $d, ',', ' '));
+	}
+	
+	/**
+	 * @param float $value
+	 * @param string $currencyCode
+	 * @param string $lang
+	 * @param string $symbolPosition
+	 * @return string
+	 */
+	public function format($value, $currencyCode, $lang = null, $symbolPosition = null)
+	{
+		if ($lang === null)
+		{
+			$lang = RequestContext::getInstance()->getLang();
+		}
+		
+		if ($symbolPosition === null)
+		{
+			$symbolPosition = $this->getSymbolPositionByLang($lang);
+		}		
+		
 		if ($this->strategy !== null)
 		{
-			return $this->strategy->format($value, $currencyCode, $lang);
+			return $this->strategy->format($value, $currencyCode, $lang, $symbolPosition);
 		}
-		return $this->formatDefault($value, $currencyCode, $lang);
+		return $this->formatDefault($value, $currencyCode, $lang, $symbolPosition);
 	}	
 	
 	/**
-	 * @param double $value
+	 * @param float $value
 	 * @param string $currencyCode
 	 * @param string $lang
 	 * @return double
 	 */
-	function round($value, $currencyCode = null, $lang = null)
+	public function round($value, $currencyCode = null, $lang = null)
 	{
 		if ($lang === null)
 		{
@@ -100,40 +170,63 @@ class catalog_PriceFormatter
 			return $this->strategy->round($value, $currencyCode, $lang);
 		}
 		return $this->roundDefault($value, $currencyCode, $lang);
-	}	
-	
-	
+	}
+		
 	/**
-	 * @return void
+	 * @param string $currencyCode
+	 * @return string|null
 	 */
-	public static final function clearInstance()
+	public function getSymbol($currencyCode)
 	{
-		self::$instance = null;
+		if (f_util_StringUtils::isNotEmpty($currencyCode))
+		{
+			return $this->getSymbolByCode($currencyCode);
+		}
+		return null;
+	}	
+		
+	protected $symbolArray = array();
+	
+	protected function getSymbolByCode($currencyCode)
+	{
+		if (!array_key_exists($currencyCode, $this->symbolArray))
+		{
+			$this->symbolArray[$currencyCode] = catalog_CurrencyService::getInstance()->getSymbolByCode($currencyCode);
+		}
+		return $this->symbolArray[$currencyCode];
+	}
+	
+	protected function getSymbolPositionByLang($lang)
+	{
+		return ($lang === 'de' || $lang === 'en') ? 'left' : 'right';
+	}
+	
+	protected function getDecimalByCode($currencyCode)
+	{
+		return ($currencyCode === 'JPY') ? 0 : 2;
 	}
 	
 	/**
 	 * @param double $value
 	 * @param string $currencyCode
 	 * @param string $lang
+	 * @param string $symbolPosition
 	 * @return string
 	 */
-	protected function formatDefault($value, $currencyCode, $lang)
+	protected function formatDefault($value, $currencyCode, $lang, $symbolPosition)
 	{
-		if ($value === null || $value === '')
-		{
-			return '';
-		}
-		$currencySymbol = catalog_PriceHelper::getCurrencySymbol($currencyCode);
+		if (!is_numeric($value)) {return $value;}
+		
+		$currencySymbol = $this->getSymbolByCode($currencyCode);
+		if ($currencySymbol === null) {$currencySymbol = '?';}		
+		$d = $this->getDecimalByCode($currencyCode);
+	
 		$value = $this->roundDefault($value, $currencyCode, $lang);
-		switch ($lang)
+		if ($symbolPosition === 'left')
 		{
-			case 'de':
-			case 'en':
-				return sprintf($currencySymbol ." %s", number_format($value, 2, ',', ' '));
-			case 'fr':
-			default:
-				return sprintf("%s ". $currencySymbol, number_format($value, 2, ',', ' '));
+			return $currencySymbol . ' ' . number_format($value, $d, ',', ' ');
 		}
+		return number_format($value, $d, ',', ' ') . ' '. $currencySymbol;
 	}
 	
 	/**
@@ -144,6 +237,7 @@ class catalog_PriceFormatter
 	 */
 	protected function roundDefault($value, $currencyCode, $lang)
 	{
-		return ($currencyCode === 'JPY') ? round($value, 0) :  round($value, 2);
+		$d = $this->getDecimalByCode($currencyCode);
+		return round($value, $d);
 	}
 }

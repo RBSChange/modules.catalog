@@ -10,17 +10,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */	
 	public function getAttachedDocument()
 	{
-		$id = intval($this->getProductId());
-		if ($id > 0)
-		{
-			$pp = f_persistentdocument_PersistentProvider::getInstance();
-			$mn = $pp->getDocumentModelName($id);
-			if ($mn !== false)
-			{
-				return $pp->getDocumentInstance($id, $mn);
-			}
-		}
-		return null;		
+		return DocumentHelper::getDocumentInstanceIfExists(intval($this->getProductId()));	
 	}
 	
 	
@@ -42,7 +32,15 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getShop()
 	{
-		return catalog_persistentdocument_shop::getInstanceById($this->getShopId());
+		return DocumentHelper::getDocumentInstance($this->getShopId());
+	}
+	
+	/**
+	 * @return catalog_persistentdocument_billingarea
+	 */
+	public function getBillingArea()
+	{
+		return DocumentHelper::getDocumentInstance($this->getBillingAreaId());
 	}
 	
 	/**
@@ -50,17 +48,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getTarget()
 	{
-		$targetId = intval($this->getTargetId());
-		if ($targetId > 0)
-		{
-			$pp = f_persistentdocument_PersistentProvider::getInstance();
-			$mn = $pp->getDocumentModelName($targetId);
-			if ($mn !== false)
-			{
-				return $pp->getDocumentInstance($targetId, $mn);
-			}
-		}
-		return null;
+		return DocumentHelper::getDocumentInstanceIfExists(intval($this->getTargetId()));
 	}
 	
 	/**
@@ -94,8 +82,8 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function setToZero()
 	{
-		$this->setValueWithoutTax(0.0);
-		$this->setOldValueWithoutTax(null);
+		$this->setValue(0.0);
+		$this->setValueWithoutDiscount(null);
 	}
 	
 	/**
@@ -103,13 +91,16 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function isDiscount()
 	{
-		return ($this->getOldValueWithoutTax() !== null);
+		return ($this->getValueWithoutDiscount() !== null);
 	}
 	
 	public function removeDiscount()
 	{
-		$this->setValueWithoutTax($this->getOldValueWithoutTax());
-		$this->setOldValueWithoutTax(null);
+		if ($this->isDiscount())
+		{
+			$this->setValue($this->getValueWithoutDiscount());
+			$this->setValueWithoutDiscount(null);
+		}
 	}
 
 	/**
@@ -117,11 +108,12 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function setDiscountValue($value)
 	{
-		$this->setOldValueWithoutTax($this->getValueWithoutTax());
-		$this->setValueWithoutTax($value);
+		$this->setValueWithoutDiscount($this->getValue());
+		$this->setValue($value);
 	}
 
-	private $taxDocumentId = null;
+	private $taxDocumentId = false;
+	private $taxRate = false;
 	
 	/**
 	 * @param boolean $throwsException
@@ -130,62 +122,47 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getTax($throwsException = true)
 	{
-		if ($this->taxDocumentId === null)
+		if ($this->taxDocumentId === false)
 		{
 			$taxZone = catalog_TaxService::getInstance()->getCurrentTaxZone($this->getShop());
-			$taxDocument = catalog_TaxService::getInstance()->getTaxDocument($this->getShopId(), $this->getTaxCategory(), $taxZone);
+			$taxDocument = catalog_TaxService::getInstance()->getTaxDocumentByKey($this->getBillingAreaId(), $this->getTaxCategory(), $taxZone);
 			if ($taxDocument === null)
 			{
-				if ($throwsException)
-				{
-					throw new Exception('Tax document not found');
-				}
-				return null;
+				$this->taxDocumentId = null;
+				$this->taxRate = 0.0;
 			}
-			$this->taxDocumentId = $taxDocument->getId();
-			return $taxDocument;
+			else
+			{
+				$this->taxDocumentId = $taxDocument->getId();
+				$this->taxRate = $taxDocument->getRate();
+				return $taxDocument;
+			}
 		}
-		return catalog_persistentdocument_tax::getInstanceById($this->taxDocumentId);
+		
+		if ($this->taxDocumentId === null)
+		{
+			if ($throwsException)
+			{
+				throw new Exception('Tax document not found');
+			}
+			return null;
+		}
+		
+		return DocumentHelper::getDocumentInstance($this->taxDocumentId);
 	}
 	
 	/**
 	 * @return double
-	 * @throws Exception
 	 */
 	private function getTaxRate()
 	{
-		$tax = $this->getTax(false);
-		return ($tax === null) ? 0 : $tax->getRate();
+		if ($this->taxRate === false) {$this->getTax(false);}
+		return $this->taxRate;
 	}
 	
 	/**
 	 * @return double
-	 * @throws Exception
 	 */
-	public function getOldValueWithTax()
-	{
-		if ($this->hasPricePart())
-		{
-			$value = 0.0;
-			foreach ($this->getPricePartArray() as $price)
-			{
-				/* @var $price catalog_persistentdocument_price */
-				$value += $price->getOldValueWithTax();
-			}
-			return $value;
-		}
-		
-		if ($this->getOldValueWithoutTax())
-		{
-			return $this->getOldValueWithoutTax() * (1 + $this->getTaxRate());
-		}
-		return $this->getOldValueWithoutTax();
-	}
-	
-	/**
-	 * @return double
-	 * @throws Exception
-	 */	
 	public function getValueWithTax()
 	{
 		if ($this->hasPricePart())
@@ -198,12 +175,137 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 			}
 			return $value;
 		}
-		if ($this->getValueWithoutTax())
+		
+		if (!$this->getStoreWithTax())
 		{
-			return $this->getValueWithoutTax() * (1 + $this->getTaxRate());
+			return catalog_TaxService::getInstance()->addTaxByRate($this->getValue(), $this->getTaxRate());
 		}
-		return $this->getValueWithoutTax();
+		return $this->getValue();
 	}
+
+	/**
+	 * @return double
+	 */
+	public function getValueWithoutTax()
+	{
+		if ($this->hasPricePart())
+		{
+			$value = 0.0;
+			foreach ($this->getPricePartArray() as $price)
+			{
+				/* @var $price catalog_persistentdocument_price */
+				$value += $price->getValueWithoutTax();
+			}
+			return $value;
+		}
+	
+		if ($this->getStoreWithTax())
+		{
+			return catalog_TaxService::getInstance()->removeTaxByRate($this->getValue(), $this->getTaxRate());
+		}
+		return $this->getValue();
+	}
+	
+	/**
+	 * @param double $valueWithoutTax
+	 */
+	public function setValueWithoutTax($valueWithoutTax)
+	{
+		if ($this->getStoreWithTax())
+		{
+			$this->setValue(catalog_TaxService::getInstance()->addTaxByRate($valueWithoutTax, $this->getTaxRate()));
+		}
+		else
+		{
+			$this->setValue($valueWithoutTax);
+		}
+	}
+	
+	/**
+	 * @return double|null
+	 */
+	public function getOldValueWithTax()
+	{
+		if ($this->hasPricePart())
+		{
+			$value = null;
+			foreach ($this->getPricePartArray() as $price)
+			{
+				/* @var $price catalog_persistentdocument_price */
+				$v = $price->getOldValueWithTax();
+				if ($v !== null)
+				{
+					$value = ($value === null) ? $v : $value + v;
+				}
+			}
+			return $value;
+		}
+		
+		if ($this->getValueWithoutDiscount() !== null)
+		{
+			if (!$this->getStoreWithTax())
+			{
+				return catalog_TaxService::getInstance()->addTaxByRate($this->getValueWithoutDiscount(), $this->getTaxRate());
+			}
+			return $this->getValueWithoutDiscount();
+		}
+		return null;
+	}
+	
+	/**
+	 * @return double|null
+	 */
+	public function getOldValueWithoutTax()
+	{
+		if ($this->hasPricePart())
+		{
+			$value = null;
+			foreach ($this->getPricePartArray() as $price)
+			{
+				/* @var $price catalog_persistentdocument_price */
+				$v = $price->getOldValueWithoutTax();
+				if ($v !== null)
+				{
+					$value = ($value === null) ? $v : $value + $v;
+				}
+			}
+			return $value;
+		}
+	
+		if ($this->getValueWithoutDiscount() !== null)
+		{
+			if ($this->getStoreWithTax())
+			{
+				return catalog_TaxService::getInstance()->removeTaxByRate($this->getValueWithoutDiscount(), $this->getTaxRate());
+			}
+			return $this->getValueWithoutDiscount();
+		}
+		return null;
+	}
+	
+	/**
+	 * @param double|null $oldValueWithoutTax
+	 */
+	public function setOldValueWithoutTax($oldValueWithoutTax)
+	{
+	
+		if ($oldValueWithoutTax!== null)
+		{
+			if ($this->getStoreWithTax())
+			{
+				$this->setValueWithoutDiscount(catalog_TaxService::getInstance()->addTaxByRate($oldValueWithoutTax, $this->getTaxRate()));
+			}
+			else
+			{
+				$this->setValueWithoutDiscount($oldValueWithoutTax);
+			}
+		}
+		else
+		{
+			$this->setValueWithoutDiscount(null);
+		}
+	}
+	
 	
 	/**
 	 * @var catalog_persistentdocument_price[]
@@ -271,13 +373,40 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	
 
 	//Templating 
+	
+	/**
+	 * @param double|null $value
+	 * @return string
+	 */
+	public function formatValue($value)
+	{
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($value, $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCurrencyCode()
+	{
+		return $this->getBillingArea()->getCurrencyCode();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCurrencySymbol()
+	{
+		return $this->getBillingArea()->getCurrency()->getSymbol();
+	}
+	
 	/**
 	 * @return string
 	 */
 	public function getFormattedValueWithTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getValueWithTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($this->getValueWithTax(), $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
 	}
 	
 	/**
@@ -285,8 +414,8 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedValueWithoutTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getValueWithoutTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($this->getValueWithoutTax(), $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
 	}
 	
 	/**
@@ -294,8 +423,9 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedOldValueWithTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithTax(), $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
+
 	}
 	
 	/**
@@ -303,8 +433,8 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedOldValueWithoutTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithoutTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithoutTax(), $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
 	}
 	
 	/**
@@ -312,8 +442,10 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedDiscountWithTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithTax()-$this->getValueWithTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$v = $this->getOldValueWithTax();
+		if ($v !== null) {$v -= $this->getValueWithTax();}
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($v, $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
 	}
 	
 	/**
@@ -321,8 +453,10 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedDiscountWithoutTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getOldValueWithoutTax()-$this->getValueWithoutTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$v = $this->getOldValueWithoutTax();
+		if ($v !== null) {$v -= $this->getValueWithoutTax();}
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($v, $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
 	}
 	
 	/**
@@ -330,51 +464,45 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getFormattedEcoTax()
 	{
-		return catalog_PriceFormatter::getInstance()->format($this->getEcoTax(), 
-			catalog_CurrencyService::getInstance()->getCodeById($this->getCurrencyId()));
+		$ba = $this->getBillingArea();
+		return catalog_PriceFormatter::getInstance()->format($this->getEcoTax(), $ba->getCurrency()->getCode(), null, $ba->getCurrencyPosition());
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getTaxCode()
-	{
-		return $this->getTax()->getCode();
-	}
-	
+		
 	//Back office editor
+	
 	/**
 	 * @return string
 	 */
 	public function getBoValueJSON()
 	{
-		$valueHT = $this->isDiscount() ? $this->getOldValueWithoutTax() : $this->getValueWithoutTax();
 		
 		$shop = $this->getShop();
-		$taxZone = $shop->getBoTaxZone();
-		if ($this->getCurrencyId())
-		{
-			$currencyDoc = catalog_persistentdocument_currency::getInstanceById($this->getCurrencyId());
-		}
-		else
-		{
-			$currencyDoc = catalog_CurrencyService::getInstance()->getByCode($shop->getCurrencyCode());
-		}
-		
-		$editTTC = $taxZone !== null;
+		$ba = $this->getBillingArea();
+		$currencyDoc = $ba->getCurrency();
+				
+		$editTTC = $ba->getBoEditWithTax();
 		$taxCategory = $this->getTaxCategory();
-		$taxCategories = catalog_TaxService::getInstance()->getBoTaxeInfoForShop($this->getShop());
-		if ($taxZone !== null && $valueHT > 0)
+		$taxCategories = catalog_TaxService::getInstance()->getBoTaxeInfoForBillingArea($ba);		
+		$v = $this->isDiscount() ? $this->getValueWithoutDiscount() : $this->getValue();
+		
+		$taxRate = $taxCategories[$taxCategory]['rate'];
+		if ($this->getStoreWithTax())
 		{
-			$valueTTC = catalog_PriceFormatter::getInstance()->round($valueHT * (1 + $taxCategories[$taxCategory]['rate']), $currencyDoc->getCode());
+			$valueTTC = $v;
+			$valueHT = catalog_PriceFormatter::getInstance()->round(catalog_TaxService::getInstance()->removeTaxByRate($valueTTC, $taxRate), $currencyDoc->getCode());
 		}
 		else
 		{
-			$valueTTC = $valueHT;
+			$valueHT = $v;
+			$valueTTC = catalog_PriceFormatter::getInstance()->round(catalog_TaxService::getInstance()->addTaxByRate($valueHT, $taxRate), $currencyDoc->getCode());
 		}
 		
-		$array = array('value' => $editTTC ? $valueTTC : $valueHT, 'valueTTC' => $valueTTC, 'valueHT' => $valueHT , 'editTTC' => $editTTC, 'taxCategory' => $taxCategory, 
-			'taxCategories' => $taxCategories, 'currency' => $currencyDoc->getSymbol(), 'currencyCode' => $currencyDoc->getCode());
+		$array = array('value' => $editTTC ? $valueTTC : $valueHT, 'editTTC' => $editTTC,  
+			'valueTTC' => $valueTTC, 'valueHT' => $valueHT , 		
+			'taxCategory' => $taxCategory, 
+			'taxCategories' => $taxCategories, 
+			'currency' => $currencyDoc->getSymbol(), 
+			'currencyCode' => $currencyDoc->getCode());
 		
 		return JsonService::getInstance()->encode($array);
 	}
@@ -387,28 +515,36 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 		$parts = explode(',', $value);
 		if (count($parts) != 2 || $parts[0] == '' || $parts[1] == '')
 		{
-			$this->setTaxCategory(null);
-			return;
+			$parts = array(0.0, '0');
 		}
-		$this->setTaxCategory($parts[1]);
+		
 		$shop = $this->getShop();
-		$taxZone = $shop->getBoTaxZone();
-		if ($taxZone === null)
+		$ba = $this->getBillingArea();
+		
+		
+		$this->setTaxCategory($parts[1]);
+		$v = doubleval($parts[0]);
+		if ($ba->getBoEditWithTax() != $this->getStoreWithTax())
 		{
-			$valueHT = doubleval($parts[0]);
+			$taxZone = $ba->getDefaultZone();
+			$taxRate = catalog_TaxService::getInstance()->getTaxRateByKey($ba->getId(), $this->getTaxCategory(), $taxZone);
+			if ($this->getStoreWithTax())
+			{
+				$v = catalog_TaxService::getInstance()->addTaxByRate($v, $taxRate);
+			}
+			else
+			{
+				$v = catalog_TaxService::getInstance()->removeTaxByRate($v, $taxRate);
+			}
 		}
-		else
-		{
-			$rate = catalog_TaxService::getInstance()->getTaxRate($shop->getId(), $this->getTaxCategory(), $taxZone);
-			$valueHT = doubleval($parts[0]) / (1 + $rate);
-		}
+
 		if ($this->isDiscount())
 		{
-			$this->setOldValueWithoutTax($valueHT);
+			$this->setValueWithoutDiscount($v);
 		}
 		else
 		{
-			$this->setValueWithoutTax($valueHT);
+			$this->setValue($v);
 		}
 	}
 	
@@ -417,32 +553,35 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getBoDiscountValueJSON()
 	{
-		$valueHT = $this->isDiscount() ? $this->getValueWithoutTax() : null;
 		$shop = $this->getShop();
-		$taxZone = $shop->getBoTaxZone();
-		if ($this->getCurrencyId())
-		{
-			$currencyDoc = catalog_persistentdocument_currency::getInstanceById($this->getCurrencyId());
-		}
-		else
-		{
-			$currencyDoc = catalog_CurrencyService::getInstance()->getByCode($shop->getCurrencyCode());
-		}
+		$ba = $this->getBillingArea();
+		$currencyDoc = $ba->getCurrency();
 		
-		$editTTC = $taxZone !== null;
+		$editTTC = $ba->getBoEditWithTax();
 		$taxCategory = $this->getTaxCategory();
-		$taxCategories = catalog_TaxService::getInstance()->getBoTaxeInfoForShop($this->getShop());
-		if ($taxZone !== null && $valueHT > 0)
+		$taxCategories = catalog_TaxService::getInstance()->getBoTaxeInfoForBillingArea($ba);
+		$v = $this->isDiscount() ? $this->getValue() : null;
+		$taxRate = $taxCategories[$taxCategory]['rate'];
+		
+		if ($v == null)
 		{
-			$valueTTC =  catalog_PriceFormatter::getInstance()->round($valueHT * (1 + $taxCategories[$taxCategory]['rate']), $currencyDoc->getCode());
-		}
-		else
-		{
+			$valueHT = $v;
 			$valueTTC = $valueHT;
 		}
+		elseif ($this->getStoreWithTax())
+		{
+			$valueTTC = $v;
+			$valueHT = catalog_PriceFormatter::getInstance()->round(catalog_TaxService::getInstance()->removeTaxByRate($valueTTC, $taxRate), $currencyDoc->getCode());
+		}
+		else
+		{
+			$valueHT = $v;
+			$valueTTC = catalog_PriceFormatter::getInstance()->round(catalog_TaxService::getInstance()->addTaxByRate($valueHT, $taxRate), $currencyDoc->getCode());
+		}
 		
-		$array = array('value' => $editTTC ? $valueTTC : $valueHT, 'valueTTC' => $valueTTC, 'valueHT' => $valueHT , 
-			'editTTC' => $editTTC, 'taxCategory' => $taxCategory, 
+		$array = array('value' => $editTTC ? $valueTTC : $valueHT, 'editTTC' => $editTTC,
+			'valueTTC' => $valueTTC, 'valueHT' => $valueHT, 
+			'taxCategory' => $taxCategory, 
 			'taxCategories' => $taxCategories, 
 			'hideCategory' => true, 
 			'currency' => $currencyDoc->getSymbol(), 
@@ -458,47 +597,85 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	{
 		$parts = explode(',', $value);
 		$shop = $this->getShop();
-		$valueToSet = $parts[0] === '' ? null :  doubleval($parts[0]);
-		$taxZone = $shop->getBoTaxZone();		
-		if ($taxZone !== null && $valueToSet > 0)
+		$ba = $this->getBillingArea();
+		$v = (f_util_StringUtils::isEmpty($parts[0])) ? null : doubleval($parts[0]);
+		if ($v === null)
 		{
-			$rate = catalog_TaxService::getInstance()->getTaxRate($shop->getId(), $this->getTaxCategory(), $taxZone);
-			$valueToSet = doubleval($parts[0]) / (1 + $rate);
-		}
-		if ($valueToSet === null)
-		{
-			if ($this->isDiscount())
-			{
-				$this->removeDiscount();
-			}
-		}
-		else if ($this->isDiscount())
-		{
-			$this->setValueWithoutTax($valueToSet);
+			$this->removeDiscount();
 		}
 		else
 		{
-			$this->setDiscountValue($valueToSet);
-		}
+			if ($ba->getBoEditWithTax() != $this->getStoreWithTax())
+			{
+				$taxZone = $ba->getDefaultZone();
+				$taxRate = catalog_TaxService::getInstance()->getTaxRateByKey($ba->getId(), $this->getTaxCategory(), $taxZone);
+				if ($this->getStoreWithTax())
+				{
+					$v = catalog_TaxService::getInstance()->addTaxByRate($v, $taxRate);
+				}
+				else
+				{
+					$v = catalog_TaxService::getInstance()->removeTaxByRate($v, $taxRate);
+				}
+			}
+			
+			if ($this->isDiscount())
+			{
+				$this->setValue($v);
+			}
+			else
+			{
+				$this->setDiscountValue($v);
+			}		
+		}		
 	}
 	
 	//Scripting an webService
 	
-	public function setImportPriceValue($value)
+	public function setImportPriceValue($valueWithTax)
 	{
-		$shop = $this->getShop();
-		$taxZone = $shop->getDefaultTaxZone();
-		$rate = catalog_TaxService::getInstance()->getTaxRate($shop->getId(), $this->getTaxCategory(), $taxZone);
-		$valueToSet = doubleval($value) / (1 + $rate);
-		$this->setValueWithoutTax($valueToSet);
+		if (!$this->getStoreWithTax())
+		{
+			$ba = $this->getBillingArea();
+			$taxZone = $ba->getDefaultZone();
+			$taxRate = catalog_TaxService::getInstance()->getTaxRateByKey($ba->getId(), $this->getTaxCategory(), $taxZone);
+			$v = catalog_TaxService::getInstance()->removeTaxByRate($valueWithTax, $taxRate);
+		}
+		else
+		{
+			$v = doubleval($valueWithTax);
+		}
+
+		$this->setValue($v);
 	}
 	
-	public function setImportPriceOldValue($value)
+	public function setImportPriceOldValue($oldValueWithTax)
 	{
-		$shop = $this->getShop();
-		$taxZone = $shop->getDefaultTaxZone();
-		$rate = catalog_TaxService::getInstance()->getTaxRate($shop->getId(), $this->getTaxCategory(), $taxZone);
-		$valueToSet = doubleval($value) / (1 + $rate);
-		$this->setOldValueWithoutTax($valueToSet);
+		if (f_util_StringUtils::isEmpty($oldValueWithTax))
+		{
+			$v = null;
+		}
+		elseif (!$this->getStoreWithTax())
+		{
+			$ba = $this->getBillingArea();
+			$taxZone = $ba->getDefaultZone();
+			$taxRate = catalog_TaxService::getInstance()->getTaxRateByKey($ba->getId(), $this->getTaxCategory(), $taxZone);
+			$v = catalog_TaxService::getInstance()->removeTaxByRate($oldValueWithTax, $taxRate);
+		}
+		else
+		{
+			$v = doubleval($oldValueWithTax);
+		}
+		$this->setValueWithoutDiscount($v);
+	}
+	
+	//DEPRECATED
+	
+	/**
+	 * @deprecated
+	 */
+	public function getTaxCode()
+	{
+		return $this->getTax()->getCode();
 	}
 }
