@@ -320,7 +320,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	public function getSynchronizedPropertiesName()
 	{
 		return array('shelf', 'brand', 'upsell', 'similar', 'complementary',
-			'description', 'serializedattributes', 'shippingModeId', 
+			'description', 'shippingModeId', 
 			'pageTitle', 'pageDescription', 'pageKeywords');
 	}
 	
