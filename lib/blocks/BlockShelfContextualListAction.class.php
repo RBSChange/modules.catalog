@@ -76,7 +76,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	{
 		$topicId = $this->getContext()->getNearestContainerId();
 		$query = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::published());
-		$visibility = Restrictions::in('navigationVisibility', array(WebsiteConstants::VISIBILITY_VISIBLE, WebsiteConstants::VISIBILITY_HIDDEN_IN_SITEMAP_ONLY));
+		$visibility = Restrictions::in('navigationVisibility', array(website_ModuleService::VISIBLE, website_ModuleService::HIDDEN_IN_SITEMAP_ONLY));
 		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published())->add($visibility);
 		return $query->find();
 	}

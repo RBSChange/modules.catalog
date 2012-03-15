@@ -54,15 +54,7 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	{
 		return false;
 	}
-		
-	/**
-	 * @return Boolean
-	 */
-	public function isVisible()
-	{
-		return WebsiteHelper::isVisible($this->getTopic());
-	}
-	
+			
 	/**
 	 * @return String
 	 */
@@ -158,5 +150,15 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 					->add(Restrictions::eq('referenceId', $this->getId()))->findUnique();
 		}
 		return  null;
+	}
+	
+	//DEPRECATED
+	
+	/**
+	 * @deprecated
+	 */
+	public function isVisible()
+	{
+		return true;
 	}
 }
