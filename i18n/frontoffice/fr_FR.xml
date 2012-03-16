@@ -64,7 +64,7 @@
   <key id="byuniverse">par univers</key>
   <key id="byprice">par prix</key>
   <key id="titlehrefaddtocart">Ajouter le produit sélectionné à votre panier d'articles</key>
-  <key id="labelhrefaddtocart">Ajouter à mon panier</key>
+  <key id="labelhrefaddtocart" updated="true">ajouter au panier</key>
   <key id="labelecotaxe">dont</key>
   <key id="ecotaxe">Eco-Participation</key>
   <key id="normalprice">prix normal :</key>
@@ -125,7 +125,7 @@
   <key id="list-offer-last">en dernier</key>
   <key id="list-nbarticles">nb articles / page</key>
   <key id="nbproducts">nombre de produits par page</key>
-  <key id="add-to-cart-button">ajouter à mon panier</key>
+  <key id="add-to-cart-button" updated="true">ajouter au panier</key>
   <key id="add-to-cart-help">cochez les cases des produits à ajouter au panier.</key>
   <key id="add-to-cart-success-one">le produit {label} a bien été ajouté à votre panier.</key>
   <key id="add-to-cart-success-several">les produits {firstLabels} et {lastLabel} ont bien été ajoutés à votre panier.</key>
@@ -144,11 +144,11 @@
   <key id="list-check-compare">cochez cette case pour comparer le produit -nom du produit-</key>
   <key id="gotosubshelf">aller à</key>
   <key id="product-family">famille de produits</key>
-  <key id="add-to-list">ajouter à mes produits favoris</key>
+  <key id="add-to-list" updated="true">ajouter aux produits favoris</key>
   <key id="product-added-to-list">produit ajouté aux favoris</key>
   <key id="product-already-in-list">ce produit est déjà dans vos favoris</key> 
   <key id="product-removed-from-list">le produit a bien été retiré de la liste.</key>
-  <key id="add-to-favorite-button">ajouter à mes produits favoris</key>
+  <key id="add-to-favorite-button" updated="true">ajouter aux favoris</key>
   <key id="add-to-favorite-help">cochez les cases des produits à ajouter à mes produits favoris.</key>
   <key id="add-to-favorite-success-one">le produit {label} a bien été ajouté à mes produits favoris.</key>
   <key id="add-to-favorite-success-several">les produits {firstLabels} et {lastLabel} ont bien été ajoutés à mes produits favoris.</key>

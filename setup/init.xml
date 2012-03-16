@@ -102,6 +102,12 @@
 			description="Liste des attributs étendus de produit" />
 			
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
+		
+		<valuededitablelist listid="modules_catalog/shippedin" label="m.catalog.list.shippedin-label"
+			description="m.catalog.list.shippedin-description">
+			<valueditem value="48H" label="48H" />
+			<valueditem value="72H" label="72H" />
+		</valuededitablelist>
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">

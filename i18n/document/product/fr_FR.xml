@@ -52,4 +52,6 @@
   <key id="stocklevel">niveau de stock</key>
   <key id="codesku">code SKU</key>
   <key id="codesku-help">identifiant unique de stock</key>
+  <key id="shippedin">expédié sous</key>
+  <key id="shippedin-help">Délai d'expédition affiché sur le site.</key>
 </i18n>

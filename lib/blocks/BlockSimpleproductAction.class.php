@@ -6,13 +6,11 @@
 class catalog_BlockSimpleproductAction extends catalog_BlockProductBaseAction
 {
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		/* @var $product catalog_persistentdocument_simpleproduct */
 		$product = $this->getDocumentParameter();

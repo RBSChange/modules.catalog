@@ -5,21 +5,30 @@
  */
 class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 {
-	function getCacheKeyParameters($request)
+	/**
+	 * @param f_mvc_Request $request
+	 * @return array
+	 */
+	public function getCacheKeyParameters($request)
 	{
 		return array("declinationId" => $request->getParameter('declinationId'),
 			"quantity" => $request->getParameter('quantity'));
 	}
 	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
-	{		
+	public function execute($request, $response)
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$customer = null;
+		if (catalog_ModuleService::areCustomersEnabled())
+		{
+			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		}
+		
 		if ($request->hasNonEmptyParameter('declinationId'))
 		{
 			$declination = catalog_persistentdocument_productdeclination::getInstanceById($request->getParameter('declinationId'));

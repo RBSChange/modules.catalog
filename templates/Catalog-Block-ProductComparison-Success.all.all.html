@@ -1,6 +1,6 @@
 <h1 change:h="">${trans:m.catalog.fo.product-comparison,ucf}</h1>
 
-<tal:block change:block="" module="order" name="CartMessages" />
+<tal:block change:block="" module="order" name="CartMessages" container="" />
 <tal:block change:block="" module="website" name="messages" container="" />
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
@@ -20,7 +20,7 @@
 			<input type="hidden" name="listName" value="catalog_comparison" />
 			<input type="hidden" name="backurl" change:currentPageLink="anchor 'product-list-title'" />
 			<input type="hidden" name="cmpref" value= "${product/getId}" />
-			<table border="0" class="normal" style="margin-bottom: 0">
+			<table class="normal">
 				<tbody>
 					<tr class="${alternateclass:lineCount}">
 						<th>${trans:m.catalog.fo.selection,ucf}</th>
@@ -41,7 +41,7 @@
 								<br />
 								${product/getCodereferenceAsHtml}
 								<br />
-								<a change:link="document product; catalogParam[shopId] shop/getId" tal:attributes="title product/getLinkTitle" ><img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.catalog.frontoffice/pic200x200'" /></a>
+								<a change:link="document product; catalogParam[shopId] shop/getId" tal:attributes="title product/getLinkTitle" ><img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.catalog.frontoffice/medium'" /></a>
 								<br />
 								<tal:block tal:condition="configuration/getShowQuantitySelector">
 									<label class="invisible" for="comparison_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,lab,ucf}</label>

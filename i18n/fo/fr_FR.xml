@@ -9,7 +9,8 @@
 	<key id="reviews">avis clients</key>
 	<key id="reviews-count">{count} avis</key>
 	<key id="no-review-yet">aucun avis</key>
-	<key id="no-rating">N.A.</key>
+	<key id="no-rating" updated="true">non noté</key>
+	<key id="comment-be-first">Soyez le premier à commenter ce produit.</key>
 	<key id="selection">sélection</key>
 	<key id="clear-list">vider la liste</key>
 	<key id="no-selected-product">Aucun produit sélectionné.</key>	
@@ -23,4 +24,11 @@
 	<key id="click-to-view-full-description">cliquez ici pour voir la description complète</key>
 	<key id="click-to-hide-full-description">cliquez ici pour masquer la description complète</key>
 	<key id="add-to-comparisons">ajouter aux comparaisons</key>
+	<key id="category">catégorie</key>
+	<key id="full-description">description complète</key>
+	<key id="click-here-for-larger-image">cliquer ici pour agrandir l'image</key>
+	<key id="image-loading">Chargement de l'image en cours...</key>
+	<key id="image-loading-error">Une erreur s'est produite lors du chargement de l'image.</key>
+	<key id="next-products">produits suivants</key>
+	<key id="previous-products">produits précédents</key>
 </i18n>

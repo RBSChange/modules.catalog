@@ -5,7 +5,7 @@
 			<li tal:repeat="bundleProduct bundleProducts">
 				<ul class="sub-list">			
 					<li change:productvisual="name 'visual'; mode 'list'; product bundleProduct" tal:condition="visual">
-						<a change:link="document bundleProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/pic120x120'" /></a>
+						<a change:link="document bundleProduct"><img change:media="document visual; format 'modules.catalog.frontoffice/medium'" /></a>
 					</li>
 					<li>
 						<h4 change:h=""><a class="link" change:link="document bundleProduct">${bundleProduct/getLabelAsHtml}</a></h4>

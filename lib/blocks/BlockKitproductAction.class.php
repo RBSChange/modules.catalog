@@ -13,7 +13,11 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		return $this->getDocumentParameter('cmpref', 'catalog_persistentdocument_kit'); 
 	}
 	
-	function getCacheKeyParameters($request)
+	/**
+	 * @param f_mvc_Request $request
+	 * @return array
+	 */
+	public function getCacheKeyParameters($request)
 	{
 		return array('kititemid' => $request->getParameter('kititemid'),
 			'declinationid' => $request->getParameter('declinationid'),
@@ -21,13 +25,11 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 	}
 	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$product = $this->getCurrentKit();
 		$kis = $product->getDocumentService();

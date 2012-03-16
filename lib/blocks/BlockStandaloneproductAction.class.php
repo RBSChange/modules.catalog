@@ -6,8 +6,6 @@
 class catalog_BlockStandaloneproductAction extends catalog_BlockProductAction
 {
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
@@ -41,7 +39,7 @@ class catalog_BlockStandaloneproductAction extends catalog_BlockProductAction
 
 		if ($compiledProduct === null)
 		{
-			Framework::warn(__METHOD__ . ' no compiledproduct founded');
+			Framework::warn(__METHOD__ . ' no compiledproduct found');
 			return website_BlockView::NONE;
 		}		
 		

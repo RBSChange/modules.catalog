@@ -4,6 +4,7 @@
 		<field name="label" />
 		<field name="codeReference" />
 		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="shippedIn" />
 	</section>
 	
 	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">

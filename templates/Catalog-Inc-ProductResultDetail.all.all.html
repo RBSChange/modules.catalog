@@ -23,22 +23,22 @@
 		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a><span class="separator"> - </span></dd>
 		<tal:block change:productprice="name 'price'; product doc/getProduct; shop shop" tal:condition="price">
 			<tal:block tal:condition="shop/getDisplayPriceWithTax">
-				<dt>${trans:m.catalog.frontoffice.pricettc,ucf}</dt>
+				<dt>${trans:m.catalog.frontoffice.price,ucf}</dt>
 				<dd>
-					<tal:block tal:condition="price/isDiscount">
-						<del>${price/getFormattedOldValueWithTax}</del>			
-					</tal:block>
-					<ins>${price/getFormattedValueWithTax}</ins>
+					<span class="price">
+						<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
+						${price/getFormattedValueWithTax}
+					</span>
 					<span tal:condition="shop/getDisplayPriceWithoutTax" class="separator"> - </span>
 				</dd>
 			</tal:block>
 			<tal:block tal:condition="shop/getDisplayPriceWithoutTax">
-				<dt>${trans:m.catalog.frontoffice.priceht,ucf}</dt>
+				<dt>${trans:m.catalog.frontoffice.price,ucf}</dt>
 				<dd>
-					<tal:block tal:condition="price/isDiscount">
-						<del>${price/getFormattedOldValueWithoutTax}</del>			
-					</tal:block>
-					<ins>${price/getFormattedValueWithoutTax}</ins>
+					<span class="price">
+						<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>
+						${price/getFormattedValueWithoutTax}
+					</span>
 				</dd>
 			</tal:block>
 		</tal:block>

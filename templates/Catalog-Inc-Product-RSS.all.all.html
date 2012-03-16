@@ -7,13 +7,13 @@
 					<br />
 					<del>${price/getFormattedOldValueWithTax}</del>		
 				</tal:block>
-				<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document product/getDefaultVisual; format 'modules.catalog.frontoffice/list'" />
+				<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document product/getDefaultVisual; format 'modules.catalog.frontoffice/small'" />
 			</td>
 			<td valign="top">
 				<strong>${product/getLabelAsHtml}</strong>		
 				<tal:block tal:condition="product/getBrand"> [<em>${product/getBrandLabelAsHtml}</em>]</tal:block>
 				<br />	
-				<tal:block tal:condition="product/getDescription" tal:replace="product/getDescriptionAsHTML" />
+				<tal:block tal:condition="product/getDescription">${product/getDescriptionAsHtml}</tal:block>
 			</td>
 		</tr>
 	</tbody>

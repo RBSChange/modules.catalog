@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+
+	<systemfolder module="list" relatedmodule="catalog">
+		<valuededitablelist listid="modules_catalog/shippedin" label="m.catalog.list.shippedin-label"
+			description="m.catalog.list.shippedin-description">
+			<valueditem value="48H" label="48H" />
+			<valueditem value="72H" label="72H" />
+		</valuededitablelist>
+	</systemfolder>
+</script>

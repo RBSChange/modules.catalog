@@ -6,29 +6,6 @@
 class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @param f_mvc_Request $request
-	 * @return String
-	 */
-	protected function getDisplayMode($request)
-	{
-		return 'CrossSelling';
-	}
-	
-	/**
-	 * @param f_mvc_Request $request
-	 * @param f_mvc_Response $response
-	 * @return String
-	 */
-	public function execute($request, $response)
-	{
-		if ($this->isInBackoffice())
-		{
-			return website_BlockView::NONE;
-		}
-		return parent::execute($request, $response);
-	}
-	
-	/**
 	 * @param f_mvc_Response $response
 	 * @return catalog_persistentdocument_product[]
 	 */
@@ -42,20 +19,64 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	    }
 	    $request->setAttribute('globalProduct', $product);
 	    $request->setAttribute('product', $product);
-	    
-	    $configuration = $this->getConfiguration();
+		
+		$configuration = $this->getConfiguration();
 	    $sellingType = $configuration->getCrossSellingType();
 	    
-    	$relatedProducts = $product->getDisplayableCrossSelling($shop, $sellingType, $configuration->getSortby());
-    	if (count($relatedProducts) == 0)
+    	return $product->getDisplayableCrossSelling($shop, $sellingType, $configuration->getSortby());
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	protected function getShowIfNoProduct()
+	{
+		return false;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getBlockTitle()
+	{
+		return $this->getTypeLabel();
+	}
+	
+	/**
+	 * @return string[]|null the array should contain the following keys: 'url', 'label'
+	 */
+	protected function getFullListLink()
+	{
+		$product = $this->getDocumentParameter();
+		if (!($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 		{
-			return array();	
+			return null;
 		}
-		
+		$params = array(
+			'catalogParam[cmpref]' => $product->getId(),
+			'catalogParam[relationType]' => $this->getConfiguration()->getCrossSellingType()
+		);
+		$url = LinkHelper::getTagUrl('functional_catalog_crosssellinglist-page', null, $params);
+		$label = LocaleService::getInstance()->transFO('m.catalog.frontoffice.cross-selling-list', array('ucf'), array('type' => $this->getTypeLabel()));
+		return array('url' => $url, 'label' => $label);
+	}
+	
+	/**
+	 * @return string
+	 */
+	private function getTypeLabel()
+	{
+		$sellingType = $this->getConfiguration()->getCrossSellingType();
 		$list = list_ListService::getInstance()->getByListId('modules_catalog/crosssellingtypes');
-		$typeLabel = f_util_HtmlUtils::textToHtml($list->getItemByValue($sellingType)->getLabel());
-		$request->setAttribute('blockTitle', $typeLabel);
-		$request->setAttribute('typeLabel', f_util_StringUtils::lcfirst($typeLabel));
-    	return array_slice($relatedProducts, 0, $configuration->getMaxdisplayed());
+		return f_util_HtmlUtils::textToHtml($list->getItemByValue($sellingType)->getLabel());
+	}
+	
+	/**
+	 * @param block_BlockRequest $request
+	 * @return string the display mode
+	 */
+	protected function getMaxresults($request)
+	{
+		return $this->getConfiguration()->getMaxdisplayed();
 	}
 }

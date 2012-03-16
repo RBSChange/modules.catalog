@@ -5,11 +5,17 @@
  */
 abstract class catalog_BlockProductBaseAction extends website_BlockAction
 {
+	/**
+	 * @param f_mvc_Request $request
+	 */
 	public function initialize($request)
 	{
 		$request->setAttribute("formBlockId", $this->getBlockId());
 	}
 	
+	/**
+	 * @return boolean
+	 */
 	public function isCacheEnabled()
 	{
 		// Disable cache if old addToXXX parameters are used
@@ -19,6 +25,7 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 	}
 	
 	// Deprecated.
+	
 	/**
 	 * @deprecated (will be removed in 4.0) use catalog_AddToListAction
 	 */

@@ -1,0 +1,16 @@
+<h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
+
+<tal:block change:block="" module="order" name="CartMessages" container="" />
+<tal:block change:block="" module="website" name="messages" container="" />
+<ul change:errors=""></ul>
+<ul change:messages=""></ul>
+
+<ul class="product-list">
+	<li tal:repeat="product products" class="product-line">
+		<tal:block module="catalog" container="" name="ProductItem" displayMode="Short"
+			change:block="cmpref product; displayConfig displayConfig; shop shop" />
+	</li>
+</ul>
+<ul class="mini-navigation" tal:condition="fullListLink">
+	<li><a href="fullListLink/url" class="link">${fullListLink/label}</a></li>
+</ul>

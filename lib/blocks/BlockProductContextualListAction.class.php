@@ -92,7 +92,6 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			return null;
 		}
-		$request->setAttribute('blockTitle', $this->getBlockTitle());
 		return $products;
 	}
 		
@@ -168,8 +167,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	protected function getBlockTitle()
 	{
 		$context = $this->getPage();
-		$shelf = catalog_ShelfService::getInstance()->getByTopic(
-				DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
+		$shelf = catalog_ShelfService::getInstance()->getByTopic(DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
 		if ($shelf !== null)
 		{
 			return $shelf->getLabelAsHtml();

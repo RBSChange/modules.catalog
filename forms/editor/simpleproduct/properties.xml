@@ -19,6 +19,7 @@
 		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
 		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
 		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]" />
+		<field name="shippedIn" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
 		<field name="pageTitle" class="with-counter" rows="2" />

@@ -1,265 +1,121 @@
-.ecom-list ol.table-view li{
-	width: 251px;
+.product-list {
+	clear: both;
+}
+.product-list > li {
+	width: 203px;
 	margin-bottom: 10px;
 	margin-right: 5px;
 	margin-left: 5px;
 	text-align: center;
 	padding: 6px;
-	display: -moz-inline-stack;
 	display: inline-block;
 	vertical-align: top;
 	zoom: 1;
 }
-.ecom-list ol.table-view li.shelf-line{
-	height: 245px;
-}
-.ecom-list ol.table-view li.product-line{
-	height: 265px;
-}
-.ecom-list ol.table-view li form select.textfield{
-	width: 70%;
-}
-.ecom-list ol.table-view li ul li{
-	border: none;
-	padding: 0;
-	margin: 0;
-}
-.ecom-list ol.table-view input.button{
-	margin-top: 2px;
-}
 
-.modules-catalog .price,
-.modules-catalog .priceht,
-.modules-catalog .priceoffer,
-.modules-catalog .pricettc{
+.price {
 	font-weight: bold;
 	white-space: nowrap;
 }
-.modules-catalog .priceoffer{
-	font-size: 1.4em;
-	color: red;
+.price .tax-mode {
+	font-size: 0.8em;
 }
-.modules-catalog .priceht{
-	color: red;
+.price .discount-detail {
+	margin-left: 8px;
 }
-.modules-catalog .pricettc{
-	color: green;
+.price del {
+	font-weight: normal;
+	font-size: 0.8em;
+	margin-left: 8px;
+}
+.sub-list li {
+	margin: 0;
+	padding: 0;
+}
+.jqzoom {
+	display: inline-block;
 }
 
-.modules-catalog ul.ecom-menu li{
-	background-image: url(/media/frontoffice/pucenav.gif) ;
-	background-position: 0px 7px;
-	padding-left: 10px;
-}
-.modules-catalog ul.ecom-menu li.current{
-	color: #051865;
-}
-.modules-catalog .product-pics{
-	background-color: #f1f1f1;
-	text-align: center;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-.modules-catalog .altpics{
-	margin-top: 12px;
-	text-align: center;
-}
-.modules-catalog ul.product-altpics li{
-	margin-right: 6px;
-}
-.modules-catalog ul.product-altpics li a img{
-	margin-bottom: 6px;
-}
-.modules-catalog form.product-form{
-	font-size: 1.1em;
-}
-.modules-catalog form.product-form fieldset{
-	background-color: #f1f1f1;
-}
-.modules-catalog form.product-form ol li label{
-	width: 48%;
-	text-align: right;
-}
-.modules-catalog .availability{
-	font-size: 1.3em;
-	text-align: center;
-	font-weight: bold;
-	color: red;
-}
-.modules-catalog ul.product-price{
-	text-align: center;
-}
-.modules-catalog .availability,
-.modules-catalog ul.product-price{
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #e1e1e1;
-}
-.modules-catalog ul.product-price li del{
-	font-size: 1.1em;
-	font-weight: normal;
-	color: red;
-}
-.modules-catalog ul.product-price li strong{
-	font-size: 3em;
-	font-weight: bold;
-	color: green;
-}
-.modules-catalog ul.product-price li span{
-	font-size: 1.1em;
-	font-weight: normal;
-	color: fuchsia;
-}
-.modules-catalog ul.ecom-menu li{
-	background-repeat: no-repeat;
-}
-.modules-catalog ul.ecom-menu li.current{
-	font-weight: bold;
-}
-.modules-catalog ul.ecom-menu li.current ul{
-	font-weight: normal;
-}
-.modules-catalog ul.ecom-menu li a{
-	text-decoration: none;
-}
-.modules-catalog ul.ecom-menu li a:hover{
-	text-decoration: underline;
-}
-.modules-catalog .productlist-options{
-	clear: both;
-	width: 100%;
-	float: left;
-	display: block;
-	margin-bottom: 20px;
-}
-.modules-catalog .productlist-options form{
-	padding: 20px;
-}
-.modules-catalog .productlist-options ol li{
-	display: inline;
-	margin-right: 2px;
-}
-.modules-catalog .productlist-options ol li select{
-	width: 17%;
-}
-.modules-catalog .shelves-title input.textfield{
-	margin-bottom: 4px;
-}
-.modules-catalog .list-buttons{
-	display: block;
-	margin-bottom: 10px;
-	margin-top: 10px;
-}
-
-.modules-catalog .invisible{
-	display: none;
-}
-.modules-catalog .error,
-.modules-catalog .success{
-	padding-top: 10px;
-	padding-bottom: 10px;
-	font-weight: bold;
-}
-.modules-catalog label.error,
-.modules-catalog label.success{
-	padding-top: 0;
-	padding-bottom: 0;
-}
-.modules-catalog div.zoomdiv{
-	z-index: 10000000;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 280px;
-	height: 220px;
-	background: #ffffff;
-	border: 1px solid #CCCCCC;
-	display: none;
-	text-align: center;
+.product-carousel {
 	overflow: hidden;
+	position: relative;
 }
-.modules-catalog div.jqZoomPup{
-	z-index: 10000000;
-	visibility: hidden;
-	position: absolute;
+.product-carousel > ul {
+	position: relative;
+	white-space: nowrap;
+}
+.product-carousel > ul > li {
+	white-space: normal;
+}
+.product-carousel .arrows button {
+	display: none;
+}
+.product-carousel .arrows .slideright {
+	float: right;
+}
+.product-carousel .arrows .slideleft {
+	float: left;
+}
+.product-carousel .arrows p {
+	text-align: center;
+}
+
+.modules-catalog-product .main-visual {
+	min-width: 540px;
+	height: 405px;
+	line-height: 405px;
+	text-align: center;
+}
+.modules-catalog-product .main-visual li:first-child {
+	display: block;
+}
+.modules-catalog-product .main-visual li {
+	display: none;
+}
+
+.modules-catalog-product .additionnal-visuals {
+	text-align: center;
+}
+.modules-catalog-product .additionnal-visuals li {
+	display: inline-block;
+	min-width: 80px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	padding: 3px;
+	cursor: pointer;
+}
+
+.modules-catalog-product .pictograms {
+	float: right;
+}
+.modules-catalog-product .pictograms li {
+	display: inline-block;
+	height: 45px;
+	line-height: 45px;
+	margin-left: 6px;
+}
+
+.modules-catalog-product .columns {
+	position: relative;
 	top: 0;
 	left: 0;
-	width: 50px;
-	height: 50px;
+}
+.modules-catalog-product .columns [id^="product-zoom-"] {
+	z-index: 10000;
+	width: 300px;
+	height: 375px;
+	border: 5px solid #eee;
 	background: #fff;
-	border: 1px solid #945C74;
-	opacity: 0.5;
-	cursor: move;
+	color: #333;
+	position: absolute;
+	top: 10px;
+	right: 25px;
+	overflow: hidden;
+	-moz-box-shadow: 0 0 10px #555;
+	-webkit-box-shadow: 0 0 10px #555;
+	box-shadow: 0 0 10px #555;
+	/* vertical and horizontal alignment used for preloader text */
+	line-height: 375px;
+	text-align: center;
 }
-.modules-catalog div.zoomdiv{
-	margin-left: -32px;
-}
-
-
-.modules-catalog p.all-products{
-	padding: 0 10px 10px 10px;
-	text-align: right;
-}
-.modules-catalog ul.mini-navigation li{
-	display: inline;
-}
-
-.modules-catalog .product-ref,
-.modules-catalog ul.associated-pictograms,
-.modules-catalog form.product-form fieldset,
-.modules-catalog ul.product-price,
-.modules-catalog .availability,
-.modules-catalog .product-description{
-	margin-bottom: 6px;
-}	
-.modules-catalog ul.associated-pictograms li{
-	padding-right: 6px;
-	display: inline;
-}
-.modules-catalog form.product-form fieldset{
-	padding-left: 6px;
-	padding-right: 6px;
-}
-.modules-catalog form.product-form ol li{
-	padding-top: 6px;
-	padding-bottom: 6px;
-	text-align: left;
-	clear: both;
-}
-.modules-catalog form.product-form ol li label{
-	padding-right: 6px;
-	float: left;
-}
-.modules-catalog input.quantity{
-	width: 30px;
-}
-.modules-catalog .availability{
-	padding-bottom: 2px;
-}
-.modules-catalog ul.product-price{
-	width: 100%;
-}
-.modules-catalog ul.product-price li{
-	padding-right: 10px;
-}
-.modules-catalog .altpics{
-	float: left;
-	width: 100%;
-}
-.modules-catalog ul.product-altpics li{
-	display: inline;
-}
-.modules-catalog .product-list-description{
-	margin-bottom: 10px;
-}
-
-.hidden-without-js {
-	display: none !important;
-}
-
-@import url(/modules/catalog/style/frontoffice.trident.4.css);
-@import url(/modules/catalog/style/frontoffice.trident.5.css);
-@import url(/modules/catalog/style/frontoffice.gecko.2.css);
-@import url(/modules/catalog/style/frontoffice.gecko.all.css);
-@import url(/modules/catalog/style/frontoffice.khtml.all.css);
-@import url(/modules/catalog/style/frontoffice.trident.all.css);

@@ -5,19 +5,21 @@
  */
 class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 {
-	function getCacheKeyParameters($request)
+	/**
+	 * @param f_mvc_Request $request
+	 * @return array
+	 */
+	public function getCacheKeyParameters($request)
 	{
 		return array("bundleditemid" => $request->getParameter("bundleditemid"));
 	}
 	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		/* @var $product catalog_persistentdocument_bundleproduct */
 		$product = $this->getDocumentParameter();

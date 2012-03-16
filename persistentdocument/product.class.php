@@ -228,20 +228,67 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @var float
+	 */
+	private $ratingAverage;
+	
+	/**
+	 * @return String
+	 */
+	public function hasRating()
+	{
+		return ($this->getRatingAverage() > 0);
+	}
+	
+	/**
+	 * @return String
+	 */
+	public function getRatingAverage()
+	{
+		if ($this->ratingAverage === null)
+		{
+			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+			$this->ratingAverage = floatval($this->getRatingMetaForWebsiteid($website->getId()));
+		}
+		return $this->ratingAverage;
+	}
+	
+	/**
 	 * @return String
 	 */
 	public function getFormattedRatingAverage()
 	{
-		$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-		$ratingAverage = $this->getRatingMetaForWebsiteid($website->getId());
+		$ratingAverage = $this->getRatingAverage();
 		if ($ratingAverage === null)
 		{
-			return f_Locale::translate('&modules.catalog.frontoffice.No-rating-yet;');
+			return LocaleService::getInstance()->transFO('m.catalog.frontoffice.no-rating-yet', array('ucf', 'html'));
 		}
 		else
 		{
 			return number_format($ratingAverage, 1);
 		}
+	}
+	
+	/**
+	 * @var integer
+	 */
+	private $commentCount;
+	
+	/**
+	 * @return boolean
+	 */
+	public function hasComment()
+	{
+		return ($this->getCommentCount() > 0);
+	}
+	
+	public function getCommentCount()
+	{
+		if ($this->commentCount === null)
+		{
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getId());
+		}
+		return $this->commentCount;
 	}
 	
 	/**

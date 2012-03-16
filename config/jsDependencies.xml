@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scripts>
-	<script name="modules.catalog.lib.js.jquery-cycle">
+	<script name="modules.catalog.lib.js.easyzoom">
 		<dependencies>
 			<dependency name="modules.website.lib.js.jquery-noconflict" />
 		</dependencies>
 	</script>
-	<script name="modules.catalog.lib.js.jquery-jqzoom">
-		<dependencies>
-			<dependency name="modules.website.lib.js.jquery-noconflict" />
-		</dependencies>
-	</script>
-	<script name="modules.catalog.lib.js.jquery-slider">
-		<dependencies>
-			<dependency name="modules.website.lib.js.jquery-noconflict" />
-		</dependencies>
-	</script>
-	<script name="modules.catalog.lib.js.productListManagement">
-		<dependencies>
-			<dependency name="modules.website.lib.js.jquery-noconflict" />
-		</dependencies>
-	</script>
-	<script name="modules.catalog.lib.js.productAdditionalVisualsManagement">
+	<script name="modules.catalog.lib.js.product-carousel">
 		<dependencies>
 			<dependency name="modules.website.lib.js.jquery-noconflict" />
 		</dependencies>
 	</script>
 	<script name="modules.catalog.lib.js.product-comparison">
+		<dependencies>
+			<dependency name="modules.website.lib.js.jquery-noconflict" />
+		</dependencies>
+	</script>
+	<script name="modules.catalog.lib.js.product-detail">
 		<dependencies>
 			<dependency name="modules.website.lib.js.jquery-noconflict" />
 		</dependencies>

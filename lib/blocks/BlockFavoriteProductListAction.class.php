@@ -65,7 +65,7 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 	 */
 	protected function getDisplayMode($request)
 	{
-		return 'table';
+		return 'List';
 	}
 	
 	/**

@@ -1,0 +1,4 @@
+<tal:block tal:condition="product/getDescription">
+	<h2 change:h="">${trans:m.catalog.fo.full-description,ucf}</h2>
+	${product/getDescriptionAsHtml}
+</tal:block>
