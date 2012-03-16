@@ -238,7 +238,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 		if (!isset($this->itemsPrices[$key]))
 		{
 			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $billingArea, $shop, $targetIds, $quantity);
+			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
 		}
 		return $this->itemsPrices[$key];
 	}
