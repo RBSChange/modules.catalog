@@ -264,32 +264,32 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	}
 	
 	
-	private $currentTaxeZoneStrategy = null;
+	private $currentTaxeZone = array();
 
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param order_CartInfo $cart
+	 * @param boolean $refresh
 	 * @return string | null
 	 */
-	public function getCurrentTaxZone($shop, $cart = null)
+	public function getCurrentTaxZone($shop, $cart = null, $refresh = false)
 	{
-		if ($this->currentTaxeZoneStrategy === null)
+		if ($refresh) {$this->currentTaxeZone = array();}
+		
+		if (!isset($this->currentTaxeZone[$shop->getId()]))
 		{
 			$class = Framework::getConfigurationValue('modules/catalog/currentTaxZoneStrategyClass', false);
 			if ($class !== false)
 			{
-				$this->currentTaxeZoneStrategy = new $class();
+				$currentTaxeZoneStrategy = new $class();
+				$this->currentTaxeZone[$shop->getId()] = $currentTaxeZoneStrategy->getCurrentTaxZone($shop, $cart);
 			}
 			else
 			{
-				$this->currentTaxeZoneStrategy = false;
+				$this->currentTaxeZone[$shop->getId()] = $this->getDefaultShopTaxZone($shop, $cart);
 			}
 		}
-		if ($this->currentTaxeZoneStrategy === false)
-		{
-			return $this->getDefaultShopTaxZone($shop, $cart);
-		}
-		return $this->currentTaxeZoneStrategy->getCurrentTaxZone($shop, $cart);
+		return $this->currentTaxeZone[$shop->getId()];
 	}
 	
 	/**
