@@ -371,8 +371,6 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			$paginator = new paginator_Paginator('catalog', $page, $productIds, $maxresults);
 			$request->setAttribute('products', $paginator);
 			
-			Framework::fatal(__METHOD__ . ' totalCount: ' . count($productIds) . ', maxResults: ' . $maxresults);
-			
 			// Handle full list link.
 			if (count($productIds) > $maxresults && $this->getConfigurationValue('addlinktoall', false))
 			{

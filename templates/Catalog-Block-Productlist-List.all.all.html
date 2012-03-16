@@ -25,7 +25,7 @@
 		</ul>
 		<div class="cleaner"></div>
 		<p class="buttons" tal:condition="displayConfig/showCheckboxes">
-			Ajouter la sélection : 
+			${trans:m.catalog.fo.actions-on-selection,ucf,lab}
 			<tal:block tal:repeat="button displayConfig/globalButtons">
 				<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" />
 			</tal:block>

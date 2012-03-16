@@ -155,7 +155,7 @@
 			<parameter name="crossSellingType" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellingtypes" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="sortby" type="String" default-value="fieldorder" min-occurs="1" list-id="modules_catalog/crosssellingsortby" />
-			<parameter name="maxdisplayed" type="Integer" default-value="4" />
+			<parameter name="maxdisplayed" type="Integer" default-value="20" />
 			<parameter name="addlinktoall" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="activatequantityselection" type="Boolean" default-value="false" />

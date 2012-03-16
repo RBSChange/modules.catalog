@@ -31,4 +31,5 @@
 	<key id="image-loading-error">Une erreur s'est produite lors du chargement de l'image.</key>
 	<key id="next-products">produits suivants</key>
 	<key id="previous-products">produits précédents</key>
+	<key id="actions-on-selection">actions sur la sélection</key>
 </i18n>
