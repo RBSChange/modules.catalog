@@ -16,8 +16,7 @@
 			<billingarea byCodeReference="FR" label="France" 
 				currency-refid="euro" currencyPosition="right"
 				defaultZone="FR-CONTINENTAL" billingAddressZone-refid="zoneEURO">
-	
-				<tax label="-" taxCategory="0" taxZone="FR-CONTINENTAL" rate="0.0" />		
+		
 				<tax label="19.6%" taxCategory="1" taxZone="FR-CONTINENTAL" rate="0.196" />
 				<tax label="19.6%" taxCategory="2" taxZone="FR-CONTINENTAL" rate="0.196" />
 				<tax label="19.6%" taxCategory="3" taxZone="FR-CONTINENTAL" rate="0.196" />
@@ -43,7 +42,6 @@
 			<billingarea byCodeReference="DE" label="Germany"
 				currency-refid="euro" currencyPosition="left"
 				defaultZone="DE" billingAddressZone-refid="zoneEURO">
-				<tax label="-" taxCategory="0" taxZone="DE" rate="0.0" />
 				<tax label="19%" taxCategory="1" taxZone="DE" rate="0.19" />
 				<tax label="7%" taxCategory="10" taxZone="DE"  rate="0.07" />
 			</billingarea>
@@ -52,14 +50,12 @@
 			<billingarea byCodeReference="v" label="United Kingdom" 
 				currency-refid="pound" currencyPosition="left"
 				defaultZone="GB" billingAddressZone-refid="zoneEURO">
-				<tax label="-" taxCategory="0" taxZone="GB" rate="0.0" />
 				<tax label="17,5%" taxCategory="1" taxZone="GB" rate="0.175" />
 			</billingarea>	
 			
 			<billingarea byCodeReference="CH" label="Switzerland" 
 				currency-refid="fs" currencyPosition="right"
 				defaultZone="CH" billingAddressZone-refid="zoneEURO">
-				<tax label="-" taxCategory="0" taxZone="CH" rate="0.0" />
 				<tax label="8%" taxCategory="1" taxZone="CH" rate="0.08" />
 				<tax label="2.5%" taxCategory="10" taxZone="CH"  rate="0.025" />
 			</billingarea>
