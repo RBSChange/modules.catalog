@@ -1,4 +1,6 @@
-<tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
+<div class="normal" tal:condition="displayConfig/showShareBlock">
+<tal:block change:block="" module="sharethis" name="Sharepage" />
+</div>
 
 <h1 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h1>
 <div tal:condition="blockDescription" class="description">${blockDescription}</div>

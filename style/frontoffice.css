@@ -1,7 +1,9 @@
-.product-list {
+.product-list,
+.shelf-list {
 	clear: both;
 }
-.product-list > li {
+.product-list > li,
+.shelf-list > li {
 	width: 203px;
 	margin-bottom: 10px;
 	margin-right: 5px;

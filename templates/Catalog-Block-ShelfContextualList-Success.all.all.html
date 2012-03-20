@@ -1,32 +1,31 @@
 <tal:block tal:condition="shelves">
-	<h2 change:h="">${currentShelf/getLabelAsHtml}</h2>
+	<h1 change:h="">${currentShelf/getLabelAsHtml}</h1>
 
-	<div class="ecom-list">	
-		<ol class="table-view">
-			<li class="shelf-line" tal:repeat="item shelves">
-				<ul class="sub-list">
-					<li tal:condition="item/getVisual">
-						<a class="link" change:link="document item; title item/getLinkTitle">
-							<img change:media="document item/getVisual; format 'modules.catalog.frontoffice/medium'" />
-						</a>
-					</li>
-					<li>
-						<a class="link" change:link="document item; title item/getLinkTitle">${item/getLabelAsHtml}</a>
-						<br/>
-						<tal:block tal:condition="configuration/getDisplayshelvesdescription">${item/getShortDescription}</tal:block>						
-					</li>
-					<li tal:condition="configuration/getDisplaysubshelves">
-						<form tal:define="subShelves item/getPublishedSubShelvesInCurrentShop" tal:condition="php: count(subShelves) GT 0" method="post" 
-							change:link="module website; action Redirect">
-							<label class="invisible" for="second-level-shelf-${repeat/item/index}" i18n:translate="&modules.catalog.frontoffice.GoToSubshelf;"></label>
-							<select name="location" id="second-level-shelf-${repeat/item/index}" class="textfield">
-								<option tal:repeat="subItem subShelves" value="${url:subItem}">${subItem/getLabelAsHtml}</option>
-							</select>
-							<input class="button" type="submit" value="ok" alt="ok" title="ok" />
-						</form>
-					</li>
-				</ul>
-			</li>			
-		</ol>		
-	</div>
+	<ul class="shelf-list">
+		<li class="shelf-line" tal:repeat="item shelves">
+			<ul class="sub-list">
+				<li class="shelf-visual">
+					<a tal:condition="item/getVisual" change:link="document item; title item/getLinkTitle">
+						<img change:media="document item/getVisual; format 'modules.catalog.frontoffice/medium'" />
+					</a>
+				</li>
+				<li class="shelf-label">
+					<a change:link="document item; title item/getLinkTitle">${item/getLabelAsHtml}</a>					
+				</li>
+				<li class="shelf-description" tal:condition="configuration/getDisplayshelvesdescription">
+					<tal:block>${item/getShortDescription}</tal:block>						
+				</li>
+				<li tal:condition="configuration/getDisplaysubshelves" class="shelf-sub-selection">
+					<form tal:define="subShelves item/getPublishedSubShelvesInCurrentShop" tal:condition="php: count(subShelves) GT 0" method="post" 
+						change:link="module website; action Redirect">
+						<label class="invisible" for="second-level-shelf-${repeat/item/index}">${trans:m.catalog.frontoffice.gotosubshelf,ucf}</label>
+						<select name="location" id="second-level-shelf-${repeat/item/index}" class="textfield">
+							<option tal:repeat="subItem subShelves" value="${url:subItem}">${subItem/getLabelAsHtml}</option>
+						</select>
+						<input class="button" type="submit" value="Ok" />
+					</form>
+				</li>
+			</ul>
+		</li>
+	</ul>
 </tal:block>

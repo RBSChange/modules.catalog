@@ -7,8 +7,8 @@
 				${trans:m.catalog.frontoffice.select,ucf}
 			</label>
 		</li>
-		<li change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual" class="product-visual">
-			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
+		<li change:productvisual="name 'visual'; mode 'list'; product product" class="product-visual">
+			<a tal:condition="visual" change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
 			</a>
 		</li>
