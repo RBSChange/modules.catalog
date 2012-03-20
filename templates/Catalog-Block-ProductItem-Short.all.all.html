@@ -6,7 +6,7 @@
 			</a>
 		</li>
 		<li class="product-label">
-			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getLabelAsHtml}</a>
+			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getNavigationLabelAsHtml}</a>
 		</li>
 		<li tal:condition="displayConfig/showAvailability" class="product-availability">
 			${product/getAvailability}

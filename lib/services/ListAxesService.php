@@ -142,7 +142,7 @@ class catalog_ListAxesService extends BaseService
 	}
 }
 
-class catalog_ProductAxe
+abstract class catalog_ProductAxe
 {	
 	/**
 	 * @var catalog_ProductAxe[]
@@ -159,18 +159,24 @@ class catalog_ProductAxe
 		if (!array_key_exists($name, self::$namedInstances))
 		{
 			list($type, $subName) = explode('::', $name);
-			switch ($type) 
+			
+			if (strpos($type, '/') > 0)
 			{
-				case 'property':
-					self::$namedInstances[$name] = new catalog_ProductPropertyAxe($subName);
-					break;
-				case 'attribute':
-					self::$namedInstances[$name] = new catalog_ProductAttributeAxe($subName);
-					break;
-				default:
-					self::$namedInstances[$name] = null;
-					break;
-			}			
+				list($module, $type) = explode('/', $type);
+			}
+			else
+			{
+				$module = 'catalog';
+			}
+			$class = $module . '_Product' . ucfirst($type) . 'Axe';
+			if (class_exists($class))
+			{
+				self::$namedInstances[$name] = new $class($subName);
+			}
+			else
+			{
+				self::$namedInstances[$name] = null;
+			}
 		}
 		$axe = self::$namedInstances[$name];
 		if ($axe instanceof catalog_ProductAxe)
@@ -255,9 +261,15 @@ class catalog_ProductAxe
 	 * @param catalog_persistentdocument_productdeclination $productDeclination
 	 * @return string
 	 */
-	protected function getAxeValue($productDeclination)
+	abstract protected function getAxeValue($productDeclination);
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $productDeclination
+	 * @return string
+	 */
+	public function getAxeValueLabel($productDeclination)
 	{
-		return null;
+		return $this->getAxeValue($productDeclination);
 	}
 	
 	/**
@@ -268,15 +280,28 @@ class catalog_ProductAxe
 		if ($this->number > 0)
 		{
 			$setter = 'setAxe' . $this->number;
-			$productDeclination->{$setter}($this->getAxeValue($productDeclination));
+			$value = $this->getAxeValue($productDeclination);
+			if ($value instanceof f_persistentdocument_PersistentDocument)
+			{
+				$productDeclination->{$setter}(strval($value->getId()));
+			}
+			elseif ($value !== null)
+			{
+				$productDeclination->{$setter}(strval($value));
+			}
+			else
+			{
+				$productDeclination->{$setter}(null);
+			}
 		}
 	}
 }
 
 class catalog_ProductPropertyAxe extends catalog_ProductAxe
 {
-
+	private $propertyName;
 	private $getter;
+	private $labelGetter;
 	
 	/**
 	 * @param PropertyInfo $propertyInfo
@@ -284,9 +309,10 @@ class catalog_ProductPropertyAxe extends catalog_ProductAxe
 	public function __construct($propertyName)
 	{
 		$this->setName('property::' . $propertyName);
+		$this->propertyName = $propertyName;
 		if ($propertyName === 'label')
 		{
-			$this->getter = 'getId';	
+			$this->getter = 'getId';
 		}
 		else
 		{
@@ -301,9 +327,58 @@ class catalog_ProductPropertyAxe extends catalog_ProductAxe
 	 */
 	protected function getAxeValue($productDeclination)
 	{
-		
 		return $productDeclination->{$this->getter}();
-	}	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $productDeclination
+	 * @return string
+	 */
+	public function getAxeValueLabel($productDeclination)
+	{
+		if ($this->labelGetter === null)
+		{
+			if ($this->propertyName === 'label')
+			{
+				$this->labelGetter = array('getLabel');
+			}
+			else
+			{
+				$getter = 'get'.ucfirst($this->propertyName).'Label';
+				if (f_util_ClassUtils::methodExists($productDeclination, $getter))
+				{
+					$this->labelGetter = array($getter);
+				}
+				else
+				{
+					$propertyInfo = $productDeclination->getPersistentModel()->getEditableProperty($this->propertyName);
+					if ($propertyInfo->isDocument())
+					{
+						$this->labelGetter = array('get'.ucfirst($this->propertyName), 'getNavigationLabel');
+					}
+				}
+			}
+			if ($this->labelGetter === null)
+			{
+				$this->labelGetter = 'auto';
+			}
+		}
+		
+		if (is_array($this->labelGetter))
+		{
+			$value = $productDeclination;
+			foreach ($this->labelGetter as $getter)
+			{
+				if ($value === null)
+				{
+					return null;
+				}
+				$value = $value->{$getter}();
+			}
+			return $value;
+		}
+		return $this->getAxeValue($productDeclination);
+	}
 }
 
 class catalog_ProductAttributeAxe extends catalog_ProductAxe

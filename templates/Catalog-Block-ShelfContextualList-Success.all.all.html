@@ -6,12 +6,12 @@
 			<li class="shelf-line" tal:repeat="item shelves">
 				<ul class="sub-list">
 					<li tal:condition="item/getVisual">
-						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;">
+						<a class="link" change:link="document item; title item/getLinkTitle">
 							<img change:media="document item/getVisual; format 'modules.catalog.frontoffice/medium'" />
 						</a>
 					</li>
 					<li>
-						<a class="link" tal:attributes="href item/getUrl; title item/getLinkTitle;">${item/getLabelAsHtml}</a>
+						<a class="link" change:link="document item; title item/getLinkTitle">${item/getLabelAsHtml}</a>
 						<br/>
 						<tal:block tal:condition="configuration/getDisplayshelvesdescription">${item/getShortDescription}</tal:block>						
 					</li>
@@ -20,7 +20,7 @@
 							change:link="module website; action Redirect">
 							<label class="invisible" for="second-level-shelf-${repeat/item/index}" i18n:translate="&modules.catalog.frontoffice.GoToSubshelf;"></label>
 							<select name="location" id="second-level-shelf-${repeat/item/index}" class="textfield">
-								<option tal:repeat="subItem subShelves" tal:attributes="value subItem/getUrl">${subItem/getLabelAsHtml}</option>
+								<option tal:repeat="subItem subShelves" value="${url:subItem}">${subItem/getLabelAsHtml}</option>
 							</select>
 							<input class="button" type="submit" value="ok" alt="ok" title="ok" />
 						</form>

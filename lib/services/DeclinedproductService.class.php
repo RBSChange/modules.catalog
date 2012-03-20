@@ -472,6 +472,34 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		return $result;
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @param integer $axeNumber
+	 * @return string|null
+	 */
+	public function getNavigationLabel($document, $declination = null, $axeNumber = null)
+	{
+		$label = parent::getNavigationLabel($document);
+		if ($declination instanceof catalog_persistentdocument_productdeclination)
+		{
+			if ($axeNumber === null)
+			{
+				$axeNumber = $document->getShowAxeInList();
+			}
+			else
+			{
+				$axeNumber = min($axeNumber, $document->countAxes());
+			}
+			
+			for ($i = 1; $i <= $axeNumber; $i++)
+			{
+				$label .= ' ' . $declination->getDocumentService()->getAxeLabel($declination, $i);
+			} 
+		}
+		return $label;
+	}
+	
 	//Back office functionnality
 	
 	/**

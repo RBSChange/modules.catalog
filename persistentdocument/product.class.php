@@ -658,7 +658,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getOrderLabel()
 	{
-		return $this->getLabel();
+		return $this->getNavigationLabel();
 	}
 	
 	/**

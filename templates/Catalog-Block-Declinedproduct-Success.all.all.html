@@ -7,7 +7,7 @@
 <ul tal:condition="product/getPictogramCount" class="inline-list pictograms">
 	<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pictogram'" /></li>
 </ul>
-<h1 change:h="">${product/getLabelAsHtml}</h1>
+<h1 change:h="">${product/getFullLabelAsHtml}</h1>
 
 <dl class="inline-list">
 	<dt>${trans:m.catalog.frontoffice.detail-reference,ucf}</dt>
@@ -49,8 +49,8 @@
 						<label for="declination-selector-${context/getBlockId}">${trans:m.catalog.frontoffice.detail-declinations,ucf,lab}</label>
 						<select class="textfield" id="declination-selector-${context/getBlockId}" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form').get(0).submit()">
 							<tal:block tal:repeat="declination php: declinedproduct.getPublishedDeclinationsInShop(shop)">
-								<option tal:condition="php: declination.getId() == product.getId()" selected="selected" value="${declination/getId}">${declination/getLabelAsHtml}</option>
-								<option tal:condition="php: declination.getId() != product.getId()" value="${declination/getId}">${declination/getLabelAsHtml}</option>
+								<option tal:condition="php: declination.getId() == product.getId()" selected="selected" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
+								<option tal:condition="php: declination.getId() != product.getId()" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
 							</tal:block>
 						</select>
 					</li>

@@ -19,19 +19,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @return String
-	 */
-	public function getUrl()
-	{
-		$topic = $this->getContextualSystemTopic();
-		if ($topic)
-		{
-			return LinkHelper::getDocumentUrl($topic);
-		}
-		return LinkHelper::getDocumentUrl($this);
-	}
-	
-	/**
 	 * @return array<catalog_persistentdocument_shelf>
 	 */
 	public function getPublishedSubShelves()
@@ -160,5 +147,13 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	public function isVisible()
 	{
 		return true;
+	}
+	
+	/**
+	 * @deprecated use LinkHelper::getDocumentUrl
+	 */
+	public function getUrl()
+	{
+		return LinkHelper::getDocumentUrl($this);
 	}
 }

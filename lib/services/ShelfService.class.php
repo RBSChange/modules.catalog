@@ -709,6 +709,26 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		return $this->getRelatedTopicByTopicAncestor($shelf, $shopTopic);
 	}
 
+	/**
+	 * @param website_UrlRewritingService $urlRewritingService
+	 * @param catalog_persistentdocument_shelf $document
+	 * @param website_persistentdocument_website $website
+	 * @param array $lang
+	 * @param array $parameters
+	 * @return f_web_Link | null
+	 */
+	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
+	{
+		if (website_WebsiteModuleService::getInstance()->getCurrentWebsite() == $website)
+		{
+			$topic = $document->getContextualSystemTopic();
+			if ($topic)
+			{
+				$this->completeParamters($document, $topic, $lang, $parameters);
+			}
+		}
+		return parent::getWebLink($urlRewritingService, $document, $website, $lang, $parameters);
+	}
 
 	/**
 	 * @param website_UrlRewritingService $urlRewritingService
@@ -720,7 +740,24 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function getWebLinkForSystemTopic($urlRewritingService, $document, $systemtopic, $lang, $parameters)
 	{
-		$shop = catalog_ShopService::getInstance()->getByTopic($systemtopic);
+		$website = $this->completeParamters($document, $systemtopic, $lang, $parameters);
+		if ($website)
+		{
+			return $urlRewritingService->getDocumentLinkForWebsite($document, $website, $lang, $parameters);
+		}
+		return null;
+	}
+
+	/**
+	 * @param catalog_persistentdocument_shelf $document
+	 * @param website_persistentdocument_systemtopic $systemtopic
+	 * @param string $lang
+	 * @param array $parameters
+	 * @return website_persistentdocument_website $website
+	 */
+	protected function completeParamters($document, $topic, $lang, &$parameters)
+	{
+		$shop = catalog_ShopService::getInstance()->getByTopic($topic);
 		if ($shop)
 		{
 			$website = $shop->getWebsite();
@@ -733,20 +770,19 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			{
 				unset($catalogParam['shopId']);
 			}
-			
+				
 			if (count($catalogParam))
-			{	
+			{
 				$parameters['catalogParam'] = $catalogParam;
 			}
 			else if (isset($parameters['catalogParam']))
 			{
 				unset($parameters['catalogParam']);
-			}	
-			return $urlRewritingService->getDocumentLinkForWebsite($document, $website, $lang, $parameters);	
+			}
+			return $website;
 		}
 		return null;
-
-	}	
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document

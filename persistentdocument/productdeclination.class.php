@@ -118,4 +118,124 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		return $this->getDocumentService()->getArrayByDeclinedProduct($this->getDeclinedproduct());
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe1Label()
+	{
+		return $this->getDocumentService()->getAxeLabel($this, 1);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe1LabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getAxe1Label());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe1TitleAsHtml()
+	{
+		return $this->getDocumentService()->getAxeTitleAsHtml($this, 1);
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function useAxe2()
+	{
+		return ($this->getDeclinedproduct()->getAxe2() !== null);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe2Label()
+	{
+		return $this->getDocumentService()->getAxeLabel($this, 2);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe2LabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getAxe2Label());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe2TitleAsHtml()
+	{
+		return $this->getDocumentService()->getAxeTitleAsHtml($this, 2);
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function useAxe3()
+	{
+		return ($this->getDeclinedproduct()->getAxe3() !== null);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe3Label()
+	{
+		return $this->getDocumentService()->getAxeLabel($this, 3);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe3LabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getAxe3Label());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe3TitleAsHtml()
+	{
+		return $this->getDocumentService()->getAxeTitleAsHtml($this, 3);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFullLabel()
+	{
+		return $this->getDocumentService()->getNavigationLabel($this, 3);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFullLabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getFullLabel());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getOrderLabel()
+	{
+		return $this->getFullLabel();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getOrderLabelAsHtml()
+	{
+		return LinkHelper::getLink($this, null, 'link', null, array('label' => $this->getFullLabel()));
+	}
 }

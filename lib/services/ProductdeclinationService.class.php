@@ -622,4 +622,47 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		parent::updateOrderLineProperties($product, $cartLineProperties, $orderLine, $order);
 		$cartLineProperties['variance'] = $product->getDeclinedproduct()->getCodeReference();
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param integer $axeNumber
+	 * @return string|null
+	 */
+	public function getNavigationLabel($document, $axeNumber = null)
+	{
+		$declined = $document->getDeclinedproduct();
+		return $declined->getDocumentService()->getNavigationLabel($declined, $document, $axeNumber);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @param integer $axeNumber
+	 * @return string
+	 */
+	public function getAxeLabel($declination, $axeNumber)
+	{
+		$axe = $declination->getDeclinedproduct()->{'getAxe'.$axeNumber}();
+		$axeObject = catalog_ProductAxe::getInstanceByName($axe, $axeNumber);
+		if (!$axeObject)
+		{
+			return null;
+		}
+		return $axeObject->getAxeValueLabel($declination);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @param integer $axeNumber
+	 * @return string
+	 */
+	public function getAxeTitleAsHtml($declination, $axeNumber)
+	{
+		$axe = $declination->getDeclinedproduct()->{'getAxe'.$axeNumber}();
+		$axeObject = catalog_ProductAxe::getInstanceByName($axe, $axeNumber);
+		if (!$axeObject)
+		{
+			return null;
+		}
+		return $axeObject->getLabel();
+	}
 }
