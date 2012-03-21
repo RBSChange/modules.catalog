@@ -238,4 +238,13 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		return LinkHelper::getLink($this, null, 'link', null, array('label' => $this->getFullLabel()));
 	}
+
+	public function getCommentCount()
+	{
+		if ($this->commentCount === null)
+		{
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getDeclinedproduct()->getId());
+		}
+		return $this->commentCount;
+	}
 }

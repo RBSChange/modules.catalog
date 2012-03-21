@@ -665,4 +665,16 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		}
 		return $axeObject->getLabel();
 	}
+
+	/* (non-PHPdoc)
+	 * @see catalog_ProductService::getRatingAverage()
+	 */
+	public function getRatingAverage($document, $websiteId = null) 
+	{
+		if (catalog_ModuleService::getInstance()->areCommentsEnabled())
+		{
+			return comment_CommentService::getInstance()->getRatingAverageByTargetId($document->getDeclinedproduct()->getId(), $websiteId);
+		}
+		return null;			
+	}
 }

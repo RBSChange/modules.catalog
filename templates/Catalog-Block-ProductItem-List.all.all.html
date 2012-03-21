@@ -36,6 +36,7 @@
 		</li>
 		<li class="product-add" tal:condition="displayConfig/showAddToCart">
 			<input tal:condition="php: product.canBeOrdered(shop)" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
+			<input disabled="disabled" tal:condition="php: !product.canBeOrdered(shop)" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
 		</li>
 	</ul>
 </tal:block>
