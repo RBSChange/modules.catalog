@@ -10,7 +10,7 @@
 	<script change:javascript="head 'modules.catalog.lib.js.product-comparison'"></script>
 	<form change:link="module catalog; action UpdateList" method="post" style="clear:both" data-addtocart-url="${actionurl:'order','AddToCartMultiple',attr}" onsubmit="return onFormSubmitted(this);">
 		<ul class="inline-list">
-			<li><input class="button hidden-without-js" type="button" value="${trans:m.catalog.fo.add-selection-to-cart,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" /></li>
+			<li><input class="button js" type="button" value="${trans:m.catalog.fo.add-selection-to-cart,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" /></li>
 			<li><input class="button" name="mode[remove]" type="submit" value="${trans:m.catalog.fo.remove-checked,ucf,attr}" /></li>
 			<li><input class="button" name="mode[replace]" type="submit" value="${trans:m.catalog.fo.keep-only-checked,ucf,attr}" /></li>
 			<li><input class="button" name="mode[clear]" type="submit" value="${trans:m.catalog.fo.clear-list,ucf,attr}" /></li>
@@ -45,10 +45,10 @@
 								<br />
 								<tal:block tal:condition="configuration/getShowQuantitySelector">
 									<label class="invisible" for="comparison_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,lab,ucf}</label>
-	                				<input class="textfield quantity-selector hidden-without-js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
+	                				<input class="textfield quantity-selector js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
 	                			</tal:block>
-	                			<input type="button" class="button hidden-without-js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
-	                			<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button hidden-with-js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+	                			<input type="button" class="button js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
+	                			<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button nojs" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
 	                		</tal:block>
 						</td>
 					</tr>

@@ -5,7 +5,7 @@
 		<field name="codeReference" hidehelp="true" />
 		<field name="mountParentId" type="document" allow="modules_website_website,modules_website_topic"
 			moduleselector="website" required="true" labeli18n="modules.catalog.document.shop.Mount-parent"
-			shorthelp="${transui:m.catalog.document.shop.mount-parent-help,ucf,attr}" />
+			shorthelp="m.catalog.document.shop.mount-parent-help" />
 		<field name="isDefault" />
 		<field name="topShelf" />
 		<field name="displayOutOfStock" hidehelp="true" />
@@ -63,7 +63,7 @@
 					}
 					catch (e)
 					{
-						wCore.error('catalog.updateOutOfStockFields', [], e);
+						wCore.error('shop.updateOutOfStockFields', [], e);
 					}
 				]]></body>
 			</method>

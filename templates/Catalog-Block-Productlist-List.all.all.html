@@ -31,7 +31,7 @@
 			<tal:block tal:repeat="button displayConfig/globalButtons">
 				<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" />
 			</tal:block>
-			<input class="button hidden-without-js" name="mode[add]" type="submit" value="${trans:m.catalog.fo.add-to-comparisons,ucf,attr}" onclick="onGlobalAddToComparisonButtonClick(this);" />
+			<input class="button js" name="mode[add]" type="submit" value="${trans:m.catalog.fo.add-to-comparisons,ucf,attr}" onclick="onGlobalAddToComparisonButtonClick(this);" />
 		</p>
 	</form>	
 	<tal:block change:paginator="products" />

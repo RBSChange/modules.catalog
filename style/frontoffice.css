@@ -12,7 +12,6 @@
 	padding: 6px;
 	display: inline-block;
 	vertical-align: top;
-	zoom: 1;
 }
 
 .price {
@@ -30,12 +29,12 @@
 	font-size: 0.8em;
 	margin-left: 8px;
 }
+td.price {
+	text-align: right;
+}
 .sub-list li {
 	margin: 0;
 	padding: 0;
-}
-.jqzoom {
-	display: inline-block;
 }
 
 .product-carousel {

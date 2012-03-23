@@ -21,4 +21,6 @@
 	<key id="blocktemplates-list">liste</key>
 	<key id="shippedin-label">délais d'expédition</key>
 	<key id="shippedin-description">Liste délais d'expédition d'un produit.</key>
+	<key id="blocktemplates-slide">"slider"</key>
+	<key id="blocktemplates-short">compact</key>
 </i18n>

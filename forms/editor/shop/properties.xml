@@ -79,7 +79,7 @@
 					}
 					catch (e)
 					{
-						wCore.error('catalog.updateOutOfStockFields', [], e);
+						wCore.error('shop.updateOutOfStockFields', [], e);
 					}
 				]]></body>
 			</method>
