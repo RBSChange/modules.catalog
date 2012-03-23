@@ -94,17 +94,19 @@
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
-			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="true" />
-			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
-			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displaysortmenu" type="Boolean" default-value="true" />
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
+			<!-- @deprecated -->
+			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
+			<!-- @deprecated -->
+			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<metas>
 			<meta name="title" allow="title,description" />
@@ -135,18 +137,20 @@
 	<block type="modules_catalog_favoriteProductList" icon="list-block" label="&amp;modules.catalog.bo.general.block.Favorite-product-list;">
 		<parameters>
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
-			<parameter name="showaddtofavorite" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="false" hidden="true" />
-			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
-			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
+			<!-- @deprecated -->
+			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
+			<!-- @deprecated -->
+			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 	</block>
 	<block type="modules_catalog_productCrossSelling" icon="list-block" label="&amp;modules.catalog.bo.blocks.productcrossselling.Block-label;">
@@ -158,11 +162,9 @@
 			<parameter name="maxdisplayed" type="Integer" default-value="20" />
 			<parameter name="addlinktoall" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="false" />
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" />
-			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" hidden="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="false" hidden="true" />
@@ -171,6 +173,10 @@
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" hidden="true" />
 			<parameter name="blockTitle" type="String" />
+			<!-- @deprecated -->
+			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
+			<!-- @deprecated -->
+			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -186,18 +192,20 @@
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
-			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="true" />
-			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
-			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 			<parameter name="blockTitle" type="String" />
+			<!-- @deprecated -->
+			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
+			<!-- @deprecated -->
+			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -228,17 +236,19 @@
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
-			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="true" />
-			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
-			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displaysortmenu" type="Boolean" default-value="true" />
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
+			<!-- @deprecated -->
+			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
+			<!-- @deprecated -->
+			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -257,11 +267,9 @@
 						this.getElementByAnonId('displayMode_cnt').collapsed = value;
 						this.getElementByAnonId('displayaddtocart_cnt').collapsed = value;
 						this.getElementByAnonId('showaddtofavorite_cnt').collapsed = value;
-						this.getElementByAnonId('activatequantityselection_cnt').collapsed = value;
 						this.getElementByAnonId('displayavailability_cnt').collapsed = value;
 						this.getElementByAnonId('displayratingaverage_cnt').collapsed = value;
 						this.getElementByAnonId('showshareblock_cnt').collapsed = value;
-						this.getElementByAnonId('displayproductdescription_cnt').collapsed = value;
 						this.getElementByAnonId('displayproductpicto_cnt').collapsed = value;
 						this.getElementByAnonId('displaysortmenu_cnt').collapsed = value;
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;
@@ -291,17 +299,19 @@
 			<parameter name="nbresultsperpage" type="Integer" default-value="3" min-occurs="1" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
-			<parameter name="activatequantityselection" type="Boolean" default-value="true" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="true" />
-			<parameter name="displayproductdescription" type="Boolean" default-value="true" />
-			<parameter name="displayproductpicto" type="Boolean" default-value="false" />
+			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displaysortmenu" type="Boolean" default-value="true" />
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
+			<!-- @deprecated -->
+			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
+			<!-- @deprecated -->
+			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -320,11 +330,9 @@
 						this.getElementByAnonId('displayMode_cnt').collapsed = value;
 						this.getElementByAnonId('displayaddtocart_cnt').collapsed = value;
 						this.getElementByAnonId('showaddtofavorite_cnt').collapsed = value;
-						this.getElementByAnonId('activatequantityselection_cnt').collapsed = value;
 						this.getElementByAnonId('displayavailability_cnt').collapsed = value;
 						this.getElementByAnonId('displayratingaverage_cnt').collapsed = value;
 						this.getElementByAnonId('showshareblock_cnt').collapsed = value;
-						this.getElementByAnonId('displayproductdescription_cnt').collapsed = value;
 						this.getElementByAnonId('displayproductpicto_cnt').collapsed = value;
 						this.getElementByAnonId('displaysortmenu_cnt').collapsed = value;
 						this.getElementByAnonId('displaynbresultsperpage_cnt').collapsed = value;

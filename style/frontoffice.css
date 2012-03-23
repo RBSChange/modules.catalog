@@ -37,6 +37,16 @@ td.price {
 	padding: 0;
 }
 
+.product-pictograms {
+	float: right;
+}
+.product-pictograms li {
+	display: inline-block;
+	height: 45px;
+	line-height: 45px;
+	margin-left: 6px;
+}
+
 .product-carousel {
 	overflow: hidden;
 	position: relative;
@@ -85,16 +95,6 @@ td.price {
 	text-align: center;
 	padding: 3px;
 	cursor: pointer;
-}
-
-.modules-catalog-product .pictograms {
-	float: right;
-}
-.modules-catalog-product .pictograms li {
-	display: inline-block;
-	height: 45px;
-	line-height: 45px;
-	margin-left: 6px;
 }
 
 .modules-catalog-product .columns {

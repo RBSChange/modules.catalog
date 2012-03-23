@@ -48,18 +48,21 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['showPrices'] = $displayConfig['showPricesWithTax'] || $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showShareBlock'] = $this->getShowShareBlock();
 		$displayConfig['showRatingAverage'] = catalog_ModuleService::getInstance()->areCommentsEnabled() ? $this->getConfigurationValue('displayratingaverage', false) : false;
-		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
 		$displayConfig['showProductPictograms'] = $this->getConfigurationValue('displayproductpicto', false);
+		$displayConfig['showAnimPictogramBlock'] = $displayConfig['showProductPictograms'] && ModuleService::getInstance()->moduleExists('marketing');
 		$displayConfig['showAvailability'] = $shop->getDisplayOutOfStock() && $this->getConfigurationValue('displayavailability', true);
-		$displayConfig['showQuantitySelector'] = $this->getConfigurationValue('activatequantityselection', true);
 		$displayConfig['showSortMenu'] = $this->getConfigurationValue('displaysortmenu', false);
 		$displayConfig['showResultCountSelector'] = $this->getConfigurationValue('displaynbresultsperpage', false);
 		$displayConfig['showDiscountFilter'] = $this->getConfigurationValue('displaydiscountfilter', false);
 		$displayConfig['showBrandOrder'] = $this->getConfigurationValue('Displaybrandorder', false);
-		
 		$displayConfig['controlsmodule'] = 'catalog';
 		$displayConfig['controlstemplate'] = 'Catalog-Inc-ProductListOrderOptions';
 		
+		// @deprecated 
+		$displayConfig['showQuantitySelector'] = $this->getConfigurationValue('activatequantityselection', true);
+		// @depreacted
+		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
+				
 		$globalButtons = array();
 		$displayConfig['showAddToCart'] = $this->getShowAddToCart();
 		if ($displayConfig['showAddToCart'])

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.productlistbase" lcid="de_DE">
-  <key id="activatecomparison">Vergleich aktivieren</key>
-  <key id="activatecomparison-help">Produktvergleich aktivieren JA/NEIN.</key>
-  <key id="activatequantityselection">Mengenselektion</key>
-  <key id="activatequantityselection-help">Mengenselektion für im Warenkorb hinzufügen aktivieren JA/NEIN.</key>
-  <key id="displayavailability">Verfügbarkeit anzeigen</key>
-  <key id="displayavailability-help">Verfügbarkeit der Produkte anzeigen JA/NEIN.</key>
-  <key id="displaysortmenu">Sortiermenü anzeigen</key>
-  <key id="displaysortmenu-help">Sortiermenü der Produkte anzeigen JA/NEIN.</key>
-  <key id="displaybrandorder">Nach Marken sortieren</key>
-  <key id="displaybrandorder-help">Produkte nach Marken sortieren aktivieren JA/NEIN.</key>
-  <key id="displaynbresultsperpage">Anzahl Produkte pro Seite</key>
-  <key id="displaynbresultsperpage-help">Anzahl angezeigter Produkte pro Seite aktivieren JA/NEIN.</key>
+	<key id="activatecomparison">Vergleich aktivieren</key>
+	<key id="activatecomparison-help">Produktvergleich aktivieren JA/NEIN.</key>
+	<key id="displayavailability">Verfügbarkeit anzeigen</key>
+	<key id="displayavailability-help">Verfügbarkeit der Produkte anzeigen JA/NEIN.</key>
+	<key id="displaysortmenu">Sortiermenü anzeigen</key>
+	<key id="displaysortmenu-help">Sortiermenü der Produkte anzeigen JA/NEIN.</key>
+	<key id="displaybrandorder">Nach Marken sortieren</key>
+	<key id="displaybrandorder-help">Produkte nach Marken sortieren aktivieren JA/NEIN.</key>
+	<key id="displaynbresultsperpage">Anzahl Produkte pro Seite</key>
+	<key id="displaynbresultsperpage-help">Anzahl angezeigter Produkte pro Seite aktivieren JA/NEIN.</key>
 </i18n>
