@@ -4,9 +4,11 @@
 <tal:block change:block="" module="order" name="CartMessages" container="" />
 <tal:block change:block="" module="website" name="messages" container="" />
 
-<ul tal:condition="product/getPictogramCount" class="inline-list pictograms">
+<ul tal:condition="product/getPictogramCount" class="inline-list product-pictograms">
 	<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pictogram'" /></li>
 </ul>
+<tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" container="" />
+
 <h1 change:h="">${product/getFullLabelAsHtml}</h1>
 
 <dl class="inline-list">
@@ -55,11 +57,9 @@
 						</select>
 					</li>
 				</ol>
-				<noscript>
-					<p class="buttons">
-						<input type="submit" class="button" value="${trans:m.catalog.frontoffice.refresh-declined,ucf,attr}" />
-					</p>
-				</noscript>
+				<p class="buttons nojs">
+					<input type="submit" class="button" value="${trans:m.catalog.frontoffice.refresh-declined,ucf,attr}" />
+				</p>
 			</fieldset>
 		</form>
 	

@@ -12,7 +12,6 @@
 	padding: 6px;
 	display: inline-block;
 	vertical-align: top;
-	zoom: 1;
 }
 
 .price {
@@ -30,12 +29,22 @@
 	font-size: 0.8em;
 	margin-left: 8px;
 }
+td.price {
+	text-align: right;
+}
 .sub-list li {
 	margin: 0;
 	padding: 0;
 }
-.jqzoom {
+
+.product-pictograms {
+	float: right;
+}
+.product-pictograms li {
 	display: inline-block;
+	height: 45px;
+	line-height: 45px;
+	margin-left: 6px;
 }
 
 .product-carousel {
@@ -86,16 +95,6 @@
 	text-align: center;
 	padding: 3px;
 	cursor: pointer;
-}
-
-.modules-catalog-product .pictograms {
-	float: right;
-}
-.modules-catalog-product .pictograms li {
-	display: inline-block;
-	height: 45px;
-	line-height: 45px;
-	margin-left: 6px;
 }
 
 .modules-catalog-product .columns {

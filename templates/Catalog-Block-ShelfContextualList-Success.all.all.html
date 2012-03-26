@@ -22,7 +22,7 @@
 						<select name="location" id="second-level-shelf-${repeat/item/index}" class="textfield">
 							<option tal:repeat="subItem subShelves" value="${url:subItem}">${subItem/getLabelAsHtml}</option>
 						</select>
-						<input class="button" type="submit" value="Ok" />
+						<input class="button" type="submit" value="${trans:m.catalog.fo.ok,ucf}" />
 					</form>
 				</li>
 			</ul>

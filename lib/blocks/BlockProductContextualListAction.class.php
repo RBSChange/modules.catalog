@@ -6,13 +6,13 @@
 class catalog_BlockProductContextualListAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @var String[]
+	 * @var string[]
 	 */
 	public static $sortOptions = array('displayMode', 'nbresultsperpage', 'onlydiscount', 
-			'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
+		'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
 	
 	/**
-	 * @param f_mvc_Response $response
+	 * @param f_mvc_Request $request
 	 * @param boolean $idsOnly
 	 * @return catalog_persistentdocument_product[]
 	 */
@@ -31,7 +31,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		
 		$query = $masterQuery->createCriteria('compiledproduct')
 			->add(Restrictions::published())
-			->add(Restrictions::eq('topicId', $this->getPage()->getNearestContainerId()))
+			->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 			->add(Restrictions::eq('showInList', true));
 
@@ -96,7 +96,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	}
 		
 	/**
-	 * @param f_mvc_Response $response
+	 * @param f_mvc_Request $request
 	 * @return integer[] or null
 	 */
 	protected function getProductIdArray($request)
@@ -104,6 +104,9 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		return $this->getProductArray($request, true);
 	}
 	
+	/**
+	 * @param f_mvc_Request $request
+	 */
 	protected function persistSortOptions($request)
 	{
 		$topicId = $this->getPage()->getNearestContainerId();
@@ -161,13 +164,11 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	}
 		
 	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
+	 * @return string
 	 */
 	protected function getBlockTitle()
 	{
-		$context = $this->getPage();
-		$shelf = catalog_ShelfService::getInstance()->getByTopic(DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
+		$shelf = $this->getCurrentShelf();
 		if ($shelf !== null)
 		{
 			return $shelf->getLabelAsHtml();
@@ -176,48 +177,44 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	}
 	
 	/**
-	 * @return array<String, String>
+	 * @return array<string, string>
 	 */
 	public function getMetas()
 	{
-		$container = $this->getCurrentEcommerceContainer();
+		$container = $this->getCurrentShelf();
 		$referencingService = catalog_ReferencingService::getInstance();
 		if ($container instanceof catalog_persistentdocument_shelf)
 		{
 			return array("title" => $referencingService->getPageTitleByShelf($container), 
-					"description" => $referencingService->getPageDescriptionByShelf($container), 
-					"keywords" => $referencingService->getPageKeywordsByShelf($container));
-		}
-		else if ($container instanceof catalog_persistentdocument_shop)
-		{
-			return array("title" => $referencingService->getPageTitleByShop($container), 
-					"description" => $referencingService->getPageDescriptionByShop($container), 
-					"keywords" => $referencingService->getPageKeywordsByShop($container));
+				"description" => $referencingService->getPageDescriptionByShelf($container), 
+				"keywords" => $referencingService->getPageKeywordsByShelf($container));
 		}
 		return null;
 	}
 	
+	/**
+	 * @return boolean
+	 */
+	protected function getShowIfNoProduct()
+	{
+		return $this->getCurrentShelf() !== null;
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_shelf
+	 */
 	private $container = null;
 	
-	private function getCurrentEcommerceContainer()
+	/**
+	 * @return catalog_persistentdocument_shelf
+	 */
+	private function getCurrentShelf()
 	{
 		if ($this->container === null)
 		{
-			$topicId = $this->getContext()
-				->getNearestContainerId();
-			$topic = DocumentHelper::getDocumentInstance($topicId);
-			if ($topic instanceof website_persistentdocument_systemtopic)
-			{
-				$shelf = DocumentHelper::getDocumentInstance($topic->getReferenceId());
-				if ($shelf instanceof catalog_persistentdocument_shelf)
-				{
-					$this->container = $shelf;
-				}
-				else
-				{
-					$this->container = catalog_ShopService::getInstance()->getCurrentShop();
-				}
-			}
+			$context = $this->getPage();
+			$css = catalog_ShelfService::getInstance();
+			$this->container = $css->getByTopic(DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
 		}
 		return $this->container;
 	}

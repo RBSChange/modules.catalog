@@ -2,8 +2,6 @@
 <i18n baseKey="m.catalog.bo.blocks.productlistbase" lcid="fr_FR">
 	<key id="activatecomparison">activer la comparaison</key>
 	<key id="activatecomparison-help">activer ou non la comparaison de produits.</key>
-	<key id="activatequantityselection">sélection de quantité</key>
-	<key id="activatequantityselection-help">activer ou non la sélection de quantité pour l'ajout au panier.</key>
 	<key id="displayavailability">afficher la disponibilité</key>
 	<key id="displayavailability-help">afficher ou non la disponibilité des produits.</key>
 	<key id="displayratingaverage">afficher la note</key>
@@ -22,8 +20,6 @@
 	<key id="displayaddtocart-help">activer ou non le bouton d'ajout au panier.</key>
 	<key id="showaddtofavorite">ajout aux produits favoris</key>
 	<key id="showaddtofavorite-help">activer ou non le bouton d'ajout aux produits favoris.</key>
-	<key id="displayproductdescription">description du produit</key>
-	<key id="displayproductdescription-help">activer ou non l'affichage de la description des produits.</key>
 	<key id="displayproductpicto">pictogrammes</key>
 	<key id="displayproductpicto-help">activer ou non l'affichage des pictogrammes des produits.</key>
 	<key id="displaymode" updated="true">mode de rendu</key>

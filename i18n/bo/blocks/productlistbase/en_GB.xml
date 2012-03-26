@@ -2,8 +2,6 @@
 <i18n baseKey="m.catalog.bo.blocks.productlistbase" lcid="en_GB">
   <key id="activatecomparison">activate comparison</key>
   <key id="activatecomparison-help">Activates or deactivates product comparison.</key>
-  <key id="activatequantityselection">quantity selection</key>
-  <key id="activatequantityselection-help">Activates or deactivates the quantity selection when adding products to the basket.</key>
   <key id="displayaddtocart">add to basket</key>
   <key id="displayaddtocart-help">Activates or deactivates the button to add to the basket.</key>
   <key id="displayavailability">display the availability</key>
@@ -18,8 +16,6 @@
   <key id="displaymode-help">Allows choosing between "List" (based on the HTML element ol) and "Table" (based on the HTML element table) for the default display template for the product list. If the option "Selection of the display mode" is active, then the visitor can switch from one mode to the other themselves.</key>
   <key id="displaynbresultsperpage">number of products per page</key>
   <key id="displaynbresultsperpage-help">Activates or deactivates the visitor's ability to select the number of products displayed per page. Active only when the sorting menu is displayed.</key>
-  <key id="displayproductdescription">product description</key>
-  <key id="displayproductdescription-help">Activates or deactivates the display of the product description.</key>
   <key id="displayproductpicto">pictograms</key>
   <key id="displayproductpicto-help">Activates or deactivates the display of pictograms in front of the products.</key>
   <key id="displayratingaverage">display the rating</key>
