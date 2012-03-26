@@ -10,9 +10,9 @@
 	</section>
 	
 	<section labeli18n="modules.catalog.bo.general.Axes">
-		<field name="axe1" />
-		<field name="axe2" />
-		<field name="axe3" />
+		<field name="axe1" nocache="true" />
+		<field name="axe2" nocache="true" />
+		<field name="axe3" nocache="true" />
 		<field name="showAxeInList" />
 	</section>
 		
