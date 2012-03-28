@@ -57,7 +57,7 @@
 		</topshelf>
 
 		<shopfolder byLabel="Boutiques">
-			<shop byLabel="Boutique" id="shop" topShelf-refids="r1,r2,r5,r6" />
+			<shop byLabel="Boutique" id="shop" codeReference="DEMO" topShelf-refids="r1,r2,r5,r6" />
 		</shopfolder>
 	</rootfolder>
 

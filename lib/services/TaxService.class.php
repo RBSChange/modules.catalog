@@ -263,6 +263,14 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 		return (round($taxRate * 100, 2)) . "%";
 	}
 	
+	/**
+	 * @param string $formatedTaxRate
+	 * @return float
+	 */
+	public function parseRate($formatedTaxRate)
+	{
+		return floatval($formatedTaxRate) / 100;
+	}
 	
 	private $currentTaxeZone = array();
 
