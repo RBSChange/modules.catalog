@@ -235,7 +235,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 				$v = $price->getOldValueWithTax();
 				if ($v !== null)
 				{
-					$value = ($value === null) ? $v : $value + v;
+					$value = ($value === null) ? $v : $value + $v;
 				}
 			}
 			return $value;
