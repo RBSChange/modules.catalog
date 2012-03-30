@@ -5,8 +5,9 @@
  */
 class catalog_BlockProductItemAction extends website_BlockAction
 {
-	/* (non-PHPdoc)
-	 * @see modules/website/lib/mvc/website_BlockAction::getCacheKeyParameters()
+	/**
+	 * @param website_BlockActionRequest $request
+	 * @return array
 	 */
 	public function getCacheKeyParameters($request)
 	{
@@ -24,12 +25,11 @@ class catalog_BlockProductItemAction extends website_BlockAction
 				$keys['customerid'] = $customer->getId();
 			}
 		}
-		
 		return $keys;
 	}
 
-	/* (non-PHPdoc)
-	 * @see framework/f_mvc/f_mvc_Action::getCacheDependencies()
+	/**
+	 * @return array
 	 */
 	public function getCacheDependencies()
 	{
@@ -52,7 +52,6 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		}
 		return $deps;
 	}
-	
 	
 	/**
 	 * @param f_mvc_Request $request

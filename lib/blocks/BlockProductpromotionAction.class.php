@@ -41,6 +41,14 @@ class catalog_BlockProductpromotionAction extends catalog_BlockProductlistBaseAc
 		return catalog_ProductService::getInstance()->filterIdsForDisplay($productIds, $shop);
 	}
 	
+	/**
+	 * @return boolean
+	 */
+	protected function getShowIfNoProduct()
+	{
+		return false;
+	}
+	
 	// Deprecated.
 	
 	/**

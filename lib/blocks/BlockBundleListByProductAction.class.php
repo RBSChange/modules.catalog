@@ -22,4 +22,12 @@ class catalog_BlockBundleListByProductAction extends catalog_BlockProductlistBas
 		$kitIds = catalog_KitService::getInstance()->getDisplayableIdsByContainedProduct($shop, $product);
 		return array_merge($bundleIds, $kitIds);
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	protected function getShowIfNoProduct()
+	{
+		return false;
+	}
 }

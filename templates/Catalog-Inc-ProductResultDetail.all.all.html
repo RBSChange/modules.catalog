@@ -1,7 +1,7 @@
 <tal:block tal:define="doc item/getDocument">
 	<img change:productvisual="name 'visual'; mode 'list'; product doc/getProduct" change:media="document visual; format 'modules.solrsearch.frontoffice/result-visual'; class 'document-visual'" />
 	<p class="normal">${item/getHighlightedText}<span>${trans:m.solrsearch.frontoffice.end-description,ucf,etc}</span></p>
-	<dl class="inline-list" tal:define="shop doc/getShop; shelf doc/getShelf">
+	<dl class="inline-list" tal:define="shop doc/getShop; shelf doc/getShelf" change:productprice="name 'price'; product doc/getProduct; shop shop">
 		<dt>${trans:m.solrsearch.frontoffice.type,ucf}</dt> 
 		<dd>
 			<tal:block tal:condition="item/hasTypeLabel">${item/getTypeLabel}</tal:block>
@@ -20,27 +20,22 @@
 		<dd><a change:link="document shop">${shop/getLabelAsHtml}</a><span class="separator"> - </span></dd>
 		<tal:block tal:condition="not: shop/getIsDefault" tal:define="global shopId shop/getId" />
 		<dt>${trans:m.catalog.frontoffice.shelf,ucf}</dt>
-		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a><span class="separator"> - </span></dd>
-		<tal:block change:productprice="name 'price'; product doc/getProduct; shop shop" tal:condition="price">
-			<tal:block tal:condition="shop/getDisplayPriceWithTax">
-				<dt>${trans:m.catalog.frontoffice.price,ucf}</dt>
-				<dd>
+		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${shelf/getLabelAsHtml}</a><span class="separator" tal:condition="price"> - </span></dd>
+		<tal:block tal:condition="price">
+			<dt>${trans:m.catalog.frontoffice.price,ucf}</dt>
+			<dd>
+				<tal:block tal:condition="shop/getDisplayPriceWithoutTax">
 					<span class="price">
-						<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
-						${price/getFormattedValueWithTax}
-					</span>
-					<span tal:condition="shop/getDisplayPriceWithoutTax" class="separator"> - </span>
-				</dd>
-			</tal:block>
-			<tal:block tal:condition="shop/getDisplayPriceWithoutTax">
-				<dt>${trans:m.catalog.frontoffice.price,ucf}</dt>
-				<dd>
-					<span class="price">
+						${price/getFormattedValueWithoutTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ht,uc}</span>
 						<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>
-						${price/getFormattedValueWithoutTax}
 					</span>
-				</dd>
-			</tal:block>
+					<span class="separator" tal:condition="shop/getDisplayPriceWithTax"> / </span>
+				</tal:block>
+				<span class="price" tal:condition="shop/getDisplayPriceWithTax"> 
+					${price/getFormattedValueWithTax}  <span class="tax-mode">${trans:m.catalog.frontoffice.ttc,uc}</span>
+					<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
+				</span>
+			</dd>
 		</tal:block>
 	</dl>
 </tal:block>

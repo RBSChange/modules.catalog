@@ -128,9 +128,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function getByCodeReference($codeReference)
 	{
-		return $this->createQuery('modules_catalog/product')
-			->add(Restrictions::eq('codeReference', $codeReference))
-			->find();
+		return $this->createQuery('modules_catalog/product')->add(Restrictions::eq('codeReference', $codeReference))->find();
 	}	
 	
 	/**
@@ -139,9 +137,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function getByArticleId($articleId)
 	{
-		return $this->createQuery('modules_catalog/product')
-			->add(Restrictions::eq('articleId', $articleId))
-			->find();
+		return $this->createQuery('modules_catalog/product')->add(Restrictions::eq('articleId', $articleId))->find();
 	}
 
 	/**
@@ -159,9 +155,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function getByBrandId($brandId)
 	{
-		return $this->createQuery()
-			->add(Restrictions::eq('brand.id', $brandId))
-			->find();
+		return $this->createQuery()->add(Restrictions::eq('brand.id', $brandId))->find();
 	}
 
 	/**
@@ -662,7 +656,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}		
 	}
 	
-	
 	/**
 	 * @return Boolean
 	 */
@@ -724,7 +717,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 * @see catalog_ModuleService::getProductModelsThatMayAppearInCarts()
 	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
 	 */
@@ -734,7 +727,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 * @see markergas_lib_cMarkergasEditorTagReplacer::preRun()
 	 */
 	public function getPropertyNamesForMarkergas()
@@ -801,7 +794,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return $productIds;
 	}
 	
-
 	/**
 	 * @param integer[] $productIds
 	 */

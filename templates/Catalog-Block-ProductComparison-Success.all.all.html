@@ -54,17 +54,21 @@
 									<a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; mode 'remove'; productIds[] id; refererPageId context/getId" title="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}"><img change:img="icon/small/delete.png" alt="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}" /></a>
 								</li>
 								<li>${product/getCodereferenceAsHtml}</li>
-								<li tal:condition="configuration/getShowQuantitySelector">
-									<label class="invisible" for="comparison_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,lab,ucf}</label>
-	                				<input class="textfield quantity-selector js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
-	                			</li>
-	                			<li class="product-add">
-	                				<tal:block tal:condition="php: product.canBeOrdered(shop)">
-		                				<input type="button" class="button js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
-		                				<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button nojs" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
-		                			</tal:block>
-		                			<input disabled="disabled" tal:condition="php: !product.canBeOrdered(shop)" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
-	                			</li>
+								<tal:block tal:define="canAdd product/canBeAddedToCart">
+									<li tal:condition="configuration/getShowQuantitySelector" class="product-quantity-selector">
+										<tal:block tal:condition="canAdd">
+											<label class="invisible" for="comparison_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,lab,ucf}</label>
+			                				<input class="textfield quantity-selector js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
+			                			</tal:block>
+		                			</li>
+		                			<li class="product-add">
+		                				<tal:block tal:condition="canAdd">
+			                				<input type="button" class="button js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
+			                				<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button nojs" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+			                			</tal:block>
+			                			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
+		                			</li>
+	                			</tal:block>
 	                		</ul>
 						</td>
 					</tr>

@@ -5,12 +5,15 @@
 <ul change:errors=""></ul>
 <ul change:messages=""></ul>
 
-<ul class="product-list">
-	<li tal:repeat="product products" class="product-line">
-		<tal:block module="catalog" container="" name="ProductItem" displayMode="Short"
-			change:block="cmpref product; displayConfig displayConfig; shop shop" />
-	</li>
-</ul>
-<ul class="mini-navigation" tal:condition="fullListLink">
-	<li><a href="fullListLink/url" class="link">${fullListLink/label}</a></li>
-</ul>
+<div tal:condition="not:products">${trans:m.catalog.frontoffice.no-product-to-display,ucf}</div>
+<tal:block tal:condition="products">
+	<ul class="product-list">
+		<li tal:repeat="product products" class="product-line">
+			<tal:block module="catalog" container="" name="ProductItem" displayMode="Short"
+				change:block="cmpref product; displayConfig displayConfig; shop shop" />
+		</li>
+	</ul>
+	<ul class="mini-navigation" tal:condition="fullListLink">
+		<li><a href="fullListLink/url" class="link">${fullListLink/label}</a></li>
+	</ul>
+</tal:block>

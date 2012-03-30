@@ -14,10 +14,7 @@
 			<comparableproperty byLabel="Prix TTC" className="catalog_PriceComparableProperty">
 				<parameter value="ttc" />
 			</comparableproperty>
-			<comparableproperty byLabel="Disponibilité" className="catalog_GetterComparableProperty">
-				<parameter value="getAvailability" />
-				<parameter value="m.catalog.frontoffice.availability" />
-			</comparableproperty>
+			<comparableproperty byLabel="Disponibilité" className="catalog_AvailabilityComparableProperty" />
 			<comparableproperty byLabel="Marque" className="catalog_PersistentComparableProperty">
 				<parameter value="brand" />
 			</comparableproperty>

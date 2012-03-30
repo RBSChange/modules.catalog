@@ -282,6 +282,9 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return ($this->getCommentCount() > 0);
 	}
 	
+	/**
+	 * @return integer
+	 */
 	public function getCommentCount()
 	{
 		if ($this->commentCount === null)
@@ -295,7 +298,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
 	public function getPrice($shop, $billingArea, $customer, $quantity = 1)
@@ -320,14 +323,15 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceForCurrentShopAndCustomer()
+	public function getPriceForCurrentShopAndCustomer($quantity = 1)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$billingArea = $shop->getCurrentBillingArea();
 		$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
-		return $this->getPrice($shop, $billingArea, $customer);
+		return $this->getPrice($shop, $billingArea, $customer, $quantity);
 	}
 	
 	/**
@@ -367,6 +371,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	// Gestion du stock du produit
+	
 	/**
 	 * @return catalog_StockableDocument
 	 */
@@ -424,6 +429,9 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	private $sendStockAlert = false;
 	
+	/**
+	 * @param boolean $sendStockAlert
+	 */
 	public function setMustSendStockAlert($sendStockAlert = true)
 	{
 		$this->sendStockAlert = $sendStockAlert;
@@ -447,14 +455,26 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param int $quantity
-	 * @return Boolean
+	 * @param catalog_persistentdocument_price $price
+	 * @param integer $quantity
+	 * @return boolean
 	 */
-	public function canBeOrdered($shop, $quantity = 1)
+	public function canBeAddedToCart($price = false, $quantity = 1)
 	{
-		$cms = catalog_ModuleService::getInstance();
-		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
+		if (!catalog_ModuleService::getInstance()->isCartEnabled())
+		{
+			return false;
+		}
+		if ($price === false)
+		{
+			$price = $this->getPriceForCurrentShopAndCustomer($quantity);
+		}
+		if ($price === null)
+		{
+			return false;
+		}
+		$shop = $price->getShop();
+		return $shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity);
 	}
 	
 	/**
@@ -739,6 +759,9 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return true;
 	}
 	
+	/**
+	 * @return integer|null
+	 */
 	public function getContextualTopicId()
 	{
 		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
@@ -802,7 +825,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		}
 		return  null;
 	}
-	// Deprecated 
+	
+	// Deprecated. 
 	
 	/**
 	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
@@ -842,5 +866,14 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function getDisplayableCrossSelling($shop, $type = 'complementary', $sortBy = 'fieldorder')
 	{
 		return $this->getDocumentService()->getDisplayableCrossSelling($this, $shop, $type, $sortBy);
+	}
+		
+	/**
+	 * @deprecated use canBeAddedToCart
+	 */
+	public function canBeOrdered($shop, $quantity = 1)
+	{
+		$cms = catalog_ModuleService::getInstance();
+		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
 	}
 }

@@ -176,6 +176,49 @@ class catalog_PersistentComparableProperty extends catalog_GetterComparablePrope
 /**
  * @package modules.catalog.lib
  */
+class catalog_AvailabilityComparableProperty extends catalog_BaseComparableProperty
+{
+	/**
+	 * @param string[] $parameters
+	 */
+	public function __construct($parameters)
+	{
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLabel()
+	{
+		return LocaleService::getInstance()->transFO('m.catalog.frontoffice.availability', array('ucf'));
+	}
+
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return string
+	 */
+	public function getValue($product)
+	{
+		return f_util_HtmlUtils::htmlToText($this->getValueAsHtml($product));
+	}
+
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return string
+	 */
+	public function getValueAsHtml($product)
+	{
+		if (!$product->getPriceForCurrentShopAndCustomer())
+		{
+			return LocaleService::getInstance()->transFO('m.catalog.fo.add-to-cart-unavaible', array('ucf', 'html'));
+		}
+		return $product->getAvailability();
+	}
+}
+
+/**
+ * @package modules.catalog.lib
+ */
 class catalog_ReviewComparableProperty extends catalog_BaseComparableProperty
 {
 	/**
@@ -206,7 +249,7 @@ class catalog_ReviewComparableProperty extends catalog_BaseComparableProperty
 	 */
 	public function getValue($product)
 	{
-		return f_util_StringUtils::htmlToText($this->getValueAsHtml($product));
+		return f_util_HtmlUtils::htmlToText($this->getValueAsHtml($product));
 	}
 	
 	/**
@@ -270,7 +313,7 @@ class catalog_ShortDescriptionComparableProperty extends catalog_BaseComparableP
 	 */
 	public function getValue($product)
 	{
-		return f_util_StringUtils::htmlToText($product->getShortDescription($this->maxCount));
+		return f_util_HtmlUtils::htmlToText($product->getShortDescription($this->maxCount));
 	}
 	
 	/**
@@ -339,7 +382,7 @@ class catalog_PriceComparableProperty extends catalog_BaseComparableProperty
 		$price = $this->getPrice($product);
 		if ($price === null)
 		{
-			return '';
+			return '-';
 		}
 		
 		$html = '<span class="price">' . $price->{'getFormattedValue'.$suffix}();

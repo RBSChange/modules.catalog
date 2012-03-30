@@ -1,48 +1,49 @@
-<tal:block tal:define="id product/getId" change:productprice="name 'price'; product product">
-	<ul class="sub-list">
-		<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]; fieldid string:catalogParam_selected_product_$id">
-			<label tal:attributes="for fieldid" class="option-label">
-				<input tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; name name; value id" type="checkbox" />
-				<input tal:condition="not: checkboxes/$id" tal:attributes="id fieldid; name name; value id" type="checkbox" />
-				${trans:m.catalog.frontoffice.select,ucf}
-			</label>
-		</li>
-		<li change:productvisual="name 'visual'; mode 'list'; product product" class="product-visual">
-			<a tal:condition="visual" change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
-				<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
-			</a>
-			<div tal:condition="displayConfig/showProductPictograms" class="pictograms-container">
-				<ul tal:condition="product/getPictogramCount" class="inline-list product-pictograms">
-					<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pictogram'" /></li>
-				</ul>
-				<tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" container="" />
-			</div>
-		</li>
-		<li class="product-label">
-			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getNavigationLabelAsHtml}</a>
-		</li>
-		<li tal:condition="displayConfig/showAvailability" class="product-availability">
-			${product/getAvailability}
-		</li>
-		<li tal:condition="displayConfig/showRatingAverage" class="product-rating">
-			<tal:block tal:condition="product/hasRating" change:starrating="" small="true" value="${product/getRatingAverage}" displayOnly="true" />
-			<span tal:condition="not:product/hasRating">${trans:m.catalog.fo.no-rating,ucf}</span>
-		</li>
-		<li tal:condition="displayConfig/showPricesWithoutTax" class="product-price">
-			<span class="price">
-				${price/getFormattedValueWithoutTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ht,uc}</span>
-				<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>
-			</span>
-		</li>
-		<li tal:condition="displayConfig/showPricesWithTax" class="product-price">
-			<span class="price"> 
-				${price/getFormattedValueWithTax}  <span class="tax-mode">${trans:m.catalog.frontoffice.ttc,uc}</span>
-				<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
-			</span>
-		</li>
-		<li class="product-add" tal:condition="displayConfig/showAddToCart">
-			<input tal:condition="php: product.canBeOrdered(shop)" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
-			<input disabled="disabled" tal:condition="php: !product.canBeOrdered(shop)" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
-		</li>
-	</ul>
-</tal:block>
+<ul class="sub-list" tal:define="id product/getId" change:productprice="name 'price'; product product">
+	<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]; fieldid string:catalogParam_selected_product_$id">
+		<label tal:attributes="for fieldid" class="option-label">
+			<input tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; name name; value id" type="checkbox" />
+			<input tal:condition="not: checkboxes/$id" tal:attributes="id fieldid; name name; value id" type="checkbox" />
+			${trans:m.catalog.frontoffice.select,ucf}
+		</label>
+	</li>
+	<li change:productvisual="name 'visual'; mode 'list'; product product" class="product-visual">
+		<a tal:condition="visual" change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
+			<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
+		</a>
+		<div tal:condition="displayConfig/showProductPictograms" class="pictograms-container">
+			<ul tal:condition="product/getPictogramCount" class="inline-list product-pictograms">
+				<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pictogram'" /></li>
+			</ul>
+			<tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" container="" />
+		</div>
+	</li>
+	<li class="product-label">
+		<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getNavigationLabelAsHtml}</a>
+	</li>
+	<li tal:condition="displayConfig/showAvailability" class="product-availability">
+		<tal:block tal:condition="price">${product/getAvailability}</tal:block>
+		<tal:block tal:condition="not: price">${trans:m.catalog.fo.add-to-cart-unavaible,ucf}</tal:block>
+	</li>
+	<li tal:condition="displayConfig/showRatingAverage" class="product-rating">
+		<tal:block tal:condition="product/hasRating" change:starrating="" small="true" value="${product/getRatingAverage}" displayOnly="true" />
+		<span tal:condition="not:product/hasRating">${trans:m.catalog.fo.no-rating,ucf}</span>
+	</li>
+	<li tal:condition="displayConfig/showPricesWithoutTax" class="product-price">
+		<span class="price" tal:condition="price">
+			${price/getFormattedValueWithoutTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ht,uc}</span>
+			<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>
+		</span>
+	</li>
+	<li tal:condition="displayConfig/showPricesWithTax" class="product-price">
+		<span class="price" tal:condition="price"> 
+			${price/getFormattedValueWithTax}  <span class="tax-mode">${trans:m.catalog.frontoffice.ttc,uc}</span>
+			<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
+		</span>
+	</li>
+	<li class="product-add" tal:condition="displayConfig/showAddToCart">
+		<tal:block tal:define="canAdd php: product.canBeAddedToCart(price)">
+			<input tal:condition="canAdd" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
+			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
+		</tal:block>
+	</li>
+</ul>

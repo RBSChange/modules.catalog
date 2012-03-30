@@ -40,6 +40,14 @@ class catalog_BlockLastConsultedProductsAction extends catalog_BlockProductlistB
 		return catalog_ProductService::getInstance()->filterIdsForDisplay($productIds, $shop);
 	}
 	
+	/**
+	 * @return boolean
+	 */
+	protected function getShowIfNoProduct()
+	{
+		return false;
+	}
+	
 	// Deprecated.
 	
 	/**
