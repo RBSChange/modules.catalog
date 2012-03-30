@@ -70,6 +70,20 @@ td.price {
 .product-carousel .arrows p {
 	text-align: center;
 }
+.product-carousel .arrows a {
+	display: inline-block;
+	line-height: 22px;
+	min-height: 22px;
+	vertical-align: middle;
+}
+
+.products-comparison-list td {
+	min-width: 203px;
+	text-align: center;
+}
+.products-comparison-list td .product-description {
+	text-align: left;
+}
 
 .modules-catalog-product .main-visual {
 	min-width: 540px;
@@ -93,8 +107,11 @@ td.price {
 	height: 60px;
 	line-height: 60px;
 	text-align: center;
-	padding: 3px;
+	margin: 3px;
 	cursor: pointer;
+}
+.modules-catalog-product .additionnal-visuals li img {
+	vertical-align: baseline;
 }
 
 .modules-catalog-product .columns {

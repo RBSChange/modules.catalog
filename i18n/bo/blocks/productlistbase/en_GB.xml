@@ -28,4 +28,6 @@
   <key id="showshareblock-help">Shows or hides the link sharing block for social networking sites (requires the "Link sharing" module).</key>
   <key id="blocktitle">block title</key>
   <key id="blocktitle-help">Title of the block on the site. If left blank, it will be generated automatically.</key>
+  <key id="addlinktoall">link to the complete list</key>
+  <key id="addlinktoall-help">Add the link to the complete list of products</key>
 </i18n>

@@ -7,4 +7,8 @@
 	<key id="restrictproductstocontext-help">Cocher oui pour restreindre la liste de comparaison aux produits sélectionnés qui appartiennent au rayon courrant ou à un de ses sous-rayons.</key>
 	<key id="showquantityselector">afficher le sélectionneur de quantité</key>
 	<key id="showquantityselector-help">Afficher ou non le sélectionneur de quantité sur chaque produit. Ce sélectionneur ne sera présent que pour les utilisateurs dont le navigateur gère le javascript.</key>
+	<key id="showaddtofavorite">ajout aux produits favoris</key>
+	<key id="showaddtofavorite-help">activer ou non le bouton d'ajout aux produits favoris.</key>
+	<key id="showproductpictograms">pictogrammes</key>
+	<key id="showproductpictograms-help">activer ou non l'affichage des pictogrammes des produits.</key>
 </i18n>

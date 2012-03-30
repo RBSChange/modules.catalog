@@ -279,9 +279,9 @@ class catalog_ShortDescriptionComparableProperty extends catalog_BaseComparableP
 	 */
 	public function getValueAsHtml($product)
 	{
-		$html = '<div class="short-description">';
+		$html = '<div class="product-description short-description">';
 		$html .= $product->getShortDescription($this->maxCount);
-		$html .= '</div><div class="full-description" style="display: none">';
+		$html .= '</div><div class="product-description full-description" style="display: none">';
 		$html .= $product->getDescriptionAsHtml();
 		$html .= '</div>';
 		return $html;
@@ -342,12 +342,13 @@ class catalog_PriceComparableProperty extends catalog_BaseComparableProperty
 			return '';
 		}
 		
-		$html = '';
+		$html = '<span class="price">' . $price->{'getFormattedValue'.$suffix}();
+		$html .= ' <span class="tax-mode">' . LocaleService::getInstance()->transFO('m.catalog.frontoffice.' . $this->mode, array('uc', 'html')) . '</span>';
 		if ($price->isDiscount())
 		{
-			$html .= '<del>' . $price->{'getFormattedOldValue'.$suffix}() . '</del> ';
+			$html .= ' <del>' . $price->{'getFormattedOldValue'.$suffix}() . '</del>';
 		}
-		$html .= $price->{'getFormattedValue'.$suffix}();
+		$html .= '</span>';
 		return $html;
 	}
 	

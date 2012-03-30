@@ -184,19 +184,13 @@ class catalog_BundleproductService extends catalog_ProductService
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param catalog_persistentdocument_product $product
-	 * @return array
+	 * @return integer[]
 	 */
-	public function getByBundledProduct($shop, $product)
+	public function getDisplayableIdsByContainedProduct($shop, $product)
 	{
-		$query = $this->createStrictQuery()
-		->add(Restrictions::published())
-		->add(Restrictions::eq('bundleditem.product', $product));
-		
-		$query->createCriteria('compiledproduct')
-			->add(Restrictions::published())
-			->add(Restrictions::eq('shopId', $shop->getId()));
-		
-		return $query->find();
+		$query = $this->createStrictQuery()->add(Restrictions::published())->add(Restrictions::eq('bundleditem.product', $product));
+		$query->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));
+		return $query->setProjection(Projections::property('id'))->findColumn('id');
 	}
 	
 	/**
@@ -259,5 +253,23 @@ class catalog_BundleproductService extends catalog_ProductService
 			'brand' => 'brand/label',
 			'codeReference' => 'codeReference'
 		));
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getDisplayableIdsByContainedProduct
+	 */
+	public function getByBundledProduct($shop, $product)
+	{
+		$query = $this->createStrictQuery()
+		->add(Restrictions::published())
+		->add(Restrictions::eq('bundleditem.product', $product));
+	
+		$query->createCriteria('compiledproduct')
+		->add(Restrictions::published())
+		->add(Restrictions::eq('shopId', $shop->getId()));
+	
+		return $query->find();
 	}
 }

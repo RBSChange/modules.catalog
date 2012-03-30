@@ -247,7 +247,7 @@ class catalog_ModuleService extends ModuleBaseService
 				->add(Restrictions::eq('websiteId', $website->getId()));
 			return $query->find();
 		}
-		return array();		
+		return array();
 	}
 	
 	/**
@@ -340,13 +340,14 @@ class catalog_ModuleService extends ModuleBaseService
 	{
 		return $this->removeProductIdFromList(catalog_ProductList::FAVORITE, $product->getId());
 	}
-	
+		
 	/**
-	 * @return catalog_persistentdocument_product[]
+	 * @return integer[]
 	 */
-	public function getFavoriteProducts()
+	public function getFavoriteProductIds()
 	{
-		return $this->getProductsFromList(catalog_ProductList::FAVORITE);
+		$productIds = $this->getProductIdsFromList(catalog_ProductList::FAVORITE);
+		return catalog_ProductService::getInstance()->filterIdsForDisplay($productIds, catalog_ShopService::getInstance()->getCurrentShop());
 	}
 	
 	/**
@@ -355,5 +356,15 @@ class catalog_ModuleService extends ModuleBaseService
 	public function mergeFavoriteProductWithList($productList)
 	{
 		$this->getProductList(catalog_ProductList::FAVORITE);
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getFavoriteProductIds
+	 */
+	public function getFavoriteProducts()
+	{
+		return $this->getProductsFromList(catalog_ProductList::FAVORITE);
 	}
 }

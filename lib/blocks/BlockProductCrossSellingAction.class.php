@@ -7,23 +7,28 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 {
 	/**
 	 * @param f_mvc_Response $response
-	 * @return catalog_persistentdocument_product[]
+	 * @return integer[]
 	 */
-	protected function getProductArray($request)
+	protected function getProductIdArray($request)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-    	$product = $this->getDocumentParameter();
-	    if ($shop === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
-	    {
-	    	return array();
-	    }
-	    $request->setAttribute('globalProduct', $product);
-	    $request->setAttribute('product', $product);
-		
-		$configuration = $this->getConfiguration();
-	    $sellingType = $configuration->getCrossSellingType();
-	    
-    	return $product->getDisplayableCrossSelling($shop, $sellingType, $configuration->getSortby());
+		$product = $this->getDocumentParameter();
+		if ($shop === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
+		{
+			return array();
+		}
+		$request->setAttribute('globalProduct', $product);
+		$request->setAttribute('product', $product);
+
+		return $product->getDisplayableCrossSellingIds($shop, $this->getConfiguration()->getCrossSellingType());
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	protected function getSortRandom()
+	{
+		return $this->getConfiguration()->getSortby() == 'random';
 	}
 	
 	/**
@@ -39,6 +44,11 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	 */
 	protected function getBlockTitle()
 	{
+		$title = $this->getConfigurationValue('blockTitle', null);
+		if ($title)
+		{
+			return f_util_HtmlUtils::textToHtml($title);
+		}
 		return $this->getTypeLabel();
 	}
 	
@@ -52,12 +62,11 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 		{
 			return null;
 		}
-		$params = array(
-			'catalogParam[cmpref]' => $product->getId(),
-			'catalogParam[relationType]' => $this->getConfiguration()->getCrossSellingType()
-		);
+		$params = array('catalogParam[cmpref]' => $product->getId(), 
+			'catalogParam[relationType]' => $this->getConfiguration()->getCrossSellingType());
 		$url = LinkHelper::getTagUrl('functional_catalog_crosssellinglist-page', null, $params);
-		$label = LocaleService::getInstance()->transFO('m.catalog.frontoffice.cross-selling-list', array('ucf'), array('type' => $this->getTypeLabel()));
+		$label = LocaleService::getInstance()->transFO('m.catalog.frontoffice.cross-selling-list', array('ucf'), array(
+			'type' => $this->getTypeLabel()));
 		return array('url' => $url, 'label' => $label);
 	}
 	
@@ -71,12 +80,25 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 		return f_util_HtmlUtils::textToHtml($list->getItemByValue($sellingType)->getLabel());
 	}
 	
+	// Deprecated.
+	
 	/**
-	 * @param block_BlockRequest $request
-	 * @return string the display mode
+	 * @deprecated use getProductIdArray()
 	 */
-	protected function getMaxresults($request)
+	protected function getProductArray($request)
 	{
-		return $this->getConfiguration()->getMaxdisplayed();
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$product = $this->getDocumentParameter();
+		if ($shop === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
+		{
+			return array();
+		}
+		$request->setAttribute('globalProduct', $product);
+		$request->setAttribute('product', $product);
+		
+		$configuration = $this->getConfiguration();
+		$sellingType = $configuration->getCrossSellingType();
+		
+		return $product->getDisplayableCrossSelling($shop, $sellingType, $configuration->getSortby());
 	}
 }

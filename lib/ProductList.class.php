@@ -5,8 +5,9 @@
  */
 interface catalog_ProductList
 {
-	const FAVORITE = 'favorite';
-	const CONSULTED = 'consulted';
+	const FAVORITE = 'catalog_favorite';
+	const CONSULTED = 'catalog_consulted';
+	const COMPARISON = 'catalog_comparison';
 
 	/**
 	 * @param string $listName

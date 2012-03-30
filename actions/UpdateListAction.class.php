@@ -19,6 +19,8 @@ class catalog_UpdateListAction extends f_action_BaseAction
 	public function _execute($context, $request)
 	{
 		// Get parameters.
+		$ls = LocaleService::getInstance();
+		$formatters = array('ucf', 'html');
 		$productIds = $this->getGetProductIdsFromRequest($request);
 		$mode = $request->getParameter('mode', 'add');
 		if (is_array($mode))
@@ -33,7 +35,7 @@ class catalog_UpdateListAction extends f_action_BaseAction
 		if ($mode !== 'clear' && count($productIds) === 0)
 		{
 			$ok = false;
-			website_SessionMessage::addVolatileError(LocaleService::getInstance()->transFO('m.'.$module.'.fo.no-selected-product', array('ucf')));
+			website_SessionMessage::addVolatileError($ls->transFO('m.'.$module.'.fo.no-selected-product', $formatters));
 		}
 		else 
 		{	
@@ -68,7 +70,7 @@ class catalog_UpdateListAction extends f_action_BaseAction
 					
 				default:
 					$ok = false;
-					website_SessionMessage::addVolatileError(LocaleService::getInstance()->transFO('m.'.$module.'.fo.unknown-update-mode', array('ucf')));
+					website_SessionMessage::addVolatileError($ls->transFO('m.'.$module.'.fo.unknown-update-mode', $formatters));
 					break;
 			}
 		}
@@ -77,46 +79,29 @@ class catalog_UpdateListAction extends f_action_BaseAction
 		if ($ok)
 		{
 			$list->saveList();
-			website_SessionMessage::addVolatileMessage(LocaleService::getInstance()->transFO('m.'.$module.'.fo.productlist-'.$name.'-updated', array('ucf')));
+			$listUrl = $this->getListUrl($request, $module, $name);
+			Framework::fatal(__METHOD__ . ' ' . $listUrl);
+			if ($listUrl)
+			{
+				$replacements = array('listUrl' => $listUrl);
+				website_SessionMessage::addVolatileMessage($ls->transFO('m.'.$module.'.fo.productlist-'.$name.'-updated-link', $formatters, $replacements));
+			}
+			else
+			{
+				website_SessionMessage::addVolatileMessage($ls->transFO('m.'.$module.'.fo.productlist-'.$name.'-updated', $formatters));
+			}
 		}
 		
 		// Redirect.
 		$backUrl = $request->getParameter('backurl');
 		if (!$backUrl)
 		{
-			$doc = null;
-			$ts = TagService::getInstance();
-			$refererPageId = $backUrl = $request->getParameter('refererPageId');
-			if ($refererPageId)
-			{
-				$ts = TagService::getInstance();
-				$tag = 'functional_'.$module.'_productlist-'.$name;
-				$page = DocumentHelper::getDocumentInstance($refererPageId);
-				if ($ts->hasTag($page, $tag))
-				{
-					$doc = $page;
-				}
-				else
-				{
-					$doc = $ts->getDocumentBySiblingTag($tag, $page, false);
-				}
-			}
-			
+			$backUrl = $this->getListUrl($request, $module, $name);
+		}
+		if (!$backUrl)
+		{
 			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
-			if ($doc === null)
-			{
-				$tag = 'contextual_website_website_modules_'.$module.'_'.$name.'-product-list';
-				$doc = TagService::getInstance()->getDocumentByContextualTag($tag, $website, false);
-			}
-			
-			if ($doc === null)
-			{
-				$backUrl = LinkHelper::getDocumentUrl($website);		
-			}
-			else
-			{
-				$backUrl = LinkHelper::getDocumentUrlForWebsite($doc, $website);
-			}
+			$backUrl = LinkHelper::getDocumentUrl($website);
 		}
 		HttpController::getInstance()->redirectToUrl($backUrl);
 	}
@@ -168,6 +153,56 @@ class catalog_UpdateListAction extends f_action_BaseAction
 		return $docIds;
 	}
 	
+	/**
+	 * @var string
+	 */
+	private $listUrl = false;
+	
+	/**
+	 * @param $module string
+	 * @param $list string
+	 * @return string
+	 */
+	protected function getListUrl($request, $module, $name)
+	{
+		if ($this->listUrl === false)
+		{
+			$doc = null;
+			$ts = TagService::getInstance();
+			$refererPageId = $request->getParameter('refererPageId');
+			if ($refererPageId)
+			{
+				$ts = TagService::getInstance();
+				$tag = 'functional_'.$module.'_productlist-'.$name;
+				$page = DocumentHelper::getDocumentInstance($refererPageId);
+				if ($ts->hasTag($page, $tag))
+				{
+					$doc = $page;
+				}
+				else
+				{
+					$doc = $ts->getDocumentBySiblingTag($tag, $page, false);
+				}
+			}
+				
+			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+			if ($doc === null)
+			{
+				$tag = 'contextual_website_website_modules_'.$module.'_'.$name.'-product-list';
+				$doc = $ts->getDocumentByContextualTag($tag, $website, false);
+			}
+				
+			if ($doc !== null)
+			{
+				$this->listUrl = LinkHelper::getDocumentUrlForWebsite($doc, $website);
+			}
+			else
+			{
+				$this->listUrl = null;
+			}
+		}
+		return $this->listUrl;
+	}
 	
 	/**
 	 * @return boolean

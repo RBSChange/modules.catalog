@@ -279,6 +279,12 @@
         <contextaction name="reactivate"/>
       </contextactions>
     </model>
+    <model name="modules_catalog/tax">
+      <contextactions>
+        <contextaction name="edit"/>
+        <contextaction name="delete"/>
+      </contextactions>
+    </model>
   </models>
   <toolbar>
     <toolbarbutton name="edit"/>

@@ -32,8 +32,6 @@
 	<key id="pagedescription-help">description de la page utilisable dans les métas de la page d'accueil de la boutique.</key>
 	<key id="pagekeywords">mots-clés de la page</key>
 	<key id="pagekeywords-help">mots-clés de la page utilisable dans les métas de la page d'accueil de la boutique.</key>
-
-
 	<key id="enableavailabilityalerts">activer les alertes disponibilité</key>
 	<key id="enableavailabilityalerts-help">activer ou non la possibilité pour le visiteur de placer une alerte sur la disponibilité d'un produit.</key>
 	<key id="availabilityalertsduration">durée des alertes disponibilité</key>
@@ -45,8 +43,6 @@
 	<key id="enablecaptchaforalerts">activer le CAPTCHA sur les alertes</key>
 	<key id="enablecaptchaforalerts-help">En activant le CAPTCHA il sera présent pour les utilisateurs non-connectés. Dans tous les cas, les utilisateurs connectés n'en auront pas.</key>
 	<key id="published-product-count">nombre de produits publiés</key>
-	<key id="nbproductperpage">nombre de produits par page</key>
-	<key id="nbproductperpage-help">nombre de produits par page par défaut dans les listes de produits de la boutique en frontoffice.</key>
 	<key id="enablecomments">activer les commentaires</key>
 	<key id="enablecomments-help">activer ou non les commentaires sur les produits.</key>
 	<key id="isdefault">boutique par défaut</key>
@@ -69,4 +65,6 @@
 	<key id="currencycode-help">Devise utilisée par la boutique. Elle provient d’une liste statique du module « Listes ».</key>
 	<key id="currencyposition">position du symbole</key>
 	<key id="currencyposition-help">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99.</key>	
+	<key id="nbproductperpage">nombre de produits par page</key>
+	<key id="nbproductperpage-help">nombre de produits par page par défaut dans les listes de produits de la boutique en frontoffice.</key>
 </i18n>

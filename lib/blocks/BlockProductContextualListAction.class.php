@@ -10,13 +10,12 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	public static $sortOptions = array('displayMode', 'nbresultsperpage', 'onlydiscount', 
 		'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
-	
+		
 	/**
 	 * @param f_mvc_Request $request
-	 * @param boolean $idsOnly
-	 * @return catalog_persistentdocument_product[]
+	 * @return integer[] or null
 	 */
-	protected function getProductArray($request, $idsOnly = false)
+	protected function getProductIdArray($request)
 	{
 		// Prepare display configuration.
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
@@ -78,30 +77,13 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 			$hideBlocIfEmpty = false;
 		}
 		
-		if ($idsOnly)
-		{
-			$masterQuery->setProjection(Projections::property('id'));
-			$products = $masterQuery->findColumn('id');
-		}
-		else
-		{	
-			$products = $masterQuery->find();		
-		}
-		
-		if (count($products) == 0 && $hideBlocIfEmpty)
+		$masterQuery->setProjection(Projections::property('id'));
+		$productIds = $masterQuery->findColumn('id');				
+		if (count($productIds) == 0 && $hideBlocIfEmpty)
 		{
 			return null;
 		}
-		return $products;
-	}
-		
-	/**
-	 * @param f_mvc_Request $request
-	 * @return integer[] or null
-	 */
-	protected function getProductIdArray($request)
-	{
-		return $this->getProductArray($request, true);
+		return $productIds;
 	}
 	
 	/**
@@ -168,6 +150,11 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	protected function getBlockTitle()
 	{
+		$title = $this->getConfigurationValue('blockTitle', null);
+		if ($title)
+		{
+			return f_util_HtmlUtils::textToHtml($title);
+		}
 		$shelf = $this->getCurrentShelf();
 		if ($shelf !== null)
 		{
@@ -217,5 +204,89 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 			$this->container = $css->getByTopic(DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
 		}
 		return $this->container;
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getProductIdArray()
+	 */
+	protected function getProductArray($request, $idsOnly = false)
+	{
+		// Prepare display configuration.
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$displayConfig = $this->getDisplayConfig($shop);
+	
+		// Handle the sort configuration.
+		if ($displayConfig['showSortMenu'])
+		{
+			$this->persistSortOptions($request);
+		}
+		$masterQuery = catalog_ProductService::getInstance()->createQuery();
+	
+		$query = $masterQuery->createCriteria('compiledproduct')
+		->add(Restrictions::published())
+		->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
+		->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+		->add(Restrictions::eq('showInList', true));
+	
+		$priceorder = $this->findParameterValue('priceorder');
+		if ($priceorder == 1)
+		{
+			$masterQuery->addOrder(Order::asc('compiledproduct.price'));
+		}
+		else if ($priceorder == 2)
+		{
+			$masterQuery->addOrder(Order::desc('compiledproduct.price'));
+		}
+		$ratingaverageorder = $this->findParameterValue('ratingaverageorder');
+		if ($ratingaverageorder == 1)
+		{
+			$masterQuery->addOrder(Order::asc('compiledproduct.ratingAverage'));
+		}
+		else if ($ratingaverageorder == 2)
+		{
+			$masterQuery->addOrder(Order::desc('compiledproduct.ratingAverage'));
+		}
+		$brandorder = $this->findParameterValue('brandorder');
+		if ($brandorder == 1)
+		{
+			$masterQuery->addOrder(Order::asc('compiledproduct.brandLabel'));
+		}
+		else if ($brandorder == 2)
+		{
+			$masterQuery->addOrder(Order::desc('compiledproduct.brandLabel'));
+		}
+		$masterQuery->addOrder(Order::asc('compiledproduct.position'));
+	
+		$hideBlocIfEmpty = true;
+		$onlydiscount = $this->findParameterValue('onlydiscount');
+		if ($onlydiscount == 'true')
+		{
+			$query->add(Restrictions::eq('isDiscount', true));
+			$hideBlocIfEmpty = false;
+		}
+		$onlyavailable = $this->findParameterValue('onlyavailable');
+		if ($onlyavailable == 'true')
+		{
+			$query->add(Restrictions::eq('isAvailable', true));
+			$hideBlocIfEmpty = false;
+		}
+	
+		if ($idsOnly)
+		{
+			$masterQuery->setProjection(Projections::property('id'));
+			$products = $masterQuery->findColumn('id');
+		}
+		else
+		{
+			$products = $masterQuery->find();
+		}
+	
+		if (count($products) == 0 && $hideBlocIfEmpty)
+		{
+			return null;
+		}
+		return $products;
 	}
 }

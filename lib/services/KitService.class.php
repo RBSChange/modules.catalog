@@ -10,7 +10,6 @@ class catalog_KitService extends catalog_ProductService
 	 */
 	private static $instance;
 
-
 	/**
 	 * @return catalog_KitService
 	 */
@@ -539,5 +538,17 @@ class catalog_KitService extends catalog_ProductService
 			'brand' => 'brand/label',
 			'codeReference' => 'codeReference'
 		));
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_product $product
+	 * @return integer[]
+	 */
+	public function getDisplayableIdsByContainedProduct($shop, $product)
+	{
+		$query = $this->createStrictQuery()->add(Restrictions::published())->add(Restrictions::eq('kititem.product', $product));
+		$query->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));	
+		return $query->setProjection(Projections::property('id'))->findColumn('id');
 	}
 }

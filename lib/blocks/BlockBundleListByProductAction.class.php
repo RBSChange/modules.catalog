@@ -3,55 +3,23 @@
  * catalog_BlockBundleListByProductAction
  * @package modules.catalog.lib.blocks
  */
-class catalog_BlockBundleListByProductAction extends website_BlockAction
+class catalog_BlockBundleListByProductAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @see website_BlockAction::execute()
-	 *
-	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return integer[]
 	 */
-	function execute($request, $response)
+	protected function getProductIdArray($request)
 	{
-		if ($this->isInBackofficeEdition())
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$product = $this->getDocumentParameter();
+		if ($shop === null || !($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
 		{
-			return website_BlockView::NONE;
+			return array();
 		}
-		
-		
-    	$product = $this->getDocumentParameter();    	
-	    if (!($product instanceof catalog_persistentdocument_product) || !$product->isPublished())
-	    {
-	    	if ($product !== null)
-	    	{
-	    		Framework::error(__METHOD__ . ' Invalid product type');
-	    	}
-	    	return website_BlockView::NONE;
-	    }
-	    
-	    $shop = catalog_ShopService::getInstance()->getCurrentShop();
-	    if ($shop === null)
-	    {
-	    	return website_BlockView::NONE;
-	    }
-	    
-	    $bundleProducts = catalog_BundleproductService::getInstance()->getByBundledProduct($shop, $product);
-	    if (count($bundleProducts) > 0)
-	    {
-	    	
-	    	$request->setAttribute('shop', $shop);
-	    	
-			$customer = null;
-			if (catalog_ModuleService::areCustomersEnabled())
-			{
-				$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
-			}
-			$request->setAttribute('customer', $customer);
-			
-	    	$request->setAttribute('bundleProducts', $bundleProducts);
-			return website_BlockView::SUCCESS;
-	    }
-	    return website_BlockView::NONE;
+		 
+		$bundleIds = catalog_BundleproductService::getInstance()->getDisplayableIdsByContainedProduct($shop, $product);
+		$kitIds = catalog_KitService::getInstance()->getDisplayableIdsByContainedProduct($shop, $product);
+		return array_merge($bundleIds, $kitIds);
 	}
 }

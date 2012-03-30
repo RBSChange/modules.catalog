@@ -5,24 +5,20 @@
  */
 abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 {
-	const DISPLAY_MODE_LIST = 'List';
-	const DEFAULT_PRODUCTS_PER_PAGE = 12;
-
 	/**
 	 * @param f_mvc_Request $request
 	 * @return string
 	 */
 	protected function getDisplayMode($request)
 	{
-		if ($request->hasParameter('displayMode'))
+		if ($request->hasNonEmptyParameter('displayMode'))
 		{
-			$displayMode = $request->getParameter('displayMode');
+			return $request->getParameter('displayMode');
 		}
 		else
 		{
-			$displayMode = $this->getConfigurationValue('displayMode', self::DISPLAY_MODE_LIST);
+			return $this->getConfigurationValue('displayMode', 'List');
 		}
-		return $displayMode;
 	}
 	
 	/**
@@ -69,10 +65,15 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			$globalButtons[] = $this->getButtonInfo('addToCart', 'add-to-cart');
 		}
-		$displayConfig['showAddToFavorite'] = $this->getConfigurationValue('showAddToFavorite', false);
+		$displayConfig['showAddToFavorite'] = $this->getConfigurationValue('showaddtofavorite', false);
 		if ($displayConfig['showAddToFavorite'])
 		{
 			$globalButtons[] = $this->getButtonInfo('addToFavorite', 'add-to-favorite');
+		}
+		$displayConfig['showAddToComparison'] = $this->getConfigurationValue('showaddtocomparison', false);
+		if ($displayConfig['showAddToComparison'])
+		{
+			$globalButtons[] = $this->getButtonInfo('addToComparison', 'add-to-comparison');
 		}
 		$displayConfig['globalButtons'] = $globalButtons;
 		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;
@@ -132,18 +133,12 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	protected function getMaxresults($request)
 	{
-		$nbresultsperpage = $this->findParameterValue("nbresultsperpage");
+		$nbresultsperpage = $this->findParameterValue('nbresultsperpage');
 		if ($nbresultsperpage > 0)
 		{
 			return $nbresultsperpage;
 		}
-		$defaultProductsPerPage = self::DEFAULT_PRODUCTS_PER_PAGE;
-		$currentShop = catalog_ShopService::getInstance()->getCurrentShop();
-		if ($currentShop)
-		{
-			$defaultProductsPerPage = $currentShop->getNbproductperpage();
-		}
-		return $defaultProductsPerPage;
+		return 12;
 	}
 	
 	/**
@@ -195,7 +190,12 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	protected function getBlockTitle()
 	{
-		return LocaleService::getInstance()->transFO('m.' . $this->getModuleName() . '.bo.blocks.' . $this->getName() . '.title', array('ucf'));
+		$title = $this->getConfigurationValue('blockTitle', null);
+		if ($title)
+		{
+			return f_util_HtmlUtils::textToHtml($title);
+		}
+		return LocaleService::getInstance()->transFO('m.' . $this->getModuleName() . '.bo.blocks.' . $this->getName() . '.title', array('ucf', 'html'));
 	}
 	
 	/**
@@ -207,75 +207,21 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	}
 	
 	/**
-	 * @var array<Array<String => Mixed>>
+	 * @return boolean
 	 */
-	protected $addedProductLabels = array();
-	
-	/**
-	 * @var array<Array<String => Mixed>>
-	 */
-	protected $notAddedProductLabels = array();
-	
-	/**
-	 * @param string $successRootKey
-	 * @param string $errorRootKey
-	 */
-	protected function addMessagesToBlock($rootKey)
+	protected function getSortRandom()
 	{
-		$message = $this->getMessage($this->addedProductLabels, $rootKey . '-success');
-		if ($message !== null)
-		{
-			$this->addMessage($message);
-		}
-		$this->addedProductLabels = null;
-		$message = $this->getMessage($this->notAddedProductLabels, $rootKey . '-error');
-		if ($message !== null)
-		{
-			$this->addError($message);
-		}
-		$this->notAddedProductLabels = null;
+		return $this->getConfigurationValue('sortRandom', false);
 	}
 	
-	/**
-	 * @param array<String> $labels
-	 * @param string $mode
-	 * @return string
-	 */
-	private function getMessage($labels, $mode)
-	{
-		$ls = LocaleService::getInstance();
-		switch (count($labels))
-		{
-			case 0 :
-				$message = null;
-				break;
-			case 1 :
-				$message = $ls->transFO('m.catalog.frontoffice.' . $mode . '-one', array('ucf', 'html'), array('label' => f_util_ArrayUtils::firstElement($labels)));
-				break;
-			default :
-				$lastLabel = array_pop($labels);
-				$firstLabels = implode(', ', $labels);
-				$message = $ls->transFO('m.catalog.frontoffice.' . $mode . '-several', array('ucf', 'html'), array('firstLabels' => $firstLabels, 'lastLabel' => $lastLabel));
-				break;
-		}
-		return $message;
-	}
-	
-	/**
-	 * @param f_mvc_Response $response
-	 * @return catalog_persistentdocument_product[] or null
-	 */
-	protected function getProductArray($request)
-	{
-		return null;
-	}
-	
+			
 	/**
 	 * @param f_mvc_Response $response
 	 * @return integer[] or null
 	 */
 	protected function getProductIdArray($request)
 	{
+		// For compatibility...
 		$products = $this->getProductArray($request);
 		if (is_array($products))
 		{
@@ -291,6 +237,10 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	public function execute($request, $response)
 	{
+		if ($this->isInBackofficeEdition())
+		{
+			return website_BlockView::NONE;
+		}
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		if ($shop === null)
 		{
@@ -300,7 +250,6 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		if (!$shop->getIsDefault())
 		{
 			$request->setAttribute('contextShopId', $shop->getId());
-			$systemTopic = $this->getContext()->getParent();
 		}
 		
 		$displayConfig = $this->getDisplayConfig($shop);
@@ -312,50 +261,15 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			foreach ($request->getParameter('quantities') as $id => $quantity)
 			{
-				$quantities[$id] =  intval($quantity);
+				$quantities[$id] = intval($quantity);
 			}
 		}
 		$request->setAttribute('quantities', $quantities);
 		
+		// If the form is submitted, redirect to appropriate action.
 		if (!$request->hasParameter('formBlockId') || $request->getParameter('formBlockId') == $this->getBlockId())
 		{
-			// Handle "Add to favorite".
-			if ($displayConfig['showAddToFavorite'] && $request->hasParameter('addToFavorite'))
-			{
-				foreach ($request->getParameter('selected_product') as $id)
-				{
-					$this->addToFavorite(DocumentHelper::getDocumentInstance($id));
-				}
-				$this->addMessagesToBlock('add-to-favorite');
-			}
-			
-			// Handle "Add to cart".
-			if ($displayConfig['showAddToCart'] && $request->hasParameter('addToCart'))
-			{
-				$productIdsToAdd = array();
-				$addToCart = $request->getParameter('addToCart');
-				if (is_array($addToCart))
-				{
-					$productIdsToAdd = $addToCart;
-				}
-				else if ($request->hasParameter('selected_product'))
-				{	
-					$addToCart = $request->getParameter('selected_product');
-					if (is_array($addToCart))
-					{		
-						$productIdsToAdd = array_flip($addToCart);
-					}
-				}
-				
-				$params = array(
-					'backurl' => LinkHelper::getCurrentUrl(),
-					'shopId' => $shop->getId(),
-					'quantities' => array_intersect_key($quantities, $productIdsToAdd),
-					'productIds' => array_keys($productIdsToAdd)
-				);
-				$url = LinkHelper::getActionUrl('order', 'AddToCartMultiple', $params);
-				$this->redirectToUrl($url);
-			}
+			$this->handleActions($request, $displayConfig, $shop, $quantities);
 		}
 		
 		$customer = null;
@@ -365,12 +279,26 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		}
 		$request->setAttribute('customer', $customer);
 		
-		$templateName = 'Catalog-Block-Productlist-' . ucfirst($this->getDisplayMode($request));
-		$productIds = $this->getProductIdArray($request);				
-		if (is_array($productIds) && count($productIds) > 0)
+		$productIds = $this->getProductIdArray($request);
+		if ($productIds instanceof paginator_Paginator)
 		{
+			$request->setAttribute('products', $productIds);
+		}
+		elseif (is_array($productIds) && count($productIds) > 0)
+		{
+			// Handle randomization.
+			if ($this->getSortRandom())
+			{
+				shuffle($productIds);
+			}
+			
 			$maxresults = $this->getMaxresults($request);
 			$page = $request->getParameter(paginator_Paginator::PAGEINDEX_PARAMETER_NAME, 1);
+			if (!is_numeric($page) || $page < 1 || $page > ceil(count($productIds) / $maxresults))
+			{
+				$page = 1;
+			}
+			$this->getContext()->addCanonicalParam('page', $page > 1 ? $page : null, 'catalog');
 			$paginator = new paginator_Paginator('catalog', $page, $productIds, $maxresults);
 			$request->setAttribute('products', $paginator);
 			
@@ -397,11 +325,114 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		}
 		$request->setAttribute('blockTitle', $blockTitle);
 		
-		return $this->getTemplateByFullName('modules_catalog', $templateName);
+		return $this->getTemplateByFullName('modules_catalog', 'Catalog-Block-Productlist-' . ucfirst($this->getDisplayMode($request)));
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_product $product
+	 * @param f_mvc_Request $request
+	 * @param array $displayConfig
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param array $quantities
+	 */
+	protected function handleActions($request, $displayConfig, $shop, $quantities)
+	{
+		// Handle "Add to favorite".
+		if ($displayConfig['showAddToFavorite'] && $request->hasParameter('addToFavorite'))
+		{
+			$params = array(
+				'mode' => 'add',
+				'refererPageId' => $this->getContext()->getId(),
+				'listName' => catalog_ProductList::FAVORITE,
+				'backurl' => LinkHelper::getCurrentUrl(),
+				'productIds' => array_values($request->getParameter('selected_product'))
+			);
+			$url = LinkHelper::getActionUrl('catalog', 'UpdateList', $params);
+			$this->redirectToUrl($url);
+		}
+			
+		// Handle "Add to comparisons".
+		if ($displayConfig['showAddToComparison'] && $request->hasParameter('addToComparison'))
+		{
+			$params = array(
+				'mode' => 'add',
+				'refererPageId' => $this->getContext()->getId(),
+				'listName' => catalog_ProductList::COMPARISON,
+				'backurl' => LinkHelper::getCurrentUrl(),
+				'productIds' => array_values($request->getParameter('selected_product'))
+			);
+			$url = LinkHelper::getActionUrl('catalog', 'UpdateList', $params);
+			$this->redirectToUrl($url);
+		}
+			
+		// Handle "Add to cart".
+		if ($displayConfig['showAddToCart'] && $request->hasParameter('addToCart'))
+		{
+			$productIdsToAdd = array();
+			$addToCart = $request->getParameter('addToCart');
+			if (is_array($addToCart))
+			{
+				$productIdsToAdd = $addToCart;
+			}
+			else if ($request->hasParameter('selected_product'))
+			{
+				$addToCart = $request->getParameter('selected_product');
+				if (is_array($addToCart))
+				{
+					$productIdsToAdd = array_flip($addToCart);
+				}
+			}
+		
+			$params = array(
+				'backurl' => LinkHelper::getCurrentUrl(),
+				'shopId' => $shop->getId(),
+				'quantities' => array_intersect_key($quantities, $productIdsToAdd),
+				'productIds' => array_keys($productIdsToAdd)
+			);
+			$url = LinkHelper::getActionUrl('order', 'AddToCartMultiple', $params);
+			$this->redirectToUrl($url);
+		}
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getRequestModuleNames()
+	{
+		$names = parent::getRequestModuleNames();
+		if (!in_array('catalog', $names))
+		{
+			$names[] = 'catalog';
+		}
+		return $names;
+	}
+	
+	// Deprecated.
+		
+	/**
+	 * @deprecated (will be removed in 4.0) use getProductIdArray
+	 */
+	protected function getProductArray($request)
+	{
+		return null;
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	const DISPLAY_MODE_TABLE = 'table';
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	const DISPLAY_MODE_LIST = 'List';
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	const DEFAULT_PRODUCTS_PER_PAGE = 12;	
+		
+	/**
+	 * @deprecated (will be removed in 4.0)
 	 */
 	private function addToFavorite($product)
 	{
@@ -423,22 +454,54 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	}
 	
 	/**
-	 * @return array
+	 * @deprecated (will be removed in 4.0)
 	 */
-	public function getRequestModuleNames()
-	{
-		$names = parent::getRequestModuleNames();
-		if (!in_array('catalog', $names))
-		{
-			$names[] = 'catalog';
-		}
-		return $names;
-	}
-	
-	// Deprecated.
+	protected $addedProductLabels = array();
 	
 	/**
 	 * @deprecated (will be removed in 4.0)
 	 */
-	const DISPLAY_MODE_TABLE = 'table';
+	protected $notAddedProductLabels = array();
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	protected function addMessagesToBlock($rootKey)
+	{
+		$message = $this->getMessage($this->addedProductLabels, $rootKey . '-success');
+		if ($message !== null)
+		{
+			$this->addMessage($message);
+		}
+		$this->addedProductLabels = null;
+		$message = $this->getMessage($this->notAddedProductLabels, $rootKey . '-error');
+		if ($message !== null)
+		{
+			$this->addError($message);
+		}
+		$this->notAddedProductLabels = null;
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	private function getMessage($labels, $mode)
+	{
+		$ls = LocaleService::getInstance();
+		switch (count($labels))
+		{
+			case 0 :
+				$message = null;
+				break;
+			case 1 :
+				$message = $ls->transFO('m.catalog.frontoffice.' . $mode . '-one', array('ucf', 'html'), array('label' => f_util_ArrayUtils::firstElement($labels)));
+				break;
+			default :
+				$lastLabel = array_pop($labels);
+				$firstLabels = implode(', ', $labels);
+				$message = $ls->transFO('m.catalog.frontoffice.' . $mode . '-several', array('ucf', 'html'), array('firstLabels' => $firstLabels, 'lastLabel' => $lastLabel));
+				break;
+		}
+		return $message;
+	}
 }

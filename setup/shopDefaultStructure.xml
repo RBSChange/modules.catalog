@@ -32,7 +32,7 @@
 			</changecontent>
 		</page>
 		
-		<page label="Comparaison de produits" indexingstatus="false" byTag="functional_catalog_productlist-comparison">
+		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateHome" byTag="functional_catalog_productlist-comparison">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductComparison" />
 			</changecontent>

@@ -190,51 +190,44 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_product $document
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param String $type from list 'modules_catalog/crosssellingtypes'
-	 * @param String $sortBy from list 'modules_catalog/crosssellingsortby'
 	 * @return catalog_persistentdocument_product[]
 	 */
-	public function getDisplayableCrossSelling($document, $shop, $type = 'complementary', $sortBy = 'fieldorder')
+	public function getDisplayableCrossSellingIds($document, $shop, $type = 'complementary')
 	{
-		// TODO: is there a more simple implementation?
 		$methodName = 'getPublished'.ucfirst($type).'Array';
 		if (!f_util_ClassUtils::methodExists($document, $methodName))
 		{
 			throw new Exception('Bad method name: '.$methodName);
 		}
-		$products = $document->{$methodName}();
-
-		if (count($products))
+		$productIds = array();
+		foreach ($document->{$methodName}() as $product)
 		{
-			$query = catalog_ProductService::getInstance()->createQuery()
-				->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($products)));
-			$query->createCriteria('compiledproduct')
-				->add(Restrictions::eq('shopId', $shop->getId()))
-				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-				->add(Restrictions::published());
-			$displayableProducts = $query->find();
+			$productIds[] = $product->getId();
 		}
-		else 
+		return $this->filterIdsForDisplay($productIds, $shop);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return integer[] 
+	 */
+	public function filterIdsForDisplay($productIds, $shop = null)
+	{
+		if (!$shop || f_util_ArrayUtils::isEmpty($productIds))
 		{
-			return array();
+			return null;
 		}
 		
-		if ($sortBy == 'random')
-		{
-			shuffle($displayableProducts);
-		}
-		else if ($sortBy == 'fieldorder')
-		{
-			$displayableIds = DocumentHelper::getIdArrayFromDocumentArray($displayableProducts);
-			$displayableProducts = array();
-			foreach ($products as $product)
-			{
-				if (in_array($product->getId(), $displayableIds))
-				{
-					$displayableProducts[] = $product;
-				}
-			}
-		}
-		return $displayableProducts;
+		$query = catalog_ProductService::getInstance()->createQuery()
+			->add(Restrictions::published())
+			->add(Restrictions::in('id', $productIds))
+			->setProjection(Projections::property('id'));
+		$query->createCriteria('compiledproduct')
+			->add(Restrictions::published())
+			->add(Restrictions::eq('shopId', $shop->getId()));
+		$result = array_intersect($productIds, $query->findColumn('id'));
+		return count($result) ? $result : null;
 	}
 	
 	/**
@@ -1521,5 +1514,52 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			$parameters['catalogParam']['shopId'] = $shop->getId();
 		}
 		return website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($product, $shop->getWebsite(), $lang, $parameters)->getUrl();
+	}
+	
+	/**
+	 * @deprecated use getDisplayableCrossSellingIds
+	 */
+	public function getDisplayableCrossSelling($document, $shop, $type = 'complementary', $sortBy = 'fieldorder')
+	{
+		// TODO: is there a more simple implementation?
+		$methodName = 'getPublished'.ucfirst($type).'Array';
+		if (!f_util_ClassUtils::methodExists($document, $methodName))
+		{
+			throw new Exception('Bad method name: '.$methodName);
+		}
+		$products = $document->{$methodName}();
+	
+		if (count($products))
+		{
+			$query = catalog_ProductService::getInstance()->createQuery()
+			->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($products)));
+			$query->createCriteria('compiledproduct')
+			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+			->add(Restrictions::published());
+			$displayableProducts = $query->find();
+		}
+		else
+		{
+			return array();
+		}
+	
+		if ($sortBy == 'random')
+		{
+			shuffle($displayableProducts);
+		}
+		else if ($sortBy == 'fieldorder')
+		{
+			$displayableIds = DocumentHelper::getIdArrayFromDocumentArray($displayableProducts);
+			$displayableProducts = array();
+			foreach ($products as $product)
+			{
+				if (in_array($product->getId(), $displayableIds))
+				{
+					$displayableProducts[] = $product;
+				}
+			}
+		}
+		return $displayableProducts;
 	}
 }

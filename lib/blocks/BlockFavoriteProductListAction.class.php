@@ -5,7 +5,6 @@
  */
 class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBaseAction
 {
-	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return Array
@@ -14,6 +13,8 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 	{
 		$displayConfig = parent::getDisplayConfig($shop);
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('removeFromList', 'remove-from-list');
+		$displayConfig['globalButtons'][] = $this->getButtonInfo('replaceList', 'remove-others-from-list');
+		$displayConfig['globalButtons'][] = $this->getButtonInfo('clearList', 'clear-list');
 		$displayConfig['showCheckboxes'] = true;
 		$displayConfig['itemconfig']['showCheckboxes'] = true;
 		return $displayConfig;
@@ -23,31 +24,8 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 	 * @param f_mvc_Response $response
 	 * @return catalog_persistentdocument_product[]
 	 */
-	protected function getProductArray($request)
+	protected function getProductIdArray($request)
 	{		 
-		// Remove product if needed.
-		if ($request->hasParameter('removeFromList'))
-		{
-			foreach ($request->getParameter('selected_product') as $id)
-			{
-				$this->removeFromFavorite(DocumentHelper::getDocumentInstance($id));
-			}
-			$this->addMessagesToBlock('remove-from-list');
-		}
-		
-		// Add cart products to list.
-		if ($request->hasParameter('addCartToList') && catalog_ModuleService::getInstance()->isCartEnabled())
-		{
-			$cart = order_CartService::getInstance()->getDocumentInstanceFromSession();
-			foreach ($cart->getCartLineArray() as $line)
-			{
-				$product = $line->getProduct();
-				catalog_ModuleService::getInstance()->addFavoriteProduct($product);
-			}
-			HttpController::getInstance()->redirectToUrl(LinkHelper::getTagUrl('contextual_website_website_modules_catalog_favorite-product-list'));
-			return null;
-		}
-
 		// If not logged in, display the warning.
 		$ls = LocaleService::getInstance();
 		if (users_UserService::getInstance()->getCurrentFrontEndUser() === null)
@@ -56,7 +34,80 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 		}
 		$request->setAttribute('blockTitle', $ls->transFO('m.catalog.frontoffice.my-favorite-products', array('ucf')));
 
-		return catalog_ModuleService::getInstance()->getFavoriteProducts();
+		return catalog_ModuleService::getInstance()->getFavoriteProductIds();
+	}
+	
+	/**
+	 * @param f_mvc_Request $request
+	 * @param array $displayConfig
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param array $quantities
+	 */
+	protected function handleActions($request, $displayConfig, $shop, $quantities)
+	{
+		parent::handleActions($request, $displayConfig, $shop, $quantities);
+		
+		// Remove from list.
+		if ($request->hasParameter('removeFromList'))
+		{
+			$params = array(
+				'mode' => 'remove',
+				'refererPageId' => $this->getContext()->getId(),
+				'listName' => catalog_ProductList::FAVORITE,
+				'backurl' => LinkHelper::getCurrentUrl(),
+				'productIds' => array_values($request->getParameter('selected_product'))
+			);
+			$url = LinkHelper::getActionUrl('catalog', 'UpdateList', $params);
+			$this->redirectToUrl($url);
+		}
+		
+		// Replace list.
+		if ($request->hasParameter('replaceList'))
+		{
+			$params = array(
+				'mode' => 'replace',
+				'refererPageId' => $this->getContext()->getId(),
+				'listName' => catalog_ProductList::FAVORITE,
+				'backurl' => LinkHelper::getCurrentUrl(),
+				'productIds' => array_values($request->getParameter('selected_product'))
+			);
+			$url = LinkHelper::getActionUrl('catalog', 'UpdateList', $params);
+			$this->redirectToUrl($url);
+		}
+		
+		// Clear list.
+		if ($request->hasParameter('clearList'))
+		{
+			$params = array(
+				'mode' => 'clear',
+				'refererPageId' => $this->getContext()->getId(),
+				'listName' => catalog_ProductList::FAVORITE,
+				'backurl' => LinkHelper::getCurrentUrl()
+			);
+			$url = LinkHelper::getActionUrl('catalog', 'UpdateList', $params);
+			$this->redirectToUrl($url);
+		}
+		
+		// Add cart products to list.
+		if ($request->hasParameter('addCartToList') && catalog_ModuleService::getInstance()->isCartEnabled())
+		{
+			$cart = order_CartService::getInstance()->getDocumentInstanceFromSession();
+			$productIds = array();
+			foreach ($cart->getCartLineArray() as $line)
+			{
+				/* @var $line order_CartLineInfo */
+				$productIds[] = $line->getProductId();
+			}			
+			$params = array(
+				'mode' => 'add',
+				'refererPageId' => $this->getContext()->getId(),
+				'listName' => catalog_ProductList::FAVORITE,
+				'backurl' => LinkHelper::getTagUrl('contextual_website_website_modules_catalog_favorite-product-list'),
+				'productIds' => $productIds
+			);
+			$url = LinkHelper::getActionUrl('catalog', 'UpdateList', $params);
+			$this->redirectToUrl($url);
+		}
 	}
 
 	/**
@@ -88,5 +139,15 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 				Framework::debug($e->getMessage());
 			}
 		}
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getProductIdArray()
+	 */
+	protected function getProductArray($request)
+	{
+		return catalog_ModuleService::getInstance()->getFavoriteProducts();
 	}
 }

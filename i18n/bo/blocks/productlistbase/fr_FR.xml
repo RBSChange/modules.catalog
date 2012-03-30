@@ -18,6 +18,8 @@
 	<key id="displaynbresultsperpage-help">activer ou non la sélection du nombre de produits affichés par page pour l'internaute. Uniquement actif lorsque le menu de tri est affiché.</key>
 	<key id="displayaddtocart">ajout au panier</key>
 	<key id="displayaddtocart-help">activer ou non le bouton d'ajout au panier.</key>
+	<key id="showaddtocomparison">ajout aux comparaisons</key>
+	<key id="showaddtocomparison-help">activer ou non le bouton d'ajout aux comparaisons.</key>
 	<key id="showaddtofavorite">ajout aux produits favoris</key>
 	<key id="showaddtofavorite-help">activer ou non le bouton d'ajout aux produits favoris.</key>
 	<key id="displayproductpicto">pictogrammes</key>
@@ -26,6 +28,12 @@
 	<key id="displaymode-help" updated="true">Mode de rendu du bloc.</key>
 	<key id="displaycustomerprice">Afficher les prix du client</key>
 	<key id="displaycustomerprice-help">Si «Oui», affiche les prix pour le client ou pour son groupe tarifaire dès la liste des produits. Si «Non», affiche uniquement les prix boutiques.</key>
+	<key id="nbresultsperpage">nombre de produits à afficher</key>
+	<key id="nbresultsperpage-help">Nombre maximum de produits à afficher.</key>
+	<key id="sortrandom">ordre aléatoire</key>
+	<key id="sortrandom-help">Ce mode n'est pas compatible avec un affichage paginé.</key>
+	<key id="addlinktoall">lien vers la liste complète</key>
+	<key id="addlinktoall-help">ajouter le lien vers la liste complète des produits</key>
 	<key id="blocktitle">titre du bloc</key>
 	<key id="blocktitle-help">Titre du bloc sur le site. Si laissé vide, il sera généré automatiquement.</key>
 </i18n>

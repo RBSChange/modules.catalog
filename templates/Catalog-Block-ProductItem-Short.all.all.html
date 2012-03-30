@@ -4,6 +4,12 @@
 			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
 				<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
 			</a>
+			<div tal:condition="displayConfig/showProductPictograms" class="pictograms-container">
+				<ul tal:condition="product/getPictogramCount" class="inline-list product-pictograms">
+					<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pictogram'" /></li>
+				</ul>
+				<tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" container="" />
+			</div>
 		</li>
 		<li class="product-label">
 			<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">${product/getNavigationLabelAsHtml}</a>

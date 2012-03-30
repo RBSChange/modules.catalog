@@ -127,10 +127,6 @@
   <key id="nbproducts">nombre de produits par page</key>
   <key id="add-to-cart-button" updated="true">ajouter au panier</key>
   <key id="add-to-cart-help">cochez les cases des produits à ajouter au panier.</key>
-  <key id="add-to-cart-success-one">le produit {label} a bien été ajouté à votre panier.</key>
-  <key id="add-to-cart-success-several">les produits {firstLabels} et {lastLabel} ont bien été ajoutés à votre panier.</key>
-  <key id="add-to-cart-error-one">le produit {label} n'a pas pu être ajouté à votre panier.</key>
-  <key id="add-to-cart-error-several">les produits {firstLabels} et {lastLabel} n'ont pas pu être ajoutés à votre panier.</key>
   <key id="error-not-available-one">le produit {label} n'est plus disponible.</key>
   <key id="error-not-available-several">les produits {firstLabels} et {lastLabel} ne sont plus disponibles.</key>
   <key id="need-article-selection-one">le produit {label} comporte plusieurs références disponibles, choisissez celle qui vous intéresse.</key>
@@ -141,7 +137,6 @@
   <key id="compare-label">produits comparés</key>
   <key id="back">retour</key>
   <key id="print">imprimer</key>
-  <key id="list-check-compare">cochez cette case pour comparer le produit -nom du produit-</key>
   <key id="gotosubshelf">aller à</key>
   <key id="product-family">famille de produits</key>
   <key id="add-to-list" updated="true">ajouter aux produits favoris</key>
@@ -149,13 +144,15 @@
   <key id="product-already-in-list">ce produit est déjà dans vos favoris</key> 
   <key id="product-removed-from-list">le produit a bien été retiré de la liste.</key>
   <key id="add-to-favorite-button" updated="true">ajouter aux favoris</key>
-  <key id="add-to-favorite-help">cochez les cases des produits à ajouter à mes produits favoris.</key>
-  <key id="add-to-favorite-success-one">le produit {label} a bien été ajouté à mes produits favoris.</key>
-  <key id="add-to-favorite-success-several">les produits {firstLabels} et {lastLabel} ont bien été ajoutés à mes produits favoris.</key>
-  <key id="add-to-favorite-error-one">le produit {label} n'a pas pu être ajouté à mes produits favoris.</key>
-  <key id="add-to-favorite-error-several">les produits {firstLabels} et {lastLabel} n'ont pas pu être ajoutés à mes produits favoris.</key>
+  <key id="add-to-favorite-help">Cochez les cases des produits à ajouter à aux produits favoris.</key>
+  <key id="add-to-comparison-button">ajouter aux comparaisons</key>
+  <key id="add-to-comparison-help">Cochez les cases des produits à ajouter à votre liste de comparaisons.</key>
   <key id="remove-from-list-button">retirer de la liste</key>
-  <key id="remove-from-list-help">cochez les cases des produits à retirer de la liste.</key>
+  <key id="remove-from-list-help">Cochez les cases des produits à retirer de la liste.</key>
+  <key id="remove-others-from-list-button">retirer les autres</key>
+  <key id="remove-others-from-list-help">Cochez les cases des produits à conserver dans la liste.</key>
+  <key id="clear-list-button">vider la liste</key>
+  <key id="clear-list-help">Tous les produits seront retirés de la liste.</key>
   <key id="remove-from-list-success-one">le produit {label} a bien été retiré de la liste.</key>
   <key id="remove-from-list-success-several">les produits {firstLabels} et {lastLabel} ont bien été retirés de la liste.</key>
   <key id="remove-from-list-error-one">le produit {label} n'a pas pu être retiré de la liste.</key>

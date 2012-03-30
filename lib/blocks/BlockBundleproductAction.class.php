@@ -24,13 +24,13 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 		/* @var $product catalog_persistentdocument_bundleproduct */
 		$product = $this->getDocumentParameter();
 		
-		// @deprecated this should not be used anymore. See catalog_AddToCartAction
+		// @deprecated this should not be used anymore. See order_AddToCartAction
 		if ($request->getParameter('addToCart') !== null)
 		{
 			$this->addProductToCartForCurrentBlock($product);
 		}
 		
-		// @deprecated this should not be used anymore. See catalog_AddToListAction
+		// @deprecated this should not be used anymore. See catalog_UpdateListAction
 		if ($request->getParameter('addToList') !== null)
 		{
 			$this->addProductToFavorites($product);

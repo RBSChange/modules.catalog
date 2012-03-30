@@ -15,9 +15,9 @@
 		</li>
 	</ul>
 	<div class="arrows">
-		<button class="slideright secondary button">${trans:m.catalog.fo.next-products,ucf} &gt;</button>
-		<button class="slideleft secondary button">&lt; ${trans:m.catalog.fo.previous-products,ucf}</button>		
-		<p><a tal:condition="fullListLink" href="${fullListLink/url}" class="link">${fullListLink/label}</a></p>
+		<button class="slideright secondary button" title="${trans:m.catalog.fo.next-products-title,ucf}">${trans:m.catalog.fo.next-products,ucf} &gt;</button>
+		<button class="slideleft secondary button" title="${trans:m.catalog.fo.previous-products-title,ucf}">&lt; ${trans:m.catalog.fo.previous-products,ucf}</button>		
+		<p tal:condition="fullListLink"><a href="${fullListLink/url}" class="link">${fullListLink/label}</a></p>
 		<div class="cleaner"></div>
 	</div>
 </div>

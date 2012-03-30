@@ -1,12 +1,12 @@
 <div class="normal" tal:condition="displayConfig/showShareBlock">
-<tal:block change:block="" module="sharethis" name="Sharepage" />
+	<tal:block change:block="" module="sharethis" name="Sharepage" />
 </div>
 
 <h1 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h1>
-<div tal:condition="blockDescription" class="description">${blockDescription}</div>
+<div tal:condition="blockDescription" class=" normal description">${blockDescription}</div>
 
 <div tal:condition="displayConfig/showSortMenu" class="normal productlist-options">
-	<tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true';" />
+	<tal:block tal:condition="displayConfig/showSortMenu" change:include="module displayConfig/controlsmodule; template displayConfig/controlstemplate; type 'html'; transmitAll 'true'" />
 </div>
 
 <tal:block change:block="" module="order" name="CartMessages" container="" />
@@ -16,9 +16,7 @@
 
 <div tal:condition="not:products">${trans:m.catalog.frontoffice.no-product-to-display,ucf}</div>
 <tal:block tal:condition="products">
-	<script change:javascript="head 'modules.catalog.lib.js.product-list'"></script>
-	<form class="cmxform" action="#product-list-title" method="post" data-addtocomparison-url="${actionurl:'catalog','UpdateList',listName='catalog_comparison',attr,backurl=currenturl:}">
-		<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
+	<form class="cmxform" action="#product-list-title" method="post">
 		<ul class="product-list">
 			<li tal:repeat="product products" class="product-line">
 				<tal:block module="catalog" container="" name="ProductItem" displayMode="list"
@@ -27,11 +25,12 @@
 		</ul>
 		<div class="cleaner"></div>
 		<p class="buttons" tal:condition="displayConfig/showCheckboxes">
+			<input type="hidden" name="catalogParam[formBlockId]" value="${displayConfig/blockId}" />
+			<input type="hidden" name="refererPageId" value="${context/getId}" />
 			${trans:m.catalog.fo.actions-on-selection,ucf,lab}
 			<tal:block tal:repeat="button displayConfig/globalButtons">
 				<input class="button" name="catalogParam[${button/name}]" type="submit" value="${button/label}" />
 			</tal:block>
-			<input class="button js" name="mode[add]" type="submit" value="${trans:m.catalog.fo.add-to-comparisons,ucf,attr}" onclick="onGlobalAddToComparisonButtonClick(this);" />
 		</p>
 	</form>	
 	<tal:block change:paginator="products" />

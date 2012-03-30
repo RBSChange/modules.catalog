@@ -6,19 +6,6 @@
 class catalog_BlockProductComparisonAction extends website_BlockAction
 {
 	/**
-	 * @return array
-	 */
-	public function getRequestModuleNames()
-	{
-		$names = parent::getRequestModuleNames();
-		if (!in_array('catalog', $names))
-		{
-			$names[] = 'catalog';
-		}
-		return $names;
-	}
-	
-	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
@@ -99,6 +86,17 @@ class catalog_BlockProductComparisonAction extends website_BlockAction
 			$properties[] = $prop->getPropertyInstance();
 		}
 		$request->setAttribute('properties', $properties);
+		
+		// Pictograms configuration.
+		if ($this->getConfiguration()->getShowProductPictograms())
+		{
+			$request->setAttribute('showProductPictograms', true);
+			$request->setAttribute('showAnimPictogramBlock', ModuleService::getInstance()->moduleExists('marketing'));
+		}
+		else
+		{
+			$request->setAttribute('showProductPictograms', false);
+		}
 		
 		return website_BlockView::SUCCESS;
 	}

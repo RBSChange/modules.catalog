@@ -6,8 +6,4 @@
 	<key id="label-help">intitulé du bloc utilisé sur le site</key>
 	<key id="destinationpage">page de destination</key>
 	<key id="destinationpage-help">page de destination pouvant contenir une liste plus longue des derniers produits consultés</key>
-  	<key id="mode">mode d'affichage</key>
-	<key id="mode-help">mode d'affichage</key>
-  	<key id="nbresultsperpage">nombre de produits à afficher</key>
-	<key id="nbresultsperpage-help">nombre de produits à afficher</key>
 </i18n>

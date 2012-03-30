@@ -27,7 +27,7 @@ abstract class catalog_BlockProductBaseAction extends website_BlockAction
 	// Deprecated.
 	
 	/**
-	 * @deprecated (will be removed in 4.0) use catalog_AddToListAction
+	 * @deprecated (will be removed in 4.0) use catalog_UpdateListAction
 	 */
 	protected function addProductToFavorites($product)
 	{

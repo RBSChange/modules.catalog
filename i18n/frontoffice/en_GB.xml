@@ -93,18 +93,10 @@
   <key id="a">At</key>
   <key id="add-alert">activate the alert</key>
   <key id="add-to-cart-button">add to my basket</key>
-  <key id="add-to-cart-error-one">The product "{label}" could not be added to your basket.</key>
-  <key id="add-to-cart-error-several">the {firstLabels} and {lastLabel} products could not be added to your basket.</key>
   <key id="add-to-cart-help">Check the boxes of the products to add to the basket.</key>
-  <key id="add-to-cart-success-one">The {label} product has been successfully added to your basket.</key>
-  <key id="add-to-cart-success-several">the {firstLabels} and {lastLabel} products have been successfully added to your basket.</key>
   <key id="add-to-favorite-button">add to my favourite products</key>
-  <key id="add-to-favorite-error-one">The {label} product could not be added to my favourite products.</key>
-  <key id="add-to-favorite-error-several">the {firstLabels} and {lastLabel} products could not be added to my favourite products.</key>
   <key id="add-to-favorite-help">Check the boxes of the products to add to my favourite products.</key>
-  <key id="add-to-favorite-success-one">the {label} product has been successfully added to my favourite products.</key>
-  <key id="add-to-favorite-success-several">the {firstLabels} and {lastLabel} products have been successfully added to my favourite products.</key>
-  <key id="add-to-list">add to my favourite products</key>
+ <key id="add-to-list">add to my favourite products</key>
   <key id="alert-added">The alert has been successfully activated.</key>
   <key id="alert-already-exists">You have already activated an alert for this product.</key>
   <key id="alert-already-set">You have already activated this alert.</key>
@@ -151,7 +143,6 @@
   <key id="linklabelforrecomandproduct">Share with a friend</key>
   <key id="linklabelforsearchbrandinshelf">in this topic</key>
   <key id="linklabelforsearchbrandinwebsite">in the whole website</key>
-  <key id="list-check-compare">check this box to compare the product "{productname}"</key>
   <key id="make-larger">make larger</key>
   <key id="modify">Edit</key>
   <key id="my-favorite-products">my favourite products</key>

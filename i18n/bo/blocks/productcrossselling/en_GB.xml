@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.productcrossselling" lcid="en_GB">
-  <include id="m.catalog.bo.blocks.productlistbase"/>
-  <key id="block-label">related products</key>
-  <key id="cmpref">related document</key>
-  <key id="cmpref-help">related document</key>
-  <key id="sortby">sort by</key>
-  <key id="addlinktoall">link to the complete list</key>
-  <key id="addlinktoall-help">Add the link to the complete list of products</key>
-  <key id="crosssellingtype">type of relationship</key>
-  <key id="crosssellingtype-help">type of relationship between products</key>
-  <key id="maxdisplayed">maximum number displayed</key>
-  <key id="maxdisplayed-help">maximum number of products displayed</key>
-  <key id="sortby-help">sorting method for the displayed products</key>
+	<include id="m.catalog.bo.blocks.productlistbase" />
+	<key id="block-label">related products</key>
+	<key id="cmpref">related document</key>
+	<key id="cmpref-help">related document</key>
+	<key id="sortby">sort by</key>
+	<key id="crosssellingtype">type of relationship</key>
+	<key id="crosssellingtype-help">type of relationship between products</key>
+	<key id="maxdisplayed">maximum number displayed</key>
+	<key id="maxdisplayed-help">maximum number of products displayed</key>
+	<key id="sortby-help">sorting method for the displayed products</key>
 </i18n>

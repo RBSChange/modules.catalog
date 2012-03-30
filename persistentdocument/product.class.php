@@ -460,12 +460,11 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param String $type from list 'modules_catalog/crosssellingtypes'
-	 * @param String $sortBy from list 'modules_catalog/crosssellingsortby'
-	 * @return catalog_persistentdocument_product[]
+	 * @return integer[]
 	 */
-	public function getDisplayableCrossSelling($shop, $type = 'complementary', $sortBy = 'fieldorder')
+	public function getDisplayableCrossSellingIds($shop, $type = 'complementary')
 	{
-		return $this->getDocumentService()->getDisplayableCrossSelling($this, $shop, $type, $sortBy);
+		return $this->getDocumentService()->getDisplayableCrossSellingIds($this, $shop, $type);
 	}
 	
 	/**
@@ -835,5 +834,13 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
 			return $this->getShopPrimaryTopShelf($shop);
 		}
+	}
+	
+	/**
+	 * @deprecated use getDisplayableCrossSellingIds
+	 */
+	public function getDisplayableCrossSelling($shop, $type = 'complementary', $sortBy = 'fieldorder')
+	{
+		return $this->getDocumentService()->getDisplayableCrossSelling($this, $shop, $type, $sortBy);
 	}
 }
