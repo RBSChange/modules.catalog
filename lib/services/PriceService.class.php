@@ -545,24 +545,24 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function deleteForProductId($productId)
 	{
-		if (Framework::isDebugEnabled())
-		{
-			Framework::debug(__METHOD__ . ' START for Product id:' . $productId);
-		}
 		$prices = $this->createQuery()->add(Restrictions::eq('productId', $productId))->find();
 		if (count($prices))
 		{
-			$priceSrv = catalog_PriceService::getInstance();
 			foreach ($prices as $price) 
 			{
 				$price->setProductId(null);
-				$priceSrv->delete($price);
+				$price->delete();
 			}
 		}
-		if (Framework::isDebugEnabled())
-		{
-			Framework::debug(__METHOD__ . ' END for Product id:' . $productId);
-		}
+		$this->deleteForTargetId($productId);
+	}
+	
+	/**
+	 * @param integer $targetId
+	 */
+	public function deleteForTargetId($targetId)
+	{
+		$this->createQuery()->add(Restrictions::eq('targetId', $targetId))->delete();
 	}
 	
 	/**
