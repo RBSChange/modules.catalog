@@ -68,8 +68,16 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	 */
 	public function getTargetLabel()
 	{
+		if (!$this->getTargetId())
+		{
+			return '-';
+		}
 		$target = $this->getTarget();
-		return ($target instanceof f_persistentdocument_PersistentDocument) ? $target->getLabel() : '-';
+		if (!($target instanceof f_persistentdocument_PersistentDocument))
+		{
+			return LocaleService::getInstance()->transBO('m.catalog.bo.general.invalid-target');
+		}
+		return $target->getLabel();
 	}
 	
 	/**
