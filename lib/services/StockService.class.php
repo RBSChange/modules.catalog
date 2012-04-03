@@ -421,4 +421,13 @@ class catalog_StockService extends BaseService
 		}
 		return $threshold;
 	}
+	
+	/**
+	 * Returns true if the stock service uses the stockQuantity property on the product.
+	 * @return boolean
+	 */
+	public function useProductStockProperties()
+	{
+		return true;
+	}
 }
