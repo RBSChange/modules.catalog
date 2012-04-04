@@ -47,7 +47,7 @@
 			</billingarea>
 			
 			
-			<billingarea byCodeReference="v" label="United Kingdom" 
+			<billingarea byCodeReference="GB" label="United Kingdom" 
 				currency-refid="pound" currencyPosition="left"
 				defaultZone="GB" billingAddressZone-refid="zoneEURO">
 				<tax label="17,5%" taxCategory="1" taxZone="GB" rate="0.175" />
