@@ -14,7 +14,7 @@
 		
 		<page label="Fiche produit" navigationVisibility="hidden" indexingstatus="false" 
 			description="{catalog_product.description}" keywords="{catalog_product.coderef}" metatitle="{catalog_product.title}"
-			template-attr="templateHome" byTag="functional_catalog_product-detail">
+			template-attr="templateNosidebar" byTag="functional_catalog_product-detail">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_product" />
 				<changeblock type="modules_catalog_ProductDescription" />
@@ -32,7 +32,7 @@
 			</changecontent>
 		</page>
 		
-		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateHome" byTag="functional_catalog_productlist-comparison">
+		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar" byTag="functional_catalog_productlist-comparison">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductComparison" />
 			</changecontent>
