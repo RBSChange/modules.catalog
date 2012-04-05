@@ -28,6 +28,7 @@
 		<ul class="main-visual">
 			<li tal:repeat="visual visuals" id="product-visual-${uniqueId}-${visual/getId}">
 				<script type="text/javascript" tal:condition="baseconfiguration/getActivatezoom">
+					/* <![CDATA[ */
 					jQuery(document).ready(function(){  
 						jQuery('#product-visual-${uniqueId}-${visual/getId} a').easyZoom({
 							id: 'product-zoom-${uniqueId}-${visual/getId}',
@@ -35,6 +36,7 @@
 							preload: '<p class="preloader">${trans:m.catalog.fo.image-loading,ucf,js}</p>'
 						});
 					});
+					/* ]]> */
 				</script>
 				<a tal:omit-tag="not:baseconfiguration/getActivatezoom" change:link="document visual"><img change:media="document visual; format 'modules.catalog.frontoffice/big'" /></a>
 			</li>
@@ -67,5 +69,8 @@
 				</p>
 			</fieldset>
 		</form>
+		<tal:block tal:condition="baseconfiguration/getShowShortDescription">
+			<div tal:condition="product/getDescription" class="normal product-description">${php: product.getShortDescription(180)}</div>
+		</tal:block>
 	</div>
 </div>

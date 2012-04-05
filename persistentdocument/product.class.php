@@ -130,7 +130,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getShortDescription($maxCount = 80)
 	{
-		$desc = f_util_StringUtils::htmlToText($this->getDescription(), false);
+		$desc = f_util_HtmlUtils::htmlToText($this->getDescription(), false, true);
 		$desc = f_util_StringUtils::shortenString($desc, $maxCount);
 		return f_util_HtmlUtils::textToHtml($desc);
 	}
@@ -272,7 +272,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	/**
 	 * @var integer
 	 */
-	private $commentCount;
+	protected $commentCount;
 	
 	/**
 	 * @return boolean

@@ -4,6 +4,8 @@
   <key id="activatezoom-help">activer ou non le zoom sur les visuels pour les internautes qui utilisent un navigateur web avec un moteur Javascript compatible.</key>
   <key id="showshareblock">partage de liens</key>
   <key id="showshareblock-help">afficher ou non le bloc de partage de liens vers les réseaux sociaux (nécessite le module partage de liens).</key>
+  <key id="showshortdescription">description courte</key>
+  <key id="showshortdescription-help">Afficher ou non une description courte du produit.</key>
   <key id="displaypricewithtax">afficher les prix TTC</key>
   <key id="displaypricewithtax-help">afficher ou non les prix TTC ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
   <key id="displaypricewithouttax">afficher les prix hors taxe</key>

@@ -238,7 +238,10 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		return LinkHelper::getLink($this, null, 'link', null, array('label' => $this->getFullLabel()));
 	}
-
+	
+	/**
+	 * @return integer
+	 */
 	public function getCommentCount()
 	{
 		if ($this->commentCount === null)

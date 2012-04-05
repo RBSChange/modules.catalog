@@ -27,6 +27,7 @@
 		<ul class="main-visual">
 			<li tal:repeat="visual visuals" id="product-visual-${uniqueId}-${visual/getId}">
 				<script type="text/javascript" tal:condition="baseconfiguration/getActivatezoom">
+					/* <![CDATA[ */
 					jQuery(document).ready(function(){  
 						jQuery('#product-visual-${uniqueId}-${visual/getId} a').easyZoom({
 							id: 'product-zoom-${uniqueId}-${visual/getId}',
@@ -34,6 +35,7 @@
 							preload: '<p class="preloader">${trans:m.catalog.fo.image-loading,ucf,js}</p>'
 						});
 					});
+					/* ]]> */
 				</script>
 				<a tal:omit-tag="not:baseconfiguration/getActivatezoom" change:link="document visual"><img change:media="document visual; format 'modules.catalog.frontoffice/big'" /></a>
 			</li>
@@ -52,6 +54,10 @@
 		<div tal:condition="not:defaultPrice" class="normal availability warnings">
 			<p class="level">${trans:m.catalog.fo.add-to-cart-unavaible,ucf}</p>
 		</div>
+		
+		<tal:block tal:condition="baseconfiguration/getShowShortDescription">
+			<div tal:condition="product/getDescription" class="normal product-description">${php: product.getShortDescription(180)}</div>
+		</tal:block>
 		
 		<tal:block tal:condition="displayConfig/showPrices">
 			<ul tal:condition="defaultPrice" class="main-price normal-margin">
@@ -116,8 +122,8 @@
 		</form>
 		
 		<ul class="inline-list normal-margin">
-			<li><a change:link="module catalog; action UpdateList; listName 'catalog_favorite'; productIds[] product/getId; mode 'add'; backurl currenturl:attr">${trans:m.catalog.frontoffice.add-to-favorite-button,ucf}</a><span class="separator"> | </span></li>
-			<li><a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; productIds[] product/getId; mode 'add'; backurl currenturl:attr">${trans:m.catalog.fo.add-to-comparisons,ucf}</a></li>
+			<li><a change:link="module catalog; action UpdateList; listName 'catalog_favorite'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.frontoffice.add-to-favorite-button,ucf}</a><span class="separator"> | </span></li>
+			<li><a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.fo.add-to-comparisons,ucf}</a></li>
 		</ul>
 		
 		<tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />
