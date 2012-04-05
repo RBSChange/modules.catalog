@@ -169,6 +169,6 @@
 		<attributefolder />
 		<shopfolder />
 		<noshelfproductfolder />
-		<billingareafolder byLabel="billingareafolder" />
+		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name" />
 	</rootfolder>
 </script>

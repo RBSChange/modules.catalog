@@ -12,7 +12,7 @@
 	<documentRef type="modules_zone/zone" byCode="EURO" id="zoneEURO" />
 
 	<rootfolder module="catalog">
-		<billingareafolder byLabel="billingareafolder">	
+		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name">	
 			<billingarea byCodeReference="FR" label="France" 
 				currency-refid="euro" currencyPosition="right"
 				defaultZone="FR-CONTINENTAL" billingAddressZone-refid="zoneEURO">
