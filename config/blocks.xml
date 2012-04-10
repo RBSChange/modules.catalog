@@ -57,7 +57,9 @@
 		<parameters>
 			<parameter name="shop" type="modules_catalog/shop" list-id="modules_catalog/shops" required="true" />
 			<parameter name="activatezoom" type="Boolean" default-value="true" />
+			<parameter name="showRating" type="Boolean" default-value="true" />
 			<parameter name="showShareBlock" type="Boolean" default-value="true" />
+			<parameter name="showShortDescription" type="Boolean" default-value="true" />
 			<parameter name="displayPriceWithTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
 				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop" />
 				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
