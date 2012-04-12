@@ -13,4 +13,6 @@
   <key id="as-in-shop">Comme spécifié dans la boutique</key>
   <key id="yes">Oui</key>
   <key id="no">Non</key>
+  <key id="showrating">afficher les notes</key>
+  <key id="showrating-help">afficher ou non les notes attribuées à ce produit</key>
 </i18n>
