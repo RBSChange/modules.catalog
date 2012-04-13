@@ -5,13 +5,15 @@
 	<li tal:repeat="kititem product/getKititemArray" class="product-line">
 		<tal:block tal:define="id product/getId">
 			<ul class="sub-list">
+				<tal:block tal:condition="baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem/getProduct" />
+				<tal:block tal:condition="not: baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem" />
 				<li change:productvisual="name 'visual'; mode 'list'; product kititem" tal:condition="visual" class="product-visual">
-					<a change:link="document kititem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
+					<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
 						<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
 					</a>
 				</li>
 				<li class="product-label">
-					<a change:link="document kititem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
+					<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
 						${kititem/getTitleAsHtml}<br/> 
 						<tal:block tal:condition="kititem/getCurrentProduct">${trans:m.catalog.frontoffice.configure-kit-item,ucf}</tal:block>
 					</a>

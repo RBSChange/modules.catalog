@@ -5,13 +5,15 @@
 	<li tal:repeat="bundleditem product/getBundleditemArray" class="product-line">
 		<tal:block tal:define="id product/getId">
 			<ul class="sub-list">
+				<tal:block tal:condition="baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem bundleditem/getProduct" />
+				<tal:block tal:condition="not: baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem bundleditem" />
 				<li change:productvisual="name 'visual'; mode 'list'; product bundleditem" tal:condition="visual" class="product-visual">
-					<a change:link="document bundleditem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">
+					<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">
 						<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
 					</a>
 				</li>
 				<li class="product-label">
-					<a change:link="document bundleditem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">
+					<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId">
 						${bundleditem/getTitleAsHtml}
 					</a>
 				</li>

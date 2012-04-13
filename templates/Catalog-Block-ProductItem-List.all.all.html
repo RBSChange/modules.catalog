@@ -42,8 +42,8 @@
 	</li>
 	<li class="product-add" tal:condition="displayConfig/showAddToCart">
 		<tal:block tal:define="canAdd php: product.canBeAddedToCart(price)">
-			<input tal:condition="canAdd" type="submit" name="catalogParam[addToCart][${id}]" class="button" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
-			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
+			<input tal:condition="canAdd" type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
+			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button primary" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
 		</tal:block>
 	</li>
 </ul>

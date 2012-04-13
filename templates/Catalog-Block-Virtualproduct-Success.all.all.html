@@ -110,7 +110,7 @@
 		<form tal:condition="php: product.canBeAddedToCart(defaultPrice)" class="cmxform" action="${actionurl:'order','AddToCart',attr}" method="post">
 			<fieldset>
 				<p class="buttons">
-					<tal:block change:addtocartbutton="shop shop; product product" />
+					<tal:block change:addtocartbutton="shop shop; product product" class="button primary" />
 				</p>
 			</fieldset>
 		</form>

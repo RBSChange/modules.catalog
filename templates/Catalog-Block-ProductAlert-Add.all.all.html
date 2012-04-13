@@ -7,7 +7,7 @@
 				<input change:field="" name="email" readonly="readonly" />
 			</li>
 			<li tal:condition="not:hasUser">
-				<input change:field="" name="email" />
+				<input change:field="" name="email" autocorrect="off" autocapitalize="off" />
 			</li>
 			<li tal:condition="useCaptcha">
 				<img change:captcha="key 'productAlert'" style="vertical-align: bottom;" />

@@ -27,6 +27,7 @@
 				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
 				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false" />
 			</parameter>
+			<parameter name="linkToRealContainedProductDetail" type="Boolean" default-value="true" />
 		</parameters>
 		<metas>
 			<meta name="title" allow="title,description" />
@@ -70,6 +71,7 @@
 				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
 				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false" />
 			</parameter>
+			<parameter name="linkToRealContainedProductDetail" type="Boolean" default-value="false" />
 		</parameters>
 		<xul>
 			<javascript>
