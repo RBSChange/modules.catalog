@@ -322,11 +322,11 @@ class catalog_ShortDescriptionComparableProperty extends catalog_BaseComparableP
 	 */
 	public function getValueAsHtml($product)
 	{
-		$html = '<div class="product-description short-description">';
+		$html = '<div class="product-description ctoggle"><div class="short">';
 		$html .= $product->getShortDescription($this->maxCount);
-		$html .= '</div><div class="product-description full-description" style="display: none">';
+		$html .= '</div><div class="full">';
 		$html .= $product->getDescriptionAsHtml();
-		$html .= '</div>';
+		$html .= '</div></div>';
 		return $html;
 	}
 }
