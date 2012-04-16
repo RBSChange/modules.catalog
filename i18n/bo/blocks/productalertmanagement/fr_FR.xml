@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.productalertmanagement" lcid="fr_FR">
-  <key id="title">gestion des alertes produits</key>
+	<key id="title">gestion des alertes produits</key>
+	<key id="nbitemperpage">nombre d'éléments par page</key>
+	<key id="nbitemperpage-help">Nombre d'alertes à afficher par page.</key>
 </i18n>

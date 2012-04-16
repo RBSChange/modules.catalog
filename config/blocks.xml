@@ -364,7 +364,7 @@
 			</javascript>
 		</xul>
 	</block>
-	<block type="modules_catalog_productAlert" icon="document" hidden="true" />
+	<block type="modules_catalog_productAlert" icon="mail" />
 	<block type="modules_catalog_productAlertManagement" icon="edit">
 		<parameters>
 			<parameter name="nbItemPerPage" type="Integer" default-value="20" />
