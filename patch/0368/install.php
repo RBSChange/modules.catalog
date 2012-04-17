@@ -158,7 +158,7 @@ class catalog_patch_0368 extends patch_BasePatch
 		$billingarea->setDefaultZone($defaultzone);
 		$billingarea->setZone($zone);
 		$billingarea->setLabel($zone->getLabel());
-		$billingarea->setCurrencyPosition($oldData['currencyposition']);
+		$billingarea->setCurrencyPosition($oldData['currencyposition'] === 'left' ? 'left' : 'right');
 		$billingarea->setBoEditWithTax(f_util_StringUtils::isNotEmpty($oldData['botaxzone']));
 		$billingarea->setBillingAddressZone($billingAddressZone);
 		$billingarea->setStorePriceWithTax(false);
@@ -175,7 +175,7 @@ class catalog_patch_0368 extends patch_BasePatch
 			if ($row['lang_i18n'] == $oldData['document_lang']) {continue;}
 			RequestContext::getInstance()->setLang($row['lang_i18n']);
 			$billingarea->setLabel($zone->getLabel());
-			$billingarea->setCurrencyPosition($oldData['currencyposition_i18n']);
+			$billingarea->setCurrencyPosition($oldData['currencyposition_i18n'] === 'left' ? 'left' : 'right');
 			$billingarea->save();
 		}		
 	}
