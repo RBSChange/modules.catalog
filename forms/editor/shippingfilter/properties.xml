@@ -10,11 +10,30 @@
 		<field name="feesId" type="document" moduleselector="catalog" allow="modules_order_fees" hidehelp="true" />
 		<field name="selectbyproduct" />
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Validity-dates">
+	<section labeli18n="modules.catalog.bo.general.Condition-filters">
+		<fieldinput name="shop" type="hidden" />
+		<field name="billingArea" required="true" />
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />
-	</section>
-	<section labeli18n="modules.catalog.bo.general.Condition-filters">
 		<field name="query" type="objectfilter" allow="order/cart,order/cartshipping::checkValue" hidehelp="true" />
 	</section>
+	
+	<xul>
+		<javascript>	
+			<constructor><![CDATA[
+				var me = this;
+				this.addEventListener('panelInitializeComplete', function () { me.updateBillingArea(); }, true);
+			]]></constructor>
+			
+			<method name="updateBillingArea">
+				<body><![CDATA[
+					var shop = this.fields.shop;
+					var billingArea = this.fields.billingArea;
+					billingArea.setAttribute('nocache', 'true');
+					billingArea.replaceItems({shopId: shop.value});
+					billingArea.removeAttribute('nocache');		
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
 </panel>

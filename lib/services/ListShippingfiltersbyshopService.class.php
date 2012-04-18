@@ -44,10 +44,7 @@ class catalog_ListShippingfiltersbyshopService extends BaseService
 		$items = array();
 		foreach (catalog_ShippingfilterService::getInstance()->getByShop($shop) as $filter)
 		{
-			$items[] = new list_Item(
-				$filter->getLabel(),
-				$filter->getId()
-			);
+			$items[] = new list_Item($filter->getLabel(), $filter->getId());
 		}
 		return $items;
 	}

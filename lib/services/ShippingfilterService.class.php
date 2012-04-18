@@ -63,8 +63,15 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		$document->setInsertInTree(false);
 		if ($document->getShop() === null)
 		{
-			$document->setShop(catalog_persistentdocument_shop::getInstanceById($parentNodeId));
+			$shop = catalog_persistentdocument_shop::getInstanceById($parentNodeId);
+			$document->setShop($shop);
 		}
+		
+		if ($document->getBillingArea() === null)
+		{
+			$document->setBillingArea($document->getShop()->getDefaultBillingArea());
+		}	
+			
 		$this->updateFees($document);
 	}
 	
@@ -83,7 +90,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	 */
 	protected function updateFees($document)
 	{
-		if ($document->isPropertyModified('valueWithoutTax'))
+		if ($document->isPropertyModified('valueWithoutTax') || $document->isPropertyModified('billingArea'))
 		{
 			if ($document->getFeesId() == null)
 			{
@@ -94,6 +101,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 			else
 			{
 				$fees = order_persistentdocument_fees::getInstanceById($document->getFeesId());
+				$fees->setBillingArea($document->getBillingArea());
 				if ($fees->getApplicationstrategy() === order_FeesService::DEFAULT_SHIPPING_STRATEGY)
 				{
 					$fees->setStrategyParam('taxcategory', $document->getTaxCategory());
@@ -112,6 +120,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	{
 		$filters = $this->createQuery()->add(Restrictions::published())
 			->add(Restrictions::eq('shop', $cart->getShop()))
+			->add(Restrictions::eq('billingArea', $cart->getBillingArea()))
 			->add(Restrictions::eq('selectbyproduct', false))
 			->addOrder(Order::asc('valueWithoutTax'))
 			->find();
@@ -146,6 +155,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		{
 			$filters = $this->createQuery()->add(Restrictions::published())
 				->add(Restrictions::eq('shop', $cart->getShop()))
+				->add(Restrictions::eq('billingArea', $cart->getBillingArea()))
 				->add(Restrictions::eq('selectbyproduct', true))
 				->add(Restrictions::eq('mode.id', $shippingModeId))
 				->addOrder(Order::asc('valueWithoutTax'))
@@ -175,7 +185,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function isValidShippingFilter($filter, $cart)
 	{
-		if ($filter->isPublished() && $filter->getMode()->isPublished())
+		if ($filter->isPublished() && DocumentHelper::equals($filter->getBillingArea(), $cart->getBillingArea()) && $filter->getMode()->isPublished())
 		{
 			$addrInfo = $cart->getAddressInfo();
 			if ($addrInfo && $addrInfo->shippingAddress && $addrInfo->shippingAddress->CountryId)
@@ -202,6 +212,7 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	{
 		return catalog_ShippingfilterService::getInstance()->createQuery()
 			->add(Restrictions::eq('shop', $shop))
+			->add(Restrictions::eq('billingArea', $shop->getCurrentBillingArea()))
 			->addOrder(Order::iasc('document_label'))->find();
 	}
 	
@@ -221,10 +232,11 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function getAvailableCountriesForShop($shop)
 	{
-		$modes = $this->createQuery()->add(Restrictions::eq('shop', $shop))
-						->add(Restrictions::published())
-						->setProjection(Projections::groupProperty('mode', 'mode'))
-						->findColumn('mode');
+		$modes = $this->createQuery()->add(Restrictions::published())
+			->add(Restrictions::eq('shop', $shop))
+			->add(Restrictions::eq('billingArea', $shop->getCurrentBillingArea()))
+			->setProjection(Projections::groupProperty('mode', 'mode'))
+			->findColumn('mode');
 		return shipping_ModeService::getInstance()->getDeliveryCountriesForModes($modes);	
 	}
 }

@@ -1,0 +1,3 @@
+Version: 3.6.0
+
+Add billingArea property on paymentfilter and shippingfilter document

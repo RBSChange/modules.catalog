@@ -62,7 +62,13 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 		$document->setInsertInTree(false);
 		if ($document->getShop() === null)
 		{
-			$document->setShop($this->pp->getDocumentInstance($parentNodeId, 'modules_catalog/shop'));
+			$shop = catalog_persistentdocument_shop::getInstanceById($parentNodeId);
+			$document->setShop($shop);
+		}
+		
+		if ($document->getBillingArea() === null)
+		{
+			$document->setBillingArea($document->getShop()->getDefaultBillingArea());
 		}
 	}
 
@@ -73,7 +79,9 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	public function getCurrentPaymentConnectors($cart)
 	{
 		$filters = $this->createQuery()->add(Restrictions::published())
-			->add(Restrictions::eq('shop', $cart->getShop()))->find();
+			->add(Restrictions::eq('shop', $cart->getShop()))
+			->add(Restrictions::eq('billingArea', $cart->getBillingArea()))
+			->find();
 
 		$result = array();
 		foreach ($filters as $filter) 
@@ -97,16 +105,11 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function isValidPaymentFilter($filter, $cart)
 	{
-		if ($filter->isPublished() && $filter->getConnector()->isPublished())
+		if ($filter->isPublished() 
+			&& DocumentHelper::equals($filter->getBillingArea(), $cart->getBillingArea()) 
+			&& $filter->getConnector()->isPublished())
 		{
 			$connector = $filter->getConnector();
-			if ($connector->getCurrencyCode() !== null)
-			{
-				if ($connector->getCurrencyCode() !== $cart->getShop()->getCurrencyCode())
-				{
-					return false;
-				}
-			}
 			if ($connector->getMaxValue() !== null)
 			{
 				if (($cart->getTotalAmount() - $connector->getMaxValue()) > 0)
