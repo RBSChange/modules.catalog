@@ -26,6 +26,13 @@
 			</changecontent>
 		</page>
 		
+		<page label="Popin produit" navigationVisibility="hidden" indexingstatus="false" 
+			template-attr="templatePopin" byTag="functional_catalog_product-popin">
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_ProductPopin" />
+			</changecontent>
+		</page>
+		
 		<page label="Liste des produits associés" navigationVisibility="hidden" byTag="functional_catalog_crosssellinglist-page">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_productCrossSellingList" />

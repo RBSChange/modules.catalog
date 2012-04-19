@@ -11,9 +11,31 @@ class catalog_ShopScriptDocumentElement extends import_ScriptDocumentElement
 	protected function initPersistentDocument()
 	{
 		$document = catalog_ShopService::getInstance()->getNewDocumentInstance();
-		$mountParent = $this->getParentDocument()->getPersistentDocument();
-		$document->setMountParentId($mountParent->getId());
+		$parentDocument = $this->getParentDocument();
+		if ($parentDocument instanceof import_ScriptDocumentElement)
+		{
+			$mountParent = $this->getParentDocument()->getPersistentDocument();
+			if ($mountParent instanceof website_persistentdocument_website || $mountParent instanceof website_persistentdocument_topic)
+			{
+				$document->setMountParentId($mountParent->getId());
+			}
+		}
 		return $document;
+	}
+	
+	protected function getDocumentProperties()
+	{
+		$shop = $this->getPersistentDocument();
+		if ($shop->isNew())
+		{
+			$mountParent = $this->getComputedAttribute('mountParent');
+			if ($mountParent instanceof website_persistentdocument_website || $mountParent instanceof website_persistentdocument_topic)
+			{
+				$shop->setMountParentId($mountParent->getId());
+			}
+		}
+		
+		return parent::getDocumentProperties();
 	}
 	
 	/**

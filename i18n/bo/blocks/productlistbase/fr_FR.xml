@@ -18,6 +18,8 @@
 	<key id="displaynbresultsperpage-help">activer ou non la sélection du nombre de produits affichés par page pour l'internaute. Uniquement actif lorsque le menu de tri est affiché.</key>
 	<key id="displayaddtocart">ajout au panier</key>
 	<key id="displayaddtocart-help">activer ou non le bouton d'ajout au panier.</key>
+	<key id="useaddtocartpopin">ajout au panier via une popin</key>
+	<key id="useaddtocartpopin-help">Activer ou non l'utilisation d'une popin pour l'ajout au panier.</key>
 	<key id="showaddtocomparison">ajout aux comparaisons</key>
 	<key id="showaddtocomparison-help">activer ou non le bouton d'ajout aux comparaisons.</key>
 	<key id="showaddtofavorite">ajout aux produits favoris</key>

@@ -1,24 +1,26 @@
 <tal:block change:include="module 'catalog'; template 'Catalog-Block-Simpleproduct-Success'; type 'html'; transmitAll 'true'" />
 
-<h2 change:h="">${trans:m.catalog.frontoffice.kitItems,ucf}</h2>
-<ul class="product-list">
-	<li tal:repeat="kititem product/getKititemArray" class="product-line">
-		<tal:block tal:define="id product/getId">
-			<ul class="sub-list">
-				<tal:block tal:condition="baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem/getProduct" />
-				<tal:block tal:condition="not: baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem" />
-				<li change:productvisual="name 'visual'; mode 'list'; product kititem" tal:condition="visual" class="product-visual">
-					<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
-						<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
-					</a>
-				</li>
-				<li class="product-label">
-					<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
-						${kititem/getTitleAsHtml}<br/> 
-						<tal:block tal:condition="kititem/getCurrentProduct">${trans:m.catalog.frontoffice.configure-kit-item,ucf}</tal:block>
-					</a>
-				</li>
-			</ul>
-		</tal:block>
-	</li>
-</ul>
+<tal:block tal:condition="not:displayConfig/isPopin">
+	<h2 change:h="">${trans:m.catalog.frontoffice.kitItems,ucf}</h2>
+	<ul class="product-list">
+		<li tal:repeat="kititem product/getKititemArray" class="product-line">
+			<tal:block tal:define="id product/getId">
+				<ul class="sub-list">
+					<tal:block tal:condition="baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem/getProduct" />
+					<tal:block tal:condition="not: baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem" />
+					<li change:productvisual="name 'visual'; mode 'list'; product kititem" tal:condition="visual" class="product-visual">
+						<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
+							<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
+						</a>
+					</li>
+					<li class="product-label">
+						<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
+							${kititem/getTitleAsHtml}<br/> 
+							<tal:block tal:condition="kititem/getCurrentProduct">${trans:m.catalog.frontoffice.configure-kit-item,ucf}</tal:block>
+						</a>
+					</li>
+				</ul>
+			</tal:block>
+		</li>
+	</ul>
+</tal:block>

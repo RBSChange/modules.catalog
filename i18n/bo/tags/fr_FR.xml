@@ -2,6 +2,7 @@
 <i18n baseKey="m.catalog.bo.tags" lcid="fr_FR">
   <key id="product-list">liste des produits</key>
   <key id="product-detail">détail d'un produit</key>
+  <key id="product-popin">popin produit</key>
   <key id="compare-page">comparer des produits</key>
   <key id="recommand-product-page">recommander un produit</key>
   <key id="shelf-list">liste des rayons</key>

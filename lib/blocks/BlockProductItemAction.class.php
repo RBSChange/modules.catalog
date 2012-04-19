@@ -71,7 +71,20 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		{
 			$request->setAttribute('customer', null);
 		}
-		$request->setAttribute('product', $this->getDocumentParameter());
+		/* @var $product catalog_persistentdocument_product */
+		$product = $this->getDocumentParameter();
+		$request->setAttribute('product', $product);
+		
+		if ($displayConfig['useAddToCartPopin'])
+		{
+			$shop = $this->findParameterValue('shop');
+			$compiledProduct = $product->getDocumentService()->getPrimaryCompiledProductForShop($product, $shop);
+			$popinPageId = $compiledProduct->getPopinPageId();
+			if ($popinPageId)
+			{
+				$request->setAttribute('popinPageId', $popinPageId);
+			}
+		}
 		return ucfirst($request->getParameter('displayMode', 'list'));
 	}
 }

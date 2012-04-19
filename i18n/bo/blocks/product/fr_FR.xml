@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.product" lcid="fr_FR">
-  <key id="activatezoom">activer le zoom</key>
-  <key id="activatezoom-help">activer ou non le zoom sur les visuels pour les internautes qui utilisent un navigateur web avec un moteur Javascript compatible.</key>
-  <key id="showshareblock">partage de liens</key>
-  <key id="showshareblock-help">afficher ou non le bloc de partage de liens vers les réseaux sociaux (nécessite le module partage de liens).</key>
-  <key id="showshortdescription">description courte</key>
-  <key id="showshortdescription-help">Afficher ou non une description courte du produit.</key>
-  <key id="displaypricewithtax">afficher les prix TTC</key>
-  <key id="displaypricewithtax-help">afficher ou non les prix TTC ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
-  <key id="displaypricewithouttax">afficher les prix hors taxe</key>
-  <key id="displaypricewithouttax-help">afficher ou non les prix hors taxe ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
-  <key id="as-in-shop">Comme spécifié dans la boutique</key>
-  <key id="yes">Oui</key>
-  <key id="no">Non</key>
-  <key id="showrating">afficher les notes</key>
-  <key id="showrating-help">afficher ou non les notes attribuées à ce produit</key>
-  <key id="linktorealcontainedproductdetail">lier sous produits vers les fiches</key>
-  <key id="linktorealcontainedproductdetail-help">Dans produits contenant des sous-produits (kits et groupes de produits), faire des liens vers les fiches de ces sous-produits ?</key>
+	<key id="activatezoom">activer le zoom</key>
+	<key id="activatezoom-help">activer ou non le zoom sur les visuels pour les internautes qui utilisent un navigateur web avec un moteur Javascript compatible.</key>
+	<key id="showaddtocomparison">ajout aux comparaisons</key>
+	<key id="showaddtocomparison-help">activer ou non le bouton d'ajout aux comparaisons.</key>
+	<key id="showaddtofavorite">ajout aux produits favoris</key>
+	<key id="showaddtofavorite-help">activer ou non le bouton d'ajout aux produits favoris.</key>
+	<key id="showshareblock">partage de liens</key>
+	<key id="showshareblock-help">afficher ou non le bloc de partage de liens vers les réseaux sociaux (nécessite le module partage de liens).</key>
+	<key id="showshortdescription">description courte</key>
+	<key id="showshortdescription-help">Afficher ou non une description courte du produit.</key>
+	<key id="displaypricewithtax">afficher les prix TTC</key>
+	<key id="displaypricewithtax-help">afficher ou non les prix TTC ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
+	<key id="displaypricewithouttax">afficher les prix hors taxe</key>
+	<key id="displaypricewithouttax-help">afficher ou non les prix hors taxe ou adopte le réglage spécifié sur la boutique rattachée au site internet courant.</key>
+	<key id="as-in-shop">Comme spécifié dans la boutique</key>
+	<key id="yes">Oui</key>
+	<key id="no">Non</key>
+	<key id="showrating">afficher les notes</key>
+	<key id="showrating-help">afficher ou non les notes attribuées à ce produit</key>
+	<key id="linktorealcontainedproductdetail">lier sous produits vers les fiches</key>
+	<key id="linktorealcontainedproductdetail-help">Dans produits contenant des sous-produits (kits et groupes de produits), faire des liens vers les fiches de ces sous-produits ?</key>
 </i18n>

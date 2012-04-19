@@ -65,6 +65,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		{
 			$globalButtons[] = $this->getButtonInfo('addToCart', 'add-to-cart');
 		}
+		$displayConfig['useAddToCartPopin'] = $displayConfig['showAddToCart'] && $this->getConfigurationValue('useAddToCartPopin', true);
 		$displayConfig['showAddToFavorite'] = $this->getConfigurationValue('showaddtofavorite', false);
 		if ($displayConfig['showAddToFavorite'])
 		{

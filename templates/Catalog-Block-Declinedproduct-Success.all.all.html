@@ -1,5 +1,4 @@
 <script change:javascript="head 'modules.catalog.lib.js.product-detail'"></script>
-<script tal:condition="baseconfiguration/getActivatezoom" change:javascript="head 'modules.catalog.lib.js.easyzoom'"></script>
 
 <tal:block change:block="" module="order" name="CartMessages" container="" />
 <tal:block change:block="" module="website" name="messages" container="" />
@@ -9,7 +8,10 @@
 </ul>
 <tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" container="" />
 
-<h1 change:h="">${product/getFullLabelAsHtml}</h1>
+<h1 change:h="">
+	<a tal:condition="displayConfig/isStandalone" change:link="document product; shopId shop/getId">${product/getLabelAsHtml}</a>
+	<tal:block tal:condition="not:displayConfig/isStandalone">${product/getLabelAsHtml}</tal:block>
+</h1>
 
 <dl class="inline-list">
 	<dt>${trans:m.catalog.frontoffice.detail-reference,ucf}</dt>
@@ -51,7 +53,13 @@
 					<li>
 						<input type="hidden" tal:attributes="value product/getId" name="productId" />
 						<label for="declination-selector-${context/getBlockId}">${trans:m.catalog.frontoffice.detail-declinations,ucf,lab}</label>
-						<select class="textfield" id="declination-selector-${context/getBlockId}" name="catalogParam[declinationId]" onchange="jQuery(this).parents('form').get(0).submit()">
+						<tal:block tal:condition="displayConfig/isPopin">
+							<tal:block tal:define="global selectorOnclick">catalog_openAddToCartPopin(${displayConfig/popinPageId}, jQuery(this).val());</tal:block>
+						</tal:block>
+						<tal:block tal:condition="not: displayConfig/isPopin">
+							<tal:block tal:define="global selectorOnclick">jQuery(this).parents('form').get(0).submit();</tal:block>
+						</tal:block>
+						<select class="textfield" id="declination-selector-${context/getBlockId}" name="catalogParam[declinationId]" onchange="${selectorOnclick}">
 							<tal:block tal:repeat="declination php: declinedproduct.getPublishedDeclinationsInShop(shop)">
 								<option tal:condition="php: declination.getId() == product.getId()" selected="selected" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
 								<option tal:condition="php: declination.getId() != product.getId()" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
@@ -120,10 +128,10 @@
 			<tal:block tal:condition="product/hasComment">
 				<tal:block tal:condition="product/hasRating" change:starrating="" small="true" value="${product/getRatingAverage}" displayOnly="true" />
 				<tal:block tal:condition="not:product/hasRating">${trans:m.catalog.fo.no-rating,ucf}</tal:block>
-				(<a class="link" href="#comments-${product/getId}">${trans:m.catalog.fo.reviews-count,ucf,count=product/getCommentCount}</a>)
+				(<a tal:omit-tag="displayConfig/isStandalone" class="link" href="#comments-${product/getId}">${trans:m.catalog.fo.reviews-count,ucf,count=product/getCommentCount}</a>)
 			</tal:block>
 			<tal:block tal:condition="not:product/hasComment">
-				<a class="link" href="#comments-${product/getId}">${trans:m.catalog.fo.comment-be-first,ucf}</a>
+				<a tal:condition="not: displayConfig/isStandalone" class="link" href="#comments-${product/getId}">${trans:m.catalog.fo.comment-be-first,ucf}</a>
 			</tal:block>
 		</div>
 			
@@ -141,9 +149,13 @@
 			</fieldset>
 		</form>
 		
-		<ul class="inline-list normal-margin">
-			<li><a change:link="module catalog; action UpdateList; listName 'catalog_favorite'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.frontoffice.add-to-favorite-button,ucf}</a><span class="separator"> | </span></li>
-			<li><a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.fo.add-to-comparisons,ucf}</a></li>
+		<ul class="inline-list normal-margin" tal:condition="displayConfig/showAddLinkList">
+			<li tal:condition="displayConfig/showAddToFavorite">
+				<a change:link="module catalog; action UpdateList; listName 'catalog_favorite'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.frontoffice.add-to-favorite-button,ucf}</a><span class="separator" tal:condition="displayConfig/showAddToComparison"> | </span>
+			</li>
+			<li tal:condition="displayConfig/showAddToComparison">
+				<a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.fo.add-to-comparisons,ucf}</a>
+			</li>
 		</ul>
 		
 		<tal:block tal:condition="displayConfig/showShareBlock" change:block="" module="sharethis" name="Sharepage" />

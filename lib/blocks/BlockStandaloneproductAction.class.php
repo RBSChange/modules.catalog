@@ -6,6 +6,14 @@
 class catalog_BlockStandaloneproductAction extends catalog_BlockProductAction
 {
 	/**
+	 * @return boolean
+	 */
+	protected function isStandalone()
+	{
+		return true;
+	}
+	
+	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String

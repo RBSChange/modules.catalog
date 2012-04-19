@@ -2,6 +2,7 @@
 <tags>
 	<tag labeli18n="m.catalog.bo.tags.product-list" icon="list-block">functional_catalog_product-list</tag>
 	<tag labeli18n="m.catalog.bo.tags.product-detail" icon="product">functional_catalog_product-detail</tag>
+	<tag labeli18n="m.catalog.bo.tags.product-popin" icon="product">functional_catalog_product-popin</tag>
 	<tag labeli18n="m.catalog.bo.tags.shelf-list" icon="list-block">functional_catalog_shelf-list</tag>
 	<tag labeli18n="m.catalog.bo.tags.cross-selling-list" icon="list-block">functional_catalog_crosssellinglist-page</tag>
 	<tag labeli18n="m.catalog.bo.tags.recommand-product-page" icon="mail">contextual_website_website_modules_catalog_recommand-product-page</tag>

@@ -11,12 +11,13 @@
 	
 	<billingarea byCodeReference="FR" id="areafr" />
 
+	<website byTag="default_modules_website_default-website" id="website" />
+
+	<shop label="Boutique" mountParent-refid="website" billingAreas-refid="areafr" byCodeReference="DEMO"
+		displayPriceWithTax="true" displayPriceWithoutTax="true"
+		displayOutOfStock="true" orderProcessClassName="order_StandardOrderProcess" />		
+
 	<website byTag="default_modules_website_default-website">
-		<shop label="Boutique" billingAreas-refid="areafr"
-				displayPriceWithTax="true" displayPriceWithoutTax="true"
-				displayOutOfStock="true" orderProcessClassName="order_StandardOrderProcess">
-		</shop>
-				
 		<topic byLabel="Boutique" id="ShopTopic">
 			<execute method="setDocumentIdAttribute" />
 			<binding fileName="modules/catalog/setup/shopDefaultStructure.xml" />

@@ -18,6 +18,8 @@
 	<script name="modules.catalog.lib.js.product-detail">
 		<dependencies>
 			<dependency name="modules.website.lib.js.jquery-noconflict" />
+			<dependency name="modules.catalog.lib.js.easyzoom" />
+			<dependency name="modules.website.lib.js.jquery-ui-dialog" />
 		</dependencies>
 	</script>
 	<script name="modules.catalog.lib.js.product-list">

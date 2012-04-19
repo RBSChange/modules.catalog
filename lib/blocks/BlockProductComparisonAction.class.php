@@ -44,7 +44,8 @@ class catalog_BlockProductComparisonAction extends website_BlockAction
 		$request->setAttribute('blockTitle', $ls->transFO('m.catalog.frontoffice.my-favorite-products', array('ucf')));
 
 		// Get products.
-		if ($this->getConfiguration()->getRestrictProductsToContext())
+		$configuration = $this->getConfiguration();
+		if ($configuration->getRestrictProductsToContext())
 		{
 			$topic = $this->getPage()->getPersistentPage()->getTopic();
 			$query = website_SystemtopicService::getInstance()->createQuery()->add(Restrictions::descendentOf($topic->getId()))->add(Restrictions::published());
@@ -81,14 +82,14 @@ class catalog_BlockProductComparisonAction extends website_BlockAction
 		$request->setAttribute('products', $products);
 		
 		$properties = array();
-		foreach ($this->getConfiguration()->getComparableProperties() as $prop)
+		foreach ($configuration->getComparableProperties() as $prop)
 		{
 			$properties[] = $prop->getPropertyInstance();
 		}
 		$request->setAttribute('properties', $properties);
 		
 		// Pictograms configuration.
-		if ($this->getConfiguration()->getShowProductPictograms())
+		if ($configuration->getShowProductPictograms())
 		{
 			$request->setAttribute('showProductPictograms', true);
 			$request->setAttribute('showAnimPictogramBlock', ModuleService::getInstance()->moduleExists('marketing'));

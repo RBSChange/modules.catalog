@@ -42,7 +42,13 @@
 	</li>
 	<li class="product-add" tal:condition="displayConfig/showAddToCart">
 		<tal:block tal:define="canAdd php: product.canBeAddedToCart(price)">
-			<input tal:condition="canAdd" type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
+			<tal:block tal:condition="canAdd">
+				<tal:block tal:condition="popinPageId">
+					<script change:javascript="head 'modules.catalog.lib.js.product-detail'"></script>
+					<input type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="catalog_openAddToCartPopin(${popinPageId}, ${product/getId}); return false;" />
+				</tal:block>
+				<input tal:condition="not:popinPageId" type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
+			</tal:block>
 			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button primary" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
 		</tal:block>
 	</li>

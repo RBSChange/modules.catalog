@@ -80,18 +80,33 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 	protected function setDisplayConfig($request, $shop)
 	{
 		// Prepare display configuration.
+		$configuration = $this->getConfiguration();
 		$displayConfig = array();
 		$request->setAttribute('shop', $shop);
 		$displayConfig['showPricesWithTax'] = $this->getShowPricesWithTax($shop);
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showPrices'] = $displayConfig['showPricesWithTax'] || $displayConfig['showPricesWithoutTax'];
-		$displayConfig['showRating'] = $this->getConfiguration()->getShowRating();
+		$displayConfig['showRating'] = $configuration->getShowRating();
+		$displayConfig['showAddToFavorite'] = $configuration->getShowAddToFavorite();
+		$displayConfig['showAddToComparison'] = $configuration->getShowAddToComparison();
+		$displayConfig['showAddLinkList'] = $displayConfig['showAddToFavorite'] || $displayConfig['showAddToComparison'];
 		$displayConfig['showShareBlock'] = $this->getShowShareBlock();
 		$displayConfig['showAnimPictogramBlock'] = ModuleService::getInstance()->moduleExists('marketing');
+		$displayConfig['isStandalone'] = $this->isStandalone();
+		$displayConfig['isPopin'] = false;
+		$displayConfig['popinPageId'] = null;
 		$request->setAttribute('displayConfig', $displayConfig);
 	}
 	
+	/**
+	 * @return boolean
+	 */
+	protected function isStandalone()
+	{
+		return false;
+	}
+		
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return boolean

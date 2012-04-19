@@ -11,7 +11,7 @@
 	<form change:link="module catalog; action UpdateList" method="post" style="clear:both" data-addtocart-url="${actionurl:'order','AddToCartMultiple',attr}" onsubmit="return onFormSubmitted(this);">
 		<p class="buttons">
 			${trans:m.catalog.fo.actions-on-selection,ucf,lab}
-			<input class="button js" type="button" value="${trans:m.catalog.frontoffice.add-to-cart-button,ucf,attr}" title="${trans:m.catalog.frontoffice.add-to-cart-help,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" />
+			<input tal:condition="configuration/getDisplayaddtocart" class="button js" type="button" value="${trans:m.catalog.frontoffice.add-to-cart-button,ucf,attr}" title="${trans:m.catalog.frontoffice.add-to-cart-help,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" />
 			<input tal:condition="configuration/getShowaddtofavorite" class="button js" type="button" value="${trans:m.catalog.frontoffice.add-to-favorite-button,ucf,attr}" title="${trans:m.catalog.frontoffice.add-to-favorite-help,ucf,attr}" onclick="onGlobalAddToFavoriteButtonClick(this);" />
 			<input class="button" name="mode[remove]" type="submit" value="${trans:m.catalog.frontoffice.remove-from-list-button,ucf,attr}" title="${trans:m.catalog.frontoffice.remove-from-list-help,ucf,attr}" />
 			<input class="button" name="mode[replace]" type="submit" value="${trans:m.catalog.frontoffice.remove-others-from-list-button,ucf,attr}" title="${trans:m.catalog.frontoffice.remove-others-from-list-help,ucf,attr}" />
@@ -42,6 +42,9 @@
 									<a change:link="document product; catalogParam[shopId] shop/getId" tal:attributes="title product/getLinkTitle">
 										<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
 									</a>
+									<div class="product-remove-container">
+										<a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; mode 'remove'; productIds[] id; refererPageId context/getId" title="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}"><img change:img="icon/small/delete.png" alt="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}" /></a>
+									</div>
 									<div tal:condition="showProductPictograms" class="pictograms-container">
 										<ul tal:condition="product/getPictogramCount" class="inline-list product-pictograms">
 											<li tal:repeat="pictogram product/getPictogramArray"><img change:media="document pictogram; format 'modules.catalog.frontoffice/pictogram'" /></li>
@@ -51,22 +54,35 @@
 								</li>
 								<li class="product-label">
 									<a change:link="document product; catalogParam[shopId] shop/getId" tal:attributes="title product/getLinkTitle" >${product/getLabelAsHtml}</a>
-									<a change:link="module catalog; action UpdateList; listName 'catalog_comparison'; mode 'remove'; productIds[] id; refererPageId context/getId" title="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}"><img change:img="icon/small/delete.png" alt="${trans:m.catalog.fo.remove-this-produit-from-list,ucf}" /></a>
 								</li>
 								<li>${product/getCodereferenceAsHtml}</li>
-								<tal:block tal:define="canAdd product/canBeAddedToCart">
+								<tal:block tal:condition="configuration/getDisplayaddtocart" tal:define="canAdd product/canBeAddedToCart">
 									<li tal:condition="configuration/getShowQuantitySelector" class="product-quantity-selector">
 										<tal:block tal:condition="canAdd">
 											<label class="invisible" for="comparison_quantities_${id}">${trans:m.catalog.frontoffice.detail-quantity,lab,ucf}</label>
-			                				<input class="textfield quantity-selector js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
-			                			</tal:block>
+				                			<input class="textfield quantity-selector js" type="text" size="3" id="comparison_quantities_${id}" name="quantities[${id}]" value="0" data-product-id="${id}" />
+				                		</tal:block>
 		                			</li>
 		                			<li class="product-add">
 		                				<tal:block tal:condition="canAdd">
-			                				<input type="button" class="button js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
-			                				<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button nojs" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+		                					<tal:block tal:condition="configuration/getUseAddToCartPopin">
+			                					<tal:block tal:define="popinPageId product/getPrimaryContextualCompiledProduct/getPopinPageId">
+					                				<tal:block tal:condition="popinPageId">
+														<script change:javascript="head 'modules.catalog.lib.js.product-detail'"></script>
+														<input type="button" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="catalog_openAddToCartPopin(${popinPageId}, ${product/getId}); return false;" />
+													</tal:block>
+													<tal:block tal:condition="not: popinPageId">
+						                				<input type="button" class="button primary js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
+						                				<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button nojs" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+					                				</tal:block>
+					                			</tal:block>
+					                		</tal:block>
+				                			<tal:block tal:condition="not: configuration/getUseAddToCartPopin">
+				                				<input type="button" class="button primary js" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="onSingleAddToCartButtonClick(this, ${id});" />
+				                				<a change:link="module order; action AddToCartMultiple; shopId shop/getId; productIds[] id" class="button nojs" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+			                				</tal:block>
 			                			</tal:block>
-			                			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
+			                			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button primary" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
 		                			</li>
 	                			</tal:block>
 	                		</ul>
@@ -83,7 +99,7 @@
 		</div>
 		<p class="buttons">
 			${trans:m.catalog.fo.actions-on-selection,ucf,lab}
-			<input class="button js" type="button" value="${trans:m.catalog.frontoffice.add-to-cart-button,ucf,attr}" title="${trans:m.catalog.frontoffice.add-to-cart-help,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" />
+			<input tal:condition="configuration/getDisplayaddtocart" class="button js" type="button" value="${trans:m.catalog.frontoffice.add-to-cart-button,ucf,attr}" title="${trans:m.catalog.frontoffice.add-to-cart-help,ucf,attr}" onclick="onGlobalAddToCartButtonClick(this);" />
 			<input tal:condition="configuration/getShowAddToFavorite" class="button js" type="button" value="${trans:m.catalog.frontoffice.add-to-favorite-button,ucf,attr}" title="${trans:m.catalog.frontoffice.add-to-favorite-help,ucf,attr}" onclick="onGlobalAddToFavoriteButtonClick(this);" />
 			<input class="button" name="mode[remove]" type="submit" value="${trans:m.catalog.frontoffice.remove-from-list-button,ucf,attr}" title="${trans:m.catalog.frontoffice.remove-from-list-help,ucf,attr}" />
 			<input class="button" name="mode[replace]" type="submit" value="${trans:m.catalog.frontoffice.remove-others-from-list-button,ucf,attr}" title="${trans:m.catalog.frontoffice.remove-others-from-list-help,ucf,attr}" />
