@@ -85,18 +85,37 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 		$this->updateFees($document);
 	}	
 	
+	
+	/**
+	 * this method is call before save the duplicate document.
+	 * @param catalog_persistentdocument_shippingfilter $newDocument
+	 * @param catalog_persistentdocument_shippingfilter $originalDocument
+	 * @param Integer $parentNodeId
+	 */
+	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
+	{
+		$newDocument->setLabel(LocaleService::getInstance()->transBO('m.generic.backoffice.duplicate-prefix', array('ucf'), array('number' => '')) . ' ' . $originalDocument->getLabel());
+		$newDocument->setPublicationstatus(f_persistentdocument_PersistentDocument::STATUS_DEACTIVATED);
+		$newDocument->setFeesId(null);
+	}
+	
 	/**
 	 * @param catalog_persistentdocument_shippingfilter $document
 	 */
 	protected function updateFees($document)
 	{
-		if ($document->isPropertyModified('valueWithoutTax') || $document->isPropertyModified('billingArea'))
+		if ($document->isPropertyModified('valueWithoutTax') 
+			|| $document->isPropertyModified('taxCategory') 
+			|| $document->isPropertyModified('billingArea'))
 		{
 			if ($document->getFeesId() == null)
 			{
-				$fees = order_FeesService::getInstance()->getNewDefaultFees($document);
-				$fees->save();
-				$document->setFeesId($fees->getId());
+				if ($document->getValueWithoutTax() > 0)
+				{
+					$fees = order_FeesService::getInstance()->getNewDefaultFees($document);
+					$fees->save();
+					$document->setFeesId($fees->getId());
+				}
 			}
 			else
 			{

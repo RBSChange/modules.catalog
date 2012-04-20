@@ -4,4 +4,5 @@
   <key id="isdefault">par défaut</key>
   <key id="startpublicationdate">début de publication</key>
   <key id="endpublicationdate">fin de publication</key>
+  <key id="billingareacolumnlabel">Zone de facturation</key> 
 </i18n>

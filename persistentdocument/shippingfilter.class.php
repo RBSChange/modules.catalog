@@ -61,6 +61,16 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	}
 	
 	//Back office editor
+
+	/**
+	 * @return string
+	 */
+	public function getBillingAreaColumnLabel()
+	{
+		$ba = $this->getBillingArea();
+		return $ba ? $ba->getTreeNodeLabel() : '-';
+	}
+	
 	/**
 	 * @return string
 	 */
@@ -81,7 +91,6 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	}
 
 	/**
-	 * 
 	 * @param order_CartInfo $cartInfo
 	 * @return shipping_persistentdocument_mode
 	 */

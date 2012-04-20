@@ -71,6 +71,20 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 			$document->setBillingArea($document->getShop()->getDefaultBillingArea());
 		}
 	}
+	
+	
+	/**
+	 * this method is call before save the duplicate document.
+	 * @param catalog_persistentdocument_paymentfilter $newDocument
+	 * @param catalog_persistentdocument_paymentfilter $originalDocument
+	 * @param Integer $parentNodeId
+	 */
+	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
+	{
+		$newDocument->setLabel(LocaleService::getInstance()->transBO('m.generic.backoffice.duplicate-prefix', array('ucf'), array('number' => '')) . ' ' . $originalDocument->getLabel());
+		$newDocument->setPublicationstatus(f_persistentdocument_PersistentDocument::STATUS_DEACTIVATED);
+	}
+	
 
 	/**
 	 * @param order_CartInfo $cart
@@ -132,4 +146,6 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 		}
 		return false;
 	}
+	
+	
 }

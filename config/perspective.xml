@@ -81,6 +81,9 @@
         <child model="modules_catalog/shippingfilter" from="shippingfilter"/>
         <child model="modules_catalog/paymentfilter" from="paymentfilter"/>
       </children>
+      <columns>
+        <column name="billingAreaColumnLabel" />
+      </columns>
       <contextactions>
         <contextaction name="edit"/>
         <contextaction name="delete"/>
@@ -100,6 +103,7 @@
         <contextaction name="delete"/>
         <contextaction name="deactivated"/>
         <contextaction name="reactivate"/>
+        <contextaction name="duplicate"/>
       </contextactions>
     </model>
     <model name="modules_catalog/paymentfilter">
@@ -108,6 +112,7 @@
         <contextaction name="delete"/>
         <contextaction name="deactivated"/>
         <contextaction name="reactivate"/>
+        <contextaction name="duplicate"/>
       </contextactions>
     </model>
     <model name="modules_catalog/topshelf">
