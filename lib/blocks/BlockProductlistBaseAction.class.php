@@ -214,7 +214,6 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	{
 		return $this->getConfigurationValue('sortRandom', false);
 	}
-	
 			
 	/**
 	 * @param f_mvc_Response $response

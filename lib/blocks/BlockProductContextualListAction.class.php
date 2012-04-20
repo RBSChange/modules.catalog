@@ -62,28 +62,22 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 			$masterQuery->addOrder(Order::desc('compiledproduct.brandLabel'));
 		}
 		$masterQuery->addOrder(Order::asc('compiledproduct.position'));
-		
-		$hideBlocIfEmpty = true;
+
 		$onlydiscount = $this->findParameterValue('onlydiscount');
 		if ($onlydiscount == 'true')
 		{
 			$query->add(Restrictions::eq('isDiscount', true));
-			$hideBlocIfEmpty = false;
+			$this->hideIfNoProduct = false;
 		}
 		$onlyavailable = $this->findParameterValue('onlyavailable');
 		if ($onlyavailable == 'true')
 		{
 			$query->add(Restrictions::eq('isAvailable', true));
-			$hideBlocIfEmpty = false;
+			$this->hideIfNoProduct = false;
 		}
 		
 		$masterQuery->setProjection(Projections::property('id'));
-		$productIds = $masterQuery->findColumn('id');				
-		if (count($productIds) == 0 && $hideBlocIfEmpty)
-		{
-			return null;
-		}
-		return $productIds;
+		return $masterQuery->findColumn('id');
 	}
 	
 	/**
@@ -180,11 +174,16 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	}
 	
 	/**
+	 * @var boolean
+	 */
+	private $hideIfNoProduct = true;
+	
+	/**
 	 * @return boolean
 	 */
 	protected function getShowIfNoProduct()
 	{
-		return $this->getCurrentShelf() !== null;
+		return !$this->hideIfNoProduct && $this->getCurrentShelf() !== null;
 	}
 	
 	/**
