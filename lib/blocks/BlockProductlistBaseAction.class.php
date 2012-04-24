@@ -92,6 +92,8 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			'displayCustomerPrice' => $displayConfig['displayCustomerPrice'],
 			'showProductDescription' => $displayConfig['showProductDescription'],
 			'showProductPictograms' => $displayConfig['showProductPictograms'],
+			'showAnimPictogramBlock' => $displayConfig['showAnimPictogramBlock'],
+			'useAddToCartPopin' => $displayConfig['useAddToCartPopin'],
 		);
 		return $displayConfig;
 	}

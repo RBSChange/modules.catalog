@@ -80,7 +80,6 @@ class catalog_UpdateListAction extends f_action_BaseAction
 		{
 			$list->saveList();
 			$listUrl = $this->getListUrl($request, $module, $name);
-			Framework::fatal(__METHOD__ . ' ' . $listUrl);
 			if ($listUrl)
 			{
 				$replacements = array('listUrl' => $listUrl);

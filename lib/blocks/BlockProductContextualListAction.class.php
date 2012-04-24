@@ -170,7 +170,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 				"description" => $referencingService->getPageDescriptionByShelf($container), 
 				"keywords" => $referencingService->getPageKeywordsByShelf($container));
 		}
-		return null;
+		return array();
 	}
 	
 	/**
