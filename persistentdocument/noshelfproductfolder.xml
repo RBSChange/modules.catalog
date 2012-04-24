@@ -5,7 +5,7 @@
 	indexable="false" extend="modules_generic/folder"
 	icon="noshelffolder">
 	<properties>
-		<add name="label" type="String" default-value="modules.catalog.document.noshelfproductfolder.document-name" />
+		<add name="label" type="String" default-value="m.catalog.document.noshelfproductfolder.document-name" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

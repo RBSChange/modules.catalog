@@ -4,6 +4,6 @@
 	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd"
 	model-version="1.0" extend="modules_generic/folder" backoffice-indexable="false">
 	<properties>
-		<add name="label" default-value="Boutiques" />
+		<add name="label" default-value="m.catalog.document.shopfolder.document-name" />
 	</properties>
 </document>

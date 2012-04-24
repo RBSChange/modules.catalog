@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.document.shopfolder" lcid="fr_FR">
+  <include id="m.generic.document.folder"/>
   <key id="edition-form-title">propriétés du dossier de boutiques</key>
-  <key id="document-name">dossier de boutiques</key>
-  <key id="label">libellé</key>
-  <key id="description">description</key>
+  <key id="document-name">Boutiques</key>
 </i18n>

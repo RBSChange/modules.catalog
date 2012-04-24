@@ -166,9 +166,9 @@
 	</rootfolder>	
 			
 	<rootfolder module="catalog">
-		<attributefolder />
-		<shopfolder />
-		<noshelfproductfolder />
+		<attributefolder byLabel="m.catalog.document.attributefolder.document-name"/>
+		<shopfolder byLabel="m.catalog.document.shopfolder.document-name" />
+		<noshelfproductfolder byLabel="m.catalog.document.noshelfproductfolder.document-name" />
 		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name" />
 	</rootfolder>
 </script>

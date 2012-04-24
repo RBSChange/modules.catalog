@@ -5,7 +5,7 @@
 	model-version="3.0" backoffice-indexable="false" icon="blueprint" has-url="false" 
 	publish-on-day-change="false">
 	<properties>
-		<add name="label" default-value="Attributs" />
+		<add name="label" default-value="m.catalog.document.attributefolder.document-name" />
 		<add name="serializedattributes" type="Lob"/>
 	</properties>
 	<statuses default="ACTIVE" />
