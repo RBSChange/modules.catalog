@@ -13,7 +13,7 @@
 				change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop" />
 		</li>
 	</ul>
-	<ul class="mini-navigation" tal:condition="fullListLink">
-		<li><a href="fullListLink/url" class="link">${fullListLink/label}</a></li>
-	</ul>
+	<p class="buttons" tal:condition="fullListLink">
+		<a href="${fullListLink/url}" class="link">${fullListLink/label}</a>
+	</p>
 </tal:block>
