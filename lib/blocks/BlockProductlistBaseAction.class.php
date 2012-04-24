@@ -77,9 +77,11 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			$globalButtons[] = $this->getButtonInfo('addToComparison', 'add-to-comparison');
 		}
 		$displayConfig['globalButtons'] = $globalButtons;
-		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;
-		
+		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;		
 		$displayConfig['displayCustomerPrice'] = $this->displayCustomerPrice();
+		
+		// Add specific informations before generation itemconfig entry.
+		$this->completeDisplayConfig(&$displayConfig);
 		
 		$displayConfig['itemconfig'] = array(
 			'showCheckboxes' => $displayConfig['showCheckboxes'],
@@ -96,6 +98,15 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			'useAddToCartPopin' => $displayConfig['useAddToCartPopin'],
 		);
 		return $displayConfig;
+	}
+	
+	/**
+	 * @param array $displayConfig
+	 * @param shop_persistentdocument_shop $shop
+	 */
+	protected function completeDisplayConfig(&$displayConfig, $shop)
+	{
+		// Nothing to do by default. Override this method to add specific informations in displayConfig.
 	}
 	
 	/**
