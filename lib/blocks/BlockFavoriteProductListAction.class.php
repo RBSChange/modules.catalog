@@ -8,14 +8,16 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 	/**
 	 * @param array $displayConfig
 	 * @param shop_persistentdocument_shop $shop
+	 * @return array
 	 */
-	protected function completeDisplayConfig(&$displayConfig, $shop)
+	protected function generateItemDisplayConfig($displayConfig, $shop)
 	{
+		$displayConfig = parent::generateItemDisplayConfig($displayConfig, $shop);
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('removeFromList', 'remove-from-list');
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('replaceList', 'remove-others-from-list');
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('clearList', 'clear-list');
 		$displayConfig['showCheckboxes'] = true;
-		$displayConfig['itemconfig']['showCheckboxes'] = true;
+		return $displayConfig;
 	}
 	
 	/**

@@ -27,13 +27,18 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	protected function displayCustomerPrice()
 	{
 		return catalog_ModuleService::areCustomersEnabled() && $this->getConfigurationParameter('displayCustomerPrice', 'true') === 'true';
-	}	
+	}
+	
+	/**
+	 * @var array
+	 */
+	protected $displayConfig;
 			
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return array
 	 */
-	protected function getDisplayConfig($shop)
+	protected function generateDisplayConfig($shop)
 	{
 		$displayConfig = array();
 		
@@ -54,11 +59,11 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['controlsmodule'] = 'catalog';
 		$displayConfig['controlstemplate'] = 'Catalog-Inc-ProductListOrderOptions';
 		
-		// @deprecated 
+		// @deprecated
 		$displayConfig['showQuantitySelector'] = $this->getConfigurationValue('activatequantityselection', true);
 		// @depreacted
 		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
-				
+		
 		$globalButtons = array();
 		$displayConfig['showAddToCart'] = $this->getShowAddToCart();
 		if ($displayConfig['showAddToCart'])
@@ -77,15 +82,21 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			$globalButtons[] = $this->getButtonInfo('addToComparison', 'add-to-comparison');
 		}
 		$displayConfig['globalButtons'] = $globalButtons;
-		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;		
+		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;
 		$displayConfig['displayCustomerPrice'] = $this->displayCustomerPrice();
-		
-		// Add specific informations before generation itemconfig entry.
-		$this->completeDisplayConfig(&$displayConfig);
-		
-		$displayConfig['itemconfig'] = array(
+		return $displayConfig;		
+	}
+	
+	/**
+	 * @param array $displayConfig
+	 * @param shop_persistentdocument_shop $shop
+	 * @return array
+	 */
+	protected function generateItemDisplayConfig($displayConfig, $shop)
+	{
+		return array(
 			'showCheckboxes' => $displayConfig['showCheckboxes'],
-		 	'showRatingAverage' => $displayConfig['showRatingAverage'],
+			'showRatingAverage' => $displayConfig['showRatingAverage'],
 			'showAvailability' => $displayConfig['showAvailability'],
 			'showPricesWithoutTax' => $displayConfig['showPricesWithoutTax'],
 			'showPricesWithTax' => $displayConfig['showPricesWithTax'],
@@ -97,17 +108,22 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			'showAnimPictogramBlock' => $displayConfig['showAnimPictogramBlock'],
 			'useAddToCartPopin' => $displayConfig['useAddToCartPopin'],
 		);
-		return $displayConfig;
 	}
 	
 	/**
-	 * @param array $displayConfig
-	 * @param shop_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return array
 	 */
-	protected function completeDisplayConfig(&$displayConfig, $shop)
+	protected function getDisplayConfig($shop)
 	{
-		// Nothing to do by default. Override this method to add specific informations in displayConfig.
+		if ($this->displayConfig === null)
+		{
+			$this->displayConfig = $this->generateDisplayConfig($shop);
+		}
+		return $this->displayConfig;
 	}
+	
+
 	
 	/**
 	 * @param string $key
@@ -266,6 +282,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		}
 		
 		$displayConfig = $this->getDisplayConfig($shop);
+		$displayConfig['itemconfig'] = $this->generateItemDisplayConfig($displayConfig, $shop);
 		$request->setAttribute('displayConfig', $displayConfig);
 		
 		// Handle quanities field.
