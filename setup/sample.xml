@@ -55,11 +55,9 @@
 			<shelf label="sous-rayon 1" visual-refid="photo4" id="r6-1" />
 			<shelf label="sous-rayon 2" visual-refid="photo2" id="r6-2" />
 		</topshelf>
-
-		<shopfolder byLabel="Boutiques">
-			<shop byLabel="Boutique" id="shop" codeReference="DEMO" topShelf-refids="r1,r2,r5,r6" />
-		</shopfolder>
 	</rootfolder>
+	
+	<shop byCodeReference="DEMO" id="shop" topShelf-refids="r1,r2,r5,r6" />
 
 	<mode id="shipping" byLabel="Colissimo" />
 	<chequeconnector id="payment" byLabel="Paiement par chèque" />

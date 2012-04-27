@@ -61,11 +61,9 @@
 			<shelf label="Internet" visual-refid="photo-internet" id="r1-2" />
 		</topshelf>
 		<topshelf label="Matériel" visual-refid="photo-materiel" id="r2" />
-		
-		<shopfolder byLabel="Boutiques">
-			<shop byLabel="Boutique" id="shop" topShelf-refids="r1,r2" />
-		</shopfolder>
 	</rootfolder>
+	
+	<shop byCodeReference="DEMO" id="shop" topShelf-refids="r1,r2" />
 
 	<page byLabel="Contenu du rayon">
 		<execute method="setPageRefAsIndex" />
