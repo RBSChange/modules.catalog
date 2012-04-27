@@ -502,6 +502,20 @@
 			</javascript>
 		</xul>
 	</block>
+	<block type="modules_catalog_ConfigurateKit" icon="edit">
+		<parameters>
+			<parameter name="showPricesWithTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false" />
+			</parameter>
+			<parameter name="showPricesWithoutTax" type="String" default-value="asInShop" fieldtype="dropdownlist">
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.as-in-shop" value="asInShop" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.yes" value="true" />
+				<fieldlistitem labeli18n="modules.catalog.bo.blocks.product.no" value="false" />
+			</parameter>
+		</parameters>
+	</block>
 	<!-- Hidden blocks -->
 	<block type="modules_catalog_simpleproduct" hidden="true" dropModels="" />
 	<block type="modules_catalog_declinedproduct" hidden="true" dropModels="" />
@@ -511,6 +525,6 @@
 	<block type="modules_catalog_ProductItem" hidden="true" cache="true" />
 	<!-- Dashboard blocks -->
 	<block type="modules_catalog_dashboardstock" icon="warning" dashboard="true" />
-	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true" 
+	<block type="modules_catalog_dashboardGeneralStatistics" icon="statistics" dashboard="true"
 		label="&amp;modules.catalog.bo.dashboard.General-statistics;" />
 </blocks>

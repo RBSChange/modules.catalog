@@ -16,7 +16,7 @@ class catalog_BlockStandaloneproductAction extends catalog_BlockProductAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{

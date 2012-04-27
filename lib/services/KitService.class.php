@@ -492,7 +492,8 @@ class catalog_KitService extends catalog_ProductService
 		{
 			if ($kititem instanceof catalog_persistentdocument_kititem)
 			{
-				$kititemPrice = $kititem->getDocumentService()->getKititemPrice($kititem, $shop, $targetIds, $orderLine->getQuantity());
+				$billingArea = $shop->getCurrentBillingArea();
+				$kititemPrice = $kititem->getDocumentService()->getKititemPrice($kititem, $shop, $billingArea, $targetIds, $orderLine->getQuantity());
 				$kititemProduct = $kititem->getDefaultProduct();
 				$quantity = $kititem->getQuantity() * $orderLine->getQuantity();
 				$netAmount = $kititemPrice->getValueWithTax() * $quantity;
@@ -550,5 +551,59 @@ class catalog_KitService extends catalog_ProductService
 		$query = $this->createStrictQuery()->add(Restrictions::published())->add(Restrictions::eq('kititem.product', $product));
 		$query->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));	
 		return $query->setProjection(Projections::property('id'))->findColumn('id');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @return boolean
+	 */
+	public function isConfigurable($product)
+	{
+		foreach ($product->getKititemArray() as $kitItem)
+		{
+			/* @var $kitItem catalog_persistentdocument_kititem */
+			if ($kitItem->getProduct() instanceof catalog_DeclinableProduct)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return website_persistentdocument_page
+	 */
+	public function getConfigurationPage($document, $shop = null)
+	{
+		if ($document->isPublished())
+		{
+			// Look for a configuration page in current topic.
+			$currentPage = website_WebsiteModuleService::getInstance()->getCurrentPage();
+			$page = TagService::getInstance()->getDocumentBySiblingTag('functional_catalog_configurate-kit', $currentPage, false);
+			if ($page instanceof website_persistentdocument_page && $page->isPublished())
+			{
+				return $page;
+			}
+			
+			// Look for a page in the topic of the product's primary shelf.
+			if (!($shop instanceof catalog_persistentdocument_shop))
+			{
+				$shop = catalog_ShopService::getInstance()->getCurrentShop();
+			}
+			if ($shop instanceof catalog_persistentdocument_shop && $shop->isPublished())
+			{
+				$cp = $this->getPrimaryCompiledProductForShop($document, $shop);
+				if ($cp)
+				{
+					return website_PageService::getInstance()->createQuery()->add(Restrictions::published())
+						->add(Restrictions::childOf($cp->getTopicId()))
+						->add(Restrictions::hasTag('functional_catalog_configurate-kit'))
+						->findUnique();
+				}
+			}
+		}
+		return null;
 	}
 }

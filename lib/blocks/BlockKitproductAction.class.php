@@ -19,9 +19,7 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 	 */
 	public function getCacheKeyParameters($request)
 	{
-		return array('kititemid' => $request->getParameter('kititemid'),
-			'declinationid' => $request->getParameter('declinationid'),
-			'customitems' => $request->getParameter('customitems'));
+		return array('kititemid' => $request->getParameter('kititemid'));
 	}
 	
 	/**
@@ -59,33 +57,7 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		{
 			$kititem = catalog_persistentdocument_kititem::getInstanceById($request->getParameter('kititemid'));
 			$request->setAttribute('kititem', $kititem);
-			if ($kititem->getDeclinable() && $request->hasParameter('declinationid'))
-			{
-				$customProduct = catalog_persistentdocument_product::getInstanceById($request->getParameter('declinationid'));
-				foreach ($kititem->getProduct()->getDeclinations() as $declination)
-				{
-					if ($customProduct === $declination)
-					{
-						$kititem->setCurrentProduct($customProduct);
-					}
-				}
-			}
-			
-			if ($kititem->getDeclinable()) 
-			{
-				if ($kititem->getCurrentProduct() == null)
-				{
-					$kititem->setDefaultProductForShop($shop);
-				}
-				$declination = $kititem->getCurrentProduct();
-				$request->setAttribute('declination', $declination);
-				$request->setAttribute('kititemproduct', $declination);
-			}
-			else
-			{
-				$request->setAttribute('kititemproduct', $kititem->getProduct());
-			}
-			$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
+			$request->setAttribute('kititemproduct', $kititem->getDefaultProduct());
 			return 'Kititem';
 		}
 		$billingArea = $shop->getCurrentBillingArea();
@@ -95,7 +67,6 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 			$request->setAttribute('defaultPrice', $price);
 			$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $billingArea, $customer));
 		}
-		$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
 		return website_BlockView::SUCCESS;
 	}
 }

@@ -1469,6 +1469,25 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @return boolean
+	 */
+	public function isConfigurable($product)
+	{
+		return false;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return website_persistentdocument_page
+	 */
+	public function getConfigurationPage($document, $shop = null)
+	{
+		return null;
+	}
+	
 	// Deprecated
 	
 	/**

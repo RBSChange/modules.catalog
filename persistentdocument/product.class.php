@@ -817,13 +817,48 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		if ($shop instanceof  catalog_persistentdocument_shop)
 		{
 			return catalog_CompiledproductService::getInstance()->createQuery()
-					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-					->add(Restrictions::eq('primary', true))
-					->add(Restrictions::eq('shopId', $shop->getId()))
-					->add(Restrictions::eq('product', $this))
-					->findUnique();
+				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+				->add(Restrictions::eq('primary', true))
+				->add(Restrictions::eq('shopId', $shop->getId()))
+				->add(Restrictions::eq('product', $this))
+				->findUnique();
 		}
 		return  null;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isConfigurable()
+	{
+		return $this->getDocumentService()->isConfigurable($this);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return website_persistentdocument_page
+	 */
+	public function getConfigurationPage($shop = null)
+	{
+		if ($this->isConfigurable())
+		{
+			return $this->getDocumentService()->getConfigurationPage($this, $shop);
+		}
+		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return string
+	 */
+	public function getAddToCartUrl($shop = null)
+	{
+		$page = $this->getConfigurationPage($shop);
+		if ($page instanceof website_persistentdocument_page)
+		{
+			return LinkHelper::getDocumentUrl($page);
+		}
+		return LinkHelper::getActionUrl('order', 'AddToCart');
 	}
 	
 	// Deprecated. 

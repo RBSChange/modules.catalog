@@ -49,23 +49,17 @@
 			<li><a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">${trans:m.catalog.frontoffice.go-to-kit,ucf,kitLabel=product/getLabelAsHtml}</a></li>
 		</ul>
 		<div class="cleaner"></div>
-		<form class="cmxform" change:link="document product; catalogParam[customitems] customitems" method="post">
+		<form tal:condition="kititem/getDeclinable" class="cmxform">
 			<fieldset>
 				<ol>
 					<li>
-						<input type="hidden" name="catalogParam[kititemid]" value="${kititem/getId}" />
 						<label for="declination-selector-${context/getBlockId}">${trans:m.catalog.frontoffice.detail-declinations,ucf,lab}</label>
-						<select tal:condition="declination" class="textfield" id="declination-selector-${context/getBlockId}" name="catalogParam[declinationid]" onchange="jQuery(this).parents('form').get(0).submit()">
-							<tal:block tal:repeat="option php: kititemproduct.getPublishedDeclinationsInShop(shop)">
-								<option tal:condition="php: option.getId() == declination.getId()" selected="selected" value="${option/getId}">${option/getLabelAsHtml}</option>
-								<option tal:condition="php: option.getId() != declination.getId()" value="${option/getId}">${option/getLabelAsHtml}</option>
-							</tal:block>
+						<select class="textfield" name="catalogParam[declinationid]">
+							<option tal:repeat="option php: kititemproduct.getPublishedDeclinationsInShop(shop)" value="${option/getId}">${option/getLabelAsHtml}</option>
 						</select>
 					</li>
+					<li><p class="help-text">${trans:m.catalog.fo.choice-when-add-to-cart,ucf}</p></li>
 				</ol>
-				<p class="buttons nojs">
-					<input type="submit" class="button" value="${trans:m.catalog.frontoffice.refresh-declined,ucf,attr}" />
-				</p>
 			</fieldset>
 		</form>
 		<tal:block tal:condition="baseconfiguration/getShowShortDescription">

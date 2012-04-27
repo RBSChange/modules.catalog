@@ -26,6 +26,13 @@
 			</changecontent>
 		</page>
 		
+		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" 
+			template-attr="templatePopin" byTag="functional_catalog_configurate-kit">
+			<changecontent for="content-block">
+				<changeblock type="modules_catalog_ConfigurateKit" />
+			</changecontent>
+		</page>
+		
 		<page label="Popin produit" navigationVisibility="hidden" indexingstatus="false" 
 			template-attr="templatePopin" byTag="functional_catalog_product-popin">
 			<changecontent for="content-block">
@@ -39,7 +46,8 @@
 			</changecontent>
 		</page>
 		
-		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar" byTag="functional_catalog_productlist-comparison">
+		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar"
+			byTag="functional_catalog_productlist-comparison">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductComparison" />
 			</changecontent>

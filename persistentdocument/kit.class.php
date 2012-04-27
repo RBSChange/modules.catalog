@@ -7,8 +7,6 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	implements catalog_StockableDocument, catalog_BundleProduct
 {
 	/**
-	 * @see catalog_persistentdocument_product::getDetailBlockName()
-	 *
 	 * @return String
 	 */
 	public function getDetailBlockName()
@@ -22,6 +20,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	 * @var integer
 	 */
 	private $newKitItemQtt = 1;
+	
 	/**
 	 * @var string for example "4526,785445,2355"
 	 */
@@ -31,7 +30,6 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	 * @var catalog_persistentdocument_kititem[]
 	 */
 	private $kitItemsToDelete;
-
 	
 	/**
 	 * @return integer

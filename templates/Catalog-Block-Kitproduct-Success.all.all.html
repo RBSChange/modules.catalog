@@ -15,8 +15,7 @@
 					</li>
 					<li class="product-label">
 						<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
-							${kititem/getTitleAsHtml}<br/> 
-							<tal:block tal:condition="kititem/getCurrentProduct">${trans:m.catalog.frontoffice.configure-kit-item,ucf}</tal:block>
+							${kititem/getTitleAsHtml} <em tal:condition="kititem/getDeclinable">(${trans:m.catalog.fo.several-choices-available,ucf})</em>
 						</a>
 					</li>
 				</ul>

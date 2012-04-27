@@ -40,7 +40,10 @@
 					<script change:javascript="head 'modules.catalog.lib.js.product-detail'"></script>
 					<input type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" onclick="catalog_openAddToCartPopin(${popinPageId}, ${product/getId}); return false;" />
 				</tal:block>
-				<input tal:condition="not:popinPageId" type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}" />
+				<tal:block tal:condition="not:popinPageId" tal:define="isConfigurable product/isConfigurable">
+					<input tal:condition="not:isConfigurable" type="submit" name="catalogParam[addToCart][${id}]" class="button primary" value="${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf,attr}" />
+					<a tal:condition="isConfigurable" class="button primary"  change:link="document product/getConfigurationPage; productId product/getId; backurl currenturl:attr">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+				</tal:block>
 			</tal:block>
 			<input disabled="disabled" tal:condition="not: canAdd" type="button" class="button primary" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />
 		</tal:block>

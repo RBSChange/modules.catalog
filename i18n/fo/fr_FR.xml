@@ -35,4 +35,10 @@
 	<key id="add-to-cart-unavaible">indisponible à la vente</key>
 	<key id="ok">ok</key>
 	<key id="add-to-cart-popin">aperçu du produit</key>
+	<key id="kit-configuration" format="html"><![CDATA[configuration du kit <a class="link" href="{url}">{label}</a>]]></key>
+	<key id="configurate-product">configurer ce produit</key>
+	<key id="update-cart">mettre à jour le panier</key>
+	<key id="product-configuration-updated">La configuration du produit a bien été mis à jour dans le panier.</key>
+	<key id="several-choices-available">plusieurs choix disponibles</key>
+	<key id="choice-when-add-to-cart">Le choix sera fait lors de l'ajout au panier.</key>
 </i18n>
