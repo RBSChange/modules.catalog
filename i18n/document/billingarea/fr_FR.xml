@@ -14,8 +14,8 @@
   <key id="zone-help">zone géographique utilisable par les stratégies pour l'éléction d'une zone de facturation.</key>
   <key id="boeditwithtax">saisie TTC des prix</key>
   <key id="boeditwithtax-help">Saisie des prix TTC en back-office.</key>
-  <key id="storepricewithtax">Sauvegarde de la montant TTC</key>
-  <key id="storepricewithtax-help">Sauvegarde de la montant TTC en base de données.</key>
+  <key id="storepricewithtax">Sauvegarde du montant TTC</key>
+  <key id="storepricewithtax-help">Sauvegarde du montant TTC en base de données.</key>
   <key id="billingaddresszone">zone d'adresse de facturation</key>
   <key id="billingaddresszone-help">document « zone » du module « Zones » qui sera utilisé pour valider l'adresse de facturation lors du processus de commande.</key>
 </i18n>
