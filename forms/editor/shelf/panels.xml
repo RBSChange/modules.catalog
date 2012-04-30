@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <panels>
-	<panel name="resume"/>
-	<panel name="properties"/>
-	<panel name="publication"/>
-	<panel name="localization" />
-	<panel name="history"/>
-	<panel name="redirect" />
-	<panel name="create"/>
+  <panel name="resume"/>
+  <panel name="properties"/>
+  <panel name="localization"/>
+  <panel name="publication"/>
+  <panel name="redirect"/>
+  <panel name="history"/>
+  <panel name="create"/>
 </panels>

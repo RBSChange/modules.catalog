@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <panels>
-	<panel name="create"/>
-	<panel name="resume"/>
-	<panel name="properties"/>
-	<panel name="history"/>
+  <panel name="resume"/>
+  <panel name="properties"/>
+  <panel name="history"/>
+  <panel name="create"/>
 </panels>

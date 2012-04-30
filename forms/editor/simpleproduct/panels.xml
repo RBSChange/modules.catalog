@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <panels>
-	<panel name="resume" />
-	<panel name="properties" />
-	<panel name="prices" icon="price" labeli18n="m.catalog.bo.doceditor.tab.prices" />
-	<panel name="stock" icon="stock" labeli18n="m.catalog.bo.doceditor.tab.stock" />
-	<panel name="publication" />
-	<panel name="localization" />
-	<panel name="redirect" />
-	<panel name="history" />
-	<panel name="create" />
-	<xul>
-		<javascript>
-			<constructor><![CDATA[
+  <panel name="resume"/>
+  <panel name="properties"/>
+  <panel name="prices" icon="price" labeli18n="m.catalog.bo.doceditor.tab.prices"/>
+  <panel name="stock" icon="stock" labeli18n="m.catalog.bo.doceditor.tab.stock"/>
+  <panel name="localization"/>
+  <panel name="publication"/>
+  <panel name="redirect"/>
+  <panel name="history"/>
+  <panel name="create"/>
+  <xul>
+    <javascript>
+      <constructor><![CDATA[
 				if (getController().hasModule('comment'))
 				{
 					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments', 'history');
@@ -21,6 +21,6 @@
 					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet', 'history');
 				}
 			]]></constructor>
-		</javascript>
-	</xul>	 
+    </javascript>
+  </xul>
 </panels>

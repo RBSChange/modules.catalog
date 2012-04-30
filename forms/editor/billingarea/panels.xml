@@ -2,9 +2,9 @@
 <panels>
   <panel name="resume"/>
   <panel name="properties"/>
-  <panel name="tax" icon="price" labeli18n="m.catalog.bo.doceditor.tab.tax" />
+  <panel name="tax" icon="price" labeli18n="m.catalog.bo.doceditor.tab.tax"/>
+  <panel name="localization"/>
   <panel name="publication"/>
   <panel name="history"/>
   <panel name="create"/>
-  <panel name="localization"/>
 </panels>
