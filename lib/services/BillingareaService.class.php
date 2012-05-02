@@ -54,7 +54,6 @@ class catalog_BillingareaService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @param catalog_persistentdocument_shop $shop
 	 * @return catalog_persistentdocument_billingarea
 	 * @throws Exception
 	 */
@@ -82,20 +81,43 @@ class catalog_BillingareaService extends f_persistentdocument_DocumentService
 				{
 					$billingArea = $shop->getDefaultBillingArea();
 				}
-								
-				if (is_array($data))
-				{
-					$data[$shop->getId()] = $billingArea->getId();
-				}
-				else
-				{
-					$data = array($shop->getId() => $billingArea->getId());
-				}
-				Controller::getInstance()->getContext()->getStorage()->write('CurrentBillingAreaForShop', $data);
+
+				$this->setCurrentBillingAreaForShop($shop, $billingArea);
 			}			
 			return $billingArea;
 		}
 		throw new Exception('No shop defined');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @throws Exception
+	 */
+	public function setCurrentBillingAreaForShop($shop, $billingArea)
+	{
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$data = Controller::getInstance()->getContext()->getStorage()->read('CurrentBillingAreaForShop');
+			if (!is_array($data))
+			{
+				$data = array();
+			}
+			
+			if ($billingArea instanceof catalog_persistentdocument_billingarea)
+			{
+				$data[$shop->getId()] = $billingArea->getId();
+			}
+			else
+			{
+				unset($data[$shop->getId()]);
+			}
+			Controller::getInstance()->getContext()->getStorage()->write('CurrentBillingAreaForShop', $data);
+		}
+		else
+		{
+			throw new Exception('No shop defined');
+		}
 	}
 	
 	/**
