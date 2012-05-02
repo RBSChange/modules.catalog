@@ -637,12 +637,12 @@
 								crop="end" label="${transui:m.uixul.bo.general.ShowSearch,ucf,attr}" />					
 							</toolbar>
 						</toolbox>
-						<cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
+						<cressourceslistselector anonid="list_tree" flex="4" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
 						<splitter width="5" />
 						<label class="change-toolbox-dark" style="max-height: 26px; min-height: 26px; margin: 0; padding: 5px;">
 							${transui:m.catalog.bo.dialog.productselector.declinations,ucf}
 						</label>
-						<cressourceslistselector anonid="list_subproduct" xbl:inherits="disabled,collapsed,hidden,hideheader" style="min-height: 56px;" />
+						<cressourceslistselector anonid="list_subproduct" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader" style="min-height: 56px;" />
 					</vbox>
 					<spacer width="5"/>
 					<vbox width="250" style="border: thin inset #e3e3e3;">
