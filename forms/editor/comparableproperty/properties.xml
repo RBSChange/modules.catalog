@@ -2,7 +2,5 @@
 <panel>
 	<section labeli18n="m.uixul.bo.doceditor.fieldsgroup.title">
 		<field name="label" />
-		<field name="className" />
-		<field name="parametersSerialized" />
 	</section>
 </panel>

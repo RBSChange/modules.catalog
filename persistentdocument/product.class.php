@@ -861,6 +861,22 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return LinkHelper::getActionUrl('order', 'AddToCart');
 	}
 	
+	/**
+	 * @return boolean
+	 */
+	public function hasMinOrderQuantity()
+	{
+		return $this->getMinOrderQuantity() !== null && $this->getMinOrderQuantity() != 1;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function getEffectiveMinOrderQuantity()
+	{
+		return $this->getMinOrderQuantity() !== null ? $this->getMinOrderQuantity() : 1;
+	}
+	
 	// Deprecated. 
 	
 	/**

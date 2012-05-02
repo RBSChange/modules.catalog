@@ -114,7 +114,10 @@
 				<ol>
 					<li>
 						<label for="product-quantity">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
-						<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="1" />
+						<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="${product/getEffectiveMinOrderQuantity}" />
+					</li>
+					<li tal:condition="product/hasMinOrderQuantity">
+						<p class="help-text">${trans:m.catalog.fo.min-order-quantity,ucf,quantity=product/getEffectiveMinOrderQuantity}</p>
 					</li>
 				</ol>
 				<p class="buttons">

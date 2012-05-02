@@ -62,7 +62,7 @@ class catalog_GetterComparableProperty extends catalog_BaseComparableProperty
 	protected $labelkey; 
 	
 	/**
-	 * @param string[] $parameters [getter, label]
+	 * @param string[] $parameters [getter, labelKey]
 	 */
 	public function __construct($parameters)
 	{

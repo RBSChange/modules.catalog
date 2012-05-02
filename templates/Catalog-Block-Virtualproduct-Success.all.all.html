@@ -81,21 +81,6 @@
 					${trans:m.catalog.frontoffice.labelecotaxe,ucf} ${trans:m.catalog.frontoffice.ecotaxe,ucf} ${defaultPrice/getFormattedEcoTax}
 				</li>
 			</ul>
-			
-			<dl tal:condition="thresholdPrices" class="threshold-prices inline-items">
-				<tal:block tal:repeat="thresholdPrice thresholdPrices">
-					<dt>${trans:m.catalog.frontoffice.labelquantity,ucf,threshold=thresholdPrice/getThresholdMin}</dt>
-					<dd class="price">
-						<tal:block tal:condition="displayConfig/showPricesWithTax">
-							${thresholdPrice/getFormattedValueWithTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ttc}</span>
-							<span tal:condition="displayConfig/showPricesWithAndWithoutTax" class="separator"> - </span>
-						</tal:block>
-						<tal:block tal:condition="displayConfig/showPricesWithoutTax">
-							${thresholdPrice/getFormattedValueWithoutTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ht}</span>
-						</tal:block>
-					</dd>
-				</tal:block>
-			</dl>
 		</tal:block>
 		
 		<div tal:condition="displayConfig/showRating" class="rating normal">

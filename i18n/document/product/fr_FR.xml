@@ -54,4 +54,6 @@
   <key id="codesku-help">identifiant unique de stock</key>
   <key id="shippedin">expédié sous</key>
   <key id="shippedin-help">Délai d'expédition affiché sur le site.</key>
+  <key id="minorderquantity">quantité minimum</key>
+  <key id="minorderquantity-help">Quantité minimum de ce produit que l'on doit avoir dans son panier pour pouvoir le commander.</key>
 </i18n>
