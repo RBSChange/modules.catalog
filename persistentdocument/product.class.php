@@ -866,15 +866,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function hasMinOrderQuantity()
 	{
-		return $this->getMinOrderQuantity() !== null && $this->getMinOrderQuantity() != 1;
-	}
-	
-	/**
-	 * @return boolean
-	 */
-	public function getEffectiveMinOrderQuantity()
-	{
-		return $this->getMinOrderQuantity() !== null ? $this->getMinOrderQuantity() : 1;
+		return $this->getMinOrderQuantity() != 1;
 	}
 	
 	// Deprecated. 

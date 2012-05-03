@@ -22,7 +22,7 @@
 				<parameter value="codeSKU" />
 			</comparableproperty>
 			<comparableproperty byLabel="m.catalog.comparableproperty.minimum-quantity" className="catalog_GetterComparableProperty">
-				<parameter value="getEffectiveMinOrderQuantity" />
+				<parameter value="getMinOrderQuantity" />
 				<parameter value="m.catalog.comparableproperty.minimum-quantity" />
 			</comparableproperty>
 			<comparableproperty byLabel="m.catalog.comparableproperty.reviews-without-rating" className="catalog_ReviewComparableProperty">

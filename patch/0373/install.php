@@ -28,5 +28,7 @@ class catalog_patch_0373 extends patch_BasePatch
 		$newModel = generator_PersistentModel::loadModelFromString(f_util_FileUtils::read($newPath), 'catalog', 'product');
 		$newProp = $newModel->getPropertyByName('minOrderQuantity');
 		f_persistentdocument_PersistentProvider::getInstance()->addProperty('catalog', 'product', $newProp);
+		
+		$this->executeSQLQuery('UPDATE m_catalog_doc_product SET minorderquantity = 1 WHERE minorderquantity IS NULL;');
 	}
 }

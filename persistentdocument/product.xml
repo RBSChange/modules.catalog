@@ -21,7 +21,7 @@
 		<add name="stockAlertThreshold" type="Double" />
 		<add name="codeSKU" type="String" db-size="50" />
 		<add name="shippedIn" type="String" from-list="modules_catalog/shippedin" />
-		<add name="minOrderQuantity" type="Integer">
+		<add name="minOrderQuantity" type="Integer" default-value="1" min-occurs="1">
 			<constraints>min:1</constraints>
 		</add>
 	</properties>
