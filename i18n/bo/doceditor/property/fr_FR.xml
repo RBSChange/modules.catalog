@@ -3,4 +3,6 @@
   <key id="compiled">à jour sur le site</key>
   <key id="alert-count">alertes activées par les visiteurs</key>
   <key id="itemscount">nombre de produits</key>
+  <key id="i18npackage">Package de localisation</key>
+  <key id="attributscount">Nombre d'attributs définis</key>
 </i18n>

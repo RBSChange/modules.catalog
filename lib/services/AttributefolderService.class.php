@@ -6,11 +6,13 @@
 class catalog_AttributefolderService extends f_persistentdocument_DocumentService
 {
 	/**
+	 *
 	 * @var catalog_AttributefolderService
 	 */
 	private static $instance;
-
+	
 	/**
+	 *
 	 * @return catalog_AttributefolderService
 	 */
 	public static function getInstance()
@@ -21,19 +23,21 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 		}
 		return self::$instance;
 	}
-
+	
 	/**
+	 *
 	 * @return catalog_persistentdocument_attributefolder
 	 */
 	public function getNewDocumentInstance()
 	{
 		return $this->getNewDocumentInstanceByModelName('modules_catalog/attributefolder');
 	}
-
+	
 	/**
 	 * Create a query based on 'modules_catalog/attributefolder' model.
 	 * Return document that are instance of modules_catalog/attributefolder,
 	 * including potential children.
+	 * 
 	 * @return f_persistentdocument_criteria_Query
 	 */
 	public function createQuery()
@@ -43,8 +47,10 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * Create a query based on 'modules_catalog/attributefolder' model.
-	 * Only documents that are strictly instance of modules_catalog/attributefolder
+	 * Only documents that are strictly instance of
+	 * modules_catalog/attributefolder
 	 * (not children) will be retrieved
+	 * 
 	 * @return f_persistentdocument_criteria_Query
 	 */
 	public function createStrictQuery()
@@ -54,13 +60,13 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * Cache for attributefolder
+	 * 
 	 * @var catalog_persistentdocument_attributefolder
 	 */
 	private $attributeFolder;
 	
-	private $attributeInfos;
-	
 	/**
+	 *
 	 * @return catalog_persistentdocument_attributefolder
 	 */
 	public function getAttributeFolder()
@@ -68,7 +74,7 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 		if ($this->attributeFolder === null)
 		{
 			// There should be only one shopfolder.
-			$this->attributeFolder = $this->createQuery()->findUnique();	
+			$this->attributeFolder = $this->createQuery()->findUnique();
 		}
 		return $this->attributeFolder;
 	}
@@ -86,42 +92,97 @@ class catalog_AttributefolderService extends f_persistentdocument_DocumentServic
 	protected function resetAttributeFolderCache()
 	{
 		$this->attributeFolder = null;
-		$this->attributeInfos = null;
 	}
 	
 	/**
-	 * @param String $code
-	 * @return array
+	 * @param string $code        	
+	 * @return catalog_AttributeDefinition
 	 * @throws Exception if attribute does not exist
 	 */
 	public function getAttributeInfo($code)
 	{
-		if ($this->attributeInfos === null) 
+		$attF = $this->getAttributeFolder();
+		if ($attF)
 		{
-			$attrs = $this->getAttributeFolder()->getAttributes();
-			$this->attributeInfos = array();
-			if (f_util_ArrayUtils::isNotEmpty($attrs))
+			$attr = $attF->getAttributeByCode($code);
+			if ($attr)
 			{
-				foreach ($attrs as $attrInfo) 
-				{
-					$this->attributeInfos[$attrInfo['code']] = $attrInfo;
-				}
+				return $attr;
 			}
 		}
-		if (isset($this->attributeInfos[$code]))
-		{
-			return $this->attributeInfos[$code];
-		}
-		
 		throw new Exception("Attribute $code does not exist");
 	}
 	
 	/**
-	 * @return array
+	 * @return catalog_AttributeDefinition[]
 	 */
 	public function getAttributesForProduct($product)
 	{
 		$attrFolder = $this->getAttributeFolder();
 		return $attrFolder ? $attrFolder->getAttributes() : array();
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_attributefolder $document
+	 * @param string[] $propertiesName
+	 * @param array $datas
+	 * @param integer $parentId
+	 */
+	public function addFormProperties($document, $propertiesName, &$datas, $parentId = null)
+	{
+		if (in_array('attributesJSON', $propertiesName))
+		{
+			$datas['allowedlisttype'] = DocumentHelper::expandAllowAttribute('[modules_list_list]');
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_attributefolder $document
+	 * @param string $forModuleName
+	 * @param array $allowedSections
+	 * @return array
+	 */
+	public function getResume($document, $forModuleName, $allowedSections = null)
+	{
+		$data = parent::getResume($document, $forModuleName, $allowedSections);
+		$attrFolder = $this->getAttributeFolder();
+		$attrs = $attrFolder ? $attrFolder->getAttributes() : array();
+		$data['properties']['attributsCount'] = count($attrs);
+		$data['properties']['i18npackage'] = array('label' =>'m.catalog.attributes');
+		$package = i18n_PackageService::getInstance()->createQuery()->add(Restrictions::eq('label', 'm.catalog.attributes'))->findUnique();
+		if ($package)
+		{
+			$uri = array('i18n', 'openDocument', $package->getPersistentModel()->getBackofficeName(), $package->getId(), 'resume');
+			$data['properties']['i18npackage']['jsaction'] = "openActionUri('". implode(',', $uri)."')";
+		}
+		else
+		{
+			$data['properties']['i18npackage']['jsaction'] = "window.showModule('i18n')";
+		}
+		return $data;
+	}	
+	
+	public function setDefaultI18nLabel($key, $text)
+	{
+		$tm = f_persistentdocument_TransactionManager::getInstance();
+		try
+		{
+			$tm->beginTransaction();
+			$ls = LocaleService::getInstance();
+			$lcid = $ls->getLCID(RequestContext::getInstance()->getLang());
+			list($keyPath, $id) = $ls->explodeKey($key);
+			if (f_util_StringUtils::isEmpty($text) || $key == $text)
+			{
+				$text = $id;
+			}
+			$format = 'TEXT';
+			LocaleService::getInstance()->updateUserEditedKey($lcid, $id, $keyPath, $text, $format);
+			$tm->commit();
+		} 
+		catch (Exception $e) 
+		{
+			$tm->rollback($e);
+			throw $e;
+		}
 	}
 }

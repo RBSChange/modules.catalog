@@ -81,7 +81,8 @@ class catalog_ListAxesService extends BaseService
 		{
 			foreach ($attrFolder->getAttributes() as $def) 
 			{
-				$axes[] = new catalog_ProductAttributeAxe($def['code']);
+				/* @var $def catalog_AttributeDefinition */
+				$axes[] = new catalog_ProductAttributeAxe($def);
 			}
 		}
 		return $axes;
@@ -383,36 +384,46 @@ class catalog_ProductPropertyAxe extends catalog_ProductAxe
 
 class catalog_ProductAttributeAxe extends catalog_ProductAxe
 {
-	private $attributeName;
+	/**
+	 * @var catalog_AttributeDefinition
+	 */
+	private $attr;
+	
+	/**
+	 * @param catalog_AttributeDefinition|string $attribute
+	 */
+	public function __construct($attribute)
+	{
+		if ($attribute instanceof catalog_AttributeDefinition)
+		{
+			$this->attr = $attribute;
+		}
+		elseif (is_string($attribute))
+		{
+			$this->attr = catalog_AttributefolderService::getInstance()->getAttributeInfo($attribute);
+		}
+		else
+		{
+			throw new Exception("Invalide [attribute] parameter type:" . var_export($attribute, true));
+		}
+		
+		$this->setName('attribute::' . $this->attr->getCode());
+		$this->setLabelKey($this->attr->getI18nLabelKey());
+	}
 	
 	/**
 	 * @return the $label
 	 */
 	public function getUILabel()
 	{
-		$attrFolder = catalog_AttributefolderService::getInstance()->getAttributeFolder();
-		if ($attrFolder !== null)
+		if ($this->attr !== null)
 		{
-			foreach ($attrFolder->getAttributes() as $def) 
-			{
-				if ($def['code'] === $this->attributeName)
-				{
-					return $def['label'];
-				}
-			}
+			return $this->attr->getLabel();
 		}		
 		return parent::getUILabel();
 	}
 	
-	/**
-	 * @param string $attributeName
-	 */
-	public function __construct($attributeName)
-	{
-		$this->setName('attribute::' . $attributeName);
-		$this->attributeName = $attributeName;
-		$this->setLabelKey('m.catalog.document.product.attr-'. strtolower($attributeName));
-	}
+
 	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $productDeclination
@@ -421,11 +432,33 @@ class catalog_ProductAttributeAxe extends catalog_ProductAxe
 	protected function getAxeValue($productDeclination)
 	{
 		$attrs = $productDeclination->getAttributes();
-		if (isset($attrs[$this->attributeName]))
+		if (isset($attrs[$this->attr->getCode()]))
 		{
-			return $attrs[$this->attributeName];
+			return $attrs[$this->attr->getCode()];
 		}
 		return null;
-	}	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $productDeclination
+	 * @return string
+	 */
+	public function getAxeValueLabel($productDeclination)
+	{
+		$value = $this->getAxeValue($productDeclination);
+		if ($value)
+		{
+			$list = $this->attr->getList();
+			if ($list)
+			{
+				$item = $list->getItemByValue($value);
+				if ($item)
+				{
+					return $item->getLabel();
+				}
+			}
+		}
+		return $value;
+	}
 }
 

@@ -233,9 +233,12 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		}
 		$attrValOri = $this->getAttributes();
 		$attrVal = array();
+		$definition = array();
 		foreach ($attrDef as $def) 
 		{
-			$code = $def['code'];
+			/* @var $def catalog_AttributeDefinition */
+			$code = $def->getCode();
+			$definition[] = $def->toBoArray();
 			if (isset($attrValOri[$code]))
 			{
 				$attrVal[$code] = $attrValOri[$code];
@@ -245,7 +248,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		{
 			$attrVal = null;
 		}
-		return JsonService::getInstance()->encode(array('attrDef' => $attrDef, 'attrVal' => $attrVal));
+		return JsonService::getInstance()->encode(array('attrDef' => $definition, 'attrVal' => $attrVal));
 	}
 		
 	/**

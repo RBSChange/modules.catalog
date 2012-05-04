@@ -31,9 +31,9 @@ class catalog_ListExtendedattributesService extends BaseService
 		$items = array();
 		foreach ($attributes as $attribute)
 		{
+			/* @var $attribute catalog_AttributeDefinition */
 			$items[] = new list_Item(
-				$attribute["label"],
-				$attribute["code"]
+				$attribute->getLabel(), $attribute->getCode()
 			);
 		}
 		return $items;

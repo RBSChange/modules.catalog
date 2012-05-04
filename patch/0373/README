@@ -2,3 +2,4 @@ Version: 3.6.0
 
 - Update the default local of attribute folder.
 - Add minOrderQuantity property on products.
+- Add listid on dynamique product attribute
