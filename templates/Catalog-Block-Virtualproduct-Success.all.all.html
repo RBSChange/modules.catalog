@@ -9,8 +9,8 @@
 <tal:block tal:condition="displayConfig/showAnimPictogramBlock" change:block="" module="marketing" name="AnimationsPictograms" productId="${product/getId}" shopId="${shop/getId}" container="" />
 
 <h1 change:h="">
-	<a tal:condition="displayConfig/isStandalone" change:link="document product; shopId shop/getId">${product/getLabelAsHtml}</a>
-	<tal:block tal:condition="not:displayConfig/isStandalone">${product/getLabelAsHtml}</tal:block>
+	<a tal:condition="displayConfig/isStandalone" change:link="document product; shopId shop/getId">${product/getNavigationLabelAsHtml}</a>
+	<tal:block tal:condition="not:displayConfig/isStandalone">${product/getNavigationLabelAsHtml}</tal:block>
 </h1>
 
 <dl class="inline-list">
