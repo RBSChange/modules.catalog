@@ -16,6 +16,16 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop)
+	{
+		return $this->getDocumentService()->getListVisual($this, $shop);
+	}
+	
+	
+	/**
 	 * @return catalog_persistentdocument_productdeclination[]
 	 */
 	public function getDeclinationArray()

@@ -62,6 +62,21 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 		return $media;
 	}
 	
+	
+	
+	/* (non-PHPdoc)
+	 * @see catalog_persistentdocument_product::getListVisual()
+	 */
+	public function getListVisual($shop) 
+	{
+		$media = $this->getVisual();
+		if ($media === null)
+		{
+			$media = $this->getDeclinedproduct()->getListVisual($shop);
+		}
+		return $media;
+	}
+
 	/**
 	 * @return boolean
 	 */

@@ -353,7 +353,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
 	 * @return integer[][]
 	 */	
-	protected function generateShowInListInfos($declinedProduct)
+	public function generateShowInListInfos($declinedProduct)
 	{
 		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct);
 		$axeVisible = $declinedProduct->getShowAxeInList();
@@ -713,6 +713,29 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		if ($visual === null)
 		{
 			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultDetailVisual');
+		}
+		return $visual;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getListVisual($product, $shop)
+	{
+		// get visual from the product.
+		$visual = $product->getVisual();
+	
+		// ... or from shop
+		if ($visual === null && $shop !== null)
+		{
+			$visual = $shop->getDefaultListVisual();
+		}
+	
+		// ... or from module preferences
+		if ($visual === null)
+		{
+			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultListVisual');
 		}
 		return $visual;
 	}
