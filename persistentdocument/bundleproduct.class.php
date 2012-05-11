@@ -17,21 +17,21 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	}
 	
 	/**
-	 * @see catalog_persistentdocument_product::getAdditionnalVisualArray()
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
-	public function getAdditionnalVisualArray()
+	public function getAllVisuals($shop)
 	{
-		$result = array();
-		foreach ($this->getBundleditemArray() as $bundleditem) 
+		$result = parent::getAllVisuals($shop);
+		foreach ($this->getBundleditemArray() as $bundleditem)
 		{
 			$media = $bundleditem->getProduct()->getVisual();
 			if ($media !== null)
 			{
-				$result[$media->getId()] = $media;
+				$result[] = $media;
 			}
 		}
-		return array_values($result);
+		return array_unique($result);
 	}
 
 	/**

@@ -142,24 +142,23 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	}
 		
 	//TEMPLATING FUNCTION
-	
+
 	/**
-	 * @see catalog_persistentdocument_product::getAdditionnalVisualArray()
-	 *
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
-	public function getAdditionnalVisualArray()
+	public function getAllVisuals($shop)
 	{
-		$result = array();
-		foreach ($this->getKititemArray() as $kitItem) 
+		$result = parent::getAllVisuals($shop);
+		foreach ($this->getKititemArray() as $kitItem)
 		{
 			$media = $kitItem->getProduct()->getVisual();
 			if ($media !== null)
 			{
-				$result[$media->getId()] = $media;
+				$result[] = $media;
 			}
 		}
-		return array_values($result);
+		return array_unique($result);
 	}
 	
 	/**

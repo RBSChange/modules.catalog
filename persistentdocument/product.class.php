@@ -212,19 +212,12 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
 	public function getAllVisuals($shop)
 	{
 		return array_unique(array_merge(array($this->getDefaultVisual($shop)), $this->getAdditionnalVisualArray()));
-	}
-	
-	/**
-	 * @return media_persistentdocument_media[]
-	 */
-	public function getAdditionnalVisualArray()
-	{
-		return array();
 	}
 	
 	/**

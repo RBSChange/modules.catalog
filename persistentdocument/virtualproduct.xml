@@ -4,7 +4,6 @@
 		  xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/1.0.xsd" 
 		  model-version="1.0" extend="modules_catalog/product" icon="virtualproduct">
   <properties>
-    <add name="additionnalVisual" type="modules_media/media" max-occurs="-1"/>
     <add name="pictogram" type="modules_media/media" max-occurs="-1"/>
     <add name="pageTitle" type="LongString" localized="true"/>
     <add name="pageDescription" type="LongString" localized="true"/>

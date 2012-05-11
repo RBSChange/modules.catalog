@@ -8,13 +8,16 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 {
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{
 		return 'declinedproduct';
 	}
 	
+	/**
+	 * @return string
+	 */
 	public function getLabelForUrl()
 	{
 		if ($this->getDeclinedproduct()->getShowAxeInList() == 0)
@@ -25,27 +28,29 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	}
 
 	/**
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
 	public function getAllVisuals($shop)
 	{
+		$visuals = parent::getAllVisuals($shop);
+
 		$declinedProduct = $this->getDeclinedproduct();
-		
-		$visuals = array();
-		
-		$visual1 = $this->getVisual();	
-		if ($visual1 !== null)
-		{
-			$visuals[] = $visual1;
-		}
 		$visual2 = $declinedProduct->getVisual();
 		if ($visual2 !== null)
 		{
 			$visuals[] = $visual2;
 		}
+		if ($declinedProduct->getAdditionnalVisualCount())
+		{
+			$visuals = array_merge($visuals, $declinedProduct->getAdditionnalVisualArray());
+		}
 		
-		$visuals = array_unique(array_merge($visuals, $declinedProduct->getAdditionnalVisualArray()));
-		return $visuals;
+		if (count($visuals) == 0)
+		{
+			$visuals[] = $this->getDeclinedproduct()->getDefaultVisual($shop);
+		}
+		return array_unique($visuals);
 	}
 	
 	/**
@@ -62,10 +67,9 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 		return $media;
 	}
 	
-	
-	
-	/* (non-PHPdoc)
-	 * @see catalog_persistentdocument_product::getListVisual()
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
 	 */
 	public function getListVisual($shop) 
 	{
@@ -92,12 +96,13 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		if (!$this->isPricePanelEnabled())
 		{
-			return f_Locale::translate('&modules.catalog.bo.doceditor.panel.prices.disabled.Productdeclination-synchronized;');
+			return LocaleService::getInstance()->transFO('m.catalog.bo.doceditor.panel.prices.disabled.productdeclination-synchronized', array('ucf'));
 		}
 		return null;
 	}
 	
-	//Front office templating
+	// Front office templating
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return catalog_persistentdocument_productdeclination[]
