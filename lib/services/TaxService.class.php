@@ -281,11 +281,11 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 * @return string | null
 	 */
 	public function getCurrentTaxZone($shop, $cart = null, $refresh = false)
-	{
+	{	
 		if ($refresh) {$this->currentTaxeZone = array();}
-		
 		if (!isset($this->currentTaxeZone[$shop->getId()]))
 		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 			$class = Framework::getConfigurationValue('modules/catalog/currentTaxZoneStrategyClass', false);
 			if ($class !== false)
 			{
@@ -298,6 +298,18 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 			}
 		}
 		return $this->currentTaxeZone[$shop->getId()];
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param string | null $zone
+	 */
+	public function setCurrentTaxZone($shop, $zone)
+	{
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$this->currentTaxeZone[$shop->getId()] = $zone;
+		}
 	}
 	
 	/**

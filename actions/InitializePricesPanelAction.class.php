@@ -113,12 +113,16 @@ class catalog_InitializePricesPanelAction extends f_action_BaseJSONAction
 			{
 				$data['targetId'] = $targetId;
 			}
-			
+
+			$ba = catalog_persistentdocument_billingarea::getInstanceById($data['billingArea']);
+			catalog_TaxService::getInstance()->setCurrentTaxZone($shop, $ba->getDefaultZone());
+	
 			// Add price list.		
 			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $data['billingArea'], $targetId);		
 			$pricelist = array();
 			foreach ($prices as $price)
 			{
+				/* @var $price catalog_persistentdocument_price */
 				$cps->transformToArray($price, $pricelist);
 			}
 			$data['pricelist'] = JsonService::getInstance()->encode($pricelist);
