@@ -285,7 +285,6 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 		if ($refresh) {$this->currentTaxeZone = array();}
 		if (!isset($this->currentTaxeZone[$shop->getId()]))
 		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
 			$class = Framework::getConfigurationValue('modules/catalog/currentTaxZoneStrategyClass', false);
 			if ($class !== false)
 			{
