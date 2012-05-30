@@ -1,14 +1,5 @@
 <?php
-if (!defined("WEBEDIT_HOME"))
-{
-	define("WEBEDIT_HOME", realpath('.'));
-	require_once WEBEDIT_HOME . "/framework/Framework.php";
-	$productIdArray = array_slice($_SERVER['argv'], 1);
-}
-else
-{
-	$productIdArray = $_POST['argv'];
-}
+$productIdArray = $argv;
 Framework::info(__FILE__ . ' -> ' . implode(', ', $productIdArray));
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try

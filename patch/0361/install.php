@@ -15,7 +15,7 @@ class catalog_patch_0361 extends patch_BasePatch
 			->findColumn("id");
 		foreach (array_chunk($declinationIds, 10) as $chunkIds)
 		{
-			$res = f_util_System::execHTTPScript("modules/catalog/patch/0361/synchronizeSimilars.php", $chunkIds);
+			$res = f_util_System::execScript("modules/catalog/patch/0361/synchronizeSimilars.php", $chunkIds);
 			if ($res != "OK")
 			{
 				$this->logError("Error: ".$res);

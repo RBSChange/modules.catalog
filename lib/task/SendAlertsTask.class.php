@@ -16,7 +16,7 @@ class catalog_SendAlertsTask extends task_SimpleSystemTask
 		foreach (array_chunk($emails, 10) as $chunk)
 		{
 			$this->plannedTask->ping();
-			$result = f_util_System::execHTTPScript($batchPath, $chunk);
+			$result = f_util_System::execScript($batchPath, $chunk);
 			// Log fatal errors...
 			if ($result != 'OK')
 			{

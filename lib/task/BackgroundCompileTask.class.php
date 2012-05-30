@@ -16,7 +16,7 @@ class catalog_BackgroundCompileTask extends task_SimpleSystemTask
 			foreach (array_chunk($ids, Framework::getConfigurationValue('modules/catalog/compilationChunkSize', 100)) as $chunk)
 			{
 				$this->plannedTask->ping();
-				$result = f_util_System::execHTTPScript($batchPath, $chunk);
+				$result = f_util_System::execScript($batchPath, $chunk);
 				if ($result != 'OK')
 				{
 					$errors[] = $result;

@@ -38,7 +38,7 @@ class commands_CompileCatalog extends commands_AbstractChangeCommand
 		$index = 0;	
 		foreach (array_chunk($ids, Framework::getConfigurationValue('modules/catalog/compilationChunkSize', 100)) as $chunk)
 		{
-			$result = f_util_System::execHTTPScript($batchPath, $chunk);
+			$result = f_util_System::execScript($batchPath, $chunk);
 			// Log fatal errors...
 			if ($result != 'OK')
 			{
