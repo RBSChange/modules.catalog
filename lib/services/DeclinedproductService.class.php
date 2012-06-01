@@ -688,6 +688,29 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		}
 		return $visual;
 	}
+		
+	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getListVisual($product, $shop)
+	{
+		// get visual from the product.
+		$visual = $product->getVisual();
+	
+		// ... or from shop
+		if ($visual === null && $shop !== null)
+		{
+			$visual = $shop->getDefaultListVisual();
+		}
+	
+		// ... or from module preferences
+		if ($visual === null)
+		{
+			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultListVisual');
+		}
+		return $visual;
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $product

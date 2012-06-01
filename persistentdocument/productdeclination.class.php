@@ -63,6 +63,20 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop)
+	{
+		$media = $this->getVisual();
+		if ($media === null)
+		{
+			$media = $this->getDeclinedproduct()->getListVisual($shop);
+		}
+		return $media;
+	}
+	
+	/**
 	 * @return boolean
 	 */
 	public function isPricePanelEnabled()
