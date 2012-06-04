@@ -150,14 +150,14 @@ class catalog_BundleproductService extends catalog_ProductService
 				{
 					if (!$product->isPublished())
 					{
-						$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
+						$this->setActivePublicationStatusInfo($document, 'm.catalog.bo.general.product-not-published', array('label' => $product->getVoLabel()));
 						return false;
 					}
 				}
 			}
 			else
 			{
-				$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Has-no-item;');
+				$this->setActivePublicationStatusInfo($document, 'm.catalog.bo.general.has-no-item');
 				return false;
 			}
 		}

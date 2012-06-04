@@ -391,19 +391,19 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				case 0:
 					return true;
 				case 1:
-					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.no-price;');
+					$this->setActivePublicationStatusInfo($document, 'm.catalog.document.compiledproduct.publication.no-price');
 					return false;	
 				case 2:
-					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.product-not-published;');
+					$this->setActivePublicationStatusInfo($document, 'm.catalog.document.compiledproduct.publication.product-not-published');
 					return false;	
 				case 3:	
-					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shop-not-published;');
+					$this->setActivePublicationStatusInfo($document, 'm.catalog.document.compiledproduct.publication.shop-not-published');
 					return false;
 				case 4:	
-					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shelf-not-published;');
+					$this->setActivePublicationStatusInfo($document, 'm.catalog.document.compiledproduct.publication.shelf-not-published');
 					return false;		
 				case 5:
-					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.product-not-displayable;');
+					$this->setActivePublicationStatusInfo($document, 'm.catalog.document.compiledproduct.publication.product-not-displayable');
 					return false;				
 			}
 		}

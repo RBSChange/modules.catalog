@@ -256,7 +256,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		{
 			if (!$document->getDeclinedproduct()->isPublished())
 			{
-				$this->setActivePublicationStatusInfo($document, '&m.catalog.document.declinedproduct.not-published;');
+				$this->setActivePublicationStatusInfo($document, 'm.catalog.document.declinedproduct.not-published');
 				$result = false;
 			}
 		}

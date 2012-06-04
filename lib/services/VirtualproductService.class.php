@@ -133,7 +133,7 @@ class catalog_VirtualproductService extends catalog_ProductService
 		{
 			if ($document->getSecureMedia() === null)
 			{
-				$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Has-no-securemedia;');
+				$this->setActivePublicationStatusInfo($document, 'm.catalog.bo.general.has-no-securemedia');
 				return false;
 			}
 		}

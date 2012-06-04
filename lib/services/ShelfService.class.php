@@ -278,7 +278,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				return true;
 			}
 			
-			$this->setActivePublicationStatusInfo($shelf, '&m.catalog.bo.general.no-published-content;');
+			$this->setActivePublicationStatusInfo($shelf, 'm.catalog.bo.general.no-published-content');
 			return false;
 		}
 		return $result;
@@ -370,12 +370,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$ds = $systemtopic->getDocumentService();
 		if (!$shelf->isPublished())
 		{
-			$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.shelf-not-published;');
+			$this->setActivePublicationStatusInfo($systemtopic, 'm.catalog.document.shelf.systemtopic-publication.shelf-not-published');
 			return false;
 		}
 		if (!$ds->hasPublishedPages($systemtopic))
 		{
-			$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.has-no-published-page;');
+			$this->setActivePublicationStatusInfo($systemtopic, 'm.catalog.document.shelf.systemtopic-publication.has-no-published-page');
 			return false;
 		}
 		
@@ -389,7 +389,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		{
 			return true;
 		}
-		$this->setActivePublicationStatusInfo($systemtopic, '&modules.catalog.document.shelf.systemtopic-publication.no-published-product-or-subshelf;');
+		$this->setActivePublicationStatusInfo($systemtopic, 'm.catalog.document.shelf.systemtopic-publication.no-published-product-or-subshelf');
 		return false;
 	}
 			

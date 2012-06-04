@@ -62,7 +62,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		$result = parent::isPublishable($document);
 		if ($result && (catalog_ProductdeclinationService::getInstance()->getCountByDeclinedProduct($document) < 1))
 		{
-			$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.declinedproduct.no-declination;');
+			$this->setActivePublicationStatusInfo($document, 'm.catalog.document.declinedproduct.no-declination');
 			return false;
 		}
 		return $result;
