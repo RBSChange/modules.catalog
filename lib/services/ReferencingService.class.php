@@ -56,7 +56,7 @@ class catalog_ReferencingService extends BaseService
 		}
 		
 		// Else if the shop has a description defined manually (as text, not as HTML), return it.
-		$description = f_util_StringUtils::htmlToText($shop->getDescription(), true, true);
+		$description = f_util_HtmlUtils::htmlToText($shop->getDescription(), true, true);
 		if (!f_util_StringUtils::isEmpty($description))
 		{
 			return $description;
@@ -113,7 +113,7 @@ class catalog_ReferencingService extends BaseService
 		}
 		
 		// Else if the shelf has a description defined manually (as text, not as HTML), return it.
-		$description = f_util_StringUtils::htmlToText($shelf->getDescription(), true, true);
+		$description = f_util_HtmlUtils::htmlToText($shelf->getDescription(), true, true);
 		if (!f_util_StringUtils::isEmpty($description))
 		{
 			return $description;
@@ -189,7 +189,7 @@ class catalog_ReferencingService extends BaseService
 		}
 		
 		// Else if the product has a description defined (as text, not as HTML), return it.
-		$description = f_util_StringUtils::htmlToText($product->getDescription(), true, true);
+		$description = f_util_HtmlUtils::htmlToText($product->getDescription(), true, true);
 		if (!f_util_StringUtils::isEmpty($description))
 		{
 			return $description;
