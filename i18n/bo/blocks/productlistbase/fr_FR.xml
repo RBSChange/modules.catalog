@@ -38,4 +38,6 @@
 	<key id="addlinktoall-help">ajouter le lien vers la liste complète des produits</key>
 	<key id="blocktitle">titre du bloc</key>
 	<key id="blocktitle-help">Titre du bloc sur le site. Si laissé vide, il sera généré automatiquement.</key>
+	<key id="showmessages">afficher les messages</key>
+	<key id="showmessages-help">afficher ou non  les messages d'erreurs, d'alertes ou d'information en en-tête du bloc</key>
 </i18n>

@@ -118,6 +118,7 @@
 			<parameter name="blockTitle" type="String" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" />
+			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
@@ -179,6 +180,7 @@
 			<parameter name="blockTitle" type="String" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" />
+			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtocomparison" type="Boolean" default-value="false" />
@@ -228,6 +230,7 @@
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
 			<parameter name="addlinktoall" type="Boolean" default-value="true" />
+			<parameter name="showmessages" type="Boolean" default-value="false" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="false" />
@@ -278,6 +281,7 @@
 			<parameter name="blockTitle" type="String" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" />
+			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
@@ -338,6 +342,7 @@
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
+			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
@@ -388,6 +393,7 @@
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="false" />
+			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
@@ -437,6 +443,7 @@
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
+			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />

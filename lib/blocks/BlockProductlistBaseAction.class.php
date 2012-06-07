@@ -84,6 +84,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['globalButtons'] = $globalButtons;
 		$displayConfig['showCheckboxes'] = count($globalButtons) > 0;
 		$displayConfig['displayCustomerPrice'] = $this->displayCustomerPrice();
+		$displayConfig['showMessages'] = $this->getConfigurationValue('showmessages', true);
 		return $displayConfig;		
 	}
 	
