@@ -13,6 +13,24 @@ class catalog_ProductdeclinationScriptDocumentElement extends import_ScriptDocum
     	return catalog_ProductdeclinationService::getInstance()->getNewDocumentInstance();
     }
     
+    protected function getDocumentProperties()
+    {
+    	$properties = parent::getDocumentProperties();
+    	if (isset($properties['attributes']))
+    	{
+    		$attributesToSerialize = array();
+    		$attributes = explode(',', $this->replaceRefIdInString($properties['attributes']));
+    		foreach ($attributes as $attribute)
+    		{
+    			list($key, $value) = explode(':', $attribute);
+    			$attributesToSerialize[$key] = $value;
+    		}
+    		$properties['attributesJSON'] = json_encode($attributesToSerialize);
+    		unset($properties['attributes']);
+    	}
+    	return $properties;
+    }
+    
     /**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */

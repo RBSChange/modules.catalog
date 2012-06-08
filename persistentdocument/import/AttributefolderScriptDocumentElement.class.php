@@ -25,4 +25,42 @@ class catalog_AttributefolderScriptDocumentElement extends import_ScriptDocument
 	{
 		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/attributefolder');
 	}
+
+	public function endProcess()
+	{
+		$children = $this->script->getChildren($this);
+		if (count($children))
+		{
+			$attributeScripts = array();
+			foreach ($children as $child)
+			{
+				if ($child instanceof catalog_ScriptAttributeDefinitionElement)
+				{
+					$attributeScripts[] = $child;
+				}
+			}
+				
+			if (count($attributeScripts) > 0)
+			{
+				$folderAttribute = $this->getPersistentDocument();
+				$this->updateConfiguredAttributes($folderAttribute, $attributeScripts);
+				$folderAttribute->save();
+			}
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_attributefolder $attributeFolder
+	 * @param catalog_ScriptAttributeDefinitionElement[] $attributeScripts
+	 */
+	protected function updateConfiguredAttributes($attributeFolder, $attributeScripts)
+	{
+		$attributes = array();
+		foreach ($attributeScripts as $attribute)
+		{
+			$infos = $attribute->getAttributeInfos();
+			$attributes[] = $infos;
+		}
+		$attributeFolder->setAttributesJSON(json_encode($attributes));
+	}
 }

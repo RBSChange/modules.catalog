@@ -17,6 +17,7 @@
   <binding name="shippingfilter" className="catalog_ShippingfilterScriptDocumentElement"/>
   <binding name="paymentfilter" className="catalog_PaymentfilterScriptDocumentElement"/>
   <binding name="attributefolder" className="catalog_AttributefolderScriptDocumentElement"/>
+  <binding name="attributeDefinition" className="catalog_ScriptAttributeDefinitionElement"/>
   <binding name="bundleproduct" className="catalog_BundleproductScriptDocumentElement"/>
   <binding name="bundleditem" className="catalog_BundleditemScriptDocumentElement"/>
   <binding name="alert" className="catalog_AlertScriptDocumentElement"/>
