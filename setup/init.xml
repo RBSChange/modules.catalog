@@ -49,9 +49,9 @@
 			<staticitem value="similar" label="&amp;modules.catalog.bo.lists.cross-selling-types.Similar;" />
 		</staticlist>
 		
-		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.frontoffice.Discountornot-title;">
-			<staticitem value="discount" label="&amp;modules.catalog.frontoffice.Discountornot-discount;" />
-			<staticitem value="not-discount" label="&amp;modules.catalog.frontoffice.Discountornot-not-discount;" />
+		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.bo.lists.discountornot.Label;">
+			<staticitem value="discount" label="&amp;modules.catalog.bo.lists.Discountornot-discount" />
+			<staticitem value="not-discount" label="&amp;modules.catalog.bo.lists.Discountornot-not-discount" />
 		</staticlist>
 		
 		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication"

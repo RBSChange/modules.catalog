@@ -218,4 +218,8 @@
   <key id="go-to-kit">retourner au kit {kitLabel}</key>
   <key id="error-captcha">le code de sécurité est incorrect.</key>
   <key id="last-consulted-products">derniers produits consultés</key>
+  <!-- Fixes ticket #59883 -->
+  <key id="discountornot-title">en promotion / hors promotion</key>
+  <key id="discountornot-discount">en promotion</key>
+  <key id="discountornot-not-discount">hors promotion</key>
 </i18n>

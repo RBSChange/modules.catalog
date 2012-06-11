@@ -26,7 +26,7 @@
 			shorthelp="${transui:m.catalog.document.productdeclination.codereference-help,ucf,attr}" />
 		<field name="declinationVisual0" type="document" allow="modules_media_media"
 			moduleselector="media" labeli18n="modules.catalog.document.productdeclination.Visual"
-			shorthelp="${transui:m.catalog.document.productdeclination.visual-help,ucf,attr}" />
+			shorthelp="${transui:m.catalog.document.productdeclination.visual-help,ucf,attr}" allowfile="true" mediafoldername="Inbox" />
 		<field name="declinationStockQuantity0" type="integer" labeli18n="modules.catalog.document.productdeclination.StockQuantity"
 			shorthelp="${transui:m.catalog.document.productdeclination.stockquantity-help,ucf,attr}">
 			<constraint name="min" parameter="0" />

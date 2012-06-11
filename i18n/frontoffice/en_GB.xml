@@ -211,4 +211,8 @@
   <key id="weight-unit-mg-plural">{weight}mg</key>
   <key id="weight-unit-mg-singular">{weight}mg</key>
   <key id="your-email">email</key>
+  <!-- Fixes ticket #59883 -->
+  <key id="discountornot-title">discounted / not discounted</key>
+  <key id="discountornot-discount">discounted</key>
+  <key id="discountornot-not-discount">not discounted</key>
 </i18n>
