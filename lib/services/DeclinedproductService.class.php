@@ -112,7 +112,8 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$declination->setCodeReference($firstDeclination['codeReference']);
 			if (isset($firstDeclination['visual']))
 			{
-				$declination->setVisual($firstDeclination['visual']);
+				$visual = media_persistentdocument_media::getInstanceById($firstDeclination['visual']);
+				$declination->setVisual($visual);
 			}
 			if (isset($firstDeclination['stockQuantity']))
 			{
