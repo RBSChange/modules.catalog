@@ -18,14 +18,6 @@ class catalog_BlockLastConsultedProductsAction extends catalog_BlockProductlistB
 	}
 
 	/**
-	 * @return boolean
-	 */
-	protected function getSortRandom()
-	{
-		return $this->getConfiguration()->getMode() == 'random';
-	}
-
-	/**
 	 * @param f_mvc_Response $response
 	 * @return integer[] or null
 	 */

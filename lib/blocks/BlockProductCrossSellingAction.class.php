@@ -26,14 +26,6 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	/**
 	 * @return boolean
 	 */
-	protected function getSortRandom()
-	{
-		return $this->getConfiguration()->getSortby() == 'random';
-	}
-	
-	/**
-	 * @return boolean
-	 */
 	protected function getShowIfNoProduct()
 	{
 		return false;
