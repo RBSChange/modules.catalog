@@ -1,4 +1,4 @@
-<ul class="sub-list" tal:define="id product/getId" change:productprice="name 'price'; product product">
+<ul class="sub-list" tal:define="id product/getId; contextShopId shop/getId" change:productprice="name 'price'; product product">
 	<li change:productvisual="name 'visual'; mode 'list'; product product" tal:condition="visual" class="product-visual">
 		<a change:link="document product; catalogParam[shopId] contextShopId; catalogParam[topicId] product/getContextualTopicId" tal:attributes="title product/getLinkTitle">
 			<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />

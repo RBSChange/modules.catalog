@@ -1,4 +1,4 @@
-<ul class="sub-list" tal:define="id product/getId" change:productprice="name 'price'; product product">
+<ul class="sub-list" tal:define="id product/getId; contextShopId shop/getId" change:productprice="name 'price'; product product">
 	<li tal:condition="displayConfig/showCheckboxes" tal:define="name string:catalogParam[selected_product][$id]; fieldid string:catalogParam_selected_product_$id">
 		<label tal:attributes="for fieldid" class="option-label">
 			<input tal:condition="checkboxes/$id" checked="checked" tal:attributes="id fieldid; name name; value id" type="checkbox" />
