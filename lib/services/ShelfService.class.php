@@ -727,7 +727,8 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				$this->completeParamters($document, $topic, $lang, $parameters);
 			}
 		}
-		return parent::getWebLink($urlRewritingService, $document, $website, $lang, $parameters);
+		$path = $urlRewritingService->getDocumentDefaultPath($document, $lang);
+		return $urlRewritingService->getRewriteLink($website, $lang, $path, $parameters);
 	}
 
 	/**
@@ -762,7 +763,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		{
 			$website = $shop->getWebsite();
 			$catalogParam = isset($parameters['catalogParam']) ? $parameters['catalogParam'] : array();
-			if ($shop && !$shop->getIsDefaultForLang($lang))
+			if (!$shop->getIsDefaultForLang($lang))
 			{
 				$catalogParam['shopId'] = $shop->getId();
 			}
