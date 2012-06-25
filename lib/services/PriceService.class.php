@@ -759,6 +759,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$query = $this->createQuery()
 				->add(Restrictions::eq('productId', $tmpPriceInfo->getProductId()))
 				->add(Restrictions::eq('shopId', $tmpPriceInfo->getShopId()))
+				->add(Restrictions::eq('billingAreaId', $tmpPriceInfo->getBillingAreaId()))
 				->add(Restrictions::eq('targetId', $tmpPriceInfo->getTargetId()))
 				->add(Restrictions::eq('priority', $tmpPriceInfo->getPriority()))
 				->add(Restrictions::eq('thresholdMin', $tmpPriceInfo->getThresholdMin()));
@@ -809,7 +810,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		
 		$compare = $this->compareDate($tmpPriceInfo, $firstPrice);
-		$dataProperties = array('valueWithoutTax', 'oldValueWithoutTax', 
+		$dataProperties = array('value', 'valueWithoutDiscount', 'storeWithTax',
 			'taxCategory', 'discountDetail', 'ecoTax', 'lockedFor');
 		
 		switch ($compare) 
