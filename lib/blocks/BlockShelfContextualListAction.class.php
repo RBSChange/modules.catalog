@@ -20,9 +20,11 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 			return website_BlockView::NONE;
 		}
 		
+		
+		
 		$request->setAttribute('currentShelf', $this->getCurrentEcommerceContainer());
 		$request->setAttribute('shelves', $subShelves);
-		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $this->getContext()->getNearestContainerId())));
+		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $this->getParentId())));
 		return website_BlockView::SUCCESS;
 	}
 	
@@ -51,7 +53,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	{
 		if ($this->container === null)
 		{
-			$topicId = $this->getContext()->getNearestContainerId();
+			$topicId = $this->getParentId();
 			$topic = DocumentHelper::getDocumentInstance($topicId);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{
@@ -70,11 +72,19 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	}
 	
 	/**
+	 * @return integer
+	 */
+	protected function getParentId()
+	{
+		return end($this->getContext()->getAncestorIds());
+	}
+	
+	/**
 	 * @return catalog_persistentdocument_shelf[]
 	 */
 	private function getSubShelves()
 	{
-		$topicId = $this->getContext()->getNearestContainerId();
+		$topicId = $this->getParentId();
 		$query = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::published());
 		$visibility = Restrictions::in('navigationVisibility', array(website_ModuleService::VISIBLE, website_ModuleService::HIDDEN_IN_SITEMAP_ONLY));
 		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published())->add($visibility);

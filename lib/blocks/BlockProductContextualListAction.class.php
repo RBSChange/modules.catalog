@@ -10,7 +10,16 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	public static $sortOptions = array('displayMode', 'nbresultsperpage', 'onlydiscount', 
 		'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
-		
+
+	/**
+	 * @return integer
+	 */
+	protected function getParentId()
+	{
+		return end($this->getContext()->getAncestorIds());
+	}
+	
+	
 	/**
 	 * @param f_mvc_Request $request
 	 * @return integer[] or null
@@ -30,7 +39,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		
 		$query = $masterQuery->createCriteria('compiledproduct')
 			->add(Restrictions::published())
-			->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
+			->add(Restrictions::eq('topicId', $this->getParentId()))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 			->add(Restrictions::eq('showInList', true));
 
@@ -85,7 +94,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	protected function persistSortOptions($request)
 	{
-		$topicId = $this->getContext()->getNearestContainerId();
+		$topicId = $this->getParentId();
 		$sessionKey = "catalog_ProductContextualListSortOptions";
 		$storage = change_Controller::getInstance()->getStorage();
 		$sortOptions = $storage->read($sessionKey);
@@ -182,9 +191,8 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	{
 		if ($this->container === null)
 		{
-			$context = $this->getContext();
 			$css = catalog_ShelfService::getInstance();
-			$this->container = $css->getByTopic(DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
+			$this->container = $css->getByTopic(DocumentHelper::getDocumentInstance($this->getParentId()));
 		}
 		return $this->container;
 	}
@@ -209,7 +217,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	
 		$query = $masterQuery->createCriteria('compiledproduct')
 		->add(Restrictions::published())
-		->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
+		->add(Restrictions::eq('topicId', $this->getParentId()))
 		->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 		->add(Restrictions::eq('showInList', true));
 	
