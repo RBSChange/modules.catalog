@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.shelfcontextuallist.metas" lcid="en_GB">
-  <key id="description">Description of the current shelf</key>
-  <key id="keywords">Keywords of the current shelf</key>
-  <key id="title">Title of the current shelf</key>
+	<key id="description">Description of the current shelf</key>
+	<key id="keywords">Keywords of the current shelf</key>
+	<key id="title">Title of the current shelf</key>
 </i18n>

@@ -1,7 +1,6 @@
 wdialog[template="orderProductsInShelf"] .dialog-header{
 	background: url(/changeicons/small/sort.png) transparent center  left no-repeat!important;
 }
-
 wdialog[template="productselector"] .dialog-header{
 	background: url(/changeicons/small/misc.png) transparent center  left no-repeat!important;
 }

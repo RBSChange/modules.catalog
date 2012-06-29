@@ -1,22 +1,24 @@
 <h2 change:h="">${blockTitle}</h2>
 <form change:form="beanClass catalog_persistentdocument_alert" tal:define="hasUser alert/hasUser">
-	<ul change:errors=""></ul>
-	<ul>
-		<li tal:condition="hasUser">
-			<input change:field="" name="email" readonly="readonly" />
-		</li>
-		<li tal:condition="not:hasUser">
-			<input change:field="" name="email" />
-		</li>
-		<li tal:condition="useCaptcha">
-			<img change:captcha="key 'productAlert'" style="vertical-align: bottom;" />
-			<input change:captcha="key 'productAlert'" />
-		</li>
-	</ul>
-	<p class="buttons">
-		<input change:hiddeninput="value alert/getProductId" name="productId" />
-		<input change:hiddeninput="value alert/getAlertType" name="alertType" />
-		<input change:hiddeninput="value alert/getPriceReference" name="priceReference" />
-		<input name="addAlert" change:submit="labeli18n m.catalog.frontoffice.add-alert" />
-	</p>
+	<fieldset>
+		<ul change:errors=""></ul>
+		<ol>
+			<li tal:condition="hasUser">
+				<input change:field="" name="email" readonly="readonly" />
+			</li>
+			<li tal:condition="not:hasUser">
+				<input change:field="" name="email" autocorrect="off" autocapitalize="off" />
+			</li>
+			<li tal:condition="useCaptcha">
+				<img change:captcha="key 'productAlert'" style="vertical-align: bottom;" />
+				<input change:captcha="key 'productAlert'" />
+			</li>
+		</ol>
+		<p class="buttons">
+			<input change:hiddeninput="value alert/getProductId" name="productId" />
+			<input change:hiddeninput="value alert/getAlertType" name="alertType" />
+			<input change:hiddeninput="value alert/getPriceReference" name="priceReference" />
+			<input name="addAlert" change:submit="labeli18n m.catalog.frontoffice.add-alert" />
+		</p>
+	</fieldset>
 </form>

@@ -1,0 +1,20 @@
+<h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
+<tal:block tal:condition="displayConfig/showMessages">
+	<tal:block change:block="" module="order" name="CartMessages" container="" />
+	<tal:block change:block="" module="website" name="messages" container="" />
+	<ul change:errors=""></ul>
+	<ul change:messages=""></ul>
+</tal:block>
+
+<div tal:condition="not:products">${trans:m.catalog.frontoffice.no-product-to-display,ucf}</div>
+<tal:block tal:condition="products">
+	<ul class="product-list">
+		<li tal:repeat="product products" class="product-line">
+			<tal:block module="catalog" container="" name="ProductItem" displayMode="Short"
+				change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop" />
+		</li>
+	</ul>
+	<p class="buttons" tal:condition="fullListLink">
+		<a href="${fullListLink/url}" class="link">${fullListLink/label}</a>
+	</p>
+</tal:block>

@@ -6,9 +6,9 @@ class catalog_ExportAlertInfosCsvView extends change_View
 		$product = $request->getAttribute('product');
 		
 		$fieldNames = array(
-			'email' => f_Locale::translate('&modules.catalog.document.alert.Email;'),
-			'hasUser' => f_Locale::translate('&modules.catalog.document.alert.HasUser;'),
-			'alertType' => f_Locale::translate('&modules.catalog.document.alert.AlertType;')
+			'email' => LocaleService::getInstance()->trans('m.catalog.document.alert.email', array('ucf')),
+			'hasUser' => LocaleService::getInstance()->trans('m.catalog.document.alert.hasuser', array('ucf')),
+			'alertType' => LocaleService::getInstance()->trans('m.catalog.document.alert.alerttype', array('ucf'))
 		);
 		
 		$data = array();

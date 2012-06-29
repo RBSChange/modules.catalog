@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.virtualproduct" lcid="fr_FR">
-  <include id="m.catalog.document.product"/>
-  <key id="document-name">Produit telechargable</key>
-  <key id="shippingmodeid">Mode de téléchargement</key>
-  <key id="shippingmodeid-help">Mode de téléchargement</key>
-  <key id="securemedia">Fichier joint</key>
-  <key id="securemedia-help">Fichier joint (sécurisé)</key>
+	<include id="m.catalog.document.product" />
+	<key id="document-name">Produit telechargable</key>
+	<key id="shippingmodeid">Mode de téléchargement</key>
+	<key id="shippingmodeid-help">Mode de téléchargement</key>
+	<key id="securemedia">Fichier joint</key>
+	<key id="securemedia-help">Fichier joint (sécurisé)</key>
 </i18n>

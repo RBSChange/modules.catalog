@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.panel.declinations" lcid="en_GB">
-  <key id="new">add a variant</key>
-  <key id="prices">prices</key>
-  <key id="column-actions">actions</key>
-  <key id="column-codereference">reference code</key>
-  <key id="column-label">label</key>
-  <key id="column-stocklevel">stock level</key>
-  <key id="column-stockquantity">quantity in stock</key>
-  <key id="confirm-delete-declination">are you sure that you want to delete this variant?</key>
+	<key id="new">add a variant</key>
+	<key id="prices">prices</key>
+	<key id="column-actions">actions</key>
+	<key id="column-codereference">reference code</key>
+	<key id="column-label">label</key>
+	<key id="column-stocklevel">stock level</key>
+	<key id="column-stockquantity">quantity in stock</key>
+	<key id="confirm-delete-declination">are you sure that you want to delete this variant?</key>
 </i18n>

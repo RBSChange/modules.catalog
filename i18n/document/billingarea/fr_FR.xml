@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.document.billingarea" lcid="fr_FR">
+	<include id="m.generic.document.document" />
+	<key id="document-name">zone de facturation</key>
+	<key id="codereference">code référence</key>
+	<key id="codereference-help">Code référence utilisable pour les imports/exports.</key>
+	<key id="currency">Devise</key>
+	<key id="currency-help">Devise de la zone de facturation.</key>
+	<key id="currencyposition">position du symbole</key>
+	<key id="currencyposition-help">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99.</key>
+	<key id="defaultzone">zone de taxe par défaut</key>
+	<key id="defaultzone-help">Code zone de taxe utilisé par défaut.</key>
+	<key id="zone">zone géographique</key>
+	<key id="zone-help">zone géographique utilisable par les stratégies pour l'éléction d'une zone de facturation.</key>
+	<key id="boeditwithtax">saisie TTC des prix</key>
+	<key id="boeditwithtax-help">Saisie des prix TTC en back-office.</key>
+	<key id="storepricewithtax">Sauvegarde du montant TTC</key>
+	<key id="storepricewithtax-help">Sauvegarde du montant TTC en base de données.</key>
+	<key id="billingaddresszone">zone d'adresse de facturation</key>
+	<key id="billingaddresszone-help">document « zone » du module « Zones » qui sera utilisé pour valider l'adresse de facturation lors du processus de commande.</key>
+</i18n>

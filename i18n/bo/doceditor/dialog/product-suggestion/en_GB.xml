@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.dialog.product-suggestion" lcid="en_GB">
-  <key id="check-all">select all</key>
-  <key id="column-codereference">reference</key>
-  <key id="column-label">label</key>
-  <key id="column-selection">selection</key>
-  <key id="column-weight">relevance</key>
-  <key id="search">search</key>
-  <key id="title">product suggestion</key>
-  <key id="uncheck-all">Unselect all</key>
+	<key id="check-all">select all</key>
+	<key id="column-codereference">reference</key>
+	<key id="column-label">label</key>
+	<key id="column-selection">selection</key>
+	<key id="column-weight">relevance</key>
+	<key id="search">search</key>
+	<key id="title">product suggestion</key>
+	<key id="uncheck-all">Unselect all</key>
 </i18n>

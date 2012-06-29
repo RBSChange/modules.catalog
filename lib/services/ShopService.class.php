@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_ShopService
- * @package catalog
+ * @package modules.catalog
+ * @method catalog_ShopService getInstance()
  */
 class catalog_ShopService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_ShopService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ShopService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */
@@ -38,7 +21,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/shop');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/shop');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/shop', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/shop', false);
 	}
 	
 	/**
@@ -221,6 +204,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	/**
 	 * @param integer $websiteId
 	 * @param string $lang
+	 * @return catalog_persistentdocument_shop
 	 */
 	public function getDefaultByWebsiteId($websiteId, $lang = null)
 	{
@@ -255,46 +239,10 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	{
 		return $this->createQuery()->add(Restrictions::published())->add(Restrictions::in('website', $websites))->find();
 	}
-
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 * @throw catalog_Exception if the currencyCode does not related to an existing currency code
-	 */	
-	public function getCurrencySymbol($shop)
-	{
-		
-		return catalog_PriceHelper::getCurrencySymbol($shop->getCurrencyCode());
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
-	 */
-	public function getPriceFormat($shop)
-	{
-		if ($shop === null)
-		{
-			return "%s";
-		}
-		$currency = catalog_PriceHelper::getCurrencySymbol($shop->getCurrencyCode());
-		switch ($shop->getCurrencyPosition())
-		{
-			case catalog_PriceHelper::CURRENCY_POSITION_LEFT :
-				$format = $currency . " %s";
-				break;
-
-			case catalog_PriceHelper::CURRENCY_POSITION_RIGHT :
-			default :
-				$format = "%s ". $currency ;
-				break;
-		}
-		return $format;
-	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId)
@@ -383,16 +331,13 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		
 	/**
 	 * @param catalog_persistentdocument_shop $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function postInsert($document, $parentNodeId)
 	{
-		if ($document->getDefaultTaxZone())
-		{
-			catalog_TaxService::getInstance()->addNoTaxForShopAndZone($document->getId(), $document->getDefaultTaxZone());
-		}
-		$topic = $document->getTopic();	
+		$topic = $document->getTopic();
+		
 		$topic->setReferenceId($document->getId());
 		$topic->save();
 		$topic->activate();
@@ -403,7 +348,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shop $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function preInsert($document, $parentNodeId)
@@ -417,7 +362,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shop $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function preUpdate($document, $parentNodeId)
@@ -427,27 +372,11 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 		{
 			catalog_ProductService::getInstance()->setNeedCompileForShop($document);
 		}
-		
-		if ($document->getNewTaxLabel())
-		{
-			$tax = catalog_TaxService::getInstance()->getTaxDocument($document->getId(), $document->getNewTaxCategory(), $document->getNewTaxZone());
-			if ($tax === null)
-			{
-				$tax = catalog_TaxService::getInstance()->getNewDocumentInstance();
-				$tax->setShopId($document->getId());
-				$tax->setTaxCategory($document->getNewTaxCategory());
-				$tax->setTaxZone($document->getNewTaxZone());
-			}
-			$tax->setLabel($document->getNewTaxLabel());
-			$tax->setRate($document->getNewTaxRate());
-			$document->resetNewTaxInfos();
-			$tax->save();
-		}
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function postUpdate($document, $parentNodeId)
@@ -476,7 +405,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shop $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function postSave($document, $parentNodeId)
@@ -529,7 +458,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 * Methode à surcharger pour effectuer des post traitement apres le changement de status du document
 	 * utiliser $document->getPublicationstatus() pour retrouver le nouveau status du document.
 	 * @param catalog_persistentdocument_shop $document
-	 * @param String $oldPublicationStatus
+	 * @param string $oldPublicationStatus
 	 * @param array<"cause" => String, "modifiedPropertyNames" => array, "oldPropertyValues" => array> $params
 	 * @return void
 	 */
@@ -586,7 +515,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return Integer
+	 * @return integer
 	 */
 	protected function getPublishedProductCountByShop($shop)
 	{
@@ -606,13 +535,13 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	{
 		$data = parent::getResume($document, $forModuleName, $allowedSections);
 		$data['properties']['website'] = $document->getWebsite()->getLabel();
-		$data['properties']['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
+		$data['properties']['isDefault'] = LocaleService::getInstance()->trans('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		$data['properties']['publishedproductcount'] = $this->getPublishedProductCountByShop($document);
 		return $data;
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $document
+	 * @param catalog_persistentdocument_product $document
 	 * @param array<string, string> $attributes
 	 * @param integer $mode
 	 * @param string $moduleName
@@ -625,6 +554,67 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$attributes['website'] = $document->getWebsite()->getLabel();
 			$attributes['isDefault'] = LocaleService::getInstance()->trans('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		}
+	}
+		
+	// Depreacted
+	
+	/**
+	 * @deprecated
+	 */
+	public function getCurrencySymbol($shop)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}		
+		return $shop->getDefaultBillingArea()->getCurrency()->getSymbol();
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public function getPriceFormat($shop)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		if ($shop === null) {return "%s";}
+		return $shop->getDefaultBillingArea()->getPriceFormat();
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
+	 */
+	public function getPublishedByWebsite($website)
+	{
+		return $this->getPublishedByWebsiteId($website->getId());
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0)
+	 */
+	private $shopByWebsiteId = array();
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
+	 */
+	public function getPublishedByWebsiteId($websiteId)
+	{
+		if (!isset($this->shopByWebsiteId[$websiteId]))
+		{
+			$this->shopByWebsiteId[$websiteId] = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
+				->add(Restrictions::published())->findUnique();
+		}
+		return $this->shopByWebsiteId[$websiteId];
 	}
 }
 

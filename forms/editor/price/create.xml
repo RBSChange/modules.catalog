@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
+	<fieldinput name="storeWithTax" type="hidden" />
 	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.amount-tax-validity">
-		<field name="shopId" moduleselector="catalog" hidehelp="true" disabled="true"/>
-		<field name="boValueJSON" type="price" required="true" 
-			labeli18n="m.catalog.document.price.value"
-			hidehelp="true">
+		<field name="shopId" moduleselector="catalog" disabled="true" type="document" />
+		<field name="billingAreaId" moduleselector="catalog" disabled="true" type="document" />
+		<field name="boValueJSON" type="price" required="true" labeli18n="m.catalog.document.price.value" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="ecoTax" />
@@ -12,26 +12,47 @@
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>
 	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.discount">
-		<row class="discountHelper" reference="catalog_price_create_boValueJSON" 
-			pricefield="catalog_price_create_boDiscountValueJSON" 
-			detailfield="catalog_price_create_discountDetail" />
-		<field name="boDiscountValueJSON" type="price" 
-			   labeli18n="m.catalog.document.price.discountvalue" 
-			   shorthelpi18n="m.catalog.document.price.discountvalue-help" 
-			   hidehelp="true">
+		<row class="discountHelper" reference="catalog_price_create_boValueJSON" pricefield="catalog_price_create_boDiscountValueJSON" detailfield="catalog_price_create_discountDetail" />
+		<field name="boDiscountValueJSON" type="price" labeli18n="m.catalog.document.price.discountvalue" shorthelp="${trans:m.catalog.document.price.discountvalue-help,ucf,attr}" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="discountDetail" />
 	</section>
 	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.restrictions">
 		<field name="thresholdMin" />
-		<field name="target" type="document"
-			moduleselector="catalog" 
-			allow="modules_catalog_kit,modules_customer_customer,modules_customer_tarifcustomergroup"
-			labeli18n="m.catalog.document.price.targetid" shorthelpi18n="m.catalog.document.price.targetid-help" hidehelp="true" />
+		<field name="target" type="document" moduleselector="catalog" allow="modules_catalog_kit,modules_customer_customer,modules_customer_tarifcustomergroup" labeli18n="m.catalog.document.price.targetid" shorthelp="${trans:m.catalog.document.price.targetid-help,ucf,attr}" hidehelp="true" />
 	</section>
 	<xul>
-		<javascript>		
+		<javascript>
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					if (this.documentEditor.hasAttribute('copyFromPriceId'))
+					{
+						var attributes = {
+							action: 'LoadJSON',
+							cmpref: this.documentEditor.getAttribute('copyFromPriceId'), 
+							lang : this.documentEditor.documentInfos.vo, 
+							documentproperties: this.mFieldNames.join(',')
+						};
+						this.documentEditor.removeAttribute('copyFromPriceId');
+					}
+					else
+					{
+						var attributes = {
+							action: "DefaultValuesJSON",
+							parentref: this.documentEditor.parentid, 
+							lang: Context.W_LANG, 
+							modelname: this.documentEditor.documentmodelname,
+							documentproperties : this.mFieldNames.join(',')
+						};
+						if ("prepareInitializeValues" in this)
+						{
+							this.prepareInitializeValues(attributes);
+						}
+					}
+					return attributes;
+				]]></body>
+			</method>
 			<method name="prepareInitializeValues">
 				<parameter name="attributes" />
 				<body><![CDATA[
@@ -41,19 +62,24 @@
 						attributes.shopId = editor.getAttribute('shopId');
 						editor.removeAttribute('shopId');
 					}
+					if (editor.hasAttribute('billingAreaId'))
+					{
+						attributes.billingAreaId = editor.getAttribute('billingAreaId');
+						editor.removeAttribute('billingAreaId');
+					}
 					if (editor.hasAttribute('targetId'))
 					{
 						attributes.targetId = editor.getAttribute('targetId');
 						editor.removeAttribute('targetId');
 					}
-				]]></body>				
+				]]></body>
 			</method>
 			<method name="preparePropertiesValues">
 				<parameter name="attributes" />
-				<body><![CDATA[
+				<body><![CDATA[	
 					var fields = this.fields;
-					attributes['shopId'] = fields.shopId.value;
-					attributes['target'] = fields.target.value;
+					attributes.shopId = fields.shopId.value;
+					attributes.billingAreaId = fields.billingAreaId.value;
 				]]></body>
 			</method>
 		</javascript>

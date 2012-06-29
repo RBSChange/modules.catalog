@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shelf" lcid="en_GB">
-  <key id="document-name">catalogue shelf</key>
-  <key id="description">description</key>
-  <key id="description-help">Rich text field that allows entering a description of the shelf that can be displayed on the homepage of the site topic associated with the shelf</key>
-  <key id="edition-form-title">shelf properties</key>
-  <key id="label">label</key>
-  <key id="label-help">A text field used both on the websites and in the admin interface to identify the shelf.</key>
-  <key id="pagedescription">page description</key>
-  <key id="pagedescription-help">Some content that can be used as a substitute in the "Page title" and "Description" fields for pages that contain the "Contextual list of shelves" or "Contextual list of products" display blocks.</key>
-  <key id="pagekeywords">page keywords</key>
-  <key id="pagekeywords-help">Some content that can be used as a substitute in the "Keywords" field for pages that contain the "Contextual list of shelves" or "Contextual list of products" display blocks.</key>
-  <key id="pagetitle">page title</key>
-  <key id="pagetitle-help">Some content that can be used as a substitute in the "Page title" and "Description" fields for pages that contain the "Contextual list of shelves" or "Contextual list of products" display blocks.</key>
-  <key id="visual">visual element</key>
-  <key id="visual-help">An image from the RBS Change media store that will be used in the lists to illustrate the shelf.</key>
-  <key id="codeReference"/>
+	<key id="document-name">catalogue shelf</key>
+	<key id="codereference">reference code</key>
+	<key id="description">description</key>
+	<key id="description-help">Rich text field that allows entering a description of the shelf that can be displayed on the homepage of the site topic associated with the shelf</key>
+	<key id="edition-form-title">shelf properties</key>
+	<key id="label">label</key>
+	<key id="label-help">A text field used both on the websites and in the admin interface to identify the shelf.</key>
+	<key id="pagedescription">page description</key>
+	<key id="pagedescription-help">Some content that can be used as a substitute in the "Page title" and "Description" fields for pages that contain the "Contextual list of shelves" or "Contextual list of products" display blocks.</key>
+	<key id="pagekeywords">page keywords</key>
+	<key id="pagekeywords-help">Some content that can be used as a substitute in the "Keywords" field for pages that contain the "Contextual list of shelves" or "Contextual list of products" display blocks.</key>
+	<key id="pagetitle">page title</key>
+	<key id="pagetitle-help">Some content that can be used as a substitute in the "Page title" and "Description" fields for pages that contain the "Contextual list of shelves" or "Contextual list of products" display blocks.</key>
+	<key id="visual">visual element</key>
+	<key id="visual-help">An image from the RBS Change media store that will be used in the lists to illustrate the shelf.</key>
 </i18n>

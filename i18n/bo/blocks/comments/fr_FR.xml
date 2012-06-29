@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.comments" lcid="fr_FR">
 	<include id="m.comment.bo.blocks.commentbase" />
 	<key id="title">commentaires du produit</key>

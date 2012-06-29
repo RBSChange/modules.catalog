@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.compiledproduct.publication" lcid="fr_FR">
-  <key id="no-price">n'a pas de prix boutique</key>
-  <key id="product-not-published">le produit n'est pas publié</key>
-  <key id="shop-not-published">la boutique n'est pas publiée</key>
-  <key id="shelf-not-published">le rayon n'est pas publié</key>
-  <key id="product-not-displayable">le produit n'est pas affichable dans la boutique</key>
+	<key id="no-price">n'a pas de prix boutique</key>
+	<key id="product-not-published">le produit n'est pas publié</key>
+	<key id="shop-not-published">la boutique n'est pas publiée</key>
+	<key id="shelf-not-published">le rayon n'est pas publié</key>
+	<key id="product-not-displayable">le produit n'est pas affichable dans la boutique</key>
 </i18n>

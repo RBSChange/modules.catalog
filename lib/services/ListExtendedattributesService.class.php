@@ -1,26 +1,10 @@
 <?php
 /**
- * @package module.catalog
+ * @package modules.catalog
+ * @method catalog_ListExtendedattributesService getInstance()
  */
-class catalog_ListExtendedattributesService extends BaseService
+class catalog_ListExtendedattributesService extends change_BaseService implements list_ListItemsService
 {
-	/**
-	 * @var catalog_ListExtendedattributesService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ListShippingFiltersService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return list_Item[]
 	 */
@@ -31,16 +15,16 @@ class catalog_ListExtendedattributesService extends BaseService
 		$items = array();
 		foreach ($attributes as $attribute)
 		{
+			/* @var $attribute catalog_AttributeDefinition */
 			$items[] = new list_Item(
-				$attribute["label"],
-				$attribute["code"]
+				$attribute->getLabel(), $attribute->getCode()
 			);
 		}
 		return $items;
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public final function getDefaultId()
 	{

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.general.block" lcid="fr_FR">
-  <key id="detail">Détail d'un produit</key>
-  <key id="text-with-banner">Texte d'en tête</key>
-  <key id="crossselling">produits associés</key>
-  <key id="topshelvesmenu">menu des rayons de premier niveau</key>
-  <key id="product-contextual-list">liste contextuelle des produits</key>
-  <key id="shelf-contextual-list">liste contextuelle des rayons</key>
-  <key id="favorite-product-list">produits favoris</key>
+	<key id="detail">Détail d'un produit</key>
+	<key id="text-with-banner">Texte d'en tête</key>
+	<key id="crossselling">produits associés</key>
+	<key id="topshelvesmenu">menu des rayons de premier niveau</key>
+	<key id="product-contextual-list">liste contextuelle des produits</key>
+	<key id="shelf-contextual-list">liste contextuelle des rayons</key>
+	<key id="favorite-product-list">produits favoris</key>
 </i18n>

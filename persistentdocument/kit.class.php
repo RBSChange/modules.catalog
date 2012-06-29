@@ -7,9 +7,7 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	implements catalog_StockableDocument, catalog_BundleProduct
 {
 	/**
-	 * @see catalog_persistentdocument_product::getDetailBlockName()
-	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{
@@ -22,9 +20,9 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	 * @var integer
 	 */
 	private $newKitItemQtt = 1;
+	
 	/**
-	 * @example "4526,785445,2355"
-	 * @var string
+	 * @var string for example "4526,785445,2355"
 	 */
 	private $newKitItemProductIds = null;
 
@@ -32,7 +30,6 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	 * @var catalog_persistentdocument_kititem[]
 	 */
 	private $kitItemsToDelete;
-
 	
 	/**
 	 * @return integer
@@ -145,24 +142,23 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	}
 		
 	//TEMPLATING FUNCTION
-	
+
 	/**
-	 * @see catalog_persistentdocument_product::getAdditionnalVisualArray()
-	 *
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
-	public function getAdditionnalVisualArray()
+	public function getAllVisuals($shop)
 	{
-		$result = array();
-		foreach ($this->getKititemArray() as $kitItem) 
+		$result = parent::getAllVisuals($shop);
+		foreach ($this->getKititemArray() as $kitItem)
 		{
 			$media = $kitItem->getProduct()->getVisual();
 			if ($media !== null)
 			{
-				$result[$media->getId()] = $media;
+				$result[] = $media;
 			}
 		}
-		return array_values($result);
+		return array_unique($result);
 	}
 	
 	/**
@@ -225,17 +221,18 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPrice($shop, $customer, $quantity = 1)
+	public function getPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
 		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
 		if (!isset($this->prices[$key]))
 		{
 			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-			$this->prices[$key] = $this->getDocumentService()->getPriceByTargetIds($this, $shop, $targetIds, $quantity);
+			$this->prices[$key] = $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
 		}
 		return $this->prices[$key];
 	}
@@ -247,31 +244,33 @@ class catalog_persistentdocument_kit extends catalog_persistentdocument_kitbase
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getItemsPrice($shop, $customer, $quantity = 1)
+	public function getItemsPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
 		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
 		if (!isset($this->itemsPrices[$key]))
 		{
 			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $targetIds, $quantity);
+			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
 		}
 		return $this->itemsPrices[$key];
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceDifference($shop, $customer, $quantity = 1)
+	public function getPriceDifference($shop, $billingArea, $customer, $quantity = 1)
 	{
-		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
-		$price2 = $this->getPrice($shop, $customer, $quantity);
+		$price1 = $this->getItemsPrice($shop, $billingArea, $customer, $quantity);
+		$price2 = $this->getPrice($shop, $billingArea, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
 	}
 	

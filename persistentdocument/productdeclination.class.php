@@ -8,13 +8,16 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 {
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{
 		return 'declinedproduct';
 	}
 	
+	/**
+	 * @return string
+	 */
 	public function getLabelForUrl()
 	{
 		if ($this->getDeclinedproduct()->getShowAxeInList() == 0)
@@ -25,27 +28,29 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	}
 
 	/**
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
 	public function getAllVisuals($shop)
 	{
+		$visuals = parent::getAllVisuals($shop);
+
 		$declinedProduct = $this->getDeclinedproduct();
-		
-		$visuals = array();
-		
-		$visual1 = $this->getVisual();	
-		if ($visual1 !== null)
-		{
-			$visuals[] = $visual1;
-		}
 		$visual2 = $declinedProduct->getVisual();
 		if ($visual2 !== null)
 		{
 			$visuals[] = $visual2;
 		}
+		if ($declinedProduct->getAdditionnalVisualCount())
+		{
+			$visuals = array_merge($visuals, $declinedProduct->getAdditionnalVisualArray());
+		}
 		
-		$visuals = array_unique(array_merge($visuals, $declinedProduct->getAdditionnalVisualArray()));
-		return $visuals;
+		if (count($visuals) == 0)
+		{
+			$visuals[] = $this->getDeclinedproduct()->getDefaultVisual($shop);
+		}
+		return array_unique($visuals);
 	}
 	
 	/**
@@ -63,6 +68,20 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop) 
+	{
+		$media = $this->getVisual();
+		if ($media === null)
+		{
+			$media = $this->getDeclinedproduct()->getListVisual($shop);
+		}
+		return $media;
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function isPricePanelEnabled()
@@ -77,12 +96,13 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		if (!$this->isPricePanelEnabled())
 		{
-			return f_Locale::translate('&modules.catalog.bo.doceditor.panel.prices.disabled.Productdeclination-synchronized;');
+			return LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.disabled.productdeclination-synchronized', array('ucf'));
 		}
 		return null;
 	}
 	
-	//Front office templating
+	// Front office templating
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return catalog_persistentdocument_productdeclination[]
@@ -117,5 +137,137 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	public function getDeclinations()
 	{
 		return $this->getDocumentService()->getArrayByDeclinedProduct($this->getDeclinedproduct());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe1Label()
+	{
+		return $this->getDocumentService()->getAxeLabel($this, 1);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe1LabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getAxe1Label());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe1TitleAsHtml()
+	{
+		return $this->getDocumentService()->getAxeTitleAsHtml($this, 1);
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function useAxe2()
+	{
+		return ($this->getDeclinedproduct()->getAxe2() !== null);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe2Label()
+	{
+		return $this->getDocumentService()->getAxeLabel($this, 2);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe2LabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getAxe2Label());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe2TitleAsHtml()
+	{
+		return $this->getDocumentService()->getAxeTitleAsHtml($this, 2);
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function useAxe3()
+	{
+		return ($this->getDeclinedproduct()->getAxe3() !== null);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe3Label()
+	{
+		return $this->getDocumentService()->getAxeLabel($this, 3);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe3LabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getAxe3Label());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getAxe3TitleAsHtml()
+	{
+		return $this->getDocumentService()->getAxeTitleAsHtml($this, 3);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFullLabel()
+	{
+		return $this->getDocumentService()->getNavigationLabel($this, 3);
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFullLabelAsHtml()
+	{
+		return f_util_HtmlUtils::textToHtml($this->getFullLabel());
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getOrderLabel()
+	{
+		return $this->getFullLabel();
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getOrderLabelAsHtml()
+	{
+		return LinkHelper::getLink($this, null, 'link', null, array('label' => $this->getFullLabel()));
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public function getCommentCount()
+	{
+		if ($this->commentCount === null)
+		{
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getDeclinedproduct()->getId());
+		}
+		return $this->commentCount;
 	}
 }

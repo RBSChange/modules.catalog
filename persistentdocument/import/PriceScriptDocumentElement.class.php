@@ -13,6 +13,10 @@ class catalog_PriceScriptDocumentElement extends import_ScriptDocumentElement
 			$price->setShopId($this->getComputedAttribute('shop')->getId());
 			unset($this->attributes['shop-refid']);
 		}
+		if (!isset($this->attributes['taxCategory']))
+		{
+			$this->attributes['taxCategory'] = "0";
+		}
 		 
 		// Tax code must be set before setting values.
 		if (isset($this->attributes['taxCode']))
@@ -23,16 +27,15 @@ class catalog_PriceScriptDocumentElement extends import_ScriptDocumentElement
 
 		if (isset($this->attributes['value']))
 		{
-			if (isset($this->attributes['taxCategory']) && $price->getTaxCategory() == "0")
+			if (!isset($this->attributes['storeWithTax']))
 			{
-				$price->setTaxCategory($this->attributes['taxCategory']);
+				$price->setStoreWithTax(true);
 			}
-			$price->setImportPriceValue($this->attributes['value']);
-			unset($this->attributes['value']);
 		}
+		
 		if (isset($this->attributes['oldValue']))
 		{
-			$price->setImportPriceOldValue($this->attributes['oldValue']);
+			$this->attributes['valueWithoutDiscount'] = $this->attributes['oldValue'];
 			unset($this->attributes['oldValue']);
 		}
 		 

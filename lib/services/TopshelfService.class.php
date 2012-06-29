@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_TopshelfService
- * @package catalog
+ * @package modules.catalog
+ * @method catalog_TopshelfService getInstance()
  */
 class catalog_TopshelfService extends catalog_ShelfService
 {
-	/**
-	 * @var catalog_TopshelfService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_TopshelfService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_topshelf
 	 */
@@ -38,7 +21,7 @@ class catalog_TopshelfService extends catalog_ShelfService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/topshelf');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/topshelf');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_TopshelfService extends catalog_ShelfService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/topshelf', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/topshelf', false);
 	}
 	
 	/**
@@ -57,7 +40,7 @@ class catalog_TopshelfService extends catalog_ShelfService
 	 * transaction.
 	 *
 	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param Integer $destId
+	 * @param integer $destId
 	 */
 	protected function onMoveToStart($document, $destId)
 	{
@@ -66,7 +49,7 @@ class catalog_TopshelfService extends catalog_ShelfService
 
 	/**
 	 * @param catalog_persistentdocument_topshelf $document
-	 * @param Integer $destId
+	 * @param integer $destId
 	 * @return void
 	 */
 	protected function onDocumentMoved($document, $destId)

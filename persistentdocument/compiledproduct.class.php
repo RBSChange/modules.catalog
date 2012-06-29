@@ -4,8 +4,7 @@
  * @package modules.catalog
  */
 class catalog_persistentdocument_compiledproduct extends catalog_persistentdocument_compiledproductbase
-{
-
+{	
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */
@@ -64,5 +63,26 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * @var integer
+	 */
+	private $popinPageId = false;
+	
+	/**
+	 * @return integer
+	 */
+	public function getPopinPageId()
+	{
+		if ($this->popinPageId === false)
+		{
+			$query = website_PageService::getInstance()->createQuery();
+			$query->add(Restrictions::childOf($this->getTopicId()));
+			$query->add(Restrictions::hasTag('functional_catalog_product-popin'));
+			$page = $query->findUnique();
+			$this->popinPageId = ($page && $page->isPublished()) ? $page->getId() : null;
+		}
+		return $this->popinPageId;
 	}
 }

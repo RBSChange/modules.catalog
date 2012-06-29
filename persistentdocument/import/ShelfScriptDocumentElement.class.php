@@ -14,7 +14,7 @@ class catalog_ShelfScriptDocumentElement extends import_ScriptDocumentElement
 		return $document;
 	}
 	
-    /**
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()

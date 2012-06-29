@@ -5,15 +5,15 @@
  */
 class catalog_ShopfolderScriptDocumentElement extends import_ScriptDocumentElement
 {
-    /**
-     * @return catalog_persistentdocument_shopfolder
-     */
-    protected function initPersistentDocument()
-    {
-    	return catalog_ShopfolderService::getInstance()->getNewDocumentInstance();
-    }
-    
-    /**
+	/**
+	 * @return catalog_persistentdocument_shopfolder
+	 */
+	protected function initPersistentDocument()
+	{
+		return catalog_ShopfolderService::getInstance()->getNewDocumentInstance();
+	}
+	
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()

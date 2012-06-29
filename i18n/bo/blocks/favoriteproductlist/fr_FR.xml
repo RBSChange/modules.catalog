@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.favoriteproductlist" lcid="fr_FR">
-  <include id="m.catalog.bo.blocks.productlistbase"/>
+	<include id="m.catalog.bo.blocks.productlistbase" />
+	<key id="title">mes produits favoris</key>
 </i18n>

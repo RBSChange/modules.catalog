@@ -10,9 +10,9 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$subShelves = $this->getSubShelves();
 		if (count($subShelves) < 1 || $this->isInBackofficeEdition())
@@ -22,15 +22,14 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 		
 		$request->setAttribute('currentShelf', $this->getCurrentEcommerceContainer());
 		$request->setAttribute('shelves', $subShelves);
-		$containerId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
-		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $containerId)));
+		$request->setAttribute('redirectFormAction', LinkHelper::getActionUrl('catalog', 'Redirect', array('parentTopic' => $this->getContext()->getNearestContainerId())));
 		return website_BlockView::SUCCESS;
 	}
 	
 	/**
 	 * @return array<String, String>
 	 */
-	function getMetas()
+	public function getMetas()
 	{
 		$container = $this->getCurrentEcommerceContainer();
 		if ($container instanceof catalog_persistentdocument_shelf)
@@ -43,7 +42,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 			$referencingService = catalog_ReferencingService::getInstance();
 			return array("title" => $referencingService->getPageTitleByShop($container), "description" => $referencingService->getPageDescriptionByShop($container), "keywords" => $referencingService->getPageKeywordsByShop($container));
 		}
-		return null;
+		return array();
 	}
 	
 	private $container = null;
@@ -52,8 +51,7 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	{
 		if ($this->container === null)
 		{
-			$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
-			
+			$topicId = $this->getContext()->getNearestContainerId();
 			$topic = DocumentHelper::getDocumentInstance($topicId);
 			if ($topic instanceof website_persistentdocument_systemtopic)
 			{
@@ -76,9 +74,10 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	 */
 	private function getSubShelves()
 	{
-		$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
+		$topicId = $this->getContext()->getNearestContainerId();
 		$query = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::published());
-		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published());
+		$visibility = Restrictions::in('navigationVisibility', array(website_ModuleService::VISIBLE, website_ModuleService::HIDDEN_IN_SITEMAP_ONLY));
+		$query->createCriteria('topic')->add(Restrictions::childOf($topicId))->add(Restrictions::published())->add($visibility);
 		return $query->find();
 	}
 }

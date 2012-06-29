@@ -1,11 +1,10 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <panels>
 	<panel name="resume" />
 	<panel name="properties" />
-	<panel name="tax" icon="price" labeli18n="m.catalog.bo.doceditor.tab.tax" />
-	<panel name="publication" />
 	<panel name="localization" />
+	<panel name="publication" />
 	<panel name="redirect" />
 	<panel name="history" />
-	<panel name="create" /> 
+	<panel name="create" />
 </panels>

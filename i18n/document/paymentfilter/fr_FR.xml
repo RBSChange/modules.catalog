@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.paymentfilter" lcid="fr_FR">
-  <key id="document-name">filtre de paiement</key>
-  <key id="label">libellé</key>
-  <key id="label-help">libellé utilisé en backoffice pour identifier le filtre.</key>
-  <key id="shop">boutique</key>
-  <key id="connector">Mode de paiement</key>
-  <key id="connector-help">mode de paiement associé au filtre. Lorsque le filtre est applicable, ce mode de paiement sera autorisé pour la commande en cours.</key>
-  <key id="query">Conditions d'application</key>
-  <key id="query-help">Conditions d'application du filtre de paiement, évalué à la troisième étape du processus de commande standard.</key>
+	<key id="document-name">filtre de paiement</key>
+	<key id="label">libellé</key>
+	<key id="label-help">libellé utilisé en backoffice pour identifier le filtre.</key>
+	<key id="shop">boutique</key>
+	<key id="connector">Mode de paiement</key>
+	<key id="connector-help">mode de paiement associé au filtre. Lorsque le filtre est applicable, ce mode de paiement sera autorisé pour la commande en cours.</key>
+	<key id="query">Conditions d'application</key>
+	<key id="query-help">Conditions d'application du filtre de paiement, évalué à la troisième étape du processus de commande standard.</key>
+	<key id="billingarea">zone de facturation</key>
+	<key id="billingarea-help">zone de facturation du panier</key>
 </i18n>

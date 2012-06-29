@@ -1,33 +1,14 @@
 <?php
 /**
- * catalog_ReferencingService
- * @package modules.catalog
- * 
  * This service groups all referencing methods for the catalog module.
+ * @package modules.catalog
+ * @method catalog_ReferencingService getInstance()
  */
-class catalog_ReferencingService extends BaseService
+class catalog_ReferencingService extends change_BaseService
 {
 	/**
-	 * Singleton
-	 * @var catalog_ReferencingService
-	 */
-	private static $instance = null;
-	
-	/**
-	 * @return catalog_ReferencingService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-	
-	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
+	 * @return string
 	 */
 	public function getPageTitleByShop($shop)
 	{
@@ -44,7 +25,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
+	 * @return string
 	 */
 	public function getPageDescriptionByShop($shop)
 	{
@@ -66,7 +47,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
+	 * @return string
 	 */
 	public function getPageKeywordsByShop($shop)
 	{
@@ -75,7 +56,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
+	 * @return string
 	 */
 	public function getPageTitleByShelf($shelf)
 	{
@@ -101,7 +82,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
+	 * @return string
 	 */
 	public function getPageDescriptionByShelf($shelf)
 	{
@@ -130,7 +111,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
+	 * @return string
 	 */
 	public function getPageKeywordsByShelf($shelf)
 	{
@@ -139,7 +120,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
+	 * @return string
 	 */
 	public function getPathForUrlByShelf($shelf)
 	{
@@ -153,7 +134,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @return String
+	 * @return string
 	 */
 	public function getPageTitleByProduct($product)
 	{
@@ -174,7 +155,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @return String
+	 * @return string
 	 */
 	public function getPageDescriptionByProduct($product)
 	{
@@ -202,7 +183,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @return String
+	 * @return string
 	 */
 	public function getPageKeywordsByProduct($product)
 	{
@@ -215,7 +196,7 @@ class catalog_ReferencingService extends BaseService
 	
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @return String
+	 * @return string
 	 */
 	public function getPathForUrlByProduct($product)
 	{
@@ -249,6 +230,7 @@ class catalog_ReferencingService extends BaseService
 		$substitutions['coderef'] = $product->getCodeReference();
 		return $substitutions;
 	}
+
 	
 	/**
 	 * Title in two parts.
@@ -282,7 +264,7 @@ class catalog_ReferencingService extends BaseService
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	private function getCurrentWebsiteLabel()
 	{
@@ -290,10 +272,119 @@ class catalog_ReferencingService extends BaseService
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	private function getCurrentWebsiteDescription()
 	{
 		return $this->getCurrentWebsite()->getDescription();
+	}
+	
+	// Deprecated Default implementation.
+		
+	/**
+	 * @deprecated (will be removed in 4.0) with no replacement
+	 */
+	public function getComparePageTitle($products)
+	{
+		$website = $this->getCurrentWebsite();
+		$shelfLabel = f_util_ArrayUtils::firstElement($products)->getShopPrimaryShelf($this->getCurrentShop())->getLabel();
+		$parameters = array('shelfLabel' => $shelfLabel, 'websiteLabel' => $website->getLabel());
+		return LocaleService::getInstance()->trans('m.catalog.frontoffice.compare-page-title', array('ucf'), $parameters);
+		
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) with no replacement
+	 */
+	public function getComparePageDescription($products)
+	{
+		$shelfLabel = f_util_ArrayUtils::firstElement($products)->getShopPrimaryShelf($this->getCurrentShop())->getLabel();
+		$productLabels = array();
+		foreach ($products as $product)
+		{
+			$productLabels[] = $product->getFullName();
+		}
+		$parameters = array('shelfLabel' => $shelfLabel, 'productsLabels' => implode(self::DESCRIPTION_SUBDOCUMENTS_SEPARATOR, $productLabels));
+		return LocaleService::getInstance()->trans('m.catalog.frontoffice.compare-page-description', array('ucf'), $parameters);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) with no replacement
+	 */
+	public function setStrategy($strategyClass = '')
+	{
+		throw new Exception("Deprected $strategyClass strategy use service injection");
+	}
+		
+	/**
+	 * @deprecated (will be removed in 4.0) use getPageKeywordsByShop instead
+	 */
+	public function getDefaultPageKeywordsByShop($shop)
+	{
+		return $this->getPageKeywordsByShop($shop);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPageKeywordsByShelf instead
+	 */
+	public function getDefaultPageKeywordsByShelf($shelf)
+	{
+		return $this->getPageKeywordsByShelf($shelf);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPathForUrlByShelf instead
+	 */
+	public function getDefaultPathForUrlByShelf($shelf)
+	{
+		return $this->getPathForUrlByShelf($shelf);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPageTitleByProduct instead
+	 */
+	public function getDefaultPageTitleByProduct($product)
+	{
+		return $this->getPageTitleByProduct($product);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPageDescriptionByProduct instead
+	 */
+	public function getDefaultPageDescriptionByProduct($product)
+	{
+		return $this->getPageDescriptionByProduct($product);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPageKeywordsByProduct instead
+	 */
+	public function getDefaultPageKeywordsByProduct($product)
+	{
+		return $this->getPageKeywordsByProduct($product);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getPathForUrlByProduct instead
+	 */
+	public function getDefaultPathForUrlByProduct($product)
+	{
+		return $this->getPathForUrlByProduct($product);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) with no replacement
+	 */
+	public function getDefaultComparePageTitle($products)
+	{
+		return $this->getComparePageTitle($products);
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) with no replacement
+	 */
+	public function getDefaultComparePageDescription($products)
+	{
+		return $this->getComparePageDescription($products);
 	}
 }

@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_BundleditemService
  * @package modules.catalog
+ * @method catalog_BundleditemService getInstance()
  */
 class catalog_BundleditemService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_BundleditemService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_BundleditemService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_bundleditem
 	 */
@@ -38,7 +21,7 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/bundleditem');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/bundleditem');
 	}
 	
 	/**
@@ -49,13 +32,13 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/bundleditem', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/bundleditem', false);
 	}
 	
 	
 	/**
 	 * @param catalog_persistentdocument_bundleditem $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function preInsert($document, $parentNodeId)
@@ -68,7 +51,7 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_bundleditem $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function postInsert($document, $parentNodeId)
@@ -118,14 +101,15 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 	 * @param catalog_persistentdocument_bundleditem $bundleditem
 	 * @param catalog_persistentdocument_price $itemsPrice
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return boolean
 	 */
-	public function appendPrice($bundleditem, $itemsPrice, $shop, $targetIds, $quantity)
+	public function appendPrice($bundleditem, $itemsPrice, $shop, $billingArea, $targetIds, $quantity)
 	{	
 		$product = 	$bundleditem->getProduct();
-		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $targetIds, $quantity * $bundleditem->getQuantity());
+		$price = $product->getDocumentService()->getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity * $bundleditem->getQuantity());
 		if ($price !== null)
 		{
 			$itemsPrice->setValueWithoutTax($itemsPrice->getValueWithoutTax() +  $price->getValueWithoutTax() * $bundleditem->getQuantity());
@@ -139,12 +123,12 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 			}
 			
 			$itemsPrice->setTaxCategory($price->getTaxCategory());
-			$itemsPrice->setCurrencyId($price->getCurrencyId());
 			return true;
 		}
 		else
 		{
-			Framework::warn(__METHOD__ . ' ' . var_export($bundleditem->getDefaultProduct(), true));
+			// Unlike a kit, a bundle may include a product without price and be displayed in the shop.
+			Framework::info(__METHOD__ . ' No price on product ' . $bundleditem->getProduct()->getId());
 		}
 		return false;
 	}

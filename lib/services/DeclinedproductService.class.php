@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_DeclinedproductService
- * @package catalog
+ * @package modules.catalog
+ * @method catalog_DeclinedproductService getInstance()
  */
 class catalog_DeclinedproductService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_DeclinedproductService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_DeclinedproductService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_declinedproduct
 	 */
@@ -38,7 +21,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/declinedproduct');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/declinedproduct');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/declinedproduct', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/declinedproduct', false);
 	}
 	
 	
@@ -70,7 +53,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId)
@@ -96,7 +79,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function postInsert($document, $parentNodeId)
@@ -112,7 +95,8 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$declination->setCodeReference($firstDeclination['codeReference']);
 			if (isset($firstDeclination['visual']))
 			{
-				$declination->setVisual($firstDeclination['visual']);
+				$visual = media_persistentdocument_media::getInstanceById($firstDeclination['visual']);
+				$declination->setVisual($visual);
 			}
 			if (isset($firstDeclination['stockQuantity']))
 			{
@@ -146,7 +130,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function preUpdate($document, $parentNodeId = null)
@@ -176,8 +160,23 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
 			foreach ($query->find() as $lockedPrice)
 			{
-				$lockForDocument = DocumentHelper::getDocumentInstance($lockedPrice->getLockedFor());
-				$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
+				$lockedForId = $lockedPrice->getLockedFor();
+				if (intval($lockedForId) > 0)
+				{
+					try 
+					{
+						$lockForDocument = DocumentHelper::getDocumentInstance($lockedForId);
+						if ($lockForDocument instanceof catalog_persistentdocument_price)
+						{
+							$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
+						}
+					}
+					catch (Exception $e)
+					{
+						//$lockedForId is not a valid document id
+						Framework::exception($e);
+					}
+				}
 			}
 			
 			// Delete existing prices on the declined product.
@@ -208,34 +207,32 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * WARN: This method does not do anything anymore
+	 * The job is now done in ProductdeclinationService::synchronizePropertiesByDeclinedProduct().
+	 * Please implement getSynchronizedPropertiesName() if you want to deactivate
+	 * or add some synchronization between declinedproduct and productdeclination.
+	 * Cf. http://www.rbschange.fr/tickets-42692.html
+	 * @deprecated will be removed in 4.0
 	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @return boolean
 	 */
 	protected function synchronizeFields($document)
 	{
-		$modified = false;
-		// Handle similar and complementary products synchronization.
-		$cms = catalog_ModuleService::getInstance();
-		if ($document->isPropertyModified('complementary') && $cms->isComplementarySynchroEnabled())
-		{
-			$this->synchronizeField($document, 'complementary');
-			$modified = true;
-		}
+		// Nothing there: if similar or complementary modified, this will be done by
+		// declination service because of "touchAllDeclinations" called in preUpdate()
 		
-		if ($document->isPropertyModified('similar') && $cms->isSimilarSynchroEnabled())
-		{
-			$this->synchronizeField($document, 'similar');
-			$modified = true;
-		}
-		return $modified;
+		return false;
 	}
 	
 	/**
+	 * WARN: is not called anymore
 	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param String $fieldName
+	 * @param string $fieldName
+	 * @deprecated will be removed in 4.0
 	 */
 	protected function synchronizeField($document, $fieldName)
 	{
+		// only there to preserve potential project specific code
 		$ucfirstFieldName = ucfirst($fieldName);
 		$oldIds = $document->{'get'.$ucfirstFieldName.'OldValueIds'}();
 		$currentProducts = $document->{'get'.$ucfirstFieldName.'Array'}();
@@ -306,8 +303,8 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 
 	public function getSynchronizedPropertiesName()
 	{
-		return array('shelf', 'brand', 'upsell',
-			'description', 'serializedattributes', 'shippingModeId', 
+		return array('shelf', 'brand', 'upsell', 'similar', 'complementary',
+			'description', 'shippingModeId', 
 			'pageTitle', 'pageDescription', 'pageKeywords');
 	}
 	
@@ -340,7 +337,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
 	 * @return integer[][]
 	 */	
-	protected function generateShowInListInfos($declinedProduct)
+	public function generateShowInListInfos($declinedProduct)
 	{
 		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct);
 		$axeVisible = $declinedProduct->getShowAxeInList();
@@ -402,7 +399,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param String $oldPublicationStatus
+	 * @param string $oldPublicationStatus
 	 * @return void
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
@@ -459,6 +456,34 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		return $result;
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @param integer $axeNumber
+	 * @return string|null
+	 */
+	public function getNavigationLabel($document, $declination = null, $axeNumber = null)
+	{
+		$label = parent::getNavigationLabel($document);
+		if ($declination instanceof catalog_persistentdocument_productdeclination)
+		{
+			if ($axeNumber === null)
+			{
+				$axeNumber = $document->getShowAxeInList();
+			}
+			else
+			{
+				$axeNumber = min($axeNumber, $document->countAxes());
+			}
+			
+			for ($i = 1; $i <= $axeNumber; $i++)
+			{
+				$label .= ' ' . $declination->getDocumentService()->getAxeLabel($declination, $i);
+			} 
+		}
+		return $label;
+	}
+	
 	//Back office functionnality
 	
 	/**
@@ -498,7 +523,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$data['nodes'][] = array(
 				'id' => $declination->getId(),
 				'langAvailable' => $langAvailable,
-				'label' => ($langAvailable ? $declination->getLabel() : ($declination->getVoLabel() . ' [' . f_Locale::translateUI('&modules.uixul.bo.languages.' . ucfirst($declination->getLang()) . ';') . ']')),
+				'label' => ($langAvailable ? $declination->getLabel() : ($declination->getVoLabel() . ' [' . LocaleService::getInstance()->trans('m.uixul.bo.languages.' . strtolower($declination->getLang()), array('ucf')) . ']')),
 				'codeReference' => $declination->getCodeReference(),
 				'stockQuantity' => $stSrv->getStockableDocument($declination)->getCurrentStockQuantity(),
 				'stockLevel' => $declination->getAvailability()
@@ -535,7 +560,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	{
 		try 
 		{
-			$this->tm->beginTransaction();
+			$this->getTransactionManager()->beginTransaction();
 			$declinationToDelete = array();
 			foreach ($document->getDeclinationArray() as $declination)
 			{
@@ -555,11 +580,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			{
 				$declination->delete();
 			}
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 			throw $e;
 		}
 	}
@@ -588,7 +613,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$compiled = $compiled && $declination->getCompiled();
 		}
 		
-		$data['properties']['compiled'] = $ls->transBO('f.boolean.' . ($compiled ? 'true' : 'false'), array('ucf'));
+		$data['properties']['compiled'] = $ls->trans('f.boolean.' . ($compiled ? 'true' : 'false'), array('ucf'));
 		
 		//TODO EHAU Alert on declination ?
 		$data['properties']['alertCount'] = catalog_AlertService::getInstance()->getPublishedCountByProduct($document);
@@ -615,7 +640,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 						$website = $compiledProduct->getWebsite();
 						$href = website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($compiledProduct, $website, $lang)->setArgSeparator('&')->getUrl();
 						$urlData[] = array(
-							'label' => $ls->transBO('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $website->getLabel())), 
+							'label' => $ls->trans('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $website->getLabel())), 
 							'href' => $href, 'class' => ($shop->isPublished() && $compiledProduct->isPublished()) ? 'link' : ''
 							);
 					}
@@ -677,6 +702,29 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_product $product
+	 * @param catalog_persistentdocument_shop $shop
+	 */
+	public function getListVisual($product, $shop)
+	{
+		// get visual from the product.
+		$visual = $product->getVisual();
+	
+		// ... or from shop
+		if ($visual === null && $shop !== null)
+		{
+			$visual = $shop->getDefaultListVisual();
+		}
+	
+		// ... or from module preferences
+		if ($visual === null)
+		{
+			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultListVisual');
+		}
+		return $visual;
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_declinedproduct $product
 	 * @param string $actionType
 	 * @param array $formProperties
@@ -697,13 +745,19 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function completeBOAttributes($document, &$attributes, $mode, $moduleName)
 	{
-		if (($mode & DocumentHelper::MODE_ITEM) || ($mode & DocumentHelper::MODE_CUSTOM))
+		if ($mode & DocumentHelper::MODE_CUSTOM || $mode & DocumentHelper::MODE_ITEM)
 		{
-			$visual = $document->getDefaultVisual();
-			if ($visual && $mode & DocumentHelper::MODE_ITEM) { $attributes['hasPreviewImage'] = true; }
-			if ($visual && $mode & DocumentHelper::MODE_CUSTOM)
+			$detailVisual = $document->getDefaultVisual();
+			if ($detailVisual)
 			{
-				$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($visual, "modules.uixul.backoffice/thumbnaillistitem");			
+				if ($mode & DocumentHelper::MODE_CUSTOM)
+				{
+					$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");			
+				}
+				if ($mode & DocumentHelper::MODE_ITEM)
+				{
+					$attributes['hasPreviewImage'] = true;
+				}
 			}
 		}
 	}

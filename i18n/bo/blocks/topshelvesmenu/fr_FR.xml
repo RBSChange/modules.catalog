@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.topshelvesmenu" lcid="fr_FR">
-  <key id="maxlevel">Niveau maximum</key>
-  <key id="maxlevel-help">niveau de profondeur du menu : lorsqu'il vaut 1 seul les rayons de premier niveau sont affichés, s'il vaut 2 les rayons de premier niveau et leurs sous-rayons directs sont affichés, etc ...</key>
+	<key id="maxlevel">Niveau maximum</key>
+	<key id="maxlevel-help">niveau de profondeur du menu : lorsqu'il vaut 1 seul les rayons de premier niveau sont affichés, s'il vaut 2 les rayons de premier niveau et leurs sous-rayons directs sont affichés, etc ...</key>
 </i18n>

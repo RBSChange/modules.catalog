@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor" lcid="en_GB">
-  <key id="common-properties">common properties</key>
-  <key id="first-declination">first variant</key>
-  <key id="second-declination">second variant</key>
-  <key id="url-for-website">URL for the {website} site</key>
-  <key id="add-bundleditems">Products to add</key>
-  <key id="add-kititems">Products to add</key>
-  <key id="additional-declination">Additional variants</key>
-  <key id="additional-declination-description">You will be able to add more variants later on.</key>
-  <key id="first-bundleditems">group products</key>
-  <key id="first-kititems">kit products</key>
-  <key id="master">Main</key>
-  <key id="reset-stock">erase the stock</key>
-  <key id="stock-label">Storage location</key>
-  <key id="suggest-products">Product suggestions</key>
-  <key id="tax-category">VAT categories</key>
-  <key id="update-success">Update succeeded.</key>
+	<key id="common-properties">common properties</key>
+	<key id="first-declination">first variant</key>
+	<key id="second-declination">second variant</key>
+	<key id="url-for-website">URL for the {website} site</key>
+	<key id="add-bundleditems">Products to add</key>
+	<key id="add-kititems">Products to add</key>
+	<key id="additional-declination">Additional variants</key>
+	<key id="additional-declination-description">You will be able to add more variants later on.</key>
+	<key id="first-bundleditems">group products</key>
+	<key id="first-kititems">kit products</key>
+	<key id="master">Main</key>
+	<key id="reset-stock">erase the stock</key>
+	<key id="stock-label">Storage location</key>
+	<key id="suggest-products">Product suggestions</key>
+	<key id="tax-category">VAT categories</key>
+	<key id="update-success">Update succeeded.</key>
 </i18n>

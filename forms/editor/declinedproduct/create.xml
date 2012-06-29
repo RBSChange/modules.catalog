@@ -5,10 +5,9 @@
 			<field name="label" />
 			<field name="codeReference" />
 			<field name="description" />
-			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+			<field name="visual" allowfile="true" mediafoldername="Inbox" />
 			<field name="brand" />
 		</section>
-		
 		<section labeli18n="m.catalog.bo.general.axes">
 			<field name="axe1" />
 			<field name="axe2" />
@@ -17,21 +16,14 @@
 		</section>
 	</section>
 	<section labeli18n="m.catalog.bo.doceditor.first-declination">
-		<field name="declinationLabel0" type="text" required="true"
-			labeli18n="m.catalog.document.productdeclination.label"
-			shorthelpi18n="m.catalog.document.productdeclination.label-help" />
-		<field name="declinationCodeReference0" type="text" required="true"
-			labeli18n="m.catalog.document.productdeclination.codereference"
-			shorthelpi18n="m.catalog.document.productdeclination.codereference-help" />
-		<field name="declinationVisual0" type="document" allow="modules_media_media"
-			moduleselector="media" labeli18n="m.catalog.document.productdeclination.visual"
-			shorthelpi18n="m.catalog.document.productdeclination.visual-help" />
-		<field name="declinationStockQuantity0" type="integer" labeli18n="m.catalog.document.productdeclination.stockquantity"
-			shorthelpi18n="m.catalog.document.productdeclination.stockquantity-help">
+		<field name="declinationLabel0" type="text" required="true" labeli18n="m.catalog.document.productdeclination.label" shorthelp="${trans:m.catalog.document.productdeclination.label-help,ucf,attr}" />
+		<field name="declinationCodeReference0" type="text" required="true" labeli18n="m.catalog.document.productdeclination.codereference" shorthelp="${trans:m.catalog.document.productdeclination.codereference-help,ucf,attr}" />
+		<field name="declinationVisual0" type="document" allow="modules_media_media" moduleselector="media" labeli18n="m.catalog.document.productdeclination.visual" shorthelp="${trans:m.catalog.document.productdeclination.visual-help,ucf,attr}" allowfile="true" mediafoldername="Inbox" />
+		<field name="declinationStockQuantity0" type="integer" labeli18n="m.catalog.document.productdeclination.stockquantity" shorthelp="${trans:m.catalog.document.productdeclination.stockquantity-help,ucf,attr}">
 			<constraint name="min" parameter="0" />
 		</field>
 	</section>
 	<section labeli18n="m.catalog.bo.doceditor.additional-declination">
-		<label value="${transui:m.catalog.bo.doceditor.additional-declination-description,attr,ucf}" />
+		<label value="${trans:m.catalog.bo.doceditor.additional-declination-description,ucf,attr}" />
 	</section>
 </panel>

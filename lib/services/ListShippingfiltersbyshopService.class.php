@@ -1,28 +1,12 @@
 <?php
 /**
- * @package module.catalog
+ * @package modules.catalog
+ * @method catalog_ListShippingfiltersbyshopService getInstance()
  */
-class catalog_ListShippingfiltersbyshopService extends BaseService
+class catalog_ListShippingfiltersbyshopService extends change_BaseService implements list_ListItemsService
 {
 	/**
-	 * @var catalog_ListShippingFiltersService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ListShippingFiltersService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @return array<list_Item>
+	 * @return list_Item[]
 	 */
 	public final function getItems()
 	{
@@ -44,16 +28,13 @@ class catalog_ListShippingfiltersbyshopService extends BaseService
 		$items = array();
 		foreach (catalog_ShippingfilterService::getInstance()->getByShop($shop) as $filter)
 		{
-			$items[] = new list_Item(
-				$filter->getLabel(),
-				$filter->getId()
-			);
+			$items[] = new list_Item($filter->getLabel(), $filter->getId());
 		}
 		return $items;
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public final function getDefaultId()
 	{

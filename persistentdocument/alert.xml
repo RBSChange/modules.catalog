@@ -1,19 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" 
-	model-version="1.0" backoffice-indexable="false" has-url="false">
-  <properties>
-    <property name="alertType" type="String" min-occurs="1"/>
-    <property name="productId" type="Integer" min-occurs="1"/>
-    <property name="websiteId" type="Integer" min-occurs="1"/>
-    <property name="email" type="String" min-occurs="1">
-      <constraint name="email" />
-    </property>
-    <property name="userId" type="Integer"/>
-    <property name="priceReference" type="Double"/>
-    <property name="pending" type="Boolean"/>
-    <property name="password" type="String"/>
-  </properties>
-  <statuses default="ACTIVE"/>
-  <serializedproperties/>
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" backoffice-indexable="false" has-url="false">
+	<properties>
+		<property name="alertType" type="String" min-occurs="1" />
+		<property name="productId" type="Integer" min-occurs="1" />
+		<property name="websiteId" type="Integer" min-occurs="1" />
+		<property name="email" type="String" min-occurs="1">
+			<constraint name="email" />
+		</property>
+		<property name="userId" type="Integer" />
+		<property name="priceReference" type="Double" />
+		<property name="pending" type="Boolean" />
+		<property name="password" type="String" />
+	</properties>
+	<statuses default="ACTIVE" />
+	<serializedproperties/>
 </document>

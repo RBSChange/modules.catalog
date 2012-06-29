@@ -5,8 +5,9 @@
  */
 class catalog_BlockProductItemAction extends website_BlockAction
 {
-	/* (non-PHPdoc)
-	 * @see modules/website/lib/mvc/website_BlockAction::getCacheKeyParameters()
+	/**
+	 * @param website_BlockActionRequest $request
+	 * @return array
 	 */
 	public function getCacheKeyParameters($request)
 	{
@@ -24,12 +25,11 @@ class catalog_BlockProductItemAction extends website_BlockAction
 				$keys['customerid'] = $customer->getId();
 			}
 		}
-		
 		return $keys;
 	}
 
-	/* (non-PHPdoc)
-	 * @see framework/f_mvc/f_mvc_Action::getCacheDependencies()
+	/**
+	 * @return array
 	 */
 	public function getCacheDependencies()
 	{
@@ -53,11 +53,10 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		return $deps;
 	}
 	
-	
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{
@@ -72,7 +71,20 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		{
 			$request->setAttribute('customer', null);
 		}
-		$request->setAttribute('product', $this->getDocumentParameter());
+		/* @var $product catalog_persistentdocument_product */
+		$product = $this->getDocumentParameter();
+		$request->setAttribute('product', $product);
+		
+		if ($displayConfig['useAddToCartPopin'])
+		{
+			$shop = $this->findParameterValue('shop');
+			$compiledProduct = $product->getDocumentService()->getPrimaryCompiledProductForShop($product, $shop);
+			$popinPageId = $compiledProduct->getPopinPageId();
+			if ($popinPageId)
+			{
+				$request->setAttribute('popinPageId', $popinPageId);
+			}
+		}
 		return ucfirst($request->getParameter('displayMode', 'list'));
 	}
 }

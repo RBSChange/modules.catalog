@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shelf" lcid="fr_FR">
-  <key id="document-name">rayon du catalogue</key>
-  <key id="edition-form-title">propriétés du rayon</key>
-  <key id="codeReference">code référence</key>
-  <key id="label">libellé</key>
-  <key id="label-help">champ texte  utilisé à la fois dans les sites et dans l’interface d’administration pour identifier le rayon.</key>
-  <key id="visual">visuel</key>
-  <key id="visual-help">image de la médiathèque RBS Change qui sera utilisée dans les listes pour illustrer le rayon.</key>
-  <key id="description">description</key>
-  <key id="description-help">champ texte riche qui permet de saisir une description du rayon pouvant être affichée dans la page d’accueil de la rubrique du site associée au rayon.</key>
-  <key id="pagetitle">titre de la page</key>
-  <key id="pagetitle-help">contenu utilisable comme substitution dans les champs « Titre de page » et « Description » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</key>
-  <key id="pagedescription">description de la page</key>
-  <key id="pagedescription-help">contenu utilisable comme substitution dans les champs « Titre de page » et « Description » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</key>
-  <key id="pagekeywords">mots-clés de la page</key>
-  <key id="pagekeywords-help">contenu utilisable comme substitution dans le champ « Mots-clés » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</key>
+	<key id="document-name">rayon du catalogue</key>
+	<key id="edition-form-title">propriétés du rayon</key>
+	<key id="codereference">code référence</key>
+	<key id="label">libellé</key>
+	<key id="label-help">champ texte	utilisé à la fois dans les sites et dans l’interface d’administration pour identifier le rayon.</key>
+	<key id="visual">visuel</key>
+	<key id="visual-help">image de la médiathèque RBS Change qui sera utilisée dans les listes pour illustrer le rayon.</key>
+	<key id="description">description</key>
+	<key id="description-help">champ texte riche qui permet de saisir une description du rayon pouvant être affichée dans la page d’accueil de la rubrique du site associée au rayon.</key>
+	<key id="pagetitle">titre de la page</key>
+	<key id="pagetitle-help">contenu utilisable comme substitution dans les champs « Titre de page » et « Description » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</key>
+	<key id="pagedescription">description de la page</key>
+	<key id="pagedescription-help">contenu utilisable comme substitution dans les champs « Titre de page » et « Description » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</key>
+	<key id="pagekeywords">mots-clés de la page</key>
+	<key id="pagekeywords-help">contenu utilisable comme substitution dans le champ « Mots-clés » des pages qui contiennent les blocs d’affichage « Liste contextuelle des rayons » ou « Liste contextuelle des produits ».</key>
 </i18n>

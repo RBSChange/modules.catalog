@@ -1,28 +1,10 @@
 <?php
 /**
- * catalog_KitService
  * @package modules.catalog
+ * @method catalog_KitService getInstance()
  */
 class catalog_KitService extends catalog_ProductService
 {
-	/**
-	 * @var catalog_KitService
-	 */
-	private static $instance;
-
-
-	/**
-	 * @return catalog_KitService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_kit
 	 */
@@ -39,7 +21,7 @@ class catalog_KitService extends catalog_ProductService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/kit');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/kit');
 	}
 
 	/**
@@ -50,12 +32,12 @@ class catalog_KitService extends catalog_ProductService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/kit', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/kit', false);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_kit $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId = null)
@@ -103,7 +85,7 @@ class catalog_KitService extends catalog_ProductService
 
 	/**
 	 * @param catalog_persistentdocument_kit $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function postUpdate($document, $parentNodeId = null)
@@ -185,27 +167,28 @@ class catalog_KitService extends catalog_ProductService
 	 *
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	public function getPriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
 		if (!in_array($kit->getId(), $targetIds))
 		{
 			$targetIds[] = $kit->getId();
 		}
-		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
+		return $this->calculatePriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_kit $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPricesByTargetIds($product, $shop, $targetIds)
+	public function getPricesByTargetIds($product, $shop, $billingArea, $targetIds)
 	{
 		throw new Exception('Not implemented');
 	}
@@ -213,50 +196,59 @@ class catalog_KitService extends catalog_ProductService
 	/**
 	 * @param catalog_persistentdocument_kit $kit
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_lockedprice
 	 */
-	public function getItemsPriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	public function getItemsPriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
-		return $this->calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity);
+		return $this->calculatePriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_kit $kit
-	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_shop $shop 
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_lockedprice
 	 */
-	protected function calculatePriceByTargetIds($kit, $shop, $targetIds, $quantity = 1)
+	protected function calculatePriceByTargetIds($kit, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
-		$kitPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
+		$kitPrice = catalog_LockedpriceService::getInstance()->getNewDocumentInstance();
+		$kitPrice->setLockedFor($kit->getId());
 		$kitPrice->setToZero();
-		$taxCode = false;
+		$taxCategory = false;
 
 		$kitPrice->setProductId($kit->getId());
 		$kitPrice->setShopId($shop->getId());
+		$kitPrice->setBillingAreaId($billingArea->getId());
 		$kis = catalog_KititemService::getInstance();
 		foreach ($kit->getKititemArray() as $kititem)
 		{
-			if (!$kis->appendPrice($kititem, $kitPrice, $shop, $targetIds, $quantity))
+			if (!$kis->appendPrice($kititem, $kitPrice, $shop, $billingArea, $targetIds, $quantity))
 			{
 				return null;
 			}
-			if ($taxCode === false)
+			if ($taxCategory === false)
 			{
-				$taxCode = $kitPrice->getTaxCategory();
+				$taxCategory = $kitPrice->getTaxCategory();
 			}
-			else if ($taxCode != $kitPrice->getTaxCategory())
+			else if ($taxCategory != $kitPrice->getTaxCategory())
 			{
-				$taxCode = '0';
+				$taxCategory = '0';
 			}
 		}
-		$kitPrice->setTaxCategory($taxCode);
+		$kitPrice->setTaxCategory($taxCategory);
 		if ($kitPrice->getValueWithoutTax() >= $kitPrice->getOldValueWithoutTax())
 		{
-			$kitPrice->removeDiscount();
+			foreach ($kitPrice->getPricePartArray() as $pricePart)
+			{
+				/* @var $pricePart catalog_persistentdocument_lockedprice */
+				$pricePart->setOldValueWithoutTax(null);
+			}
+			$kitPrice->setOldValueWithoutTax(null);
 		}
 		return $kitPrice;
 	}
@@ -327,7 +319,7 @@ class catalog_KitService extends catalog_ProductService
 	 *
 	 * @param catalog_persistentdocument_kit $product
 	 * @param catalog_persistentdocument_shop $shop
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @param array $properties
 	 * @return catalog_persistentdocument_product
 	 */
@@ -483,7 +475,8 @@ class catalog_KitService extends catalog_ProductService
 		{
 			if ($kititem instanceof catalog_persistentdocument_kititem)
 			{
-				$kititemPrice = $kititem->getDocumentService()->getKititemPrice($kititem, $shop, $targetIds, $orderLine->getQuantity());
+				$billingArea = $shop->getCurrentBillingArea();
+				$kititemPrice = $kititem->getDocumentService()->getKititemPrice($kititem, $shop, $billingArea, $targetIds, $orderLine->getQuantity());
 				$kititemProduct = $kititem->getDefaultProduct();
 				$quantity = $kititem->getQuantity() * $orderLine->getQuantity();
 				$netAmount = $kititemPrice->getValueWithTax() * $quantity;
@@ -529,5 +522,71 @@ class catalog_KitService extends catalog_ProductService
 			'brand' => 'brand/label',
 			'codeReference' => 'codeReference'
 		));
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_product $product
+	 * @return integer[]
+	 */
+	public function getDisplayableIdsByContainedProduct($shop, $product)
+	{
+		$query = $this->createStrictQuery()->add(Restrictions::published())->add(Restrictions::eq('kititem.product', $product));
+		$query->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));	
+		return $query->setProjection(Projections::property('id'))->findColumn('id');
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $product
+	 * @return boolean
+	 */
+	public function isConfigurable($product)
+	{
+		foreach ($product->getKititemArray() as $kitItem)
+		{
+			/* @var $kitItem catalog_persistentdocument_kititem */
+			if ($kitItem->getProduct() instanceof catalog_DeclinableProduct)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kit $document
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return website_persistentdocument_page
+	 */
+	public function getConfigurationPage($document, $shop = null)
+	{
+		if ($document->isPublished())
+		{
+			// Look for a configuration page in current topic.
+			$currentPage = website_PageService::getInstance()->getCurrentPage();
+			$page = TagService::getInstance()->getDocumentBySiblingTag('functional_catalog_configurate-kit', $currentPage, false);
+			if ($page instanceof website_persistentdocument_page && $page->isPublished())
+			{
+				return $page;
+			}
+			
+			// Look for a page in the topic of the product's primary shelf.
+			if (!($shop instanceof catalog_persistentdocument_shop))
+			{
+				$shop = catalog_ShopService::getInstance()->getCurrentShop();
+			}
+			if ($shop instanceof catalog_persistentdocument_shop && $shop->isPublished())
+			{
+				$cp = $this->getPrimaryCompiledProductForShop($document, $shop);
+				if ($cp)
+				{
+					return website_PageService::getInstance()->createQuery()->add(Restrictions::published())
+						->add(Restrictions::childOf($cp->getTopicId()))
+						->add(Restrictions::hasTag('functional_catalog_configurate-kit'))
+						->findUnique();
+				}
+			}
+		}
+		return null;
 	}
 }

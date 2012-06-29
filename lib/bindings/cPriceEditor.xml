@@ -9,9 +9,9 @@
 					<xul:spinbuttons anonid="buttons" xbl:inherits="disabled,hidden=hidespinbuttons" 
 						style="margin-left:-5px;margin-top:3px;margin-bottom:3px;" />
 					<xul:label xbl:inherits="value=currency" />
-					<xul:label value="${transui:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
-					<xul:label value="${transui:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
-					<xul:label value="${transui:m.catalog.bo.doceditor.tax-category,ucf,lab,space}" xbl:inherits="hidden=hideCategory" />
+					<xul:label value="${trans:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
+					<xul:label value="${trans:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
+					<xul:label value="${trans:m.catalog.bo.doceditor.tax-category,ucf,lab,space}" xbl:inherits="hidden=hideCategory" />
 					<xul:menulist anonid="categorySelector" xbl:inherits="disabled,hidden=hideCategory" >
 						<xul:menupopup>
 						</xul:menupopup>
@@ -64,7 +64,7 @@
 						for (var tcat in jsonVal.taxCategories)
 						{
 							var catInfo = jsonVal.taxCategories[tcat];
-							catSelector.appendItem(catInfo.label, tcat);
+							catSelector.appendItem(tcat + ' (' + catInfo.label + ')', tcat);
 						}
 						catSelector.value = this.getAttribute('taxCategory');
 					}
@@ -128,7 +128,7 @@
 					var str = this.getValueForConstraintChecking(val);
 					if (str.length > 0 && !str.match(/^[\-+]?\d{0,8}([\.,]\d*)?$/))
 					{
-						return "${transui:f.validation.validator.float.message,ucf,js}".replace('{field}', this.label);
+						return "${trans:f.validation.validator.float.message,ucf,js}".replace('{field}', this.label);
 					}
 					return null;
 				]]></body>
@@ -273,7 +273,7 @@
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="button-new" oncommand="createNew()" label="${trans:m.catalog.bo.doceditor.panel.prices.New,ucf,attr}" image="{IconsBase}/small/add.png"/>
+					<xul:button anonid="button-new" oncommand="createNew()" label="${trans:m.catalog.bo.doceditor.panel.prices.new,ucf,attr}" image="{IconsBase}/small/add.png"/>
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:box anonid="price-filters-box">
@@ -284,19 +284,23 @@
 							</xul:columns>
 							<xul:rows>
 								<xul:row>
-									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Shop,ucf,attr}" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.shop,ucf,attr}" />
 									<xul:cfield anonid="field_shop" name="shop" fieldtype="dropdownlist" hidehelp="true" />
 								</xul:row>
 								<xul:row>
-									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Date,ucf,attr}" />
+									<xul:label value="${trans:m.catalog.document.billingarea.document-name,ucf,attr}" />
+									<xul:cfield anonid="field_billingArea" name="billingArea" fieldtype="dropdownlist" hidehelp="true" />	
+								</xul:row>
+								<xul:row>
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.date,ucf,attr}" />
 									<xul:cfield anonid="field_date" name="date" fieldtype="datetime" hidehelp="true" hidetime="true" />
 								</xul:row>
 								<xul:row anonid="row_targetType">
-									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Target-type,ucf,attr}" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.target-type,ucf,attr}" />
 									<xul:cfield anonid="field_targetType" name="targetType" fieldtype="dropdownlist" hidehelp="true" />
 								</xul:row>
 								<xul:row anonid="row_targetId">
-									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.Target-id,ucf,attr}" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.panel.prices.target-id,ucf,attr}" />
 									<xul:deck anonid="field_targetIdDeck">
 										<xul:cfield anonid="field_targetIdPicker" name="targetIdPicker" fieldtype="document" hidehelp="true" disabled="true" allow="modules_customer_customer" moduleselector="customer" />
 										<xul:cfield anonid="field_targetIdSelect" name="targetIdSelect" fieldtype="dropdownlist" hidehelp="true" disabled="true" />
@@ -316,20 +320,12 @@
 			</xul:vbox>
 		</content>
 		<implementation>	
-			<field name="mFieldNames">['shop', 'date', 'targetType', 'pricelist']</field>
-			
+			<field name="mFieldNames">['shop', 'billingArea', 'date', 'targetType', 'pricelist']</field>	
+
 			<constructor><![CDATA[
 				// Datepicker requires an id.
 				var rand = Math.round(Math.random() * 100000); 
-				this.getElementByAnonId('field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);
-
-				// Check customer module existence.
-				var controller = getController();
-    			if (!controller.checkModuleVersion('customer', '3.0.0'))
-				{
-					this.getElementByAnonId('row_targetType').setAttribute('collapsed', 'true');
-					this.getElementByAnonId('row_targetId').setAttribute('collapsed', 'true');
-				}			
+				this.getElementByAnonId('field_date').setAttribute('id', 'cPricesPanel_field_date_'+rand);	
 			]]></constructor>
 			
 			<property name="modified">
@@ -342,9 +338,10 @@
 					//wCore.debug('cPricesList.createNew');
 					var productId = this.documentEditor.documentid;
 					var shopId = this.fields.shop.value;
+					var billingAreaId = this.fields.billingArea.value;
 					var targetIdNode = this.getElementByAnonId('field_targetIdDeck').selectedPanel;
 					var targetId = (!targetIdNode.hasAttribute("disabled")) ? targetIdNode.value : null;
-					var uri = ['catalog', 'createPriceFromProduct', 'modules_catalog_price', productId, shopId, targetId].join(',');
+					var uri = ['catalog', 'createPriceFromProduct', 'modules_catalog_price', productId, shopId, billingAreaId, targetId].join(',');
 					wCore.debug('createNew: ' + uri);
 					openActionUri(uri);
 				]]></body>
@@ -368,6 +365,10 @@
 					if (this.hasAttribute('shop'))
 					{
 						parameters.shop = this.getAttribute('shop');
+					}
+					if (this.hasAttribute('billingArea'))
+					{
+						parameters.billingArea = this.getAttribute('billingArea');
 					}
 					if (this.hasAttribute('date'))
 					{
@@ -421,14 +422,25 @@
 						this.getElementByAnonId('button-new').setAttribute('hidden', 'false');
 															
 						var shops = result.contents.shops;
+						var billingAreaNode = this.fields.billingArea;
+						billingAreaNode.removeItems();
+						
 						var shopNode = this.fields.shop;
 						shopNode.removeItems();
 						for (var i in shops)
 						{
-							var  shop = shops[i];
+							var shop = shops[i];
 							shopNode.appendItem(shop.label, shop.id);
 							shopNode.setAttribute('contains', shop.contains ? 'true' : 'false');
 							shopNode.setAttribute('published', shop.published ? 'true' : 'false');
+							if (shop.id == result.contents.shop)
+							{
+								for (var z in shop.billingAreas)
+								{
+									var ba = shop.billingAreas[z];
+									billingAreaNode.appendItem(ba.label, ba.id);
+								}
+							}
 						}
 						
 						var targetTypes = result.contents.targetTypes;
@@ -496,6 +508,7 @@
 						this.setInitialValues(this.fields, result.contents);
 					
 						this.setAttribute('shop', result.contents.shop);
+						this.setAttribute('billingArea', result.contents.billingArea);
 						this.setAttribute('date', result.contents.date);
 						this.setAttribute('targetType', result.contents.targetType);
 						this.setAttribute('targetId', targetId);
@@ -525,6 +538,7 @@
 							}
 						}
 						this.removeAttribute('shop');
+						this.removeAttribute('billingArea');
 						this.removeAttribute('date');
 						this.removeAttribute('targetType');
 						this.removeAttribute('targetId');	
@@ -544,6 +558,11 @@
 					{
 						case 'shop':
 							this.setAttribute('shop', event.originalTarget.value);
+							this.removeAttribute('billingArea');
+							this.refresh();
+							break;
+						case 'billingArea':
+							this.setAttribute('billingArea', event.originalTarget.value);
 							this.refresh();
 							break;
 						case 'date':
@@ -577,13 +596,13 @@
 				var resultsCount = event.originalTarget.getRowCount();			
 				if (resultsCount == 0)
 				{
-					node.setAttribute('value', "${trans:m.uixul.bo.general.search.NoResults,ucf,js}");
+					node.setAttribute('value', "${trans:m.uixul.bo.general.search.noresults,ucf,js}");
 				}
 				else
 				{
-					node.setAttribute('value', "${trans:m.uixul.bo.general.search.SearchResultCount,lab,ucf,js}" + " " + resultsCount);
+					node.setAttribute('value', "${trans:m.uixul.bo.general.search.searchresultcount,lab,ucf,js}" + " " + resultsCount);
 				}
-				//node.setAttribute('value', "${trans:m.uixul.bo.general.search.FirstHundred,ucf,js}" + " (" +"${trans:m.uixul.bo.general.search.TotalSearchResultCount,lab,ucf,js}" + totalResultsCount + " )");			
+				//node.setAttribute('value', "${trans:m.uixul.bo.general.search.firsthundred,ucf,js}" + " (" +"${trans:m.uixul.bo.general.search.totalsearchresultcount,lab,ucf,js}" + totalResultsCount + " )");			
 				event.stopPropagation();
 			]]></handler>			
 		</handlers>
@@ -646,6 +665,16 @@
 				]]></body>
 			</method>
 			
+			<method name="execute_createFrom">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var parentId = this.getPricePanel().documentEditor.documentid;
+					var uri = ['catalog', 'createPriceFromPrice', 'modules_catalog_price', parentId, rowData.id].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
 			<method name="sortRowsBy">
 				<parameter name="name" />
 				<parameter name="dir" />
@@ -670,6 +699,15 @@
 				<body><![CDATA[					
 					if (name == 'actionrow')
 					{
+						if (dataRow.allowDeletion)
+						{
+							cell.removeAttribute('hideDelete');
+						}
+						else
+						{
+							cell.setAttribute('hideDelete', 'true');
+						}
+						
 						if (dataRow.allowDiscountCreation)
 						{
 							cell.removeAttribute('hideAddDiscount');
@@ -678,6 +716,7 @@
 						{
 							cell.setAttribute('hideAddDiscount', 'true');
 						}
+						
 						if (dataRow.allowDiscountRemoval)
 						{
 							cell.removeAttribute('hideRemoveDiscount');
@@ -715,21 +754,21 @@
 					<xul:row class="head" anonid="head-row">
 						<xul:label name="status" value="" />
 						<xul:label name="valueWithTax" sortonfield="true"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-value,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-value,ucf,attr}" />
 						<xul:label name="isDiscountLabel" sortonfield="true"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-is-discount,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-is-discount,ucf,attr}" />
 						<xul:label name="priority" sortonfield="true"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-priority,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-priority,ucf,attr}" />
 						<xul:label name="targetLabel"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-target,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-target,ucf,attr}" />
 						<xul:label name="thresholdMin" sortonfield="true"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-threshold-min,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-threshold-min,ucf,attr}" />
 						<xul:label name="startpublicationdate"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-start-publication-date,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-start-publication-date,ucf,attr}" />
 						<xul:label name="endpublicationdate"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-end-publication-date,ucf,attr}" />
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-end-publication-date,ucf,attr}" />
 						<xul:label name="actionrow"
-							value="${trans:m.catalog.bo.doceditor.panel.prices.Column-actions,ucf,attr}" />						
+							value="${trans:m.catalog.bo.doceditor.panel.prices.column-actions,ucf,attr}" />						
 					</xul:row>
 				</xul:rows>
 			</xul:grid>		
@@ -750,10 +789,16 @@
 	<binding id="cPricesListActionCell">
 		<content>
 			<xul:toolbar class="actions">
-				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${trans:m.uixul.bo.actions.Edit,ucf,attr}" />
-				<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${trans:m.uixul.bo.actions.Delete,ucf,attr}" />
-				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png" tooltiptext="${trans:m.catalog.bo.actions.Add-discount,ucf,attr}" />
-				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png" tooltiptext="${trans:m.catalog.bo.actions.Remove-discount,ucf,attr}" />
+				<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png"
+					tooltiptext="${trans:m.uixul.bo.actions.edit,ucf,attr}" />
+				<xul:toolbarbutton action="delete" xbl:inherits="hidden=hideDelete" image="{IconsBase}/small/delete.png"
+					tooltiptext="${trans:m.uixul.bo.actions.delete,ucf,attr}" />
+				<xul:toolbarbutton action="addDiscount" xbl:inherits="hidden=hideAddDiscount" image="{IconsBase}/small/discount-add.png"
+					tooltiptext="${trans:m.catalog.bo.actions.add-discount,ucf,attr}" />
+				<xul:toolbarbutton action="removeDiscount" xbl:inherits="hidden=hideRemoveDiscount" image="{IconsBase}/small/discount-remove.png"
+					tooltiptext="${trans:m.catalog.bo.actions.remove-discount,ucf,attr}" />
+				<xul:toolbarbutton action="createFrom" image="{IconsBase}/small/duplicate.png"
+					tooltiptext="${trans:m.catalog.bo.actions.create-from-this,ucf,attr}" />
 			</xul:toolbar>
 		</content>
 	</binding>
@@ -1013,7 +1058,7 @@
 		<content>
 			<xul:vbox flex="1">
 				<xul:hbox class="wizardTitle">
-					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Title,ucf,attr}" />
+					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.title,ucf,attr}" />
 					<xul:spacer flex="1" />
 					<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" />
 				</xul:hbox>
@@ -1035,35 +1080,35 @@
 							</xul:columns>
 							<xul:rows anonid="document-rows">
 								<xul:row align="center">
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-value,ucf,attr}" control="cAddDiscountOnPriceDialog_discountValue" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.discount-value,ucf,attr}" control="cAddDiscountOnPriceDialog_discountValue" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountValue" anonid="discountValue" name="discountValue" required="true" fieldtype="price" hidehelp="true">
 										<xul:cconstraint name="min" parameter="0" />
 									</xul:cfield>
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Current-value,ucf,attr}" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.current-value,ucf,attr}" />
 									<xul:hbox>
 										<xul:label id="cAddDiscountOnPriceDialog_currentValue" xbl:inherits="value=referenceValue" hidden="true" />
 										<xul:label xbl:inherits="xbl:text=currentValue" class="allow-text-selection" />
 										<xul:label xbl:inherits="xbl:text=currentCurrency" class="allow-text-selection" />
-										<xul:label value="${transui:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
-										<xul:label value="${transui:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
+										<xul:label value="${trans:m.catalog.document.price.withtax}" xbl:inherits="hidden=editHT"/>
+										<xul:label value="${trans:m.catalog.document.price.withouttax}" xbl:inherits="hidden=editTTC"/>
 									</xul:hbox>
 								</xul:row>
 								<xul:row align="center">
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-detail,ucf,attr}" control="cAddDiscountOnPriceDialog_discountDetail" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.discount-detail,ucf,attr}" control="cAddDiscountOnPriceDialog_discountDetail" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountDetail" anonid="discountDetail" name="discountDetail" fieldtype="text" hidehelp="true" />
 									<xul:spacer />
 									<xul:spacer />
 								</xul:row>
 								<xul:row align="center">
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-start-date,ucf,attr}" control="cAddDiscountOnPriceDialog_discountStartDate" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.discount-start-date,ucf,attr}" control="cAddDiscountOnPriceDialog_discountStartDate" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountStartDate" anonid="discountStartDate" name="discountStartDate" fieldtype="datetime" required="true" hidehelp="true" timeoffset="30" initialvalue="" />
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Current-start-date,ucf,attr}" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.current-start-date,ucf,attr}" />
 									<xul:label xbl:inherits="xbl:text=currentStartDate" class="allow-text-selection" />
 								</xul:row>
 								<xul:row align="center">
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Discount-end-date,ucf,attr}" control="cAddDiscountOnPriceDialog_discountEndDate" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.discount-end-date,ucf,attr}" control="cAddDiscountOnPriceDialog_discountEndDate" />
 									<xul:cfield id="cAddDiscountOnPriceDialog_discountEndDate" anonid="discountEndDate" name="discountEndDate" fieldtype="datetime" required="true" hidehelp="true" timeoffset="30" initialvalue="" />
-									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.Current-end-date,ucf,attr}" />
+									<xul:clabel value="${trans:m.catalog.bo.doceditor.dialog.add-discount-on-price.current-end-date,ucf,attr}" />
 									<xul:label xbl:inherits="xbl:text=currentEndDate" class="allow-text-selection" />
 								</xul:row>
 							</xul:rows>
@@ -1072,7 +1117,7 @@
 					<xul:spacer flex="1" />
 				</xul:scrollbox>
 				<xul:hbox pack="center">
-					<xul:button anonid="submit" image="{IconsBase}/small/check.png" oncommand="addDiscount();" label="${trans:m.uixul.bo.dialog.Apply,ucf,attr}" />
+					<xul:button anonid="submit" image="{IconsBase}/small/check.png" oncommand="addDiscount();" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" />
 				</xul:hbox>
 			</xul:vbox>
 		</content>

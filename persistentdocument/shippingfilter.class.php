@@ -17,8 +17,9 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 		if ($this->taxDocumentId === null)
 		{
 			$shop = $this->getShop();
+			$billingArea = $shop->getCurrentBillingArea();
 			$taxZone = catalog_TaxService::getInstance()->getCurrentTaxZone($shop);
-			$taxDocument = catalog_TaxService::getInstance()->getTaxDocument($shop->getId(), $this->getTaxCategory(), $taxZone);
+			$taxDocument = catalog_TaxService::getInstance()->getTaxDocumentByKey($billingArea->getId(), $this->getTaxCategory(), $taxZone);
 			if ($taxDocument === null)
 			{
 				throw new Exception('Tax document not found');
@@ -50,79 +51,46 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 		}
 		return $this->getValueWithoutTax();
 	}
-	
+		
 	/**
 	 * @return string
 	 */
-	public function getTaxCode()
-	{
-		return  $this->getTax()->getCode();
-	}
-	
 	public function getFormattedValueWithTax()
 	{
-		return $this->getShop()->formatPrice($this->getValueWithTax());
+		return $this->getShop()->getCurrentBillingArea()->formatPrice($this->getValueWithTax());
 	}
 	
 	//Back office editor
+
+	/**
+	 * @return string
+	 */
+	public function getBillingAreaColumnLabel()
+	{
+		$ba = $this->getBillingArea();
+		return $ba ? $ba->getTreeNodeLabel() : '-';
+	}
+	
 	/**
 	 * @return string
 	 */
 	public function getBoValueJSON()
 	{
-		$valueHT = $this->getValueWithoutTax();
-		
-		$shop = $this->getShop();
-		$taxZone = $shop->getBoTaxZone();
-		$currencyDoc = catalog_CurrencyService::getInstance()->getByCode($shop->getCurrencyCode());
-		
-		$editTTC = $taxZone !== null;
-		$taxCategory = $this->getTaxCategory();
-		$taxCategories = catalog_TaxService::getInstance()->getBoTaxeInfoForShop($this->getShop());
-		if ($taxZone !== null && $valueHT > 0)
-		{
-			$valueTTC = catalog_PriceFormatter::getInstance()->round($valueHT * (1 + $taxCategories[$taxCategory]['rate']), $currencyDoc->getCode());
-		}
-		else
-		{
-			$valueTTC = $valueHT;
-		}
-		
-		$array = array('value' => $editTTC ? $valueTTC : $valueHT, 'valueTTC' => $valueTTC, 'valueHT' => $valueHT , 'editTTC' => $editTTC, 'taxCategory' => $taxCategory, 
-			'taxCategories' => $taxCategories, 'currency' => $currencyDoc->getSymbol(), 'currencyCode' => $currencyDoc->getCode());
-		
+		$array = catalog_BillingareaService::getInstance()->buildBoPriceEditInfos($this->getValueWithoutTax(), $this->getShop(), $this->getTaxCategory());
 		return JsonService::getInstance()->encode($array);
 	}
 	
 	/**
-	 * @example 12.56,4
-	 * @param string $value
+	 * @param string $value for example 12.56,4
 	 */
 	public function setBoValueJSON($value)
 	{
-		$parts = explode(',', $value);
-		if (count($parts) != 2 || $parts[0] == '' || $parts[1] == '')
-		{
-			$this->setTaxCategory(null);
-			return;
-		}
-		$this->setTaxCategory($parts[1]);
-		$shop = $this->getShop();
-		$taxZone = $shop->getBoTaxZone();
-		if ($taxZone === null)
-		{
-			$valueHT = doubleval($parts[0]);
-		}
-		else
-		{
-			$rate = catalog_TaxService::getInstance()->getTaxRate($shop->getId(), $this->getTaxCategory(), $taxZone);
-			$valueHT = doubleval($parts[0]) / (1 + $rate);
-		}
-		$this->setValueWithoutTax($valueHT);
+		list($valueWithoutTax, $taxCategory) = catalog_BillingareaService::getInstance()->parseBoPriceEditInfos($value, $this->getShop());
+		$this->setTaxCategory($taxCategory);
+		$this->setValueWithoutTax($valueWithoutTax);
 	}
 
 	/**
-	 * 
 	 * @param order_CartInfo $cartInfo
 	 * @return shipping_persistentdocument_mode
 	 */
@@ -160,5 +128,16 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 			return order_persistentdocument_fees::getInstanceById($this->getFeesId());
 		}
 		return null;
-	}	
+	}
+	
+
+	// DEPRECATED
+	
+	/**
+	 * @deprecated
+	 */
+	public function getTaxCode()
+	{
+		return  $this->getTax()->getCode();
+	}
 }

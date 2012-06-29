@@ -1,8 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.attributefolder" lcid="fr_FR">
-  <key id="document-name">attributefolder</key>
-  <key id="label">label</key>
-  <key id="label-help">label-help</key>
-  <key id="serializedattributes">serializedattributes</key>
-  <key id="serializedattributes-help">serializedattributes-help</key>
+	<include id="m.generic.document.document" />
+	<key id="document-name">Attributs</key>
 </i18n>

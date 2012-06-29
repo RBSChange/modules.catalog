@@ -22,7 +22,6 @@
 			<constructor><![CDATA[
 				this.extendMethod("fireInitializeComplete", this.fireInitializeCompleteExtend);
 			]]></constructor>
-
 			<method name="fireInitializeCompleteExtend">
 				<parameter name="result" />
 				<body><![CDATA[
@@ -45,7 +44,6 @@
 					}
 				]]></body>
 			</method>
-			
 			<method name="onComplementaryCountChange">
 				<parameter name="field" />
 				<body><![CDATA[
@@ -61,7 +59,6 @@
 					}
 				]]></body>
 			</method>
-			
 			<method name="onSimilarCountChange">
 				<parameter name="field" />
 				<body><![CDATA[

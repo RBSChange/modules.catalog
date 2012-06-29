@@ -23,13 +23,14 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 		{
 			try 
 			{
-				return DocumentHelper::getDocumentInstance($userId, 'modules_users/user');
+				return DocumentHelper::getDocumentInstance($userId, 'modules_users/frontenduser');
 			}
 			catch (Exception $e)
 			{
-				if (Framework::isInfoEnabled())
+				// User doesn't exist any more...
+				if (Framework::isDebugEnabled())
 				{
-					Framework::exception($e);
+					Framework::debug(__METHOD__ . ' ' . $e->getMessage());
 				}
 			}
 		}
@@ -101,7 +102,7 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	 */
 	public function getBlockTitle()
 	{
-		return LocaleService::getInstance()->transFO('m.catalog.frontoffice.notifiy-me-for-' . $this->getAlertType(), array('ucf'));
+		return LocaleService::getInstance()->trans('m.catalog.frontoffice.notifiy-me-for-' . $this->getAlertType(), array('ucf'));
 	}
 	
 	/**
@@ -109,6 +110,6 @@ class catalog_persistentdocument_alert extends catalog_persistentdocument_alertb
 	 */
 	public function getAlertTypeLabel()
 	{
-		return LocaleService::getInstance()->transFO('m.catalog.frontoffice.alert-on-' . $this->getAlertType() . '-for', array('ucf'));
+		return LocaleService::getInstance()->trans('m.catalog.frontoffice.alert-on-' . $this->getAlertType() . '-for', array('ucf'));
 	}
 }

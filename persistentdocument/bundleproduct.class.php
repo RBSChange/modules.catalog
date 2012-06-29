@@ -9,7 +9,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	/**
 	 * @see catalog_persistentdocument_product::getDetailBlockName()
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{
@@ -17,21 +17,21 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	}
 	
 	/**
-	 * @see catalog_persistentdocument_product::getAdditionnalVisualArray()
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
-	public function getAdditionnalVisualArray()
+	public function getAllVisuals($shop)
 	{
-		$result = array();
-		foreach ($this->getBundleditemArray() as $bundleditem) 
+		$result = parent::getAllVisuals($shop);
+		foreach ($this->getBundleditemArray() as $bundleditem)
 		{
 			$media = $bundleditem->getProduct()->getVisual();
 			if ($media !== null)
 			{
-				$result[$media->getId()] = $media;
+				$result[] = $media;
 			}
 		}
-		return array_values($result);
+		return array_unique($result);
 	}
 
 	/**
@@ -40,8 +40,7 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	private $newBundledItemQtt = 1;
 	
 	/**
-	 * @example "4526,785445,2355"
-	 * @var string
+	 * @var string for example "4526,785445,2355" 
 	 */
 	private $newBundledItemProducts = null;
 	
@@ -120,8 +119,8 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 				'productType' => str_replace('/', '_', $product->getDocumentModelName()),
 				'productId' => $product->getId(),
 				'satusOk' => $satusOk ? '': 'Non disponible',
-			    'label' => $label,
-			    'qtt' => $bundledItem->getQuantity(),
+				'label' => $label,
+				'qtt' => $bundledItem->getQuantity(),
 			);
 		}
 		return JsonService::getInstance()->encode($result);
@@ -228,31 +227,39 @@ class catalog_persistentdocument_bundleproduct extends catalog_persistentdocumen
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getItemsPrice($shop, $customer, $quantity = 1)
+	public function getItemsPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
 		$key = $shop->getId() . '.' . ($customer ? $customer->getId() : '0') . '.' . $quantity;
 		if (!isset($this->itemsPrices[$key]))
 		{
 			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $targetIds, $quantity);
+			$this->itemsPrices[$key] = $this->getDocumentService()->getItemsPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
 		}
 		return $this->itemsPrices[$key];
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_price|null
 	 */
-	public function getPriceDifference($shop, $customer, $quantity = 1)
+	public function getPriceDifference($shop, $billingArea, $customer, $quantity = 1)
 	{
-		$price1 = $this->getItemsPrice($shop, $customer, $quantity);
-		$price2 = $this->getPrice($shop, $customer, $quantity);
+		$price1 = $this->getItemsPrice($shop, $billingArea, $customer, $quantity);
+		// Unlike a kit, a bundle may include a product without price and be displayed in the shop. 
+		// In this case, price difference can't be calculated.
+		if ($price1 === null)
+		{
+			return null;
+		}
+		$price2 = $this->getPrice($shop, $billingArea, $customer, $quantity);
 		return catalog_PriceService::getInstance()->getPriceDifference($price1, $price2);
 	}
 

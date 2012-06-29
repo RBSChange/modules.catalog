@@ -4,31 +4,56 @@
  * @package modules.catalog
  */
 class catalog_BlockProductCrossSellingListAction extends catalog_BlockProductlistBaseAction
-{	
+{
 	/**
 	 * @param f_mvc_Response $response
-	 * @return catalog_persistentdocument_product[]
+	 * @return integer[]
 	 */
-	protected function getProductArray($request)
+	protected function getProductIdArray($request)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-    	$product = $this->getDocumentParameter();
+		$product = $this->getDocumentParameter();
 		if (!($product instanceof catalog_persistentdocument_product))
 		{
 			return array();
 		}
-		$productUrl = LinkHelper::getDocumentUrl($product);
-		$replacements = array('productLink' => '<a class="link" href="'.$productUrl.'">'.$product->getLabelAsHtml().'</a>');
-		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Cross-selling-'.$request->getParameter('relationType').';', $replacements));
-		return $product->getDisplayableCrossSelling($shop, $request->getParameter('relationType'));
+		return $product->getDisplayableCrossSellingIds($shop, $request->getParameter('relationType'));
 	}
 	
 	/**
-	 * @param f_mvc_Request $request
-	 * @return String
+	 * @return string
 	 */
-	protected function getDisplayMode($request)
+	protected function getBlockTitle()
 	{
-		return 'table';
+		$title = $this->getConfigurationValue('blockTitle', null);
+		if ($title)
+		{
+			return f_util_HtmlUtils::textToHtml($title);
+		}
+		$product = $this->getDocumentParameter();
+		if (!($product instanceof catalog_persistentdocument_product))
+		{
+			return null;
+		}
+		$productUrl = LinkHelper::getDocumentUrl($product);
+		$replacements = array('productLink' => '<a class="link" href="' . $productUrl . '">' . $product->getLabelAsHtml() . '</a>');
+		$key = 'm.catalog.frontoffice.cross-selling-' . $this->getRequest()->getParameter('relationType');
+		return LocaleService::getInstance()->trans($key, array('ucf'), $replacements);
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getProductIdArray()
+	 */
+	protected function getProductArray($request)
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$product = $this->getDocumentParameter();
+		if (!($product instanceof catalog_persistentdocument_product))
+		{
+			return array();
+		}
+		return $product->getDisplayableCrossSelling($shop, $request->getParameter('relationType'));
 	}
 }

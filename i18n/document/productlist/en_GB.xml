@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.productlist" lcid="en_GB">
-  <key id="label">label</key>
-  <key id="label-help">label</key>
-  <key id="document-name">product list</key>
-  <key id="edition-form-title">product list properties</key>
-  <key id="product">products</key>
-  <key id="product-help">products</key>
+	<key id="label">label</key>
+	<key id="label-help">label</key>
+	<key id="document-name">product list</key>
+	<key id="edition-form-title">product list properties</key>
+	<key id="product">products</key>
+	<key id="product-help">products</key>
 </i18n>

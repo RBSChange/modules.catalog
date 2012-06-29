@@ -8,17 +8,17 @@
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
 					<xul:button anonid="save_properties" oncommand="saveProperties()" 
-						label="${transui:m.uixul.bo.doceditor.button.save,ucf,attr}" image="{IconsBase}/small/save.png" />
+						label="${trans:m.uixul.bo.doceditor.button.save,ucf,attr}" image="{IconsBase}/small/save.png" />
 					<xul:button anonid="reset_properties" oncommand="resetProperties()" 
-						label="${transui:m.uixul.bo.doceditor.button.canceledit,ucf,attr}" image="{IconsBase}/small/undo.png"/>
+						label="${trans:m.uixul.bo.doceditor.button.canceledit,ucf,attr}" image="{IconsBase}/small/undo.png"/>
 					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" 
-						label="${transui:m.uixul.bo.doceditor.button.nexterror,ucf,attr}}" image="{IconsBase}/small/next-invalid-field.png"
+						label="${trans:m.uixul.bo.doceditor.button.nexterror,ucf,attr}}" image="{IconsBase}/small/next-invalid-field.png"
 						hidden="true" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:cfieldsgroup label="Gestion du stock">
 						<xul:row anonid="row_codeSKU">
-							<xul:clabel value="${transui:m.catalog.document.product.codesku,ucf,attr}" />
+							<xul:clabel value="${trans:m.catalog.document.product.codesku,ucf,attr}" />
 							<xul:cfield name="codeSKU" anonid="field_codeSKU" fieldtype="text" shorthelp="m.catalog.document.product.codesku-help" />
 						</xul:row>
 					</xul:cfieldsgroup>
@@ -85,7 +85,7 @@
 			<method name="saveProperties">
 				<body><![CDATA[
 					this.lockCommandsUI();
-					this.showTextMessage("${transui:m.uixul.bo.doceditor.Update-in-progress,ucf,js}");
+					this.showTextMessage("${trans:m.uixul.bo.doceditor.update-in-progress,ucf,js}");
 					this.documentEditor.executeServerAction('stock', 'Update');
 				]]></body>
 			</method>
@@ -197,10 +197,10 @@
 				</xul:columns>
 				<xul:rows>
 					<xul:row class="head" anonid="head-row">
-						<xul:label name="stocklabel" value="${transui:m.catalog.bo.doceditor.stock-label,ucf,attr}" />
-						<xul:label name="stockQuantity" value="${transui:m.catalog.document.product.stockquantity,ucf,attr}" />
-						<xul:label name="stockAlertThreshold" value="${transui:m.catalog.document.product.stockalertthreshold,ucf,attr}" />
-						<xul:label name="actionrow" value="${transui:m.uixul.bo.doceditor.actions,ucf,attr}" />
+						<xul:label name="stocklabel" value="${trans:m.catalog.bo.doceditor.stock-label,ucf,attr}" />
+						<xul:label name="stockQuantity" value="${trans:m.catalog.document.product.stockquantity,ucf,attr}" />
+						<xul:label name="stockAlertThreshold" value="${trans:m.catalog.document.product.stockalertthreshold,ucf,attr}" />
+						<xul:label name="actionrow" value="${trans:m.uixul.bo.doceditor.actions,ucf,attr}" />
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
@@ -209,7 +209,7 @@
 				<xul:textbox value="" type="number" min="-1" oninput="document.getBindingParent(this).qttChange(this)" onchange="document.getBindingParent(this).qttChange(this)"/>
 				<xul:textbox value="" type="number" min="-1" oninput="document.getBindingParent(this).thresholdChange(this)" onchange="document.getBindingParent(this).thresholdChange(this)"/>
 				<xul:toolbar class="actions">
-					<xul:toolbarbutton action="reset" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.catalog.bo.doceditor.reset-stock,ucf,attr}" />
+					<xul:toolbarbutton action="reset" image="{IconsBase}/small/delete.png" tooltiptext="${trans:m.catalog.bo.doceditor.reset-stock,ucf,attr}" />
 				</xul:toolbar>
 			</xul:row>
 		</content>

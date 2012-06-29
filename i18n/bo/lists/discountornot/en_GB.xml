@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.lists.discountornot" lcid="en_GB">
-  <key id="discount">discounted</key>
-  <key id="label">discounted / not discounted</key>
-  <key id="not-discount">not discounted</key>
+	<key id="discount">discounted</key>
+	<key id="label">discounted / not discounted</key>
+	<key id="not-discount">not discounted</key>
 </i18n>

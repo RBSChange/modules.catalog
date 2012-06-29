@@ -1,40 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" icon="shop" publish-on-day-change="true">
-  <properties>
-    <property name="publicationstatus" localized="true"/>
-    <property name="isDefault" type="Boolean" localized="true"/>
-    <property name="description" type="XHTMLFragment" localized="true"/>
-    <property name="topic" type="modules_website/systemtopic" min-occurs="1" inverse="true" cascade-delete="true">
-      <constraint name="unique" propertyName="topic" modelName="modules_catalog/shop"/>
-    </property>
-    <property name="website" type="modules_website/website" min-occurs="1" inverse="true"/>
-    <property name="topShelf" type="modules_catalog/topshelf" min-occurs="0" max-occurs="-1" inverse="true" preserve-old-value="true"/>
-    <property name="billingZone" type="modules_zone/zone" min-occurs="1"/>
-    <property name="currencyCode" type="String" min-occurs="1" from-list="modules_catalog/shopcurrency" default-value="EUR"/>
-    <property name="currencyPosition" type="String" min-occurs="1" localized="true" from-list="modules_catalog/currencyposition" default-value="right"/>
-    <property name="defaultDetailVisual" type="modules_media/media"/>
-    <property name="defaultListVisual" type="modules_media/media"/>
-    <property name="displayPriceWithTax" type="Boolean" default-value="true"/>
-    <property name="displayPriceWithoutTax" type="Boolean" default-value="false"/>
-    <property name="displayOutOfStock" type="Boolean" default-value="false"/>
-    <property name="allowOrderOutOfStock" type="Boolean" default-value="false"/>
-    <property name="pageTitle" type="LongString" localized="true"/>
-    <property name="pageDescription" type="LongString" localized="true"/>
-    <property name="pageKeywords" type="LongString" localized="true"/>
-    <property name="enableAvailabilityAlerts" type="Boolean" default-value="true"/>
-    <property name="availabilityAlertsDuration" type="String" default-value="3m"/>
-    <property name="enablePriceAlerts" type="Boolean" default-value="true"/>
-    <property name="priceAlertsDuration" type="String" default-value="3m"/>
-    <property name="enableCaptchaForAlerts" type="Boolean" default-value="true"/>
-    <property name="nbproductperpage" type="Integer" default-value="10">
-      <constraint name="min" min="1"/>
-      <constraint name="max" max="250"/>
-    </property>
-    <property name="enableComments" type="Boolean" default-value="true"/>
-    <property name="codeReference" type="String" db-size="50"/>
-    <property name="defaultTaxZone" type="String" min-occurs="1" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
-    <property name="boTaxZone" type="String" db-size="20" from-list="modules_catalog/defaulttaxzones"/>
-    <property name="orderProcessClassName" type="String" default-value="order_OrderProcess" from-list="modules_catalog/orderprocess"/>
-  </properties>
-  <statuses default="ACTIVE"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="shop" use-publication-dates="true">
+	<properties>
+		<property name="publicationstatus" localized="true" />
+		<property name="isDefault" type="Boolean" localized="true" />
+		<property name="description" type="XHTMLFragment" localized="true" />
+		<property name="topic" type="Document" min-occurs="1" inverse="true" cascade-delete="true" document-type="modules_website/systemtopic">
+			<constraint name="unique" propertyName="topic" modelName="modules_catalog/shop" />
+		</property>
+		<property name="website" type="Document" min-occurs="1" inverse="true" document-type="modules_website/website" />
+		<property name="topShelf" type="DocumentArray" min-occurs="0" inverse="true" preserve-old-value="true" document-type="modules_catalog/topshelf" />
+		<property name="defaultDetailVisual" type="Document" document-type="modules_media/media" />
+		<property name="defaultListVisual" type="Document" document-type="modules_media/media" />
+		<property name="displayPriceWithTax" type="Boolean" default-value="true" />
+		<property name="displayPriceWithoutTax" type="Boolean" default-value="false" />
+		<property name="displayOutOfStock" type="Boolean" default-value="false" />
+		<property name="allowOrderOutOfStock" type="Boolean" default-value="false" />
+		<property name="pageTitle" type="LongString" localized="true" />
+		<property name="pageDescription" type="LongString" localized="true" />
+		<property name="pageKeywords" type="LongString" localized="true" />
+		<property name="enableAvailabilityAlerts" type="Boolean" default-value="true" />
+		<property name="availabilityAlertsDuration" type="String" default-value="3m" />
+		<property name="enablePriceAlerts" type="Boolean" default-value="true" />
+		<property name="priceAlertsDuration" type="String" default-value="3m" />
+		<property name="enableCaptchaForAlerts" type="Boolean" default-value="true" />
+		<property name="enableComments" type="Boolean" default-value="true" />
+		<property name="codeReference" type="String" db-size="50" />
+		<property name="orderProcessClassName" type="String" default-value="order_StandardOrderProcess" from-list="modules_catalog/orderprocess" />
+		<property name="billingAreas" type="DocumentArray" min-occurs="1" inverse="true" document-type="modules_catalog/billingarea" />
+		<!-- @deprecated -->
+		<property name="nbproductperpage" type="Integer" default-value="10" />
+	</properties>
+	<statuses default="ACTIVE" />
 </document>

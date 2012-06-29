@@ -16,13 +16,15 @@ class catalog_AddDiscountOnPriceAction extends change_JSONAction
 		$parts = explode(',', $request->getParameter('value'));
 
 		$shop = $price->getShop();
+		$billingArea = $shop->getDefaultBillingArea();
 		$valueToSet = doubleval($parts[0]);
-		$taxZone = $shop->getBoTaxZone();		
-		if ($taxZone !== null && $valueToSet > 0)
+		if ($valueToSet > 0 && $billingArea->getBoEditWithTax())
 		{
-			$rate = catalog_TaxService::getInstance()->getTaxRate($shop->getId(), $price->getTaxCategory(), $taxZone);
-			$valueToSet = doubleval($parts[0]) / (1 + $rate);
+			$taxZone = $billingArea->getDefaultZone();
+			$taxRate = catalog_TaxService::getInstance()->getTaxRateByKey($billingArea->getId(), $price->getTaxCategory(), $taxZone);
+			$valueToSet = catalog_TaxService::getInstance()->removeTaxByRate($valueToSet, $taxRate);
 		}
+		
 		$detail = $request->getParameter('detail');
 		$start = date_Converter::convertDateToGMT($request->getParameter('start'));
 		$end = date_Converter::convertDateToGMT($request->getParameter('end'));

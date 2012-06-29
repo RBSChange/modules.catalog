@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.alert" lcid="fr_FR">
-  <key id="document-name">alert</key>
-  <key id="label">libellé</key>
-  <key id="alerttype">type</key>
-  <key id="email">e-mail</key>
-  <key id="email-help">e-mail du destinataire de l'alerte</key>
-  <key id="endpublicationdate">date d'expiration</key>
-  <key id="hasuser">utilisateur enregistré</key>
-  <key id="label-patern-user">alerte sur le produit {productId} pour l'utilisateur {user}</key>
-  <key id="label-patern-email">alerte sur le produit {productId} pour l'adresse email {email}</key>
+	<key id="document-name">alert</key>
+	<key id="label">libellé</key>
+	<key id="alerttype">type</key>
+	<key id="email">e-mail</key>
+	<key id="email-help" />
+	<key id="endpublicationdate">date d'expiration</key>
+	<key id="hasuser">utilisateur enregistré</key>
+	<key id="label-patern-user">alerte sur le produit {productId} pour l'utilisateur {user}</key>
+	<key id="label-patern-email">alerte sur le produit {productId} pour l'adresse email {email}</key>
 </i18n>

@@ -6,11 +6,17 @@
 class catalog_BlockStandaloneproductAction extends catalog_BlockProductAction
 {
 	/**
-	 * @see website_BlockAction::execute()
-	 *
+	 * @return boolean
+	 */
+	protected function isStandalone()
+	{
+		return true;
+	}
+	
+	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{
@@ -41,7 +47,7 @@ class catalog_BlockStandaloneproductAction extends catalog_BlockProductAction
 
 		if ($compiledProduct === null)
 		{
-			Framework::warn(__METHOD__ . ' no compiledproduct founded');
+			Framework::warn(__METHOD__ . ' no compiledproduct found');
 			return website_BlockView::NONE;
 		}		
 		

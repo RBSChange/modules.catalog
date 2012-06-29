@@ -1,32 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" 
-	model-version="1.0" use-rewrite-url="false" has-url="true" icon="declinedproduct">
-  <properties>
-    <property name="codeReference" type="String"/>
-    <property name="publicationstatus" localized="true"/>
-    <property name="visual" type="modules_media/media"/>
-    <property name="additionnalVisual" type="modules_media/media" max-occurs="-1"/>
-    <property name="pictogram" type="modules_media/media" max-occurs="-1"/>
-    <property name="synchronizePrices" type="Boolean" default-value="true"/>
-    <property name="axe1" type="String" default-value="property::label" from-list="modules_catalog/axes" min-occurs="1"/>
-    <property name="axe2" type="String" from-list="modules_catalog/axes"/>
-    <property name="axe3" type="String" from-list="modules_catalog/axes"/>
-    <property name="showAxeInList" type="Integer" default-value="0" from-list="modules_catalog/axesinlist" min-occurs="1"/>
-    <property name="shelf" type="modules_catalog/shelf" max-occurs="-1" tree-node="true" inverse="true"/>
-    <property name="brand" type="modules_brand/brand" inverse="true"/>
-    <property name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
-    <property name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true"/>
-    <property name="upsell" type="modules_catalog/product" max-occurs="-1"/>
-    <property name="description" type="XHTMLFragment" localized="true"/>
-    <property name="serializedattributes" type="Lob"/>
-    <property name="shippingModeId" type="Integer"/>
-    <property name="pageTitle" type="LongString" localized="true"/>
-    <property name="pageDescription" type="LongString" localized="true"/>
-    <property name="pageKeywords" type="LongString" localized="true"/>
-  </properties>
-  <statuses default="ACTIVE"/>
-  <serializedproperties>
-    <property name="axesRawConfiguration" type="Lob"/>
-  </serializedproperties>
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" use-rewrite-url="false" has-url="true" icon="declinedproduct">
+	<properties>
+		<property name="codeReference" type="String" />
+		<property name="publicationstatus" localized="true" />
+		<property name="visual" type="Document" document-type="modules_media/media" />
+		<property name="additionnalVisual" type="DocumentArray" document-type="modules_media/media" />
+		<property name="pictogram" type="DocumentArray" document-type="modules_media/media" />
+		<property name="synchronizePrices" type="Boolean" default-value="true" />
+		<property name="axe1" type="String" default-value="property::label" from-list="modules_catalog/axes" min-occurs="1" />
+		<property name="axe2" type="String" from-list="modules_catalog/axes" />
+		<property name="axe3" type="String" from-list="modules_catalog/axes" />
+		<property name="showAxeInList" type="Integer" default-value="0" from-list="modules_catalog/axesinlist" min-occurs="1" />
+		<property name="shelf" type="DocumentArray" tree-node="true" inverse="true" document-type="modules_catalog/shelf" />
+		<property name="brand" type="Document" inverse="true" document-type="modules_brand/brand" />
+		<property name="complementary" type="DocumentArray" preserve-old-value="true" document-type="modules_catalog/product" />
+		<property name="similar" type="DocumentArray" preserve-old-value="true" document-type="modules_catalog/product" />
+		<property name="upsell" type="DocumentArray" document-type="modules_catalog/product" />
+		<property name="description" type="XHTMLFragment" localized="true" />
+		<property name="serializedattributes" type="Lob" />
+		<property name="shippingModeId" type="Integer" />
+		<property name="pageTitle" type="LongString" localized="true" />
+		<property name="pageDescription" type="LongString" localized="true" />
+		<property name="pageKeywords" type="LongString" localized="true" />
+	</properties>
+	<statuses default="ACTIVE" />
+	<serializedproperties>
+		<property name="axesRawConfiguration" type="Lob" />
+	</serializedproperties>
 </document>

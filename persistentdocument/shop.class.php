@@ -28,7 +28,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	}
 	
 	/**
-	 * @return Integer
+	 * @return integer
 	 */
 	public function getMountParentId()
 	{
@@ -37,7 +37,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	}
 	
 	/**
-	 * @param Integer $parentId
+	 * @param integer $parentId
 	 */
 	public function setMountParentId($parentId)
 	{
@@ -84,7 +84,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 
 		if ($query->findUnique() !== null)
 		{
-			$message = LocaleService::getInstance()->transBO('modules.catalog.document.shop.exception.publication-period-conflict', array('ucf'));
+			$message = LocaleService::getInstance()->trans('modules.catalog.document.shop.exception.publication-period-conflict', array('ucf'));
 			$this->validationErrors->rejectValue('previewStartDate', $message);
 			return false;
 		}
@@ -92,34 +92,33 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	}
 	
 	/**
-	 * @return String
-	 * @throw catalog_Exception
+	 * @return catalog_persistentdocument_billingarea
 	 */
-	public function getCurrencySymbol()
+	public function getDefaultBillingArea()
 	{
-		return catalog_ShopService::getInstance()->getCurrencySymbol($this);
+		return $this->getBillingAreas(0);
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_billingarea
+	 */
+	private $currentBillingArea;
+	
+	/**
+	 * @param boolean $refresh
+	 * @return catalog_persistentdocument_billingarea
+	 */
+	public function getCurrentBillingArea($refresh = false)
+	{
+		if ($this->currentBillingArea === null || $refresh)
+		{
+			$this->currentBillingArea = catalog_BillingareaService::getInstance()->getCurrentBillingAreaForShop($this, $refresh);
+		}
+		return $this->currentBillingArea;
 	}
 		
 	/**
-	 * @param double $value
-	 * @return string
-	 */
-	public function formatPrice($value)
-	{
-		return catalog_PriceFormatter::getInstance()->format($value, $this->getCurrencyCode());
-	}
-	
-	/**
-	 * @param double $value
-	 * @return string
-	 */	
-	public function formatTaxRate($taxRate)
-	{
-		return catalog_PriceHelper::formatTaxRate($taxRate);
-	}
-	
-	/**
-	 * @return String[]
+	 * @return string[]
 	 */
 	public function getNewTranslationLangs()
 	{
@@ -133,124 +132,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 		}
 		return $langs;
 	}
-	
-	//BO Edition
-	
-	public function getTaxGridJSON()
-	{
-		$result = array();
-		foreach (catalog_TaxService::getInstance()->getByShop($this) as $tax) 
-		{
-			if ($tax instanceof catalog_persistentdocument_tax)
-			{
-				$result[] = array(
-					'id' => $tax->getId(),
-					'taxtype' => str_replace('/', '_', $tax->getDocumentModelName()),
-					'shopid' => $this->getId(),
-				    'shoptype' => str_replace('/', '_', $this->getDocumentModelName()),
-				    'label' => $tax->getLabel(),
-					'taxzone' => $tax->getTaxZone(),
-					'taxcategory' => $tax->getTaxCategory(),
-				    'rate' => $tax->getRate(),
-				);
-			}
-		}
-		return JsonService::getInstance()->encode($result);
-	}
-	
-	/**
-	 * @var string	 
-	 */
-	private $newTaxLabel;
-
-	/**
-	 * @var string	 
-	 */
-	private $newTaxZone;
-	
-	/**
-	 * @var string	 
-	 */
-	private $newTaxCategory;
-
-	/**
-	 * @var double	 
-	 */
-	private $newTaxRate;
-	
-	/**
-	 * @return string
-	 */
-	public function getNewTaxLabel()
-	{
-		return $this->newTaxLabel;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getNewTaxZone()
-	{
-		return $this->newTaxZone;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getNewTaxCategory()
-	{
-		return $this->newTaxCategory;
-	}
-
-	/**
-	 * @return double
-	 */
-	public function getNewTaxRate()
-	{
-		return $this->newTaxRate;
-	}
-
-	/**
-	 * @param string $newTaxLabel
-	 */
-	public function setNewTaxLabel($newTaxLabel)
-	{
-		$this->newTaxLabel = $newTaxLabel;
-		$this->setModificationdate(null);
-	}
-
-	/**
-	 * @param string $newTaxZone
-	 */
-	public function setNewTaxZone($newTaxZone)
-	{
-		$this->newTaxZone = $newTaxZone;
-	}
-	
-	/**
-	 * @param string $newTaxCategory
-	 */
-	public function setNewTaxCategory($newTaxCategory)
-	{
-		$this->newTaxCategory = $newTaxCategory;
-	}
-
-	/**
-	 * @param double $newTaxRate
-	 */
-	public function setNewTaxRate($newTaxRate)
-	{
-		$this->newTaxRate = $newTaxRate;
-	}
-	
-	public function resetNewTaxInfos()
-	{
-		$this->newTaxRate = null;
-		$this->newTaxCategory = null;
-		$this->newTaxZone = null;
-		$this->newTaxLabel = null;		
-	}
-	
+		
 	/**
 	 * @var integer[]
 	 */
@@ -270,6 +152,92 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	public function setUpdatedShelfArray($updatedShelfArray)
 	{
 		$this->updatedShelfArray = $updatedShelfArray;
+	}
+	
+	// DEPRECATED
+	
+	/**
+	 * @deprecated
+	 */
+	public function getBoTaxZone()
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		if ($this->getDefaultBillingArea()->getBoEditWithTax())
+		{
+			return $this->getDefaultBillingArea()->getDefaultZone();
+		}
+		return null;
+	}	
+	
+	/**
+	 * @deprecated
+	 */
+	public function getCurrencySymbol()
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $this->getDefaultBillingArea()->getCurrency()->getSymbol();
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public function getCurrencyCode()
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $this->getDefaultBillingArea()->getCurrencyCode();
+	}	
+	
+	/**
+	 * @deprecated
+	 */
+	public function formatPrice($value)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $this->getCurrentBillingArea()->formatPrice($value);
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public function formatTaxRate($taxRate)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return catalog_TaxService::getInstance()->formatRate($taxRate);
 	}
 
 }

@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.dashboard" lcid="en_GB">
-  <key id="out-of-stock-products">out of stock products</key>
-  <key id="general-statistics">general statistics of the catalogue</key>
-  <key id="shop-count">number of shops</key>
-  <key id="products-count">number of products</key>
-  <key id="shelves-count">number of shelves</key>
-  <key id="published">published</key>
-  <key id="total">total</key>
-  <key id="no-out-of-stock-products">no products are out of stock</key>
-  <key id="change">edit</key>
-  <key id="created-today">created today</key>
-  <key id="modified-today">edited today</key>
-  <key id="to-compile">to be refreshed</key>
+	<key id="out-of-stock-products">out of stock products</key>
+	<key id="general-statistics">general statistics of the catalogue</key>
+	<key id="shop-count">number of shops</key>
+	<key id="products-count">number of products</key>
+	<key id="shelves-count">number of shelves</key>
+	<key id="published">published</key>
+	<key id="total">total</key>
+	<key id="no-out-of-stock-products">no products are out of stock</key>
+	<key id="change">edit</key>
+	<key id="created-today">created today</key>
+	<key id="modified-today">edited today</key>
+	<key id="to-compile">to be refreshed</key>
 </i18n>

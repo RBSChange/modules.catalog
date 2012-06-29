@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.product" lcid="en_GB">
-  <key id="activatezoom">activate zoom</key>
-  <key id="activatezoom-help">Activates or deactivates the zoom on visual elements for visitors using a web browser with a compatible JavaScript engine.</key>
-  <key id="as-in-shop">As specified in the shop</key>
-  <key id="displaypricewithouttax">display the prices without tax</key>
-  <key id="displaypricewithouttax-help">Shows or hides prices excl. taxes, or uses the settings specified on the shop associated with the current web site.</key>
-  <key id="displaypricewithtax">dsiplay prices incl. taxes</key>
-  <key id="displaypricewithtax-help">Shows or hides the prices incl. taxes, or uses the setting specified on the shop associated to the current website.</key>
-  <key id="no">No</key>
-  <key id="showshareblock">link sharing</key>
-  <key id="showshareblock-help">Shows or hides the link sharing block for social networking sites (requires the "Link sharing" module).</key>
-  <key id="yes">Yes</key>
+	<key id="activatezoom">activate zoom</key>
+	<key id="activatezoom-help">Activates or deactivates the zoom on visual elements for visitors using a web browser with a compatible JavaScript engine.</key>
+	<key id="as-in-shop">As specified in the shop</key>
+	<key id="displaypricewithouttax">display the prices without tax</key>
+	<key id="displaypricewithouttax-help">Shows or hides prices excl. taxes, or uses the settings specified on the shop associated with the current web site.</key>
+	<key id="displaypricewithtax">dsiplay prices incl. taxes</key>
+	<key id="displaypricewithtax-help">Shows or hides the prices incl. taxes, or uses the setting specified on the shop associated to the current website.</key>
+	<key id="no">No</key>
+	<key id="showshareblock">link sharing</key>
+	<key id="showshareblock-help">Shows or hides the link sharing block for social networking sites (requires the "Link sharing" module).</key>
+	<key id="yes">Yes</key>
 </i18n>

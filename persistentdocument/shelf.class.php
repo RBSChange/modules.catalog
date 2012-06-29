@@ -6,7 +6,7 @@
 class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfbase
 {
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getVisualURL()
 	{
@@ -16,19 +16,6 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 			return "";
 		}
 		return LinkHelper::getDocumentUrl($visual);
-	}
-	
-	/**
-	 * @return String
-	 */
-	public function getUrl()
-	{
-		$topic = $this->getContextualSystemTopic();
-		if ($topic)
-		{
-			return LinkHelper::getDocumentUrl($topic);
-		}
-		return LinkHelper::getDocumentUrl($this);
 	}
 	
 	/**
@@ -48,23 +35,15 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function isTopShelf()
 	{
 		return false;
 	}
-		
+			
 	/**
-	 * @return Boolean
-	 */
-	public function isVisible()
-	{
-		return WebsiteHelper::isVisible($this->getTopic());
-	}
-	
-	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getPathForUrl()
 	{
@@ -72,22 +51,13 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @param integer $maxCount
 	 * @return string
 	 */
-	public function getShortDescription($maxCount = 80)
+	public function getShortDescription()
 	{
 		$desc = f_util_HtmlUtils::htmlToText($this->getDescription(), false);
-		return f_util_StringUtils::shortenString($desc, $maxCount);
-	}
-
-	/**
-	 * @param integer $maxCount
-	 * @return string
-	 */
-	public function getShortDescriptionAsHtml($maxCount = 80)
-	{
-		return f_util_HtmlUtils::textToHtml($this->getShortDescription($maxCount));
+		$desc = f_util_StringUtils::shortenString($desc, 80);
+		return f_util_HtmlUtils::textToHtml($desc);
 	}
 	
 	/**
@@ -104,7 +74,7 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	}
 	
 	/**
-	 * @return String[]
+	 * @return string[]
 	 */
 	public function getNewTranslationLangs()
 	{
@@ -167,5 +137,23 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 					->add(Restrictions::eq('referenceId', $this->getId()))->findUnique();
 		}
 		return  null;
+	}
+	
+	//DEPRECATED
+	
+	/**
+	 * @deprecated
+	 */
+	public function isVisible()
+	{
+		return true;
+	}
+	
+	/**
+	 * @deprecated use LinkHelper::getDocumentUrl
+	 */
+	public function getUrl()
+	{
+		return LinkHelper::getDocumentUrl($this);
 	}
 }

@@ -3,7 +3,7 @@ class catalog_LoadStockAction extends generic_LoadJSONAction
 {
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param String[]
+	 * @param string[]
 	 * @return Array
 	 */
 	protected function exportFieldsData($document, $allowedProperties)
@@ -14,7 +14,7 @@ class catalog_LoadStockAction extends generic_LoadJSONAction
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	protected function isDocumentAction()
 	{

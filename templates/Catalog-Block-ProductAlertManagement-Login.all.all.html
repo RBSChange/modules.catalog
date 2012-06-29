@@ -1,3 +1,7 @@
-<h2 change:h="">${trans:m.catalog.frontoffice.product-alert-management,ucf}</h2>
-<p class="normal">${trans:m.catalog.frontoffice.product-alert-management-not-logged,ucf}</p>
+<h1 change:h="">${trans:m.catalog.frontoffice.product-alert-management,ucf}</h1>
+
+<ul class="errors">
+	<li>${trans:m.catalog.frontoffice.product-alert-management-not-logged,ucf}</li>
+</ul>
+
 <tal:block change:block="" module="users" name="Authentication" hideRegistrationLinks="true" />

@@ -1,13 +1,15 @@
-<h2 change:h="">${trans:m.catalog.frontoffice.product-alert-management,ucf}</h2>
+<h1 change:h="">${trans:m.catalog.frontoffice.product-alert-management,ucf}</h1>
+
 <tal:block tal:condition="paginator">
 	<ul class="normal">
 		<li tal:repeat="alert paginator">
 			${alert/getAlertTypeLabel}
-			<a tal:define="product alert/getProduct" change:link="document product">${structure product/getLabelAsHtml}</a> - 
-			${trans:m.catalog.frontoffice.alert-expiration,ucf,date=alert/getFomatedExpirationDate} - 
+			<a tal:define="product alert/getProduct" change:link="document product">${structure product/getLabelAsHtml}</a><span class="separator"> - </span> 
+			${trans:m.catalog.frontoffice.alert-expiration,date=alert/getFomatedExpirationDate}<span class="separator"> - </span> 
 			<a change:actionlink="" action="RemoveAlert" alertId="${alert/getId}" class="button">${trans:m.catalog.frontoffice.remove-alert,ucf}</a>
 		</li>
 	</ul>
+	
 	<tal:block change:paginator="paginator" />	
 </tal:block>
 <p tal:condition="not:paginator">${trans:m.catalog.frontoffice.no-alert,ucf}</p>

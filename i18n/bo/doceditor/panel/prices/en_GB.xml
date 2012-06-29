@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.panel.prices" lcid="en_GB">
-  <key id="new">add price</key>
-  <key id="column-actions">actions</key>
-  <key id="column-end-publication-date">validity end date</key>
-  <key id="column-is-discount">promotion</key>
-  <key id="column-priority">priority</key>
-  <key id="column-start-publication-date">validity start date</key>
-  <key id="column-target">rate/customer group</key>
-  <key id="column-threshold-min">quantity threshold</key>
-  <key id="column-value">amount incl. taxes</key>
-  <key id="confirm-delete-price">are you sure that you want to delete this price?</key>
-  <key id="confirm-remove-discount">are you sure that you want to delete this price?</key>
-  <key id="date">display the prices valid on this date</key>
-  <key id="shop">shop choice</key>
-  <key id="target-id">rate/customer group</key>
-  <key id="target-type">display</key>
-  <key id="type-all">all prices</key>
-  <key id="type-customer">price by customer</key>
-  <key id="type-group">price by group</key>
-  <key id="type-kit">price by kit</key>
-  <key id="type-shop">shop price</key>
+	<key id="new">add price</key>
+	<key id="column-actions">actions</key>
+	<key id="column-end-publication-date">validity end date</key>
+	<key id="column-is-discount">promotion</key>
+	<key id="column-priority">priority</key>
+	<key id="column-start-publication-date">validity start date</key>
+	<key id="column-target">rate/customer group</key>
+	<key id="column-threshold-min">quantity threshold</key>
+	<key id="column-value">amount incl. taxes</key>
+	<key id="confirm-delete-price">are you sure that you want to delete this price?</key>
+	<key id="confirm-remove-discount">are you sure that you want to delete this price?</key>
+	<key id="date">display the prices valid on this date</key>
+	<key id="shop">shop choice</key>
+	<key id="target-id">rate/customer group</key>
+	<key id="target-type">display</key>
+	<key id="type-all">all prices</key>
+	<key id="type-customer">price by customer</key>
+	<key id="type-group">price by group</key>
+	<key id="type-kit">price by kit</key>
+	<key id="type-shop">shop price</key>
 </i18n>

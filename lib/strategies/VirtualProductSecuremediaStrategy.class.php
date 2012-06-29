@@ -7,7 +7,7 @@ class catalog_VirtualProductSecuremediaStrategy extends media_DisplaySecuremedia
 {
 	/**
 	 * @param media_persistentdocument_securemedia $media
-	 * @return Integer
+	 * @return integer
 	 */
 	public function canDisplayMedia($media)
 	{

@@ -5,15 +5,15 @@
  */
 class catalog_PaymentfilterScriptDocumentElement extends import_ScriptDocumentElement
 {
-    /**
-     * @return catalog_persistentdocument_paymentfilter
-     */
-    protected function initPersistentDocument()
-    {
-    	return catalog_PaymentfilterService::getInstance()->getNewDocumentInstance();
-    }
-    
-    /**
+	/**
+	 * @return catalog_persistentdocument_paymentfilter
+	 */
+	protected function initPersistentDocument()
+	{
+		return catalog_PaymentfilterService::getInstance()->getNewDocumentInstance();
+	}
+	
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()

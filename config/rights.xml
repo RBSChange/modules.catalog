@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rights>
 	<actions>
 		<document name="rootfolder" />
@@ -29,6 +29,11 @@
 		<document name="tax" />
 		<document name="currency" />
 		<document name="noshelfproductfolder" />
+		<document name="productqueryfolder" />
+		<document name="comparableproperty" />
+		<document name="comparablepropertyfolder" />
+		<document name="billingarea" />
+		<document name="billingareafolder" />
 	</actions>
 	<roles>
 		<role name="Admin">
@@ -69,6 +74,9 @@
 		<role name="User">
 			<permission name="List.*" />
 		</role>
+		<frontendrole name="FrontValidator" extend="Trusted">
+			<permission name="Validate.comment" />
+		</frontendrole>
 		<frontendrole name="Trusted">
 			<permission name="Trusted.comment" />
 		</frontendrole>

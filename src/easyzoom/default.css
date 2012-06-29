@@ -1,0 +1,61 @@
+
+/* HTML elements  */		
+
+	html,body{margin:0;padding:0;}
+	h1, h2, h3, h4, h5, h6{
+		font-weight:normal;
+		margin:0;
+		line-height:1.1em;
+		color:#000;
+		}	
+	h1{font-size:2em;margin-bottom:.5em;}	
+	h2{font-size:1.75em;margin-bottom:.5142em;padding-top:.2em;}	
+	h3{font-size:1.5em;margin-bottom:.7em;padding-top:.3em;}
+	h4{font-size:1.25em;margin-bottom:.6em;}
+	h5,h6{font-size:1em;margin-bottom:.5em;font-weight:bold;}
+	
+	p, blockquote, ul, ol, dl, form, table, pre{line-height:inherit;margin:0 0 1.5em 0;}
+	ul, ol, dl{padding:0;}
+	ul ul, ul ol, ol ol, ol ul, dd{margin:0;}
+	li{margin:0 0 0 2em;padding:0;display:list-item;list-style-position:outside;}	
+	blockquote, dd{padding:0 0 0 2em;}
+	pre, code, samp, kbd, var{font:100% mono-space,monospace;}
+	pre{overflow:auto;}
+	abbr, acronym{
+		text-transform:uppercase;
+		border-bottom:1px dotted #000;
+		letter-spacing:1px;
+		}
+	abbr[title], acronym[title]{cursor:help;}
+	small{font-size:.9em;}
+	sup, sub{font-size:.8em;}
+	em, cite, q{font-style:italic;}
+	img{border:none;}			
+	hr{display:none;}	
+	table{width:100%;border-collapse:collapse;}
+	th,caption{text-align:left;}
+	form div{margin:.5em 0;clear:both;}
+	label{display:block;}
+	fieldset{margin:0;padding:0;border:none;}
+	legend{font-weight:bold;}
+	input[type="radio"],input[type="checkbox"], .radio, .checkbox{margin:0 .25em 0 0;}
+
+/* //  HTML elements */	
+
+/* base */
+
+body, table, input, textarea, select, li, button{
+	font:1em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	line-height:1.5em;
+	color:#333;
+	}	
+body{	
+	font-size:12px;
+	background:#fff;		
+	}	
+	
+#container{
+	padding:30px;
+	}	
+
+/* // base */

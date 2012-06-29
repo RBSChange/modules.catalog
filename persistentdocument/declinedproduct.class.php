@@ -16,6 +16,16 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return media_persistentdocument_media
+	 */
+	public function getListVisual($shop)
+	{
+		return $this->getDocumentService()->getListVisual($this, $shop);
+	}
+	
+	
+	/**
 	 * @return catalog_persistentdocument_productdeclination[]
 	 */
 	public function getDeclinationArray()
@@ -48,7 +58,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	}
 
 	/**
-     * integer
+	 * integer
 	 */
 	private $synchronizePricesFrom;
 	
@@ -94,14 +104,14 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	{
 		if (!$this->getSynchronizePrices())
 		{
-			return LocaleService::getInstance()->transFO('m.catalog.bo.doceditor.panel.prices.disabled.declinedproduct-not-synchronized', array('ucf', 'html'));
+			return LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.disabled.declinedproduct-not-synchronized', array('ucf', 'html'));
 		}
 		return null;
 	}
 	
 	/**
-	 * @param Integer $shopId
-	 * @return Boolean
+	 * @param integer $shopId
+	 * @return boolean
 	 */
 	public function isInShop($shopId)
 	{
@@ -233,9 +243,12 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		}
 		$attrValOri = $this->getAttributes();
 		$attrVal = array();
+		$definition = array();
 		foreach ($attrDef as $def) 
 		{
-			$code = $def['code'];
+			/* @var $def catalog_AttributeDefinition */
+			$code = $def->getCode();
+			$definition[] = $def->toBoArray();
 			if (isset($attrValOri[$code]))
 			{
 				$attrVal[$code] = $attrValOri[$code];
@@ -245,7 +258,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 		{
 			$attrVal = null;
 		}
-		return JsonService::getInstance()->encode(array('attrDef' => $attrDef, 'attrVal' => $attrVal));
+		return JsonService::getInstance()->encode(array('attrDef' => $definition, 'attrVal' => $attrVal));
 	}
 		
 	/**
@@ -322,8 +335,18 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 
 	/**
 	 * @see rss_Item::getRSSGuid()
+	 * @return string
 	 */
 	public function getRSSGuid()
+	{
+		return LinkHelper::getPermalink($this);
+	}
+	
+	/**
+	 * @see rss_Item::getRSSLink()
+	 * @return string
+	 */
+	public function getRSSLink()
 	{
 		return LinkHelper::getDocumentUrl($this);
 	}
@@ -333,7 +356,6 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	 */
 	public function getRSSLabel()
 	{
-		return $this->getLabelAsHtml();
-		
+		return $this->getLabelAsHtml();		
 	}
 }

@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shelf" lcid="de_DE">
-  <key id="document-name">Katalogregal</key>
-  <key id="edition-form-title">Eigenschaften Regal</key>
-  <key id="label">Name</key>
-  <key id="label-help">Name</key>
-  <key id="visual">Abbildung</key>
-  <key id="visual-help">Abbildung; Bild aus den Ressourcen zu selektieren.</key>
-  <key id="description">Beschreibung</key>
-  <key id="description-help">Beschreibung</key>
-  <key id="pagetitle">Seitentitel</key>
-  <key id="pagetitle-help">Seitentitel</key>
-  <key id="pagedescription">Seitenbeschreibung</key>
-  <key id="pagedescription-help">Seitenbeschreibung</key>
-  <key id="pagekeywords">Seitenstichwörter</key>
-  <key id="pagekeywords-help">Seitenstichwörter</key>
+	<key id="document-name">Katalogregal</key>
+	<key id="edition-form-title">Eigenschaften Regal</key>
+	<key id="label">Name</key>
+	<key id="label-help">Name</key>
+	<key id="visual">Abbildung</key>
+	<key id="visual-help">Abbildung; Bild aus den Ressourcen zu selektieren.</key>
+	<key id="description">Beschreibung</key>
+	<key id="description-help">Beschreibung</key>
+	<key id="pagetitle">Seitentitel</key>
+	<key id="pagetitle-help">Seitentitel</key>
+	<key id="pagedescription">Seitenbeschreibung</key>
+	<key id="pagedescription-help">Seitenbeschreibung</key>
+	<key id="pagekeywords">Seitenstichwörter</key>
+	<key id="pagekeywords-help">Seitenstichwörter</key>
 </i18n>

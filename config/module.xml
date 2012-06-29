@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<module>
 		<visible>true</visible>
@@ -20,10 +20,16 @@
 		<entry name="productListConsultedClass">catalog_SessionProductList</entry>
 		<entry name="productListConsultedPersist">false</entry>
 		<entry name="productListConsultedMaxCount">10</entry>
-		
+		<entry name="productListComparisonClass">catalog_SessionProductList</entry>
+		<entry name="productListComparisonPersist">false</entry>
+		<entry name="productListComparisonMaxCount">25</entry>
 		<!-- 
 			CLASSNAME must have a public function getCurrentTaxZone($shop, $cart)
 			<entry name="currentTaxZoneStrategyClass">CLASSNAME</entry>
+		 -->
+		<!-- 
+			CLASSNAME must have a public function getCurrentBillingArea($shop) 
+			<entry name="currentBillingAreaStrategyClass">CLASSNAME</entry>
 		 -->
 	</project>
 	<!-- Add this in modules/media section of your project.xml if you use virtualproducts.

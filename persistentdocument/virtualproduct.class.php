@@ -5,9 +5,8 @@
  */
 class catalog_persistentdocument_virtualproduct extends catalog_persistentdocument_virtualproductbase implements catalog_StockableDocument
 {
-
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{

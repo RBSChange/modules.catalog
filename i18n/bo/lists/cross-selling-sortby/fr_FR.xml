@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.lists.cross-selling-sortby" lcid="fr_FR">
-  <key id="label">tri des produits associés</key>
-  <key id="description">différents types de tri des produits associés</key>
-  <key id="fieldorder">ordre du backoffice</key>
-  <key id="random">ordre aléatoire</key>
+	<key id="label">tri des produits associés</key>
+	<key id="description">différents types de tri des produits associés</key>
+	<key id="fieldorder">ordre du backoffice</key>
+	<key id="random">ordre aléatoire</key>
 </i18n>

@@ -1,7 +1,7 @@
 <?php
 /**
- * catalog_PriceService
  * @package modules.catalog
+ * @method catalog_PriceService getInstance()
  */
 class catalog_PriceService extends f_persistentdocument_DocumentService
 {
@@ -12,24 +12,6 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	const PRIORITY_TARIFGROUP = 50;
 	const PRIORITY_CUSTOMER = 75;
 	const PRIORITY_PRODUCT = 100;
-	
-	/**
-	 * Singleton
-	 * @var catalog_PriceService
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return catalog_PriceService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * @return catalog_persistentdocument_price
@@ -45,7 +27,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/price');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/price');
 	}
 
 	/**
@@ -74,29 +56,36 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer
-	 * @param Double $quantity
+	 * @param double $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPrice($product, $shop, $customer, $quantity = 1)
+	public function getPrice($product, $shop, $billingArea, $customer, $quantity = 1)
 	{
 		$targetIds = $this->convertCustomerToTargetIds($customer);
-		return $this->getPriceByTargetIds($product, $shop, $targetIds, $quantity);
+		return $this->getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceByTargetIds($product, $shop, $targetIds, $quantity = 1)
+	public function getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
+		if (!($billingArea instanceof catalog_persistentdocument_billingarea))
+		{
+			throw new Exception('Invalid billingArea parameter.');
+		}
 		$query = $this->createQuery()
 			->add(Restrictions::published())
 			->add(Restrictions::eq('productId', $product->getId()))
 			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('billingAreaId', $billingArea->getId()))
 			->add(Restrictions::le('thresholdMin', $quantity))
 			->add(Restrictions::in('targetId', $targetIds))
 			->addOrder(Order::desc('priority'))
@@ -109,27 +98,34 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPrices($product, $shop, $customer)
+	public function getPrices($product, $shop, $billingArea, $customer)
 	{
 		$targetIds = $this->convertCustomerToTargetIds($customer);
-		return $this->getPricesByTargetIds($product, $shop, $targetIds);
+		return $this->getPricesByTargetIds($product, $shop, $billingArea, $targetIds);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPricesByTargetIds($product, $shop, $targetIds)
+	public function getPricesByTargetIds($product, $shop, $billingArea, $targetIds)
 	{
+		if (!($billingArea instanceof catalog_persistentdocument_billingarea))
+		{
+			throw new Exception('Invalid billingArea parameter.');
+		}
 		$prices = $this->createQuery()
 			->add(Restrictions::published())
 			->add(Restrictions::eq('productId', $product->getId()))
 			->add(Restrictions::eq('shopId', $shop->getId()))
+			->add(Restrictions::eq('billingAreaId', $billingArea->getId()))
 			->add(Restrictions::in('targetId', $targetIds))
 			->addOrder(Order::asc('thresholdMin'))->addOrder(Order::asc('priority'))->find();
 		$result = array();
@@ -141,25 +137,30 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param String $date date can be null. If null, result is limited to 100 rows.
-	 * @param Integer $productId
-	 * @param Integer $shopId
-	 * @param String $orderBy
-	 * @param String $orderDir
-	 * @param Integer $targetId
+	 * @param string $date date can be null. If null, result is limited to 100 rows.
+	 * @param integer $productId
+	 * @param integer $shopId
+	 * @param integer $billingAreaId
+	 * @param string $orderBy
+	 * @param string $orderDir
+	 * @param integer $targetId
 	 */
-	public function getPricesForDate($date, $productId, $shopId, $targetId = null)
+	public function getPricesForDate($date, $productId, $shopId, $billingAreaId, $targetId = null)
 	{
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $productId))
-			->add(Restrictions::eq('shopId', $shopId));
+			->add(Restrictions::eq('shopId', $shopId))
+			->add(Restrictions::eq('billingAreaId', $billingAreaId));
+		
 		if ($date !== null)
 		{
 			$startDate = date_Converter::convertDateToGMT(date_Calendar::getInstance($date)->toMidnight())->toString();
 			$endDate = date_Calendar::getInstance($startDate)->add(date_Calendar::DAY, 1)->toString();
 			$query->add(Restrictions::orExp(Restrictions::isNull('startpublicationdate'), Restrictions::lt('startpublicationdate', $endDate)))
 			->add(Restrictions::orExp(Restrictions::isNull('endpublicationdate'), Restrictions::gt('endpublicationdate', $startDate)));
-
+		}
+		else
+		{
 			$query->setMaxResults(100);
 		}
 			
@@ -187,7 +188,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			'value' => $price->getValueWithTax(),
 			'valueWithTax' => $price->getFormattedValueWithTax(),
 			'isDiscount' => $price->isDiscount(),
-			'isDiscountLabel' => f_Locale::translateUI('&modules.uixul.bo.general.' . ($price->isDiscount() ? 'Yes' : 'No') . ';'),
+			'isDiscountLabel' => LocaleService::getInstance()->trans('m.uixul.bo.general.' . ($price->isDiscount() ? 'yes' : 'no'), array('ucf')),
+			'allowDeletion' => !$isLocked,
 			'allowDiscountCreation' => !$isLocked && !$price->isDiscount(),
 			'allowDiscountRemoval' => !$isLocked && $price->isDiscount(),
 			'tagrgetId' => $price->getTargetId(),
@@ -206,22 +208,24 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function getAvailableTargetTypes($product = null)
 	{
-		$result = array('all' => array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-all;')),
-					'shop' =>  array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-shop;')));
+		$ls = LocaleService::getInstance();
+		$formatter = array('ucf');
+		$result = array('all' => array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-all', $formatter)),
+					'shop' =>  array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-shop', $formatter)));
 		
 		if (catalog_ModuleService::areCustomersEnabled())
 		{
-			$result['group'] = array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-group;'));
-			$result['customer'] = array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-customer;'));
+			$result['group'] = array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-group', $formatter));
+			$result['customer'] = array('label' =>LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-customer', $formatter));
 		}
 
-		$result['kit'] = array('label' => f_Locale::translateUI('&modules.catalog.bo.doceditor.panel.prices.Type-kit;'));
+		$result['kit'] = array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-kit', $formatter));
 		return $result;
 	}
 	
 	/**
-	 * @param String $targetType
-	 * @param Integer $shopId
+	 * @param string $targetType
+	 * @param integer $shopId
 	 * @return array
 	 */
 	public function getTargetInfo($targetType, $shopId)
@@ -254,9 +258,9 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param String $targetType
+	 * @param string $targetType
 	 * @param catalog_persistentdocument_product $product
-	 * @param Integer $shopId
+	 * @param integer $shopId
 	 * @return array
 	 */
 	public function getAvailableTargets($targetType, $product, $shopId)
@@ -301,7 +305,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		return $result;
 	}
-		
+			
 	// Protected methods.
 	
 	/**
@@ -322,7 +326,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_price $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId)
@@ -350,13 +354,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_price $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function postSave($document, $parentNodeId)
 	{
 		$this->checkConflicts($document);
-		
 		catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 	}
 	
@@ -369,10 +372,10 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$query = $this->createQuery()
 			->add(Restrictions::eq('productId', $document->getProductId()))
 			->add(Restrictions::eq('shopId', $document->getShopId()))
+			->add(Restrictions::eq('billingAreaId', $document->getBillingAreaId()))
 			->add(Restrictions::eq('targetId', $document->getTargetId()))
 			->add(Restrictions::eq('thresholdMin', $document->getThresholdMin()))
 			->add(Restrictions::eq('priority', $document->getPriority()))
-			->add(Restrictions::eq('currencyId', $document->getCurrencyId()))
 			->add(Restrictions::ne('id', $document->getId()));
 			
 		$endDate = $document->getEndpublicationdate();
@@ -394,24 +397,22 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_price $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function preInsert($document, $parentNodeId)
 	{
 		parent::preInsert($document, $parentNodeId);		
 		$document->setInsertInTree(false);
-		$currency = catalog_CurrencyService::getInstance()->getByCode($document->getShop()->getCurrencyCode());
-		if ($currency === null)
+		if ($document->getBillingAreaId() == null && $document->getShopId() != null)
 		{
-			throw new Exception("Invalid currency for price");
+			$document->setBillingAreaId($document->getShop()->getDefaultBillingArea()->getId());
 		}
-		$document->setCurrencyId($currency->getId());
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_price $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function postInsert($document, $parentNodeId)
@@ -450,7 +451,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_price $document
-	 * @param Integer $parentNodeId
+	 * @param integer $parentNodeId
 	 */
 	protected function postUpdate($document, $parentNodeId)
 	{
@@ -470,6 +471,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				->add(Restrictions::eq('lockedFor', $document->getId()));
 			foreach ($query->find() as $price)
 			{
+				/* @var $price catalog_persistentdocument_lockedprice */
 				foreach ($replicatedProperties as $setter => $getter)
 				{
 					$args = array(f_util_ClassUtils::callMethodOn($document, $getter));
@@ -483,7 +485,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_price $document
-	 * @param String $oldPublicationStatus
+	 * @param string $oldPublicationStatus
 	 * @return void
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
@@ -515,7 +517,8 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		if ($document->hasMeta(self::META_IS_REPLICATED))
 		{
 			catalog_LockedpriceService::getInstance()->createQuery()
-				->add(Restrictions::eq('lockedFor', $document->getId()))->delete();
+				->add(Restrictions::eq('lockedFor', $document->getId()))
+				->delete();
 		}
 	}
 	
@@ -524,24 +527,24 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function deleteForProductId($productId)
 	{
-		if (Framework::isDebugEnabled())
-		{
-			Framework::debug(__METHOD__ . ' START for Product id:' . $productId);
-		}
 		$prices = $this->createQuery()->add(Restrictions::eq('productId', $productId))->find();
 		if (count($prices))
 		{
-			$priceSrv = catalog_PriceService::getInstance();
 			foreach ($prices as $price) 
 			{
 				$price->setProductId(null);
-				$priceSrv->delete($price);
+				$price->delete();
 			}
 		}
-		if (Framework::isDebugEnabled())
-		{
-			Framework::debug(__METHOD__ . ' END for Product id:' . $productId);
-		}
+		$this->deleteForTargetId($productId);
+	}
+	
+	/**
+	 * @param integer $targetId
+	 */
+	public function deleteForTargetId($targetId)
+	{
+		$this->createQuery()->add(Restrictions::eq('targetId', $targetId))->delete();
 	}
 	
 	/**
@@ -553,7 +556,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$targetId = $document->getTargetId();
 		if ($targetId == 0)
 		{
-			$document->setLabel(f_Locale::translate('&modules.catalog.document.price.Shop-price;'));
+			$document->setLabel(LocaleService::getInstance()->trans('m.catalog.document.price.shop-price', array('ucf')));
 		}
 		else
 		{
@@ -561,11 +564,11 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$replacements = array('name' => $target->getLabel());
 			if ($target instanceof customer_persistentdocument_customer)
 			{
-				$document->setLabel(f_Locale::translate('&modules.catalog.document.price.Customer-price;', $replacements));
+				$document->setLabel(LocaleService::getInstance()->trans('m.catalog.document.price.customer-price', array('ucf'), $replacements));
 			}
 			else
 			{
-				$document->setLabel(f_Locale::translate('&modules.catalog.document.price.Target-price;', $replacements));
+				$document->setLabel(LocaleService::getInstance()->trans('m.catalog.document.price.target-price', array('ucf'), $replacements));
 			}
 		}
 	}
@@ -623,7 +626,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	{
 		try 
 		{
-			$this->tm->beginTransaction();
+			$this->getTransactionManager()->beginTransaction();
 			
 			$pricesToSave = array($price);
 			if ($start == $price->getStartpublicationdate() && $end == $price->getEndpublicationdate())
@@ -632,7 +635,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			}
 			else 
 			{
-				$discountPrice = $this->clonePrice($price);
+				$discountPrice = $price->getDocumentService()->getNewPriceCopy($price);
 				$discountPrice->setStartpublicationdate($start);
 				$discountPrice->setEndpublicationdate($end);
 				$pricesToSave[] = $discountPrice;
@@ -641,7 +644,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				{
 					if ($end != $price->getEndpublicationdate())
 					{
-						$thirdPrice = $this->clonePrice($price);
+						$thirdPrice = $price->getDocumentService()->getNewPriceCopy($price);
 						$thirdPrice->setStartpublicationdate($end);
 						$pricesToSave[] = $thirdPrice;
 					}
@@ -660,24 +663,28 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				$price->save();
 			}
 			
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 			throw $e;
 		}
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_price $price
-	 * @return catalog_persistentdocument_lockedprice
+	 * @return catalog_persistentdocument_price
 	 */
-	protected function clonePrice($price)
+	public function getNewPriceCopy($price)
 	{
-		$newPrice = $this->getNewDocumentInstance();
-		$price->copyPropertiesTo($newPrice, true);
+		$newPrice = $this->getNewDocumentInstance();	
+		if ($price instanceof catalog_persistentdocument_price)
+		{
+			$price->copyPropertiesTo($newPrice, true);
+		}
 		$newPrice->setMeta("f_tags", array());
+		$newPrice->setMeta(self::META_IS_REPLICATED, null);
 		$newPrice->setAuthor(null);
 		$newPrice->setAuthorid(null);
 		$newPrice->setCreationdate(null);
@@ -685,7 +692,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$newPrice->setDocumentversion(0);
 		return $newPrice;
 	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_price $price
 	 * @param double $value
@@ -708,7 +715,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public function getPriceDifference($price1, $price2)
 	{
-		$diff = $this->clonePrice($price1);
+		$diff = $this->getNewPriceCopy($price1);
 		$diff->setValueWithoutTax($price1->getValueWithoutTax() - $price2->getValueWithoutTax());
 		$diff->setOldValueWithoutTax(null);
 		return $diff;
@@ -729,11 +736,12 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		
 		try 
 		{
-			$this->tm->beginTransaction();	
+			$this->getTransactionManager()->beginTransaction();	
 				
 			$query = $this->createQuery()
 				->add(Restrictions::eq('productId', $tmpPriceInfo->getProductId()))
 				->add(Restrictions::eq('shopId', $tmpPriceInfo->getShopId()))
+				->add(Restrictions::eq('billingAreaId', $tmpPriceInfo->getBillingAreaId()))
 				->add(Restrictions::eq('targetId', $tmpPriceInfo->getTargetId()))
 				->add(Restrictions::eq('priority', $tmpPriceInfo->getPriority()))
 				->add(Restrictions::eq('thresholdMin', $tmpPriceInfo->getThresholdMin()));
@@ -751,11 +759,11 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			$prices = $query->find();
 	
 			$result = $this->insertPriceInternal($tmpPriceInfo, $prices);
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 			throw $e;
 		}
 		return $result;
@@ -784,7 +792,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		
 		$compare = $this->compareDate($tmpPriceInfo, $firstPrice);
-		$dataProperties = array('valueWithoutTax', 'oldValueWithoutTax', 
+		$dataProperties = array('value', 'valueWithoutDiscount', 'storeWithTax',
 			'taxCategory', 'discountDetail', 'ecoTax', 'lockedFor');
 		
 		switch ($compare) 
@@ -865,7 +873,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	{
 		try 
 		{
-			$this->tm->beginTransaction();	
+			$this->getTransactionManager()->beginTransaction();	
 				
 			$query = $this->createQuery()
 				->add(Restrictions::eq('productId', $productId))
@@ -888,11 +896,11 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			
 			$result = $this->deletePriceInternal($startDate, $endDate, $prices);
 
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 			throw $e;
 		}
 		return $result;
@@ -1069,5 +1077,64 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		}
 		return 'include';
 		
+	}
+	
+	
+	// Deprecated.
+		
+	/**
+	 * @deprecated
+	 */
+	protected function refreshThresholdMax($document)
+	{
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	protected function refreshNextThresholdMax($document)
+	{
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public static function formatValue($value, $shop)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		return $shop->getCurrentBillingArea()->formatPrice($value);
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	protected function clonePrice($price)
+	{
+		if (Framework::inDevelopmentMode())
+		{
+			Framework::fatal(f_util_ProcessUtils::getBackTrace());
+		}
+		else
+		{
+			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
+		}
+		
+		$newPrice = $price->getDocumentService()->getNewDocumentInstance();
+		$price->copyPropertiesTo($newPrice, true);
+		$newPrice->setMeta("f_tags", array());
+		$newPrice->setMeta(self::META_IS_REPLICATED, null);
+		$newPrice->setAuthor(null);
+		$newPrice->setAuthorid(null);
+		$newPrice->setCreationdate(null);
+		$newPrice->setModificationdate(null);
+		$newPrice->setDocumentversion(0);
+		return $newPrice;
 	}
 }

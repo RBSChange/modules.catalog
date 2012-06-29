@@ -8,7 +8,7 @@ class catalog_BlockProductlistAction extends catalog_BlockProductlistBaseAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{

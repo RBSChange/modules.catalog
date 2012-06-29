@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shop.exception" lcid="fr_FR">
-  <key id="publication-period-conflict">pour un même site, il ne peut y avoir qu'une seule boutique valide sur une période donnée.</key>
-  <key id="mount-parent-required">une boutique doit obligatoirement avoir un point de montage.</key>
-  <key id="mount-parent-bad-type">le point de montage d'une boutique doit obligatoirement être un site ou une rubrique.</key>
+	<key id="publication-period-conflict">pour un même site, il ne peut y avoir qu'une seule boutique valide sur une période donnée.</key>
+	<key id="mount-parent-required">une boutique doit obligatoirement avoir un point de montage.</key>
+	<key id="mount-parent-bad-type">le point de montage d'une boutique doit obligatoirement être un site ou une rubrique.</key>
 </i18n>

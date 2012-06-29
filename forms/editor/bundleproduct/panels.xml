@@ -1,27 +1,27 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <panels>
-	<panel name="resume"/>
-	<panel name="properties"/>
+	<panel name="resume" />
+	<panel name="properties" />
 	<panel name="bundleditems" icon="product" labeli18n="m.catalog.bo.doceditor.tab.bundleditems" />
 	<panel name="prices" icon="price" labeli18n="m.catalog.bo.doceditor.tab.prices" />
 	<panel name="stock" icon="stock" labeli18n="m.catalog.bo.doceditor.tab.stock" />
-	<panel name="publication"/>
 	<panel name="localization" />
-	<panel name="history"/>
+	<panel name="publication" />
 	<panel name="redirect" />
-	<panel name="create"/>
+	<panel name="history" />
+	<panel name="create" />
 	<xul>
 		<javascript>
 			<constructor><![CDATA[
 				if (getController().hasModule('comment'))
 				{
-					this.addTab('comments', "${transui:m.comment.bo.doceditor.tab.comments,js,ucf}", 'comments', 'history');
+					this.addTab('comments', '${trans:m.comment.bo.doceditor.tab.comments,js,ucf}', 'comments');
 				}
 				if (getController().hasModule('twitterconnect'))
 				{
-					this.addTab('tweets', "${transui:m.twitterconnect.bo.doceditor.tab.tweets,js,ucf}", 'tweet', 'history');
+					this.addTab('tweets', "${trans:m.twitterconnect.bo.doceditor.tab.tweets,js,ucf}", 'tweet');
 				}
 			]]></constructor>
 		</javascript>
-	</xul>	
+	</xul>
 </panels>

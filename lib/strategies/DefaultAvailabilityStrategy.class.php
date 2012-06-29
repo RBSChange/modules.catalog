@@ -18,45 +18,29 @@ class catalog_DefaultAvailabilityStrategy extends catalog_AvailabilityStrategy
 	{
 		if (is_null(self::$instance))
 		{
-			self::$instance = new self();
+			self::$instance = self::getServiceClassInstance(get_class());
 		}
 		return self::$instance;
 	}
 	
 	/**
-	 * @return String
-	 */
-	public function getLabel()
-	{
-		return 'Default availability management.';
-	}
-
-	/**
-	 * @return String
-	 */
-	public function getDescription()
-	{
-		return 'Default availability management.';
-	}
-
-	/**
-	 * @param String $stockLevel
-	 * @return String
+	 * @param string $stockLevel
+	 * @return string
 	 */
 	public function getAvailability($stockLevel)
 	{
 		switch ($stockLevel)
 		{
 			case catalog_StockService::LEVEL_AVAILABLE : 
-				$return = f_Locale::translate('&modules.catalog.frontoffice.Level-available;');
+				$return = LocaleService::getInstance()->trans('m.catalog.frontoffice.level-available', array('ucf', 'html'));
 				break;
 			
 			case catalog_StockService::LEVEL_FEW_IN_STOCK : 
-				$return = f_Locale::translate('&modules.catalog.frontoffice.Level-few-in-stock;');
+				$return = LocaleService::getInstance()->trans('m.catalog.frontoffice.level-few-in-stock', array('ucf', 'html'));
 				break;
 				
 			case catalog_StockService::LEVEL_UNAVAILABLE : 
-				$return = f_Locale::translate('&modules.catalog.frontoffice.Level-unavailable;');
+				$return = LocaleService::getInstance()->trans('m.catalog.frontoffice.level-unavailable', array('ucf', 'html'));
 				break;
 			
 			default :
@@ -64,5 +48,23 @@ class catalog_DefaultAvailabilityStrategy extends catalog_AvailabilityStrategy
 				break;
 		}
 		return $return;
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated
+	 */
+	public function getLabel()
+	{
+		return 'Default availability management.';
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public function getDescription()
+	{
+		return 'Default availability management.';
 	}
 }

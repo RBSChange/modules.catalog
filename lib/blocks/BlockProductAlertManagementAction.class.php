@@ -8,7 +8,7 @@ class catalog_BlockProductAlertManagementAction extends website_BlockAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{
@@ -43,7 +43,7 @@ class catalog_BlockProductAlertManagementAction extends website_BlockAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function executeRemoveAlert($request, $response)
 	{
@@ -57,18 +57,18 @@ class catalog_BlockProductAlertManagementAction extends website_BlockAction
 			{
 				Framework::exception($e);
 			}
-			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Unexisting-alert;'));
+			$this->addError(LocaleService::getInstance()->trans('m.catalog.frontoffice.unexisting-alert', array('ucf')));
 			return $this->getSuccessView($request);
 		}
 		
 		if ($this->checkAccess($request, $alert))
 		{
 			$alert->delete();
-			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Alert-removed;'));
+			$this->addMessage(LocaleService::getInstance()->trans('m.catalog.frontoffice.alert-removed', array('ucf')));
 		}
 		else
 		{
-			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Not-your-alert;'));
+			$this->addError(LocaleService::getInstance()->trans('m.catalog.frontoffice.not-your-alert', array('ucf')));
 		}
 		return $this->getSuccessView($request);
 	}

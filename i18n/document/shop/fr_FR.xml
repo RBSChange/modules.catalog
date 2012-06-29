@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shop" lcid="fr_FR">
 	<key id="edition-form-title">propriétés de la boutique</key>
 	<key id="document-name">boutique</key>
@@ -8,12 +8,6 @@
 	<key id="topic">rubrique associée</key>
 	<key id="topshelf">rayons</key>
 	<key id="topshelf-help">liste des rayons de premier niveau qui seront mis en ligne dans la boutique.</key>
-	<key id="billingzone">zone de facturation</key>
-	<key id="billingzone-help">documnt « zone » du le module « Zones » qui sera utilisé pour valider les adresses de facturation lors du processus de commande.</key>
-	<key id="currencycode">devise</key>
-	<key id="currencycode-help">Devise utilisée par la boutique. Elle provient d’une liste statique du module « Listes ».</key>
-	<key id="currencyposition">position du symbole</key>
-	<key id="currencyposition-help">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99.</key>
 	<key id="displaypricewithtax">afficher le prix TTC</key>
 	<key id="displaypricewithtax-help">si oui le prix, le prix TTC sera affiché sur les sites (cette option est cumulable avec Afficher le prix HT).</key>
 	<key id="displaypricewithouttax">afficher le prix HT</key>
@@ -38,10 +32,6 @@
 	<key id="pagedescription-help">description de la page utilisable dans les métas de la page d'accueil de la boutique.</key>
 	<key id="pagekeywords">mots-clés de la page</key>
 	<key id="pagekeywords-help">mots-clés de la page utilisable dans les métas de la page d'accueil de la boutique.</key>
-	<key id="defaulttaxzone">zone de taxe de la boutique</key>
-	<key id="defaulttaxzone-help">zone de taxe utilisé par défaut pour la boutique</key>
-	<key id="botaxzone">saisie TTC des prix back-office</key>
-	<key id="botaxzone-help">Séléctioner une zone de taxe pour activer la saisie TTC des prix en back-office</key>
 	<key id="enableavailabilityalerts">activer les alertes disponibilité</key>
 	<key id="enableavailabilityalerts-help">activer ou non la possibilité pour le visiteur de placer une alerte sur la disponibilité d'un produit.</key>
 	<key id="availabilityalertsduration">durée des alertes disponibilité</key>
@@ -53,14 +43,27 @@
 	<key id="enablecaptchaforalerts">activer le CAPTCHA sur les alertes</key>
 	<key id="enablecaptchaforalerts-help">En activant le CAPTCHA il sera présent pour les utilisateurs non-connectés. Dans tous les cas, les utilisateurs connectés n'en auront pas.</key>
 	<key id="published-product-count">nombre de produits publiés</key>
-	<key id="nbproductperpage">nombre de produits par page</key>
-	<key id="nbproductperpage-help">nombre de produits par page par défaut dans les listes de produits de la boutique en frontoffice.</key>
 	<key id="enablecomments">activer les commentaires</key>
 	<key id="enablecomments-help">activer ou non les commentaires sur les produits.</key>
 	<key id="isdefault">boutique par défaut</key>
-	<key id="isdefault-help">Il ne peut y avoir qu'une boutique par défaut par site et par lanque sur une période de temps donnée.</key>
+	<key id="isdefault-help">Il ne peut y avoir qu'une boutique par défaut par site et par langue sur une période de temps donnée.</key>
 	<key id="website">site web</key>
-	<key id="codeReference">code référence</key>
+	<key id="codereference">code référence</key>
 	<key id="orderprocessclassname">Processus de commande</key>
 	<key id="orderprocessclassname-help">Processus de commande à utiliser</key>
+	<key id="billingareas">zones de facturation</key>
+	<key id="billingareas-help">zones de facturation de la boutique</key>
+	<!-- DEPRECATED -->
+	<key id="defaulttaxzone">zone de taxe de la boutique</key>
+	<key id="defaulttaxzone-help">zone de taxe utilisé par défaut pour la boutique</key>
+	<key id="botaxzone">saisie TTC des prix back-office</key>
+	<key id="botaxzone-help">Sélectionner une zone de taxe pour activer la saisie TTC des prix en back-office</key>
+	<key id="billingzone">zone de facturation</key>
+	<key id="billingzone-help">document « zone » du module « Zones » qui sera utilisé pour valider les adresses de facturation lors du processus de commande.</key>
+	<key id="currencycode">devise</key>
+	<key id="currencycode-help">Devise utilisée par la boutique. Elle provient d’une liste statique du module « Listes ».</key>
+	<key id="currencyposition">position du symbole</key>
+	<key id="currencyposition-help">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99.</key>
+	<key id="nbproductperpage">nombre de produits par page</key>
+	<key id="nbproductperpage-help">nombre de produits par page par défaut dans les listes de produits de la boutique en frontoffice.</key>
 </i18n>

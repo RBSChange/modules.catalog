@@ -1,28 +1,10 @@
 <?php
 /**
- * catalog_PreferencesService
  * @package modules.catalog
+ * @method catalog_PreferencesService getInstance()
  */
 class catalog_PreferencesService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * Singleton
-	 * @var catalog_PreferencesService
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return catalog_PreferencesService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_preferences
 	 */
@@ -38,15 +20,5 @@ class catalog_PreferencesService extends f_persistentdocument_DocumentService
 	public function createQuery()
 	{
 		return $this->getPersistentProvider()->createQuery('modules_catalog/preferences');
-	}
-
-	/**
-	 * @param catalog_persistentdocument_preferences $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
-	 * @return void
-	 */
-	protected function preSave($document, $parentNodeId)
-	{
-		$document->setLabel('catalog');
 	}
 }

@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.dashboard" lcid="fr_FR">
-  <key id="out-of-stock-products">produits en rupture de stock</key>
-  <key id="general-statistics">statistiques générales du catalogue</key>
-  <key id="shop-count">nombre de boutiques</key>
-  <key id="products-count">nombre de produits</key>
-  <key id="shelves-count">nombre de rayons</key>
-  <key id="published">publiés</key>
-  <key id="total">total</key>
-  <key id="no-out-of-stock-products">aucun produit n'est en rupture de stock</key>
-  <key id="change">modifier</key>
-  <key id="created-today">créés aujourd'hui</key>
-  <key id="modified-today">modifiés aujourd'hui</key>
-  <key id="to-compile">à actualiser</key>
+	<key id="out-of-stock-products">produits en rupture de stock</key>
+	<key id="general-statistics">statistiques générales du catalogue</key>
+	<key id="shop-count">nombre de boutiques</key>
+	<key id="products-count">nombre de produits</key>
+	<key id="shelves-count">nombre de rayons</key>
+	<key id="published">publiés</key>
+	<key id="total">total</key>
+	<key id="no-out-of-stock-products">aucun produit n'est en rupture de stock</key>
+	<key id="change">modifier</key>
+	<key id="created-today">créés aujourd'hui</key>
+	<key id="modified-today">modifiés aujourd'hui</key>
+	<key id="to-compile">à actualiser</key>
 </i18n>

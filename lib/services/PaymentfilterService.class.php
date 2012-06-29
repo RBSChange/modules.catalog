@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_PaymentfilterService
- * @package catalog
+ * @package modules.catalog
+ * @method catalog_PaymentfilterService getInstance()
  */
 class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_PaymentfilterService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_PaymentfilterService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_paymentfilter
 	 */
@@ -38,7 +21,7 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/paymentfilter');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/paymentfilter');
 	}
 	
 	/**
@@ -49,12 +32,12 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/paymentfilter', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/paymentfilter', false);
 	}
 
 	/**
 	 * @param catalog_persistentdocument_paymentfilter $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function preInsert($document, $parentNodeId = null)
@@ -62,9 +45,29 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 		$document->setInsertInTree(false);
 		if ($document->getShop() === null)
 		{
-			$document->setShop($this->pp->getDocumentInstance($parentNodeId, 'modules_catalog/shop'));
+			$shop = catalog_persistentdocument_shop::getInstanceById($parentNodeId);
+			$document->setShop($shop);
+		}
+		
+		if ($document->getBillingArea() === null)
+		{
+			$document->setBillingArea($document->getShop()->getDefaultBillingArea());
 		}
 	}
+	
+	
+	/**
+	 * this method is call before save the duplicate document.
+	 * @param catalog_persistentdocument_paymentfilter $newDocument
+	 * @param catalog_persistentdocument_paymentfilter $originalDocument
+	 * @param integer $parentNodeId
+	 */
+	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
+	{
+		$newDocument->setLabel(LocaleService::getInstance()->trans('m.generic.backoffice.duplicate-prefix', array('ucf'), array('number' => '')) . ' ' . $originalDocument->getLabel());
+		$newDocument->setPublicationstatus(f_persistentdocument_PersistentDocument::STATUS_DEACTIVATED);
+	}
+	
 
 	/**
 	 * @param order_CartInfo $cart
@@ -73,7 +76,9 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	public function getCurrentPaymentConnectors($cart)
 	{
 		$filters = $this->createQuery()->add(Restrictions::published())
-			->add(Restrictions::eq('shop', $cart->getShop()))->find();
+			->add(Restrictions::eq('shop', $cart->getShop()))
+			->add(Restrictions::eq('billingArea', $cart->getBillingArea()))
+			->find();
 
 		$result = array();
 		foreach ($filters as $filter) 
@@ -97,16 +102,11 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 	 */
 	public function isValidPaymentFilter($filter, $cart)
 	{
-		if ($filter->isPublished() && $filter->getConnector()->isPublished())
+		if ($filter->isPublished() 
+			&& DocumentHelper::equals($filter->getBillingArea(), $cart->getBillingArea()) 
+			&& $filter->getConnector()->isPublished())
 		{
 			$connector = $filter->getConnector();
-			if ($connector->getCurrencyCode() !== null)
-			{
-				if ($connector->getCurrencyCode() !== $cart->getShop()->getCurrencyCode())
-				{
-					return false;
-				}
-			}
 			if ($connector->getMaxValue() !== null)
 			{
 				if (($cart->getTotalAmount() - $connector->getMaxValue()) > 0)
@@ -129,4 +129,6 @@ class catalog_PaymentfilterService extends f_persistentdocument_DocumentService
 		}
 		return false;
 	}
+	
+	
 }

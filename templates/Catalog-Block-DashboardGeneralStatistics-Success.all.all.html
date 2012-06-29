@@ -1,23 +1,23 @@
 <div class="dashboard-widget" tal:omit-tag="refresh" refreshURL="${refreshURL}" title="${title}" icon="${icon}">
 	<tal:block tal:condition="forEdition">
 		<div class="title-bar" ><img src="${icon}" /> ${title}</div>
-		<div class="content-block"><div class="content">${trans:m.dashboard.dashboard.dummycontent,ucf}</div></div>
+		<div class="content-block"><div class="content">${transui:m.dashboard.dashboard.dummycontent,ucf}</div></div>
 	</tal:block>
 	<tal:block tal:condition="not:forEdition">
-		<table tal:condition="widget/lines" width="100%">
+		<table tal:condition="widget/lines" style="width: 100%">
 			<thead>
 				<tr>
 					<th />
-					<th>${trans:m.catalog.bo.dashboard.published,ucf}</th>
-					<th>${trans:m.catalog.bo.dashboard.total,ucf}</th>
-					<th>${trans:m.catalog.bo.dashboard.created-today,ucf}</th>
-					<th>${trans:m.catalog.bo.dashboard.modified-today,ucf}</th>
-					<th>${trans:m.catalog.bo.dashboard.to-compile,ucf}</th>
+					<th>${transui:m.catalog.bo.dashboard.published,ucf}</th>
+					<th>${transui:m.catalog.bo.dashboard.total,ucf}</th>
+					<th>${transui:m.catalog.bo.dashboard.created-today,ucf}</th>
+					<th>${transui:m.catalog.bo.dashboard.modified-today,ucf}</th>
+					<th>${transui:m.catalog.bo.dashboard.to-compile,ucf}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr tal:repeat="line widget/lines">
-					<td tal:repeat="value line">${value}</td>
+					<td tal:repeat="value line" tal:content="value" />
 				</tr>
 			</tbody>
 		</table>

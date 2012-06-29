@@ -1,5 +1,9 @@
 <?php
+/* @var $arguments array */
+$arguments = isset($arguments) ? $arguments : array();
+
 $productIdArray = $arguments;
+Framework::info(__FILE__ . ' -> ' . implode(', ', $productIdArray));
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {

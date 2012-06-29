@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_CompiledproductService
  * @package modules.catalog
+ * @method catalog_CompiledproductService getInstance()
  */
 class catalog_CompiledproductService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_CompiledproductService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_CompiledproductService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_compiledproduct
 	 */
@@ -38,7 +21,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/compiledproduct');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/compiledproduct');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/compiledproduct', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/compiledproduct', false);
 	}
 	
 	/**
@@ -68,7 +51,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
-	 * @param Integer $parentNodeId
+	 * @param integer $parentNodeId
 	 */
 	protected function preSave($document, $parentNodeId)
 	{
@@ -92,7 +75,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
-	 * @param Integer $parentNodeId
+	 * @param integer $parentNodeId
 	 */
 	protected function postUpdate($document, $parentNodeId)
 	{
@@ -168,7 +151,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		try 
 		{
-			$this->tm->beginTransaction();
+			$this->getTransactionManager()->beginTransaction();
 			$container = array();
 			
 			foreach ($product->getShelfArray() as $shelf) 
@@ -219,11 +202,11 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$product->saveMeta();
 			
 			catalog_ProductService::getInstance()->setCompiled($product->getId());
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 		}
 	}
 	
@@ -267,7 +250,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		
 		// Product synchro.
 		$compiledProduct->setLabel($product->getLabel());
-		$price = $product->getPrice($shop, null);
+		$price = $product->getPrice($shop, $shop->getDefaultBillingArea(), null);
 		if ($price === null)
 		{
 			$compiledProduct->setPrice(null);
@@ -366,6 +349,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			$this->save($compiledProduct);
 		}
+		elseif ($compiledProduct->getShowInList())
+		{
+			indexer_IndexService::getInstance()->update($compiledProduct);
+		}
 		else
 		{
 			if (Framework::isInfoEnabled())
@@ -412,7 +399,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
-	 * @param String $oldPublicationStatus
+	 * @param string $oldPublicationStatus
 	 * @param Array<Mixed> $params
 	 * @return void
 	 */
@@ -578,17 +565,17 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	protected function updateIndexDocument($indexedDocument, $document, $indexService)
 	{
-		try 
-		{	
-			$topic = $document->getTopic();		
-			$topShelf = $document->getTopShelf();		
+		try
+		{
+			$topic = $document->getTopic();
+			$topShelf = $document->getTopShelf();
 			if ($document->getShowInList() && $document->getProduct())
 			{
 				$indexedDocument->setLang($document->getLang());
 				$indexedDocument->setStringField('documentFamily', 'products');
 				$indexedDocument->addAggregateText($topic->getLabel());
-				$indexedDocument->addAggregateText($topShelf->getLabel());				
-				$product = $document->getProduct();	
+				$indexedDocument->addAggregateText($topShelf->getLabel());
+				$product = $document->getProduct();
 				$product->getDocumentService()->getIndexedDocumentByCompiledProduct($indexedDocument, $document, $product, $indexService);
 				$this->indexFacets($document, $indexedDocument);
 			}
@@ -596,11 +583,29 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			{
 				$indexedDocument->foIndexable(false);
 			}
-		} 
-		catch (Exception $e) 
+		}
+		catch (Exception $e)
 		{
 			Framework::exception($e);
 			$indexedDocument->foIndexable(false);
 		}
+	}
+
+	/**
+	 * DEPRECATED function
+	 */
+	
+	/**
+	 * @deprecated 
+	 */
+	public function disableCompilation()
+	{
+	}
+	
+	/**
+	 * @deprecated 
+	 */
+	public function enableCompilation()
+	{
 	}
 }

@@ -1,31 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" 
-	model-version="1.0" icon="productref" backoffice-indexable="false" indexable="true" use-rewrite-url="false">
-  <properties>
-    <property name="product" type="modules_catalog/product" min-occurs="1" inverse="true"/>
-    <property name="topicId" type="Integer" min-occurs="1"/>
-    <property name="websiteId" type="Integer" min-occurs="1"/>
-    <property name="shopId" type="Integer" min-occurs="1"/>
-    <property name="topshelfId" type="Integer" min-occurs="1"/>
-    <property name="shelfId" type="Integer" min-occurs="1"/>
-    <property name="shelfIndex" type="Integer" min-occurs="1"/>
-    <property name="primary" type="Boolean"/>
-    <property name="showInList" type="Boolean" default-value="true"/>
-    <property name="publicationCode" type="Integer" default-value="0"/>
-    <!-- Sorting properties -->
-    <property name="position" type="Integer" min-occurs="1"/>
-    <property name="price" type="Double" preserve-old-value="true" indexed="property"/>
-    <property name="discountLevel" type="Integer" indexed="property"/>
-    <property name="ratingAverage" type="Double" indexed="property"/>
-    <property name="brandId" type="Integer" preserve-old-value="true"/>
-    <property name="brandLabel" type="String" indexed="property"/>
-    <!-- Filter properties -->
-    <property name="isDiscount" type="Boolean"/>
-    <property name="isAvailable" type="Boolean"/>
-    <!-- Misc. properties -->
-    <property name="firstpublicationdate" type="DateTime"/>
-    <property name="lastpublicationdate" type="DateTime"/>
-  </properties>
-  <statuses default="ACTIVE"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="productref" backoffice-indexable="false" indexable="true" use-rewrite-url="false">
+	<properties>
+		<property name="product" type="Document" min-occurs="1" inverse="true" document-type="modules_catalog/product" />
+		<property name="topicId" type="Integer" min-occurs="1" />
+		<property name="websiteId" type="Integer" min-occurs="1" />
+		<property name="shopId" type="Integer" min-occurs="1" />
+		<property name="topshelfId" type="Integer" min-occurs="1" />
+		<property name="shelfId" type="Integer" min-occurs="1" />
+		<property name="shelfIndex" type="Integer" min-occurs="1" />
+		<property name="primary" type="Boolean" />
+		<property name="showInList" type="Boolean" default-value="true" />
+		<property name="publicationCode" type="Integer" default-value="0" />
+		<!-- Sorting properties -->
+		<property name="position" type="Integer" min-occurs="1" />
+		<property name="price" type="Double" preserve-old-value="true" indexed="property" />
+		<property name="discountLevel" type="Integer" indexed="property" />
+		<property name="ratingAverage" type="Double" indexed="property" />
+		<property name="brandId" type="Integer" preserve-old-value="true" />
+		<property name="brandLabel" type="String" indexed="property" />
+		<!-- Filter properties -->
+		<property name="isDiscount" type="Boolean" />
+		<property name="isAvailable" type="Boolean" />
+		<!-- Misc. properties -->
+		<property name="firstpublicationdate" type="DateTime" />
+		<property name="lastpublicationdate" type="DateTime" />
+	</properties>
+	<statuses default="ACTIVE" />
 </document>

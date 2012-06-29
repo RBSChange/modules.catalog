@@ -4,7 +4,7 @@
 		<field name="label" />
 		<field name="codeReference" hidehelp="true" />
 		<field name="description" />
-		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="visual" allowfile="true" mediafoldername="Inbox" />
 	</section>
 	<section labeli18n="m.catalog.bo.general.referencing">
 		<field name="pageTitle" type="longtext" class="with-counter" rows="2" />

@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.productpromotion" lcid="en_GB">
-  <include id="m.catalog.bo.blocks.productlistbase"/>
-  <key id="label">title</key>
-  <key id="label-help">title of the block as used on the site</key>
-  <key id="products">products to display</key>
-  <key id="products-help">products to display</key>
-  <key id="destinationpage">landing page</key>
-  <key id="destinationpage-help">This landing page may contain the complete list of the promoted products</key>
-  <key id="mode">display mode</key>
-  <key id="mode-help">display mode</key>
+	<include id="m.catalog.bo.blocks.productlistbase" />
+	<key id="label">title</key>
+	<key id="label-help">title of the block as used on the site</key>
+	<key id="products">products to display</key>
+	<key id="products-help">products to display</key>
+	<key id="destinationpage">landing page</key>
+	<key id="destinationpage-help">This landing page may contain the complete list of the promoted products</key>
+	<key id="mode">display mode</key>
+	<key id="mode-help">display mode</key>
 </i18n>

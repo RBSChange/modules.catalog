@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
 	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.amount-tax-validity">
-		<field name="boValueJSON" type="price" required="true" 
-			labeli18n="m.catalog.document.price.value" hidehelp="true">
+		<field name="boValueJSON" type="price" required="true" labeli18n="m.catalog.document.price.value" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
 		<field name="ecoTax" />
@@ -10,9 +9,7 @@
 		<field name="endpublicationdate" hidehelp="true" />
 	</section>
 	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.discount">
-		<row class="discountHelper" reference="catalog_price_boValueJSON" 
-			pricefield="catalog_price_boDiscountValueJSON" 
-			detailfield="catalog_price_discountDetail" />
+		<row class="discountHelper" reference="catalog_price_boValueJSON" pricefield="catalog_price_boDiscountValueJSON" detailfield="catalog_price_discountDetail" />
 		<field name="boDiscountValueJSON" type="price" labeli18n="m.catalog.document.price.discountvalue" hidehelp="true">
 			<constraint name="min" parameter="0" />
 		</field>
@@ -20,9 +17,6 @@
 	</section>
 	<section labeli18n="m.catalog.bo.doceditor.fieldsgroup.restrictions">
 		<field name="thresholdMin" />
-		<field name="target" type="document" 
-			moduleselector="catalog" 
-			allow="modules_catalog_kit,modules_customer_customer,modules_customer_tarifcustomergroup"
-			labeli18n="m.catalog.document.price.targetid" hidehelp="true" />
+		<field name="target" type="document" moduleselector="catalog" allow="modules_catalog_kit,modules_customer_customer,modules_customer_tarifcustomergroup" labeli18n="m.catalog.document.price.targetid" hidehelp="true" />
 	</section>
 </panel>

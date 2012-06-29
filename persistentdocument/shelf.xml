@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" icon="folder-closed" publish-on-day-change="false">
-  <properties>
-    <property name="publicationstatus" localized="true"/>
-    <property name="description" type="XHTMLFragment" localized="true"/>
-    <property name="visual" type="modules_media/media"/>
-    <property name="topic" type="modules_website/systemtopic" max-occurs="-1" inverse="true" cascade-delete="true"/>
-    <property name="pageTitle" type="String" localized="true"/>
-    <property name="pageDescription" type="String" localized="true"/>
-    <property name="pageKeywords" type="String" localized="true"/>
-    <property name="labelForUrl" type="String" localized="true"/>
-    <property name="codeReference" type="String" db-size="50"/>
-  </properties>
-  <statuses default="ACTIVE"/>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="folder-closed" use-publication-dates="false">
+	<properties>
+		<property name="publicationstatus" localized="true" />
+		<property name="description" type="XHTMLFragment" localized="true" />
+		<property name="visual" type="Document" document-type="modules_media/media" />
+		<property name="topic" type="DocumentArray" inverse="true" cascade-delete="true" document-type="modules_website/systemtopic" />
+		<property name="pageTitle" type="String" localized="true" />
+		<property name="pageDescription" type="String" localized="true" />
+		<property name="pageKeywords" type="String" localized="true" />
+		<property name="labelForUrl" type="String" localized="true" />
+		<property name="codeReference" type="String" db-size="50" />
+	</properties>
+	<statuses default="ACTIVE" />
 </document>

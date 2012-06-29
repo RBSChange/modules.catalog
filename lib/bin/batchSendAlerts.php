@@ -1,5 +1,5 @@
 <?php
-$emailArray = $arguments;
+$emailArray = isset($arguments) ? $arguments : array();
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {

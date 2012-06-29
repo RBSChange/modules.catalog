@@ -6,8 +6,11 @@
 		<dynamiclist listid="modules_catalog/taxcategory" label="&amp;modules.catalog.list.Taxcategory-label;"/>
 		
 		<valuededitablelist listid="modules_catalog/defaulttaxzones" label="Zones de taxe disponible">
-			<valueditem label="FR-ALL" byValue="FR-ALL" />
+			<valueditem label="France continentale" byValue="FR-CONTINENTAL" />
+			<valueditem label="Corse" byValue="20" />
+			<valueditem label="Allemagne" byValue="DE" />
+			<valueditem label="Royaume-Uni" byValue="GB" />
+			<valueditem label="Suisse" byValue="CH" />
 		</valuededitablelist>
-		
 	</systemfolder>
 </script>

@@ -6,7 +6,7 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 	 */
 	public function getTitle()
 	{
-		return LocaleService::getInstance()->transBO('m.catalog.bo.blocks.dashboardstock.title');
+		return LocaleService::getInstance()->trans('m.catalog.bo.blocks.dashboardstock.title');
 	}
 
 	/**
@@ -20,17 +20,20 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 			return;
 		}
 		
-		$products = $this->getUnavailableProducts();
-		$productsCount = count($products);
-		
 		$ls = LocaleService::getInstance();
 		$widget = array();
-		if ($productsCount > 0)
+		$productsCount = $this->getUnavailableProductsCount();
+		if ($productsCount > 500)
 		{
+			$widget['header'] = $ls->trans('m.catalog.bo.dashboard.out-of-stock-products', array('ucf', 'html', 'lab'))." ".$productsCount;
+		}
+		elseif ($productsCount > 0)
+		{
+			$products = $this->getUnavailableProducts();
 			$widget['columns'] = array(
-				array('label' => $ls->transBO('m.catalog.document.product.label', array('ucf', 'html')), 'width' => '70%'),
-				array('label' => $ls->transBO('m.catalog.document.product.codereference', array('ucf', 'html')), 'width' => '20%'),
-				array('label' => $ls->transBO('m.catalog.document.product.stockquantity', array('ucf', 'html')), 'width' => '10%')
+				array('label' => $ls->trans('m.catalog.document.product.label', array('ucf', 'html')), 'width' => '70%'),
+				array('label' => $ls->trans('m.catalog.document.product.codereference', array('ucf', 'html')), 'width' => '20%'),
+				array('label' => $ls->trans('m.catalog.document.product.stockquantity', array('ucf', 'html')), 'width' => '10%')
 			);
 			$widget['lines'] = array();
 			$stSrv = catalog_StockService::getInstance();
@@ -44,11 +47,11 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 					'quantity' => $stSrv->getStockableDocument($product)->getCurrentStockQuantity()
 				);
 			}
-			$widget['header'] = $ls->transBO('m.catalog.bo.dashboard.out-of-stock-products', array('ucf', 'html'))." : ".$productsCount;
+			$widget['header'] = $ls->trans('m.catalog.bo.dashboard.out-of-stock-products', array('ucf', 'html', 'lab'))." ".$productsCount;
 		}
 		else
 		{
-			$widget['header'] = $ls->transBO('m.catalog.bo.dashboard.no-out-of-stock-products', array('ucf', 'html'));
+			$widget['header'] = $ls->trans('m.catalog.bo.dashboard.no-out-of-stock-products', array('ucf', 'html'));
 		}
 		$request->setAttribute('widget', $widget);
 	}
@@ -62,5 +65,16 @@ class catalog_BlockDashboardstockAction extends dashboard_BlockDashboardAction
 			$this->products = catalog_StockService::getInstance()->getOutOfStockProducts();			
 		}
 		return $this->products;
+	}
+	
+	private $count = null;
+	
+	private function getUnavailableProductsCount()
+	{
+		if ($this->count === null)
+		{
+			$this->count = catalog_StockService::getInstance()->getOutOfStockProductsCount();
+		}
+		return $this->count;
 	}
 }

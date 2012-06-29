@@ -1,34 +1,18 @@
 <?php
 /**
- * @package module.catalog
+ * @package modules.catalog
+ * @method catalog_ListShippingmodeoptionsService getInstance()
  */
-class catalog_ListShippingmodeoptionsService extends BaseService
+class catalog_ListShippingmodeoptionsService extends change_BaseService implements list_ListItemsService
 {
-	/**
-	 * @var catalog_ListShippingmodeoptionsService
-	 */
-	private static $instance;
-	
-	/**
-	 * @return catalog_ListShippingmodeoptionsService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-	
 	/**
 	 * @return list_Item[]
 	 */
 	public final function getItems()
 	{
 		$items = array();
-		$items [] = new list_Item(f_Locale::translate('&modules.catalog.bo.lists.shippingmodeoptions.Free;'), 'free');
-		$items [] = new list_Item(f_Locale::translate('&modules.catalog.bo.lists.shippingmodeoptions.Current;'), 'current');
+		$items [] = new list_Item(LocaleService::getInstance()->trans('m.catalog.bo.lists.shippingmodeoptions.free', array('ucf')), 'free');
+		$items [] = new list_Item(LocaleService::getInstance()->trans('m.catalog.bo.lists.shippingmodeoptions.current', array('ucf')), 'current');
 		foreach (catalog_ShippingfilterService::getInstance()->getModesSelectedByProduct() as $mode)
 		{
 			$items[] = new list_Item($mode->getLabel(), $mode->getId());
@@ -37,7 +21,7 @@ class catalog_ListShippingmodeoptionsService extends BaseService
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public final function getDefaultId()
 	{

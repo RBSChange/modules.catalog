@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" icon="catalog" publish-on-day-change="false" has-url="false" backoffice-indexable="false">
-  <properties>
-    <property name="label" default-value="catalog"/>
-    <property name="defaultDetailVisual" type="modules_media/media" min-occurs="1"/>
-    <property name="defaultListVisual" type="modules_media/media" min-occurs="1"/>
-    <property name="stockAlertThreshold" type="Double" default-value="0"/>
-    <property name="stockAlertNotificationUser" type="modules_users/user" max-occurs="-1"/>
-    <property name="synchronizeComplementary" type="Boolean" default-value="true"/>
-    <property name="synchronizeSimilar" type="Boolean" default-value="true"/>
-    <property name="suggestComplementaryFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders"/>
-    <property name="suggestSimilarFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders"/>
-    <property name="suggestUpsellFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders"/>
-    <property name="autoFeedComplementaryMaxCount" type="Integer">
-      <constraint name="min" min="0"/>
-    </property>
-    <property name="autoFeedSimilarMaxCount" type="Integer">
-      <constraint name="min" min="0"/>
-    </property>
-    <property name="autoFeedUpsellMaxCount" type="Integer">
-      <constraint name="min" min="0"/>
-    </property>
-    <property name="autoFeedDelay" type="String" min-occurs="1" default-value="1d">
-      <constraint name="min" min="1"/>
-    </property>
-    <!-- deprecated property -->
-    <property name="defaultProductsPerPage" type="Integer" min-occurs="1" default-value="10">
-      <constraint name="min" min="1"/>
-      <constraint name="max" max="50"/>
-    </property>
-    <!-- deprecated property -->
-    <property name="enableComments" type="Boolean" min-occurs="1" default-value="true"/>
-    <!-- deprecated property -->
-    <property name="newProductsCount" type="Integer" min-occurs="1" default-value="10"/>
-  </properties>
-  <statuses default="PUBLICATED"/>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="catalog" has-url="false" backoffice-indexable="false" use-publication-dates="false">
+	<properties>
+		<property name="label" default-value="m.catalog.bo.general.module-name" />
+		<property name="defaultDetailVisual" type="Document" min-occurs="1" document-type="modules_media/media" />
+		<property name="defaultListVisual" type="Document" min-occurs="1" document-type="modules_media/media" />
+		<property name="stockAlertThreshold" type="Double" default-value="0" />
+		<property name="stockAlertNotificationUser" type="DocumentArray" document-type="modules_users/user" />
+		<property name="synchronizeComplementary" type="Boolean" default-value="true" />
+		<property name="synchronizeSimilar" type="Boolean" default-value="true" />
+		<property name="suggestComplementaryFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<property name="suggestSimilarFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<property name="suggestUpsellFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<property name="autoFeedComplementaryMaxCount" type="Integer">
+			<constraint name="min" min="0" />
+		</property>
+		<property name="autoFeedSimilarMaxCount" type="Integer">
+			<constraint name="min" min="0" />
+		</property>
+		<property name="autoFeedUpsellMaxCount" type="Integer">
+			<constraint name="min" min="0" />
+		</property>
+		<property name="autoFeedDelay" type="String" min-occurs="1" default-value="1d">
+			<constraint name="min" min="1" />
+		</property>
+		<!-- deprecated property -->
+		<property name="defaultProductsPerPage" type="Integer" min-occurs="1" default-value="10">
+			<constraint name="min" min="1" />
+			<constraint name="max" max="50" />
+		</property>
+		<!-- deprecated property -->
+		<property name="enableComments" type="Boolean" min-occurs="1" default-value="true" />
+		<!-- deprecated property -->
+		<property name="newProductsCount" type="Integer" min-occurs="1" default-value="10" />
+	</properties>
+	<statuses default="PUBLICATED" />
 </document>

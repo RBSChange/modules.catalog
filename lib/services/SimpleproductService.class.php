@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_SimpleproductService
- * @package catalog
+ * @package modules.catalog
+ * @method catalog_SimpleproductService getInstance()
  */
 class catalog_SimpleproductService extends catalog_ProductService
 {
-	/**
-	 * @var catalog_SimpleproductService
-	 */
-	private static $instance;
-	
-	/**
-	 * @return catalog_SimpleproductService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-	
 	/**
 	 * @return catalog_persistentdocument_simpleproduct
 	 */
@@ -38,7 +21,7 @@ class catalog_SimpleproductService extends catalog_ProductService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/simpleproduct');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/simpleproduct');
 	}
 	
 	/**
@@ -49,12 +32,12 @@ class catalog_SimpleproductService extends catalog_ProductService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/simpleproduct', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/simpleproduct', false);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_simpleproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId = null)

@@ -8,7 +8,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response, catalog_persistentdocument_alert $alert)
 	{
@@ -28,6 +28,9 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		$request->setAttribute('shop', $shop);
 		$request->setAttribute('useCaptcha', $this->useCaptcha());
 		
+		$billingArea = $shop->getCurrentBillingArea();	
+		$defaultPrice = $product->getPrice($shop, $billingArea, null);
+		
 		$type = null;
 		$alertService = catalog_AlertService::getInstance();
 		if (!$product->isAvailable($shop))
@@ -37,16 +40,17 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 				$type = catalog_AlertService::TYPE_AVAILABILITY;
 			}
 		}
-		else if ($shop->getEnablePriceAlerts())
+		else if ($shop->getEnablePriceAlerts() && $defaultPrice)
 		{
-			$alert->setPriceReference($product->getPrice($shop, null)->getValueWithTax());
+			
+			$alert->setPriceReference($defaultPrice->getValueWithTax());
 			$type = catalog_AlertService::TYPE_PRICE;
 		}
 		
 		if ($type !== null)
 		{
 			$user = users_UserService::getInstance()->getCurrentFrontEndUser();
-			$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Notifiy-me-for-' . $type . ';'));
+			$request->setAttribute('blockTitle', LocaleService::getInstance()->trans('m.catalog.frontoffice.notifiy-me-for-' . $type, array('ucf')));
 			if ($user !== null)
 			{
 				$existingAlert = $alertService->getAlert($user, $product, $type);
@@ -72,7 +76,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getAddAlertInputViewName()
 	{
@@ -95,7 +99,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 			$code = change_Controller::getInstance()->getContext()->getRequest()->getModuleParameter('form', 'CHANGE_CAPTCHA');
 			if (!FormHelper::checkCaptchaForKey($code, 'productAlert'))
 			{
-				$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Error-captcha;'));
+				$this->addError(LocaleService::getInstance()->trans('m.catalog.frontoffice.error-captcha', array('ucf')));
 				$isOk = false;
 			}
 			$request->setAttribute('useCaptcha', true);
@@ -107,7 +111,7 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function executeAddAlert($request, $response, catalog_persistentdocument_alert $alert)
 	{
@@ -121,8 +125,8 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		$existingAlert = catalog_AlertService::getInstance()->createQuery()->add(Restrictions::published())->add(Restrictions::eq('email', $alert->getEmail()))->add(Restrictions::eq('productId', $alert->getProductId()))->add(Restrictions::eq('alertType', $alert->getAlertType()))->findUnique();
 		if ($existingAlert !== null)
 		{
-			$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Notifiy-me-for-' . $alert->getAlertType() . ';'));
-			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Alert-already-exists;'));
+			$request->setAttribute('blockTitle', LocaleService::getInstance()->trans('m.catalog.frontoffice.notifiy-me-for-' . $alert->getAlertType(), array('ucf')));
+			$this->addMessage(LocaleService::getInstance()->trans('m.catalog.frontoffice.alert-already-exists', array('ucf')));
 			return website_BlockView::SUCCESS;
 		}
 		
@@ -131,15 +135,15 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 		$alert->setWebsiteId($shop->getWebsite()->getId());
 		$alert->save();
 		
-		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Notifiy-me-for-' . $alert->getAlertType() . ';'));
-		$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Alert-added;'));
+		$request->setAttribute('blockTitle', LocaleService::getInstance()->trans('m.catalog.frontoffice.notifiy-me-for-' . $alert->getAlertType(), array('ucf')));
+		$this->addMessage(LocaleService::getInstance()->trans('m.catalog.frontoffice.alert-added', array('ucf')));
 		return website_BlockView::SUCCESS;
 	}
 	
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function executeRemoveAlert($request, $response)
 	{
@@ -153,20 +157,20 @@ class catalog_BlockProductAlertAction extends website_BlockAction
 			{
 				Framework::exception($e);
 			}
-			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Unexisting-alert;'));
+			$this->addError(LocaleService::getInstance()->trans('m.catalog.frontoffice.unexisting-alert', array('ucf')));
 			return website_BlockView::SUCCESS;
 		}
 		$user = users_UserService::getInstance()->getCurrentFrontEndUser();
 		$request->setAttribute('alert', $alert);
-		$request->setAttribute('blockTitle', f_Locale::translate('&modules.catalog.frontoffice.Notifiy-me-for-' . $alert->getAlertType() . ';'));
+		$request->setAttribute('blockTitle', LocaleService::getInstance()->trans('m.catalog.frontoffice.notifiy-me-for-' . $alert->getAlertType(), array('ucf')));
 		if ($user !== null && $alert->getUserId() == $user->getId())
 		{
 			$alert->delete();
-			$this->addMessage(f_Locale::translate('&modules.catalog.frontoffice.Alert-removed;'));
+			$this->addMessage(LocaleService::getInstance()->trans('m.catalog.frontoffice.alert-removed', array('ucf')));
 		}
 		else
 		{
-			$this->addError(f_Locale::translate('&modules.catalog.frontoffice.Not-your-alert;'));
+			$this->addError(LocaleService::getInstance()->trans('m.catalog.frontoffice.not-your-alert', array('ucf')));
 		}
 		return website_BlockView::SUCCESS;
 	}

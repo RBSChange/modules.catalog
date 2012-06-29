@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.panel.declinations" lcid="fr_FR">
-  <key id="new">ajouter une déclinaison</key>
-  <key id="column-label">libellé</key>
-  <key id="column-codereference">code référence</key>
-  <key id="column-stockquantity">quantité en stock</key>
-  <key id="column-stocklevel">niveau de stock</key>
-  <key id="column-actions">actions</key>
-  <key id="confirm-delete-declination">confirmez-vous la suppression de cette déclinaison ?</key>
-  <key id="prices">prix</key>
+	<key id="new">ajouter une déclinaison</key>
+	<key id="column-label">libellé</key>
+	<key id="column-codereference">code référence</key>
+	<key id="column-stockquantity">quantité en stock</key>
+	<key id="column-stocklevel">niveau de stock</key>
+	<key id="column-actions">actions</key>
+	<key id="confirm-delete-declination">confirmez-vous la suppression de cette déclinaison ?</key>
+	<key id="prices">prix</key>
 </i18n>

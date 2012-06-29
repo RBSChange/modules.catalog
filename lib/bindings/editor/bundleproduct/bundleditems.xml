@@ -7,11 +7,11 @@
 			<xul:vbox flex="1">
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save_properties" oncommand="saveProperties()" label="${trans:m.uixul.bo.doceditor.button.Save,ucf,attr}"
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="${trans:m.uixul.bo.doceditor.button.save,ucf,attr}"
 						image="{IconsBase}/small/save.png" />
-					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="${trans:m.uixul.bo.doceditor.button.Canceledit,ucf,attr}"
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="${trans:m.uixul.bo.doceditor.button.canceledit,ucf,attr}"
 						image="{IconsBase}/small/undo.png" />
-					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="${trans:m.uixul.bo.doceditor.button.Nexterror,ucf,attr}"
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="${trans:m.uixul.bo.doceditor.button.nexterror,ucf,attr}"
 						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
@@ -19,22 +19,22 @@
 						flex="1">
 					</xul:cfield>
 
-					<xul:cfieldsgroup label="${trans:m.catalog.bo.doceditor.Add-bundleditems,ucf,attr}">
+					<xul:cfieldsgroup label="${trans:m.catalog.bo.doceditor.add-bundleditems,ucf,attr}">
 						<xul:row anonid="row_newBundledItemProducts">
 							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemProducts_label" control="catalog_bundleproduct_bundleditems_newBundledItemProducts"
-								value="${trans:m.catalog.bo.doceditor.bundleditem.Products,ucf,attr}" />
+								value="${trans:m.catalog.bo.doceditor.bundleditem.products,ucf,attr}" />
 							<xul:cfield name="newBundledItemProducts" id="catalog_bundleproduct_bundleditems_newBundledItemProducts" anonid="field_newBundledItemProducts"
 								fieldtype="documentarray" 
 								allow="modules_catalog_virtualproduct,modules_catalog_productdeclination,modules_catalog_bundleproduct,modules_catalog_simpleproduct" 
 								dialog="productselector" moduleselector="catalog"
-								shorthelp="${trans:m.catalog.bo.doceditor.bundleditem.Products-help,ucf,attr}">
+								shorthelp="${trans:m.catalog.bo.doceditor.bundleditem.products-help,ucf,attr}">
 							</xul:cfield>
 						</xul:row>
 						<xul:row anonid="row_newBundledItemQtt">
 							<xul:clabel id="catalog_bundleproduct_bundleditems_newBundledItemQtt_label" control="catalog_bundleproduct_bundleditems_newBundledItemQtt"
-								value="${trans:m.catalog.bo.doceditor.bundleditems.Defaultquantity,ucf,attr}" />
+								value="${trans:m.catalog.bo.doceditor.bundleditems.defaultquantity,ucf,attr}" />
 							<xul:cfield name="newBundledItemQtt" id="catalog_bundleproduct_bundleditems_newBundledItemQtt" anonid="field_newBundledItemQtt"
-								fieldtype="integer" required="true" shorthelp="${trans:m.catalog.bo.doceditor.bundleditems.Defaultquantity-help,ucf,attr}">
+								fieldtype="integer" required="true" shorthelp="${trans:m.catalog.bo.doceditor.bundleditems.defaultquantity-help,ucf,attr}">
 								<xul:cconstraint name="min" parameter="1" />
 							</xul:cfield>
 						</xul:row>
@@ -142,9 +142,9 @@
 				</xul:columns>
 				<xul:rows>
 					<xul:row class="head" anonid="head-row">
-						<xul:label name="label" value="${trans:m.catalog.bo.doceditor.bundleditems.Label-column,ucf,attr}" />
-						<xul:label name="qtt" value="${trans:m.catalog.bo.doceditor.bundleditems.Qtt-column,ucf,attr}" />
-						<xul:label name="actionrow" value="${trans:m.catalog.bo.doceditor.bundleditems.Actions-column,ucf,attr}" />
+						<xul:label name="label" value="${trans:m.catalog.bo.doceditor.bundleditems.label-column,ucf,attr}" />
+						<xul:label name="qtt" value="${trans:m.catalog.bo.doceditor.bundleditems.qtt-column,ucf,attr}" />
+						<xul:label name="actionrow" value="${trans:m.catalog.bo.doceditor.bundleditems.actions-column,ucf,attr}" />
 					</xul:row>
 				</xul:rows>
 			</xul:grid>
@@ -153,12 +153,12 @@
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:toolbar class="actions">
-					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="${trans:m.catalog.bo.actions.Add-product,ucf,attr}" />
-					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="${trans:m.catalog.bo.actions.Remove-product,ucf,attr}" />
-					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${trans:m.uixul.bo.actions.Delete,ucf,attr}" />
-					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${trans:m.uixul.bo.actions.Edit,ucf,attr}" />
-					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="${trans:m.uixul.bo.actions.Up,ucf,attr}" />
-					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="${trans:m.uixul.bo.actions.Down,ucf,attr}" />
+					<xul:toolbarbutton action="addproduct" image="{IconsBase}/small/plus-button.png" tooltiptext="${trans:m.catalog.bo.actions.add-product,ucf,attr}" />
+					<xul:toolbarbutton action="removeproduct" image="{IconsBase}/small/minus-button.png" tooltiptext="${trans:m.catalog.bo.actions.remove-product,ucf,attr}" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${trans:m.uixul.bo.actions.delete,ucf,attr}" />
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${trans:m.uixul.bo.actions.edit,ucf,attr}" />
+					<xul:toolbarbutton action="up" image="{IconsBase}/small/arrow-up-blue.png" tooltiptext="${trans:m.uixul.bo.actions.up,ucf,attr}" />
+					<xul:toolbarbutton action="down" image="{IconsBase}/small/arrow-down-blue.png" tooltiptext="${trans:m.uixul.bo.actions.down,ucf,attr}" />
 				</xul:toolbar>
 			</xul:row>
 		</content>

@@ -1,29 +1,11 @@
 <?php
 /**
- * catalog_ListTaxcategoryService
- * @package modules.catalog.lib.services
+ * @package modules.catalog
+ * @method catalog_ListTaxcategoryService getInstance()
  */
-class catalog_ListTaxcategoryService extends BaseService
+class catalog_ListTaxcategoryService extends change_BaseService implements list_ListItemsService
 {
 	/**
-	 * @var catalog_ListTaxcategoryService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ListTaxcategoryService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @see list_persistentdocument_dynamiclist::getItems()
 	 * @return list_Item[]
 	 */
 	public final function getItems()

@@ -8,27 +8,32 @@ class catalog_BlockVirtualproductAction extends catalog_BlockProductBaseAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
-	public function execute($request, $response)
+	function execute($request, $response)
 	{
 		$product = $this->getDocumentParameter();
-		
-		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
-		
-		$customer = null;
-		if (catalog_ModuleService::areCustomersEnabled())
+
+		// @deprecated this should not be used anymore. See order_AddToCartAction
+		if ($request->getParameter('addToCart') !== null)
 		{
-			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+			$this->addProductToCartForCurrentBlock($product);
 		}
 		
-		$prices = $product->getPrices($shop, $customer);
-		$price = array_shift($prices);
-		
+		// @deprecated this should not be used anymore. See catalog_UpdateListAction
+		if ($request->getParameter('addToList') !== null)
+		{
+			$this->addProductToFavorites($product);
+		}
 		$request->setAttribute('product', $product);
-		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('thresholdPrices', $prices);
 		
+		$prices = $product->getPricesForCurrentShopAndCustomer();
+		if (count($prices))
+		{
+			$price = array_shift($prices);
+			$request->setAttribute('defaultPrice', $price);
+			$request->setAttribute('thresholdPrices', $prices);			
+		}
 		return website_BlockView::SUCCESS;
 	}
 }

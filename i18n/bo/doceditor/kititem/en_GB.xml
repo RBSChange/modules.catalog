@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.kititem" lcid="en_GB">
-  <key id="products">kit products</key>
-  <key id="products-help">List of the products that will make up the kit, that can be selected with the resource selector.</key>
+	<key id="products">kit products</key>
+	<key id="products-help">List of the products that will make up the kit, that can be selected with the resource selector.</key>
 </i18n>

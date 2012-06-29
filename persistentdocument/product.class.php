@@ -8,8 +8,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	const RATING_META_KEY = 'ratingMetaKey';
 	
 	/**
-	 * @param Double $rating
-	 * @param Integer $websiteid
+	 * @param float $rating
+	 * @param integer $websiteid
 	 */
 	public function setRatingMetaForWebsiteid($rating, $websiteid)
 	{
@@ -26,8 +26,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @param Double $rating
-	 * @param Integer $websiteid
+	 * @param float $rating
+	 * @param integer $websiteid
 	 */
 	private function getRatingMetaForWebsiteid($websiteid)
 	{
@@ -38,7 +38,37 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		$ratings = $this->getMetaMultiple(self::RATING_META_KEY);
 		return isset($ratings[$websiteid]) ? $ratings[$websiteid] : null;
 	}
-
+	
+	/**
+	 * Get the indexable document
+	 * @param catalog_persistentdocument_compiledproduct $compildedProduct
+	 * @return indexer_IndexedDocument
+	 */
+	public function getIndexedDocumentByCompiledProduct($compildedProduct)
+	{
+		try 
+		{
+			$topic = $compildedProduct->getTopic();		
+			$topShelf = $compildedProduct->getTopShelf();						
+			$indexedDoc = new indexer_IndexedDocument();
+			$indexedDoc->setStringField('documentFamily', 'products');
+			$indexedDoc->setLabel($this->getLabel());
+			$indexedDoc->setLang($compildedProduct->getLang());
+			$indexedDoc->setText(
+				f_util_HtmlUtils::htmlToText($this->getDescription())
+				. ' ' . $this->getBrandLabel()
+				. ' ' . $topic->getLabel()
+				. ' ' . $topShelf->getLabel()
+				. ' ' . $this->getCodeReference()
+			);					
+		} 
+		catch (Exception $e) 
+		{
+			Framework::exception($e);
+			$indexedDoc = null;
+		}
+		return $indexedDoc;
+	}
 	
 	/**
 	 * Returns full product name in form of "{product} by {brand}".
@@ -50,7 +80,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		if ($brandLabel)
 		{
 			$replacements = array('product' => $this->getLabel(), 'brand' => $brandLabel);
-			$fullName = f_Locale::translate('&modules.catalog.frontoffice.fullProductName;', $replacements);
+			$fullName = LocaleService::getInstance()->trans('m.catalog.frontoffice.fullproductname', array(), $replacements);
 		}
 		else
 		{
@@ -61,7 +91,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getBrandLabel()
 	{
@@ -74,7 +104,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getBrandLabelAsHtml()
 	{
@@ -114,11 +144,11 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getLinkTitle()
 	{
-		return f_util_HtmlUtils::textToHtml(f_Locale::translate('&modules.catalog.frontoffice.Titlelinkdetailproduct;', array('name' => $this->getLabel())));
+		return f_util_HtmlUtils::textToHtml(LocaleService::getInstance()->trans('m.catalog.frontoffice.titlelinkdetailproduct', array('ucf'), array('name' => $this->getNavigationLabel())));
 	}
 
 	/**
@@ -164,7 +194,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getPathForUrl()
 	{
@@ -190,6 +220,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media[]
 	 */
 	public function getAllVisuals($shop)
@@ -198,23 +229,40 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return media_persistentdocument_media[]
+	 * @var float
 	 */
-	public function getAdditionnalVisualArray()
+	private $ratingAverage;
+	
+	/**
+	 * @return string
+	 */
+	public function hasRating()
 	{
-		return array();
+		return ($this->getRatingAverage() > 0);
 	}
 	
 	/**
-	 * @return String
+	 * @return string
+	 */
+	public function getRatingAverage()
+	{
+		if ($this->ratingAverage === null)
+		{
+			$website = website_WebsiteService::getInstance()->getCurrentWebsite();
+			$this->ratingAverage = floatval($this->getRatingMetaForWebsiteid($website->getId()));
+		}
+		return $this->ratingAverage;
+	}
+	
+	/**
+	 * @return string
 	 */
 	public function getFormattedRatingAverage()
 	{
-		$website = website_WebsiteService::getInstance()->getCurrentWebsite();
-		$ratingAverage = $this->getRatingMetaForWebsiteid($website->getId());
+		$ratingAverage = $this->getRatingAverage();
 		if ($ratingAverage === null)
 		{
-			return f_Locale::translate('&modules.catalog.frontoffice.No-rating-yet;');
+			return LocaleService::getInstance()->trans('m.catalog.frontoffice.no-rating-yet', array('ucf', 'html'));
 		}
 		else
 		{
@@ -223,24 +271,51 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param customer_persistentdocument_customer $customer nullable
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @var integer
 	 */
-	public function getPrice($shop, $customer, $quantity = 1)
+	protected $commentCount;
+	
+	/**
+	 * @return boolean
+	 */
+	public function hasComment()
 	{
-		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $targetIds, $quantity);
+		return ($this->getCommentCount() > 0);
 	}
 	
 	/**
-	 * @return String
+	 * @return integer
+	 */
+	public function getCommentCount()
+	{
+		if ($this->commentCount === null)
+		{
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getId());
+		}
+		return $this->commentCount;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @param customer_persistentdocument_customer $customer nullable
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_price
+	 */
+	public function getPrice($shop, $billingArea, $customer, $quantity = 1)
+	{
+		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
+	}
+	
+	/**
+	 * @return string
 	 */
 	public function getFormattedCurrentShopPrice()
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$price = $this->getPrice($shop, null);
+		$billingArea = $shop->getCurrentBillingArea();
+		$price = $this->getPrice($shop, $billingArea, null);
 		if ($price !== null)
 		{
 			return $price->getFormattedValueWithTax();
@@ -249,29 +324,42 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return String
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_price
 	 */
-	public function getPriceForCurrentShopAndCustomer()
+	public function getPriceForCurrentShopAndCustomer($quantity = 1)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
-		$curtomer = customer_CustomerService::getInstance()->getCurrentCustomer();
-		return $this->getPrice($shop, $curtomer);
+		$billingArea = $shop->getCurrentBillingArea();
+		$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		return $this->getPrice($shop, $billingArea, $customer, $quantity);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param customer_persistentdocument_customer $customer
 	 * @return catalog_persistentdocument_price[]
 	 */
-	public function getPrices($shop, $customer)
+	public function getPrices($shop, $billingArea, $customer)
 	{
 		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-		return $this->getDocumentService()->getPricesByTargetIds($this, $shop, $targetIds);
+		return $this->getDocumentService()->getPricesByTargetIds($this, $shop, $billingArea, $targetIds);
 	}
 	
 	/**
-	 * @param Integer $shopId
-	 * @return Boolean
+	 * @return catalog_persistentdocument_price[]
+	 */
+	public function getPricesForCurrentShopAndCustomer()
+	{
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$billingArea = $shop->getCurrentBillingArea();
+		$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
+		return $this->getPrices($shop, $billingArea, $customer);
+	}
+	/**
+	 * @param integer $shopId
+	 * @return boolean
 	 */
 	public function isInShop($shopId)
 	{
@@ -284,6 +372,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	// Gestion du stock du produit
+	
 	/**
 	 * @return catalog_StockableDocument
 	 */
@@ -295,7 +384,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param double $quantity
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function isAvailable($shop = null, $quantity = 1)
 	{
@@ -304,7 +393,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return String
+	 * @return string
 	 */
 	public function getAvailability($shop = null)
 	{
@@ -341,6 +430,9 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	private $sendStockAlert = false;
 	
+	/**
+	 * @param boolean $sendStockAlert
+	 */
 	public function setMustSendStockAlert($sendStockAlert = true)
 	{
 		$this->sendStockAlert = $sendStockAlert;
@@ -356,7 +448,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function canBeDisplayed($shop)
 	{
@@ -364,29 +456,40 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param int $quantity
-	 * @return Boolean
+	 * @param catalog_persistentdocument_price $price
+	 * @param integer $quantity
+	 * @return boolean
 	 */
-	public function canBeOrdered($shop, $quantity = 1)
+	public function canBeAddedToCart($price = false, $quantity = 1)
 	{
-		$cms = catalog_ModuleService::getInstance();
-		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
+		if (!catalog_ModuleService::getInstance()->isCartEnabled())
+		{
+			return false;
+		}
+		if ($price === false)
+		{
+			$price = $this->getPriceForCurrentShopAndCustomer($quantity);
+		}
+		if ($price === null)
+		{
+			return false;
+		}
+		$shop = $price->getShop();
+		return $shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @param String $type from list 'modules_catalog/crosssellingtypes'
-	 * @param String $sortBy from list 'modules_catalog/crosssellingsortby'
-	 * @return catalog_persistentdocument_product[]
+	 * @param string $type from list 'modules_catalog/crosssellingtypes'
+	 * @return integer[]
 	 */
-	public function getDisplayableCrossSelling($shop, $type = 'complementary', $sortBy = 'fieldorder')
+	public function getDisplayableCrossSellingIds($shop, $type = 'complementary')
 	{
-		return $this->getDocumentService()->getDisplayableCrossSelling($this, $shop, $type, $sortBy);
+		return $this->getDocumentService()->getDisplayableCrossSellingIds($this, $shop, $type);
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{
@@ -394,7 +497,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockModule()
 	{
@@ -444,9 +547,12 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		}
 		$attrValOri = $this->getAttributes();
 		$attrVal = array();
+		$definition = array();
 		foreach ($attrDef as $def) 
 		{
-			$code = $def['code'];
+			/* @var $def catalog_AttributeDefinition */
+			$code = $def->getCode();
+			$definition[] = $def->toBoArray();
 			if (isset($attrValOri[$code]))
 			{
 				$attrVal[$code] = $attrValOri[$code];
@@ -456,7 +562,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		{
 			$attrVal = null;
 		}
-		return JsonService::getInstance()->encode(array('attrDef' => $attrDef, 'attrVal' => $attrVal));
+		return JsonService::getInstance()->encode(array('attrDef' => $definition, 'attrVal' => $attrVal));
 	}
 		
 	/**
@@ -477,7 +583,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSDate()
-	 * @return String
+	 * @return string
 	 */
 	public function getRSSDate()
 	{
@@ -486,7 +592,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSDescription()
-	 * @return String
+	 * @return string
 	 */
 	public function getRSSDescription()
 	{
@@ -504,16 +610,25 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	
 	/**
 	 * @see rss_Item::getRSSGuid()
-	 * @return String
+	 * @return string
 	 */
 	public function getRSSGuid()
+	{
+		return LinkHelper::getPermalink($this);
+	}
+	
+	/**
+	 * @see rss_Item::getRSSLink()
+	 * @return string
+	 */
+	public function getRSSLink()
 	{
 		return LinkHelper::getDocumentUrl($this);
 	}
 	
 	/**
 	 * @see rss_Item::getRSSLabel()
-	 * @return String
+	 * @return string
 	 */
 	public function getRSSLabel()
 	{
@@ -526,7 +641,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	private $hasNewTranslation = null;
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function persistHasNewTranslation()
 	{
@@ -543,7 +658,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function getAndResetHasNewTranslation()
 	{
@@ -553,8 +668,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @param String $lang
-	 * @return String
+	 * @param string $lang
+	 * @return string
 	 */
 	public function isStatusModified($lang)
 	{
@@ -566,7 +681,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getOrderLabel()
 	{
-		return $this->getLabel();
+		return $this->getNavigationLabel();
 	}
 	
 	/**
@@ -648,6 +763,9 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return true;
 	}
 	
+	/**
+	 * @return integer|null
+	 */
 	public function getContextualTopicId()
 	{
 		$pageId = website_PageService::getInstance()->getCurrentPageId();
@@ -703,12 +821,106 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		if ($shop instanceof  catalog_persistentdocument_shop)
 		{
 			return catalog_CompiledproductService::getInstance()->createQuery()
-					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-					->add(Restrictions::eq('primary', true))
-					->add(Restrictions::eq('shopId', $shop->getId()))
-					->add(Restrictions::eq('product', $this))
-					->findUnique();
+				->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+				->add(Restrictions::eq('primary', true))
+				->add(Restrictions::eq('shopId', $shop->getId()))
+				->add(Restrictions::eq('product', $this))
+				->findUnique();
 		}
 		return  null;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isConfigurable()
+	{
+		return $this->getDocumentService()->isConfigurable($this);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return website_persistentdocument_page
+	 */
+	public function getConfigurationPage($shop = null)
+	{
+		if ($this->isConfigurable())
+		{
+			return $this->getDocumentService()->getConfigurationPage($this, $shop);
+		}
+		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $shop
+	 * @return string
+	 */
+	public function getAddToCartUrl($shop = null)
+	{
+		$page = $this->getConfigurationPage($shop);
+		if ($page instanceof website_persistentdocument_page)
+		{
+			return LinkHelper::getDocumentUrl($page);
+		}
+		return LinkHelper::getActionUrl('order', 'AddToCart');
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function hasMinOrderQuantity()
+	{
+		return $this->getMinOrderQuantity() != 1;
+	}
+	
+	// Deprecated. 
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
+	 */
+	public function getPrimaryShelf($website = null)
+	{
+		if ($website === null)
+		{
+			return $this->getBoPrimaryShelf();
+		}
+		else 
+		{
+			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
+			return $this->getShopPrimaryShelf($shop);
+		}
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use getBoPrimaryTopShelf or getShopPrimaryTopShelf instead
+	 */
+	public function getPrimaryTopShelf($website = null)
+	{
+		if ($website === null)
+		{
+			return $this->getBoPrimaryTopShelf();
+		}
+		else 
+		{
+			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
+			return $this->getShopPrimaryTopShelf($shop);
+		}
+	}
+	
+	/**
+	 * @deprecated use getDisplayableCrossSellingIds
+	 */
+	public function getDisplayableCrossSelling($shop, $type = 'complementary', $sortBy = 'fieldorder')
+	{
+		return $this->getDocumentService()->getDisplayableCrossSelling($this, $shop, $type, $sortBy);
+	}
+		
+	/**
+	 * @deprecated use canBeAddedToCart
+	 */
+	public function canBeOrdered($shop, $quantity = 1)
+	{
+		$cms = catalog_ModuleService::getInstance();
+		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
 	}
 }

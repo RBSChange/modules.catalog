@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.panel.prices" lcid="fr_FR">
-  <key id="new">ajouter un prix</key>
-  <key id="shop">choix de la boutique</key>
-  <key id="date">afficher les prix valables à la date</key>
-  <key id="target-type">afficher</key>
-  <key id="target-id">groupe tarifaire/client</key>
-  <key id="type-shop">prix boutique</key>
-  <key id="type-group">prix par groupe</key>
-  <key id="type-customer">prix par client</key>
-  <key id="type-all">tous les prix</key>
-  <key id="type-kit">prix par kit</key>
-  <key id="column-value">montant TTC</key>
-  <key id="column-is-discount">promo</key>
-  <key id="column-target">groupe tarifaire/client</key>
-  <key id="column-priority">priorité</key>
-  <key id="column-threshold-min">seuil de quantité</key>
-  <key id="column-start-publication-date">début de validité</key>
-  <key id="column-end-publication-date">fin de validité</key>
-  <key id="column-actions">actions</key>
-  <key id="confirm-delete-price">confirmez-vous la suppression de ce prix ?</key>
-  <key id="confirm-remove-discount">confirmez-vous la suppression de la promotion sur ce prix ?</key>
+	<key id="new">ajouter un prix</key>
+	<key id="shop">choix de la boutique</key>
+	<key id="date">afficher les prix valables à la date</key>
+	<key id="target-type">afficher</key>
+	<key id="target-id">groupe tarifaire/client</key>
+	<key id="type-shop">prix boutique</key>
+	<key id="type-group">prix par groupe</key>
+	<key id="type-customer">prix par client</key>
+	<key id="type-all">tous les prix</key>
+	<key id="type-kit">prix par kit</key>
+	<key id="column-value">montant TTC</key>
+	<key id="column-is-discount">promo</key>
+	<key id="column-target">groupe tarifaire/client</key>
+	<key id="column-priority">priorité</key>
+	<key id="column-threshold-min">seuil de quantité</key>
+	<key id="column-start-publication-date">début de validité</key>
+	<key id="column-end-publication-date">fin de validité</key>
+	<key id="column-actions">actions</key>
+	<key id="confirm-delete-price">confirmez-vous la suppression de ce prix ?</key>
+	<key id="confirm-remove-discount">confirmez-vous la suppression de la promotion sur ce prix ?</key>
 </i18n>

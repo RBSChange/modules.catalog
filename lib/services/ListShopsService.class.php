@@ -1,29 +1,12 @@
 <?php
-
 /**
- * @package module.catalog
+ * @package modules.catalog
+ * @method catalog_ListShopsService getInstance()
  */
-class catalog_ListShopsService extends BaseService
+class catalog_ListShopsService extends change_BaseService implements list_ListItemsService
 {
 	/**
-	 * @var catalog_ListShopsService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ListShopsService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @return array<list_Item>
+	 * @return list_Item[]
 	 */
 	public final function getItems()
 	{

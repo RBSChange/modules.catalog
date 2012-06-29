@@ -1,28 +1,12 @@
 <?php
 /**
- * @package module.catalog
+ * @package modules.catalog
+ * @method catalog_ListDeclinationsbyproductService getInstance()
  */
-class catalog_ListDeclinationsbyproductService extends BaseService
+class catalog_ListDeclinationsbyproductService extends change_BaseService implements list_ListItemsService
 {
 	/**
-	 * @var catalog_DeclinationsbyproductService
-	 */
-	private static $instance;
-	
-	/**
-	 * @return catalog_DeclinationsbyproductService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * @return array<list_Item>
+	 * @return list_Item[]
 	 */
 	public final function getItems()
 	{
@@ -53,7 +37,7 @@ class catalog_ListDeclinationsbyproductService extends BaseService
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public final function getDefaultId()
 	{

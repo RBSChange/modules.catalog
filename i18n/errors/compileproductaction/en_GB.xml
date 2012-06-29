@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.errors.compileproductaction" lcid="en_GB">
-  <key id="invalid-product">This document is not a product.</key>
-  <key id="invalid-shop">This document is not a shop.</key>
+	<key id="invalid-product">This document is not a product.</key>
+	<key id="invalid-shop">This document is not a shop.</key>
 </i18n>

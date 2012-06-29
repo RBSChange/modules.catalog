@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productcomparison" lcid="fr_FR">
+	<key id="title">comparaison de produits</key>
+	<key id="comparableproperties">propriétés comparables</key>
+	<key id="comparableproperties-help">Sélectionnez les propriété comparables.</key>
+	<key id="restrictproductstocontext">restreindre aux produits du rayon</key>
+	<key id="restrictproductstocontext-help">Cocher oui pour restreindre la liste de comparaison aux produits sélectionnés qui appartiennent au rayon courrant ou à un de ses sous-rayons.</key>
+	<key id="displayaddtocart">ajout au panier</key>
+	<key id="displayaddtocart-help">activer ou non le bouton d'ajout au panier.</key>
+	<key id="useaddtocartpopin">ajout au panier via une popin</key>
+	<key id="useaddtocartpopin-help">Activer ou non l'utilisation d'une popin pour l'ajout au panier.</key>
+	<key id="showquantityselector">afficher le sélectionneur de quantité</key>
+	<key id="showquantityselector-help">Afficher ou non le sélectionneur de quantité sur chaque produit. Ce sélectionneur ne sera présent que pour les utilisateurs dont le navigateur gère le javascript.</key>
+	<key id="showaddtofavorite">ajout aux produits favoris</key>
+	<key id="showaddtofavorite-help">activer ou non le bouton d'ajout aux produits favoris.</key>
+	<key id="showproductpictograms">pictogrammes</key>
+	<key id="showproductpictograms-help">activer ou non l'affichage des pictogrammes des produits.</key>
+</i18n>

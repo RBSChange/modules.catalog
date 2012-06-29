@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.lists.cross-selling-types" lcid="fr_FR">
-  <key id="label">types d'association</key>
-  <key id="description">types d'association entre les produits associés</key>
-  <key id="complementary">produits complémentaires</key>
-  <key id="upsell">produits de gamme supérieure</key>
-  <key id="similar">produits similaires</key>
+	<key id="label">types d'association</key>
+	<key id="description">types d'association entre les produits associés</key>
+	<key id="complementary">produits complémentaires</key>
+	<key id="upsell">produits de gamme supérieure</key>
+	<key id="similar">produits similaires</key>
 </i18n>

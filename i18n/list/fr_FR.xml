@@ -1,15 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<i18n baseKey="m.catalog.list." lcid="fr_FR">
-  <key id="axes-label">Liste des axes</key>
-  <key id="axes-description">Liste des axes autorisé pour les produits</key>
-  <key id="axesinlist-label">Liste des axes visibles</key>
-  <key id="axesinlist-description">Liste des axes visibles dans les listes de produits</key>
-  <key id="axesinlist-0">Aucun</key>
-  <key id="axesinlist-1">Axe 1</key>
-  <key id="axesinlist-2">Axe 1 et 2</key>
-  <key id="axesinlist-3">Tous</key>
-  <key id="taxcategory-label">Categorie de taxe</key>
-  <key id="orderprocess-label">Processus de commande</key>
-  <key id="orderprocess-default">Par défaut</key>
-  <key id="orderprocess-standard">Standard</key>
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.list" lcid="fr_FR">
+	<key id="axes-label">Liste des axes</key>
+	<key id="axes-description">Liste des axes autorisé pour les produits</key>
+	<key id="axesinlist-label">Liste des axes visibles</key>
+	<key id="axesinlist-description">Liste des axes visibles dans les listes de produits</key>
+	<key id="axesinlist-0">Aucun</key>
+	<key id="axesinlist-1">Axe 1</key>
+	<key id="axesinlist-2">Axe 1 et 2</key>
+	<key id="axesinlist-3">Tous</key>
+	<key id="taxcategory-label">Categorie de taxe</key>
+	<key id="orderprocess-label">Processus de commande</key>
+	<key id="orderprocess-default">Par défaut</key>
+	<key id="orderprocess-standard">Standard</key>
+	<key id="lastconsultedproducts-label">Modes d'affichage des derniers produits consultés</key>
+	<key id="lastconsultedproducts-compact">Liste compacte</key>
+	<key id="lastconsultedproducts-random">Aléatoire</key>
+	<key id="lastconsultedproducts-list">Liste détaillée</key>
+	<key id="pricesorting">plage de prix</key>
+	<key id="pricesorting-description">plage de prix</key>
+	<key id="blocktemplates-list">liste</key>
+	<key id="shippedin-label">délais d'expédition</key>
+	<key id="shippedin-description">Liste délais d'expédition d'un produit.</key>
+	<key id="blocktemplates-slide">"slider"</key>
+	<key id="blocktemplates-short">compact</key>
+	<key id="billingareabyshop-label">zone de facturation d'une boutique</key>
+	<key id="billingareabyshop-description">zone de facturation d'une boutique</key>
 </i18n>

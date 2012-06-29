@@ -1,46 +1,41 @@
-<tal:block tal:define="doc item/getDocument; product doc/getProduct">
-	<img change:productvisual="name 'visual'; mode 'list'; product product" change:media="document visual; format 'modules.solrsearch.frontoffice/result-visual'; class 'document-visual'" />
-	<p class="normal">${structure item/getHighlightedText}<span>${trans:m.solrsearch.frontoffice.end-description,ucf,etc}</span></p>
-	<dl class="inline-list" tal:define="shop doc/getShop; shelf doc/getShelf">
+<tal:block tal:define="doc item/getDocument">
+	<img change:productvisual="name 'visual'; mode 'list'; product doc/getProduct" change:media="document visual; format 'modules.solrsearch.frontoffice/result-visual'; class 'document-visual'" />
+	<p class="normal">${item/getHighlightedText}<span>${trans:m.solrsearch.frontoffice.end-description,ucf,etc}</span></p>
+	<dl class="inline-list" tal:define="shop doc/getShop; shelf doc/getShelf" change:productprice="name 'price'; product doc/getProduct; shop shop">
 		<dt>${trans:m.solrsearch.frontoffice.type,ucf}</dt> 
 		<dd>
 			<tal:block tal:condition="item/hasTypeLabel">${item/getTypeLabel}</tal:block>
 			<tal:block tal:condition="not:item/hasTypeLabel">${trans:m.catalog.frontoffice.oneproduct,ucf}</tal:block>
-			<span> - </span>
+			<span class="separator"> - </span>
 		</dd>
 		<tal:block tal:condition="showDates">
 			<dt>${trans:m.solrsearch.frontoffice.creationdate,ucf}</dt>
-			<dd>${datetime:product/getUICreationdate}<span> - </span></dd>
-			<tal:block tal:condition="php: product.getCreationdate() < product.getModificationdate()">
+			<dd>${datetime:doc/getUICreationdate}<span class="separator"> - </span></dd>
+			<tal:block tal:condition="php: item.getDocument().getCreationdate() < item.getDocument().getModificationdate()">
 				<dt>${trans:m.solrsearch.frontoffice.modificationdate,ucf}</dt>
-				<dd>${datetime:product/getUIModificationdate}<span> - </span></dd>
+				<dd>${datetime:doc/getUIModificationdate}<span class="separator"> - </span></dd>
 			</tal:block>
 		</tal:block>
 		<dt>${trans:m.catalog.frontoffice.shop,ucf}</dt>
-		<dd><a change:link="document shop">${structure shop/getLabelAsHtml}</a><span> - </span></dd>
+		<dd><a change:link="document shop">${structure shop/getLabelAsHtml}</a><span class="separator"> - </span></dd>
 		<tal:block tal:condition="not: shop/getIsDefault" tal:define="global shopId shop/getId" />
 		<dt>${trans:m.catalog.frontoffice.shelf,ucf}</dt>
-		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${structure shelf/getLabelAsHtml}</a><span> - </span></dd>
-		<tal:block change:productprice="name 'price'; product product; shop shop" tal:condition="price">
-			<tal:block tal:condition="shop/getDisplayPriceWithTax">
-				<dt>${trans:m.catalog.frontoffice.pricettc,ucf}</dt>
-				<dd>
-					<tal:block tal:condition="price/isDiscount">
-						<del>${price/getFormattedOldValueWithTax}</del>			
-					</tal:block>
-					<ins>${price/getFormattedValueWithTax}</ins>
-					<span tal:condition="shop/getDisplayPriceWithoutTax"> - </span>
-				</dd>
-			</tal:block>
-			<tal:block tal:condition="shop/getDisplayPriceWithoutTax">
-				<dt>${trans:m.catalog.frontoffice.priceht,ucf}</dt>
-				<dd>
-					<tal:block tal:condition="price/isDiscount">
-						<del>${price/getFormattedOldValueWithoutTax}</del>			
-					</tal:block>
-					<ins>${price/getFormattedValueWithoutTax}</ins>
-				</dd>
-			</tal:block>
+		<dd><a change:link="document shelf; catalogParam[shopId] shopId">${structure shelf/getLabelAsHtml}</a><span class="separator" tal:condition="price"> - </span></dd>
+		<tal:block tal:condition="price">
+			<dt>${trans:m.catalog.frontoffice.price,ucf}</dt>
+			<dd>
+				<tal:block tal:condition="shop/getDisplayPriceWithoutTax">
+					<span class="price">
+						${price/getFormattedValueWithoutTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ht,uc}</span>
+						<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithoutTax}</del></tal:block>
+					</span>
+					<span class="separator" tal:condition="shop/getDisplayPriceWithTax"> / </span>
+				</tal:block>
+				<span class="price" tal:condition="shop/getDisplayPriceWithTax"> 
+					${price/getFormattedValueWithTax}  <span class="tax-mode">${trans:m.catalog.frontoffice.ttc,uc}</span>
+					<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
+				</span>
+			</dd>
 		</tal:block>
 	</dl>
 </tal:block>

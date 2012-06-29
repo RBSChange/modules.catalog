@@ -1,28 +1,10 @@
 <?php
 /**
- * catalog_ShelfService
  * @package modules.catalog
+ * @method catalog_ShelfService getInstance()
  */
 class catalog_ShelfService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * Singleton
-	 * @var catalog_ShelfService
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return catalog_ShelfService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_shelf
 	 */
@@ -37,7 +19,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/shelf');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/shelf');
 	}
 	
 	/**
@@ -46,14 +28,14 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public final function createShelfQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/shelf');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/shelf');
 	}
 	
 	private $getShelfAncestorIdsCache = array();
 	/**
 	 * Warning: this method is cached at PHP process level and not invalidated.
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return Integer[]
+	 * @return integer[]
 	 */
 	public function getShelfAncestorIds($shelf)
 	{
@@ -71,7 +53,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @param String $newLabel
+	 * @param string $newLabel
 	 */
 	public function changeLabel($shelf, $newLabel)
 	{
@@ -79,14 +61,14 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		{
 			try
 			{
-				$this->tm->beginTransaction();
+				$this->getTransactionManager()->beginTransaction();
 				$shelf->setLabel($newLabel);
-				$this->pp->updateDocument($shelf);
-				$this->tm->commit();
+				$this->getPersistentProvider()->updateDocument($shelf);
+				$this->getTransactionManager()->commit();
 			}
 			catch (Exception $e)
 			{
-				$this->tm->rollBack($e);
+				$this->getTransactionManager()->rollBack($e);
 			}
 		}
 	}
@@ -110,7 +92,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 
 	/**
 	 * Returns the top-level shelf of the current shop for the current page.
-	 * @see website_PageService::getCurrentPageId()
 	 * @return catalog_persistentdocument_shelf
 	 */
 	public function getCurrentTopShelf()
@@ -140,7 +121,6 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * Returns the top-level shelf of the current shop for the current page.
-	 * @see website_PageService::getCurrentPageId()
 	 * @return catalog_persistentdocument_shelf
 	 */
 	public function getCurrentShelf()
@@ -217,7 +197,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		$subShelves = array();
 		foreach ($subShelvesIds as $subShelfId)
 		{
-			$subShelves[] = $this->pp->getDocumentInstance($subShelfId);
+			$subShelves[] = $this->getPersistentProvider()->getDocumentInstance($subShelfId);
 		}
 		return $subShelves;
 	}
@@ -278,7 +258,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				return true;
 			}
 			
-			$this->setActivePublicationStatusInfo($shelf, 'm.catalog.bo.general.no-published-content');
+			$this->setActivePublicationStatusInfo($shelf, '&m.catalog.bo.general.no-published-content;');
 			return false;
 		}
 		return $result;
@@ -336,7 +316,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	{
 		if ($topicParent === null) { throw new Exception('no topic'); }
 		$topic = $this->getRelatedTopicByTopicAncestor($shelf, $topicParent);
-		$topic->getDocumentService()->removeIndexPage($topic);
+		website_TopicService::getInstance()->removeIndexPage($topic);
 		foreach ($this->getChildrenOf($shelf) as $child)
 		{
 			if ($child instanceof catalog_persistentdocument_shelf)
@@ -425,7 +405,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				$shop = catalog_ShopService::getInstance()->getByTopic($systemTopic);
 				$href = website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($systemTopic, null, $lang)->setArgSeparator('&')->getUrl();
 				$urlData[] = array(
-					'label' => $ls->transBO('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $shop->getWebsite()->getLabel())), 
+					'label' => $ls->trans('m.catalog.bo.doceditor.url-for-website', array('ucf'), array('website' => $shop->getWebsite()->getLabel())), 
 					'href' => $href,
 					'class' => $systemTopic->isPublished() ? 'link' : ''
 				);
@@ -454,7 +434,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId)
@@ -468,7 +448,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function postInsert($document, $parentNodeId)
@@ -523,18 +503,19 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function postUpdate($document, $parentNodeId)
 	{
 		// Update related topics.
-		if ($document->isPropertyModified('description') || $document->isPropertyModified('label'))
+		if ($document->isPropertyModified('description') || $document->isPropertyModified('label') || $document->isPropertyModified('visual'))
 		{
 			foreach ($document->getTopicArray() as $topic)
 			{
 				$topic->setLabel($document->getLabel());
 				$topic->setDescription($document->getDescription());
+				$topic->setVisual($document->getVisual());
 				$topic->save();
 			}
 		}
@@ -543,7 +524,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shelf $document
-	 * @param String $oldPublicationStatus
+	 * @param string $oldPublicationStatus
 	 * @param Array<Mixed> $params
 	 * @return void
 	 */
@@ -582,7 +563,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 * transaction.
 	 *
 	 * @param catalog_persistentdocument_shelf $document
-	 * @param Integer $destId
+	 * @param integer $destId
 	 */
 	protected function onMoveToStart($document, $destId)
 	{
@@ -620,7 +601,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
-	 * @param Integer $destId
+	 * @param integer $destId
 	 * @return void
 	 */
 	protected function onDocumentMoved($document, $destId)
@@ -646,6 +627,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			$topic->setReferenceId($shelf->getId());
 			$topic->setLabel($shelf->getLabel());
 			$topic->setDescription($shelf->getDescription());
+			$topic->setVisual($shelf->getVisual());
 			$topic->save($topicParent->getId());
 
 			$shelf->addTopic($topic);
@@ -707,6 +689,27 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		return $this->getRelatedTopicByTopicAncestor($shelf, $shopTopic);
 	}
 
+	/**
+	 * @param website_UrlRewritingService $urlRewritingService
+	 * @param catalog_persistentdocument_shelf $document
+	 * @param website_persistentdocument_website $website
+	 * @param array $lang
+	 * @param array $parameters
+	 * @return f_web_Link | null
+	 */
+	public function getWebLink($urlRewritingService, $document, $website, $lang, $parameters)
+	{
+		if (website_WebsiteService::getInstance()->getCurrentWebsite() == $website)
+		{
+			$topic = $document->getContextualSystemTopic();
+			if ($topic)
+			{
+				$this->completeParamters($document, $topic, $lang, $parameters);
+			}
+		}
+		$path = $urlRewritingService->getDocumentDefaultPath($document, $lang);
+		return $urlRewritingService->getRewriteLink($website, $lang, $path, $parameters);
+	}
 
 	/**
 	 * @param website_UrlRewritingService $urlRewritingService
@@ -718,12 +721,29 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function getWebLinkForSystemTopic($urlRewritingService, $document, $systemtopic, $lang, $parameters)
 	{
-		$shop = catalog_ShopService::getInstance()->getByTopic($systemtopic);
+		$website = $this->completeParamters($document, $systemtopic, $lang, $parameters);
+		if ($website)
+		{
+			return $urlRewritingService->getDocumentLinkForWebsite($document, $website, $lang, $parameters);
+		}
+		return null;
+	}
+
+	/**
+	 * @param catalog_persistentdocument_shelf $document
+	 * @param website_persistentdocument_systemtopic $systemtopic
+	 * @param string $lang
+	 * @param array $parameters
+	 * @return website_persistentdocument_website $website
+	 */
+	protected function completeParamters($document, $topic, $lang, &$parameters)
+	{
+		$shop = catalog_ShopService::getInstance()->getByTopic($topic);
 		if ($shop)
 		{
 			$website = $shop->getWebsite();
 			$catalogParam = isset($parameters['catalogParam']) ? $parameters['catalogParam'] : array();
-			if ($shop && !$shop->getIsDefaultForLang($lang))
+			if (!$shop->getIsDefaultForLang($lang))
 			{
 				$catalogParam['shopId'] = $shop->getId();
 			}
@@ -731,20 +751,19 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			{
 				unset($catalogParam['shopId']);
 			}
-			
+				
 			if (count($catalogParam))
-			{	
+			{
 				$parameters['catalogParam'] = $catalogParam;
 			}
 			else if (isset($parameters['catalogParam']))
 			{
 				unset($parameters['catalogParam']);
-			}	
-			return $urlRewritingService->getDocumentLinkForWebsite($document, $website, $lang, $parameters);	
+			}
+			return $website;
 		}
 		return null;
-
-	}	
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $document
@@ -780,7 +799,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 		}
 		return null;
 	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_shelf $document
 	 * @param array<string, string> $attributes
@@ -789,13 +808,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function completeBOAttributes($document, &$attributes, $mode, $moduleName)
 	{
-		if (($mode & DocumentHelper::MODE_ITEM) || ($mode & DocumentHelper::MODE_CUSTOM))
+		if ($mode & DocumentHelper::MODE_CUSTOM)
 		{
-			$visual = $document->getVisual();
-			if ($visual && $mode & DocumentHelper::MODE_ITEM) { $attributes['hasPreviewImage'] = true; }
-			if ($visual && $mode & DocumentHelper::MODE_CUSTOM)
+			$detailVisual = $document->getVisual();
+			if ($detailVisual)
 			{
-				$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($visual, "modules.uixul.backoffice/thumbnaillistitem");			
+				$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");
 			}
 		}
 	}

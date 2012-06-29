@@ -4,29 +4,26 @@
 		<field name="label" />
 		<field name="codeReference" />
 		<field name="description" />
-		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="visual" allowfile="true" mediafoldername="Inbox" />
 		<field name="brand" />
 		<field name="shelf" moduleselector="catalog" allow="[modules_catalog_shelf]" required="true" />
 	</section>
-	
 	<section labeli18n="m.catalog.bo.general.axes">
-		<field name="axe1" />
-		<field name="axe2" />
-		<field name="axe3" />
+		<field name="axe1" nocache="true" />
+		<field name="axe2" nocache="true" />
+		<field name="axe3" nocache="true" />
 		<field name="showAxeInList" />
 	</section>
-		
 	<section labeli18n="m.catalog.bo.general.validity-dates" class="toggle" hidden="true">
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />
 	</section>
-	
 	<section labeli18n="m.catalog.bo.general.additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
-		<field name="pictogram" allowfile="true" mediafoldername="Inbox"/>
-		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
-		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
-		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector"/>
+		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
+		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" />
+		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" />
+		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" />
 		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]" />
 	</section>
 	<section labeli18n="m.catalog.bo.general.referencing" class="toggle" hidden="true">
@@ -36,10 +33,8 @@
 	</section>
 	<section labeli18n="m.catalog.bo.general.prices" class="toggle" hidden="true">
 		<field name="synchronizePrices" />
-		<field name="synchronizePricesFrom"	labeli18n="m.catalog.document.declinedproduct.synchronizepricesfrom" 
-			 type="dropdownlist" disabled="true" shorthelpi18n="m.catalog.document.declinedproduct.synchronizepricesfrom-help" />
+		<field name="synchronizePricesFrom" labeli18n="m.catalog.document.declinedproduct.synchronizepricesfrom" type="dropdownlist" disabled="true" shorthelp="${trans:m.catalog.document.declinedproduct.synchronizepricesfrom-help,ucf,attr}" />
 	</section>
-
 	<xul>
 		<javascript>
 			<constructor><![CDATA[
@@ -47,7 +42,6 @@
 				var me = this;
 				this.fields['synchronizePrices'].addEventListener('fieldChanged', function (event) {me.onSynchronizePricesChanged();}, true);
 			]]></constructor>
-			
 			<method name="onSynchronizePricesChanged">
 				<body><![CDATA[
 					try
@@ -75,7 +69,6 @@
 					}
 				]]></body>
 			</method>
-			
 			<method name="fireInitializeCompleteExtend">
 				<parameter name="result" />
 				<body><![CDATA[
@@ -106,7 +99,6 @@
 					}
 				]]></body>
 			</method>
-
 			<method name="setAttributesForSuggestions">
 				<parameter name="field" />
 				<parameter name="feederClass" />

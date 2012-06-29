@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/4.0.xsd" model-version="1.0" publish-on-day-change="false" has-url="false" backoffice-indexable="false">
-  <properties>
-    <property name="user" type="modules_users/user" min-occurs="1" inverse="true"/>
-    <property name="product" type="modules_catalog/product" max-occurs="-1" inverse="true"/>
-    <property name="listName" type="String" min-occurs="1" default-value="favorite"/>
-  </properties>
-  <statuses default="ACTIVE"/>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" has-url="false" backoffice-indexable="false" use-publication-dates="false">
+	<properties>
+		<property name="user" type="Document" min-occurs="1" inverse="true" document-type="modules_users/user" />
+		<property name="product" type="DocumentArray" inverse="true" document-type="modules_catalog/product" />
+		<property name="listName" type="String" min-occurs="1" default-value="favorite" />
+	</properties>
+	<statuses default="ACTIVE" />
 </document>

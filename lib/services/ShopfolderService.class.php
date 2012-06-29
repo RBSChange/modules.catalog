@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_ShopfolderService
- * @package catalog
+ * @package modules.catalog
+ * @method catalog_ShopfolderService getInstance()
  */
 class catalog_ShopfolderService extends generic_FolderService
 {
-	/**
-	 * @var catalog_ShopfolderService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ShopfolderService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_shopfolder
 	 */
@@ -38,7 +21,7 @@ class catalog_ShopfolderService extends generic_FolderService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/shopfolder');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/shopfolder');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_ShopfolderService extends generic_FolderService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/shopfolder', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/shopfolder', false);
 	}
 	
 	/**

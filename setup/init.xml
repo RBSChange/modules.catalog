@@ -28,23 +28,7 @@
 			<staticitem value="percentage" label="&amp;modules.catalog.bo.general.Discount-types-percentage;" />
 			<staticitem value="value" label="&amp;modules.catalog.bo.general.Discount-types-value;" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/currencycode" label="&amp;modules.catalog.bo.general.Currency-code-list;"
-			description="&amp;modules.catalog.bo.general.Currency-code-list-description;">
-			<staticitem value="EUR" label="€" />
-			<staticitem value="GBP" label="£" />
-			<staticitem value="CHF" label="F" />
-			<staticitem value="USD" label="$" />
-			<staticitem value="CAD" label="$" />
-			<staticitem value="AUD" label="$" />
-			<staticitem value="NZD" label="$" />
-			<staticitem value="JPY" label="¥" />
-			<staticitem value="SEK" label="kr" />
-			<staticitem value="NOK" label="kr" />
-			<staticitem value="RUB" label="руб" />
-			<staticitem value="ZAR" label="R" />
-		</staticlist>
-		
+				
 		<staticlist listid="modules_catalog/currencyposition" label="&amp;modules.catalog.bo.general.Currency-position-list;"
 			description="&amp;modules.catalog.bo.general.Currency-position-list-description;">			
 			<staticitem value="left" label="&amp;modules.catalog.bo.general.Currency-position-left;" />
@@ -58,20 +42,6 @@
 			<staticitem value="kg" label="&amp;modules.catalog.frontoffice.weight-unit-kg-label;" />
 		</staticlist>
 		
-		<staticlist listid="modules_catalog/searchdisplaymodes" label="&amp;modules.catalog.bo.general.Search-modes-list-label;"
-			description="&amp;modules.catalog.bo.general.Search-modes-list-desc;">			
-			<staticitem value="all" label="&amp;modules.catalog.frontoffice.Search-all;" />
-			<staticitem value="products" label="&amp;modules.catalog.frontoffice.Search-products;" />
-			<staticitem value="others" label="&amp;modules.catalog.frontoffice.Search-others;" />
-		</staticlist>
-		
-		<staticlist listid="modules_catalog/taxcode" label="&amp;modules.catalog.bo.general.Taxcode;">			
-			<staticitem value="0" label="&amp;modules.catalog.bo.general.No-tax;" />
-			<staticitem value="1" label="19.6 %" />
-			<staticitem value="2" label="5.5 %" />
-			<staticitem value="3" label="8.5 %" />
-		</staticlist>
-		
 		<staticlist listid="modules_catalog/crosssellingtypes" label="&amp;modules.catalog.bo.lists.cross-selling-types.label;"
 			description="&amp;modules.catalog.bo.lists.cross-selling-types.description;">			
 			<staticitem value="complementary" label="&amp;modules.catalog.bo.lists.cross-selling-types.Complementary;" />
@@ -79,25 +49,9 @@
 			<staticitem value="similar" label="&amp;modules.catalog.bo.lists.cross-selling-types.Similar;" />
 		</staticlist>
 		
-		<staticlist listid="modules_catalog/crosssellingsortby" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.label;"
-			description="&amp;modules.catalog.bo.lists.cross-selling-sortby.description;">			
-			<staticitem value="fieldorder" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Fieldorder;" />
-			<staticitem value="random" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Random;" />
-		</staticlist>
-		
-		<staticlist listid="modules_catalog/displaymode" label="&amp;modules.catalog.frontoffice.List-displaymode;">
-			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
-			<staticitem value="table" label="&amp;modules.catalog.frontoffice.List-table;" />
-		</staticlist>
-		
-		<staticlist listid="modules_catalog/productpromotion" label="&amp;modules.catalog.frontoffice.Productpromotion-displaymode;">
-			<staticitem value="random" label="&amp;modules.catalog.frontoffice.Productpromotion-random;" />
-			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
-		</staticlist>
-		
-		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.frontoffice.Discountornot-title;">
-			<staticitem value="discount" label="&amp;modules.catalog.frontoffice.Discountornot-discount;" />
-			<staticitem value="not-discount" label="&amp;modules.catalog.frontoffice.Discountornot-not-discount;" />
+		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.bo.lists.discountornot.Label;">
+			<staticitem value="discount" label="&amp;modules.catalog.bo.lists.Discountornot-discount" />
+			<staticitem value="not-discount" label="&amp;modules.catalog.bo.lists.Discountornot-not-discount" />
 		</staticlist>
 		
 		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication"
@@ -106,7 +60,7 @@
 			<staticitem value="lastpublicationdate" label="&amp;modules.catalog.document.compiledproduct.lastpublicationdate;" />
 		</staticlist>
 				
-		<dynamiclist listid="modules_catalog/shopcurrency" label="Devises avec code" />
+		<dynamiclist listid="modules_catalog/currency" label="Devises" />
 		
 		<dynamiclist listid="modules_catalog/productsuggestionfeeders" label="Méthodes de suggestion des produits" />
 		
@@ -119,6 +73,43 @@
 			description="Liste des attributs étendus de produit" />
 			
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
+		
+		<valuededitablelist listid="modules_catalog/shippedin" label="m.catalog.list.shippedin-label"
+			description="m.catalog.list.shippedin-description">
+			<valueditem value="48H" label="48H" />
+			<valueditem value="72H" label="72H" />
+		</valuededitablelist>
+		
+		
+		
+		<staticlist listid="modules_catalog/searchdisplaymodes" label="&amp;modules.catalog.bo.general.Search-modes-list-label;"
+			description="&amp;modules.catalog.bo.general.Search-modes-list-desc;">			
+			<staticitem value="all" label="&amp;modules.catalog.frontoffice.Search-all;" />
+			<staticitem value="products" label="&amp;modules.catalog.frontoffice.Search-products;" />
+			<staticitem value="others" label="&amp;modules.catalog.frontoffice.Search-others;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/displaymode" label="&amp;modules.catalog.frontoffice.List-displaymode;">
+			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
+			<staticitem value="table" label="&amp;modules.catalog.frontoffice.List-table;" />
+		</staticlist>
+				
+		<staticlist listid="modules_catalog/crosssellingsortby" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.label;"
+			description="&amp;modules.catalog.bo.lists.cross-selling-sortby.description;">			
+			<staticitem value="fieldorder" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Fieldorder;" />
+			<staticitem value="random" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Random;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/productpromotion" label="&amp;modules.catalog.frontoffice.Productpromotion-displaymode;">
+			<staticitem value="random" label="&amp;modules.catalog.frontoffice.Productpromotion-random;" />
+			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
+		</staticlist>
+		
+		<staticlist listid="modules_catalog/lastconsultedproducts" label="&amp;modules.catalog.list.Lastconsultedproducts-label;">
+			<staticitem value="compact" label="&amp;modules.catalog.list.Lastconsultedproducts-compact;" />
+			<staticitem value="random" label="&amp;modules.catalog.list.Lastconsultedproducts-random;" />
+			<staticitem value="list" label="&amp;modules.catalog.list.Lastconsultedproducts-list;" />
+		</staticlist>
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">
@@ -169,14 +160,15 @@
 	
 	<rootfolder module="preferences">
 		<catalogpreferences defaultDetailVisual-refid="default-detail-visual" defaultListVisual-refid="default-list-visual"  
-							suggestcomplementaryfeederclass="catalog_SameShelvesProductFeeder"
-							suggestsimilarfeederclass="catalog_SameShelvesProductFeeder"
-							suggestupsellfeederclass="catalog_SameShelvesProductFeeder" />
+			suggestcomplementaryfeederclass="catalog_SameShelvesProductFeeder"
+			suggestsimilarfeederclass="catalog_SameShelvesProductFeeder"
+			suggestupsellfeederclass="catalog_SameShelvesProductFeeder" />
 	</rootfolder>	
 			
 	<rootfolder module="catalog">
-		<attributefolder />
-		<shopfolder />
-		<noshelfproductfolder />
+		<attributefolder byLabel="m.catalog.document.attributefolder.document-name"/>
+		<shopfolder byLabel="m.catalog.document.shopfolder.document-name" />
+		<noshelfproductfolder byLabel="m.catalog.document.noshelfproductfolder.document-name" />
+		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name" />
 	</rootfolder>
 </script>

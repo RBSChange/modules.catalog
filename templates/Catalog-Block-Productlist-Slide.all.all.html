@@ -1,0 +1,25 @@
+<script change:javascript="head 'modules.catalog.lib.js.product-carousel'"></script>
+
+<h2 tal:condition="blockTitle" id="product-list-title" change:h="">${blockTitle}</h2>
+<tal:block tal:condition="displayConfig/showMessages">
+	<tal:block change:block="" module="order" name="CartMessages" container="" />
+	<tal:block change:block="" module="website" name="messages" container="" />
+	<ul change:errors=""></ul>
+	<ul change:messages=""></ul>
+</tal:block>
+
+<div tal:condition="not:products">${trans:m.catalog.frontoffice.no-product-to-display,ucf}</div>
+<div class="product-carousel" tal:condition="products">
+	<ul id="products-${configuration/getBlockId}" class="product-list slider">
+		<li tal:repeat="product products" class="product-line">
+			<tal:block module="catalog" container="" name="ProductItem" displayMode="Short"
+				change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop" />
+		</li>
+	</ul>
+	<div class="arrows">
+		<button class="slideright secondary button" title="${trans:m.catalog.fo.next-products-title,ucf}">${trans:m.catalog.fo.next-products,ucf} &gt;</button>
+		<button class="slideleft secondary button" title="${trans:m.catalog.fo.previous-products-title,ucf}">&lt; ${trans:m.catalog.fo.previous-products,ucf}</button>		
+		<p tal:condition="fullListLink"><a href="${fullListLink/url}" class="link">${fullListLink/label}</a></p>
+		<div class="cleaner"></div>
+	</div>
+</div>

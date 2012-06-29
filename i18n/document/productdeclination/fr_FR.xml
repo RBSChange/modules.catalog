@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.productdeclination" lcid="fr_FR">
-  <include id="m.catalog.document.product"/>
-  <key id="document-name">déclinaison de produit</key>
+	<include id="m.catalog.document.product" />
+	<key id="document-name">déclinaison de produit</key>
 </i18n>

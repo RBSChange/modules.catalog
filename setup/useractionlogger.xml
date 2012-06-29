@@ -77,6 +77,12 @@
   <actiondef modulename="catalog" actionname="reactivate.shippingfilter" label="m.catalog.bo.useractionlogger.reactivate-shippingfilter"/>
   <actiondef modulename="catalog" actionname="compileproduct.bundleproduct" label="m.catalog.bo.useractionlogger.compileproduct-bundleproduct"/>
   <actiondef modulename="catalog" actionname="saveredirectinfo.simpleproduct" label="m.catalog.bo.useractionlogger.saveredirectinfo-simpleproduct"/>
-  <actiondef modulename="catalog" actionname="deactivated.shelf" label="m.catalog.bo.useractionlogger.deactivated-shelf"/>
-  <actiondef modulename="catalog" actionname="reactivate.shelf" label="m.catalog.bo.useractionlogger.reactivate-shelf"/>
+  <actiondef modulename="catalog" actionname="move.comparablepropertyfolder" label="m.catalog.bo.useractionlogger.move-comparablepropertyfolder"/>
+  <actiondef modulename="catalog" actionname="insert.billingarea" label="m.catalog.bo.useractionlogger.insert-billingarea"/>
+  <actiondef modulename="catalog" actionname="update.billingarea" label="m.catalog.bo.useractionlogger.update-billingarea"/>
+  <actiondef modulename="catalog" actionname="delete.billingarea" label="m.catalog.bo.useractionlogger.delete-billingarea"/>
+  <actiondef modulename="catalog" actionname="deactivated.tax" label="m.catalog.bo.useractionlogger.deactivated-tax"/>
+  <actiondef modulename="catalog" actionname="reactivate.tax" label="m.catalog.bo.useractionlogger.reactivate-tax"/>
+  <actiondef modulename="catalog" actionname="delete.shelf" label="m.catalog.bo.useractionlogger.delete-shelf"/>
+  <actiondef modulename="catalog" actionname="delete.topshelf" label="m.catalog.bo.useractionlogger.delete-topshelf"/>
 </script>

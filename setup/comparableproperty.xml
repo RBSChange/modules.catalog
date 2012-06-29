@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	
+	<rootfolder module="catalog">
+		<comparablepropertyfolder byLabel="m.catalog.document.comparablepropertyfolder.document-name">
+			<comparableproperty byLabel="m.catalog.comparableproperty.short-description" className="catalog_ShortDescriptionComparableProperty">
+				<parameter value="250" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.price-without-tax" className="catalog_PriceComparableProperty">
+				<parameter value="ht" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.price-with-tax" className="catalog_PriceComparableProperty">
+				<parameter value="ttc" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.availability" className="catalog_AvailabilityComparableProperty" />
+			<comparableproperty byLabel="m.catalog.comparableproperty.brand" className="catalog_PersistentComparableProperty">
+				<parameter value="brand" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.code-sku" className="catalog_PersistentComparableProperty">
+				<parameter value="codeSKU" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.minimum-quantity" className="catalog_GetterComparableProperty">
+				<parameter value="getMinOrderQuantity" />
+				<parameter value="m.catalog.comparableproperty.minimum-quantity" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.reviews-without-rating" className="catalog_ReviewComparableProperty">
+				<parameter value="false" />
+			</comparableproperty>
+			<comparableproperty byLabel="m.catalog.comparableproperty.reviews-with-rating" className="catalog_ReviewComparableProperty">
+				<parameter value="true" />
+			</comparableproperty>
+		</comparablepropertyfolder>
+	</rootfolder>
+</script>

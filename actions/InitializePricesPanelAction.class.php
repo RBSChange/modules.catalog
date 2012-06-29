@@ -20,6 +20,8 @@ class catalog_InitializePricesPanelAction extends change_JSONAction
 		$product = $this->getProductFromRequest($request);
 		$data = array('productId' => $product->getId());
 		
+
+		
 		if (!$product->isPricePanelEnabled())
 		{
 			$data['enabled'] = false;
@@ -29,29 +31,53 @@ class catalog_InitializePricesPanelAction extends change_JSONAction
 		{
 			$data['enabled'] = true;
 			$date = $request->getParameter('date');
-			if (f_util_StringUtils::isEmpty($date)) {
+			if (f_util_StringUtils::isEmpty($date)) 
+			{
 				$date = null;
 			}
 			$data['date'] = $date;
 			
-			$data['shops'] = array();
+			$shopsContains = catalog_CompiledproductService::getInstance()->createQuery()
+			->add(Restrictions::eq('product', $product))
+			->setProjection(Projections::groupProperty('shopId', 'shopId'))
+			->findColumn('shopId');
+			
+			$shops = array();
 			foreach (catalog_ShopService::getInstance()->createQuery()->find() as $shop)
 			{ 
-				$data['shops'][] = array(
-					'label' => $shop->isContextLangAvailable() ? $shop->getLabel() : $shop->getVoLabel(),
+				/* @var $shop catalog_persistentdocument_shop */
+				$shopInfo = array(
+					'label' => $shop->getTreeNodeLabel(),
 					'id' => $shop->getId(),
 					'published' => $shop->isPublished(),
-					'contains' => $product->isInShop($shop->getId())
-				);
+					'contains' => in_array($shop->getId(), $shopsContains),
+					'billingAreas' => array());
+				
+				foreach ($shop->getBillingAreasArray() as $ba)
+				{
+					/* @var $ba catalog_persistentdocument_billingarea */
+					$shopInfo['billingAreas'][] = array('id' => $ba->getId(), 'label' => $ba->getTreeNodeLabel());
+				}
+				$shops[$shop->getId()] = $shopInfo;
 			}
 			
+			$data['shops'] = array_values($shops);
 			if ($request->hasParameter('shop'))
 			{
 				$data['shop'] = $request->getParameter('shop');
 			}
-			else if (isset($data['shops'][0]))
+			else
 			{
 				$data['shop'] = $data['shops'][0]['id'];
+			}
+			
+			if ($request->hasParameter('billingArea'))
+			{
+				$data['billingArea'] = $request->getParameter('billingArea');
+			}
+			else
+			{
+				$data['billingArea'] = $shops[$data['shop']]['billingAreas'][0]['id'];
 			}
 			
 			$data['targetTypes'] = array();
@@ -87,12 +113,16 @@ class catalog_InitializePricesPanelAction extends change_JSONAction
 			{
 				$data['targetId'] = $targetId;
 			}
-			
+
+			$ba = catalog_persistentdocument_billingarea::getInstanceById($data['billingArea']);
+			catalog_TaxService::getInstance()->setCurrentTaxZone($shop, $ba->getDefaultZone());
+	
 			// Add price list.		
-			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $targetId);		
+			$prices = $cps->getPricesForDate($data['date'], $data['productId'], $data['shop'], $data['billingArea'], $targetId);		
 			$pricelist = array();
 			foreach ($prices as $price)
 			{
+				/* @var $price catalog_persistentdocument_price */
 				$cps->transformToArray($price, $pricelist);
 			}
 			$data['pricelist'] = JsonService::getInstance()->encode($pricelist);

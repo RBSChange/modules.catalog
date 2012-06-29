@@ -30,11 +30,11 @@ class catalog_BlockDashboardGeneralStatisticsAction extends dashboard_BlockDashb
 		$toRecompile = catalog_ProductService::getInstance()->getCountProductIdsToCompile();
 		$widget = array(
 			'lines'   => array(
-				array(f_Locale::translate('&modules.catalog.bo.dashboard.Shop-count;'), 
+				array(LocaleService::getInstance()->trans('m.catalog.bo.dashboard.shop-count', array('ucf')), 
 					$publishedShopCount, $shopCount, $todayCreatedShopCount, $todayModifiedShopCount, ''),
-				array(f_Locale::translate('&modules.catalog.bo.dashboard.Shelves-count;'), 
+				array(LocaleService::getInstance()->trans('m.catalog.bo.dashboard.shelves-count', array('ucf')), 
 					$publishedShelfCount, $shelfCount, $todayCreatedShelfCount, $todayModifiedShelfCount, ''),
-				array(f_Locale::translate('&modules.catalog.bo.dashboard.Products-count;'), 
+				array(LocaleService::getInstance()->trans('m.catalog.bo.dashboard.products-count', array('ucf')), 
 					$publishedProductCount, $productCount, $todayCreatedProductCount, $todayModifiedProductCount, $toRecompile),
 			)
 		);
@@ -44,8 +44,8 @@ class catalog_BlockDashboardGeneralStatisticsAction extends dashboard_BlockDashb
 	
 	/**
 	 * @param DocumentService $service
-	 * @param Boolean $published
-	 * @return Integer
+	 * @param boolean $published
+	 * @return integer
 	 */
 	private function getCount($service, $published = true)
 	{
@@ -60,8 +60,8 @@ class catalog_BlockDashboardGeneralStatisticsAction extends dashboard_BlockDashb
 
 	/**
 	 * @param DocumentService $service
-	 * @param Boolean $published
-	 * @return Integer
+	 * @param boolean $published
+	 * @return integer
 	 */
 	private function getTodayCount($service, $created = true)
 	{

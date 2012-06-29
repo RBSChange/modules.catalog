@@ -1,26 +1,11 @@
 <?php
 /**
- * @package modules.catalog.lib.services
+ * @package modules.catalog
+ * @method catalog_ModuleService getInstance()
  */
 class catalog_ModuleService extends ModuleBaseService
 {
-	/**
-	 * Singleton
-	 * @var catalog_ModuleService
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return catalog_ModuleService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
+	const COMPARISON_LIST = 'catalog_comparison';
 
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document
@@ -45,7 +30,7 @@ class catalog_ModuleService extends ModuleBaseService
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function areCommentsEnabled($shop = null)
 	{
@@ -63,7 +48,7 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function isCartEnabled()
 	{
@@ -71,7 +56,7 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function areCustomersEnabled()
 	{
@@ -79,7 +64,7 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function isComplementarySynchroEnabled()
 	{
@@ -87,12 +72,40 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
+	 */
+	public function isAutoComplementaryEnabled()
+	{
+		return ModuleService::getInstance()->getPreferenceValue('catalog', 'autoFeedComplementaryMaxCount') != null;
+	}
+	
+	/**
+	 * @return boolean
 	 */
 	public function isSimilarSynchroEnabled()
 	{
 		return ModuleService::getInstance()->getPreferenceValue('catalog', 'synchronizeSimilar');
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isAutoSimilarEnabled()
+	{
+		return ModuleService::getInstance()->getPreferenceValue('catalog', 'autoFeedSimilarMaxCount') != null;
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isAutoUpsellEnabled()
+	{
+		return ModuleService::getInstance()->getPreferenceValue('catalog', 'autoFeedUpsellMaxCount') != null;
+	}
+	
+	
+	
+	
 	
 	/**
 	 * @return f_persistentdocument_PersistentDocumentModel[]
@@ -217,7 +230,7 @@ class catalog_ModuleService extends ModuleBaseService
 				->add(Restrictions::eq('websiteId', $website->getId()));
 			return $query->find();
 		}
-		return array();		
+		return array();
 	}
 	
 	/**
@@ -310,9 +323,28 @@ class catalog_ModuleService extends ModuleBaseService
 	{
 		return $this->removeProductIdFromList(catalog_ProductList::FAVORITE, $product->getId());
 	}
+		
+	/**
+	 * @return integer[]
+	 */
+	public function getFavoriteProductIds()
+	{
+		$productIds = $this->getProductIdsFromList(catalog_ProductList::FAVORITE);
+		return catalog_ProductService::getInstance()->filterIdsForDisplay($productIds, catalog_ShopService::getInstance()->getCurrentShop());
+	}
 	
 	/**
-	 * @return catalog_persistentdocument_product[]
+	 * @deprecated just call getProductList instead
+	 */
+	public function mergeFavoriteProductWithList($productList)
+	{
+		$this->getProductList(catalog_ProductList::FAVORITE);
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getFavoriteProductIds
 	 */
 	public function getFavoriteProducts()
 	{

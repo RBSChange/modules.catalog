@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_LockedpriceService
  * @package modules.catalog
+ * @method catalog_LockedpriceService getInstance()
  */
 class catalog_LockedpriceService extends catalog_PriceService
 {
-	/**
-	 * @var catalog_LockedpriceService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_LockedpriceService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_lockedprice
 	 */
@@ -38,7 +21,7 @@ class catalog_LockedpriceService extends catalog_PriceService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/lockedprice');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/lockedprice');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_LockedpriceService extends catalog_PriceService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/lockedprice', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/lockedprice', false);
 	}
 	
 	/**

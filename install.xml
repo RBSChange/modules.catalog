@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install type="modules" name="catalog" version="4.0.0">
-  <package type="modules" name="zone"/>
-  <package type="modules" name="users"/>
-  <package type="modules" name="website"/>
-  <package type="modules" name="filter"/>
-  <package type="modules" name="preferences"/>
-  <package type="modules" name="rss"/>
-  <package type="modules" name="brand"/>
-  <package type="modules" name="shipping"/>
-  <package type="modules" name="payment"/>
+	<package type="modules" name="brand" />
+	<package type="modules" name="shipping" />
+	<package type="modules" name="payment" />
 </install>

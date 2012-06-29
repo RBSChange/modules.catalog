@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.price" lcid="de_DE">
-  <key id="document-name">Preis (normal)</key>
-  <key id="label">Name</key>
-  <key id="startpublicationdate">Gültigkeitsanfang</key>
-  <key id="endpublicationdate">Gültigkeitsende</key>
-  <key id="taxcode">MwSt. Kode</key>
-  <key id="ecotax">Ökosteuer</key>
-  <key id="ecotax-help">Auf elektrische und elektronische Produkte angewandte Steuer, für die Verarbeitung des Abfalls dieser Produkte.</key>
-  <key id="value">Wert</key>
-  <key id="value-help">Wert</key>
+	<key id="document-name">Preis (normal)</key>
+	<key id="label">Name</key>
+	<key id="startpublicationdate">Gültigkeitsanfang</key>
+	<key id="endpublicationdate">Gültigkeitsende</key>
+	<key id="taxcode">MwSt. Kode</key>
+	<key id="ecotax">Ökosteuer</key>
+	<key id="ecotax-help">Auf elektrische und elektronische Produkte angewandte Steuer, für die Verarbeitung des Abfalls dieser Produkte.</key>
+	<key id="value">Wert</key>
+	<key id="value-help">Wert</key>
 </i18n>

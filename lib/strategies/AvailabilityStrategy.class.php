@@ -3,7 +3,7 @@
  * catalog_AvailabilityStrategy
  * @package modules.catalog
  */
-abstract class catalog_AvailabilityStrategy extends BaseService
+abstract class catalog_AvailabilityStrategy extends change_BaseService
 {
 	/**
 	 * @var catalog_AvailabilityStrategy
@@ -39,20 +39,22 @@ abstract class catalog_AvailabilityStrategy extends BaseService
 		}
 		return self::$strategy;
 	}
-	
-	/**
-	 * @return String
-	 */
-	public abstract function getLabel();
 
 	/**
-	 * @return String
-	 */
-	public abstract function getDescription();
-
-	/**
-	 * @param String $stockLevel
-	 * @return String
+	 * @param string $stockLevel
+	 * @return string
 	 */
 	public abstract function getAvailability($stockLevel);
+	
+	// Deprecated
+	
+	/**
+	 * @deprecated
+	 */
+//	public abstract function getLabel();
+	
+	/**
+	 * @deprecated
+	 */
+//	public abstract function getDescription();
 }

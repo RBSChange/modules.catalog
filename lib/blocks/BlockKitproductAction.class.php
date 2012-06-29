@@ -13,17 +13,19 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		return $this->getDocumentParameter('cmpref', 'catalog_persistentdocument_kit'); 
 	}
 	
+	/**
+	 * @param f_mvc_Request $request
+	 * @return array
+	 */
 	public function getCacheKeyParameters($request)
 	{
-		return array('kititemid' => $request->getParameter('kititemid'),
-			'declinationid' => $request->getParameter('declinationid'),
-			'customitems' => $request->getParameter('customitems'));
+		return array('kititemid' => $request->getParameter('kititemid'));
 	}
 	
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{
@@ -32,6 +34,18 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		$kis->updateProductFromRequestParameters($product, $request->getParameters());
 		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
 		
+		// @deprecated this should not be used anymore. See order_AddToCartAction
+		if ($request->getParameter('addToCart') !== null)
+		{
+			$this->addProductToCartForCurrentBlock($product);
+		}
+		
+		// @deprecated this should not be used anymore. See catalog_UpdateListAction
+		if ($request->getParameter('addToList') !== null)
+		{
+			$this->addProductToFavorites($product);
+		}
+		
 		$customer = null;
 		if (catalog_ModuleService::areCustomersEnabled())
 		{
@@ -39,46 +53,20 @@ class catalog_BlockKitproductAction extends catalog_BlockProductBaseAction
 		}
 		
 		$request->setAttribute('product', $product);
-		
-		$price = $product->getPrice($shop, $customer);
-		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
-		
 		if ($request->hasParameter('kititemid'))
 		{
 			$kititem = catalog_persistentdocument_kititem::getInstanceById($request->getParameter('kititemid'));
 			$request->setAttribute('kititem', $kititem);
-			if ($kititem->getDeclinable() && $request->hasParameter('declinationid'))
-			{
-				$customProduct = catalog_persistentdocument_product::getInstanceById($request->getParameter('declinationid'));
-				foreach ($kititem->getProduct()->getDeclinations() as $declination)
-				{
-					if ($customProduct === $declination)
-					{
-						$kititem->setCurrentProduct($customProduct);
-					}
-				}
-			}
-			
-			if ($kititem->getDeclinable()) 
-			{
-				if ($kititem->getCurrentProduct() == null)
-				{
-					$kititem->setDefaultProductForShop($shop);
-				}
-				$declination = $kititem->getCurrentProduct();
-				$request->setAttribute('declination', $declination);
-				$request->setAttribute('kititemproduct', $declination);
-			}
-			else
-			{
-				$request->setAttribute('kititemproduct', $kititem->getProduct());
-			}
-			$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
+			$request->setAttribute('kititemproduct', $kititem->getDefaultProduct());
 			return 'Kititem';
 		}
-		
-		$request->setAttribute('customitems', $kis->getCustomItemsInfo($product));
+		$billingArea = $shop->getCurrentBillingArea();
+		$price = $product->getPrice($shop, $billingArea, $customer);
+		if ($price)
+		{
+			$request->setAttribute('defaultPrice', $price);
+			$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $billingArea, $customer));
+		}
 		return website_BlockView::SUCCESS;
 	}
 }

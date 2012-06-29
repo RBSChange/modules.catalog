@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.frontoffice.list" lcid="en_GB">
-  <key id="summary">list of products of type {name}</key>
+	<key id="summary">list of products of type {name}</key>
 </i18n>

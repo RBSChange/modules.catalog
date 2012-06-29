@@ -1,10 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <tags>
 	<tag labeli18n="m.catalog.bo.tags.product-list" icon="list-block">functional_catalog_product-list</tag>
 	<tag labeli18n="m.catalog.bo.tags.product-detail" icon="product">functional_catalog_product-detail</tag>
+	<tag labeli18n="m.catalog.bo.tags.product-popin" icon="product">functional_catalog_product-popin</tag>
 	<tag labeli18n="m.catalog.bo.tags.shelf-list" icon="list-block">functional_catalog_shelf-list</tag>
 	<tag labeli18n="m.catalog.bo.tags.cross-selling-list" icon="list-block">functional_catalog_crosssellinglist-page</tag>
 	<tag labeli18n="m.catalog.bo.tags.recommand-product-page" icon="mail">contextual_website_website_modules_catalog_recommand-product-page</tag>
 	<tag labeli18n="m.catalog.bo.tags.favorite-product-list" icon="list-block">contextual_website_website_modules_catalog_favorite-product-list</tag>
 	<tag labeli18n="m.catalog.bo.tags.product-alert-management" icon="edit">contextual_website_website_modules_catalog_product-alert-management</tag>
+	<tag labeli18n="m.catalog.bo.blocks.productcomparison.title" icon="list-block">functional_catalog_productlist-comparison</tag>
+	<tag labeli18n="m.catalog.bo.blocks.configuratekit.title" icon="edit">functional_catalog_configurate-kit</tag>
 </tags>

@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.tax" lcid="fr_FR">
-  <include id="m.generic.document.document"/>
-  <key id="document-name">tax</key>
-  <key id="rate">Taux</key>
-  <key id="rate-help">Taux de la taxe</key>
-  <key id="taxzone">zone</key>
-  <key id="taxzone-help">Zone d'application de la taxe</key>
-  <key id="taxcategory">catégorie</key>
-  <key id="taxcategory-help">catégorie de la taxe d'un produit</key>
+	<include id="m.generic.document.document" />
+	<key id="document-name">tax</key>
+	<key id="label">Identifiant</key>
+	<key id="label-help">Identifiant de la taxe</key>
+	<key id="rate">Taux</key>
+	<key id="rate-help">Taux de la taxe</key>
+	<key id="taxzone">zone</key>
+	<key id="taxzone-help">Zone d'application de la taxe</key>
+	<key id="taxcategory">catégorie</key>
+	<key id="taxcategory-help">catégorie de la taxe d'un produit</key>
 </i18n>

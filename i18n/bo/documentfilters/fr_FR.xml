@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.documentfilters" lcid="fr_FR">
-  <key id="query-on-product">produits satisfaisant l'ensemble des critères suivants</key>
-  <key id="or-query-on-product">produits satisfaisant un des critères suivants</key>
+	<key id="query-on-product">produits satisfaisant l'ensemble des critères suivants</key>
+	<key id="or-query-on-product">produits satisfaisant un des critères suivants</key>
 </i18n>

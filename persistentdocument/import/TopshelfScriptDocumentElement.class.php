@@ -5,15 +5,15 @@
  */
 class catalog_TopshelfScriptDocumentElement extends import_ScriptDocumentElement
 {
-    /**
-     * @return catalog_persistentdocument_topshelf
-     */
-    protected function initPersistentDocument()
-    {
-    	return catalog_TopshelfService::getInstance()->getNewDocumentInstance();
-    }
-    
-    /**
+	/**
+	 * @return catalog_persistentdocument_topshelf
+	 */
+	protected function initPersistentDocument()
+	{
+		return catalog_TopshelfService::getInstance()->getNewDocumentInstance();
+	}
+	
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()

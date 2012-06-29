@@ -29,7 +29,7 @@ class catalog_UpdateStockAction extends change_JSONAction
 
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param String[]
+	 * @param string[]
 	 * @return Array
 	 */
 	protected function exportFieldsData($document, $allowedProperties)
@@ -40,7 +40,7 @@ class catalog_UpdateStockAction extends change_JSONAction
 	}
 	
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	protected function isDocumentAction()
 	{

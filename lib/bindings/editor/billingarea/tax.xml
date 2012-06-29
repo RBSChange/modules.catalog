@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">	
+	<binding id="billingarea_tax" extends="layout.cDocumentEditor#cDocumentEditorPanelProperties">
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="save_properties" oncommand="saveProperties()" label="${trans:m.uixul.bo.doceditor.button.save,ucf,attr}"
+						image="{IconsBase}/small/save.png" />
+					<xul:button anonid="reset_properties" oncommand="resetProperties()" label="${trans:m.uixul.bo.doceditor.button.canceledit,ucf,attr}"
+						image="{IconsBase}/small/undo.png" />
+					<xul:button anonid="next_error_property" oncommand="nextErrorProperty()" label="${trans:m.uixul.bo.doceditor.button.nexterror,ucf,attr}"
+						image="{IconsBase}/small/next-invalid-field.png" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cfield name="taxGridJSON" id="billingarea_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
+						flex="1">
+					</xul:cfield>
+
+					<xul:cfieldsgroup label="${trans:m.catalog.bo.doceditor.tax.add-tax,ucf,attr}">
+						<xul:row anonid="row_newTaxLabel">
+							<xul:clabel id="billingarea_tax_newTaxLabel_label" control="billingarea_tax_newTaxLabel"
+								value="${trans:m.catalog.bo.doceditor.tax.newtaxlabel,ucf,attr}" />
+							<xul:cfield name="newTaxLabel" id="billingarea_tax_newTaxLabel" anonid="field_newTaxLabel"
+								fieldtype="text" required="true" shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxlabel-help,ucf,attr}" />	
+						</xul:row>
+						<xul:row anonid="row_newTaxZone">
+							<xul:clabel id="billingarea_tax_newTaxZone_label" control="billingarea_tax_newTaxZone"
+								value="${trans:m.catalog.bo.doceditor.tax.newtaxzone,ucf,attr}" />
+							<xul:cfield name="newTaxZone" id="billingarea_tax_newTaxZone" anonid="field_newTaxZone"
+								fieldtype="dropdownlist" required="true" listid="modules_catalog/defaulttaxzones"
+								shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxzone-help,ucf,attr}" />	
+						</xul:row>
+						<xul:row anonid="row_newTaxCategory">
+							<xul:clabel id="billingarea_tax_newTaxCategory_label" control="billingarea_tax_newTaxCategory"
+								value="${trans:m.catalog.bo.doceditor.tax.newtaxcategory,ucf,attr}" />
+							<xul:cfield name="newTaxCategory" id="billingarea_tax_newTaxCategory" anonid="field_newTaxCategory"
+								fieldtype="text" required="true" shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxcategory-help,ucf,attr}">
+								<xul:cconstraint name="maxSize" parameter="6" />
+							</xul:cfield>	
+						</xul:row>
+						<xul:row anonid="row_newTaxRate">
+							<xul:clabel id="billingarea_tax_newTaxRate_label" control="billingarea_tax_newTaxRate"
+								value="${trans:m.catalog.bo.doceditor.tax.newtaxrate,ucf,attr}" />
+							<xul:cfield name="newTaxRate" id="billingarea_tax_newTaxRate" anonid="field_newTaxRate"
+								fieldtype="double" required="true" increment="0.01" 
+								shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxrate-help,ucf,attr}" />	
+						</xul:row>
+					</xul:cfieldsgroup>
+					<xul:spacer flex="1" />
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+		<implementation>
+			<field name="mFieldNames">["taxGridJSON", "newTaxLabel", "newTaxZone", "newTaxCategory", "newTaxRate"]
+			</field>
+
+			<method name="saveProperties">
+				<body><![CDATA[
+					this.lockCommandsUI();
+					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.documentEditor.executeServerAction('tax', 'Update');
+				]]></body>
+			</method>
+
+		</implementation>
+	</binding>
+	
+	<binding id="cTaxGrid" extends="widgets.cGrid#cAbstractSortableGrid">
+		<implementation>
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>
+
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (this.disabled) {return;}
+					var uri = ['catalog', 'openDocument', rowData.taxtype, rowData.id, 'properties'].join(',');
+					var from = ['catalog', 'openDocument', rowData.shoptype, rowData.shopid, 'tax'].join(',');
+					openActionUri(uri, from);
+				]]></body>
+			</method>
+		</implementation>
+
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column flex="1" />
+					<xul:column />
+					<xul:column />
+					<xul:column />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row">
+						<xul:label name="label" value="${trans:m.catalog.bo.doceditor.tax.label-column,ucf,attr}" />
+						<xul:label name="taxzone" value="${trans:m.catalog.bo.doceditor.tax.taxzone-column,ucf,attr}" sortonfield="true"/>
+						<xul:label name="taxcategory" value="${trans:m.catalog.bo.doceditor.tax.taxcategory-column,ucf,attr}" sortonfield="true"/>
+						<xul:label name="rate" value="${trans:m.catalog.bo.doceditor.tax.rate-column,ucf,attr}" />
+						<xul:label name="actionrow" value="${trans:m.catalog.bo.doceditor.tax.actions-column,ucf,attr}" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+
+			<xul:row anonid="template-row" class="document" hidden="true">
+				<xul:label value="" />
+				<xul:label value="" />				
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="actions">
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${trans:m.uixul.bo.actions.edit,ucf,attr}" />
+				</xul:toolbar>
+			</xul:row>
+		</content>
+	</binding>
+</bindings>

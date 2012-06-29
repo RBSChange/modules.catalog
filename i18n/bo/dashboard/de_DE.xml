@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.dashboard" lcid="de_DE">
-  <key id="general-statistics">Gesamt Statistiken</key>
-  <key id="products-count">Anzahl Produkte</key>
-  <key id="shelves-count">Anzahl Regale</key>
-  <key id="published">veröffentlicht</key>
-  <key id="total">Gesamt</key>
-  <key id="change">ändern</key>
-  <key id="created-today">Heute erstellt</key>
-  <key id="modified-today">Heute geändert</key>
+	<key id="general-statistics">Gesamt Statistiken</key>
+	<key id="products-count">Anzahl Produkte</key>
+	<key id="shelves-count">Anzahl Regale</key>
+	<key id="published">veröffentlicht</key>
+	<key id="total">Gesamt</key>
+	<key id="change">ändern</key>
+	<key id="created-today">Heute erstellt</key>
+	<key id="modified-today">Heute geändert</key>
 </i18n>

@@ -1,2 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<panel use="properties" />
+<panel>
+	<section labeli18n="m.uixul.bo.doceditor.fieldsgroup.title">
+		<field name="label" hidehelp="true" />
+		<field name="connector" allow="[modules_payment_connector]" hidehelp="true" />
+	</section>
+	<section labeli18n="m.catalog.bo.general.condition-filters">
+		<field name="billingArea" required="true" />
+		<field name="query" type="objectfilter" allow="order/cart::checkValue" hidehelp="true" />
+	</section>
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				var me = this;
+				this.addEventListener('panelInitializeComplete', function () { me.updateBillingArea(); }, true);
+			]]></constructor>
+			<method name="updateBillingArea">
+				<body><![CDATA[
+					var billingArea = this.fields.billingArea;
+					billingArea.setAttribute('nocache', 'true');
+					billingArea.replaceItems({shopId: this.documentEditor.parentid});
+					billingArea.removeAttribute('nocache');		
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
+</panel>

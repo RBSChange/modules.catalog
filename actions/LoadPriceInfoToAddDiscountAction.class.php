@@ -14,13 +14,14 @@ class catalog_LoadPriceInfoToAddDiscountAction extends change_JSONAction
 		$result = array();
 
 		$price = $this->getPrice($request);
+		$dateFormat =  LocaleService::getInstance()->trans('m.uixul.bo.datepicker.calendar.datawritertimeformat');
 		$startDate = $price->getUIStartpublicationdate();
 		$endDate = $price->getUIEndpublicationdate();
 		$result['currentPriceValue'] = $price->getBoValueJSON();
 		$result['currentStartDate'] = $startDate;
-		$result['currentStartDateFormatted'] = $startDate ? date_Formatter::toDefaultDateTimeBO($startDate) : '-';
+		$result['currentStartDateFormatted'] = $startDate ? date_Formatter::format($startDate, $dateFormat) : '-';
 		$result['currentEndDate'] = $endDate;
-		$result['currentEndDateFormatted'] = $endDate ? date_Formatter::toDefaultDateTimeBO($endDate) : '-';
+		$result['currentEndDateFormatted'] = $endDate ? date_Formatter::format($endDate, $dateFormat) : '-';
 		$result['discountPriceValue'] = $price->getBoDiscountValueJSON();		
 		return $this->sendJSON($result);
 	}

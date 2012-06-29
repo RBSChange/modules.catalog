@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_BundleproductService
  * @package modules.catalog
+ * @method catalog_BundleproductService getInstance()
  */
 class catalog_BundleproductService extends catalog_ProductService
 {
-	/**
-	 * @var catalog_BundleproductService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_BundleproductService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_bundleproduct
 	 */
@@ -38,7 +21,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/bundleproduct');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/bundleproduct');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/bundleproduct', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/bundleproduct', false);
 	}
 	
 	/**
@@ -71,7 +54,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function preInsert($document, $parentNodeId = null)
@@ -97,7 +80,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function preUpdate($document, $parentNodeId = null)
@@ -122,7 +105,7 @@ class catalog_BundleproductService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function postUpdate($document, $parentNodeId = null)
@@ -184,29 +167,24 @@ class catalog_BundleproductService extends catalog_ProductService
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param catalog_persistentdocument_product $product
-	 * @return array
+	 * @return integer[]
 	 */
-	public function getByBundledProduct($shop, $product)
+	public function getDisplayableIdsByContainedProduct($shop, $product)
 	{
-		$query = $this->createStrictQuery()
-		->add(Restrictions::published())
-		->add(Restrictions::eq('bundleditem.product', $product));
-		
-		$query->createCriteria('compiledproduct')
-			->add(Restrictions::published())
-			->add(Restrictions::eq('shopId', $shop->getId()));
-		
-		return $query->find();
+		$query = $this->createStrictQuery()->add(Restrictions::published())->add(Restrictions::eq('bundleditem.product', $product));
+		$query->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));
+		return $query->setProjection(Projections::property('id'))->findColumn('id');
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_bundleproduct $bundle
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @param integer[] $targetIds
-	 * @param Double $quantity
-	 * @return catalog_persistentdocument_price
+	 * @param float $quantity
+	 * @return catalog_persistentdocument_price|null
 	 */
-	public function getItemsPriceByTargetIds($bundle, $shop, $targetIds, $quantity = 1)
+	public function getItemsPriceByTargetIds($bundle, $shop, $billingArea, $targetIds, $quantity = 1)
 	{
 		$itemsPrice = catalog_PriceService::getInstance()->getNewDocumentInstance();
 		$itemsPrice->setToZero();
@@ -214,10 +192,11 @@ class catalog_BundleproductService extends catalog_ProductService
 		
 		$itemsPrice->setProductId($bundle->getId());
 		$itemsPrice->setShopId($shop->getId());
-		$bis = catalog_BundleditemService::getInstance();
+		$itemsPrice->setBillingAreaId($billingArea->getId());
 		foreach ($bundle->getBundleditemArray() as $bundleitem) 
 		{
-			if (!$bis->appendPrice($bundleitem, $itemsPrice, $shop, $targetIds, $quantity))
+			/* @var $bundleitem catalog_persistentdocument_bundleditem */
+			if (!$bundleitem->getDocumentService()->appendPrice($bundleitem, $itemsPrice, $shop, $billingArea, $targetIds, $quantity))
 			{
 				return null;
 			}
@@ -229,7 +208,6 @@ class catalog_BundleproductService extends catalog_ProductService
 			{
 				$taxCategory = null;
 			}
-			
 		}
 		$itemsPrice->setTaxCategory($taxCategory);
 		if ($itemsPrice->getValueWithoutTax() >= $itemsPrice->getOldValueWithoutTax())
@@ -258,5 +236,23 @@ class catalog_BundleproductService extends catalog_ProductService
 			'brand' => 'brand/label',
 			'codeReference' => 'codeReference'
 		));
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getDisplayableIdsByContainedProduct
+	 */
+	public function getByBundledProduct($shop, $product)
+	{
+		$query = $this->createStrictQuery()
+		->add(Restrictions::published())
+		->add(Restrictions::eq('bundleditem.product', $product));
+	
+		$query->createCriteria('compiledproduct')
+		->add(Restrictions::published())
+		->add(Restrictions::eq('shopId', $shop->getId()));
+	
+		return $query->find();
 	}
 }

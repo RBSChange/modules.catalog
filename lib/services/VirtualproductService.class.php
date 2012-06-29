@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_VirtualproductService
  * @package modules.catalog
+ * @method catalog_VirtualproductService getInstance()
  */
 class catalog_VirtualproductService extends catalog_ProductService
 {
-	/**
-	 * @var catalog_VirtualproductService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_VirtualproductService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_virtualproduct
 	 */
@@ -38,7 +21,7 @@ class catalog_VirtualproductService extends catalog_ProductService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/virtualproduct');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/virtualproduct');
 	}
 	
 	/**
@@ -49,12 +32,12 @@ class catalog_VirtualproductService extends catalog_ProductService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/virtualproduct', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/virtualproduct', false);
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_virtualproduct $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal => can be null !).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId = null)
@@ -62,22 +45,22 @@ class catalog_VirtualproductService extends catalog_ProductService
 		parent::preSave($document, $parentNodeId);
 		$media = $document->getSecureMedia();
 		if (!($media instanceof media_persistentdocument_securemedia)) 
-        {
-        	if ($media instanceof media_persistentdocument_media)
-        	{
-        		$media = $media->getDocumentService()->transform($media, 'modules_media/securemedia');
-        	}
-        	else
-        	{
-        		$media = null;
-        	}
-        	$document->setSecureMedia($media);
-        }
-        
-        if ($media !== null)
-        {
-        	$this->updateMediaInfos($document, $media);
-        }    
+		{
+			if ($media instanceof media_persistentdocument_media)
+			{
+				$media = $media->getDocumentService()->transform($media, 'modules_media/securemedia');
+			}
+			else
+			{
+				$media = null;
+			}
+			$document->setSecureMedia($media);
+		}
+		
+		if ($media !== null)
+		{
+			$this->updateMediaInfos($document, $media);
+		}	
 	}
 	
 	/**
@@ -88,16 +71,16 @@ class catalog_VirtualproductService extends catalog_ProductService
 	 */
 	private function updateMediaInfos($document, $media)
 	{
-	    if ($media->isContextLangAvailable())
-        {
-            $media->setLabel($document->getLabel());
-            $media->setTitle($document->getCodeReference());
-            $media->setDescription($document->getDescription());
-            if ($media->isModified())
-            {
-                 $media->save();   
-            }
-        }
+		if ($media->isContextLangAvailable())
+		{
+			$media->setLabel($document->getLabel());
+			$media->setTitle($document->getCodeReference());
+			$media->setDescription($document->getDescription());
+			if ($media->isModified())
+			{
+				 $media->save();   
+			}
+		}
 	}
 	
 	/**
@@ -164,7 +147,7 @@ class catalog_VirtualproductService extends catalog_ProductService
 	/**
 	 * @param catalog_persistentdocument_virtualproduct $newDocument
 	 * @param catalog_persistentdocument_virtualproduct $originalDocument
-	 * @param Integer $parentNodeId
+	 * @param integer $parentNodeId
 	 */
 	protected function preDuplicate($newDocument, $originalDocument, $parentNodeId)
 	{

@@ -6,7 +6,7 @@
 class catalog_persistentdocument_simpleproduct extends catalog_persistentdocument_simpleproductbase implements catalog_StockableDocument
 {
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getDetailBlockName()
 	{

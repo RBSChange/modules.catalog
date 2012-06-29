@@ -3,10 +3,12 @@
 	<section labeli18n="m.catalog.bo.general.general">
 		<field name="label" />
 		<field name="codeReference" />
-		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="visual" allowfile="true" mediafoldername="Inbox" />
+		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
+		<field name="shippedIn" />
+		<field name="minOrderQuantity" />
 	</section>
-	
 	<section labeli18n="m.catalog.bo.general.extendedattributes" class="toggle" hidden="true">
-		<fieldinput name="attributesJSON" type="attributeslist"/>
+		<fieldinput name="attributesJSON" type="attributeslist" />
 	</section>
 </panel>

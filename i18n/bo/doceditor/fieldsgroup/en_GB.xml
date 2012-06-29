@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.doceditor.fieldsgroup" lcid="en_GB">
-  <key id="amount-tax-validity">Amount, taxes and validity</key>
-  <key id="discount">promotion</key>
-  <key id="prices">prices</key>
-  <key id="restrictions">Application restrictions</key>
+	<key id="amount-tax-validity">Amount, taxes and validity</key>
+	<key id="discount">promotion</key>
+	<key id="prices">prices</key>
+	<key id="restrictions">Application restrictions</key>
 </i18n>

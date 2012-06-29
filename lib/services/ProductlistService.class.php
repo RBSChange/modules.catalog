@@ -1,27 +1,10 @@
 <?php
 /**
- * @date Thu, 13 Dec 2007 16:12:23 +0100
- * @author intportg
+ * @package modules.catalog
+ * @method catalog_ProductlistService getInstance()
  */
 class catalog_ProductlistService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_ProductlistService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_ProductlistService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_productlist
 	 */
@@ -36,7 +19,7 @@ class catalog_ProductlistService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/productlist');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/productlist');
 	}
 
 	/**

@@ -5,15 +5,15 @@
  */
 class catalog_ShippingfilterScriptDocumentElement extends import_ScriptDocumentElement
 {
-    /**
-     * @return catalog_persistentdocument_shippingfilter
-     */
-    protected function initPersistentDocument()
-    {
-    	return catalog_ShippingfilterService::getInstance()->getNewDocumentInstance();
-    }
-    
-    /**
+	/**
+	 * @return catalog_persistentdocument_shippingfilter
+	 */
+	protected function initPersistentDocument()
+	{
+		return catalog_ShippingfilterService::getInstance()->getNewDocumentInstance();
+	}
+	
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()

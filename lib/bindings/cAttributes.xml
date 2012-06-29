@@ -81,12 +81,10 @@
 	
 			<method name="valueChanged">
 				<body><![CDATA[	
-					wCore.debug('valueChanged: ' + this.mModified);	
 					if (this.mModified)
 					{
 						if (!this.modified) 
 						{
-							wCore.debug('valueChanged: dispatchFieldEvent fieldModified');	
 							this.setAttribute("modified", "true");
 							this.dispatchFieldEvent('fieldModified');
 						}
@@ -95,7 +93,6 @@
 					{
 						if (this.modified) 
 						{
-							wCore.debug('valueChanged: dispatchFieldEvent fieldRestored');	
 							this.removeAttribute("modified");
 							this.dispatchFieldEvent('fieldRestored');
 						}			
@@ -174,6 +171,9 @@
 					
 					cell = row.appendChild(document.createElement('label'));
 					cell.setAttribute('value', jsnode.type);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.listlabel);
 					
 					cell = row.appendChild(document.createElement('toolbar'));
 					cell.setAttribute('class', 'actions');
@@ -254,6 +254,17 @@
 					jsnode.label = row.childNodes[0].value;
 					jsnode.code = row.childNodes[1].value;
 					jsnode.type = row.childNodes[2].value;
+					var listid = row.childNodes[3].value;
+					if (listid != '')
+					{
+						jsnode.listid = listid;
+						jsnode.listlabel = row.childNodes[3].getLabelByValue(listid);
+					}
+					else
+					{
+						jsnode.listid = null;
+						jsnode.listlabel = '';
+					}
 					this.updateValue(jsnode, idxVal);
 				]]></body>
 			</method>		
@@ -318,6 +329,16 @@
 					radiogroup.setAttribute('value', row.itemData.type);
 					row.appendChild(radiogroup);
 					
+					var listval = document.createElement('cfield');
+					listval.setAttribute('name', 'valuesList');
+					listval.setAttribute('id', 'catalog_attributefolder_valuesList');
+					listval.setAttribute('fieldtype', 'document');
+					listval.setAttribute('hidehelp', 'true');
+					listval.setAttribute('allow', this.getAttribute('allowedlisttype'));
+					listval.setAttribute('moduleselector', 'list');
+					listval.setAttribute('initialvalue', ('listid' in row.itemData) ? row.itemData.listid : '');
+					row.appendChild(listval);
+										
 					var  toolbar = row.appendChild(document.createElement('toolbar'));
 					toolbar.setAttribute('class', 'actions');
 					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
@@ -383,19 +404,21 @@
 						<xul:rows anonid="document-rows">
 							<xul:row class="head">
 								<xul:label sortonfield="label" anonid="label" 
-									value="${trans:m.catalog.bo.doceditor.attrdef.LabelColumn,ucf,attr}" />
+									value="${trans:m.catalog.bo.doceditor.attrdef.labelcolumn,ucf,attr}" />
 								<xul:label sortonfield="code" anonid="codeColumn"
-									value="${trans:m.catalog.bo.doceditor.attrdef.CodeColumn,ucf,attr}" />
+									value="${trans:m.catalog.bo.doceditor.attrdef.codecolumn,ucf,attr}" />
 								<xul:label sortonfield="type" anonid="typeColumn"
-									value="${trans:m.catalog.bo.doceditor.attrdef.TypeColumn,ucf,attr}" />
+									value="${trans:m.catalog.bo.doceditor.attrdef.typecolumn,ucf,attr}" />
+								<xul:label anonid="fromListColumn"
+									value="${trans:m.catalog.bo.doceditor.attrdef.fromlistcolumn,ucf,attr}" />
 								<xul:label anonid="actionsColumn"
-									value="${trans:m.catalog.bo.doceditor.attrdef.ActionsColumn,ucf,attr}" />
+									value="${trans:m.catalog.bo.doceditor.attrdef.actionscolumn,ucf,attr}" />
 							</xul:row>
 						</xul:rows>
 					</xul:grid>
 					<xul:toolbar>
 						<xul:toolbarbutton action="create" anonid="button-new" 
-						label="${trans:m.catalog.bo.doceditor.attrdef.Action-create,ucf,attr}" 
+						label="${trans:m.catalog.bo.doceditor.attrdef.action-create,ucf,attr}" 
 						image="{IconsBase}/small/add.png"  />
 					</xul:toolbar>	
 					<xul:spacer />
@@ -412,6 +435,7 @@
 			<field name="mModified">false</field>
 					
 			<field name="mRows">null</field>
+			<field name="mEditRow">null</field>
 									
 			<property name="rows" readonly="true">
 				<getter><![CDATA[
@@ -501,12 +525,10 @@
 	
 			<method name="valueChanged">
 				<body><![CDATA[	
-					wCore.debug('valueChanged: ' + this.mModified);	
 					if (this.mModified)
 					{
 						if (!this.modified) 
 						{
-							wCore.debug('valueChanged: dispatchFieldEvent fieldModified');	
 							this.setAttribute("modified", "true");
 							this.dispatchFieldEvent('fieldModified');
 						}
@@ -515,7 +537,6 @@
 					{
 						if (this.modified) 
 						{
-							wCore.debug('valueChanged: dispatchFieldEvent fieldRestored');	
 							this.removeAttribute("modified");
 							this.dispatchFieldEvent('fieldRestored');
 						}			
@@ -554,11 +575,13 @@
 			<method name="onLoad">
 				<body><![CDATA[
 					this.cleanList();
+					this.mEditRow = null;
 					var values = [];
 					for (var code in this.mValue)
 					{
-						var def = this.mDefinition[code];		
-						values.push({code: code, label: def.label, type: def.type, value: this.mValue[code]});					
+						var def = this.mDefinition[code];	
+						def.value = this.mValue[code];	
+						values.push(def);					
 					}
 					
 					if (this.mSortOnColId)
@@ -596,20 +619,55 @@
 			<method name="createCodeSelector">
 				<body><![CDATA[
 					var menulist = document.createElement('menulist');
+					menulist.defCode = '';
 					var menupopup = menulist.appendChild(document.createElement('menupopup'));
+					var selectedCode = null
 					for (var code in this.mDefinition)
 					{
 						if (!(code in this.mValue))
 						{
+							if (menulist.defCode == '') {menulist.defCode = code;}
 							var menuitem = menupopup.appendChild(document.createElement('menuitem'));
 							menuitem.setAttribute('label', this.mDefinition[code].label);
 							menuitem.setAttribute('value', code);
+							menuitem.setAttribute('code', code)
 						}
 					}
 					return menulist;
 				]]></body>
 			</method>
-										
+			
+			<method name="createValueSelector">
+				<parameter name="jsnode" />
+				<parameter name="editable" />
+				<body><![CDATA[
+					if (('listcode' in jsnode) && jsnode.listcode != '')
+					{
+						var node = document.createElement('cfield');
+						node.setAttribute('fieldtype', 'dropdownlist');	
+						node.setAttribute('listid', jsnode.listcode);
+						node.setAttribute('hidehelp', 'true');
+						node.setAttribute('emptylabel', '');
+						node.setAttribute('initialvalue', ('value' in jsnode) ? jsnode.value : '');
+						if (!editable)
+						{
+							node.setAttribute('disabled', 'true');
+						}
+					}
+					else if (editable)
+					{
+						var node = document.createElement('textbox');
+						node.setAttribute('value', ('value' in jsnode) ? jsnode.value : '');	
+					}
+					else
+					{
+						var node = document.createElement('label');
+						node.setAttribute('value', jsnode.value);
+					}
+					return node;
+				]]></body>
+			</method>
+													
 			<method name="addItem">
 				<parameter name="jsnode" />
 				<body><![CDATA[
@@ -624,8 +682,7 @@
 					var cell = row.appendChild(document.createElement('label'));
 					cell.setAttribute('value', jsnode.label);
 					
-					cell = row.appendChild(document.createElement('label'));
-					cell.setAttribute('value', jsnode.value);
+					row.appendChild(this.createValueSelector(jsnode, false));
 					
 					cell = row.appendChild(document.createElement('toolbar'));
 					cell.setAttribute('class', 'actions');
@@ -648,15 +705,18 @@
 			<method name="edit">
 				<parameter name="idx" />
 				<body><![CDATA[
-					var row = this.rows.childNodes[idx];
-					while (row.lastChild) {row.removeChild(row.lastChild);};		
-					this.toEditrow(row);
+					if (this.mEditRow == null)
+					{
+						var row = this.rows.childNodes[idx];
+						while (row.lastChild) {row.removeChild(row.lastChild);};		
+						this.toEditrow(row);
+					}
 				]]></body>
 			</method>
 			
 			<method name="delete">
 				<parameter name="idx" />
-				<body><![CDATA[
+				<body><![CDATA[				
 					if (confirm("&modules.catalog.bo.doceditor.attr.Confirm-delete;"))
 					{
 						var row = this.rows.childNodes[idx];
@@ -692,23 +752,32 @@
 
 			<method name="create">
 				<body><![CDATA[
-					var rows = this.rows;
-					var idx = rows.childNodes.length;
-					var row = document.createElement('row');
-					row.setAttribute('class', 'document');
-					row.itemData = {code:'', label:'', type: 'text', value:''};
-					row.idx = idx;
-					this.toEditrow(row);
-					rows.appendChild(row);
+					if (this.mEditRow == null)
+					{
+						var rows = this.rows;
+						var idx = rows.childNodes.length;
+						var row = document.createElement('row');
+						row.setAttribute('class', 'document');
+						row.itemData = {code: '', label: '', type: 'text', value: '', listcode: ''};
+						row.idx = idx;
+						this.toEditrow(row);
+						rows.appendChild(row);
+					}
 				]]></body>
 			</method>
 											
 			<method name="toEditrow">
 				<parameter name="row" />
-				<body><![CDATA[				
+				<body><![CDATA[	
+					this.mEditRow = row;			
 					if (row.itemData.code == '')
 					{
 						var cs = row.appendChild(this.createCodeSelector());
+						var selcode = cs.defCode;
+						if (selcode)
+						{
+							row.itemData = this.mDefinition[selcode];
+						}
 					}
 					else
 					{
@@ -716,8 +785,7 @@
 						cell.setAttribute('value', row.itemData.label);
 					}
 					
-					var tb = row.appendChild(document.createElement('textbox'));
-					tb.setAttribute('value', row.itemData.value);	
+					row.appendChild(this.createValueSelector(row.itemData, true));
 											
 					var  toolbar = row.appendChild(document.createElement('toolbar'));
 					toolbar.setAttribute('class', 'actions');
@@ -758,9 +826,10 @@
 			</method>
 										
 		</implementation>
+		
 		<handlers>		
 			<handler event="command"><![CDATA[
-				var target = event.originalTarget;
+				var target = event.originalTarget;				
 				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
 				{
 					switch (target.getAttribute('action'))
@@ -780,6 +849,16 @@
 					}
 					return;
 				}
+				else if (target.localName == 'menuitem' && target.hasAttribute('code'))
+				{
+					var code = target.getAttribute('code');
+					var row = target.parentNode;
+					while (row.localName != 'row') {row = row.parentNode;}
+					var jsNode = this.mDefinition[code];
+					row.itemData = jsNode;
+					var vNode = this.createValueSelector(jsNode, true);
+					row.replaceChild(vNode, row.childNodes[1]);
+				}
 			]]></handler>
 			
 			<handler event="click" button="0" clickcount="1"><![CDATA[
@@ -790,6 +869,7 @@
 					return;
 				}
 			]]></handler>
+
 		</handlers>	
 		<resources>
 			<stylesheet src="modules.uixul.cEditorGrid" />
@@ -806,23 +886,23 @@
 							<xul:rows anonid="document-rows">
 								<xul:row class="head">
 									<xul:label sortonfield="label" anonid="label" 
-										value="${trans:m.catalog.bo.doceditor.attr.LabelColumn,ucf,attr}" />
+										value="${trans:m.catalog.bo.doceditor.attr.labelcolumn,ucf,attr}" />
 									<xul:label anonid="valueColumn"
-										value="${trans:m.catalog.bo.doceditor.attr.ValueColumn,ucf,attr}" />
+										value="${trans:m.catalog.bo.doceditor.attr.valuecolumn,ucf,attr}" />
 									<xul:label anonid="actionsColumn"
-										value="${trans:m.catalog.bo.doceditor.attr.ActionsColumn,ucf,attr}" />
+										value="${trans:m.catalog.bo.doceditor.attr.actionscolumn,ucf,attr}" />
 								</xul:row>
 							</xul:rows>
 						</xul:grid>
 						<xul:toolbar>
 							<xul:toolbarbutton action="create" anonid="button-new" 
-							label="${trans:m.catalog.bo.doceditor.attr.Action-create,ucf,attr}" 
+							label="${trans:m.catalog.bo.doceditor.attr.action-create,ucf,attr}" 
 							image="{IconsBase}/small/add.png"  />
 						</xul:toolbar>	
 						<xul:spacer />
 					<children/>
 				</xul:vbox>		
-				<xul:description xbl:inherits="hidden=hide-empty-msg">${trans:m.catalog.bo.doceditor.attr.No-attributes-msg,ucf}</xul:description>
+				<xul:description xbl:inherits="hidden=hide-empty-msg">${trans:m.catalog.bo.doceditor.attr.no-attributes-msg,ucf}</xul:description>
 			</xul:vbox>
 		</content>		
 	</binding>

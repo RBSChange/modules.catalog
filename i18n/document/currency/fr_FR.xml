@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.currency" lcid="fr_FR">
-  <include id="m.generic.document.document"/>
-  <key id="document-name">currency</key>
+	<include id="m.generic.document.document" />
+	<key id="document-name">Devise</key>
 </i18n>

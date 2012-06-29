@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shelf.systemtopic-publication" lcid="en_GB">
-  <key id="shelf-not-published">the related shelf is not published</key>
-  <key id="has-no-published-page">does not contain any published page</key>
-  <key id="no-published-product-or-subshelf">does not contain any published product or sub-shelf</key>
+	<key id="shelf-not-published">the related shelf is not published</key>
+	<key id="has-no-published-page">does not contain any published page</key>
+	<key id="no-published-product-or-subshelf">does not contain any published product or sub-shelf</key>
 </i18n>

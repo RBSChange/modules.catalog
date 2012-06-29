@@ -6,7 +6,7 @@
 class catalog_persistentdocument_topshelf extends catalog_persistentdocument_topshelfbase
 {
 	/**
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function isTopShelf()
 	{

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.fo" lcid="fr_FR">
+	<key id="product-comparison">comparaison de produits</key>
+	<key id="product-added-to-comparison-list">produit ajouté à votre liste de comparaisons</key>
+	<key id="product-already-in-comparison-list">ce produit est déjà dans votre liste de comparaisons</key>
+	<key id="product">produit</key>
+	<key id="reviews">avis clients</key>
+	<key id="reviews-count">{count} avis</key>
+	<key id="no-review-yet">aucun avis</key>
+	<key id="no-rating">non noté</key>
+	<key id="comment-be-first">Soyez le premier à commenter ce produit.</key>
+	<key id="selection">sélection</key>
+	<key id="clear-list">vider la liste</key>
+	<key id="no-selected-product">Aucun produit sélectionné.</key>
+	<key id="productlist-favorite-updated">Votre liste de produits favoris a bien été mise à jour.</key>
+	<key id="productlist-favorite-updated-link" format="html"><![CDATA[Votre <a class="link" href="{listUrl}">liste de produits favoris</a> a bien été mise à jour.]]></key>
+	<key id="productlist-comparison-updated">Votre liste de comparaison a bien été mise à jour.</key>
+	<key id="productlist-comparison-updated-link" format="html"><![CDATA[Votre <a class="link" href="{listUrl}">liste de comparaison</a> a bien été mise à jour.]]></key>
+	<key id="remove-checked">retirer la sélection de la liste</key>
+	<key id="keep-only-checked">restreindre la liste à la sélection</key>
+	<key id="add-selection-to-cart">ajouter la sélection au panier</key>
+	<key id="warning-restricted-list">Attention, cette liste est restreinte aux produits de ce rayon.</key>
+	<key id="remove-this-produit-from-list">retirer ce produit de la liste</key>
+	<key id="add-to-comparisons">ajouter aux comparaisons</key>
+	<key id="category">catégorie</key>
+	<key id="full-description">description complète</key>
+	<key id="click-here-for-larger-image">cliquer ici pour agrandir l'image</key>
+	<key id="image-loading">Chargement de l'image en cours...</key>
+	<key id="image-loading-error">Une erreur s'est produite lors du chargement de l'image.</key>
+	<key id="next-products">suivants</key>
+	<key id="next-products-title">voir les produits suivants</key>
+	<key id="previous-products">précédents</key>
+	<key id="previous-products-title">voir les produits précédents</key>
+	<key id="actions-on-selection">actions sur la sélection</key>
+	<key id="add-to-cart-unavaible">indisponible à la vente</key>
+	<key id="ok">ok</key>
+	<key id="add-to-cart-popin">aperçu du produit</key>
+	<key id="kit-configuration" format="html"><![CDATA[configuration du kit <a class="link" href="{url}">{label}</a>]]></key>
+	<key id="configurate-product">configurer ce produit</key>
+	<key id="update-cart">mettre à jour le panier</key>
+	<key id="product-configuration-updated">La configuration du produit a bien été mis à jour dans le panier.</key>
+	<key id="several-choices-available">plusieurs choix disponibles</key>
+	<key id="choice-when-add-to-cart">Le choix sera fait lors de l'ajout au panier.</key>
+	<key id="min-order-quantity">Quantité minimale d'achat : {quantity}</key>
+</i18n>

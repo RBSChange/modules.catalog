@@ -1,33 +1,15 @@
 <?php
 /**
- * catalog_StockService
  * @package modules.catalog
+ * @method catalog_StockService getInstance()
  */
-class catalog_StockService extends BaseService
+class catalog_StockService extends change_BaseService
 {
 	const LEVEL_AVAILABLE = 'A';
 	const LEVEL_FEW_IN_STOCK = 'F';
 	const LEVEL_UNAVAILABLE = 'U';
 
 	const STOCK_ALERT_NOTIFICATION_CODENAME = 'modules_catalog/stockalert';
-
-	/**
-	 * Singleton
-	 * @var catalog_StockService
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return catalog_StockService
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
 
 	/**
 	 * @param catalog_persistentdocument_product $document
@@ -44,9 +26,9 @@ class catalog_StockService extends BaseService
 
 	/**
 	 * @param catalog_persistentdocument_product $document
-	 * @param Double $quantity
+	 * @param float $quantity
 	 * @param catalog_persistentdocument_shop $shop
-	 * @return Boolean
+	 * @return boolean
 	 */
 	public function isAvailable($document, $quantity = 1, $shop = null)
 	{
@@ -164,6 +146,14 @@ class catalog_StockService extends BaseService
 	public function getOutOfStockProducts()
 	{
 		return catalog_ProductService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->find();
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getOutOfStockProductsCount()
+	{
+		return f_util_ArrayUtils::firstElement(catalog_ProductService::getInstance()->createQuery()->add(Restrictions::le('stockQuantity', 0))->setProjection(Projections::rowCount('count'))->findColumn('count'));
 	}
 
 	/**
@@ -314,25 +304,24 @@ class catalog_StockService extends BaseService
 	}
 
 	/**
-	 * @param users_persistentdocument_user[] $users
+	 * @param users_persistentdocument_backenduser[] $users
 	 * @param catalog_persistentdocument_product $document
 	 * @return boolean
 	 */
 	protected function sendStockAlertNotification($users, $document)
 	{
 		$ns = notification_NotificationService::getInstance();
-		// Products and users have no website or lang...
+		// Products and backendusers have no website or lang...
 		$configuredNotif = $ns->getConfiguredByCodeName(self::STOCK_ALERT_NOTIFICATION_CODENAME);
 		if ($configuredNotif instanceof notification_persistentdocument_notification)
 		{
+			$result = true;
 			$configuredNotif->setSendingModuleName('catalog');
-			$emailAddressArray = array();
+			$configuredNotif->registerCallback($this, 'getStockAlertNotifParameters', $document);
 			foreach ($users as $user)
 			{
-				$emailAddressArray[] = $user->getEmail();
+				$result && $configuredNotif->sendToUser($user);
 			}
-			$recipients = change_MailService::getInstance()->getRecipientsArray($emailAddressArray);
-			return $ns->sendNotificationCallback($configuredNotif, $recipients, array($this, 'getStockAlertNotifParameters'), $document);
 		}
 		return true;
 	}
@@ -359,7 +348,7 @@ class catalog_StockService extends BaseService
 		if ($document instanceof catalog_persistentdocument_product && in_array('stockQttJSON', $allowedProperties)) 
 		{
 			$infos = array();
-			$infos[] = array('stocklabel' => LocaleService::getInstance()->transBO('m.catalog.bo.doceditor.master', array('ucf')), 
+			$infos[] = array('stocklabel' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.master', array('ucf')), 
 				'stockQuantity' => $document->getStockQuantity() === null ? -1 : $document->getStockQuantity(), 
 				'stockAlertThreshold' => $document->getStockAlertThreshold() === null ? -1 : $document->getStockAlertThreshold());
 			
@@ -392,7 +381,7 @@ class catalog_StockService extends BaseService
 
 	/**
 	 * @param catalog_persistentdocument_product $document
-	 * @return Double
+	 * @return float
 	 */
 	protected function getAlertThreshold($document)
 	{
@@ -402,5 +391,24 @@ class catalog_StockService extends BaseService
 			return ModuleService::getInstance()->getPreferenceValue('catalog', 'stockAlertThreshold');
 		}
 		return $threshold;
+	}
+	
+	/**
+	 * Returns true if the stock service uses the stockQuantity property on the product.
+	 * @return boolean
+	 */
+	public function useProductStockProperties()
+	{
+		return true;
+	}
+	
+	// Depreacated.
+	
+	/**
+	 * @deprecated use validateCart or validateCartQuantities
+	 */
+	public function validCartQuantities($productArray, $cart)
+	{
+		return $this->validateCartQuantities($productArray, $cart);
 	}
 }

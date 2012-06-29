@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.topshelvesmenu" lcid="en_GB">
-  <key id="maxlevel">Maximum level</key>
-  <key id="maxlevel-help">Menu depth: when the value is "1", only the top level shelves are displayed, if the value is "2", the top level shelves and their direct sub-shelves are displayed, etc.</key>
+	<key id="maxlevel">Maximum level</key>
+	<key id="maxlevel-help">Menu depth: when the value is "1", only the top level shelves are displayed, if the value is "2", the top level shelves and their direct sub-shelves are displayed, etc.</key>
 </i18n>

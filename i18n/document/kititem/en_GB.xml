@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.kititem" lcid="en_GB">
-  <key id="document-name">kititem</key>
+	<key id="document-name">kititem</key>
 </i18n>

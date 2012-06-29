@@ -10,7 +10,7 @@ class catalog_RedirectAction extends change_Action
 	 * @param change_Request $request
 	 */
 	public function _execute($context, $request)
-    {
+	{
 		$subRef = DocumentHelper::getDocumentInstance($request->getParameter('subRef'));
 		if ($subRef instanceof catalog_persistentdocument_shelf && $request->hasParameter('parentTopic')) 
 		{
@@ -25,10 +25,10 @@ class catalog_RedirectAction extends change_Action
 			}
 		}
 		header('Location: ' . LinkHelper::getDocumentUrl($subRef));
-        return change_View::NONE ;
-    }
+		return change_View::NONE ;
+	}
 
-    public function getRequestMethods()
+	public function getRequestMethods()
 	{
 		return change_Request::POST;
 	}

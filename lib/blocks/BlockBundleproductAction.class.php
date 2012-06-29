@@ -5,6 +5,10 @@
  */
 class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 {
+	/**
+	 * @param f_mvc_Request $request
+	 * @return array
+	 */
 	public function getCacheKeyParameters($request)
 	{
 		return array("bundleditemid" => $request->getParameter("bundleditemid"));
@@ -13,11 +17,24 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{
+		/* @var $product catalog_persistentdocument_bundleproduct */
 		$product = $this->getDocumentParameter();
+		
+		// @deprecated this should not be used anymore. See order_AddToCartAction
+		if ($request->getParameter('addToCart') !== null)
+		{
+			$this->addProductToCartForCurrentBlock($product);
+		}
+		
+		// @deprecated this should not be used anymore. See catalog_UpdateListAction
+		if ($request->getParameter('addToList') !== null)
+		{
+			$this->addProductToFavorites($product);
+		}
 		
 		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
 		
@@ -27,20 +44,23 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}
 		
-		$prices = $product->getPrices($shop, $customer);
-		$price = array_shift($prices);
-		
 		$request->setAttribute('product', $product);
-		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $customer));
-		$request->setAttribute('thresholdPrices', $prices);
+		
+		$prices = $product->getPricesForCurrentShopAndCustomer();
+		if (count($prices))
+		{
+			$price = array_shift($prices);
+			$request->setAttribute('defaultPrice', $price);
+			$request->setAttribute('differencePrice', $product->getPriceDifference($shop, $shop->getCurrentBillingArea(), $customer));
+			$request->setAttribute('thresholdPrices', $prices);
+		}
 		
 		if ($request->hasParameter('bundleditemid'))
 		{
-			$bundleditem = DocumentHelper::getDocumentInstance($request->getParameter('bundleditemid'), 'modules_catalog/bundleditem');
+			$bundleditem = catalog_persistentdocument_bundleditem::getInstanceById($request->getParameter('bundleditemid'));
 			$request->setAttribute('bundleditem', $bundleditem);
 			$request->setAttribute('bundledproduct', $bundleditem->getProduct());
-			return 'Bundleditem';
+			return 'Bundleditem'; 
 		}
 		
 		return website_BlockView::SUCCESS;

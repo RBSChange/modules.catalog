@@ -6,17 +6,16 @@
 class catalog_BlockProductContextualListAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @var String[]
+	 * @var string[]
 	 */
 	public static $sortOptions = array('displayMode', 'nbresultsperpage', 'onlydiscount', 
-			'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
-	
+		'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
+		
 	/**
-	 * @param f_mvc_Response $response
-	 * @param boolean $idsOnly
-	 * @return catalog_persistentdocument_product[]
+	 * @param f_mvc_Request $request
+	 * @return integer[] or null
 	 */
-	protected function getProductArray($request, $idsOnly = false)
+	protected function getProductIdArray($request)
 	{
 		// Prepare display configuration.
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
@@ -29,10 +28,9 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		}
 		$masterQuery = catalog_ProductService::getInstance()->createQuery();
 		
-		$container = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 		$query = $masterQuery->createCriteria('compiledproduct')
 			->add(Restrictions::published())
-			->add(Restrictions::eq('topicId', $container))
+			->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
 			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
 			->add(Restrictions::eq('showInList', true));
 
@@ -64,51 +62,30 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 			$masterQuery->addOrder(Order::desc('compiledproduct.brandLabel'));
 		}
 		$masterQuery->addOrder(Order::asc('compiledproduct.position'));
-		
-		$hideBlocIfEmpty = true;
+
 		$onlydiscount = $this->findParameterValue('onlydiscount');
 		if ($onlydiscount == 'true')
 		{
 			$query->add(Restrictions::eq('isDiscount', true));
-			$hideBlocIfEmpty = false;
+			$this->hideIfNoProduct = false;
 		}
 		$onlyavailable = $this->findParameterValue('onlyavailable');
 		if ($onlyavailable == 'true')
 		{
 			$query->add(Restrictions::eq('isAvailable', true));
-			$hideBlocIfEmpty = false;
+			$this->hideIfNoProduct = false;
 		}
 		
-		if ($idsOnly)
-		{
-			$masterQuery->setProjection(Projections::property('id'));
-			$products = $masterQuery->findColumn('id');
-		}
-		else
-		{	
-			$products = $masterQuery->find();		
-		}
-		
-		if (count($products) == 0 && $hideBlocIfEmpty)
-		{
-			return null;
-		}
-		$request->setAttribute('blockTitle', $this->getBlockTitle());
-		return $products;
-	}
-		
-	/**
-	 * @param f_mvc_Response $response
-	 * @return integer[] or null
-	 */
-	protected function getProductIdArray($request)
-	{
-		return $this->getProductArray($request, true);
+		$masterQuery->setProjection(Projections::property('id'));
+		return $masterQuery->findColumn('id');
 	}
 	
+	/**
+	 * @param f_mvc_Request $request
+	 */
 	protected function persistSortOptions($request)
 	{
-		$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
+		$topicId = $this->getContext()->getNearestContainerId();
 		$sessionKey = "catalog_ProductContextualListSortOptions";
 		$storage = change_Controller::getInstance()->getStorage();
 		$sortOptions = $storage->read($sessionKey);
@@ -116,8 +93,8 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			$sortOptions = array('topicId' => $topicId);
 		}
-			
 		$updateSession = $request->hasParameter('updateSortOptions');
+		
 		// Get selected values.
 		$valueSortOption = array();
 		foreach (self::$sortOptions as $sortOptionName)
@@ -143,17 +120,20 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 			}
 		}
 		$storage->write($sessionKey, $sortOptions);
-		$request->setAttribute('valueSortOption', $valueSortOption);
+		$request->setAttribute('valueSortOption', $valueSortOption);	
 	}
 		
 	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return String
+	 * @return string
 	 */
 	protected function getBlockTitle()
 	{
-		$containerId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
-		$shelf = catalog_ShelfService::getInstance()->getByTopic(DocumentHelper::getDocumentInstance($containerId));
+		$title = $this->getConfigurationValue('blockTitle', null);
+		if ($title)
+		{
+			return f_util_HtmlUtils::textToHtml($title);
+		}
+		$shelf = $this->getCurrentShelf();
 		if ($shelf !== null)
 		{
 			return $shelf->getLabelAsHtml();
@@ -162,49 +142,134 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	}
 	
 	/**
-	 * @return array<String, String>
+	 * @return array<string, string>
 	 */
 	public function getMetas()
 	{
-		$container = $this->getCurrentEcommerceContainer();
+		$container = $this->getCurrentShelf();
 		$referencingService = catalog_ReferencingService::getInstance();
 		if ($container instanceof catalog_persistentdocument_shelf)
 		{
 			return array("title" => $referencingService->getPageTitleByShelf($container), 
-					"description" => $referencingService->getPageDescriptionByShelf($container), 
-					"keywords" => $referencingService->getPageKeywordsByShelf($container));
+				"description" => $referencingService->getPageDescriptionByShelf($container), 
+				"keywords" => $referencingService->getPageKeywordsByShelf($container));
 		}
-		else if ($container instanceof catalog_persistentdocument_shop)
-		{
-			return array("title" => $referencingService->getPageTitleByShop($container), 
-					"description" => $referencingService->getPageDescriptionByShop($container), 
-					"keywords" => $referencingService->getPageKeywordsByShop($container));
-		}
-		return null;
+		return array();
 	}
 	
+	/**
+	 * @var boolean
+	 */
+	private $hideIfNoProduct = true;
+	
+	/**
+	 * @return boolean
+	 */
+	protected function getShowIfNoProduct()
+	{
+		return !$this->hideIfNoProduct && $this->getCurrentShelf() !== null;
+	}
+	
+	/**
+	 * @var catalog_persistentdocument_shelf
+	 */
 	private $container = null;
 	
-	private function getCurrentEcommerceContainer()
+	/**
+	 * @return catalog_persistentdocument_shelf
+	 */
+	private function getCurrentShelf()
 	{
 		if ($this->container === null)
 		{
-			
-			$topicId = f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
-			$topic = DocumentHelper::getDocumentInstance($topicId);
-			if ($topic instanceof website_persistentdocument_systemtopic)
-			{
-				$shelf = DocumentHelper::getDocumentInstance($topic->getReferenceId());
-				if ($shelf instanceof catalog_persistentdocument_shelf)
-				{
-					$this->container = $shelf;
-				}
-				else
-				{
-					$this->container = catalog_ShopService::getInstance()->getCurrentShop();
-				}
-			}
+			$context = $this->getContext();
+			$css = catalog_ShelfService::getInstance();
+			$this->container = $css->getByTopic(DocumentHelper::getDocumentInstance($context->getNearestContainerId()));
 		}
 		return $this->container;
+	}
+	
+	// Deprecated.
+	
+	/**
+	 * @deprecated use getProductIdArray()
+	 */
+	protected function getProductArray($request, $idsOnly = false)
+	{
+		// Prepare display configuration.
+		$shop = catalog_ShopService::getInstance()->getCurrentShop();
+		$displayConfig = $this->getDisplayConfig($shop);
+	
+		// Handle the sort configuration.
+		if ($displayConfig['showSortMenu'])
+		{
+			$this->persistSortOptions($request);
+		}
+		$masterQuery = catalog_ProductService::getInstance()->createQuery();
+	
+		$query = $masterQuery->createCriteria('compiledproduct')
+		->add(Restrictions::published())
+		->add(Restrictions::eq('topicId', $this->getContext()->getNearestContainerId()))
+		->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+		->add(Restrictions::eq('showInList', true));
+	
+		$priceorder = $this->findParameterValue('priceorder');
+		if ($priceorder == 1)
+		{
+			$masterQuery->addOrder(Order::asc('compiledproduct.price'));
+		}
+		else if ($priceorder == 2)
+		{
+			$masterQuery->addOrder(Order::desc('compiledproduct.price'));
+		}
+		$ratingaverageorder = $this->findParameterValue('ratingaverageorder');
+		if ($ratingaverageorder == 1)
+		{
+			$masterQuery->addOrder(Order::asc('compiledproduct.ratingAverage'));
+		}
+		else if ($ratingaverageorder == 2)
+		{
+			$masterQuery->addOrder(Order::desc('compiledproduct.ratingAverage'));
+		}
+		$brandorder = $this->findParameterValue('brandorder');
+		if ($brandorder == 1)
+		{
+			$masterQuery->addOrder(Order::asc('compiledproduct.brandLabel'));
+		}
+		else if ($brandorder == 2)
+		{
+			$masterQuery->addOrder(Order::desc('compiledproduct.brandLabel'));
+		}
+		$masterQuery->addOrder(Order::asc('compiledproduct.position'));
+	
+		$hideBlocIfEmpty = true;
+		$onlydiscount = $this->findParameterValue('onlydiscount');
+		if ($onlydiscount == 'true')
+		{
+			$query->add(Restrictions::eq('isDiscount', true));
+			$hideBlocIfEmpty = false;
+		}
+		$onlyavailable = $this->findParameterValue('onlyavailable');
+		if ($onlyavailable == 'true')
+		{
+			$query->add(Restrictions::eq('isAvailable', true));
+			$hideBlocIfEmpty = false;
+		}
+	
+		if ($idsOnly)
+		{
+			$masterQuery->setProjection(Projections::property('id'));
+			$products = $masterQuery->findColumn('id');
+		}
+		else
+		{
+			$products = $masterQuery->find();
+		}
+	
+		if (count($products) == 0 && $hideBlocIfEmpty)
+		{
+			return null;
+		}
+		return $products;
 	}
 }

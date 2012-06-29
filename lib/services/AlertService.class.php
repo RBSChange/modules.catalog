@@ -1,30 +1,13 @@
 <?php
 /**
- * catalog_AlertService
  * @package modules.catalog
+ * @method catalog_AlertService getInstance()
  */
 class catalog_AlertService extends f_persistentdocument_DocumentService
 {
 	const TYPE_AVAILABILITY = 'availability';
 	const TYPE_PRICE = 'price';
 	
-	/**
-	 * @var catalog_AlertService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_AlertService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_alert
 	 */
@@ -41,7 +24,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/alert');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/alert');
 	}
 	
 	/**
@@ -52,11 +35,11 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/alert', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/alert', false);
 	}
 	
 	/**
-	 * @param users_persistentoducment_user $user
+	 * @param users_persistentoducment_frontenduser $user
 	 * @param catalog_persistentdocument_product $product
 	 * @param string $type
 	 * @return boolean
@@ -67,7 +50,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_user $user
+	 * @param users_persistentoducment_frontenduser $user
 	 * @param catalog_persistentdocument_product $product
 	 * @param string $type
 	 * @return catalog_persistentdocument_alert
@@ -81,7 +64,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_user $user
+	 * @param users_persistentoducment_frontenduser $user
 	 * @return catalog_persistentdocument_alert[]
 	 */
 	public function getPublishedByUser($user)
@@ -99,7 +82,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_user $user
+	 * @param users_persistentoducment_frontenduser $user
 	 * @param integer[] $productIds
 	 * @return boolean
 	 */
@@ -154,7 +137,6 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			}
 		}
 		
-		$ns = notification_NotificationService::getInstance();
 		foreach ($alertsByWebsiteId as $alerts)
 		{
 			if (count($alerts) == 1)
@@ -164,14 +146,14 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			else
 			{
 				$alert = f_util_ArrayUtils::firstElement($alerts);
-				$notification = $ns->getConfiguredByCodeName('modules_catalog/severalalerts', $alert->getWebsiteId(), $alert->getLang());
+				$notification = notification_NotificationService::getInstance()->getConfiguredByCodeName('modules_catalog/severalalerts', $alert->getWebsiteId(), $alert->getLang());
 			}
 			
 			if ($notification instanceof notification_persistentdocument_notification)
 			{
 				$notification->setSendingModuleName('catalog');
-				$ns->sendNotificationCallback($notification, change_MailService::getInstance()->getRecipientsArray(array($email)), array($this, 'getNotificationParameters'), $alerts);
-				
+				$notification->registerCallback($this, 'getNotificationParameters', $alerts);
+				$notification->send($email);
 			}
 		}
 		
@@ -214,7 +196,8 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	{
 		$product = $alert->getProduct();
 		$shop = $alert->getShop();
-		$price = $product->getPrice($shop, null);
+		$billingArea = $shop->getCurrentBillingArea();
+		$price = $product->getPrice($shop, $billingArea, null);
 		$productUrl = LinkHelper::getDocumentUrl($product, $alert->getLang(), array('catalogParam' => array('shopId' => $shop->getId())));
 		$productLabel = $product->getLabelAsHtml();
 		$productLink = '<a href="'.$productUrl.'" class="link">'.$productLabel.'</a>';
@@ -281,7 +264,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_alert $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function preInsert($document, $parentNodeId)
@@ -293,11 +276,11 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			$user = $document->getUser();
 			if ($user !== null)
 			{
-				$document->setLabel(f_Locale::translate('&modules.catalog.document.alert.Label-patern-user;', array('productId' => $document->getProductId(), 'user' => $user->getFullname())));	
+				$document->setLabel(LocaleService::getInstance()->trans('m.catalog.document.alert.label-patern-user', array('ucf'), array('productId' => $document->getProductId(), 'user' => $user->getFullname())));	
 			}
 			else 
 			{
-				$document->setLabel(f_Locale::translate('&modules.catalog.document.alert.Label-patern-email;', array('productId' => $document->getProductId(), 'email' => $document->getEmail())));
+				$document->setLabel(LocaleService::getInstance()->trans('m.catalog.document.alert.label-patern-email', array('ucf'), array('productId' => $document->getProductId(), 'email' => $document->getEmail())));
 			}
 		}
 		
@@ -306,7 +289,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_alert $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document.
+	 * @param integer $parentNodeId Parent node ID where to save the document.
 	 * @return void
 	 */
 	protected function postInsert($document, $parentNodeId)
@@ -325,7 +308,8 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 		{
 			$configuredNotif->setSendingModuleName('catalog');
 			$callback = array($this, 'getCreationNotificationParameters');
-			$ns->sendNotificationCallback($configuredNotif, change_MailService::getInstance()->getRecipientsArray(array($alert->getEmail())), $callback, $alert);
+			$recipients = new mail_MessageRecipients($alert->getEmail());
+			$ns->sendNotificationCallback($configuredNotif, $recipients, $callback, $alert);
 		}
 	}
 	
@@ -342,7 +326,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 
 		$removeAlertParameters = array('catalogParam' => $catalogParam);
 		$removeAlertUrl = LinkHelper::getTagUrl('contextual_website_website_modules_catalog_product-alert-management', null, $removeAlertParameters);
-		$removeAlertLink = '<a href="'.$removeAlertUrl.'" class="link">'.LocaleService::getInstance()->transFO('m.catalog.frontoffice.remove-alert').'</a>';
+		$removeAlertLink = '<a href="'.$removeAlertUrl.'" class="link">'.LocaleService::getInstance()->trans('m.catalog.frontoffice.remove-alert').'</a>';
 		$params['removeAlertUrl'] = $removeAlertUrl;
 		$params['removeAlertLink'] = $removeAlertLink;
 		$params['alertEndDate'] = date_Formatter::toDefaultDateTime($alert->getUIEndpublicationdate());
@@ -357,7 +341,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	{
 		try 
 		{
-			$this->tm->beginTransaction();
+			$this->getTransactionManager()->beginTransaction();
 			
 			$query = $this->createQuery()
 				->add(Restrictions::published())
@@ -368,14 +352,14 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			foreach ($query->find() as $alert)
 			{
 				$alert->setPending(true);
-				$this->pp->updateDocument($alert);
+				$this->getPersistentProvider()->updateDocument($alert);
 			}				
 			
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 		}	
 	}
 	
@@ -386,7 +370,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	{
 		try 
 		{
-			$this->tm->beginTransaction();
+			$this->getTransactionManager()->beginTransaction();
 			
 			$query = $this->createQuery()
 				->add(Restrictions::published())
@@ -398,14 +382,14 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 			foreach ($query->find() as $alert)
 			{
 				$alert->setPending(true);
-				$this->pp->updateDocument($alert);
+				$this->getPersistentProvider()->updateDocument($alert);
 			}
 			
-			$this->tm->commit();
+			$this->getTransactionManager()->commit();
 		}
 		catch (Exception $e)
 		{
-			$this->tm->rollBack($e);
+			$this->getTransactionManager()->rollBack($e);
 		}		
 	}
 }

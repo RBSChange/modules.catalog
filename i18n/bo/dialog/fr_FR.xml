@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.dialog" lcid="fr_FR">
-  <key id="publication-in-shops">détail de la publication dans les boutiques</key>
-  <key id="column-lang">langue</key>
-  <key id="createtopshelf">créer un rayon de premier niveau</key>
-  <key id="column-price">prix</key>
-  <key id="column-shelf">rayon</key>
-  <key id="column-publication">publication</key>
-  <key id="product-not-in-shops">les boutiques listées ci-dessous sont celles pour lesquelles ce produit est présent dans au moins un rayon.</key>
+	<key id="publication-in-shops">détail de la publication dans les boutiques</key>
+	<key id="column-lang">langue</key>
+	<key id="createtopshelf">créer un rayon de premier niveau</key>
+	<key id="column-price">prix</key>
+	<key id="column-shelf">rayon</key>
+	<key id="column-publication">publication</key>
+	<key id="product-not-in-shops">les boutiques listées ci-dessous sont celles pour lesquelles ce produit est présent dans au moins un rayon.</key>
 </i18n>

@@ -1,0 +1,86 @@
+<script type="text/javascript">
+	/* <![CDATA[ */
+	jQuery(document).ready(function() {
+		jQuery('.kit-configuration-form select').change(function()
+		{
+			jQuery(this).parents('form').get(0).submit();
+			jQuery('.kit-configuration-form .button').css('visibility', 'hidden');
+		});
+	});
+	/* ]]> */
+</script>
+
+<form method="post" class="cmxform kit-configuration-form">
+	<fieldset>
+		<legend class="h-1">${trans:m.catalog.fo.kit-configuration,ucf,label=kit/getLabelAsHtml,url=url:kit}</legend>
+		<ul class="document-list">
+			<li tal:repeat="item kit/getKititemArray" class="${alternateclass:itemIndex}">
+				<tal:block tal:define="itemProduct item/getDefaultProduct">
+					<tal:block tal:condition="item/getDeclinable"><tal:block tal:define="global product itemProduct/getDeclinedproduct" /></tal:block>
+					<tal:block tal:condition="not: item/getDeclinable"><tal:block tal:define="global product itemProduct" /></tal:block>
+					<tal:block change:productvisual="name 'visual'; mode 'list'; product itemProduct">
+						<a tal:condition="visual" change:link="document itemProduct; catalogParam[shopId] shop/getId; catalogParam[topicId] itemProduct/getContextualTopicId" class="document-visual" tal:attributes="title itemProduct/getLinkTitle">
+							<img change:media="document visual; format 'modules.catalog.frontoffice/small'" />
+						</a>
+					</tal:block>
+					<h3 change:h="">${structure product/getLabelAsHtml}</h3>
+					<dl class="inline-items">
+						<dt>${trans:m.catalog.frontoffice.detail-quantity,ucf}</dt>
+						<dd>${item/getQuantity}</dd>
+						<tal:block tal:condition="item/getDeclinable">
+							<dt>${trans:m.catalog.frontoffice.detail-declinations,ucf}</dt>
+							<dd>
+								<select class="textfield nocmx" id="declination-selector-${item/getId}" name="catalogParam[declinationIds][${item/getId}]">
+									<tal:block tal:repeat="declination php: product.getPublishedDeclinationsInShop(shop)">
+										<option tal:condition="php: declination.getId() == itemProduct.getId()" selected="selected" value="${declination/getId}">${structure declination/getFullLabelAsHtml}</option>
+										<option tal:condition="php: declination.getId() != itemProduct.getId()" value="${declination/getId}">${structure declination/getFullLabelAsHtml}</option>
+									</tal:block>
+								</select>
+								<input type="submit" class="button nojs" value="${trans:m.catalog.frontoffice.refresh-declined,ucf,attr}" />
+							</dd>
+						</tal:block>
+					</dl>
+					<div class="cleaner"></div>
+				</tal:block>
+			</li>
+		</ul>
+		
+		<tal:block tal:condition="showPrices">
+			<ul tal:condition="defaultPrice" class="main-price normal-margin">
+				<li tal:condition="showPricesWithTax" class="price">			
+					${defaultPrice/getFormattedValueWithTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ttc,uc}</span>
+					<tal:block tal:condition="defaultPrice/isDiscount">
+						<span tal:condition="defaultPrice/getDiscountDetail" class="discount-detail">${structure defaultPrice/getDiscountDetailAsHtml}</span>
+						<del title="${trans:m.catalog.frontoffice.old-price,attr}">${defaultPrice/getFormattedOldValueWithTax}</del>
+					</tal:block>
+				</li>
+				<li tal:condition="showPricesWithoutTax" class="price">
+					${defaultPrice/getFormattedValueWithoutTax} <span class="tax-mode">${trans:m.catalog.frontoffice.ht,uc}</span>
+					<tal:block tal:condition="defaultPrice/isDiscount">
+						<span tal:condition="defaultPrice/getDiscountDetail" class="discount-detail">${structure defaultPrice/getDiscountDetailAsHtml}</span>
+						<del title="${trans:m.catalog.frontoffice.old-price,attr}">${defaultPrice/getFormattedOldValueWithoutTax}</del>
+					</tal:block>
+				</li>
+				<li tal:condition="defaultPrice/getFormattedEcoTax" class="small">
+					${trans:m.catalog.frontoffice.labelecotaxe,ucf} ${trans:m.catalog.frontoffice.ecotaxe,ucf} ${defaultPrice/getFormattedEcoTax}
+				</li>
+			</ul>
+		</tal:block>
+		
+		<fieldset>
+			<ol>
+				<li>
+					<label for="product-quantity">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
+					<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="${quantity}" />
+				</li>
+			</ol>
+			<p tal:condition="not:updateLine" class="buttons">
+				<tal:block change:addtocartbutton="shop shop; product kit; name 'addConfiguredKitToCart'; backurl backUrl" class="button primary" />
+			</p>
+			<p tal:condition="updateLine" class="buttons">
+				<input type="hidden" name="cartLineIndex" value="${cartLineIndex}" />
+				<tal:block change:addtocartbutton="shop shop; product kit; name 'updateKitConfigurationInCart'; backurl backUrl" class="button primary" labeli18n="m.catalog.fo.update-cart" />
+			</p>
+		</fieldset>
+	</fieldset>
+</form>

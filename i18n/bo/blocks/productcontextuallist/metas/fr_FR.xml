@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.blocks.productcontextuallist.metas" lcid="fr_FR">
-  <key id="title">Titre du rayon courant</key>
-  <key id="description">Description du rayon courant</key>
-  <key id="keywords">Mots-clés du rayon courant</key>
+	<key id="title">Titre du rayon courant</key>
+	<key id="description">Description du rayon courant</key>
+	<key id="keywords">Mots-clés du rayon courant</key>
 </i18n>

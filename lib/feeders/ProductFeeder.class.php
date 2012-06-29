@@ -16,7 +16,7 @@ abstract class catalog_ProductFeeder
 	abstract public function getProductArray($parameters);
 	
 	/**
-	 * @return String
+	 * @return string
 	 */
 	public function getLabelKey()
 	{
@@ -26,10 +26,10 @@ abstract class catalog_ProductFeeder
 	
 	/**
 	 * Returns the localized human-readable feeder label.
-	 * @return String
+	 * @return string
 	 */
 	public function getLabel()
 	{
-		return f_Locale::translateUI('&'.$this->getLabelKey().';');
+		return LocaleService::getInstance()->trans($this->getLabelKey());
 	}
 }

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.lists.cross-selling-sortby" lcid="en_GB">
-  <key id="description">Different sorting methods for the associated products</key>
-  <key id="fieldorder">Order of the backoffice</key>
-  <key id="label">Sorting of the associated products</key>
-  <key id="random">Random order</key>
+	<key id="description">Different sorting methods for the associated products</key>
+	<key id="fieldorder">Order of the backoffice</key>
+	<key id="label">Sorting of the associated products</key>
+	<key id="random">Random order</key>
 </i18n>

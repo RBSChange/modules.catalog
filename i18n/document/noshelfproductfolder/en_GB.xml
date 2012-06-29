@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.noshelfproductfolder" lcid="en_GB">
-  <key id="document-name">Uncategorised products</key>
+	<key id="document-name">Uncategorised products</key>
 </i18n>

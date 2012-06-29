@@ -8,7 +8,7 @@ class catalog_BlockCommentsAction extends comment_BlockCommentsBaseAction
 	/**
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
-	 * @return String
+	 * @return string
 	 */
 	public function execute($request, $response)
 	{

@@ -1,27 +1,10 @@
 <?php
 /**
- * catalog_NoshelfproductfolderService
  * @package modules.catalog
+ * @method catalog_NoshelfproductfolderService getInstance()
  */
 class catalog_NoshelfproductfolderService extends f_persistentdocument_DocumentService
 {
-	/**
-	 * @var catalog_NoshelfproductfolderService
-	 */
-	private static $instance;
-
-	/**
-	 * @return catalog_NoshelfproductfolderService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return catalog_persistentdocument_noshelfproductfolder
 	 */
@@ -38,7 +21,7 @@ class catalog_NoshelfproductfolderService extends f_persistentdocument_DocumentS
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/noshelfproductfolder');
+		return $this->getPersistentProvider()->createQuery('modules_catalog/noshelfproductfolder');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class catalog_NoshelfproductfolderService extends f_persistentdocument_DocumentS
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_catalog/noshelfproductfolder', false);
+		return $this->getPersistentProvider()->createQuery('modules_catalog/noshelfproductfolder', false);
 	}
 	
 	public function getVirtualChildrenAt($document, $subModelNames, $locateDocumentId, $pageSize, &$startIndex, &$totalCount)

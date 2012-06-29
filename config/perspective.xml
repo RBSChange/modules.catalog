@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <perspective>
 	<models>
 		<model name="modules_generic/rootfolder">
@@ -7,16 +7,38 @@
 				<child model="modules_catalog/attributefolder" />
 				<child model="modules_catalog/topshelf" />
 				<child model="modules_catalog/noshelfproductfolder" />
+				<child model="modules_catalog/productqueryfolder" />
+				<child model="modules_catalog/comparablepropertyfolder" />
+				<child model="modules_catalog/billingareafolder" />
 			</children>
 			<drops>
 				<drop model="modules_catalog/topshelf" action="move" />
+				<drop model="modules_catalog/productqueryfolder" action="move" />
+				<drop model="modules_catalog/comparablepropertyfolder" action="move" />
 			</drops>
 			<contextactions>
 				<contextaction name="edit" />
 				<contextaction name="openTreeNodeOrder" />
 				<groupactions name="createRootfolder_">
 					<contextaction name="createTopshelf" />
+					<contextaction name="createProductqueryfolder" />
 				</groupactions>
+			</contextactions>
+		</model>
+		<model name="modules_catalog/comparablepropertyfolder">
+			<children>
+				<child model="modules_catalog/comparableproperty" />
+			</children>
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="openFolder" />
+			</contextactions>
+		</model>
+		<model name="modules_catalog/comparableproperty">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/noshelfproductfolder">
@@ -36,10 +58,10 @@
 				<child model="modules_catalog/shop" />
 			</children>
 			<columns>
-				<column name="website" />
-				<column name="isDefault" />
-				<column name="startpublicationdate" />
-				<column name="endpublicationdate" />
+				<column name="website" labeli18n="m.catalog.bo.general.column.website" />
+				<column name="isDefault" labeli18n="m.catalog.bo.general.column.isdefault" />
+				<column name="startpublicationdate" labeli18n="m.catalog.bo.general.column.startpublicationdate" />
+				<column name="endpublicationdate" labeli18n="m.catalog.bo.general.column.endpublicationdate" />
 			</columns>
 			<contextactions>
 				<contextaction name="edit" />
@@ -59,6 +81,9 @@
 				<child model="modules_catalog/shippingfilter" from="shippingfilter" />
 				<child model="modules_catalog/paymentfilter" from="paymentfilter" />
 			</children>
+			<columns>
+				<column name="billingAreaColumnLabel" />
+			</columns>
 			<contextactions>
 				<contextaction name="edit" />
 				<contextaction name="delete" />
@@ -78,6 +103,7 @@
 				<contextaction name="delete" />
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
+				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/paymentfilter">
@@ -86,6 +112,7 @@
 				<contextaction name="delete" />
 				<contextaction name="deactivated" />
 				<contextaction name="reactivate" />
+				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/topshelf">
@@ -106,8 +133,8 @@
 				<drop model="modules_catalog/kit" action="move" />
 			</drops>
 			<columns>
-				<column name="startpublicationdate" />
-				<column name="endpublicationdate" />
+				<column name="startpublicationdate" labeli18n="m.catalog.bo.general.column.startpublicationdate" />
+				<column name="endpublicationdate" labeli18n="m.catalog.bo.general.column.endpublicationdate" />
 			</columns>
 			<contextactions>
 				<contextaction name="edit" />
@@ -144,8 +171,8 @@
 				<drop model="modules_catalog/kit" action="move" />
 			</drops>
 			<columns>
-				<column name="startpublicationdate" />
-				<column name="endpublicationdate" />
+				<column name="startpublicationdate" labeli18n="m.catalog.bo.general.column.startpublicationdate" />
+				<column name="endpublicationdate" labeli18n="m.catalog.bo.general.column.endpublicationdate" />
 			</columns>
 			<contextactions>
 				<contextaction name="edit" />
@@ -221,6 +248,48 @@
 				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
+		<model name="modules_catalog/productqueryfolder">
+			<children>
+				<child model="modules_catalog/simpleproduct" from="function" />
+				<child model="modules_catalog/virtualproduct" from="function" />
+				<child model="modules_catalog/declinedproduct" from="function" />
+				<child model="modules_catalog/bundleproduct" from="function" />
+				<child model="modules_catalog/kit" from="function" />
+			</children>
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+				<contextaction name="openFolder" />
+			</contextactions>
+		</model>
+		<model name="modules_catalog/billingareafolder">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="createBillingarea" />
+				<contextaction name="openFolder" />
+			</contextactions>
+			<children>
+				<child model="modules_catalog/billingarea" />
+			</children>
+			<drops>
+				<drop model="modules_catalog/billingarea" action="move" />
+			</drops>
+		</model>
+		<model name="modules_catalog/billingarea">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+				<contextaction name="activate" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
+			</contextactions>
+		</model>
+		<model name="modules_catalog/tax">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+			</contextactions>
+		</model>
 	</models>
 	<toolbar>
 		<toolbarbutton name="edit" />
@@ -262,5 +331,7 @@
 		<action name="showPublicationInShops" single="true" icon="status-detail" />
 		<action name="setAsDefault" single="true" icon="check" />
 		<action name="createTax" single="true" icon="add" />
+		<action name="createProductqueryfolder" single="true" permission="Insert_productqueryfolder" icon="add" />
+		<action name="createBillingarea" single="true" permission="Insert_billingarea" icon="add" />
 	</actions>
 </perspective>

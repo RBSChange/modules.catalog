@@ -5,15 +5,15 @@
  */
 class catalog_AlertScriptDocumentElement extends import_ScriptDocumentElement
 {
-    /**
-     * @return catalog_persistentdocument_alert
-     */
-    protected function initPersistentDocument()
-    {
-    	return catalog_AlertService::getInstance()->getNewDocumentInstance();
-    }
-    
-    /**
+	/**
+	 * @return catalog_persistentdocument_alert
+	 */
+	protected function initPersistentDocument()
+	{
+		return catalog_AlertService::getInstance()->getNewDocumentInstance();
+	}
+	
+	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
 	protected function getDocumentModel()

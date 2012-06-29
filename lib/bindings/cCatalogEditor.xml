@@ -50,19 +50,19 @@
 				<xul:toolbar orient="vertical">
 					<xul:toolbarbutton anonid="deletebutton" image="chrome://global/skin/icons/error-16.png" disabled="true"
 						xbl:inherits="disabled" oncommand="document.getBindingParent(this).removeItem();" />
-					<xul:toolbarbutton anonid="moveup" disabled="true" xbl:inherits="disabled,hidden=hideorder" tooltiptext="${trans:m.generic.backoffice.Move-up,ucf,attr}"
+					<xul:toolbarbutton anonid="moveup" disabled="true" xbl:inherits="disabled,hidden=hideorder" tooltiptext="${trans:m.generic.backoffice.move-up,ucf,attr}"
 						image="{IconsBase}/small/arrow-up-blue.png" oncommand="document.getBindingParent(this).moveSelection(-1);" />
-					<xul:toolbarbutton anonid="movedown" disabled="true" xbl:inherits="disabled,hidden=hideorder" tooltiptext="${trans:m.generic.backoffice.Move-down,ucf,attr}"
+					<xul:toolbarbutton anonid="movedown" disabled="true" xbl:inherits="disabled,hidden=hideorder" tooltiptext="${trans:m.generic.backoffice.move-down,ucf,attr}"
 						image="{IconsBase}/small/arrow-down-blue.png" oncommand="document.getBindingParent(this).moveSelection(+1);" />
 
 					<xul:toolbarbutton anonid="selectorbutton" image="{IconsBase}/small/folder.png" xbl:inherits="disabled"
 						oncommand="document.getBindingParent(this).openRessourceDialog();" />
 
 					<xul:toolbarbutton anonid="uploadbutton" hidden="true" xbl:inherits="disabled"
-						tooltiptext="${trans:m.uixul.bo.filePicker.Browse,etc,ucf,attr}" image="{IconsBase}/small/shadow/folder_add.png" oncommand="document.getBindingParent(this).openFilePicker()" />
+						tooltiptext="${trans:m.uixul.bo.filepicker.browse,etc,ucf,attr}" image="{IconsBase}/small/shadow/folder_add.png" oncommand="document.getBindingParent(this).openFilePicker()" />
 				</xul:toolbar>
 				<xul:toolbar orient="vertical">
-					<xul:toolbarbutton image="{IconsBase}/small/wand.png" tooltiptext="${trans:m.catalog.bo.doceditor.Suggest-products,ucf,attr}"
+					<xul:toolbarbutton image="{IconsBase}/small/wand.png" tooltiptext="${trans:m.catalog.bo.doceditor.suggest-products,ucf,attr}"
 						xbl:inherits="hidden=hideSuggestionButton" oncommand="openSuggestionDialog();" />
 					<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');" />
 				</xul:toolbar>
@@ -289,7 +289,7 @@
 		<content>
 			<xul:vbox flex="1">
 				<xul:hbox class="wizardTitle">
-					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Title,ucf,attr}" />
+					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.title,ucf,attr}" />
 					<xul:spacer flex="1" />
 					<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" />
 				</xul:hbox>
@@ -300,15 +300,15 @@
 						hidehelp="true" />
 					<xul:label value="Nombre maximum de résultats" />
 					<xul:cfield anonid="field_maxResults" name="maxResults" fieldtype="integer" hidehelp="true" />
-					<xul:toolbarbutton oncommand="search();" image="{IconsBase}/small/search.png" label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Search,ucf,attr}" />
+					<xul:toolbarbutton oncommand="search();" image="{IconsBase}/small/search.png" label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.search,ucf,attr}" />
 					<xul:spacer flex="1" />
 				</xul:hbox>
 				<xul:spacer height="5px" />
 				<xul:toolbar anonid="result-toolbar">
 					<xul:toolbarbutton oncommand="selectAll();" image="{IconsBase}/small/check-box-check.png"
-						label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Check-all,ucf,attr}" />
+						label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.check-all,ucf,attr}" />
 					<xul:toolbarbutton oncommand="unselectAll();" image="{IconsBase}/small/check-box-uncheck.png"
-						label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Uncheck-all,ucf,attr}" />
+						label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.uncheck-all,ucf,attr}" />
 					<xul:spacer flex="1" />
 				</xul:toolbar>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
@@ -320,15 +320,15 @@
 						</xul:columns>
 						<xul:rows anonid="document-rows">
 							<xul:row class="head">
-								<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Column-label,ucf,attr}" />
-								<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Column-codeReference,ucf,attr}" />
-								<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.Column-weight,ucf,attr}" />
+								<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.column-label,ucf,attr}" />
+								<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.column-codereference,ucf,attr}" />
+								<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.column-weight,ucf,attr}" />
 							</xul:row>
 						</xul:rows>
 					</xul:grid>
 				</xul:scrollbox>
 				<xul:hbox>
-					<xul:button image="{IconsBase}/small/check.png" oncommand="addSelection();" label="${trans:m.uixul.bo.dialog.Apply,ucf,attr}" />
+					<xul:button image="{IconsBase}/small/check.png" oncommand="addSelection();" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" />
 				</xul:hbox>
 			</xul:vbox>
 		</content>
@@ -391,15 +391,15 @@
 		<xbl:content>
 			<xul:vbox flex="1">
 				<xul:hbox class="dialog-header">
-					<xul:label value="${trans:m.catalog.bo.dialog.Publication-in-shops,ucf,attr}" class="dialog-title" />
+					<xul:label value="${trans:m.catalog.bo.dialog.publication-in-shops,ucf,attr}" class="dialog-title" />
 					<xul:spacer flex="1" />
 					<xul:vbox pack="center">
 						<xul:toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();"
-							tooltiptexts="${trans:m.uixul.bo.dialog.Cancel,ucf,attr}" />
+							tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
 					</xul:vbox>
 				</xul:hbox>
 				<xul:scrollbox flex="1" orient="vertical">
-					<xul:description>${trans:m.catalog.bo.dialog.Product-not-in-shops,ucf}</xul:description>
+					<xul:description>${trans:m.catalog.bo.dialog.product-not-in-shops,ucf}</xul:description>
 					<xul:vbox flex="1" anonid="contents" />
 				</xul:scrollbox>
 			</xul:vbox>
@@ -453,11 +453,11 @@
 					</xul:columns>
 					<xul:rows anonid="rows">
 						<xul:row class="head-row">
-							<xul:label value="${trans:m.catalog.bo.dialog.Column-lang,ucf,attr}" />
-							<xul:label value="${trans:m.catalog.bo.dialog.Column-price,ucf,attr}" />
-							<xul:label value="${trans:m.catalog.bo.dialog.Column-shelf,ucf,attr}" />
-							<xul:label value="${trans:m.catalog.bo.dialog.Column-publication,ucf,attr}" />
-			            </xul:row>
+							<xul:label value="${trans:m.catalog.bo.dialog.column-lang,ucf,attr}" />
+							<xul:label value="${trans:m.catalog.bo.dialog.column-price,ucf,attr}" />
+							<xul:label value="${trans:m.catalog.bo.dialog.column-shelf,ucf,attr}" />
+							<xul:label value="${trans:m.catalog.bo.dialog.column-publication,ucf,attr}" />
+						</xul:row>
 					</xul:rows>
 				</xul:grid>
 			</xul:groupbox>
@@ -465,8 +465,8 @@
 	</binding>
 	
 	<binding id="cOrderProductsInShelfDialog" extends="widgets.cOrderChildrenDialog#cOrderChildrenDialog">
-    	<resources>
-    		<stylesheet src="modules.uixul.cDocumentEditor" />
+		<resources>
+			<stylesheet src="modules.uixul.cDocumentEditor" />
 			<stylesheet src="modules.uixul.cOrderChildrenDialog" />
 		</resources>
 		<implementation>
@@ -543,18 +543,19 @@
 		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:xbl="http://www.mozilla.org/xbl">
 			<vbox flex="1">
 				<hbox class="dialog-header">
-					<label anonid="title" value="${trans:m.catalog.bo.general.Order-product-in-shelf-panel-title,ucf,attr}" class="dialog-title" />
+					<label anonid="title" value="${trans:m.catalog.bo.general.order-product-in-shelf-panel-title,ucf,attr}" class="dialog-title" />
 					<spacer flex="1" />
 					<vbox pack="center">
-						<toolbarbutton image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${trans:m.uixul.bo.dialog.Cancel,ucf,attr}" />
+						<toolbarbutton image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
 					</vbox>
 				</hbox>
 				<xul:cmessageinfo anonid="message" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save" oncommand="onSave()" label="${trans:m.uixul.bo.dialog.Apply,ucf,attr}" image="{IconsBase}/small/check.png" />
-					<xul:button anonid="delete" oncommand="onCancel()" label="${trans:m.uixul.bo.dialog.Cancel,ucf,attr}" image="{IconsBase}/small/undo.png" />
-					<xul:spacer flex="1" />
+					<xul:button anonid="save" oncommand="onSave()" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" image="{IconsBase}/small/check.png" />
 					<xul:box><xul:cfield anonid="mShop" name="mShop" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/shops" initialvalue="" /></xul:box>
+					<xul:button anonid="orderalph" oncommand="onOrderAlpha()" label="${trans:m.uixul.bo.dialog.orderatoz,ucf,attr}" orderby="asc" image="{IconsBase}/small/lexicon.png" />
+					<xul:spacer flex="1" />
+					<xul:button anonid="cancel" oncommand="onCancel()" label="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" image="{IconsBase}/small/undo.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:cdocumentlist anonid="documentlist" flex="1" />
@@ -607,10 +608,10 @@
 		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xbl="http://www.mozilla.org/xbl">
 			<vbox flex="1">
 				<hbox class="dialog-header">
-					<label class="dialog-title">${transui:m.uixul.bo.dialog.select-ressources,ucf}</label>
+					<label value="${trans:m.uixul.bo.dialog.select-ressources,ucf,attr}" class="dialog-title" />
 					<spacer flex="1" />
 					<vbox pack="center">
-						<toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${transui:m.uixul.bo.dialog.cancel,ucf,attr}" />
+						<toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
 					</vbox>
 				</hbox>
 				<cmessageinfo anonid="message-box" />	
@@ -632,41 +633,39 @@
 						<toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
 							<toolbar class="change-toolbar">	
 								<toolbarbutton anonid="searchButton" disabled="true" image="{IconsBase}/small/search.png" oncommand="toggleSearch()" 
-								tooltiptext="${transui:m.uixul.bo.general.togglesearchresourcemode,ucf,attr,etc}"
-								crop="end" label="${transui:m.uixul.bo.general.showsearch,ucf,attr}" />					
+								tooltiptext="${trans:m.uixul.bo.general.togglesearchresourcemode,etc,ucf,attr}"
+								crop="end" label="${trans:m.uixul.bo.general.showsearch,ucf,attr}" />					
 							</toolbar>
 						</toolbox>
-						<cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
+						<cressourceslistselector anonid="list_tree" flex="4" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
 						<splitter width="5" />
-						<label class="change-toolbox-dark">${transui:m.catalog.bo.dialog.productselector.declinations,ucf}</label>
-						<cressourceslistselector anonid="list_subproduct" xbl:inherits="disabled,collapsed,hidden,hideheader" style="min-height: 56px;" />
+						<label class="change-toolbox-dark" style="max-height: 26px; min-height: 26px; margin: 0; padding: 5px;">
+							${trans:m.catalog.bo.dialog.productselector.declinations,ucf}
+						</label>
+						<cressourceslistselector anonid="list_subproduct" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader" style="min-height: 56px;" />
 					</vbox>
 					<spacer width="5"/>
-					<vbox width="250">
-						<vbox flex="1">
-							<vbox xbl:inherits="collapsed=hide-list" flex="1" style="border: thin inset #e3e3e3;">
-								<label class="change-toolbox-dark">${transui:m.uixul.bo.dialog.ressource-selection,ucf}</label>
-								<grid anonid="selectedList" width="250" flex="1" style="overflow-y: scroll; overflow-x: hidden; margin: 0; padding: 0;">
-									<columns>
-										<column width="200" />
-										<column width="20" />
-									</columns>
-									<rows anonid="document-rows">
-									</rows>
-								</grid>	
-							</vbox>					
-						</vbox>
-						<spacer height="5" />
-						<vbox style="border: thin inset #e3e3e3;">
-							<label class="change-toolbox-dark">${transui:m.uixul.bo.dialog.ressource-preview,ucf}</label>
-							<vbox width="250" height="200" align="center" pack="center">
-								<image anonid="previewimage" src="{IconsBase}/small/document.png" />
-							</vbox>
+					<vbox width="250" style="border: thin inset #e3e3e3;">
+						<vbox xbl:inherits="collapsed=hide-list" flex="1">
+							<spacer height="5" />
+							<label value="${trans:m.uixul.bo.dialog.ressource-selection,lab,ucf,attr}"/>
+							<grid anonid="selectedList" width="250" flex="1" style="overflow-y: scroll; overflow-x: hidden; margin: 0; padding: 0;">
+								<columns>
+									<column width="200" />
+									<column width="20" />
+								</columns>
+								<rows anonid="document-rows">
+								</rows>
+							</grid>
 						</vbox>		
+						<label value="${trans:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
+						<vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
+							<image anonid="previewimage" src="{IconsBase}/small/document.png" />
+						</vbox>				
 					</vbox>
 				</hbox>
 				<hbox pack="end" align="center">
-					<button image="{IconsBase}/small/check.png" oncommand="onOk();" label="${transui:m.uixul.bo.dialog.apply,ucf,attr}" />
+					<button image="{IconsBase}/small/check.png" oncommand="onOk();" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" />
 				</hbox>
 			</vbox>
 		</xbl:content>

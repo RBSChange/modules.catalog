@@ -5,8 +5,9 @@
  */
 interface catalog_ProductList
 {
-	const FAVORITE = 'favorite';
-	const CONSULTED = 'consulted';
+	const FAVORITE = 'catalog_favorite';
+	const CONSULTED = 'catalog_consulted';
+	const COMPARISON = 'catalog_comparison';
 
 	/**
 	 * @param string $listName
@@ -47,7 +48,7 @@ interface catalog_ProductList
 class catalog_SessionProductList implements catalog_ProductList
 {
 	/**
-	 * @var catalog_SessionProductList[]
+	 * @var catalog_SessionLists[]
 	 */
 	private static $instances = array();
 	
@@ -159,7 +160,6 @@ class catalog_SessionProductList implements catalog_ProductList
 	 */
 	public function saveList()
 	{
-		$sessionUser = change_Controller::getInstance()->getContext()->getUser();
 		if (count($this->productIds) > 0)
 		{
 			change_Controller::getInstance()->getStorage()->write($this->key, $this->productIds);
@@ -180,7 +180,7 @@ class catalog_SessionProductList implements catalog_ProductList
 class catalog_CookieProductList implements catalog_ProductList
 {
 	/**
-	 * @var catalog_CookieProductList[]
+	 * @var catalog_SessionLists[]
 	 */
 	private static $instances = array();
 	

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.document.billingareafolder" lcid="fr_FR">
+	<include id="m.generic.document.folder" />
+	<key id="document-name">zones de facturation</key>
+</i18n>

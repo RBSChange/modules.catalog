@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.topshelf" lcid="en_GB">
-  <include id="m.catalog.document.shelf"/>
-  <key id="document-name">top-level shelf</key>
-  <key id="edition-form-title">top-level shelf properties</key>
+	<include id="m.catalog.document.shelf" />
+	<key id="document-name">top-level shelf</key>
+	<key id="edition-form-title">top-level shelf properties</key>
 </i18n>
