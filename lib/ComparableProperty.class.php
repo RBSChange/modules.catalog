@@ -121,7 +121,7 @@ class catalog_PersistentComparableProperty extends catalog_GetterComparablePrope
 		list($propertyName) = $parameters;
 		$this->prop = f_persistentdocument_PersistentDocumentModel::getInstance('catalog', 'product')->getBeanPropertyInfo($propertyName);
 		$this->getter = $this->prop->getGetterName();
-		$this->labelKey = LocaleService::getInstance()->cleanOldKey($this->prop->getLabelKey());
+		$this->labelKey = $this->prop->getLabelKey();
 	}
 
 	/**
