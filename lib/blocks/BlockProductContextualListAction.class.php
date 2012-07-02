@@ -10,7 +10,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	public static $sortOptions = array('displayMode', 'nbresultsperpage', 'onlydiscount', 
 		'onlyavailable', 'priceorder', 'ratingaverageorder', 'brandorder');
-		
+
 	/**
 	 * @param f_mvc_Request $request
 	 * @return integer[] or null
@@ -87,18 +87,19 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	{
 		$topicId = $this->getPage()->getNearestContainerId();
 		$sessionKey = "ProductContextualListSortOptions";
-		if (!isset($_SESSION[$sessionKey]))
-		{
-			$_SESSION[$sessionKey] = array();
-		}
-		if (!isset($_SESSION[$sessionKey][$topicId]))
+		$globalRequest = f_mvc_HTTPRequest::getInstance();
+		$session = $globalRequest->getSession();
+		
+		$sessionData = $session->hasAttribute($sessionKey) ?  $session->getAttribute($sessionKey) : array();
+		
+		if (!isset($sessionData[$topicId]))
 		{
 			// we changed topic: reset filter info
-			if (count($_SESSION[$sessionKey]) > 0)
+			if (count($sessionData) > 0)
 			{
-				$_SESSION[$sessionKey] = array();
+				$sessionData = array();
 			}
-			$_SESSION[$sessionKey][$topicId] = array();
+			$sessionData[$topicId] = array();
 		}
 		// Get selected values.
 		$valueSortOption = array();
@@ -109,13 +110,14 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 				if ($request->hasParameter($sortOptionName))
 				{
 					$paramValue = $request->getParameter($sortOptionName);
-					$_SESSION[$sessionKey][$topicId][$sortOptionName] = $paramValue;
+					$sessionData[$topicId][$sortOptionName] = $paramValue;
 					$valueSortOption[$sortOptionName . $paramValue] = true;
+					$valueSortOption[$sortOptionName] = $paramValue;
 					$request->setAttribute($sortOptionName, $paramValue);
 				}
 				else
 				{
-					$_SESSION[$sessionKey][$topicId][$sortOptionName] = null;
+					$sessionData[$topicId][$sortOptionName] = null;
 					$request->setAttribute($sortOptionName, "");
 				}
 			}
@@ -124,11 +126,12 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		{
 			foreach (self::$sortOptions as $sortOptionName)
 			{
-				if (array_key_exists($sortOptionName, $_SESSION[$sessionKey][$topicId]))
+				if (array_key_exists($sortOptionName, $sessionData[$topicId]))
 				{
-					$paramValue = $_SESSION[$sessionKey][$topicId][$sortOptionName];
+					$paramValue = $sessionData[$topicId][$sortOptionName];
 					$request->setAttribute($sortOptionName, $paramValue);
 					$valueSortOption[$sortOptionName . $paramValue] = true;
+					$valueSortOption[$sortOptionName] = $paramValue;
 				}
 				else
 				{
@@ -136,7 +139,33 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 				}
 			}
 		}
+		$session->setAttribute($sessionKey, $sessionData);
 		$request->setAttribute('valueSortOption', $valueSortOption);		
+	}
+	
+	/**
+	 * @return integer|NULL
+	 */
+	protected function getDefaultNbresultsperpage()
+	{
+		$topicId = $this->getPage()->getNearestContainerId();
+		$sessionKey = "ProductContextualListSortOptions";
+		$globalRequest = f_mvc_HTTPRequest::getInstance();
+		$session = $globalRequest->getSession();
+		
+		if ($session->hasAttribute($sessionKey)  )
+		{
+			$sessionData = $session->getAttribute($sessionKey);
+			if (isset($sessionData[$topicId]['nbresultsperpage']))
+			{
+				$nbresultsperpage = intval($sessionData[$topicId]['nbresultsperpage']);
+				if ($nbresultsperpage > 0)
+				{
+					return $nbresultsperpage;
+				}
+			}
+		}
+		return null;
 	}
 		
 	/**

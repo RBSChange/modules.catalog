@@ -7,16 +7,11 @@
 					<label class="invisible" for="pagination">${trans:m.catalog.frontoffice.nbproducts,lab,ucf}</label>
 					<select name="catalogParam[nbresultsperpage]" id="pagination" class="textfield">
 						<option value="0" change:translate="modules.catalog.frontoffice.List-nbarticles" />
-						<option value="5" tal:condition="valueSortOption/nbresultsperpage5" selected="selected">5</option>
-						<option value="5" tal:condition="not: valueSortOption/nbresultsperpage5">5</option>
-						<option value="10" tal:condition="valueSortOption/nbresultsperpage10" selected="selected">10</option>
-						<option value="10" tal:condition="not: valueSortOption/nbresultsperpage10">10</option>
-						<option value="15" tal:condition="valueSortOption/nbresultsperpage15" selected="selected">15</option>
-						<option value="15" tal:condition="not: valueSortOption/nbresultsperpage15">15</option>
-						<option value="20" tal:condition="valueSortOption/nbresultsperpage20" selected="selected">20</option>
-						<option value="20" tal:condition="not: valueSortOption/nbresultsperpage20">20</option>
-						<option value="25" tal:condition="valueSortOption/nbresultsperpage25" selected="selected">25</option>
-						<option value="25" tal:condition="not: valueSortOption/nbresultsperpage25">25</option>
+						<option value="12" tal:attributes="selected valueSortOption/nbresultsperpage12">12</option>
+						<option value="24" tal:attributes="selected valueSortOption/nbresultsperpage24">24</option>
+						<option value="36" tal:attributes="selected valueSortOption/nbresultsperpage36">36</option>
+						<option value="48" tal:attributes="selected valueSortOption/nbresultsperpage48">48</option>
+						<option value="60" tal:attributes="selected valueSortOption/nbresultsperpage60">60</option>
 					</select>
 					<input type="hidden" name="catalogParam[page]" value="1" />
 				</fieldset>
