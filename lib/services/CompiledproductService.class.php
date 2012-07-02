@@ -502,7 +502,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getOrderInfosByShelfAndShop($shelf, $shop)
 	{
-		$query = $this->createQuery()->addOrder(Order::asc('position'));
+		$query = $this->createQuery()->addOrder(Order::asc('position'))->add(Restrictions::eq('showInList', true));
 		$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
 		$infos = array();
 		foreach ($query->find() as $cp)
@@ -510,7 +510,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$product = $cp->getProduct();
 			$infos[] = array(
 				'id' => $product->getId(),
-				'label' => $product->getTreeNodeLabel(),
+				'label' => $cp->getTreeNodeLabel(),
 				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
 			);
 		}
