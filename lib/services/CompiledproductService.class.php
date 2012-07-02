@@ -249,7 +249,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$publicationCode = 0;
 		
 		// Product synchro.
-		$compiledProduct->setLabel($product->getLabel());
+		$compiledProduct->setLabel($product->getNavigationLabel());
 		$price = $product->getPrice($shop, $shop->getDefaultBillingArea(), null);
 		if ($price === null)
 		{
@@ -490,9 +490,11 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$infos = array();
 		foreach ($query->find() as $cp)
 		{
+			/* @var $cp catalog_persistentdocument_compiledproduct */ 
 			$product = $cp->getProduct();
 			$pinfos = array('id' => $product->getId());
 			DocumentHelper::completeBOAttributes($product, $pinfos, DocumentHelper::MODE_ICON);
+			$pinfos['label'] = $cp->getTreeNodeLabel();
 			$infos[] = $pinfos;
 		}
 		return $infos;
