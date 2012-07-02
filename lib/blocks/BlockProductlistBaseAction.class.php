@@ -164,7 +164,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	protected function getMaxresults($request)
 	{
-		$nbresultsperpage = $this->findParameterValue('nbresultsperpage');
+		$nbresultsperpage = intval($this->findParameterValue('nbresultsperpage', 'PDC'));
 		if ($nbresultsperpage > 0)
 		{
 			return $nbresultsperpage;

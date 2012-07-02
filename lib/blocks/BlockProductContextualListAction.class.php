@@ -96,7 +96,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	{
 		$topicId = $this->getParentId();
 		$sessionKey = "catalog_ProductContextualListSortOptions";
-		$storage = change_Controller::getInstance()->getStorage();
+		$storage = $this->getStorage();
 		$sortOptions = $storage->read($sessionKey);
 		if (!is_array($sortOptions) || $sortOptions['topicId'] != $topicId)
 		{
@@ -130,6 +130,26 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 		}
 		$storage->write($sessionKey, $sortOptions);
 		$request->setAttribute('valueSortOption', $valueSortOption);	
+	}
+	
+	/**
+	 * @return integer|NULL
+	 */
+	protected function getDefaultNbresultsperpage()
+	{
+		$topicId = $this->getParentId();
+		$sessionKey = "ProductContextualListSortOptions";
+		$storage = $this->getStorage();
+		$sortOptions = $storage->read($sessionKey);
+		if (is_array($sortOptions) && $sortOptions['nbresultsperpage']);
+		{
+			$nbresultsperpage = intval($sortOptions['nbresultsperpage']);
+			if ($nbresultsperpage > 0)
+			{
+				return $nbresultsperpage;
+			}
+		}
+		return null;
 	}
 		
 	/**
