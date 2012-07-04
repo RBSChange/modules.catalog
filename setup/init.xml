@@ -119,6 +119,8 @@
 			description="Liste des attributs étendus de produit" />
 			
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
+		
+		<dynamiclist listid="modules_catalog/availablelangsforshop" label="m.catalog.list.availablelangsforshop-label" />
 	</systemfolder>
 		
 	<systemfolder module="notification" relatedmodule="catalog">

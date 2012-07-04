@@ -7,4 +7,7 @@
   <key id="column-shelf">rayon</key>
   <key id="column-publication">publication</key>
   <key id="product-not-in-shops">les boutiques listées ci-dessous sont celles pour lesquelles ce produit est présent dans au moins un rayon.</key>
+  <key id="shop">boutique</key>
+  <key id="lang">langue</key>
+  <key id="apply-to-all-langs">appliquer à toutes les langues</key>
 </i18n>

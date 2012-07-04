@@ -499,10 +499,12 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
 	 */
-	public function getOrderInfosByShelfAndShop($shelf, $shop)
+	public function getOrderInfosByShelfAndShopAndLang($shelf, $shop, $lang)
 	{
-		$query = $this->createQuery()->addOrder(Order::asc('position'))->add(Restrictions::eq('showInList', true));
+		$query = $this->createQuery()->addOrder(Order::asc('position'));
+		$query->add(Restrictions::eq('lang', $lang))->add(Restrictions::eq('showInList', true));
 		$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
 		$infos = array();
 		foreach ($query->find() as $cp)
@@ -520,19 +522,28 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @param array $order
+	 * @param boolean $applyToAllLangs
 	 */
-	public function setPositionsByShelfAndShop($shelf, $shop, $order)
+	public function setPositionsByShelfAndShopAndLang($shelf, $shop, $lang, $order, $applyToAllLangs = false)
 	{
 		$tm = $this->getTransactionManager();
 		try 
 		{
 			$tm->beginTransaction();
 			
-			$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
+			$langsToSort = ($applyToAllLangs) ? $shop->getI18nInfo()->getLangs() : array($lang);
+			$query = $this->createQuery()->add(Restrictions::in('lang', $langsToSort))->add(Restrictions::eq('showInList', true));
+			$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
 			foreach ($query->find() as $doc)
 			{
-				$doc->setPosition($order[$doc->getProduct()->getId()]);
-				$doc->save();
+				$docId = $doc->getProduct()->getId();
+				if (isset($order[$docId]))
+				{
+					$doc->setPosition($order[$docId]);
+					$doc->save();
+				}
 			}
 			
 			$tm->commit();
@@ -603,5 +614,51 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function enableCompilation()
 	{
+	}
+
+	/**
+	 * @deprecated (will be removed in 4.0) use getOrderInfosByShelfAndShopAndLang
+	 */
+	public function getOrderInfosByShelfAndShop($shelf, $shop)
+	{
+		$query = $this->createQuery()->addOrder(Order::asc('position'))->add(Restrictions::eq('showInList', true));
+		$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
+		$infos = array();
+		foreach ($query->find() as $cp)
+		{
+			$product = $cp->getProduct();
+			$infos[] = array(
+				'id' => $product->getId(),
+				'label' => $cp->getTreeNodeLabel(),
+				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
+			);
+		}
+		return $infos;
+	}
+	
+	/**
+	 * @deprecated (will be removed in 4.0) use setPositionsByShelfAndShopAndLang
+	 */
+	public function setPositionsByShelfAndShop($shelf, $shop, $order)
+	{
+		$tm = $this->getTransactionManager();
+		try
+		{
+			$tm->beginTransaction();
+				
+			$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
+			foreach ($query->find() as $doc)
+			{
+				$doc->setPosition($order[$doc->getProduct()->getId()]);
+				$doc->save();
+			}
+				
+			$tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$tm->rollBack($e);
+			throw $e;
+		}
 	}
 }
