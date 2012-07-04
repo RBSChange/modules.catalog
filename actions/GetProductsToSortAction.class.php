@@ -15,8 +15,9 @@ class catalog_GetProductsToSortAction extends f_action_BaseJSONAction
 
 		$shelf = DocumentHelper::getDocumentInstance($request->getParameter('shelfId'), 'modules_catalog/shelf');
 		$shop = DocumentHelper::getDocumentInstance($request->getParameter('shopId'), 'modules_catalog/shop');
+		$lang = $request->getParameter('lang');
 
-		$result['nodes'] = catalog_CompiledproductService::getInstance()->getOrderInfosByShelfAndShop($shelf, $shop);
+		$result['nodes'] = catalog_CompiledproductService::getInstance()->getOrderInfosByShelfAndShopAndLang($shelf, $shop, $lang);
 		
 		return $this->sendJSON($result);
 	}
