@@ -25,4 +25,5 @@
 	<key id="blocktemplates-short">compact</key>
 	<key id="billingareabyshop-label">zone de facturation d'une boutique</key>
 	<key id="billingareabyshop-description">zone de facturation d'une boutique</key>
+	<key id="availablelangsforshop-label">langues de la boutique</key>
 </i18n>

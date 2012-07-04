@@ -2,17 +2,17 @@
 <script>
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
 	<currency byCode="EUR" symbol="€" label="Euro" />
-	<currency byCode="GBP" symbol="£" label="Pound"/>
-	<currency byCode="CHF" symbol="F" label="Franc Suisse"/>
+	<currency byCode="GBP" symbol="£" label="Pound" />
+	<currency byCode="CHF" symbol="F" label="Franc Suisse" />
 	<currency byCode="USD" symbol="$" label="US Dollar" />
 	<currency byCode="CAD" symbol="$" label="Canadian Dollar" />
 	<currency byCode="AUD" symbol="$" label="Australian Dollar" />
-	<currency byCode="NZD" symbol="$" label="New Zealand Dollar"/>
-	<currency byCode="JPY" symbol="¥" label="Yen"/>
+	<currency byCode="NZD" symbol="$" label="New Zealand Dollar" />
+	<currency byCode="JPY" symbol="¥" label="Yen" />
 	<currency byCode="SEK" symbol="kr" label="Svensk krona" />
-	<currency byCode="NOK" symbol="kr" label="Norsk krone"/>
+	<currency byCode="NOK" symbol="kr" label="Norsk krone" />
 	<currency byCode="RUB" symbol="руб" label="рубль" />
 	<currency byCode="ZAR" symbol="R" label="South African rand" />
 	<currency byCode="DAR" symbol="KD" label="Klingon Darsek" publicationstatus="DEACTIVATED" />
-	<currency byCode="GCS" symbol="C" label="Galactic credits standard" publicationstatus="DEACTIVATED"/>
+	<currency byCode="GCS" symbol="C" label="Galactic credits standard" publicationstatus="DEACTIVATED" />
 </script>

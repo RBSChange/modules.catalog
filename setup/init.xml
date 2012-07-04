@@ -4,169 +4,98 @@
 	<binding fileName="modules/notification/persistentdocument/import/notification_binding.xml" />
 	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
-
 	<systemfolder module="list" relatedmodule="catalog">
-		<staticlist listid="modules_catalog/pricesorting" label="&amp;modules.catalog.list.pricesorting;"
-			description="&amp;modules.catalog.list.pricesorting-description;">			
-			<staticitem value="10" label="&amp;modules.catalog.frontoffice.priceRange10;" />
-			<staticitem value="50" label="&amp;modules.catalog.frontoffice.priceRange50;" />
-			<staticitem value="100" label="&amp;modules.catalog.frontoffice.priceRange100;" />
-			<staticitem value="200" label="&amp;modules.catalog.frontoffice.priceRange200;" />
-			<staticitem value="500" label="&amp;modules.catalog.frontoffice.priceRange500;" />
-			<staticitem value="501" label="&amp;modules.catalog.frontoffice.priceRangeMore;" />
+		<staticlist listid="modules_catalog/pricesorting" label="m.catalog.list.pricesorting" description="m.catalog.list.pricesorting-description">
+			<staticitem value="10" label="m.catalog.frontoffice.pricerange10" />
+			<staticitem value="50" label="m.catalog.frontoffice.pricerange50" />
+			<staticitem value="100" label="m.catalog.frontoffice.pricerange100" />
+			<staticitem value="200" label="m.catalog.frontoffice.pricerange200" />
+			<staticitem value="500" label="m.catalog.frontoffice.pricerange500" />
+			<staticitem value="501" label="m.catalog.frontoffice.pricerangemore" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/discounttypes" label="&amp;modules.catalog.bo.general.Discount-types-list;"
-			description="&amp;modules.catalog.bo.general.Discount-types-list-description;">			
-			<staticitem value="price" label="&amp;modules.catalog.bo.general.Discount-types-price;" />
-			<staticitem value="percentage" label="&amp;modules.catalog.bo.general.Discount-types-percentage;" />
-			<staticitem value="value" label="&amp;modules.catalog.bo.general.Discount-types-value;" />
+		<staticlist listid="modules_catalog/discounttypes" label="m.catalog.bo.general.discount-types-list" description="m.catalog.bo.general.discount-types-list-description">
+			<staticitem value="price" label="m.catalog.bo.general.discount-types-price" />
+			<staticitem value="percentage" label="m.catalog.bo.general.discount-types-percentage" />
+			<staticitem value="value" label="m.catalog.bo.general.discount-types-value" />
 		</staticlist>
-				
-		<staticlist listid="modules_catalog/discounttypesshort" label="&amp;modules.catalog.bo.general.Discount-types-short-list;"
-			description="&amp;modules.catalog.bo.general.Discount-types-short-list-description;">			
-			<staticitem value="percentage" label="&amp;modules.catalog.bo.general.Discount-types-percentage;" />
-			<staticitem value="value" label="&amp;modules.catalog.bo.general.Discount-types-value;" />
+		<staticlist listid="modules_catalog/discounttypesshort" label="m.catalog.bo.general.discount-types-short-list" description="m.catalog.bo.general.discount-types-short-list-description">
+			<staticitem value="percentage" label="m.catalog.bo.general.discount-types-percentage" />
+			<staticitem value="value" label="m.catalog.bo.general.discount-types-value" />
 		</staticlist>
-				
-		<staticlist listid="modules_catalog/currencyposition" label="&amp;modules.catalog.bo.general.Currency-position-list;"
-			description="&amp;modules.catalog.bo.general.Currency-position-list-description;">			
-			<staticitem value="left" label="&amp;modules.catalog.bo.general.Currency-position-left;" />
-			<staticitem value="right" label="&amp;modules.catalog.bo.general.Currency-position-right;" />
+		<staticlist listid="modules_catalog/currencyposition" label="m.catalog.bo.general.currency-position-list" description="m.catalog.bo.general.currency-position-list-description">
+			<staticitem value="left" label="m.catalog.bo.general.currency-position-left" />
+			<staticitem value="right" label="m.catalog.bo.general.currency-position-right" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/weightunits" label="&amp;modules.catalog.bo.general.Weight-units-list-label;"
-			description="&amp;modules.catalog.bo.general.Weight-units-list-desc;">			
-			<staticitem value="mg" label="&amp;modules.catalog.frontoffice.weight-unit-mg-label;" />
-			<staticitem value="g" label="&amp;modules.catalog.frontoffice.weight-unit-g-label;" />
-			<staticitem value="kg" label="&amp;modules.catalog.frontoffice.weight-unit-kg-label;" />
+		<staticlist listid="modules_catalog/weightunits" label="m.catalog.bo.general.weight-units-list-" description="m.catalog.bo.general.weight-units-list-desc">
+			<staticitem value="mg" label="m.catalog.frontoffice.weight-unit-mg-" />
+			<staticitem value="g" label="m.catalog.frontoffice.weight-unit-g-" />
+			<staticitem value="kg" label="m.catalog.frontoffice.weight-unit-kg-" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/crosssellingtypes" label="&amp;modules.catalog.bo.lists.cross-selling-types.label;"
-			description="&amp;modules.catalog.bo.lists.cross-selling-types.description;">			
-			<staticitem value="complementary" label="&amp;modules.catalog.bo.lists.cross-selling-types.Complementary;" />
-			<staticitem value="upsell" label="&amp;modules.catalog.bo.lists.cross-selling-types.Upsell;" />
-			<staticitem value="similar" label="&amp;modules.catalog.bo.lists.cross-selling-types.Similar;" />
+		<staticlist listid="modules_catalog/crosssellingtypes" label="m.catalog.bo.lists.cross-selling-types.label" description="m.catalog.bo.lists.cross-selling-types.description">
+			<staticitem value="complementary" label="m.catalog.bo.lists.cross-selling-types.complementary" />
+			<staticitem value="upsell" label="m.catalog.bo.lists.cross-selling-types.upsell" />
+			<staticitem value="similar" label="m.catalog.bo.lists.cross-selling-types.similar" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.bo.lists.discountornot.Label;">
+		<staticlist listid="modules_catalog/discountornot" label="m.catalog.bo.lists.discountornot.label">
 			<staticitem value="discount" label="&amp;modules.catalog.bo.lists.Discountornot-discount" />
 			<staticitem value="not-discount" label="&amp;modules.catalog.bo.lists.Discountornot-not-discount" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication"
-			description="Liste des champs de date de première/dernière date de publication pour le filtre sur les produits récemment publiées.">
-			<staticitem value="firstpublicationdate" label="&amp;modules.catalog.document.compiledproduct.firstpublicationdate;" />
-			<staticitem value="lastpublicationdate" label="&amp;modules.catalog.document.compiledproduct.lastpublicationdate;" />
+		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication" description="Liste des champs de date de première/dernière date de publication pour le filtre sur les produits récemment publiées.">
+			<staticitem value="firstpublicationdate" label="m.catalog.document.compiledproduct.firstpublicationdate" />
+			<staticitem value="lastpublicationdate" label="m.catalog.document.compiledproduct.lastpublicationdate" />
 		</staticlist>
-				
 		<dynamiclist listid="modules_catalog/currency" label="Devises" />
-		
 		<dynamiclist listid="modules_catalog/productsuggestionfeeders" label="Méthodes de suggestion des produits" />
-		
-		<dynamiclist listid="modules_catalog/shippingfiltersbyshop" label="Modes de livraison de la boutique" 
-			description="Liste des modes de livraison d'une boutique boutique donnée en paramètre." />
-		
+		<dynamiclist listid="modules_catalog/shippingfiltersbyshop" label="Modes de livraison de la boutique" description="Liste des modes de livraison d'une boutique boutique donnée en paramètre." />
 		<dynamiclist listid="modules_catalog/declinationsbyproduct" label="Déclinaisons d'un produit" />
-			
-		<dynamiclist listid="modules_catalog/extendedattributes" label="Attributs étendus"
-			description="Liste des attributs étendus de produit" />
-			
+		<dynamiclist listid="modules_catalog/extendedattributes" label="Attributs étendus" description="Liste des attributs étendus de produit" />
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
-		
-		<valuededitablelist listid="modules_catalog/shippedin" label="m.catalog.list.shippedin-label"
-			description="m.catalog.list.shippedin-description">
+		<dynamiclist listid="modules_catalog/availablelangsforshop" label="m.catalog.list.availablelangsforshop-label" />
+		<valuededitablelist listid="modules_catalog/shippedin" label="m.catalog.list.shippedin-label" description="m.catalog.list.shippedin-description">
 			<valueditem value="48H" label="48H" />
 			<valueditem value="72H" label="72H" />
 		</valuededitablelist>
-		
-		
-		
-		<staticlist listid="modules_catalog/searchdisplaymodes" label="&amp;modules.catalog.bo.general.Search-modes-list-label;"
-			description="&amp;modules.catalog.bo.general.Search-modes-list-desc;">			
-			<staticitem value="all" label="&amp;modules.catalog.frontoffice.Search-all;" />
-			<staticitem value="products" label="&amp;modules.catalog.frontoffice.Search-products;" />
-			<staticitem value="others" label="&amp;modules.catalog.frontoffice.Search-others;" />
+		<staticlist listid="modules_catalog/searchdisplaymodes" label="m.catalog.bo.general.search-modes-list-" description="m.catalog.bo.general.search-modes-list-desc">
+			<staticitem value="all" label="m.catalog.frontoffice.search-all" />
+			<staticitem value="products" label="m.catalog.frontoffice.search-products" />
+			<staticitem value="others" label="m.catalog.frontoffice.search-others" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/displaymode" label="&amp;modules.catalog.frontoffice.List-displaymode;">
-			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
-			<staticitem value="table" label="&amp;modules.catalog.frontoffice.List-table;" />
+		<staticlist listid="modules_catalog/displaymode" label="m.catalog.frontoffice.list-displaymode">
+			<staticitem value="list" label="m.catalog.frontoffice.list-list" />
+			<staticitem value="table" label="m.catalog.frontoffice.list-table" />
 		</staticlist>
-				
-		<staticlist listid="modules_catalog/crosssellingsortby" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.label;"
-			description="&amp;modules.catalog.bo.lists.cross-selling-sortby.description;">			
-			<staticitem value="fieldorder" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Fieldorder;" />
-			<staticitem value="random" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Random;" />
+		<staticlist listid="modules_catalog/crosssellingsortby" label="m.catalog.bo.lists.cross-selling-sortby.label" description="m.catalog.bo.lists.cross-selling-sortby.description">
+			<staticitem value="fieldorder" label="m.catalog.bo.lists.cross-selling-sortby.fieldorder" />
+			<staticitem value="random" label="m.catalog.bo.lists.cross-selling-sortby.random" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/productpromotion" label="&amp;modules.catalog.frontoffice.Productpromotion-displaymode;">
-			<staticitem value="random" label="&amp;modules.catalog.frontoffice.Productpromotion-random;" />
-			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
+		<staticlist listid="modules_catalog/productpromotion" label="m.catalog.frontoffice.productpromotion-displaymode">
+			<staticitem value="random" label="m.catalog.frontoffice.productpromotion-random" />
+			<staticitem value="list" label="m.catalog.frontoffice.list-list" />
 		</staticlist>
-		
-		<staticlist listid="modules_catalog/lastconsultedproducts" label="&amp;modules.catalog.list.Lastconsultedproducts-label;">
-			<staticitem value="compact" label="&amp;modules.catalog.list.Lastconsultedproducts-compact;" />
-			<staticitem value="random" label="&amp;modules.catalog.list.Lastconsultedproducts-random;" />
-			<staticitem value="list" label="&amp;modules.catalog.list.Lastconsultedproducts-list;" />
+		<staticlist listid="modules_catalog/lastconsultedproducts" label="m.catalog.list.lastconsultedproducts-">
+			<staticitem value="compact" label="m.catalog.list.lastconsultedproducts-compact" />
+			<staticitem value="random" label="m.catalog.list.lastconsultedproducts-random" />
+			<staticitem value="list" label="m.catalog.list.lastconsultedproducts-list" />
 		</staticlist>
 	</systemfolder>
-		
 	<systemfolder module="notification" relatedmodule="catalog">
-		<notification label="Alerte concernant le stock"
-			byCodename="modules_catalog/stockalert" template="default"
-			availableparameters="{label}, {description}, {threshold}"
-			subject="Alerte concernant le stock du produit &quot;{label}&quot;"
-			header="Bonjour," body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." 
-			footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change." />
-			
-		<notification label="Nouvelle alerte activée (pour le client)"
-			byCodename="modules_catalog/newalert" template="default"
-			availableparameters="{productLabel}, {productDescription}, {productUrl}, {productLink}, {removeAlertUrl}, {removeAlertLink}, {alertEndDate}"
-			subject="Nouvelle alerte activée"
-			header="Bonjour," body="Votre alerte sur le produit &quot;{productLink}&quot; a bien été activée." 
-			footer="Cette alerte restera active jusqu'au {alertEndDate} ({removeAlertLink})." />
-			
-		<notification label="Alerte de disponibilité d'un produit (pour le client)"
-			byCodename="modules_catalog/availabilityalert" template="default"
-			availableparameters="{productPriceWithTax}, {productPriceWithoutTax}, {productLabel}, {productDescription}, {productUrl}, {productLink}"
-			subject="Le produit &quot;{productLabel}&quot; est à nouveau disponible !"
-			header="Bonjour," body="Le produit &quot;{productLink}&quot; est à nouveau disponible."
-			footer="Cette alerte a été automatiquement supprimée de notre base de données." />
-			
-		<notification label="Alerte de baisse de prix d'un produit (pour le client)"
-			byCodename="modules_catalog/pricealert" template="default"
-			availableparameters="{productPriceWithTax}, {productPriceWithoutTax}, {productLabel}, {productDescription}, {productUrl}, {productLink}"
-			subject="Baisse de prix sur le produit &quot;{productLabel}&quot; !"
-			header="Bonjour," body="Le prix du produit &quot;{productLink}&quot; a baissé. Il est maintenant de {productPriceWithTax}."
-			footer="Cette alerte a été automatiquement supprimée de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra la réactiver depuis le site." />
-		
-		<notification label="Multiples alertes produits (pour le client)"
-			byCodename="modules_catalog/severalalerts" template="default"
-			availableparameters="{alertList}"
-			subject="Multiples alertes produits"
-			header="Bonjour," body="{alertList}"
-			footer="Ces alertes ont été automatiquement supprimées de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra réactiver les alertes concernées depuis le site." />
+		<notification label="Alerte concernant le stock" byCodename="modules_catalog/stockalert" template="default" availableparameters="{label}, {description}, {threshold}" subject="Alerte concernant le stock du produit &quot;{label}&quot;" header="Bonjour," body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change." />
+		<notification label="Nouvelle alerte activée (pour le client)" byCodename="modules_catalog/newalert" template="default" availableparameters="{productLabel}, {productDescription}, {productUrl}, {productLink}, {removeAlertUrl}, {removeAlertLink}, {alertEndDate}" subject="Nouvelle alerte activée" header="Bonjour," body="Votre alerte sur le produit &quot;{productLink}&quot; a bien été activée." footer="Cette alerte restera active jusqu'au {alertEndDate} ({removeAlertLink})." />
+		<notification label="Alerte de disponibilité d'un produit (pour le client)" byCodename="modules_catalog/availabilityalert" template="default" availableparameters="{productPriceWithTax}, {productPriceWithoutTax}, {productLabel}, {productDescription}, {productUrl}, {productLink}" subject="Le produit &quot;{productLabel}&quot; est à nouveau disponible !" header="Bonjour," body="Le produit &quot;{productLink}&quot; est à nouveau disponible." footer="Cette alerte a été automatiquement supprimée de notre base de données." />
+		<notification label="Alerte de baisse de prix d'un produit (pour le client)" byCodename="modules_catalog/pricealert" template="default" availableparameters="{productPriceWithTax}, {productPriceWithoutTax}, {productLabel}, {productDescription}, {productUrl}, {productLink}" subject="Baisse de prix sur le produit &quot;{productLabel}&quot; !" header="Bonjour," body="Le prix du produit &quot;{productLink}&quot; a baissé. Il est maintenant de {productPriceWithTax}." footer="Cette alerte a été automatiquement supprimée de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra la réactiver depuis le site." />
+		<notification label="Multiples alertes produits (pour le client)" byCodename="modules_catalog/severalalerts" template="default" availableparameters="{alertList}" subject="Multiples alertes produits" header="Bonjour," body="{alertList}" footer="Ces alertes ont été automatiquement supprimées de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra réactiver les alertes concernées depuis le site." />
 	</systemfolder>
-	
 	<rootfolder module="media">
 		<folder byLabel="Catalogue">
-			<media path="modules/catalog/setup/default-visuals/default-detail-visual.png"
-				byLabel="Visuel par défaut de détail de produit" title="Visuel non-disponible" id="default-detail-visual" />
-			<media path="modules/catalog/setup/default-visuals/default-list-visual.png"
-				byLabel="Visuel par défaut de liste de produit" title="Visuel non-disponible" id="default-list-visual" />
+			<media path="modules/catalog/setup/default-visuals/default-detail-visual.png" byLabel="Visuel par défaut de détail de produit" title="Visuel non-disponible" id="default-detail-visual" />
+			<media path="modules/catalog/setup/default-visuals/default-list-visual.png" byLabel="Visuel par défaut de liste de produit" title="Visuel non-disponible" id="default-list-visual" />
 		</folder>
 	</rootfolder>
-	
 	<rootfolder module="preferences">
-		<catalogpreferences defaultDetailVisual-refid="default-detail-visual" defaultListVisual-refid="default-list-visual"  
-			suggestcomplementaryfeederclass="catalog_SameShelvesProductFeeder"
-			suggestsimilarfeederclass="catalog_SameShelvesProductFeeder"
-			suggestupsellfeederclass="catalog_SameShelvesProductFeeder" />
-	</rootfolder>	
-			
+		<catalogpreferences defaultDetailVisual-refid="default-detail-visual" defaultListVisual-refid="default-list-visual" suggestcomplementaryfeederclass="catalog_SameShelvesProductFeeder" suggestsimilarfeederclass="catalog_SameShelvesProductFeeder" suggestupsellfeederclass="catalog_SameShelvesProductFeeder" />
+	</rootfolder>
 	<rootfolder module="catalog">
-		<attributefolder byLabel="m.catalog.document.attributefolder.document-name"/>
+		<attributefolder byLabel="m.catalog.document.attributefolder.document-name" />
 		<shopfolder byLabel="m.catalog.document.shopfolder.document-name" />
 		<noshelfproductfolder byLabel="m.catalog.document.noshelfproductfolder.document-name" />
 		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name" />

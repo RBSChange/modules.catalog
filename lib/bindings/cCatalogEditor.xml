@@ -471,31 +471,48 @@
 		</resources>
 		<implementation>
 			<field name="mShopId" />
+			<field name="mLang" />
 			
 			<method name="onInitialize">
 				<body><![CDATA[
-					this.autoResize(700, 550);
+					this.autoResize(900, 600);
 					this.lockCommandsUI();
 					this.initialized = true;
-					if (this.mShopId != null)
+					if (this.mShopId != null && this.mLang != null)
 					{
 						this.loadProducts();
 					}
 				]]></body>
 			</method>
-			
+
+			<method name="updateCommandsUI">
+				<body><![CDATA[
+					this.getElementByAnonId('save').disabled = !this.modified;
+					wCore.debug('items count = ' + this.getElementByAnonId('mLang').getItems().length);
+					this.getElementByAnonId('saveAllLangs').disabled = !this.modified || this.getElementByAnonId('mLang').getItems().length < 2;
+				]]></body>
+			</method>
+
+			<method name="lockCommandsUI">
+				<body><![CDATA[
+					this.getElementByAnonId('save').disabled = true;
+					this.getElementByAnonId('saveAllLangs').disabled = true;
+				]]></body>
+			</method>
+
 			<method name="loadProducts">
 				<body><![CDATA[
-					this.mData = wCore.executeJSON('catalog', 'GetProductsToSort', { shelfId: this.parameters.id, shopId: this.mShopId }, null, true);
+					this.mData = wCore.executeJSON('catalog', 'GetProductsToSort', { shelfId: this.parameters.id, shopId: this.mShopId, lang: this.mLang }, null, true);
 					this.mDataOk = true;
 					this.loadData();
 				]]></body>
 			</method>
-			
-			<method name="executeSave">
-				<parameter name="childrenOrder"/>
+
+			<method name="clearProducts">
 				<body><![CDATA[
-					return wCore.executeJSON('catalog', 'SaveProductOrder', { shelfId: this.parameters.id, shopId: this.mShopId, co: childrenOrder }, null, true);
+					this.mData = {'status': 'OK', 'contents': {'nodes': []}};
+					this.mDataOk = true;
+					this.loadData();
 				]]></body>
 			</method>
 			
@@ -506,7 +523,7 @@
 					var childrenOrder = this.getChildrenOrder();
 					
 					var param = this.parameters;
-					result =  wCore.executeJSON('catalog', 'SaveProductOrder', { shelfId: this.parameters.id, shopId: this.mShopId, co: childrenOrder }, null, true);
+					result = wCore.executeJSON('catalog', 'SaveProductOrder', { shelfId: this.parameters.id, shopId: this.mShopId, lang: this.mLang, applyToAllLangs: applyToAllLangs, co: childrenOrder }, null, true);
 					if (result.status == 'OK')
 					{
 						this.mData = result;
@@ -526,10 +543,16 @@
 				if (event.originalTarget.name == 'mShop')
 				{
 					this.mShopId = event.originalTarget.value;
-					if (this.parameters != null)
-					{
-						this.loadProducts();
-					}
+					this.mLang = null;
+					var langField = this.getElementByAnonId('mLang');
+					langField.value = null;
+					langField.replaceItems({cmpref: 'modules_catalog/availablelangsforshop', shopId: this.mShopId});
+					this.clearProducts();
+				}
+				else if (event.originalTarget.name == 'mLang')
+				{
+					this.mLang = event.originalTarget.value;
+					this.loadProducts();
 				}
 				event.stopPropagation();
 			]]></handler>
@@ -550,11 +573,26 @@
 					</vbox>
 				</hbox>
 				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="filter-bar">
+					<xul:box align="center">
+						<xul:clabel id="cOrderProductsInShelfDialog_mShop_label" control="cOrderProductsInShelfDialog_mShop" value="${trans:m.catalog.bo.dialog.shop,ucf,lab,attr}" />
+						<xul:cfield id="cOrderProductsInShelfDialog_mShop" anonid="mShop" name="mShop" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/shops" initialvalue="" required="true" />
+					</xul:box>
+					<xul:spacer width="20px" />
+					<xul:box align="center">
+						<xul:clabel id="cOrderProductsInShelfDialog_mLang_label" control="cOrderProductsInShelfDialog_mLang" value="${trans:m.catalog.bo.dialog.lang,ucf,lab,attr}" />
+						<xul:cfield id="cOrderProductsInShelfDialog_mLang" anonid="mLang" name="mLang" fieldtype="dropdownlist" hidehelp="true" initialvalue="" required="true" />
+					</xul:box>
+					<xul:spacer flex="1" />
+				</xul:hbox>
+				<xul:spacer height="10px" />
 				<xul:hbox anonid="action-bar">
-					<xul:button anonid="save" oncommand="onSave()" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" image="{IconsBase}/small/check.png" />
-					<xul:box><xul:cfield anonid="mShop" name="mShop" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/shops" initialvalue="" /></xul:box>
 					<xul:button anonid="orderalph" oncommand="onOrderAlpha()" label="${trans:m.uixul.bo.dialog.orderatoz,ucf,attr}" orderby="asc" image="{IconsBase}/small/lexicon.png" />
 					<xul:spacer flex="1" />
+					<xul:button anonid="save" oncommand="onSave(false)" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" image="{IconsBase}/small/check.png" />
+					<xul:spacer width="10px" />
+					<xul:button anonid="saveAllLangs" oncommand="onSave(true)" label="${trans:m.catalog.bo.dialog.apply-to-all-langs,ucf,attr}" image="{IconsBase}/small/check.png" />
+					<xul:spacer width="10px" />
 					<xul:button anonid="cancel" oncommand="onCancel()" label="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" image="{IconsBase}/small/undo.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">

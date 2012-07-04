@@ -482,20 +482,23 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @return array
 	 */
-	public function getOrderInfosByShelfAndShop($shelf, $shop)
+	public function getOrderInfosByShelfAndShopAndLang($shelf, $shop, $lang)
 	{
 		$query = $this->createQuery()->addOrder(Order::asc('position'));
+		$query->add(Restrictions::eq('lang', $lang))->add(Restrictions::eq('showInList', true));
 		$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
 		$infos = array();
 		foreach ($query->find() as $cp)
 		{
-			/* @var $cp catalog_persistentdocument_compiledproduct */ 
 			$product = $cp->getProduct();
-			$pinfos = array('id' => $product->getId());
-			DocumentHelper::completeBOAttributes($product, $pinfos, DocumentHelper::MODE_ICON);
-			$pinfos['label'] = $cp->getTreeNodeLabel();
-			$infos[] = $pinfos;
+			$infos[] = array(
+				'id' => $product->getId(),
+				'label' => $cp->getTreeNodeLabel(),
+				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
+			);
 		}
 		return $infos;
 	}
@@ -503,19 +506,29 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param string $lang
+	 * @param array $order
+	 * @param boolean $applyToAllLangs
+	 * @return array
 	 */
-	public function setPositionsByShelfAndShop($shelf, $shop, $order)
+	public function setPositionsByShelfAndShopAndLang($shelf, $shop, $lang, $order, $applyToAllLangs = false)
 	{
 		$tm = $this->getTransactionManager();
 		try 
 		{
 			$tm->beginTransaction();
 			
-			$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
+			$langsToSort = ($applyToAllLangs) ? $shop->getI18nInfo()->getLangs() : array($lang);
+			$query = $this->createQuery()->add(Restrictions::in('lang', $langsToSort))->add(Restrictions::eq('showInList', true));
+			$query->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
 			foreach ($query->find() as $doc)
 			{
-				$doc->setPosition($order[$doc->getProduct()->getId()]);
-				$doc->save();
+				$docId = $doc->getProduct()->getId();
+				if (isset($order[$docId]))
+				{
+					$doc->setPosition($order[$docId]);
+					$doc->save();
+				}
 			}
 			
 			$tm->commit();

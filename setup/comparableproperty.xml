@@ -2,7 +2,6 @@
 <script>
 	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
-	
 	<rootfolder module="catalog">
 		<comparablepropertyfolder byLabel="m.catalog.document.comparablepropertyfolder.document-name">
 			<comparableproperty byLabel="m.catalog.comparableproperty.short-description" className="catalog_ShortDescriptionComparableProperty">

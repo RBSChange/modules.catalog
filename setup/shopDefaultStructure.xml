@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <script>
 	<binding fileName="modules/website/persistentdocument/import/website_binding.xml" />
-	
 	<systemtopic byDocumentId-attr="">
 		<page label="Contenu du rayon" isIndexPage="true" navigationVisibility="hidden" byTag="functional_catalog_product-list">
 			<tag name="functional_catalog_shelf-list" />
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_shelfContextualList" />
 				<changeblock type="modules_catalog_productContextualList" />
-			</changecontent>	
+			</changecontent>
 			<execute method="setPageRefAsIndex" />
 		</page>
-		
-		<page label="Fiche produit" navigationVisibility="hidden" indexingstatus="false" 
-			description="{catalog_product.description}" keywords="{catalog_product.coderef}" metatitle="{catalog_product.title}"
-			template-attr="templateNosidebar" byTag="functional_catalog_product-detail">
+		<page label="Fiche produit" navigationVisibility="hidden" indexingstatus="false" description="{catalog_product.description}" keywords="{catalog_product.coderef}" metatitle="{catalog_product.title}" template-attr="templateNosidebar" byTag="functional_catalog_product-detail">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_product" />
 				<changeblock type="modules_catalog_ProductDescription" />
@@ -25,42 +21,32 @@
 				<changeblock type="modules_catalog_comments" />
 			</changecontent>
 		</page>
-		
-		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" 
-			template-attr="templatePopin" byTag="functional_catalog_configurate-kit">
+		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" template-attr="templatePopin" byTag="functional_catalog_configurate-kit">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ConfigurateKit" />
 			</changecontent>
 		</page>
-		
-		<page label="Popin produit" navigationVisibility="hidden" indexingstatus="false" 
-			template-attr="templatePopin" byTag="functional_catalog_product-popin">
+		<page label="Popin produit" navigationVisibility="hidden" indexingstatus="false" template-attr="templatePopin" byTag="functional_catalog_product-popin">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductPopin" />
 			</changecontent>
 		</page>
-		
 		<page label="Liste des produits associés" navigationVisibility="hidden" byTag="functional_catalog_crosssellinglist-page">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_productCrossSellingList" />
 			</changecontent>
 		</page>
-		
-		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar"
-			byTag="functional_catalog_productlist-comparison">
+		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar" byTag="functional_catalog_productlist-comparison">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductComparison" />
 			</changecontent>
 		</page>
-		
-		<page label="Mes produits favoris" indexingstatus="false"
-			byTag="contextual_website_website_modules_catalog_favorite-product-list">
+		<page label="Mes produits favoris" indexingstatus="false" byTag="contextual_website_website_modules_catalog_favorite-product-list">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_favoriteProductList" />
 			</changecontent>
 		</page>
-		<page label="Mes alertes produit" indexingstatus="false"
-			byTag="contextual_website_website_modules_catalog_product-alert-management">
+		<page label="Mes alertes produit" indexingstatus="false" byTag="contextual_website_website_modules_catalog_product-alert-management">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_productAlertManagement" />
 			</changecontent>

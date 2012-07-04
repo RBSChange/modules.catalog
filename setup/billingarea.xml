@@ -1,63 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <script>
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
-	
 	<documentRef type="modules_catalog/currency" byCode="EUR" id="euro" />
-	<documentRef type="modules_catalog/currency" byCode="GBP" id="pound"/>
-	<documentRef type="modules_catalog/currency" byCode="CHF" id="fs"/>
-	
+	<documentRef type="modules_catalog/currency" byCode="GBP" id="pound" />
+	<documentRef type="modules_catalog/currency" byCode="CHF" id="fs" />
 	<documentRef type="modules_zone/zone" byCode="FR-CONTINENTAL" id="frc" />
 	<documentRef type="modules_zone/zone" byCode="20" id="corse" />
-		
 	<documentRef type="modules_zone/zone" byCode="EURO" id="zoneEURO" />
-
 	<rootfolder module="catalog">
-		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name">	
-			<billingarea byCodeReference="FR" label="France" 
-				currency-refid="euro" currencyPosition="right"
-				defaultZone="FR-CONTINENTAL" billingAddressZone-refid="zoneEURO">
-		
+		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name">
+			<billingarea byCodeReference="FR" label="France" currency-refid="euro" currencyPosition="right" defaultZone="FR-CONTINENTAL" billingAddressZone-refid="zoneEURO">
 				<tax label="19.6%" taxCategory="1" taxZone="FR-CONTINENTAL" rate="0.196" />
 				<tax label="19.6%" taxCategory="2" taxZone="FR-CONTINENTAL" rate="0.196" />
 				<tax label="19.6%" taxCategory="3" taxZone="FR-CONTINENTAL" rate="0.196" />
-				
-				<tax label="7%" taxCategory="10" taxZone="FR-CONTINENTAL"  rate="0.07" />
-				<tax label="5.5%" taxCategory="11" taxZone="FR-CONTINENTAL"  rate="0.055" />
-				
-				<tax label="2.1%" taxCategory="20" taxZone="FR-CONTINENTAL"  rate="0.021" />
-				<tax label="2.1%" taxCategory="21" taxZone="FR-CONTINENTAL"  rate="0.021" />		
-	
-				<tax label="-" taxCategory="0" taxZone="20" rate="0.0" />			
+				<tax label="7%" taxCategory="10" taxZone="FR-CONTINENTAL" rate="0.07" />
+				<tax label="5.5%" taxCategory="11" taxZone="FR-CONTINENTAL" rate="0.055" />
+				<tax label="2.1%" taxCategory="20" taxZone="FR-CONTINENTAL" rate="0.021" />
+				<tax label="2.1%" taxCategory="21" taxZone="FR-CONTINENTAL" rate="0.021" />
+				<tax label="-" taxCategory="0" taxZone="20" rate="0.0" />
 				<tax label="19.6%" taxCategory="1" taxZone="20" rate="0.196" />
 				<tax label="13%" taxCategory="2" taxZone="20" rate="0.13" />
 				<tax label="8%" taxCategory="3" taxZone="20" rate="0.08" />
-				
-				<tax label="7%" taxCategory="10" taxZone="20"  rate="0.07" />
-				<tax label="2.1%" taxCategory="11" taxZone="20"  rate="0.021" />
-				
-				<tax label="2.1%" taxCategory="20" taxZone="20"  rate="0.021" />
-				<tax label="0.9%" taxCategory="21" taxZone="20"  rate="0.009" />		
+				<tax label="7%" taxCategory="10" taxZone="20" rate="0.07" />
+				<tax label="2.1%" taxCategory="11" taxZone="20" rate="0.021" />
+				<tax label="2.1%" taxCategory="20" taxZone="20" rate="0.021" />
+				<tax label="0.9%" taxCategory="21" taxZone="20" rate="0.009" />
 			</billingarea>
-			
-			<billingarea byCodeReference="DE" label="Germany"
-				currency-refid="euro" currencyPosition="left"
-				defaultZone="DE" billingAddressZone-refid="zoneEURO">
+			<billingarea byCodeReference="DE" label="Germany" currency-refid="euro" currencyPosition="left" defaultZone="DE" billingAddressZone-refid="zoneEURO">
 				<tax label="19%" taxCategory="1" taxZone="DE" rate="0.19" />
-				<tax label="7%" taxCategory="10" taxZone="DE"  rate="0.07" />
+				<tax label="7%" taxCategory="10" taxZone="DE" rate="0.07" />
 			</billingarea>
-			
-			
-			<billingarea byCodeReference="GB" label="United Kingdom" 
-				currency-refid="pound" currencyPosition="left"
-				defaultZone="GB" billingAddressZone-refid="zoneEURO">
+			<billingarea byCodeReference="GB" label="United Kingdom" currency-refid="pound" currencyPosition="left" defaultZone="GB" billingAddressZone-refid="zoneEURO">
 				<tax label="17,5%" taxCategory="1" taxZone="GB" rate="0.175" />
-			</billingarea>	
-			
-			<billingarea byCodeReference="CH" label="Switzerland" 
-				currency-refid="fs" currencyPosition="right"
-				defaultZone="CH" billingAddressZone-refid="zoneEURO">
+			</billingarea>
+			<billingarea byCodeReference="CH" label="Switzerland" currency-refid="fs" currencyPosition="right" defaultZone="CH" billingAddressZone-refid="zoneEURO">
 				<tax label="8%" taxCategory="1" taxZone="CH" rate="0.08" />
-				<tax label="2.5%" taxCategory="10" taxZone="CH"  rate="0.025" />
+				<tax label="2.5%" taxCategory="10" taxZone="CH" rate="0.025" />
 			</billingarea>
 		</billingareafolder>
 	</rootfolder>

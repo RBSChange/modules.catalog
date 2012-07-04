@@ -1,6 +1,7 @@
 <?php
 /* @var $arguments array */
-$productIdArray = isset($arguments) ? $arguments : array();
+$arguments = isset($arguments) ? $arguments : array();
+$productIdArray = $arguments;
 
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
