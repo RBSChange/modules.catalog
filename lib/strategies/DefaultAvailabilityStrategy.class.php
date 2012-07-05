@@ -1,28 +1,10 @@
 <?php
 /**
- * catalog_DefaultAvailabilityStrategy
  * @package modules.catalog
+ * @method catalog_DefaultAvailabilityStrategy getInstance()
  */
 class catalog_DefaultAvailabilityStrategy extends catalog_AvailabilityStrategy
-{
-	/**
-	 * Singleton
-	 * @var catalog_DefaultAvailabilityStrategy
-	 */
-	private static $instance = null;
-
-	/**
-	 * @return catalog_DefaultAvailabilityStrategy
-	 */
-	public static function getInstance()
-	{
-		if (is_null(self::$instance))
-		{
-			self::$instance = self::getServiceClassInstance(get_class());
-		}
-		return self::$instance;
-	}
-	
+{	
 	/**
 	 * @param string $stockLevel
 	 * @return string
@@ -48,23 +30,5 @@ class catalog_DefaultAvailabilityStrategy extends catalog_AvailabilityStrategy
 				break;
 		}
 		return $return;
-	}
-	
-	// Deprecated.
-	
-	/**
-	 * @deprecated
-	 */
-	public function getLabel()
-	{
-		return 'Default availability management.';
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public function getDescription()
-	{
-		return 'Default availability management.';
 	}
 }
