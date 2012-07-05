@@ -48,7 +48,7 @@
 			<method name="saveProperties">
 				<body><![CDATA[
 					this.lockCommandsUI();
-					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.showTextMessage("${trans:m.uixul.bo.doceditor.update-in-progress,ucf,js}");
 					this.documentEditor.executeServerAction('kititems', 'Update');
 				]]></body>
 			</method>
@@ -85,7 +85,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					if (this.disabled) {return;}		
+					if (this.disabled) {return;}
 					var uri = ['catalog', 'openDocument', rowData.productType, rowData.productId].join(',');
 					openActionUri(uri);
 				]]></body>
@@ -95,7 +95,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					if (this.disabled) {return;}		
+					if (this.disabled) {return;}
 					var kitId = this.getDocumentEditor().getAttribute('documentid');
 					var uri = ['catalog', 'editPricesFromKit', rowData.productType, rowData.productId, kitId].join(',');
 					openActionUri(uri);
@@ -163,7 +163,7 @@
 				<parameter name="cell" />
 				<parameter name="name" />
 				<parameter name="dataRow" />
-				<body><![CDATA[					
+				<body><![CDATA[
 					cell.setAttribute('value', dataRow[name]);
 					if (name == 'actionrow')
 					{

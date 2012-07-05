@@ -20,7 +20,7 @@
 		<property name="stockAlertThreshold" type="Double" />
 		<property name="codeSKU" type="String" db-size="50" indexed="none" />
 		<property name="shippedIn" type="String" from-list="modules_catalog/shippedin" />
-		<property name="minOrderQuantity" type="Integer" default-value="1" min-occurs="1">
+		<property name="minOrderQuantity" type="Integer" default-value="1" required="true">
 			<constraint name="min" min="1" />
 		</property>
 	</properties>

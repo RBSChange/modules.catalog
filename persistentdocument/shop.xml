@@ -4,11 +4,11 @@
 		<property name="publicationstatus" localized="true" />
 		<property name="isDefault" type="Boolean" localized="true" />
 		<property name="description" type="XHTMLFragment" localized="true" />
-		<property name="topic" type="Document" min-occurs="1" inverse="true" cascade-delete="true" document-type="modules_website/systemtopic">
+		<property name="topic" type="Document" inverse="true" cascade-delete="true" document-type="modules_website/systemtopic" required="true">
 			<constraint name="unique" propertyName="topic" modelName="modules_catalog/shop" />
 		</property>
-		<property name="website" type="Document" min-occurs="1" inverse="true" document-type="modules_website/website" />
-		<property name="topShelf" type="DocumentArray" min-occurs="0" inverse="true" preserve-old-value="true" document-type="modules_catalog/topshelf" />
+		<property name="website" type="Document" inverse="true" document-type="modules_website/website" required="true" />
+		<property name="topShelf" type="DocumentArray" inverse="true" preserve-old-value="true" document-type="modules_catalog/topshelf" />
 		<property name="defaultDetailVisual" type="Document" document-type="modules_media/media" />
 		<property name="defaultListVisual" type="Document" document-type="modules_media/media" />
 		<property name="displayPriceWithTax" type="Boolean" default-value="true" />
@@ -26,7 +26,7 @@
 		<property name="enableComments" type="Boolean" default-value="true" />
 		<property name="codeReference" type="String" db-size="50" />
 		<property name="orderProcessClassName" type="String" default-value="order_StandardOrderProcess" from-list="modules_catalog/orderprocess" />
-		<property name="billingAreas" type="DocumentArray" min-occurs="1" inverse="true" document-type="modules_catalog/billingarea" />
+		<property name="billingAreas" type="DocumentArray" inverse="true" document-type="modules_catalog/billingarea" required="true" />
 		<!-- @deprecated -->
 		<property name="nbproductperpage" type="Integer" default-value="10" />
 	</properties>

@@ -6,6 +6,6 @@
 		<property name="pageDescription" type="LongString" localized="true" />
 		<property name="pageKeywords" type="LongString" localized="true" />
 		<property name="labelForUrl" type="String" localized="true" />
-		<property name="codeReference" type="String" min-occurs="1" />
+		<property name="codeReference" type="String" required="true" />
 	</properties>
 </document>

@@ -596,12 +596,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getRSSDescription()
 	{
-		$template = TemplateLoader::getInstance()
-			->setMimeContentType('html')
-			->setPackageName('modules_catalog')
-			->setDirectory('templates')
-			->load('Catalog-Inc-Product-RSS');
-			
+		$template = change_TemplateLoader::getNewInstance()->setExtension('html')->getPath('catalog', 'templates', 'Catalog-Inc-Product-RSS');
 		$template->setAttribute('product', $this);
 		$template->setAttribute('shop', catalog_ShopService::getInstance()->getCurrentShop());
 		$template->setAttribute('customer', customer_CustomerService::getInstance()->getCurrentCustomer());

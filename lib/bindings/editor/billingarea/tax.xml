@@ -60,7 +60,7 @@
 			<method name="saveProperties">
 				<body><![CDATA[
 					this.lockCommandsUI();
-					this.showTextMessage("&modules.uixul.bo.doceditor.Update-in-progress;");
+					this.showTextMessage("${trans:m.uixul.bo.doceditor.update-in-progress,ucf,js}");
 					this.documentEditor.executeServerAction('tax', 'Update');
 				]]></body>
 			</method>
@@ -108,7 +108,7 @@
 
 			<xul:row anonid="template-row" class="document" hidden="true">
 				<xul:label value="" />
-				<xul:label value="" />				
+				<xul:label value="" />
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:toolbar class="actions">

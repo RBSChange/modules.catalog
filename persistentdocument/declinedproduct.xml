@@ -7,10 +7,10 @@
 		<property name="additionnalVisual" type="DocumentArray" document-type="modules_media/media" />
 		<property name="pictogram" type="DocumentArray" document-type="modules_media/media" />
 		<property name="synchronizePrices" type="Boolean" default-value="true" />
-		<property name="axe1" type="String" default-value="property::label" from-list="modules_catalog/axes" min-occurs="1" />
+		<property name="axe1" type="String" default-value="property::label" from-list="modules_catalog/axes" required="true" />
 		<property name="axe2" type="String" from-list="modules_catalog/axes" />
 		<property name="axe3" type="String" from-list="modules_catalog/axes" />
-		<property name="showAxeInList" type="Integer" default-value="0" from-list="modules_catalog/axesinlist" min-occurs="1" />
+		<property name="showAxeInList" type="Integer" default-value="0" from-list="modules_catalog/axesinlist" required="true" />
 		<property name="shelf" type="DocumentArray" tree-node="true" inverse="true" document-type="modules_catalog/shelf" />
 		<property name="brand" type="Document" inverse="true" document-type="modules_brand/brand" />
 		<property name="complementary" type="DocumentArray" preserve-old-value="true" document-type="modules_catalog/product" />

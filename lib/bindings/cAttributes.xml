@@ -95,7 +95,7 @@
 						{
 							this.removeAttribute("modified");
 							this.dispatchFieldEvent('fieldRestored');
-						}			
+						}
 					}
 					this.dispatchFieldEvent('fieldChanged');
 				]]></body>
@@ -105,7 +105,7 @@
 				<body><![CDATA[
 					wCore.debug('NO FOCUS');
 				]]></body>
-			</method>			
+			</method>
 		
 			<method name="cleanList">
 				<body><![CDATA[
@@ -136,7 +136,7 @@
 						}
 					}
 				]]></body>
-			</method>				
+			</method>
 
 			<method name="orderRows">
 				<parameter name="fieldName" />
@@ -150,8 +150,8 @@
 				 	else {return asc ? 1 : -1;}
 				 });
 				]]></body>
-			</method>	
-								
+			</method>
+		
 			<method name="addItem">
 				<parameter name="jsnode" />
 				<body><![CDATA[
@@ -181,13 +181,13 @@
 					button.setAttribute('action', 'edit');
 					button.setAttribute('idx', idx);
 					button.setAttribute('image', '{IconsBase}/small/edit.png');
-					button.setAttribute('label', "&modules.uixul.bo.actions.Edit;");
-										
+					button.setAttribute('label', "${trans:m.uixul.bo.actions.edit,ucf,js}");
+					
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', idx);
 					button.setAttribute('image', '{IconsBase}/small/delete.png');
-					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+					button.setAttribute('label', "${trans:m.uixul.bo.actions.delete,ucf,js}");
 
 					rows.appendChild(row);
 				]]></body>
@@ -226,9 +226,9 @@
 			<method name="delete">
 				<parameter name="idx" />
 				<body><![CDATA[
-					if (confirm("&modules.catalog.bo.doceditor.attrdef.Confirm-delete;"))
+					if (confirm("${trans:m.catalog.bo.doceditor.attrdef.confirm-delete,ucf,js}"))
 					{
-						var idxVal = idx - 1;					
+						var idxVal = idx - 1;
 						if (this.mValue != null && idxVal < this.mValue.length)
 						{
 							var newValue = [];
@@ -320,10 +320,10 @@
 					
 					var radiogroup = document.createElement('radiogroup');
 					var rad = radiogroup.appendChild(document.createElement('radio'));
-					rad.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Type-text;"); 
+					rad.setAttribute('label', "${trans:m.catalog.bo.doceditor.attrdef.type-text,ucf,js}"); 
 					rad.setAttribute('value', 'text');
 					rad = radiogroup.appendChild(document.createElement('radio'));
-					rad.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Type-numeric;"); 
+					rad.setAttribute('label', "${trans:m.catalog.bo.doceditor.attrdef.type-numeric,ucf,js}"); 
 					rad.setAttribute('value', 'numeric');
 					radiogroup.setAttribute('orient', 'horizontal');
 					radiogroup.setAttribute('value', row.itemData.type);
@@ -338,31 +338,31 @@
 					listval.setAttribute('moduleselector', 'list');
 					listval.setAttribute('initialvalue', ('listid' in row.itemData) ? row.itemData.listid : '');
 					row.appendChild(listval);
-										
+					
 					var  toolbar = row.appendChild(document.createElement('toolbar'));
 					toolbar.setAttribute('class', 'actions');
 					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'save');
 					button.setAttribute('idx', row.idx);
 					button.setAttribute('image', '{IconsBase}/small/edit.png');
-					button.setAttribute('label', "&modules.catalog.bo.doceditor.attrdef.Action-save;");
-										
+					button.setAttribute('label', "${trans:m.catalog.bo.doceditor.attrdef.action-save,ucf,js}");
+					
 					button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', row.idx);
 					button.setAttribute('image', '{IconsBase}/small/delete.png');
-					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+					button.setAttribute('label', "${trans:m.uixul.bo.actions.delete,ucf,js}");
 				]]></body>
-			</method>								
+			</method>
 		</implementation>
 		
-		<handlers>		
+		<handlers>
 			<handler event="command"><![CDATA[
 				var target = event.originalTarget;
 				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
 				{
 					switch (target.getAttribute('action'))
-					{						
+					{
 						case 'edit':
 							this.edit(target.getAttribute('idx'));
 							break;	
@@ -388,12 +388,12 @@
 					return;
 				}
 			]]></handler>
-		</handlers>	
+		</handlers>
 		<resources>
 			<stylesheet src="modules.uixul.cEditorGrid" />
-		</resources>		
+		</resources>
 		<content>
-			<xul:vbox flex="1">				
+			<xul:vbox flex="1">
 					<xul:grid flex="1">
 						<xul:columns>
 							<xul:column flex="3" />
@@ -423,7 +423,7 @@
 					</xul:toolbar>	
 					<xul:spacer />
 				<children/>
-			</xul:vbox>		
+			</xul:vbox>
 		</content>	
 	</binding>
 	
@@ -433,10 +433,10 @@
 			<field name="mDefinition">null</field>
 			<field name="mSortOnColId">null</field>
 			<field name="mModified">false</field>
-					
+			
 			<field name="mRows">null</field>
 			<field name="mEditRow">null</field>
-									
+			
 			<property name="rows" readonly="true">
 				<getter><![CDATA[
 					if (this.mRows === null) 
@@ -539,7 +539,7 @@
 						{
 							this.removeAttribute("modified");
 							this.dispatchFieldEvent('fieldRestored');
-						}			
+						}
 					}
 					this.dispatchFieldEvent('fieldChanged');
 				]]></body>
@@ -549,7 +549,7 @@
 				<body><![CDATA[
 					wCore.debug("No FOCUS");
 				]]></body>
-			</method>			
+			</method>
 		
 			<method name="cleanList">
 				<body><![CDATA[
@@ -571,7 +571,7 @@
 					return true;
 				]]></body>
 			</method>
-							
+			
 			<method name="onLoad">
 				<body><![CDATA[
 					this.cleanList();
@@ -579,9 +579,9 @@
 					var values = [];
 					for (var code in this.mValue)
 					{
-						var def = this.mDefinition[code];	
-						def.value = this.mValue[code];	
-						values.push(def);					
+						var def = this.mDefinition[code];
+						def.value = this.mValue[code];
+						values.push(def);
 					}
 					
 					if (this.mSortOnColId)
@@ -598,7 +598,7 @@
 					
 					this.getElementByAnonId('button-new').hidden = this.hasAllAttributes();			
 				]]></body>
-			</method>				
+			</method>
 
 			<method name="orderRows">
 				<parameter name="values" />
@@ -667,7 +667,7 @@
 					return node;
 				]]></body>
 			</method>
-													
+			
 			<method name="addItem">
 				<parameter name="jsnode" />
 				<body><![CDATA[
@@ -690,18 +690,18 @@
 					button.setAttribute('action', 'edit');
 					button.setAttribute('idx', idx);
 					button.setAttribute('image', '{IconsBase}/small/edit.png');
-					button.setAttribute('label', "&modules.uixul.bo.actions.Edit;");
-										
+					button.setAttribute('label', "${trans:m.uixul.bo.actions.edit,ucf,js}");
+					
 					var button = cell.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', idx);
 					button.setAttribute('image', '{IconsBase}/small/delete.png');
-					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+					button.setAttribute('label', "${trans:m.uixul.bo.actions.delete,ucf,js}");
 
 					rows.appendChild(row);
 				]]></body>
 			</method>
-						
+			
 			<method name="edit">
 				<parameter name="idx" />
 				<body><![CDATA[
@@ -716,8 +716,8 @@
 			
 			<method name="delete">
 				<parameter name="idx" />
-				<body><![CDATA[				
-					if (confirm("&modules.catalog.bo.doceditor.attr.Confirm-delete;"))
+				<body><![CDATA[
+					if (confirm("${trans:m.catalog.bo.doceditor.attr.confirm-delete,ucf,js}"))
 					{
 						var row = this.rows.childNodes[idx];
 						var code = row.itemData.code;
@@ -748,7 +748,7 @@
 					}
 					this.onLoad();
 				]]></body>
-			</method>		
+			</method>
 
 			<method name="create">
 				<body><![CDATA[
@@ -765,11 +765,11 @@
 					}
 				]]></body>
 			</method>
-											
+			
 			<method name="toEditrow">
 				<parameter name="row" />
-				<body><![CDATA[	
-					this.mEditRow = row;			
+				<body><![CDATA[
+					this.mEditRow = row;
 					if (row.itemData.code == '')
 					{
 						var cs = row.appendChild(this.createCodeSelector());
@@ -786,23 +786,22 @@
 					}
 					
 					row.appendChild(this.createValueSelector(row.itemData, true));
-											
+					
 					var  toolbar = row.appendChild(document.createElement('toolbar'));
 					toolbar.setAttribute('class', 'actions');
 					var button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'save');
 					button.setAttribute('idx', row.idx);
 					button.setAttribute('image', '{IconsBase}/small/edit.png');
-					button.setAttribute('label', "&modules.catalog.bo.doceditor.attr.action-save;");
-										
+					button.setAttribute('label', "${trans:m.catalog.bo.doceditor.attr.action-save,js}");
+					
 					button = toolbar.appendChild(document.createElement('toolbarbutton'));
 					button.setAttribute('action', 'delete');
 					button.setAttribute('idx', row.idx);
 					button.setAttribute('image', '{IconsBase}/small/delete.png');
-					button.setAttribute('label', "&modules.uixul.bo.actions.Delete;");
+					button.setAttribute('label', "${trans:m.uixul.bo.actions.delete,ucf,js}");
 				]]></body>
-			</method>	
-			
+			</method>
 			
 			<method name="handleSort">
 				<parameter name="node" />
@@ -824,16 +823,15 @@
 					this.onLoad();
 				]]></body>
 			</method>
-										
 		</implementation>
 		
-		<handlers>		
+		<handlers>
 			<handler event="command"><![CDATA[
-				var target = event.originalTarget;				
+				var target = event.originalTarget;
 				if (target.localName == 'toolbarbutton' && target.hasAttribute('action'))
 				{
 					switch (target.getAttribute('action'))
-					{						
+					{
 						case 'edit':
 							this.edit(target.getAttribute('idx'));
 							break;	
@@ -873,9 +871,9 @@
 		</handlers>	
 		<resources>
 			<stylesheet src="modules.uixul.cEditorGrid" />
-		</resources>		
+		</resources>
 		<content>
-			<xul:vbox flex="1">	
+			<xul:vbox flex="1">
 				<xul:vbox flex="1" xbl:inherits="hidden=hide-list">				
 						<xul:grid flex="1">
 							<xul:columns>
@@ -901,9 +899,9 @@
 						</xul:toolbar>	
 						<xul:spacer />
 					<children/>
-				</xul:vbox>		
+				</xul:vbox>
 				<xul:description xbl:inherits="hidden=hide-empty-msg">${trans:m.catalog.bo.doceditor.attr.no-attributes-msg,ucf}</xul:description>
 			</xul:vbox>
-		</content>		
+		</content>
 	</binding>
 </bindings>

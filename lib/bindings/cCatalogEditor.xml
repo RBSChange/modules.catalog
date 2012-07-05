@@ -24,7 +24,7 @@
 							this.appendChild(property);
 							property.setValue(values.href);
 						}
-					}		
+					}
 				]]></body>
 			</method>
 
@@ -151,7 +151,7 @@
 					{
 						this.mLoadingRequest = null;					
 						if (result.status === 'OK')
-						{	
+						{
 							this.cleanList()
 							var contents = result.contents;
 							for (var i = 0; i < contents.nodes.length; i++)
@@ -177,7 +177,7 @@
 					var row = document.createElement('row');
 					row.setAttribute('class', 'document');
 					row.setAttribute('documentId', jsnode.id);
-										
+					
 					var cell = row.appendChild(document.createElement('toolbar'));
 					cell.setAttribute('class', 'actions');
 					var checkbox = cell.appendChild(document.createElement('checkbox'));
@@ -333,8 +333,6 @@
 			</xul:vbox>
 		</content>
 	</binding>
-
-
 
 	<!-- Publication in shops dialog -->
 
@@ -518,7 +516,7 @@
 			
 			<method name="onSave">
 				<body><![CDATA[
-					this.showTextMessage('&modules.uixul.bo.doceditor.Update-in-progress;');
+					this.showTextMessage("${trans:m.uixul.bo.doceditor.update-in-progress,ucf,js}");
 					
 					var childrenOrder = this.getChildrenOrder();
 					
@@ -529,7 +527,7 @@
 						this.mData = result;
 						this.mDataOk = true;
 						this.loadData();
-						this.showTextMessage('&modules.catalog.bo.doceditor.Update-success;');
+						this.showTextMessage("${trans:m.catalog.bo.doceditor.update-success,ucf,js}");
 					}
 					else
 					{
@@ -598,7 +596,7 @@
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:cdocumentlist anonid="documentlist" flex="1" />
 					<xul:spacer flex="1" />
-				</xul:scrollbox>				
+				</xul:scrollbox>
 			</vbox>
 		</xbl:content>
 	</binding>
@@ -699,7 +697,7 @@
 						<label value="${trans:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
 						<vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
 							<image anonid="previewimage" src="{IconsBase}/small/document.png" />
-						</vbox>				
+						</vbox>
 					</vbox>
 				</hbox>
 				<hbox pack="end" align="center">

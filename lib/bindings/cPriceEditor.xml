@@ -15,7 +15,7 @@
 					<xul:menulist anonid="categorySelector" xbl:inherits="disabled,hidden=hideCategory" >
 						<xul:menupopup>
 						</xul:menupopup>
-					</xul:menulist>			
+					</xul:menulist>
 					<xul:label  />
 					<xul:toolbar>
 						<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" 
@@ -84,7 +84,7 @@
 					{
 						this.removeAttribute("modified");
 						this.dispatchFieldEvent('fieldRestored');						
-					}					
+					}
 					var errorMessage = this.checkRequired(fval);
 					this.setValidity(errorMessage);										
 					this.inititializeValue = false;
@@ -124,7 +124,7 @@
 			
 			<method name="checkFormat">
 				<parameter name="val" />
-				<body><![CDATA[						
+				<body><![CDATA[
 					var str = this.getValueForConstraintChecking(val);
 					if (str.length > 0 && !str.match(/^[\-+]?\d{0,8}([\.,]\d*)?$/))
 					{
@@ -139,7 +139,7 @@
 				<body><![CDATA[
 					return this.fixString(val).split(',')[0];
 				]]></body>
-			</method>								
+			</method>
 		</implementation>
 		
 		<handlers>
@@ -247,7 +247,7 @@
 			</method>
 		</implementation>
 		
-		<handlers>			
+		<handlers>
 			<handler event="fieldChanged"><![CDATA[
 				if (event.originalTarget.name == 'mType')
 				{
@@ -313,7 +313,7 @@
 						<xul:hbox>
 							<xul:spacer flex="1" />
 							<xul:label anonid="result-count" />
-						</xul:hbox>					
+						</xul:hbox>
 						<xul:cfield name="pricelist" anonid="field_pricelist" fieldtype="namedgridlist" flex="1" />
 					</xul:vbox>
 				</xul:scrollbox>
@@ -332,7 +332,7 @@
 				<getter><![CDATA[return false;]]></getter>
 				<setter><![CDATA[;]]></setter>
 			</property>
-						
+			
 			<method name="createNew">
 				<body><![CDATA[
 					//wCore.debug('cPricesList.createNew');
@@ -353,8 +353,8 @@
 				this.mInitialized = false;
 				this.documentEditor.executeServerAction('prices', 'Initialize');
 				]]></body>
-			</method>	
-					
+			</method>
+			
 			<method name="getInitializeParameters">
 				<body><![CDATA[
 					var parameters = {
@@ -398,7 +398,7 @@
 					return parameters;
 				]]></body>
 			</method>
-												
+			
 			<method name="fireInitializeComplete">
 				<parameter name="result" />
 				<body><![CDATA[
@@ -420,7 +420,7 @@
 						this.getElementByAnonId('price-filters-box').setAttribute('hidden', 'false');
 						this.getElementByAnonId('price-list-box').setAttribute('hidden', 'false');
 						this.getElementByAnonId('button-new').setAttribute('hidden', 'false');
-															
+						
 						var shops = result.contents.shops;
 						var billingAreaNode = this.fields.billingArea;
 						billingAreaNode.removeItems();
@@ -546,7 +546,7 @@
 					catch (e)
 					{
 						wCore.error("onCloseEditor", [], e);
-					}				
+					}
 				]]></body>
 			</method>
 		</implementation>
@@ -604,7 +604,7 @@
 				}
 				//node.setAttribute('value', "${trans:m.uixul.bo.general.search.firsthundred,ucf,js}" + " (" +"${trans:m.uixul.bo.general.search.totalsearchresultcount,lab,ucf,js}" + totalResultsCount + " )");			
 				event.stopPropagation();
-			]]></handler>			
+			]]></handler>
 		</handlers>
 	</binding>
 	
@@ -613,7 +613,7 @@
 			<constructor><![CDATA[
 				this.fireEvent('gridInitialised');
 			]]></constructor>
-						
+			
 			<method name="getPricePanel">
 				<body><![CDATA[
 					var pn = this.parentNode;
@@ -621,7 +621,7 @@
 					return pn;
 				]]></body>
 			</method>
-										
+			
 			<method name="execute_edit">
 				<parameter name="rowNode" />
 				<parameter name="rowData" />	
@@ -635,7 +635,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					if (confirm("&modules.catalog.bo.doceditor.panel.prices.Confirm-delete-price;"))
+					if (confirm("${trans:m.catalog.bo.doceditor.panel.prices.confirm-delete-price,ucf,js}"))
 					{
 						var me = this;
 						var callBack = function(result) { me.getPricePanel().refresh(); };
@@ -656,7 +656,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					if (confirm("&modules.catalog.bo.doceditor.panel.prices.Confirm-remove-discount;"))
+					if (confirm("${trans:m.catalog.bo.doceditor.panel.prices.confirm-remove-discount,ucf,js}"))
 					{
 						var me = this;
 						var callBack = function(result) {me.getPricePanel().refresh();};
@@ -696,7 +696,7 @@
 				<parameter name="cell" />
 				<parameter name="name" />
 				<parameter name="dataRow" />
-				<body><![CDATA[					
+				<body><![CDATA[
 					if (name == 'actionrow')
 					{
 						if (dataRow.allowDeletion)
@@ -782,7 +782,7 @@
 				<xul:label value="" />
 				<xul:label value="" />
 				<xul:cactioncell />
-			</xul:row>				
+			</xul:row>
 		</content>
 	</binding>
 	
@@ -853,7 +853,7 @@
 						{
 							this.setAttribute('editTTC', 'false');
 							this.setAttribute('editHT', 'true');
-						}						
+						}
 						this.setFieldInitialValueByAnonId('discountValue', contents.discountPriceValue);
 						this.mInitialized = true;
 						this.refreshErrorState();
@@ -1025,14 +1025,14 @@
 			
 			<method name="showWarningMessage">
 				<parameter name="text"/>
-				<body><![CDATA[					
+				<body><![CDATA[
 					if (this.messageBox) {this.messageBox.showMessage("warning", text);}
 				]]></body>
 			</method>
-									
+			
 			<method name="showTextMessage">
 				<parameter name="text"/>
-				<body><![CDATA[	
+				<body><![CDATA[
 					if (this.messageBox) {this.messageBox.showMessage("information", text);}				
 				]]></body>
 			</method>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="shipping" indexable="false" has-url="false" backoffice-indexable="false" use-publication-dates="true">
 	<properties>
-		<property name="shop" type="Document" inverse="true" min-occurs="1" document-type="modules_catalog/shop" />
-		<property name="mode" type="Document" min-occurs="1" document-type="modules_shipping/mode" />
+		<property name="shop" type="Document" inverse="true" document-type="modules_catalog/shop" required="true" />
+		<property name="mode" type="Document" document-type="modules_shipping/mode" required="true" />
 		<property name="query" type="LongString" />
 		<property name="valueWithoutTax" type="Double" default-value="0" />
 		<property name="selectbyproduct" type="Boolean" default-value="false" />
-		<property name="taxCategory" type="String" min-occurs="1" db-size="20" default-value="0" />
+		<property name="taxCategory" type="String" db-size="20" default-value="0" required="true" />
 		<property name="feesId" type="Integer" />
 		<property name="billingArea" type="Document" from-list="modules_catalog/billingareabyshop" document-type="modules_catalog/billingarea" />
 	</properties>

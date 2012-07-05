@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="productref" backoffice-indexable="false" indexable="true" use-rewrite-url="false">
 	<properties>
-		<property name="product" type="Document" min-occurs="1" inverse="true" document-type="modules_catalog/product" />
-		<property name="topicId" type="Integer" min-occurs="1" />
-		<property name="websiteId" type="Integer" min-occurs="1" />
-		<property name="shopId" type="Integer" min-occurs="1" />
-		<property name="topshelfId" type="Integer" min-occurs="1" />
-		<property name="shelfId" type="Integer" min-occurs="1" />
-		<property name="shelfIndex" type="Integer" min-occurs="1" />
+		<property name="product" type="Document" inverse="true" document-type="modules_catalog/product" required="true" />
+		<property name="topicId" type="Integer" required="true" />
+		<property name="websiteId" type="Integer" required="true" />
+		<property name="shopId" type="Integer" required="true" />
+		<property name="topshelfId" type="Integer" required="true" />
+		<property name="shelfId" type="Integer" required="true" />
+		<property name="shelfIndex" type="Integer" required="true" />
 		<property name="primary" type="Boolean" />
 		<property name="showInList" type="Boolean" default-value="true" />
 		<property name="publicationCode" type="Integer" default-value="0" />
 		<!-- Sorting properties -->
-		<property name="position" type="Integer" min-occurs="1" />
+		<property name="position" type="Integer" required="true" />
 		<property name="price" type="Double" preserve-old-value="true" indexed="property" />
 		<property name="discountLevel" type="Integer" indexed="property" />
 		<property name="ratingAverage" type="Double" indexed="property" />

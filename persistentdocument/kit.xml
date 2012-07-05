@@ -2,7 +2,7 @@
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" extend="modules_catalog/product" icon="kit">
 	<properties>
 		<property name="kititem" type="DocumentArray" cascade-delete="true" inverse="true" document-type="modules_catalog/kititem" />
-		<property name="codeReference" type="String" min-occurs="1" />
+		<property name="codeReference" type="String" required="true" />
 		<property name="pageTitle" type="LongString" localized="true" />
 		<property name="pageDescription" type="LongString" localized="true" />
 		<property name="pageKeywords" type="LongString" localized="true" />

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="currency-euro" backoffice-indexable="false" has-url="false">
 	<properties>
-		<property name="shopId" type="Integer" min-occurs="1" from-list="modules_catalog/shops" />
-		<property name="productId" type="Integer" min-occurs="1" />
-		<property name="thresholdMin" type="Integer" min-occurs="1" default-value="1">
+		<property name="shopId" type="Integer" from-list="modules_catalog/shops" required="true" />
+		<property name="productId" type="Integer" required="true" />
+		<property name="thresholdMin" type="Integer" default-value="1" required="true">
 			<constraint name="min" min="1" />
 		</property>
-		<property name="targetId" type="Integer" min-occurs="1" default-value="0" />
-		<property name="priority" type="Integer" min-occurs="1" default-value="25" />
+		<property name="targetId" type="Integer" default-value="0" required="true" />
+		<property name="priority" type="Integer" default-value="25" required="true" />
 		<property name="discountDetail" type="String" />
 		<property name="ecoTax" type="Double">
 			<constraint name="min" min="0" />
 		</property>
-		<property name="taxCategory" type="String" min-occurs="1" db-size="20" default-value="0" />
-		<property name="billingAreaId" type="Integer" min-occurs="1" />
-		<property name="value" type="Double" min-occurs="1">
+		<property name="taxCategory" type="String" db-size="20" default-value="0" required="true" />
+		<property name="billingAreaId" type="Integer" required="true" />
+		<property name="value" type="Double" required="true">
 			<constraint name="min" min="0" />
 		</property>
 		<property name="valueWithoutDiscount" type="Double">

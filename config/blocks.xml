@@ -58,7 +58,7 @@
 	<block type="modules_catalog_ProductDescription" icon="product" />
 	<block type="modules_catalog_standaloneproduct" hidden="true" dropModels="[modules_catalog/product],modules_catalog/declinedproduct">
 		<parameters>
-			<parameter name="shop" type="modules_catalog/shop" list-id="modules_catalog/shops" required="true" />
+			<parameter name="shop" type="Document" required="true" document-type="modules_catalog/shop" from-list="modules_catalog/shops" />
 			<parameter name="activatezoom" type="Boolean" default-value="true" />
 			<parameter name="showRating" type="Boolean" default-value="true" />
 			<parameter name="showAddToFavorite" type="Boolean" default-value="true" />
@@ -224,8 +224,8 @@
 	<block type="modules_catalog_productCrossSelling" icon="list-block" labeli18n="m.catalog.bo.blocks.productcrossselling.block-">
 		<parameters>
 			<parameter name="blockTitle" type="String" />
-			<parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" />
-			<parameter name="crossSellingType" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellingtypes" />
+			<parameter name="cmpref" type="Document" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" document-type="modules_catalog/product" />
+			<parameter name="crossSellingType" type="String" default-value="complementary" min-occurs="1" from-list="modules_catalog/crosssellingtypes" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
@@ -337,8 +337,8 @@
 	<block type="modules_catalog_productpromotion" icon="editable-animation" labeli18n="m.catalog.bo.blocks.productpromotion">
 		<parameters>
 			<parameter name="label" type="String" />
-			<parameter name="products" type="modules_catalog/product" allow="[modules_catalog_product]" max-occurs="-1" moduleselector="catalog" dialog="productselector" />
-			<parameter name="destinationpage" type="modules_website/page" />
+			<parameter name="products" type="DocumentArray" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" document-type="modules_catalog/product" />
+			<parameter name="destinationpage" type="Document" document-type="modules_website/page" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
@@ -389,7 +389,7 @@
 	<block type="modules_catalog_LastConsultedProducts" icon="dynamic-animation">
 		<parameters>
 			<parameter name="label" type="String" />
-			<parameter name="destinationpage" type="modules_website/page" />
+			<parameter name="destinationpage" type="Document" document-type="modules_website/page" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="false" />
@@ -483,7 +483,7 @@
 	<block type="modules_catalog_ProductComparison" icon="list-block">
 		<parameters>
 			<parameter name="restrictProductsToContext" type="Boolean" default-value="false" />
-			<parameter name="comparableProperties" type="modules_catalog/comparableproperty" moduleselector="catalog" rows="10" max-occurs="-1" />
+			<parameter name="comparableProperties" type="DocumentArray" moduleselector="catalog" rows="10" document-type="modules_catalog/comparableproperty" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showQuantitySelector" type="Boolean" default-value="true" />

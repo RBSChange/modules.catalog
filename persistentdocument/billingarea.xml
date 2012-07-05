@@ -2,12 +2,12 @@
 <document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="3.5" has-url="false" use-rewrite-url="false" icon="billingarea" use-publication-dates="false">
 	<properties>
 		<property name="codeReference" type="String" db-size="50" />
-		<property name="currency" type="Document" min-occurs="1" from-list="modules_catalog/currency" document-type="modules_catalog/currency" />
-		<property name="currencyPosition" type="String" min-occurs="1" localized="true" from-list="modules_catalog/currencyposition" default-value="right" />
-		<property name="defaultZone" type="String" db-size="20" from-list="modules_catalog/defaulttaxzones" min-occurs="1" />
+		<property name="currency" type="Document" from-list="modules_catalog/currency" document-type="modules_catalog/currency" required="true" />
+		<property name="currencyPosition" type="String" localized="true" from-list="modules_catalog/currencyposition" default-value="right" required="true" />
+		<property name="defaultZone" type="String" db-size="20" from-list="modules_catalog/defaulttaxzones" required="true" />
 		<property name="boEditWithTax" type="Boolean" default-value="false" />
 		<property name="storePriceWithTax" type="Boolean" default-value="false" />
-		<property name="billingAddressZone" type="Document" min-occurs="1" document-type="modules_zone/zone" />
+		<property name="billingAddressZone" type="Document" document-type="modules_zone/zone" required="true" />
 		<property name="zone" type="Document" document-type="modules_zone/zone" />
 	</properties>
 	<statuses default="ACTIVE" />
