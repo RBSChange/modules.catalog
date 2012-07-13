@@ -77,7 +77,7 @@
 						<del title="${trans:m.catalog.frontoffice.old-price,attr}">${defaultPrice/getFormattedOldValueWithoutTax}</del>
 					</tal:block>
 				</li>
-				<li tal:condition="defaultPrice/getFormattedEcoTax" class="small">
+				<li tal:condition="defaultPrice/getEcoTax" class="small">
 					${trans:m.catalog.frontoffice.labelecotaxe,ucf} ${trans:m.catalog.frontoffice.ecotaxe,ucf} ${defaultPrice/getFormattedEcoTax}
 				</li>
 			</ul>
