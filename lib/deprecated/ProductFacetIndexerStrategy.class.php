@@ -1,35 +1,29 @@
 <?php
 /**
- * @package modules.catalog
+ * @deprecated
  */
-interface catalog_ProductFacetIndexerStrategy
+interface catalog_ProductFacetIndexerStrategy extends catalog_FacetIndexerStrategy
 {
 	/**
-	 * @return indexer_Facet[]
+	 * @deprecated
 	 */
 	public function getFacets();
 	
 	/**
-	 * @param indexer_IndexedDocument $indexDocument
-	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
-	 * @return boolean
-	 */
-	public function populateIndexDocument($indexDocument, $compiledProduct);
-	
-	/**
-	 * @param indexer_FacetResult[] $facetResults
+	 * @deprecated
 	 */
 	public function setLabels($facetResults);
 	
 	/**
-	 * @param string $fieldName
-	 * @param string $value
-	 * @return string
+	 * @deprecated
 	 */
 	public function getLabelValue($fieldName, $value);
 	
 }
 
+/**
+ * @deprecated
+ */
 class catalog_ProductFacetIndexer
 {
 	/**
@@ -46,7 +40,6 @@ class catalog_ProductFacetIndexer
 	private function __construct()
 	{
 		$className = Framework::getConfiguration('modules/catalog/productFacetIndexerStrategyClass', false);
-		Framework::info(__METHOD__ . ' ' . $className);
 		if ($className !== false)
 		{
 			$this->strategy = new $className;
@@ -70,7 +63,7 @@ class catalog_ProductFacetIndexer
 	}
 	
 	/**
-	 * @return indexer_Facet[]
+	 * @deprecated
 	 */
 	public function getFacets()
 	{
@@ -82,9 +75,7 @@ class catalog_ProductFacetIndexer
 	}
 	
 	/**
-	 * @param indexer_IndexedDocument $indexDocument
-	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
-	 * @return boolean
+	 * @deprecated
 	 */
 	public function populateIndexDocument($indexDocument, $compiledProduct)
 	{
@@ -96,7 +87,7 @@ class catalog_ProductFacetIndexer
 	}
 	
 	/**
-	 * @param indexer_FacetResult[] $facetResults
+	 * @deprecated
 	 */
 	public function setLabels($facetResults)
 	{
@@ -107,9 +98,7 @@ class catalog_ProductFacetIndexer
 	}
 	
 	/**
-	 * @param string $fieldName
-	 * @param string $value
-	 * @return string
+	 * @deprecated
 	 */
 	public function getLabelValue($fieldName, $value)
 	{
@@ -121,7 +110,7 @@ class catalog_ProductFacetIndexer
 	}
 	
 	/**
-	 * @return void
+	 * @deprecated
 	 */
 	public static final function clearInstance()
 	{

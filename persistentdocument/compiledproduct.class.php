@@ -23,8 +23,10 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 					$indexDocument->setId($this->getId());
 					$indexDocument->setDocumentModel("modules_catalog/compiledproduct");	
 					$indexDocument->setDocumentAccessors($userIds);			
-					$this->getDocumentService()->indexFacets($this, $indexDocument);				
-					return $indexDocument;
+					if ($this->getDocumentService()->indexFacets($this, $indexDocument))
+					{
+						return $indexDocument;
+					}				
 				}
 			}
 		}

@@ -555,6 +555,12 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 	}
 	
+	
+	/**
+	 * @var catalog_FacetIndexerStrategy
+	 */
+	private $indexFacetsStrategy = false;
+	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
 	 * @param indexer_IndexedDocument $indexDocument
@@ -562,7 +568,33 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function indexFacets($compiledProduct, $indexDocument)
 	{
-		return catalog_ProductFacetIndexer::getInstance()->populateIndexDocument($indexDocument, $compiledProduct);
+		if ($this->indexFacetsStrategy === false)
+		{
+			$this->indexFacetsStrategy = null;
+			$className = Framework::getConfigurationValue('modules/catalog/productFacetIndexerStrategyClass', false);
+			if ($className !== false && class_exists($className))
+			{
+				$strategy = new $className();
+				if ($strategy instanceof catalog_FacetIndexerStrategy)
+				{
+					$this->indexFacetsStrategy = $strategy;
+				}
+			}
+		}
+		
+		if ($this->indexFacetsStrategy)
+		{
+			try
+			{
+				return $this->indexFacetsStrategy->populateIndexDocument($indexDocument, $compiledProduct);
+			} 
+			catch (Exception $e) 
+			{
+				Framework::exception($e);
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
