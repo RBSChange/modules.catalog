@@ -42,4 +42,5 @@
 	<key id="several-choices-available">plusieurs choix disponibles</key>
 	<key id="choice-when-add-to-cart">Le choix sera fait lors de l'ajout au panier.</key>
 	<key id="min-order-quantity">Quantité minimale d'achat : {quantity}</key>
+	<key id="linked-products">produits liés</key>
 </i18n>

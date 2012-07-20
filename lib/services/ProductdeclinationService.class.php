@@ -308,8 +308,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		parent::postInsert($document, $parentNodeId);
 	}	
 	
-	
-	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
 	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
@@ -318,6 +316,15 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	protected function preUpdate($document, $parentNodeId)
 	{
 		$this->populatesAxes($document);
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 */
+	protected function preDelete($document)
+	{
+		parent::preDelete($document);
+		catalog_CrossitemService::getInstance()->setNeedCompileByTargetOrLinkedDocument($document->getDeclinedproduct());
 	}
 
 	/**
@@ -428,6 +435,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			{
 				$axe->populateAxeValue($productDeclination);
 			}
+		}
+		if ($productDeclination->isPropertyModified('axe1') || $productDeclination->isPropertyModified('axe2') || $productDeclination->isPropertyModified('axe3'))
+		{
+			catalog_CrossitemService::getInstance()->setNeedCompileByTargetOrLinkedDocument($declinedProduct);
 		}
 	}
 	
@@ -666,8 +677,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		return $axeObject->getLabel();
 	}
 
-	/* (non-PHPdoc)
-	 * @see catalog_ProductService::getRatingAverage()
+	/**
+	 * @param catalog_persistentoducment_productdeclination $document
+	 * @param integer $websiteId
+	 * @return float|NULL
 	 */
 	public function getRatingAverage($document, $websiteId = null) 
 	{
@@ -675,6 +688,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		{
 			return comment_CommentService::getInstance()->getRatingAverageByTargetId($document->getDeclinedproduct()->getId(), $websiteId);
 		}
-		return null;			
+		return null;
 	}
 }

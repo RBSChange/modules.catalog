@@ -4,34 +4,29 @@
 	model-version="1.0" use-rewrite-url="false" has-url="true" icon="declinedproduct">
 	<properties>
 		<add name="codeReference" type="String" />
-
 		<add name="publicationstatus" localized="true" />
 		<add name="visual" type="modules_media/media" />
-		
 		<add name="additionnalVisual" type="modules_media/media" max-occurs="-1" />
 		<add name="pictogram" type="modules_media/media" max-occurs="-1" />
 		<add name="synchronizePrices" type="Boolean" default-value="true" />
-		
 		<add name="axe1" type="String" default-value="property::label" from-list="modules_catalog/axes" min-occurs="1"/>
 		<add name="axe2" type="String" from-list="modules_catalog/axes"/>
 		<add name="axe3" type="String" from-list="modules_catalog/axes"/>
 		<add name="showAxeInList" type="Integer" default-value="0" from-list="modules_catalog/axesinlist" min-occurs="1"/>
-				
-		
 		<add name="shelf" type="modules_catalog/shelf" max-occurs="-1" tree-node="true" inverse="true" />
 		<add name="brand" type="modules_brand/brand" inverse="true" />
-		<add name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
-		<add name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
-		<add name="upsell" type="modules_catalog/product" max-occurs="-1" />
-			
 		<add name="description" type="XHTMLFragment" localized="true" />
 		<add name="serializedattributes" type="Lob" />
 		<add name="shippingModeId" type="Integer" />
-		
 		<add name="pageTitle" type="LongString" localized="true" />
 		<add name="pageDescription" type="LongString" localized="true" />
 		<add name="pageKeywords" type="LongString" localized="true" />
-		
+		<!-- @deprecated use modules_catalog/crossitem documents -->
+		<add name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
+		<!-- @deprecated use modules_catalog/crossitem documents -->
+		<add name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
+		<!-- @deprecated use modules_catalog/crossitem documents -->
+		<add name="upsell" type="modules_catalog/product" max-occurs="-1" />
 	</properties>
 	<statuses default="ACTIVE" />
 	<serializedproperties>

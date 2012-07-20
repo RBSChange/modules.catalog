@@ -9,9 +9,6 @@
 		<add name="additionnalVisual" type="modules_media/media" max-occurs="-1"/>
     	<add name="shelf" type="modules_catalog/shelf" max-occurs="-1" tree-node="true" inverse="true" preserve-old-value="true" />
 		<add name="brand" type="modules_brand/brand" inverse="true" />
-		<add name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
-		<add name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
-		<add name="upsell" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
 		<add name="codeReference" type="String" db-size="50" />
 		<add name="articleId" type="Integer" />
 		<add name="serializedattributes" type="Lob" />
@@ -25,6 +22,12 @@
 		<add name="minOrderQuantity" type="Integer" default-value="1" min-occurs="1">
 			<constraints>min:1</constraints>
 		</add>
+		<!-- @deprecated use modules_catalog/crossitem documents -->
+		<add name="complementary" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
+		<!-- @deprecated use modules_catalog/crossitem documents -->
+		<add name="similar" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
+		<!-- @deprecated use modules_catalog/crossitem documents -->
+		<add name="upsell" type="modules_catalog/product" max-occurs="-1" preserve-old-value="true" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

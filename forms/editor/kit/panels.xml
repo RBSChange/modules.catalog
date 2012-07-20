@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
 <panels>
-  <panel name="resume"/>
-  <panel name="properties"/>
-  <panel name="kititems" icon="product" labeli18n="m.catalog.bo.doceditor.tab.kititems"/>
-  <panel name="localization"/>
-  <panel name="publication"/>
-  <panel name="redirect"/>
-  <panel name="history"/>
-  <panel name="create"/>
-  <xul>
-    <javascript>
-      <constructor><![CDATA[
+	<panel name="resume" />
+	<panel name="properties" />
+	<panel name="kititems" icon="product" labeli18n="m.catalog.bo.doceditor.tab.kititems" />
+	<panel name="crossitems" icon="cross-product" labeli18n="m.catalog.bo.doceditor.crossitems.tab-label" />
+	<panel name="localization" />
+	<panel name="publication" />
+	<panel name="redirect" />
+	<panel name="history" />
+	<panel name="create" />
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
 				if (getController().hasModule('comment'))
 				{
 					this.addTab('comments', '&modules.comment.bo.doceditor.tab.Comments;', 'comments');
@@ -20,6 +21,6 @@
 					this.addTab('tweets', "&modules.twitterconnect.bo.doceditor.tab.Tweets;", 'tweet');
 				}
 			]]></constructor>
-    </javascript>
-  </xul>
+		</javascript>
+	</xul>
 </panels>

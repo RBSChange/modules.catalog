@@ -11,48 +11,42 @@
 			</changecontent>	
 			<execute method="setPageRefAsIndex" />
 		</page>
-		
 		<page label="Fiche produit" navigationVisibility="hidden" indexingstatus="false" 
 			description="{catalog_product.description}" keywords="{catalog_product.coderef}" metatitle="{catalog_product.title}"
 			template-attr="templateNosidebar" byTag="functional_catalog_product-detail">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_product" />
 				<changeblock type="modules_catalog_ProductDescription" />
-				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="complementary" />
-				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="similar" />
-				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="upsell" />
+				<changeblock type="modules_catalog_CrossSelling" __linkType="complementary" />
+				<changeblock type="modules_catalog_CrossSelling" __linkType="similar" />
+				<changeblock type="modules_catalog_CrossSelling" __linkType="upsell" />
 				<changeblock type="modules_catalog_bundleListByProduct" />
 				<changeblock type="modules_catalog_comments" />
 			</changecontent>
 		</page>
-		
 		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" 
 			template-attr="templatePopin" byTag="functional_catalog_configurate-kit">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ConfigurateKit" />
 			</changecontent>
 		</page>
-		
 		<page label="Popin produit" navigationVisibility="hidden" indexingstatus="false" 
 			template-attr="templatePopin" byTag="functional_catalog_product-popin">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductPopin" />
 			</changecontent>
 		</page>
-		
 		<page label="Liste des produits associés" navigationVisibility="hidden" byTag="functional_catalog_crosssellinglist-page">
 			<changecontent for="content-block">
-				<changeblock type="modules_catalog_productCrossSellingList" />
+				<changeblock type="modules_catalog_CrossSellingList" />
 			</changecontent>
 		</page>
-		
 		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar"
 			byTag="functional_catalog_productlist-comparison">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ProductComparison" />
 			</changecontent>
 		</page>
-		
 		<page label="Mes produits favoris" indexingstatus="false"
 			byTag="contextual_website_website_modules_catalog_favorite-product-list">
 			<changecontent for="content-block">

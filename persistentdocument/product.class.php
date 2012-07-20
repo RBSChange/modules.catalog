@@ -471,16 +471,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param String $type from list 'modules_catalog/crosssellingtypes'
-	 * @return integer[]
-	 */
-	public function getDisplayableCrossSellingIds($shop, $type = 'complementary')
-	{
-		return $this->getDocumentService()->getDisplayableCrossSellingIds($this, $shop, $type);
-	}
-	
-	/**
 	 * @return String
 	 */
 	public function getDetailBlockName()
@@ -914,5 +904,13 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	{
 		$cms = catalog_ModuleService::getInstance();
 		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
+	}
+	
+	/**
+	 * @deprecated use catalog_CompiledcrossitemService::getDisplayableLinkedIds()
+	 */
+	public function getDisplayableCrossSellingIds($shop, $type = 'complementary')
+	{
+		return $this->getDocumentService()->getDisplayableCrossSellingIds($this, $shop, $type);
 	}
 }

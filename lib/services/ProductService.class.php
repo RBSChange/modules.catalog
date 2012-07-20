@@ -178,27 +178,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			return comment_CommentService::getInstance()->getRatingAverageByTargetId($document->getId(), $websiteId);
 		}
 		return null;
-	}	
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param String $type from list 'modules_catalog/crosssellingtypes'
-	 * @return catalog_persistentdocument_product[]
-	 */
-	public function getDisplayableCrossSellingIds($document, $shop, $type = 'complementary')
-	{
-		$methodName = 'getPublished'.ucfirst($type).'Array';
-		if (!f_util_ClassUtils::methodExists($document, $methodName))
-		{
-			throw new Exception('Bad method name: '.$methodName);
-		}
-		$productIds = array();
-		foreach ($document->{$methodName}() as $product)
-		{
-			$productIds[] = $product->getId();
-		}
-		return $this->filterIdsForDisplay($productIds, $shop);
 	}
 	
 	/**
@@ -1572,5 +1551,23 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 		}
 		return $displayableProducts;
+	}	
+	
+	/**
+	 * @deprecated use catalog_CompiledcrossitemService::getDisplayableLinkedIds()
+	 */
+	public function getDisplayableCrossSellingIds($document, $shop, $type = 'complementary')
+	{
+		$methodName = 'getPublished'.ucfirst($type).'Array';
+		if (!f_util_ClassUtils::methodExists($document, $methodName))
+		{
+			throw new Exception('Bad method name: '.$methodName);
+		}
+		$productIds = array();
+		foreach ($document->{$methodName}() as $product)
+		{
+			$productIds[] = $product->getId();
+		}
+		return $this->filterIdsForDisplay($productIds, $shop);
 	}
 }

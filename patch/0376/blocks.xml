@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<blocks>
+	<block type="modules_catalog_productCrossSelling" hidden="false" />
+	<block type="modules_catalog_productCrossSellingList" hidden="false" />
+</blocks>

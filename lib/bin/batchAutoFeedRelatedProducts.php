@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated
+ */
 if (!defined("WEBEDIT_HOME"))
 {
 	define("WEBEDIT_HOME", realpath('.'));

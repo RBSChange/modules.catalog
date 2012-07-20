@@ -1,13 +1,11 @@
 <?php
 /**
- * catalog_BlockProductCrossSellingListAction
- * @package modules.catalog
+ * @deprecated use catalog_BlockCrossSellingListAction
  */
 class catalog_BlockProductCrossSellingListAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @param f_mvc_Response $response
-	 * @return integer[]
+	 * @deprecated
 	 */
 	protected function getProductIdArray($request)
 	{
@@ -21,7 +19,7 @@ class catalog_BlockProductCrossSellingListAction extends catalog_BlockProductlis
 	}
 	
 	/**
-	 * @return string
+	 * @deprecated
 	 */
 	protected function getBlockTitle()
 	{

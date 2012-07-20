@@ -1,13 +1,11 @@
 <?php
 /**
- * catalog_BlockProductCrossSellingAction
- * @package modules.catalog
+ * @deprecated use catalog_BlockCrossSellingAction
  */
 class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @param f_mvc_Response $response
-	 * @return integer[]
+	 * @deprecated
 	 */
 	protected function getProductIdArray($request)
 	{
@@ -24,7 +22,7 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	}
 	
 	/**
-	 * @return boolean
+	 * @deprecated
 	 */
 	protected function getShowIfNoProduct()
 	{
@@ -32,7 +30,7 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	}
 	
 	/**
-	 * @return string
+	 * @deprecated
 	 */
 	protected function getBlockTitle()
 	{
@@ -45,7 +43,7 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	}
 	
 	/**
-	 * @return string[]|null the array should contain the following keys: 'url', 'label'
+	 * @deprecated
 	 */
 	protected function getFullListLink()
 	{
@@ -63,7 +61,7 @@ class catalog_BlockProductCrossSellingAction extends catalog_BlockProductlistBas
 	}
 	
 	/**
-	 * @return string
+	 * @deprecated
 	 */
 	private function getTypeLabel()
 	{

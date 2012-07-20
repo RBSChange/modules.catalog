@@ -4,18 +4,9 @@
 	<binding fileName="modules/notification/persistentdocument/import/notification_binding.xml" />
 	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
 	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<binding fileName="modules/task/persistentdocument/import/task_binding.xml" />
 
 	<systemfolder module="list" relatedmodule="catalog">
-		<staticlist listid="modules_catalog/pricesorting" label="&amp;modules.catalog.list.pricesorting;"
-			description="&amp;modules.catalog.list.pricesorting-description;">			
-			<staticitem value="10" label="&amp;modules.catalog.frontoffice.priceRange10;" />
-			<staticitem value="50" label="&amp;modules.catalog.frontoffice.priceRange50;" />
-			<staticitem value="100" label="&amp;modules.catalog.frontoffice.priceRange100;" />
-			<staticitem value="200" label="&amp;modules.catalog.frontoffice.priceRange200;" />
-			<staticitem value="500" label="&amp;modules.catalog.frontoffice.priceRange500;" />
-			<staticitem value="501" label="&amp;modules.catalog.frontoffice.priceRangeMore;" />
-		</staticlist>
-		
 		<staticlist listid="modules_catalog/discounttypes" label="&amp;modules.catalog.bo.general.Discount-types-list;"
 			description="&amp;modules.catalog.bo.general.Discount-types-list-description;">			
 			<staticitem value="price" label="&amp;modules.catalog.bo.general.Discount-types-price;" />
@@ -33,20 +24,6 @@
 			description="&amp;modules.catalog.bo.general.Currency-position-list-description;">			
 			<staticitem value="left" label="&amp;modules.catalog.bo.general.Currency-position-left;" />
 			<staticitem value="right" label="&amp;modules.catalog.bo.general.Currency-position-right;" />
-		</staticlist>
-		
-		<staticlist listid="modules_catalog/weightunits" label="&amp;modules.catalog.bo.general.Weight-units-list-label;"
-			description="&amp;modules.catalog.bo.general.Weight-units-list-desc;">			
-			<staticitem value="mg" label="&amp;modules.catalog.frontoffice.weight-unit-mg-label;" />
-			<staticitem value="g" label="&amp;modules.catalog.frontoffice.weight-unit-g-label;" />
-			<staticitem value="kg" label="&amp;modules.catalog.frontoffice.weight-unit-kg-label;" />
-		</staticlist>
-		
-		<staticlist listid="modules_catalog/crosssellingtypes" label="&amp;modules.catalog.bo.lists.cross-selling-types.label;"
-			description="&amp;modules.catalog.bo.lists.cross-selling-types.description;">			
-			<staticitem value="complementary" label="&amp;modules.catalog.bo.lists.cross-selling-types.Complementary;" />
-			<staticitem value="upsell" label="&amp;modules.catalog.bo.lists.cross-selling-types.Upsell;" />
-			<staticitem value="similar" label="&amp;modules.catalog.bo.lists.cross-selling-types.Similar;" />
 		</staticlist>
 		
 		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.bo.lists.discountornot.Label;">
@@ -81,7 +58,29 @@
 			<valueditem value="48H" label="48H" />
 			<valueditem value="72H" label="72H" />
 		</valuededitablelist>
+				
+		<valuededitablelist listid="modules_catalog/crosssellinglinktypes" label="m.catalog.lists.cross-selling-link-types-label">			
+			<valueditem byValue="complementary" label="Produits complémentaires" />
+			<valueditem byValue="upsell" label="Produits de gamme supérieure" />
+			<valueditem byValue="similar" label="Produits similaires" />
+		</valuededitablelist>
 		
+		<!-- @deprecated used by old cross selling implementation only. Prefer modules_catalog/crosssellinglinktypes -->
+		<staticlist listid="modules_catalog/crosssellingtypes" label="&amp;modules.catalog.bo.lists.cross-selling-types.label;"
+			description="&amp;modules.catalog.bo.lists.cross-selling-types.description;">			
+			<staticitem value="complementary" label="&amp;modules.catalog.bo.lists.cross-selling-types.Complementary;" />
+			<staticitem value="upsell" label="&amp;modules.catalog.bo.lists.cross-selling-types.Upsell;" />
+			<staticitem value="similar" label="&amp;modules.catalog.bo.lists.cross-selling-types.Similar;" />
+		</staticlist>
+		
+		<!-- @deprecated not used any more -->
+		<staticlist listid="modules_catalog/crosssellingsortby" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.label;"
+			description="&amp;modules.catalog.bo.lists.cross-selling-sortby.description;">			
+			<staticitem value="fieldorder" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Fieldorder;" />
+			<staticitem value="random" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Random;" />
+		</staticlist>
+		
+		<!-- @deprecated not used any more -->
 		<staticlist listid="modules_catalog/searchdisplaymodes" label="&amp;modules.catalog.bo.general.Search-modes-list-label;"
 			description="&amp;modules.catalog.bo.general.Search-modes-list-desc;">			
 			<staticitem value="all" label="&amp;modules.catalog.frontoffice.Search-all;" />
@@ -89,26 +88,42 @@
 			<staticitem value="others" label="&amp;modules.catalog.frontoffice.Search-others;" />
 		</staticlist>
 		
+		<!-- @deprecated not used any more -->
 		<staticlist listid="modules_catalog/displaymode" label="&amp;modules.catalog.frontoffice.List-displaymode;">
 			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
 			<staticitem value="table" label="&amp;modules.catalog.frontoffice.List-table;" />
 		</staticlist>
-				
-		<staticlist listid="modules_catalog/crosssellingsortby" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.label;"
-			description="&amp;modules.catalog.bo.lists.cross-selling-sortby.description;">			
-			<staticitem value="fieldorder" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Fieldorder;" />
-			<staticitem value="random" label="&amp;modules.catalog.bo.lists.cross-selling-sortby.Random;" />
-		</staticlist>
 		
+		<!-- @deprecated not used any more -->
 		<staticlist listid="modules_catalog/productpromotion" label="&amp;modules.catalog.frontoffice.Productpromotion-displaymode;">
 			<staticitem value="random" label="&amp;modules.catalog.frontoffice.Productpromotion-random;" />
 			<staticitem value="list" label="&amp;modules.catalog.frontoffice.List-list;" />
 		</staticlist>
 		
+		<!-- @deprecated not used any more -->
 		<staticlist listid="modules_catalog/lastconsultedproducts" label="&amp;modules.catalog.list.Lastconsultedproducts-label;">
 			<staticitem value="compact" label="&amp;modules.catalog.list.Lastconsultedproducts-compact;" />
 			<staticitem value="random" label="&amp;modules.catalog.list.Lastconsultedproducts-random;" />
 			<staticitem value="list" label="&amp;modules.catalog.list.Lastconsultedproducts-list;" />
+		</staticlist>
+		
+		<!-- @deprecated used only in compatibilityos -->
+		<staticlist listid="modules_catalog/weightunits" label="&amp;modules.catalog.bo.general.Weight-units-list-label;"
+			description="&amp;modules.catalog.bo.general.Weight-units-list-desc;">			
+			<staticitem value="mg" label="&amp;modules.catalog.frontoffice.weight-unit-mg-label;" />
+			<staticitem value="g" label="&amp;modules.catalog.frontoffice.weight-unit-g-label;" />
+			<staticitem value="kg" label="&amp;modules.catalog.frontoffice.weight-unit-kg-label;" />
+		</staticlist>
+		
+		<!-- @deprecated not used any more -->
+		<staticlist listid="modules_catalog/pricesorting" label="&amp;modules.catalog.list.pricesorting;"
+			description="&amp;modules.catalog.list.pricesorting-description;">			
+			<staticitem value="10" label="&amp;modules.catalog.frontoffice.priceRange10;" />
+			<staticitem value="50" label="&amp;modules.catalog.frontoffice.priceRange50;" />
+			<staticitem value="100" label="&amp;modules.catalog.frontoffice.priceRange100;" />
+			<staticitem value="200" label="&amp;modules.catalog.frontoffice.priceRange200;" />
+			<staticitem value="500" label="&amp;modules.catalog.frontoffice.priceRange500;" />
+			<staticitem value="501" label="&amp;modules.catalog.frontoffice.priceRangeMore;" />
 		</staticlist>
 	</systemfolder>
 		
@@ -171,4 +186,9 @@
 		<noshelfproductfolder byLabel="m.catalog.document.noshelfproductfolder.document-name" />
 		<billingareafolder byLabel="m.catalog.document.billingareafolder.document-name" />
 	</rootfolder>
+	
+	<systemfolder module="task" relatedmodule="catalog">
+		<plannedtask label="m.catalog.bo.tasks.background-crossitems-compile" bySystemtaskclassname="catalog_BackgroundCrossitemsCompileTask" />
+		<plannedtask label="m.catalog.bo.tasks.background-crossitems-generation" bySystemtaskclassname="catalog_BackgroundCrossitemsGenerationTask" />
+	</systemfolder>
 </script>

@@ -248,6 +248,14 @@
 				<contextaction name="duplicate" />
 			</contextactions>
 		</model>
+		<model name="modules_catalog/productdeclination">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
+			</contextactions>
+		</model>
 		<model name="modules_catalog/productqueryfolder">
 			<children>
 				<child model="modules_catalog/simpleproduct" from="function" />
@@ -288,6 +296,14 @@
 			<contextactions>
 				<contextaction name="edit" />
 				<contextaction name="delete" />
+			</contextactions>
+		</model>
+		<model name="modules_catalog/crossitem">
+			<contextactions>
+				<contextaction name="edit" />
+				<contextaction name="delete" />
+				<contextaction name="deactivated" />
+				<contextaction name="reactivate" />
 			</contextactions>
 		</model>
 	</models>

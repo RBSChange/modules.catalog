@@ -5,12 +5,6 @@ cdocumenteditor row.discountHelper,
 wdialog[template="addDiscountOnPrice"] row.discountHelper{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cDiscountHelper);
 }
-
-/*
-cdocumenteditor cpricespanel{
-	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesPanel);
-}
-*/
 gridlist.pricelist{
 	-moz-binding: url(binding:modules.catalog.cPriceEditor#cPricesList);
 }
@@ -66,7 +60,6 @@ cdocumenteditor#edt_catalog_kit cfield[fieldtype="attributeslist"]
 	-moz-binding: url(binding:modules.catalog.cAttributes#cAttributes);
 }
 
-
 wdialog[template="publicationInShopsDialog"]{
 	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cPublicationInShopsDialog);
 }
@@ -86,4 +79,20 @@ wdialog[template="productselector"]{
 
 gridlist.stockQttJSON{
 	-moz-binding: url(binding:modules.catalog.cStockEditor#cStockQttGrid);
+}
+
+cdocumenteditor ccrossitemslist{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cCrossitemsList);
+}
+wdialog[template="catalog_sortLinkedProducts"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cSortLinkedProductsDialog);
+}
+wdialog[template="catalog_sortLinkedProducts"] cdocumentlist{
+	-moz-binding: url(binding:widgets.cOrderChildrenDialog#cDocumentList);
+}
+wdialog[template="catalog_addCrossitems"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cAddCrossitemsDialog);
+}
+wdialog[template="catalog_addSuggestedCrossitems"]{
+	-moz-binding: url(binding:modules.catalog.cCatalogEditor#cCrossitemSuggestionsDialog);
 }

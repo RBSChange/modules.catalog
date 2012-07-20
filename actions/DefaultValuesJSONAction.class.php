@@ -3,10 +3,11 @@ class catalog_DefaultValuesJSONAction extends generic_DefaultValuesJSONAction
 {
 	/**
 	 * @param f_persistentdocument_PersistentDocument $document
-	 * @param String[]
-	 * @return Array
+	 * @param string[] $allowedProperties
+	 * @param integer $parentId
+	 * @return array
 	 */
-	protected function exportFieldsData($document, $allowedProperties)
+	protected function exportFieldsData($document, $allowedProperties, $parentId = null)
 	{
 		if ($document instanceof catalog_persistentdocument_price)
 		{
@@ -37,6 +38,6 @@ class catalog_DefaultValuesJSONAction extends generic_DefaultValuesJSONAction
 				$document->setTargetId($targetId);
 			}
 		}
-		return parent::exportFieldsData($document, $allowedProperties);
+		return parent::exportFieldsData($document, $allowedProperties, $parentId);
 	}
 }

@@ -1,8 +1,11 @@
 <?php
+/**
+ * @deprecated
+ */
 class catalog_AutoFeedRelatedProductsTask extends task_SimpleSystemTask
 {
 	/**
-	 * @see task_SimpleSystemTask::execute()
+	 * @deprecated
 	 */
 	protected function execute()
 	{
@@ -45,6 +48,9 @@ class catalog_AutoFeedRelatedProductsTask extends task_SimpleSystemTask
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private function reSchedule()
 	{
 		$date = date_Calendar::getInstance();

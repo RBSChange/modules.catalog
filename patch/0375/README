@@ -1,0 +1,7 @@
+Version: 3.6.2
+
+New cross selling implementation:
+- import new "modules_catalog/crosssellinglinktypes" list
+- generate database for new documents
+- add new crossitems compilation task
+- add new crossitems generation task

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<binding fileName="modules/notification/persistentdocument/import/notification_binding.xml" />
+	<binding fileName="modules/media/persistentdocument/import/media_binding.xml" />
+	<binding fileName="modules/catalog/persistentdocument/import/catalog_binding.xml" />
+	<binding fileName="modules/task/persistentdocument/import/task_binding.xml" />
+
+	<systemfolder module="list" relatedmodule="catalog">
+		<valuededitablelist listid="modules_catalog/crosssellinglinktypes" label="m.catalog.lists.cross-selling-link-types-label">			
+			<valueditem byValue="complementary" label="Produits complémentaires" />
+			<valueditem byValue="upsell" label="Produits de gamme supérieure" />
+			<valueditem byValue="similar" label="Produits similaires" />
+		</valuededitablelist>
+	</systemfolder>
+	
+	<systemfolder module="task" relatedmodule="catalog">
+		<plannedtask label="m.catalog.bo.tasks.background-crossitems-compile" bySystemtaskclassname="catalog_BackgroundCrossitemsCompileTask" />
+		<plannedtask label="m.catalog.bo.tasks.background-crossitems-generation" bySystemtaskclassname="catalog_BackgroundCrossitemsGenerationTask" />
+	</systemfolder>
+</script>

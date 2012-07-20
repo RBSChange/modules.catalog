@@ -80,7 +80,6 @@ treechildren::-moz-tree-image(modules_catalog_currency){
 	list-style-image: url(/changeicons/small/document.png);
 }
 
-
 wdialog[template="orderProductsInShelf"] .dialog-header{
 	background: url(/changeicons/small/sort.png) transparent center  left no-repeat!important;
 }
@@ -95,4 +94,20 @@ treechildren::-moz-tree-image(modules_catalog_billingarea){
 }
 treechildren::-moz-tree-image(modules_catalog_billingareafolder){
 	list-style-image: url(/changeicons/small/folder.png);
+}
+treechildren::-moz-tree-image(modules_catalog_crossitem){
+	list-style-image: url(/changeicons/small/cross-product.png);
+}
+treechildren::-moz-tree-image(modules_catalog_compiledcrossitem){
+	list-style-image: url(/changeicons/small/document.png);
+}
+
+wdialog[template="catalog_sortLinkedProducts"] .dialog-header{
+	background: url(/changeicons/small/sort.png) transparent center  left no-repeat!important;
+}
+wdialog[template="catalog_addCrossitems"] .dialog-header{
+	background: url(/changeicons/small/add.png) transparent center  left no-repeat!important;
+}
+wdialog[template="catalog_addSuggestedCrossitems"] .dialog-header{
+	background: url(/changeicons/small/wand.png) transparent center  left no-repeat!important;
 }

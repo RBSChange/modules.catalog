@@ -83,4 +83,9 @@
   <actiondef modulename="catalog" actionname="delete.billingarea" label="m.catalog.bo.useractionlogger.delete-billingarea"/>
   <actiondef modulename="catalog" actionname="deactivated.tax" label="m.catalog.bo.useractionlogger.deactivated-tax"/>
   <actiondef modulename="catalog" actionname="reactivate.tax" label="m.catalog.bo.useractionlogger.reactivate-tax"/>
+  <actiondef modulename="catalog" actionname="insert.crossitem" label="m.catalog.bo.useractionlogger.insert-crossitem"/>
+  <actiondef modulename="catalog" actionname="delete.crossitem" label="m.catalog.bo.useractionlogger.delete-crossitem"/>
+  <actiondef modulename="catalog" actionname="update.crossitem" label="m.catalog.bo.useractionlogger.update-crossitem"/>
+  <actiondef modulename="catalog" actionname="deactivated.crossitem" label="m.catalog.bo.useractionlogger.deactivated-crossitem"/>
+  <actiondef modulename="catalog" actionname="reactivate.crossitem" label="m.catalog.bo.useractionlogger.reactivate-crossitem"/>
 </script>

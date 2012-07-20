@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.crossitem" lcid="fr_FR">
+	<include id="m.generic.document.document" />
+	<key id="document-name">liaison entre produits</key>
+	<key id="targetdocument">produit cible</key>
+	<key id="targetaxe1value">valeur d'axe 1 de la cible</key>
+	<key id="targetaxe2value">valeur d'axe 2 de la cible</key>
+	<key id="targetaxe3value">valeur d'axe 3 de la cible</key>
+	<key id="linkeddocument">produit lié</key>
+	<key id="linkedaxe1value">valeur d'axe 1 du produit lié</key>
+	<key id="linkedaxe2value">valeur d'axe 2 du produit lié</key>
+	<key id="linkedaxe3value">valeur d'axe 3 du produit lié</key>
+	<key id="linktype">type de liaison</key>
+	<key id="symetrical">liaison symétrique</key>
+	<key id="compiled">à jour sur le site</key>
+</i18n>

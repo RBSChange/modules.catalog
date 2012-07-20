@@ -34,6 +34,8 @@
 		<document name="comparablepropertyfolder" />
 		<document name="billingarea" />
 		<document name="billingareafolder" />
+		<document name="crossitem" />
+		<document name="compiledcrossitem" />
 	</actions>
 	<roles>
 		<role name="Admin">

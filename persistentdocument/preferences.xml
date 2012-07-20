@@ -8,20 +8,29 @@
 		<add name="defaultListVisual" type="modules_media/media" min-occurs="1" />
 		<add name="stockAlertThreshold" type="Double" default-value="0" />
 		<add name="stockAlertNotificationUser" type="modules_users/backenduser" max-occurs="-1" />
+		<!-- deprecated property -->
 		<add name="synchronizeComplementary" type="Boolean" default-value="true" />
+		<!-- deprecated property -->
 		<add name="synchronizeSimilar" type="Boolean" default-value="true" />
+		<!-- deprecated property -->
 		<add name="suggestComplementaryFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<!-- deprecated property -->
 		<add name="suggestSimilarFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<!-- deprecated property -->
 		<add name="suggestUpsellFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
+		<!-- deprecated property -->
 		<add name="autoFeedComplementaryMaxCount" type="Integer">
 			<constraints>min:0</constraints>
 		</add>
+		<!-- deprecated property -->
 		<add name="autoFeedSimilarMaxCount" type="Integer">
 			<constraints>min:0</constraints>
 		</add>
+		<!-- deprecated property -->
 		<add name="autoFeedUpsellMaxCount" type="Integer">
 			<constraints>min:0</constraints>
 		</add>
+		<!-- deprecated property -->
 		<add name="autoFeedDelay" type="String" min-occurs="1" default-value="1d">
 			<constraints>min:1</constraints>
 		</add>

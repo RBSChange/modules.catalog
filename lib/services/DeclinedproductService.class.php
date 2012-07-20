@@ -317,7 +317,10 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			}
 		}
 	}
-
+	
+	/**
+	 * @return string[]
+	 */
 	public function getSynchronizedPropertiesName()
 	{
 		return array('shelf', 'brand', 'upsell', 'similar', 'complementary',
@@ -325,6 +328,9 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			'pageTitle', 'pageDescription', 'pageKeywords');
 	}
 	
+	/**
+	 * @return string[]
+	 */
 	public function getAxeManagmentPropertiesName()
 	{
 		return array('axe1', 'axe2', 'axe3', 'showAxeInList'); 

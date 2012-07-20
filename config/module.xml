@@ -13,8 +13,21 @@
 			<entry name="1">catalog_SameShelvesProductFeeder</entry>
 			<entry name="2">catalog_SameBrandProductFeeder</entry>
 		</modulesCatalogProductSuggestionFeeder>
+		
 		<!-- Product compilation. -->
 		<entry name="compilationChunkSize">100</entry>
+		
+		<!-- Cross selling. -->
+		<entry name="crossitemsCompilationChunkSize">100</entry>
+		<entry name="crossitemsGenerationChunkSize">25</entry>
+		<entry name="crossitemsGenerationDelay">1d</entry>
+		<!-- <crossitemsGeneration>
+			<complementary>
+				<entry name="maxCount">3</entry>
+				<entry name="feederClass">catalog_SameShelvesProductFeeder</entry>
+			</complementary>
+		</crossitemsGeneration> -->
+		
 		<!-- Favorite and consulted product list handling. -->
 		<entry name="productListFavoriteClass">catalog_SessionProductList</entry>
 		<entry name="productListFavoritePersist">true</entry>

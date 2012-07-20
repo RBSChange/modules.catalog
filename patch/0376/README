@@ -1,0 +1,5 @@
+Version: 3.6.2
+
+/!\ APPLY THIS PATCH ONLY if your project continue to use the old implementation. Else, execute patch catalog 0377.
+
+This patch restores the interface for old cross selling inmplementation (fiels in product editors, old blocks).

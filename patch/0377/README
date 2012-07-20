@@ -1,0 +1,10 @@
+Version: 3.6.2
+
+/!\ APPLY THIS PATCH ONLY if you don't use the old imprementation any more. Else, execute patch catalog 0377.
+
+This patch :
+- deactivated automatic feeding of complementary, similar and upsell properties properties in preferences
+- migrates the data in complementary, similar and upsell properties of product and declinedproduct fields to modules_catalog/crossitem documents
+- deletes the old catalog_AutoFeedRelatedProductsTask planned task
+
+This patch DON'T replace blocks in pages. You will need to do it manually.

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/static/schema/change-document/3.5.xsd"
+	model-version="3.5" has-url="false" use-rewrite-url="false" backoffice-indexable="false" publish-on-day-change="false">
+	<properties>
+		<add name="generatorId" type="Integer" min-occurs="1" />
+		<add name="targetId" type="Integer" min-occurs="1" />
+		<add name="linkedId" type="Integer" min-occurs="1" />
+		<add name="linkType" type="String" from-list="modules_catalog/crosssellinglinktypes" min-occurs="1" />
+		<add name="position" type="Integer" min-occurs="1" />
+	</properties>
+	<statuses default="ACTIVE" />
+</document>
