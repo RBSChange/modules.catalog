@@ -380,19 +380,28 @@ class catalog_StockService extends BaseService
 	 */	
 	public function updateStockInfo($document, $propertiesValue)
 	{
-		if ($document instanceof catalog_persistentdocument_product && isset($propertiesValue['stockQttJSON']))
+		if ($document instanceof catalog_persistentdocument_product)
 		{
-			$infos = JsonService::getInstance()->decode($propertiesValue['stockQttJSON']);
-			if (is_array($infos))
+			if ($document->isPropertyModified('codeSKU'))
 			{
-				$stockQuantity = $infos[0]['stockQuantity'];
-				$stockQuantity =  ($stockQuantity === '' || $stockQuantity === '-1') ? null : intval($stockQuantity);
-				$document->setStockQuantity($stockQuantity);
-				
-				$stockAlertThreshold = $infos[0]['stockAlertThreshold'];
-				$stockAlertThreshold =  ($stockQuantity === null || $stockAlertThreshold === '' || $stockAlertThreshold === '-1') ? null : intval($stockAlertThreshold);
-				$document->setStockAlertThreshold($stockAlertThreshold);
+				$document->setModificationdate(null);
 				$document->save();
+			}
+			
+			if (isset($propertiesValue['stockQttJSON']))
+			{
+				$infos = JsonService::getInstance()->decode($propertiesValue['stockQttJSON']);
+				if (is_array($infos))
+				{
+					$stockQuantity = $infos[0]['stockQuantity'];
+					$stockQuantity =  ($stockQuantity === '' || $stockQuantity === '-1') ? null : intval($stockQuantity);
+					$document->setStockQuantity($stockQuantity);
+					
+					$stockAlertThreshold = $infos[0]['stockAlertThreshold'];
+					$stockAlertThreshold =  ($stockQuantity === null || $stockAlertThreshold === '' || $stockAlertThreshold === '-1') ? null : intval($stockAlertThreshold);
+					$document->setStockAlertThreshold($stockAlertThreshold);
+					$document->save();
+				}
 			}
 		} 
 	}
