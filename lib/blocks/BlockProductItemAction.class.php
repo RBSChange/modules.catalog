@@ -12,9 +12,16 @@ class catalog_BlockProductItemAction extends website_BlockAction
 	public function getCacheKeyParameters($request)
 	{
 		$displayConfig = $request->getParameter('displayConfig');
+		$shop = $this->findParameterValue('shop');
+		$shopId =  $ba = 0;
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$shopId = $shop->getId();
+			$ba = $shop->getCurrentBillingArea()->getId();
+		}
 		$keys = array('displayConfig' => $displayConfig,
 			'productid' => $this->getDocumentIdParameter(),
-			'shopId' => $this->findParameterValue('shop')->getId(),
+			'shopId' => $shopId, 'ba' => $ba,
 			'displayMode' => $request->getParameter('displayMode', 'list'));
 		
 		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
