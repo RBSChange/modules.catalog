@@ -182,11 +182,15 @@ class catalog_BillingareaService extends f_persistentdocument_DocumentService
 	 * @param double $valueWithoutTax
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param string $taxCategory
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @return array
 	 */
-	public function buildBoPriceEditInfos($valueWithoutTax, $shop, $taxCategory)
+	public function buildBoPriceEditInfos($valueWithoutTax, $shop, $taxCategory, $billingArea = null)
 	{
-		$billingArea = $shop->getDefaultBillingArea();
+		if ($billingArea === null)
+		{
+			$billingArea = $shop->getDefaultBillingArea();
+		}
 		
 		$currency = $billingArea->getCurrency();
 		$editTTC = $billingArea->getBoEditWithTax();
@@ -209,9 +213,10 @@ class catalog_BillingareaService extends f_persistentdocument_DocumentService
 	/**
 	 * @param string $value
 	 * @param catalog_persistentdocument_shop $shop
+	 * @param catalog_persistentdocument_billingarea $billingArea
 	 * @return list($valueWithoutTax, $taxCategory)
 	 */
-	public function parseBoPriceEditInfos($value, $shop)
+	public function parseBoPriceEditInfos($value, $shop, $billingArea = null)
 	{
 		$parts = explode(',', strval($value));
 		if (count($parts) != 2 || $parts[0] == '' || $parts[1] == '')
@@ -222,7 +227,10 @@ class catalog_BillingareaService extends f_persistentdocument_DocumentService
 		$valueWithoutTax = doubleval($parts[0]);
 		if ($valueWithoutTax > 0)
 		{
-			$billingArea = $shop->getDefaultBillingArea();
+			if ($billingArea === null)
+			{
+				$billingArea = $shop->getDefaultBillingArea();
+			}
 			$editTTC = $billingArea->getBoEditWithTax();	
 			if ($editTTC)
 			{
