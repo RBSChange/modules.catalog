@@ -94,7 +94,7 @@
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="105" valueWithoutDiscount="130" thresholdMin="10" />
 	</simpleproduct>
 	<declinedproduct label="produit 3" id="product3" shelf-refids="r2-1" visual-refid="photo3"
-		synchronizePrices="false" complementary-refids="product1,product2" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
+		synchronizePrices="false" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
 		codeReference="P3" description-attr="productDescription">
 		<productdeclination label="produit 3, déclinaison 1" codeReference="P3-1" id="d31">
 			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
@@ -110,7 +110,7 @@
 	<simpleproduct label="produit 5" id="product5" shelf-refid="r3" visual-refid="photo5" codeReference="P5" description-attr="productDescription">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 6" id="product6" shelf-refids="r4" complementary-refids="product4,product5"
+	<declinedproduct label="produit 6" id="product6" shelf-refids="r4"
 		codeReference="P6" synchronizePrices="true" description-attr="productDescription">
 		<productdeclination label="produit 6, déclinaison 1" codeReference="P6-1" />
 		<productdeclination label="produit 6, déclinaison 2" codeReference="P6-2" />
@@ -123,7 +123,7 @@
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
 	</simpleproduct>
 	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5"
-		complementary-refids="product2,product4,d31,d32" synchronizePrices="false">
+		synchronizePrices="false">
 		<productdeclination label="produit 9, déclinaison 1" codeReference="P9-1">
 			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
 			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="470" valueWithoutDiscount="490" thresholdMin="5" />
@@ -144,32 +144,25 @@
 		codeReference="P13">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="89" />
 	</simpleproduct>
-	<simpleproduct label="produit 14" id="product14" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P14"
-		complementary-refids="product2,product4">
+	<simpleproduct label="produit 14" id="product14" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P14">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
 	</simpleproduct>
-	<simpleproduct label="produit 15" id="product15" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo3" codeReference="P15"
-		complementary-refids="product2,product4">
+	<simpleproduct label="produit 15" id="product15" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo3" codeReference="P15">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="90" valueWithoutDiscount="100" />
 	</simpleproduct>
-	<simpleproduct label="produit 16" id="product16" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P16"
-		complementary-refids="product4,product5">
+	<simpleproduct label="produit 16" id="product16" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P16">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="129" valueWithoutDiscount="150" />
 	</simpleproduct>
-	<simpleproduct label="produit 17" id="product17" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P17"
-		complementary-refids="product2,product4,d31,d32">
+	<simpleproduct label="produit 17" id="product17" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P17">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="79" valueWithoutDiscount="100" />
 	</simpleproduct>
-	<simpleproduct label="produit 18" id="product18" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P18"
-		similar-refids="product1,product5,product7,product8,d31,d32">
+	<simpleproduct label="produit 18" id="product18" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P18">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="125" />
 	</simpleproduct>
-	<simpleproduct label="produit 20" id="product20" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P20"
-		complementary-refids="product4,product5">
+	<simpleproduct label="produit 20" id="product20" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P20">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="119" />
 	</simpleproduct>
-	<simpleproduct label="produit 21" id="product21" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P21"
-		complementary-refids="product4,product5">
+	<simpleproduct label="produit 21" id="product21" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P21">
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="140" />
 	</simpleproduct>
 	<simpleproduct label="produit 23" id="product23" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P23">
@@ -179,8 +172,7 @@
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
 	</simpleproduct>
 	<declinedproduct label="produit 25 (décliné)" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true"
-		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product4" similar-refids="product1,product5,product7,product8"
-		upsell-refids="product14,product15" codeReference="P25">
+		additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" codeReference="P25">
 		<productdeclination id="product251" label="produit 25, déclinaison 1" codeReference="P25-1" />
 		<productdeclination label="produit 25, déclinaison 2" codeReference="P25-2" />
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
@@ -192,10 +184,7 @@
 		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</declinedproduct>
-	<bundleproduct id="produit26" codeReference="P26" label="produit 26 (bundle)"  shelf-refids="r1-1,r4,r5,r6"
-		complementary-refids="product2,product4" 
-		similar-refids="product1,product5,product7,product8,d31,d32"
-		upsell-refids="product14,product15">
+	<bundleproduct id="produit26" codeReference="P26" label="produit 26 (bundle)" shelf-refids="r1-1,r4,r5,r6">
 		<bundleditem product-refid="product251" quantity="4" />
 		<bundleditem product-refid="product21" quantity="2" />
 		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
@@ -207,10 +196,7 @@
 		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</bundleproduct>
-	<kit id="produit27" codeReference="P27" label="produit 27 (kit)"  shelf-refids="r1-1,r4,r5,r6"
-		complementary-refids="product2,product4" 
-		similar-refids="product1,product5,product7,product8"
-		upsell-refids="product14,product15,d31,d32">
+	<kit id="produit27" codeReference="P27" label="produit 27 (kit)"  shelf-refids="r1-1,r4,r5,r6">
 		<kititem product-refid="product23" quantity="9" />
 		<kititem product-refid="product21" quantity="1" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
