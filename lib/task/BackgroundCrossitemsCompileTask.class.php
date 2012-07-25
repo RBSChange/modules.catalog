@@ -16,19 +16,34 @@ class catalog_BackgroundCrossitemsCompileTask extends task_SimpleSystemTask
 		{
 			$this->plannedTask->ping();
 			$result = f_util_System::execScript($batchPath, array($id, $chunkSize, 'true'));
+			if (!$result)
+			{
+				$errors[] = 'No result';
+				break;
+			}
 			
 			$lines = array_reverse(explode(PHP_EOL, $result));
+			$newId = $id;
 			foreach ($lines as $line)
 			{
 				if (preg_match('/^id:([0-9-]+)$/', $line, $matches))
 				{
-					$id = $matches[1];
+					$newId = $matches[1];
 					break;
 				}
 				else
 				{
 					$errors[] = $line;
 				}
+			}
+			
+			if ($newId != $id)
+			{
+				$id = $newId;
+			}
+			else
+			{
+				break;
 			}
 		}
 		
