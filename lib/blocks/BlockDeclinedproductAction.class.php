@@ -5,20 +5,22 @@
  */
 class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 {
-	function getCacheKeyParameters($request)
+	/**
+	 * @param f_mvc_Request $request
+	 * @return array
+	 */
+	public function getCacheKeyParameters($request)
 	{
 		return array("declinationId" => $request->getParameter('declinationId'),
 			"quantity" => $request->getParameter('quantity'));
 	}
 	
 	/**
-	 * @see website_BlockAction::execute()
-	 *
 	 * @param f_mvc_Request $request
 	 * @param f_mvc_Response $response
 	 * @return String
 	 */
-	function execute($request, $response)
+	public function execute($request, $response)
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$customer = null;
@@ -27,19 +29,11 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}
 		
-		if ($request->hasNonEmptyParameter('declinationId'))
+		$product = $this->getDocumentParameter();
+		if ($product instanceof catalog_persistentdocument_productdeclination)
 		{
-			$declination = DocumentHelper::getDocumentInstance($request->getParameter('declinationId'), 'modules_catalog/productdeclination');
+			$declination = $product;
 			$product = $declination->getDeclinedProduct();
-		}
-		else
-		{
-			$product = $this->getDocumentParameter();
-			if ($product instanceof catalog_persistentdocument_productdeclination)
-			{
-				$declination = $product;
-				$product = $declination->getDeclinedProduct();
-			}
 		}
 		
 		if (!$product || !$declination)
@@ -49,6 +43,16 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 				HttpController::getInstance()->redirect("website", "Error404");
 			}
 			return website_BlockView::NONE;
+		}
+		
+		// If an other declination is selected, redirect to it.
+		if ($request->hasNonEmptyParameter('declinationId'))
+		{
+			$doc = catalog_persistentdocument_productdeclination::getInstanceById($request->getParameter('declinationId'));
+			if ($doc && $doc->getId() !== $declination->getId())
+			{
+				$this->redirectToDeclination($doc);
+			}
 		}
 		
 		// @deprecated this should not be used anymore. See catalog_AddToCartAction
@@ -71,7 +75,16 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		$request->setAttribute('declinedproduct', $product);
 		$request->setAttribute('product', $declination);
 		$request->setAttribute('defaultPrice', $price);
-		$request->setAttribute('thresholdPrices', $prices);		
+		$request->setAttribute('thresholdPrices', $prices);
 		return website_BlockView::SUCCESS;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 */
+	protected function redirectToDeclination($declination)
+	{
+		$compiledProduct = $declination->getContextualCompiledProduct();
+		$this->redirectToUrl(LinkHelper::getDocumentUrl($compiledProduct));
 	}
 }
