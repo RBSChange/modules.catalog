@@ -714,15 +714,23 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return array();
 	}
 	
+
 	/**
+	 * 
+	 * @param integer $lastId
+	 * @param integer $chunkSize
+	 * @param boolean $compileAll
 	 * @return integer[]
 	 */
-	public final function getProductIdsToCompile()
+	public final function getProductIdsToCompile($lastId = 0, $chunkSize = 100, $compileAll = false)
 	{
-		return $this->createQuery()
-			->add(Restrictions::eq('compiled', false))
-			->setProjection(Projections::property('id', 'id'))
-			->findColumn('id');
+		$query = $this->createQuery();
+		if (!$compileAll)
+		{
+			$query->add(Restrictions::eq('compiled', false));
+		}
+		$query->add(Restrictions::gt('id', $lastId))->addOrder(Order::asc('id'))->setMaxResults($chunkSize);
+		return $query->setProjection(Projections::property('id', 'id'))->findColumn('id');
 	}
 	
 	/**
