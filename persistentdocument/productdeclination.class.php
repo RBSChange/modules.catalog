@@ -8,6 +8,59 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 {
 
 	/**
+	 * Get the indexable document
+	 * @param catalog_persistentdocument_compiledproduct $compildedProduct
+	 * @return indexer_IndexedDocument
+	 */
+	public function getIndexedDocumentByCompiledProduct($compildedProduct)
+	{
+		$indexedDoc = parent::getIndexedDocumentByCompiledProduct($compildedProduct);
+		if ($indexedDoc)
+		{
+			if ($compildedProduct->getShowInList())
+			{
+				$data = catalog_DeclinedproductService::getInstance()->getShowInListInfos($this->getDeclinedProduct());
+				foreach ($data as $grpIndex => $declinationIds)
+				{
+					if (in_array($this->getId(), $declinationIds, true))
+					{
+						$texts = array();
+						foreach ($declinationIds as $declinationId)
+						{
+							if ($declinationId != $this->getId())
+							{
+								$ndec = DocumentHelper::getDocumentInstanceIfExists($declinationId);
+								if ($ndec instanceof catalog_persistentdocument_productdeclination)
+								{
+									$text = $ndec->getHiddenInListIndexedText();
+									if ($text) 
+									{
+										$texts[] = $text;
+									}
+								}
+							}
+						}
+						if (count($texts))
+						{
+							$indexedDoc->setText($indexedDoc->getText() . ' ' . implode(' ', $texts));
+						}
+					}
+				}
+			}
+			
+		}
+		return $indexedDoc;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getHiddenInListIndexedText()
+	{
+		return $this->getCodeReference();
+	}
+	
+	/**
 	 * @return string
 	 */
 	public function getDetailBlockName()
