@@ -1475,6 +1475,31 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return null;
 	}
 	
+	/**
+	 * Moves $document into the destination node identified by $destId.
+	 *
+	 * @param catalog_persistentdocument_product $document The document to move.
+	 * @param integer $destId ID of the destination node.
+	 * @param integer $beforeId
+	 * @param integer $afterId
+	 */
+	public function moveTo($document, $destId, $beforeId = null, $afterId = null)
+	{
+		$dest = DocumentHelper::getDocumentInstanceIfExists($destId);
+		if (($dest instanceof catalog_persistentdocument_noshelfproductfolder) && ($document instanceof catalog_persistentdocument_product))
+		{
+			if ($document->getShelfCount())
+			{
+				$document->removeAllShelf();
+				$document->save();
+			}
+		}
+		else
+		{
+			parent::moveTo($document, $destId, $beforeId, $afterId);
+		}
+	}
+	
 	// Deprecated
 	
 	/**
@@ -1578,4 +1603,9 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		}
 		return $this->filterIdsForDisplay($productIds, $shop);
 	}
+	
+
+
+	
+	
 }

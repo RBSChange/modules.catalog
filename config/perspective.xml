@@ -52,6 +52,14 @@
 			<contextactions>
 				<contextaction name="openFolder" />
 			</contextactions>
+			<drops>
+				<drop model="modules_catalog/shelf" action="move" />
+				<drop model="modules_catalog/simpleproduct" action="move" />
+				<drop model="modules_catalog/virtualproduct" action="move" />
+				<drop model="modules_catalog/declinedproduct" action="move" />
+				<drop model="modules_catalog/bundleproduct" action="move" />
+				<drop model="modules_catalog/kit" action="move" />
+			</drops>
 		</model>
 		<model name="modules_catalog/shopfolder">
 			<children>
@@ -201,6 +209,7 @@
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="showPublicationInShops" />
 				<contextaction name="duplicate" />
+				<contextaction name="removeProductsFromShelf" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/declinedproduct">
@@ -212,6 +221,7 @@
 				<contextaction name="compileDeclinedProduct" />
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="showPublicationInShops" />
+				<contextaction name="removeProductsFromShelf" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/bundleproduct">
@@ -223,6 +233,7 @@
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="showPublicationInShops" />
+				<contextaction name="removeProductsFromShelf" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/kit">
@@ -234,6 +245,7 @@
 				<contextaction name="compileProduct" />
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="showPublicationInShops" />
+				<contextaction name="removeProductsFromShelf" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/virtualproduct">
@@ -246,6 +258,7 @@
 				<contextaction name="exportAlertInfos" />
 				<contextaction name="showPublicationInShops" />
 				<contextaction name="duplicate" />
+				<contextaction name="removeProductsFromShelf" />
 			</contextactions>
 		</model>
 		<model name="modules_catalog/productdeclination">
@@ -309,10 +322,11 @@
 	</models>
 	<toolbar>
 		<toolbarbutton name="edit" />
-		<toolbarbutton name="delete" />
 		<toolbarbutton name="duplicate" />
 		<toolbarbutton name="deactivated" />
 		<toolbarbutton name="reactivate" />
+		<toolbarbutton name="removeProductsFromShelf" />
+		<toolbarbutton name="delete" />
 	</toolbar>
 	<actions>
 		<action name="refresh" single="true" icon="refresh" labeli18n="m.uixul.bo.actions.Refresh" />
@@ -349,5 +363,6 @@
 		<action name="createTax" single="true" icon="add" />
 		<action name="createProductqueryfolder" single="true" permission="Insert_productqueryfolder" icon="add" />
 		<action name="createBillingarea" single="true" permission="Insert_billingarea" icon="add" />
+		<action name="removeProductsFromShelf" permission="RemoveProductsFromShelf" icon="remove" />
 	</actions>
 </perspective>

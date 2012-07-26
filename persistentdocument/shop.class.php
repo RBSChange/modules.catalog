@@ -112,9 +112,27 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	{
 		if ($this->currentBillingArea === null || $refresh)
 		{
-			$this->currentBillingArea = catalog_BillingareaService::getInstance()->getCurrentBillingAreaForShop($this, $refresh);
+			$this->setCurrentBillingArea(catalog_BillingareaService::getInstance()->getCurrentBillingAreaForShop($this, $refresh));
 		}
 		return $this->currentBillingArea;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @return catalog_persistentdocument_billingarea|NULL previous current billingArea
+	 */
+	public function setCurrentBillingArea($billingArea)
+	{
+		$pba = $this->currentBillingArea;
+		if ($billingArea instanceof catalog_persistentdocument_billingarea)
+		{
+			$this->currentBillingArea = $billingArea;
+		}
+		else
+		{
+			$this->currentBillingArea = null;
+		}
+		return $pba;
 	}
 		
 	/**
