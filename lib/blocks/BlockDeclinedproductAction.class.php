@@ -7,12 +7,24 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 {
 	/**
 	 * @param f_mvc_Request $request
+	 */
+	public function initialize($request)
+	{
+		parent::initialize($request);
+		
+		if ($request->hasNonEmptyParameter('declinationId') && $request->getParameter('declinationId') != $this->getDocumentIdParameter())
+		{
+			$this->redirectToDeclination($request->getParameter('declinationId'));
+		}
+	}
+	
+	/**
+	 * @param f_mvc_Request $request
 	 * @return array
 	 */
 	public function getCacheKeyParameters($request)
 	{
-		return array("declinationId" => $request->getParameter('declinationId'),
-			"quantity" => $request->getParameter('quantity'));
+		return array("quantity" => $request->getParameter('quantity'));
 	}
 	
 	/**
@@ -29,19 +41,11 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}
 		
-		if ($request->hasNonEmptyParameter('declinationId'))
+		$product = $this->getDocumentParameter();
+		if ($product instanceof catalog_persistentdocument_productdeclination)
 		{
-			$declination = catalog_persistentdocument_productdeclination::getInstanceById($request->getParameter('declinationId'));
+			$declination = $product;
 			$product = $declination->getDeclinedProduct();
-		}
-		else
-		{
-			$product = $this->getDocumentParameter();
-			if ($product instanceof catalog_persistentdocument_productdeclination)
-			{
-				$declination = $product;
-				$product = $declination->getDeclinedProduct();
-			}
 		}
 				
 		if (!$product || !$declination)
@@ -64,6 +68,7 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		{
 			$this->addProductToFavorites($declination);
 		}
+		
 		$quantity = max(1, intval($this->findParameterValue('quantity')));	
 		$request->setAttribute('quantity', $quantity);
 		$request->setAttribute('declinedproduct', $product);
@@ -74,10 +79,26 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 		{
 			$price = array_shift($prices);
 			$request->setAttribute('defaultPrice', $price);
-			$request->setAttribute('thresholdPrices', $prices);	
+			$request->setAttribute('thresholdPrices', $prices);
 		}
 		
-		$price = array_shift($prices);
 		return website_BlockView::SUCCESS;
+	}
+	
+	/**
+	 * @param integer $declinationId
+	 */
+	protected function redirectToDeclination($declinationId)
+	{
+		$declination = DocumentHelper::getDocumentInstanceIfExists($declinationId);
+		if ($declination instanceof catalog_persistentdocument_productdeclination)
+		{
+			$compiledProduct = $declination->getContextualCompiledProduct();
+			if ($compiledProduct)
+			{
+				$this->redirectToUrl(LinkHelper::getDocumentUrl($compiledProduct));
+				exit;
+			}
+		}
 	}
 }
