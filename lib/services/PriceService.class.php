@@ -231,7 +231,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$result = array('all' => array('label' => LocaleService::getInstance()->transBO('m.catalog.bo.doceditor.panel.prices.type-all', $formatter)),
 					'shop' =>  array('label' => LocaleService::getInstance()->transBO('m.catalog.bo.doceditor.panel.prices.type-shop', $formatter)));
 		
-		if (catalog_ModuleService::areCustomersEnabled())
+		if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 		{
 			$result['group'] = array('label' => LocaleService::getInstance()->transBO('m.catalog.bo.doceditor.panel.prices.type-group', $formatter));
 			$result['customer'] = array('label' =>LocaleService::getInstance()->transBO('m.catalog.bo.doceditor.panel.prices.type-customer', $formatter));
@@ -251,13 +251,13 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		switch ($targetType)
 		{
 			case 'customer' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					return array("type" => "document", "allow" => "modules_customer_customer", "moduleselector" => "customer");	
 				}
 				break;
 			case 'group' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					return array("type" => "document", "allow" => "modules_customer_tarifcustomergroup", "moduleselector" => "customer");
 				}
@@ -288,7 +288,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		switch ($targetType)
 		{
 			case 'customer' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					$targets = customer_CustomerService::getInstance()->createQuery()
 						->add(Restrictions::eq('user.websiteid', $shop->getWebsite()->getId()))
@@ -297,7 +297,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				}
 				break;				
 			case 'group' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					$targets = customer_TarifcustomergroupService::getInstance()->createQuery()
 					->setProjection(Projections::property('id'), Projections::property('label'))

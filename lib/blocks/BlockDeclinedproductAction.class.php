@@ -36,7 +36,7 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$customer = null;
-		if (catalog_ModuleService::areCustomersEnabled())
+		if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 		{
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}

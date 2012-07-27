@@ -1416,10 +1416,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @param string $actionType
+	 * @param string[] $propertiesNames
 	 * @param array $formProperties
+	 * @param integer $parentId
 	 */
-	public function addFormProperties($product, $propertiesNames, &$formProperties)
+	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
 	{
 		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
 		if (in_array('complementary', $propertiesNames))

@@ -749,10 +749,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $product
-	 * @param string $actionType
+	 * @param string[] $propertiesNames
 	 * @param array $formProperties
+	 * @param integer $parentId
 	 */
-	public function addFormProperties($product, $propertiesNames, &$formProperties)
+	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
 	{
 		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
 		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		

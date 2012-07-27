@@ -26,7 +26,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	protected function displayCustomerPrice()
 	{
-		return catalog_ModuleService::areCustomersEnabled() && $this->getConfigurationParameter('displayCustomerPrice', 'true') === 'true';
+		return catalog_ModuleService::getInstance()->areCustomersEnabled() && $this->getConfigurationParameter('displayCustomerPrice', 'true') === 'true';
 	}
 	
 	/**

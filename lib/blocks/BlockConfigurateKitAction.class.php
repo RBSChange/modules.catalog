@@ -130,7 +130,7 @@ class catalog_BlockConfigurateKitAction extends website_BlockAction
 		if ($spwt || $spwot)
 		{
 			$customer = null;
-			if (catalog_ModuleService::areCustomersEnabled())
+			if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 			{
 				$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 			}
