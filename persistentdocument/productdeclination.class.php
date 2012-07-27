@@ -6,7 +6,6 @@
 class catalog_persistentdocument_productdeclination extends catalog_persistentdocument_productdeclinationbase 
 	implements catalog_StockableDocument, catalog_DeclinableProduct
 {
-
 	/**
 	 * @return string
 	 */
@@ -266,7 +265,8 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		if ($this->commentCount === null)
 		{
-			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getDeclinedproduct()->getId());
+			$website = website_WebsiteService::getInstance()->getCurrentWebsite();
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getDeclinedproduct()->getId(), $website->getId());
 		}
 		return $this->commentCount;
 	}

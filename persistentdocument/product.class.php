@@ -290,7 +290,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	{
 		if ($this->commentCount === null)
 		{
-			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getId());
+			$website = website_WebsiteService::getInstance()->getCurrentWebsite();
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getId(), $website->getId());
 		}
 		return $this->commentCount;
 	}
