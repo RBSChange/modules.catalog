@@ -319,7 +319,8 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 	{
 		if ($this->commentCount === null)
 		{
-			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getDeclinedproduct()->getId());
+			$website = website_WebsiteModuleService::getInstance()->getCurrentWebsite();
+			$this->commentCount = comment_CommentService::getInstance()->getPublishedCountByTargetId($this->getDeclinedproduct()->getId(), $website->getId());
 		}
 		return $this->commentCount;
 	}
