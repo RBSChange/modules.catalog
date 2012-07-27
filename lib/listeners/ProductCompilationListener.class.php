@@ -5,7 +5,6 @@
  */
 class catalog_ProductCompilationListener
 {
-
 	/**
 	 * @param f_persistentdocument_DocumentService $sender
 	 * @param array $params
@@ -19,6 +18,12 @@ class catalog_ProductCompilationListener
 			if ($target instanceof catalog_persistentdocument_product)
 			{
 				catalog_ProductService::getInstance()->setNeedCompile(array($target->getId()));
+			}
+			elseif ($target instanceof catalog_persistentdocument_declinedproduct)
+			{
+				$cdps = catalog_ProductdeclinationService::getInstance();
+				$ids = DocumentHelper::getIdArrayFromDocumentArray($cdps->getArrayByDeclinedProduct($target, false));
+				catalog_ProductService::getInstance()->setNeedCompile($ids);
 			}
 		}
 	}
@@ -36,6 +41,12 @@ class catalog_ProductCompilationListener
 			if ($target instanceof catalog_persistentdocument_product)
 			{
 				catalog_ProductService::getInstance()->setNeedCompile(array($target->getId()));
+			}
+			elseif ($target instanceof catalog_persistentdocument_declinedproduct)
+			{
+				$cdps = catalog_ProductdeclinationService::getInstance();
+				$ids = DocumentHelper::getIdArrayFromDocumentArray($cdps->getArrayByDeclinedProduct($target, false));
+				catalog_ProductService::getInstance()->setNeedCompile($ids);
 			}
 		}
 	}
