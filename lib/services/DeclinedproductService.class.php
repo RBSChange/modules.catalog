@@ -170,34 +170,38 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			
 			catalog_ProductdeclinationService::getInstance()->copyPricesOnDeclinationIds($prices, $declinationIds);
 		}
-		else if ($document->isPropertyModified('synchronizePrices') && $document->getSynchronizePrices() === false)
+		
+		if ($document->isPropertyModified('synchronizePrices'))
 		{
-			// Update declination prices.
 			$declinationIds = DocumentHelper::getIdArrayFromDocumentArray($document->getDeclinationArray());
-			$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
-			foreach ($query->find() as $lockedPrice)
+			if (count($declinationIds))
 			{
-				$lockedForId = $lockedPrice->getLockedFor();
-				if (intval($lockedForId) > 0)
+				if ($document->getSynchronizePrices() === false)
 				{
-					try 
+					// Update declination prices.
+					$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
+					foreach ($query->find() as $lockedPrice)
 					{
-						$lockForDocument = DocumentHelper::getDocumentInstance($lockedForId);
+						$lockedForId = $lockedPrice->getLockedFor();
+						$lockForDocument = DocumentHelper::getDocumentInstanceIfExists($lockedForId);
 						if ($lockForDocument instanceof catalog_persistentdocument_price)
 						{
 							$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
 						}
 					}
-					catch (Exception $e)
+					$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
+				}
+				else
+				{
+					foreach ($ps->createQuery()->add(Restrictions::in('productId', $declinationIds))->find() as $price)
 					{
-						//$lockedForId is not a valid document id
-						Framework::exception($e);
-					}
+						if (!($price instanceof catalog_persistentdocument_lockedprice))
+						{
+							$price->delete();
+						}
+					}	
 				}
 			}
-			
-			// Delete existing prices on the declined product.
-			$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
 		}
 		
 		$this->synchronizeFields($document);
