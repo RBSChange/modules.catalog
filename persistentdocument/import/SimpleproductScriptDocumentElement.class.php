@@ -58,6 +58,18 @@ class catalog_SimpleproductScriptDocumentElement extends import_ScriptDocumentEl
 			$properties['brand'] = $brand;
 			unset($properties['brandCodeReference']);
 		}
+		if (isset($properties['attributes']))
+		{
+			$attributesToSerialize = array();
+			$attributes = explode(',', $this->replaceRefIdInString($properties['attributes']));
+			foreach ($attributes as $attribute)
+			{
+				list($key, $value) = explode(':', $attribute);
+				$attributesToSerialize[$key] = $value;
+			}
+			$properties['attributesJSON'] = json_encode($attributesToSerialize);
+			unset($properties['attributes']);
+		}
 		return $properties;
 	}
 }
