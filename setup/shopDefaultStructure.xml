@@ -25,7 +25,7 @@
 			</changecontent>
 		</page>
 		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" 
-			template-attr="templatePopin" byTag="functional_catalog_configurate-kit">
+			template-attr="templateNosidebar" byTag="functional_catalog_configurate-kit">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ConfigurateKit" />
 			</changecontent>
