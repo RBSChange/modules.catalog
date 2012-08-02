@@ -9,18 +9,6 @@
 	<repository>public</repository>
 	<dependencies>
 		<dependency>
-			<name>change-module/filter</name>
-			<versions>
-				<version>3.6.2</version>
-			</versions>
-		</dependency>
-		<dependency>
-			<name>change-module/rss</name>
-			<versions>
-				<version>3.6.2</version>
-			</versions>
-		</dependency>
-		<dependency>
 			<name>change-module/brand</name>
 			<versions>
 				<version>3.6.2</version>

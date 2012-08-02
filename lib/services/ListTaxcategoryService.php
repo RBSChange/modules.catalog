@@ -49,12 +49,4 @@ class catalog_ListTaxcategoryService extends BaseService
 		$this->parameters = $parameters;
 	}
 	
-	/**
-	 * @see list_persistentdocument_dynamiclist::getItemByValue()
-	 * @param string $value;
-	 * @return list_Item
-	 */
-//	public function getItemByValue($value)
-//	{
-//	}
 }

@@ -52,15 +52,6 @@ class catalog_ListAxesService extends BaseService
 	}
 	
 	/**
-	 * @see list_persistentdocument_dynamiclist::getItemByValue()
-	 * @param string $value;
-	 * @return list_Item
-	 */
-//	public function getItemByValue($value)
-//	{
-//	}
-
-	/**
 	 * @return catalog_ProductAxe[]
 	 */
 	protected function getAllDeclinationAxes()

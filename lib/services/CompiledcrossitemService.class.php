@@ -292,17 +292,14 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			{
 				$targetIds[] = $target->getId();
 			}
-			Framework::fatal(__METHOD__ . ' $targetIds: ' . var_export($targetIds, true));
 			
 			$query = $this->createQuery()->add(Restrictions::in('targetId', $targetIds))->add(Restrictions::eq('linkType', $linkType));
 			foreach ($query->find() as $doc)
 			{
 				/* @var $doc catalog_persistentdocument_compiledcrossitem */
 				$docId = $doc->getLinkedId();
-				Framework::fatal(__METHOD__ . ' $doc: ' . $doc->getId() . ', linkedId: ' . $docId);
 				if (isset($order[$docId]))
 				{
-					Framework::fatal(__METHOD__ . ' order: ' . $order[$docId]);
 					$doc->setPosition($order[$docId]);
 					$doc->save();
 				}

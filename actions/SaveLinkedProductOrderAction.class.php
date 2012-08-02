@@ -22,7 +22,7 @@ class catalog_SaveLinkedProductOrderAction extends f_action_BaseJSONAction
 		$target = DocumentHelper::getDocumentInstance($request->getParameter('targetId'));
 		$linkType = $request->getParameter('linkType');
 		$applyToAllDeclinations = $request->hasParameter('applyToAllDeclinations') && $request->getParameter('applyToAllDeclinations') == 'true';
-		Framework::fatal(__METHOD__ . ' targetId: ' . $target->getId() . ', linkType: ' . $linkType . ', $applyToAllDeclinations: ' . var_export($applyToAllDeclinations, true));
+
 		$cps = catalog_CompiledcrossitemService::getInstance();
 		$cps->setPositionsByTargetAndLinkType($target, $linkType, $itemOrder, $applyToAllDeclinations);
 		

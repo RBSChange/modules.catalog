@@ -3,10 +3,10 @@
 	<key id="tab-label">produits liés</key>
 	<key id="new">ajouter une liaison</key>
 	<key id="new-multiple">ajouter plusieurs liaisons</key>
-	<key id="add-suggested-crossitems">suggestions d'ajout de liaisons</key>
+	<key id="add-suggested-crossitems">suggestions d'ajouts de liaisons</key>
 	<key id="create-crossitems">créer les liaisons</key>
-	<key id="sort">ordonner les produit liés</key>
-	<key id="linked-product-sorting">ordonnancement des produit liés</key>
+	<key id="sort">ordonner les produits liés</key>
+	<key id="linked-product-sorting">ordonnancement des produits liés</key>
 	<key id="compile-crossitem">compiler cette liaison</key>
 	<key id="confirm-delete-crossitem">Voulez-vous vraiment supprimer cette liaison ?</key>
 	<key id="tooltip-publication-status">statut de publication</key>
