@@ -57,6 +57,20 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			return website_BlockView::NONE;
 		}
 		
+		// Add canonical to default shown in list.
+		if ($request->getAttribute('isOnDetailPage') && Framework::getConfigurationValue('modules/catalog/addCanonicalOnDeclinations', 'true') == 'true')
+		{
+			$cp = $declination->getContextualCompiledProduct();
+			if (!$cp->getShowInList())
+			{
+				$doc = $declination->getDocumentService()->getShownInListByCompiledProduct($cp);
+				if ($doc)
+				{
+					$this->getContext()->addLink('canonical', null, LinkHelper::getDocumentUrl($doc));
+				}
+			}
+		}
+		
 		// @deprecated this should not be used anymore. See order_AddToCartAction
   		if ($request->getParameter('addToCart') !== null)
   		{

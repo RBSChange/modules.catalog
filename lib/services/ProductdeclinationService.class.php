@@ -678,7 +678,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	}
 
 	/**
-	 * @param catalog_persistentoducment_productdeclination $document
+	 * @param catalog_persistentdocument_productdeclination $document
 	 * @param integer $websiteId
 	 * @return float|NULL
 	 */
@@ -689,5 +689,37 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			return comment_CommentService::getInstance()->getRatingAverageByTargetId($document->getDeclinedproduct()->getId(), $websiteId);
 		}
 		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $cp
+	 * @return catalog_persistentdocument_compiledproduct|null
+	 */
+	public function getShownInListByCompiledProduct($cp)
+	{
+		/* @var $declination catalog_persistentdocument_productdeclination */
+		$declination = $cp->getProduct();
+		$declined = $declination->getDeclinedproduct();
+		$infos = $declined->getDocumentService()->getShowInListInfos($declined);
+		$declinationIds = array();
+		foreach ($infos as $ids)
+		{
+			if (in_array($declination->getId(), $ids))
+			{
+				$declinationIds = $ids;
+				break;
+			}
+		}
+		if (!count($declinationIds))
+		{
+			return null;
+		}
+		
+		return catalog_CompiledproductService::getInstance()->createQuery()->add(Restrictions::published())
+			->add(Restrictions::eq('lang', $cp->getLang()))
+			->add(Restrictions::eq('shopId', $cp->getShopId()))
+			->add(Restrictions::eq('primary', true))
+			->add(Restrictions::eq('showInList', true))
+			->add(Restrictions::in('product.id', $declinationIds))->findUnique();
 	}
 }

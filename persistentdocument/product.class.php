@@ -775,24 +775,33 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @var catalog_persistentdocument_compiledproduct | null
+	 */
+	private $contextualCompiledProduct = false;
+	
+	/**
 	 * @return catalog_persistentdocument_compiledproduct | null
 	 */
 	public function getContextualCompiledProduct()
 	{
-		$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
-		if ($pageId)
+		if ($this->contextualCompiledProduct === false)
 		{
-			$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
-			$topic = f_util_ArrayUtils::lastElement($ancestors);
-			if ($topic instanceof website_persistentdocument_systemtopic)
+			$this->contextualCompiledProduct = null;
+			$pageId = website_WebsiteModuleService::getInstance()->getCurrentPageId();
+			if ($pageId)
 			{
-				return catalog_CompiledproductService::getInstance()->createQuery()
-					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-					->add(Restrictions::eq('topicId', $topic->getId()))
-					->add(Restrictions::eq('product', $this))->findUnique();
+				$ancestors = website_WebsiteModuleService::getInstance()->getCurrentPageAncestors();
+				$topic = f_util_ArrayUtils::lastElement($ancestors);
+				if ($topic instanceof website_persistentdocument_systemtopic)
+				{
+					$this->contextualCompiledProduct = catalog_CompiledproductService::getInstance()->createQuery()
+						->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+						->add(Restrictions::eq('topicId', $topic->getId()))
+						->add(Restrictions::eq('product', $this))->findUnique();
+				}
 			}
 		}
-		return  null;
+		return $this->contextualCompiledProduct;
 	}
 
 	/**

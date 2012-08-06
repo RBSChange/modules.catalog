@@ -8,6 +8,8 @@
 		<usetopic>false</usetopic>
 	</module>
 	<project>
+		<!-- <entry name="addCanonicalOnDeclinations">false</entry> -->
+	
 		<!-- Feeders for product suggestions. -->
 		<modulesCatalogProductSuggestionFeeder>
 			<entry name="1">catalog_SameShelvesProductFeeder</entry>
