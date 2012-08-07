@@ -67,8 +67,6 @@ class catalog_BlockProductItemAction extends website_BlockAction
 	 */
 	public function execute($request, $response)
 	{
-		Framework::info(__METHOD__ . ' -> ' . $this->getDocumentIdParameter());
-		
 		$displayConfig = $request->getParameter('displayConfig', array());
 		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
 		{
@@ -86,7 +84,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		{
 			$shop = $this->findParameterValue('shop');
 			$compiledProduct = $product->getDocumentService()->getPrimaryCompiledProductForShop($product, $shop);
-			$popinPageId = $compiledProduct->getPopinPageId();
+			$popinPageId = $compiledProduct ? $compiledProduct->getPopinPageId() : null;
 			if ($popinPageId)
 			{
 				$request->setAttribute('popinPageId', $popinPageId);
