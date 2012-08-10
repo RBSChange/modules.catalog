@@ -335,6 +335,7 @@
 		<action name="delete" permission="Delete" icon="delete" labeli18n="m.uixul.bo.actions.Delete" />
 		<action name="openTreeNodeOrder" single="true" permission="Order" icon="sort" />
 		<action name="openOrderProductsInShelf" single="true" permission="Order" icon="sort" />
+		<action name="activate" single="true" permission="Activate" icon="activate" labeli18n="m.uixul.bo.actions.Activate"/>
 		<action name="deactivated" permission="Deactivated" icon="deactivated" labeli18n="m.uixul.bo.actions.Deactivate" />
 		<action name="reactivate" permission="ReActivate" icon="reactivate" labeli18n="m.uixul.bo.actions.ReActivate" />
 		<action name="duplicate" icon="duplicate" labeli18n="m.uixul.bo.actions.Duplicate" />
