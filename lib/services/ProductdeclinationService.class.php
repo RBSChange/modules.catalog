@@ -130,13 +130,18 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param boolean $publishedOnly
 	 * @return array('id', 'axe1', 'axe2', 'axe3')
 	 */
-	public function getIdAndAxesArrayByDeclinedProduct($declinedProduct)
+	public function getIdAndAxesArrayByDeclinedProduct($declinedProduct, $publishedOnly = false)
 	{
 		$query = $this->createQuery()
 			->add(Restrictions::eq('declinedproduct', $declinedProduct))
 			->setProjection(Projections::property('id'), Projections::property('axe1'), Projections::property('axe2'), Projections::property('axe3'));
+		if ($publishedOnly)
+		{
+			$query->add(Restrictions::published());
+		}
 		$query->addOrder(Order::asc('indexInDeclinedproduct'));
 		return $query->find();
 	}	
@@ -451,7 +456,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		parent::updateCompiledProduct($product, $compiledProduct);
 		$declinationId = intval($product->getId());
 		
-		$data = catalog_DeclinedproductService::getInstance()->getShowInListInfos($product->getDeclinedProduct());
+		$data = $product->getDeclinedProduct()->getShowInListInfos();
 		$found = false;
 		foreach ($data as $grpIndex => $declinationIds) 
 		{
@@ -700,7 +705,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		/* @var $declination catalog_persistentdocument_productdeclination */
 		$declination = $cp->getProduct();
 		$declined = $declination->getDeclinedproduct();
-		$infos = $declined->getDocumentService()->getShowInListInfos($declined);
+		$infos = $declined->getShowInListInfos();
 		$declinationIds = array();
 		foreach ($infos as $ids)
 		{

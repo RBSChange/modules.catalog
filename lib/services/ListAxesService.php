@@ -319,7 +319,12 @@ class catalog_ProductPropertyAxe extends catalog_ProductAxe
 	 */
 	protected function getAxeValue($productDeclination)
 	{
-		return $productDeclination->{$this->getter}();
+		$value = $productDeclination->{$this->getter}();
+		if ($value instanceof  f_persistentdocument_PersistentDocument)
+		{
+			$value = $value->getId();
+		}
+		return $value;
 	}
 	
 	/**

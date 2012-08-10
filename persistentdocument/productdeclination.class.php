@@ -19,7 +19,7 @@ class catalog_persistentdocument_productdeclination extends catalog_persistentdo
 		{
 			if ($compildedProduct->getShowInList())
 			{
-				$data = catalog_DeclinedproductService::getInstance()->getShowInListInfos($this->getDeclinedProduct());
+				$data = $this->getDeclinedProduct()->getShowInListInfos();
 				foreach ($data as $grpIndex => $declinationIds)
 				{
 					if (in_array($this->getId(), $declinationIds, true))

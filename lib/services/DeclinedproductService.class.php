@@ -339,34 +339,14 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	{
 		return array('axe1', 'axe2', 'axe3', 'showAxeInList'); 
 	}
-	
-	private $showInListInfos;
-	
-	/**
-	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
-	 * @return integer[][]
-	 */	
-	public function getShowInListInfos($declinedProduct)
-	{
-		if ($declinedProduct->getAxesRawConfiguration() === null)
-		{
-			$data = $this->generateShowInListInfos($declinedProduct);
-			$declinedProduct->setAxesRawConfiguration(serialize($data));
-		}
-		else
-		{
-			$data = unserialize($declinedProduct->getAxesRawConfiguration());
-		}
-		return $data;
-	}
-	
+			
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
 	 * @return integer[][]
 	 */	
 	public function generateShowInListInfos($declinedProduct)
 	{
-		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct);
+		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct, true);
 		$axeVisible = $declinedProduct->getShowAxeInList();
 		$result = array();
 		foreach ($rows as $row) 
@@ -800,5 +780,14 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			return $urlRewritingService->getDocumentLinkForWebsite($defaultDeclination, $website, $lang, $parameters);
 		}
 		return null;
+	}
+	
+	//DEPRECATED
+	/**
+	 * @deprecated use catalog_persistentdocument_declinedproduct::getShowInListInfos()
+	 */
+	public function getShowInListInfos($declinedProduct)
+	{
+		return $declinedProduct->getShowInListInfos();
 	}
 }
