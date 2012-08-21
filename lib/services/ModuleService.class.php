@@ -351,6 +351,75 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
+	 * @return boolean
+	 */
+	public function useAsyncWebsiteUpdate()
+	{
+		return Framework::getConfigurationValue('modules/catalog/useAsyncWebsiteUpdate', 'true') == 'true';
+	}
+	
+	/**
+	 * @param integer[] $ids
+	 */
+	public function addAsyncWebsiteUpdateIds($ids)
+	{
+		if (is_array($ids) || count($ids) > 0)
+		{
+			$tm = $this->getTransactionManager();
+			try
+			{
+				$tm->beginTransaction();
+				$ids = array_map('intval', $ids);
+				$rf = generic_persistentdocument_rootfolder::getInstanceById(ModuleService::getInstance()->getRootFolderId('catalog'));
+				$oldIds = $rf->hasMeta('catalog_WebsiteSynchroIds') ? $rf->getMeta('catalog_WebsiteSynchroIds') : array();
+				if (is_array($oldIds))
+				{
+					$rf->setMeta('catalog_WebsiteSynchroIds', array_unique(array_merge($oldIds, $ids)));
+				}
+				else
+				{
+					$rf->setMeta('catalog_WebsiteSynchroIds', array_unique($ids));
+				}
+				$rf->saveMeta();
+				
+				$tm->commit();
+			}
+			catch (Exception $e)
+			{
+				$tm->rollback($e);
+				throw $e;
+			}
+		}
+	}
+	
+	/**
+	 * @return integer[]
+	 */
+	public function resetAsyncWebsiteUpdateIds()
+	{
+		$oldIds = null;
+		$tm = $this->getTransactionManager();
+		try
+		{
+			$tm->beginTransaction();
+			$rf = generic_persistentdocument_rootfolder::getInstanceById(ModuleService::getInstance()->getRootFolderId('catalog'));
+			if ($rf->hasMeta('catalog_WebsiteSynchroIds'))
+			{
+				$oldIds = $rf->getMeta('catalog_WebsiteSynchroIds');
+				$rf->setMeta('catalog_WebsiteSynchroIds', null);
+				$rf->saveMeta();
+			}
+			$tm->commit();
+		} 
+		catch (Exception $e) 
+		{
+			$tm->rollback($e);
+			throw $e;
+		}
+		return is_array($oldIds) ? $oldIds : array();
+	}
+	
+	/**
 	 * @deprecated just call getProductList instead
 	 */
 	public function mergeFavoriteProductWithList($productList)

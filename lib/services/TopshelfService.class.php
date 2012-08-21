@@ -89,4 +89,20 @@ class catalog_TopshelfService extends catalog_ShelfService
 			$shop->save();
 		}
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_topshelf $document
+	 * return integer[]
+	 */
+	public function websiteSynchroCheck($document)
+	{
+		$ancestorTopicIds = array();
+		foreach ($document->getShopArrayInverse() as $shop)
+		{
+			/* @var $shop catalog_persistentdocument_shop */
+			$ancestorTopicIds[] = $shop->getTopic()->getId();
+		}
+				
+		return $this->topicsCheck($document, $ancestorTopicIds);
+	}
 }

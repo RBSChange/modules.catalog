@@ -427,9 +427,8 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function postSave($document, $parentNodeId)
 	{
-		// Fix referenceId if set to -1 (when the topic is created in the pre-save).
 		$topic = $document->getTopic();
-		if ($topic->getReferenceId() === -1)
+		if ($topic->getReferenceId() != $document->getId())
 		{
 			$topic->setReferenceId($document->getId());
 			$topic->save();
@@ -571,6 +570,15 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$nodeAttributes['website'] = $document->getWebsite()->getLabel();
 			$nodeAttributes['isDefault'] = LocaleService::getInstance()->transBO('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shop $document
+	 * return integer[]
+	 */
+	public function websiteSynchroCheck($document)
+	{
+		return catalog_TopshelfService::getInstance()->createQuery()->setProjection(Projections::property('id', 'id'))->findColumn('id');	
 	}
 		
 	// Depreacted

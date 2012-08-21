@@ -19,6 +19,9 @@
 		<!-- Product compilation. -->
 		<entry name="compilationChunkSize">100</entry>
 		
+		<!-- Asynchronous Website shop structure generation  -->
+		<entry name="useAsyncWebsiteUpdate">true</entry>
+		
 		<!-- Cross selling. -->
 		<entry name="crossitemsCompilationChunkSize">100</entry>
 		<entry name="crossitemsGenerationChunkSize">25</entry>

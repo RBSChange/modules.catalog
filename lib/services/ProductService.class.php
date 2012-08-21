@@ -763,15 +763,23 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param boolean $recursive
 	 * @return integer[]
 	 */
-	protected final function getCompiledProductIdsForShelf($shelf)
+	protected final function getCompiledProductIdsForShelf($shelf, $recursive = true)
 	{
-		$shelfIds = catalog_ShelfService::getInstance()->createQuery()
-			->add(Restrictions::descendentOf($shelf->getId()))
-			->setProjection(Projections::groupProperty('id', 'id'))
-			->findColumn('id');
-		$shelfIds[] = $shelf->getId();
+		if ($recursive)
+		{
+			$shelfIds = catalog_ShelfService::getInstance()->createQuery()
+				->add(Restrictions::descendentOf($shelf->getId()))
+				->setProjection(Projections::groupProperty('id', 'id'))
+				->findColumn('id');
+			$shelfIds[] = $shelf->getId();
+		}
+		else
+		{
+			$shelfIds = array($shelf->getId());
+		}
 		
 		$productIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
 			->add(Restrictions::in('shelf.id', $shelfIds))
@@ -788,19 +796,20 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	{
 		if (f_util_ArrayUtils::isNotEmpty($productIds))
 		{
+			$tm = $this->getTransactionManager();
 			try 
 			{
-				$this->tm->beginTransaction();
+				$tm->beginTransaction();
 				foreach ($productIds as $productId) 
 				{
 					$product = $this->getDocumentInstance($productId, 'modules_catalog/product');
 					$product->getDocumentService()->updateCompiledProperty($product, false);
 				}
-				$this->tm->commit();
+				$tm->commit();
 			} 
 			catch (Exception $e)
 			{
-				$this->tm->rollBack($e);
+				$tm->rollBack($e);
 			}
 		}
 	}
@@ -814,33 +823,58 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			Framework::info(__METHOD__);
 		}
-		$productIds = array();		
-		foreach ($shop->getTopShelfArray() as $topShelf) 
+		if (catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
 		{
-			$productIds = array_merge($productIds, $this->getCompiledProductIdsForShelf($topShelf));
+			$shelfIds = array();
+			foreach ($shop->getTopShelfArray() as $topShelf) 
+			{
+				$shelfIds[] = $topShelf->getId();
+			}
+			
+			if (count($shelfIds))
+			{
+				catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds($shelfIds);
+			}
 		}
-		
-		$compiledProdIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
-			->add(Restrictions::eq('compiledproduct.shopId', $shop->getId()))		
+		else
+		{
+			$productIds = array();
+			foreach ($shop->getTopShelfArray() as $topShelf)
+			{
+				$productIds = array_merge($productIds, $this->getCompiledProductIdsForShelf($topShelf));
+			}
+			
+			$compiledProdIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
+			->add(Restrictions::eq('compiledproduct.shopId', $shop->getId()))
 			->setProjection(Projections::groupProperty('id', 'id'))
 			->findColumn('id');
-					
-		$productIds = array_unique(array_merge($productIds, $compiledProdIds));
-		
-		$this->setNeedCompile($productIds);
+				
+			$productIds = array_unique(array_merge($productIds, $compiledProdIds));
+			
+			$this->setNeedCompile($productIds);			
+		}
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param boolean $recursive
 	 */
-	public function setNeedCompileForShelf($shelf)
+	public function setNeedCompileForShelf($shelf, $recursive = true)
 	{
 		if (Framework::isInfoEnabled())
 		{
 			Framework::info(__METHOD__);
 		}
-		$ids = $this->getCompiledProductIdsForShelf($shelf);
-		$this->setNeedCompile($ids);
+		
+		if ($recursive && catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
+		{
+			catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds(array($shelf->getId()));
+		}
+		else
+		{
+			$ids = $this->getCompiledProductIdsForShelf($shelf, $recursive);
+			$this->setNeedCompile($ids);
+		}
 	}
 
 	/**
