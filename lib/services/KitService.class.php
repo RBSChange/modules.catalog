@@ -496,7 +496,7 @@ class catalog_KitService extends catalog_ProductService
 				$kititemPrice = $kititem->getDocumentService()->getKititemPrice($kititem, $shop, $billingArea, $targetIds, $orderLine->getQuantity());
 				$kititemProduct = $kititem->getDefaultProduct();
 				$quantity = $kititem->getQuantity() * $orderLine->getQuantity();
-				$netAmount = $kititemPrice->getValueWithTax() * $quantity;
+				$amountWithTax = $kititemPrice->getValueWithTax() * $quantity;
 				
 				if ($kititemPrice->getOldValueWithoutTax())
 				{
@@ -506,15 +506,20 @@ class catalog_KitService extends catalog_ProductService
 				{
 					$discount = 1;
 				}
-
-				$amountWithTax = $netAmount * $discount;
+				$oldAmountWithTax = $amountWithTax / $discount;
+				
+				$taxDoc = $kititemPrice->getTax(false);
+				$taxRate = $taxDoc ? number_format($taxDoc->getRate(), 3) : '';
 
 				$cartLineProperties['kititems'][$kititem->getId()]['codeReference'] = $kititemProduct->getCodeReference();
 				$cartLineProperties['kititems'][$kititem->getId()]['designation'] = $kititemProduct->getLabel();
 				$cartLineProperties['kititems'][$kititem->getId()]['quantity'] = $quantity;
-				$cartLineProperties['kititems'][$kititem->getId()]['netAmount'] = catalog_PriceFormatter::getInstance()->round($netAmount, $order->getCurrencyCode());
-				$cartLineProperties['kititems'][$kititem->getId()]['discount'] = number_format((1 - $discount) * 100,1);
+				$cartLineProperties['kititems'][$kititem->getId()]['discount'] = number_format((1 - $discount) * 100, 1);
+				$cartLineProperties['kititems'][$kititem->getId()]['taxRate'] = $taxRate;
 				$cartLineProperties['kititems'][$kititem->getId()]['amountWithTax'] = catalog_PriceFormatter::getInstance()->round($amountWithTax, $order->getCurrencyCode());
+				// Alias for amountWithTax.
+				$cartLineProperties['kititems'][$kititem->getId()]['netAmount'] = $cartLineProperties['kititems'][$kititem->getId()]['amountWithTax'];
+				$cartLineProperties['kititems'][$kititem->getId()]['oldAmountWithTax'] = catalog_PriceFormatter::getInstance()->round($oldAmountWithTax, $order->getCurrencyCode());
 			}
 		}
 		return;
