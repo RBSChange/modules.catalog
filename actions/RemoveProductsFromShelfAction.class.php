@@ -17,6 +17,7 @@ class catalog_RemoveProductsFromShelfAction extends f_action_BaseJSONAction
 		if (is_array($productIds))
 		{
 			$products = array();
+			$declinedProducts = array();
 			$tm = f_persistentdocument_TransactionManager::getInstance();
 			try
 			{
@@ -29,8 +30,21 @@ class catalog_RemoveProductsFromShelfAction extends f_action_BaseJSONAction
 						$products[] = $product;
 						$result['products'][] = $product->getId();
 					}
+					elseif  ($product instanceof catalog_persistentdocument_declinedproduct)
+					{
+						$declinedProducts[] = $product;
+						$result['products'][] = $product->getId();
+					}
 				}
-				$shelf->getDocumentService()->removeProducts($shelf, $products);
+				if (count($products))
+				{
+					$shelf->getDocumentService()->removeProducts($shelf, $products);
+				}
+				if (count($declinedProducts))
+				{
+					$shelf->getDocumentService()->removeDeclinedProducts($shelf, $declinedProducts);
+				}
+				
 				$tm->commit();
 			} 
 			catch (Exception $e) 

@@ -887,6 +887,35 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 *
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_declinedproduct[] $declinedProducts
+	 */
+	public function removeDeclinedProducts($shelf, $declinedProducts)
+	{
+		$tm = $this->getTransactionManager();
+		try
+		{
+			$tm->beginTransaction();
+			foreach ($declinedProducts as $product)
+			{
+				/* @var $product catalog_persistentdocument_declinedproduct */
+				$product->removeShelf($shelf);
+				if ($product->isModified())
+				{
+					$product->save();
+				}
+			}
+			$tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$tm->rollback($e);
+			throw $e;
+		}
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @return integer[integer]
 	 */
