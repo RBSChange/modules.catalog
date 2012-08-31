@@ -6,8 +6,8 @@
 		<li tal:repeat="kititem product/getKititemArray" class="product-line">
 			<tal:block tal:define="id product/getId">
 				<ul class="sub-list">
-					<tal:block tal:condition="baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem/getProduct" />
-					<tal:block tal:condition="not: baseconfiguration/getLinkToRealContainedProductDetail" tal:define="global linkedItem kititem" />
+					<tal:block tal:condition="baseconfiguration/getLinkToRealContainedProductDetail"><tal:block tal:define="global linkedItem kititem/getProduct" /></tal:block>
+					<tal:block tal:condition="not: baseconfiguration/getLinkToRealContainedProductDetail"><tal:block tal:define="global linkedItem kititem" /></tal:block>
 					<li change:productvisual="name 'visual'; mode 'list'; product kititem" tal:condition="visual" class="product-visual">
 						<a change:link="document linkedItem; catalogParam[shopId] contextShopId; catalogParam[topicId] contextTopicId; catalogParam[customitems] customitems">
 							<img change:media="document visual; format 'modules.catalog.frontoffice/medium'" />
