@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.document.comparableproperty" lcid="en_GB">
+	<include id="m.generic.document.document" />
+	<key id="document-name">propriété comparable</key>
+	<key id="classname">classe php</key>
+	<key id="parameters">paramètres</key>
+</i18n>

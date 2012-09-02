@@ -144,4 +144,8 @@
 	<key id="log-deactivated-tax">log deactivated tax</key>
 	<key id="reactivate-tax">reactivate.tax {documentlabel}</key>
 	<key id="log-reactivate-tax">log reactivate tax</key>
+	<key id="deactivated-comparableproperty">deactivated.comparableproperty {documentlabel}</key>
+	<key id="log-deactivated-comparableproperty">log deactivated comparableproperty</key>
+	<key id="reactivate-comparableproperty">reactivate.comparableproperty {documentlabel}</key>
+	<key id="log-reactivate-comparableproperty">log reactivate comparableproperty</key>
 </i18n>

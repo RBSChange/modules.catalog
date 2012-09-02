@@ -85,4 +85,6 @@
 	<actiondef modulename="catalog" actionname="reactivate.tax" label="m.catalog.bo.useractionlogger.reactivate-tax" />
 	<actiondef modulename="catalog" actionname="delete.shelf" label="m.catalog.bo.useractionlogger.delete-shelf" />
 	<actiondef modulename="catalog" actionname="delete.topshelf" label="m.catalog.bo.useractionlogger.delete-topshelf" />
+	<actiondef modulename="catalog" actionname="deactivated.comparableproperty" label="m.catalog.bo.useractionlogger.deactivated-comparableproperty" />
+	<actiondef modulename="catalog" actionname="reactivate.comparableproperty" label="m.catalog.bo.useractionlogger.reactivate-comparableproperty" />
 </script>
