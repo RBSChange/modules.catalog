@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.billingarea" lcid="en_GB">
+  <include id="m.generic.document.document"/>
+  <key id="document-name">billing zone</key>
+  <key id="codereference">reference code</key>
+  <key id="codereference-help">reference code used for synchronization purpose.</key>
+  <key id="currency">currency</key>
+  <key id="currency-help">billing zone currency.</key>
+  <key id="currencyposition">currency symbol position</key>
+  <key id="currencyposition-help">position of the currency symbol - this value is ignored if you have the PHP intl extension installed</key>
+  <key id="defaultzone">default tax zone code</key>
+  <key id="defaultzone-help">default tax zone code</key>
+  <key id="zone">geographical zone</key>
+  <key id="zone-help">geographical zone that can be used to set the customer's billing zone automatically</key>
+  <key id="boeditwithtax">edit prices with tax</key>
+  <key id="boeditwithtax-help">edit prices with tax in the backoffice interface</key>
+  <key id="storepricewithtax">store prices with tax</key>
+  <key id="storepricewithtax-help">store prices with tax in the database</key>
+  <key id="billingaddresszone">billing address zone</key>
+  <key id="billingaddresszone-help">zone used to validated the billing address during the order process</key>
+</i18n>

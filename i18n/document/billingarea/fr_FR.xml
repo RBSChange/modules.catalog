@@ -7,7 +7,7 @@
   <key id="currency">Devise</key>
   <key id="currency-help">Devise de la zone de facturation.</key>
   <key id="currencyposition">position du symbole</key>
-  <key id="currencyposition-help">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99.</key>
+  <key id="currencyposition-help">position du symbole de la devise par rapport au montant, par exemple : à droite 19,99 €, à gauche € 19,99. Cette valeur est ignorée si vous avez l'extension PHP intl.</key>
   <key id="defaultzone">zone de taxe par défaut</key>
   <key id="defaultzone-help">Code zone de taxe utilisé par défaut.</key>
   <key id="zone">zone géographique</key>
