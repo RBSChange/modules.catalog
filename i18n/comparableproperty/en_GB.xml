@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.comparableproperty" lcid="fr_FR">
+  <key id="short-description">short description</key>
+  <key id="price-without-tax">price (without tax)</key>
+  <key id="price-with-tax">price</key>
+  <key id="availability">availability</key>
+  <key id="brand">brand</key>
+  <key id="code-sku">code SKU</key>
+  <key id="minimum-quantity">minimum purchase quantity</key>
+  <key id="reviews-without-rating">customer reviews (without rating)</key>
+  <key id="reviews-with-rating">customer reviews (with rating)</key>
+</i18n>
