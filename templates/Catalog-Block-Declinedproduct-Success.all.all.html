@@ -61,8 +61,7 @@
 						</tal:block>
 						<select class="textfield" id="declination-selector-${context/getBlockId}" name="catalogParam[declinationId]" onchange="${selectorOnclick}">
 							<tal:block tal:repeat="declination php: declinedproduct.getPublishedDeclinationsInShop(shop)">
-								<option tal:condition="php: declination.getId() == product.getId()" selected="selected" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
-								<option tal:condition="php: declination.getId() != product.getId()" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
+								<option tal:attributes="selected php: declination.getId() EQ product.getId()" value="${declination/getId}">${declination/getFullLabelAsHtml}</option>
 							</tal:block>
 						</select>
 					</li>
@@ -72,7 +71,7 @@
 				</p>
 			</fieldset>
 		</form>
-	
+		
 		<tal:block tal:condition="defaultPrice">
 			<div tal:define="availability product/getAvailability" tal:condition="availability" class="normal availability ${php: product.isAvailable() ? 'messages' : 'warnings'}">
 				<p class="level">${availability}</p>
@@ -135,23 +134,9 @@
 			</tal:block>
 		</div>
 			
-		<form tal:condition="php: product.canBeAddedToCart(defaultPrice)" class="cmxform" action="${php: product.getAddToCartUrl(shop)}" method="post">
-			<fieldset>
-				<ol>
-					<li>
-						<label for="product-quantity">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
-						<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="${product/getMinOrderQuantity}" />
-					</li>
-					<li tal:condition="product/hasMinOrderQuantity">
-						<p class="help-text">${trans:m.catalog.fo.min-order-quantity,ucf,quantity=product/getMinOrderQuantity}</p>
-					</li>
-				</ol>
-				<p class="buttons">
-					<tal:block change:addtocartbutton="shop shop; product product" class="button primary" />
-				</p>
-			</fieldset>
-		</form>
-		
+		<tal:block change:block="" module="catalog" name="AddProductToCart" __cmpref="${product/getId}" __shop="${shop/getId}" __showAvailability="false"
+			defaultPrice="${defaultPrice}" />
+
 		<ul class="inline-list normal-margin" tal:condition="displayConfig/showAddLinkList">
 			<li tal:condition="displayConfig/showAddToFavorite">
 				<a change:link="module catalog; action UpdateList; listName 'catalog_favorite'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.frontoffice.add-to-favorite-button,ucf}</a><span class="separator" tal:condition="displayConfig/showAddToComparison"> | </span>

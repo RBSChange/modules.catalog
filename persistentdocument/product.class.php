@@ -288,6 +288,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return $this->commentCount;
 	}
 	
+	protected $priceCache = array();
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param catalog_persistentdocument_billingarea $billingArea
@@ -297,8 +299,13 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
-		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
+		$key = $shop->getId() . '/' .$billingArea->getId() . '/' . ($customer != null ? $customer->getId() : '0') . '/'. $quantity;
+		if (!array_key_exists($key, $this->priceCache))
+		{
+			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+			$this->priceCache = array($key => $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity));
+		}
+		return $this->priceCache[$key];
 	}
 	
 	/**

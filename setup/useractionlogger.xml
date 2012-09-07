@@ -88,6 +88,5 @@
   <actiondef modulename="catalog" actionname="update.crossitem" label="m.catalog.bo.useractionlogger.update-crossitem"/>
   <actiondef modulename="catalog" actionname="deactivated.crossitem" label="m.catalog.bo.useractionlogger.deactivated-crossitem"/>
   <actiondef modulename="catalog" actionname="reactivate.crossitem" label="m.catalog.bo.useractionlogger.reactivate-crossitem"/>
-  <actiondef modulename="catalog" actionname="deactivated.comparableproperty" label="m.catalog.bo.useractionlogger.deactivated-comparableproperty"/>
-  <actiondef modulename="catalog" actionname="reactivate.comparableproperty" label="m.catalog.bo.useractionlogger.reactivate-comparableproperty"/>
+  <actiondef modulename="catalog" actionname="insert.productqueryfolder" label="m.catalog.bo.useractionlogger.insert-productqueryfolder"/>
 </script>

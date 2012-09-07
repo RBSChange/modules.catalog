@@ -1,0 +1,27 @@
+<div class="modules-catalog-product">
+	<tal:block tal:condition="configuration/getShowAvailability">
+			<div tal:condition="not:canBeAddedToCart" class="normal availability warnings">
+				<p class="level">${trans:m.catalog.fo.add-to-cart-unavaible,ucf}</p>
+			</div>
+			<div tal:condition="canBeAddedToCart" tal:define="isAvailable php: productStock.getCurrentStockQuantity() GT 0" class="normal availability ${php: isAvailable ? 'messages' : 'warnings'}">
+				<p class="level">${productStock/getAvailability}</p> 
+				<p tal:condition="php: isAvailable AND product.getShippedIn()">${product/getShippedInLabelAsHtml}</p>
+			</div>
+	</tal:block>
+	<form tal:condition="canBeAddedToCart" class="cmxform" action="${addToCartURL}" method="post">
+		<fieldset>
+			<ol>
+				<li>
+					<label for="product-quantity">${trans:m.catalog.frontoffice.detail-quantity,ucf,lab}</label>
+					<input class="textfield" id="product-quantity" type="text" size="3" name="quantity" value="${product/getMinOrderQuantity}" />
+				</li>
+				<li tal:condition="product/hasMinOrderQuantity">
+					<p class="help-text">${trans:m.catalog.fo.min-order-quantity,ucf,quantity=product/getMinOrderQuantity}</p>
+				</li>
+			</ol>
+			<p class="buttons">
+				<tal:block change:addtocartbutton="shop shop; product product" class="button primary" />
+			</p>				
+		</fieldset>
+	</form>
+</div>

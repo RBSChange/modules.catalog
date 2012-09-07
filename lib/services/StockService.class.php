@@ -12,10 +12,9 @@ class catalog_StockService extends BaseService
 	const STOCK_ALERT_NOTIFICATION_CODENAME = 'modules_catalog/stockalert';
 
 	/**
-	 * Singleton
 	 * @var catalog_StockService
 	 */
-	private static $instance = null;
+	protected static $instance = null;
 
 	/**
 	 * @return catalog_StockService
@@ -28,20 +27,28 @@ class catalog_StockService extends BaseService
 		}
 		return self::$instance;
 	}
+	
+	/**
+	 * @param order_CartInfo $cart
+	 */
+	public function initCartMode($cart)
+	{
+		
+	}
 
 	/**
-	 * @param catalog_persistentdocument_product $document
+	 * @param catalog_persistentdocument_product $product
 	 * @return catalog_StockableDocument
 	 */
-	public function getStockableDocument($document)
+	public function getStockableDocument($product)
 	{
-		if ($document instanceof catalog_StockableDocument)
+		if ($product instanceof catalog_StockableDocument)
 		{
-			return $document;
+			return $product;
 		}
 		return null;
 	}
-
+	
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param Double $quantity

@@ -1119,14 +1119,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	public static function formatValue($value, $shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $shop->getCurrentBillingArea()->formatPrice($value);
 	}
 	
@@ -1135,15 +1128,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 	 */
 	protected function clonePrice($price)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		
+		Framework::deprecated('Removed in 4.0');
 		$newPrice = $price->getDocumentService()->getNewDocumentInstance();
 		$price->copyPropertiesTo($newPrice, true);
 		$newPrice->setMeta("f_tags", array());

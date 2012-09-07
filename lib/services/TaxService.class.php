@@ -329,14 +329,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getTaxRate($shopId, $taxCategory, $taxZone)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		$shop = DocumentHelper::getDocumentInstanceIfExists($shopId);
 		if ($shop instanceof catalog_persistentdocument_shop)
 		{
@@ -351,14 +344,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getTaxDocument($shopId, $taxCategory, $taxZone)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		$shop = DocumentHelper::getDocumentInstanceIfExists($shopId);
 		if ($shop instanceof catalog_persistentdocument_shop)
 		{
@@ -373,14 +359,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getTaxRateByCode($code)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		$parts = explode(',', $code);
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		if ($shop === null) {throw new Exception('No current shop defined');}
@@ -402,14 +381,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getTaxZonesForShop($shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getZonesCodeForBillingArea($shop->getDefaultBillingArea());
 	}
 	
@@ -419,14 +391,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getZonesForShop($shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getAllZonesForBillingArea($shop->getDefaultBillingArea());
 	}
 
@@ -435,14 +400,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function addNoTaxForShopAndZone($shopId, $taxZone)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		$shop = DocumentHelper::getDocumentInstanceIfExists($shopId);
 		if ($shop instanceof catalog_persistentdocument_shop)
 		{
@@ -456,14 +414,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getBoTaxeInfoForShop($shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getBoTaxeInfoForBillingArea($shop->getDefaultBillingArea());
 	}
 		
@@ -472,14 +423,7 @@ class catalog_TaxService extends f_persistentdocument_DocumentService
 	 */
 	public function getByShop($shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getByBillingArea($shop->getDefaultBillingArea());
 	}
 }

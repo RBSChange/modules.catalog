@@ -7,7 +7,7 @@ $compileAll = $argv[2] == 1;
 $tm = f_persistentdocument_TransactionManager::getInstance();
 $ids = catalog_ProductService::getInstance()->getProductIdsToCompile($lastId, $chunkSize, $compileAll);
 
-foreach (array_chunk($ids, 10) as $chunk)
+foreach (array_chunk($ids, 50) as $chunk)
 {
 	try
 	{

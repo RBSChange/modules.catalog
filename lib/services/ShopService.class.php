@@ -588,14 +588,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	public function getCurrencySymbol($shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}		
+		Framework::deprecated('Removed in 4.0');		
 		return $shop->getDefaultBillingArea()->getCurrency()->getSymbol();
 	}
 	
@@ -604,14 +597,7 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	public function getPriceFormat($shop)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		if ($shop === null) {return "%s";}
 		return $shop->getDefaultBillingArea()->getPriceFormat();
 	}

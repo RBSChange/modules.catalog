@@ -12,14 +12,7 @@ class catalog_PriceHelper
 	 */	
 	public static function getTaxRateByValue($price, $priceWithoutTaxe)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return catalog_TaxService::getInstance()->getTaxRateByValue($price, $priceWithoutTaxe);
 	}
 
@@ -28,14 +21,7 @@ class catalog_PriceHelper
 	 */
 	public static function getCurrencySymbol($code)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		$cs = catalog_CurrencyService::getInstance()->getCurrencySymbolsArray();
 		if (!isset($cs[$code]))
 		{
@@ -50,14 +36,7 @@ class catalog_PriceHelper
 	 */
 	public static function addTax($value, $taxCode)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return ($value * (1 + self::getTaxRateByCode($taxCode)));
 	}
 
@@ -66,14 +45,7 @@ class catalog_PriceHelper
 	 */
 	public static function removeTax($value, $taxCode)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return ($value / (1 + self::getTaxRateByCode($taxCode)));
 	}
 	
@@ -82,14 +54,7 @@ class catalog_PriceHelper
 	 */
 	public static function formatTaxRate($taxRate)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return (round($taxRate * 100, 2)) . "%";
 	}
 
@@ -99,14 +64,7 @@ class catalog_PriceHelper
 	 */
 	public static function applyFormat($priceValue, $format)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		$priceValue = catalog_PriceFormatter::getInstance()->round($priceValue);
 		return sprintf($format, number_format($priceValue, 2, ',', ' '));
 	}
@@ -116,14 +74,7 @@ class catalog_PriceHelper
 	 */
 	public static function roundPrice($value)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return catalog_PriceFormatter::getInstance()->round($value);
 	}
 	
@@ -132,14 +83,7 @@ class catalog_PriceHelper
 	 */
 	public static function getTaxRateByCode($code)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return catalog_TaxService::getInstance()->getTaxRateByCode($code);
 	}
 		
@@ -149,13 +93,6 @@ class catalog_PriceHelper
 	 */
 	public static final function setTaxRateResolverStrategy($strategy)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 	}
 }

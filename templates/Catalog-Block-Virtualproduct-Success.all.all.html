@@ -94,14 +94,9 @@
 			</tal:block>
 		</div>
 			
-		<form tal:condition="php: product.canBeAddedToCart(defaultPrice)" class="cmxform" action="${php: product.getAddToCartUrl(shop)}" method="post">
-			<fieldset>
-				<p class="buttons">
-					<tal:block change:addtocartbutton="shop shop; product product" class="button primary" />
-				</p>
-			</fieldset>
-		</form>
-		
+		<tal:block change:block="" module="catalog" name="AddProductToCart" __cmpref="${product/getId}" __shop="${shop/getId}" __showAvailability="false"
+			defaultPrice="${defaultPrice}" />	
+
 		<ul class="inline-list normal-margin" tal:condition="displayConfig/showAddLinkList">
 			<li tal:condition="displayConfig/showAddToFavorite">
 				<a change:link="module catalog; action UpdateList; listName 'catalog_favorite'; productIds[] product/getId; mode 'add'; backurl currenturl:attr; refererPageId context/getId">${trans:m.catalog.frontoffice.add-to-favorite-button,ucf}</a><span class="separator" tal:condition="displayConfig/showAddToComparison"> | </span>

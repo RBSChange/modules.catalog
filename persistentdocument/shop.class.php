@@ -179,14 +179,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	public function getBoTaxZone()
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		if ($this->getDefaultBillingArea()->getBoEditWithTax())
 		{
 			return $this->getDefaultBillingArea()->getDefaultZone();
@@ -199,14 +192,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	public function getCurrencySymbol()
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getDefaultBillingArea()->getCurrency()->getSymbol();
 	}
 	
@@ -215,14 +201,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	public function getCurrencyCode()
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getDefaultBillingArea()->getCurrencyCode();
 	}	
 	
@@ -231,14 +210,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	public function formatPrice($value)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return $this->getCurrentBillingArea()->formatPrice($value);
 	}
 	
@@ -247,15 +219,7 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	 */
 	public function formatTaxRate($taxRate)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
+		Framework::deprecated('Removed in 4.0');
 		return catalog_TaxService::getInstance()->formatRate($taxRate);
 	}
-
 }

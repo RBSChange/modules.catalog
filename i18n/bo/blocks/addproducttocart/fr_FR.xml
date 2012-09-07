@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.addproducttocart" lcid="fr_FR">
+  <key id="title">Bouton d'ajout au panier</key>
+  
+  <key id="cmpref">produit</key>
+  <key id="cmpref-help">produit à ajouter</key>
+  
+  <key id="displaymode">mode d'affichage</key>
+  <key id="displaymode-help">mode d'affichage [success] ou short</key>
+  
+  <key id="shop">Boutique</key>
+  <key id="shop-help">Boutique</key>
+  
+  <key id="popinpage">Popin de configuration</key>
+  <key id="popinpage-help">Popin de configuration avant l'ajout au panier</key>
+  
+  <key id="showavailability">afficher la disponibilité</key>
+  <key id="showavailability-help">afficher la disponibilité web</key>
+  
+  <key id="showaddtocart">afficher le bouton</key>
+  <key id="showaddtocart-help">afficher le bouton</key>
+</i18n>
