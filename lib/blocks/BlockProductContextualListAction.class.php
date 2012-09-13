@@ -16,7 +16,7 @@ class catalog_BlockProductContextualListAction extends catalog_BlockProductlistB
 	 */
 	protected function getParentId()
 	{
-		return end($this->getContext()->getAncestorIds());
+		return f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 	}
 	
 	
