@@ -1,3 +1,4 @@
+Last merge with 3.6 : https://github.com/RBSChange/modules.catalog/commit/f9e5ef35d9265792745a7cb0d9c77e884669cd2b
 
 removed function :
 catalog_BlockProductBaseAction / protected function addProductToFavorites
@@ -80,7 +81,7 @@ catalog_GaugeObject
 catalog_SessionLists
 catalog_PriceHelper
 
-removed interface
+removed interface :
 catalog_PriceFormatStrategy
 
 removed catalog_BlockProductlist Configuration / showQuantitySelector
