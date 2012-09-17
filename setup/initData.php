@@ -22,6 +22,7 @@ class catalog_Setup extends object_InitDataSetup
 		$this->addBackGroundCompileTask();
 		$this->addAlertTasks();
 		$this->addRelatedProductAutoFeedTask();
+		$this->addWebsiteSynchroTask();
 	}
 	
 	/**
@@ -63,5 +64,20 @@ class catalog_Setup extends object_InitDataSetup
 		$task->setLabel('catalog_SendAlertsTask');
 		$task->setMinute(0);
 		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
+	}
+	
+	/**
+	 * @return void
+	 */
+	private function addWebsiteSynchroTask()
+	{
+		$tasks = task_PlannedtaskService::getInstance()->getBySystemtaskclassname('catalog_WebsiteSynchroTask');
+		if (count($tasks) === 0)
+		{
+			$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
+			$task->setSystemtaskclassname('catalog_WebsiteSynchroTask');
+			$task->setLabel('catalog_WebsiteSynchroTask');
+			$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
+		}
 	}
 }

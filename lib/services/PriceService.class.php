@@ -213,7 +213,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		$result = array('all' => array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-all', $formatter)),
 					'shop' =>  array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-shop', $formatter)));
 		
-		if (catalog_ModuleService::areCustomersEnabled())
+		if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 		{
 			$result['group'] = array('label' => LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-group', $formatter));
 			$result['customer'] = array('label' =>LocaleService::getInstance()->trans('m.catalog.bo.doceditor.panel.prices.type-customer', $formatter));
@@ -233,13 +233,13 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		switch ($targetType)
 		{
 			case 'customer' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					return array("type" => "document", "allow" => "modules_customer_customer", "moduleselector" => "customer");	
 				}
 				break;
 			case 'group' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					return array("type" => "document", "allow" => "modules_customer_tarifcustomergroup", "moduleselector" => "customer");
 				}
@@ -270,7 +270,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		switch ($targetType)
 		{
 			case 'customer' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					$targets = customer_CustomerService::getInstance()->createQuery()
 						->add(Restrictions::eq('user.websiteid', $shop->getWebsite()->getId()))
@@ -279,7 +279,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 				}
 				break;				
 			case 'group' :
-				if (catalog_ModuleService::areCustomersEnabled())
+				if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 				{
 					$targets = customer_TarifcustomergroupService::getInstance()->createQuery()
 					->setProjection(Projections::property('id'), Projections::property('label'))
@@ -1076,65 +1076,5 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 			return 'startafter';
 		}
 		return 'include';
-		
-	}
-	
-	
-	// Deprecated.
-		
-	/**
-	 * @deprecated
-	 */
-	protected function refreshThresholdMax($document)
-	{
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	protected function refreshNextThresholdMax($document)
-	{
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public static function formatValue($value, $shop)
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		return $shop->getCurrentBillingArea()->formatPrice($value);
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	protected function clonePrice($price)
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		
-		$newPrice = $price->getDocumentService()->getNewDocumentInstance();
-		$price->copyPropertiesTo($newPrice, true);
-		$newPrice->setMeta("f_tags", array());
-		$newPrice->setMeta(self::META_IS_REPLICATED, null);
-		$newPrice->setAuthor(null);
-		$newPrice->setAuthorid(null);
-		$newPrice->setCreationdate(null);
-		$newPrice->setModificationdate(null);
-		$newPrice->setDocumentversion(0);
-		return $newPrice;
 	}
 }

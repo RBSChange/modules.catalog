@@ -165,27 +165,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param catalog_persistentdocument_shop $shop
-	 * @param string $type from list 'modules_catalog/crosssellingtypes'
-	 * @return catalog_persistentdocument_product[]
-	 */
-	public function getDisplayableCrossSellingIds($document, $shop, $type = 'complementary')
-	{
-		$methodName = 'getPublished'.ucfirst($type).'Array';
-		if (!f_util_ClassUtils::methodExists($document, $methodName))
-		{
-			throw new Exception('Bad method name: '.$methodName);
-		}
-		$productIds = array();
-		foreach ($document->{$methodName}() as $product)
-		{
-			$productIds[] = $product->getId();
-		}
-		return $this->filterIdsForDisplay($productIds, $shop);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param catalog_persistentdocument_shop $shop
 	 * @return integer[] 
 	 */
 	public function filterIdsForDisplay($productIds, $shop = null)
@@ -718,20 +697,26 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param integer $lastId
+	 * @param integer $chunkSize
+	 * @param boolean $compileAll
 	 * @return integer[]
 	 */
-	public final function getProductIdsToCompile()
+	public function getProductIdsToCompile($lastId = 0, $chunkSize = 100, $compileAll = false)
 	{
-		return $this->createQuery()
-			->add(Restrictions::eq('compiled', false))
-			->setProjection(Projections::property('id', 'id'))
-			->findColumn('id');
+		$query = $this->createQuery();
+		if (!$compileAll)
+		{
+			$query->add(Restrictions::eq('compiled', false));
+		}
+		$query->add(Restrictions::gt('id', $lastId))->addOrder(Order::asc('id'))->setMaxResults($chunkSize);
+		return $query->setProjection(Projections::property('id', 'id'))->findColumn('id');
 	}
 	
 	/**
 	 * @return integer
 	 */
-	public final function getCountProductIdsToCompile()
+	public function getCountProductIdsToCompile()
 	{
 		$data = $this->createQuery()
 			->add(Restrictions::eq('compiled', false))
@@ -743,7 +728,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @return integer[]
 	 */
-	public final function getAllProductIdsToCompile()
+	public function getAllProductIdsToCompile()
 	{
 		return $this->createQuery()->setProjection(Projections::property('id', 'id'))->findColumn('id');
 	}
@@ -751,22 +736,30 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	/**
 	 * @return integer[]
 	 */
-	public final function getAllProductIdsToFeedRelated()
+	public function getAllProductIdsToFeedRelated()
 	{
 		return $this->createQuery()->setProjection(Projections::property('id', 'id'))->findColumn('id');
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param boolean $recursive
 	 * @return integer[]
 	 */
-	protected final function getCompiledProductIdsForShelf($shelf)
+	protected function getCompiledProductIdsForShelf($shelf, $recursive = true)
 	{
-		$shelfIds = catalog_ShelfService::getInstance()->createQuery()
-			->add(Restrictions::descendentOf($shelf->getId()))
-			->setProjection(Projections::groupProperty('id', 'id'))
-			->findColumn('id');
-		$shelfIds[] = $shelf->getId();
+		if ($recursive)
+		{
+			$shelfIds = catalog_ShelfService::getInstance()->createQuery()
+				->add(Restrictions::descendentOf($shelf->getId()))
+				->setProjection(Projections::groupProperty('id', 'id'))
+				->findColumn('id');
+			$shelfIds[] = $shelf->getId();
+		}
+		else
+		{
+			$shelfIds = array($shelf->getId());
+		}
 		
 		$productIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
 			->add(Restrictions::in('shelf.id', $shelfIds))
@@ -783,19 +776,20 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	{
 		if (f_util_ArrayUtils::isNotEmpty($productIds))
 		{
+			$tm = $this->getTransactionManager();
 			try 
 			{
-				$this->getTransactionManager()->beginTransaction();
+				$tm->beginTransaction();
 				foreach ($productIds as $productId) 
 				{
-					$product = $this->getDocumentInstance($productId, 'modules_catalog/product');
+					$product = catalog_persistentdocument_product::getInstanceById($productId);
 					$product->getDocumentService()->updateCompiledProperty($product, false);
 				}
-				$this->getTransactionManager()->commit();
+				$tm->commit();
 			} 
 			catch (Exception $e)
 			{
-				$this->getTransactionManager()->rollBack($e);
+				$tm->rollBack($e);
 			}
 		}
 	}
@@ -809,34 +803,61 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			Framework::info(__METHOD__);
 		}
-		$productIds = array();		
-		foreach ($shop->getTopShelfArray() as $topShelf) 
-		{
-			$productIds = array_merge($productIds, $this->getCompiledProductIdsForShelf($topShelf));
-		}
 		
-		$compiledProdIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
-			->add(Restrictions::eq('compiledproduct.shopId', $shop->getId()))		
+		if (catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
+		{
+			$shelfIds = array();
+			foreach ($shop->getTopShelfArray() as $topShelf) 
+			{
+				$shelfIds[] = $topShelf->getId();
+			}
+			
+			if (count($shelfIds))
+			{
+				catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds($shelfIds);
+			}
+		}
+		else
+		{
+			$productIds = array();
+			foreach ($shop->getTopShelfArray() as $topShelf)
+			{
+				$productIds = array_merge($productIds, $this->getCompiledProductIdsForShelf($topShelf));
+			}
+			
+			$compiledProdIds = $this->createQuery()->add(Restrictions::eq('compiled', true))
+			->add(Restrictions::eq('compiledproduct.shopId', $shop->getId()))
 			->setProjection(Projections::groupProperty('id', 'id'))
 			->findColumn('id');
-					
-		$productIds = array_unique(array_merge($productIds, $compiledProdIds));
-		
-		$this->setNeedCompile($productIds);
+				
+			$productIds = array_unique(array_merge($productIds, $compiledProdIds));
+			
+			$this->setNeedCompile($productIds);			
+		}
 	}
 	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param boolean $recursive
 	 */
-	public function setNeedCompileForShelf($shelf)
+	public function setNeedCompileForShelf($shelf, $recursive = true)
 	{
 		if (Framework::isInfoEnabled())
 		{
 			Framework::info(__METHOD__);
 		}
-		$ids = $this->getCompiledProductIdsForShelf($shelf);
-		$this->setNeedCompile($ids);
+		
+		if ($recursive && catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
+		{
+			catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds(array($shelf->getId()));
+		}
+		else
+		{
+			$ids = $this->getCompiledProductIdsForShelf($shelf, $recursive);
+			$this->setNeedCompile($ids);
+		}
 	}
+	
 
 	/**
 	 * @param brand_persistentdocument_brand $brand
@@ -1411,10 +1432,11 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_product $product
-	 * @param string $actionType
+	 * @param string[] $propertiesNames
 	 * @param array $formProperties
+	 * @param integer $parentId
 	 */
-	public function addFormProperties($product, $propertiesNames, &$formProperties)
+	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
 	{
 		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
 		if (in_array('complementary', $propertiesNames))
@@ -1489,89 +1511,28 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		return null;
 	}
 	
-	// Deprecated
-	
 	/**
-	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
+	 * Moves $document into the destination node identified by $destId.
+	 *
+	 * @param catalog_persistentdocument_product $document The document to move.
+	 * @param integer $destId ID of the destination node.
+	 * @param integer $beforeId
+	 * @param integer $afterId
 	 */
-	public function getPrimaryShelf($product, $website = null, $publlishedOnly = false)
+	public function moveTo($document, $destId, $beforeId = null, $afterId = null)
 	{
-		if ($website === null)
+		$dest = DocumentHelper::getDocumentInstanceIfExists($destId);
+		if (($dest instanceof catalog_persistentdocument_noshelfproductfolder) && ($document instanceof catalog_persistentdocument_product))
 		{
-			return $this->getBoPrimaryShelf($product);
-		}
-		else 
-		{
-			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-			return $this->getShopPrimaryShelf($product, $shop, $publlishedOnly);
-		}
-	}
-
-	/**
-	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
-	 */
-	public function getPrimaryCompiledProductForWebsite($product, $website)
-	{
-		$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-		return $this->getPrimaryCompiledProductForShop($product, $shop);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPrimaryCompiledProductForShop instead
-	 */
-	public function generateUrlForShop($product, $shop, $lang = null, $parameters = array(), $useCache = true)
-	{
-		if (!$shop->getIsDefault())
-		{
-			$parameters['catalogParam']['shopId'] = $shop->getId();
-		}
-		return website_UrlRewritingService::getInstance()->getDocumentLinkForWebsite($product, $shop->getWebsite(), $lang, $parameters)->getUrl();
-	}
-	
-	/**
-	 * @deprecated use getDisplayableCrossSellingIds
-	 */
-	public function getDisplayableCrossSelling($document, $shop, $type = 'complementary', $sortBy = 'fieldorder')
-	{
-		// TODO: is there a more simple implementation?
-		$methodName = 'getPublished'.ucfirst($type).'Array';
-		if (!f_util_ClassUtils::methodExists($document, $methodName))
-		{
-			throw new Exception('Bad method name: '.$methodName);
-		}
-		$products = $document->{$methodName}();
-	
-		if (count($products))
-		{
-			$query = catalog_ProductService::getInstance()->createQuery()
-			->add(Restrictions::in('id', DocumentHelper::getIdArrayFromDocumentArray($products)));
-			$query->createCriteria('compiledproduct')
-			->add(Restrictions::eq('shopId', $shop->getId()))
-			->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-			->add(Restrictions::published());
-			$displayableProducts = $query->find();
+			if ($document->getShelfCount())
+			{
+				$document->removeAllShelf();
+				$document->save();
+			}
 		}
 		else
 		{
-			return array();
+			parent::moveTo($document, $destId, $beforeId, $afterId);
 		}
-	
-		if ($sortBy == 'random')
-		{
-			shuffle($displayableProducts);
-		}
-		else if ($sortBy == 'fieldorder')
-		{
-			$displayableIds = DocumentHelper::getIdArrayFromDocumentArray($displayableProducts);
-			$displayableProducts = array();
-			foreach ($products as $product)
-			{
-				if (in_array($product->getId(), $displayableIds))
-				{
-					$displayableProducts[] = $product;
-				}
-			}
-		}
-		return $displayableProducts;
 	}
 }

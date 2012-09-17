@@ -39,24 +39,4 @@ class catalog_BlockLastConsultedProductsAction extends catalog_BlockProductlistB
 	{
 		return false;
 	}
-	
-	// Deprecated.
-	
-	/**
-	 * @deprecated use getProductIdArray()
-	 */
-	protected function getProductArray($request)
-	{
-		$productsIds = $this->getProductIdArray($request);
-		if (f_util_ArrayUtils::isEmpty($productsIds))
-		{
-			return null;
-		}
-		$result = array();
-		foreach ($productsIds as $id)
-		{
-			$result[] = DocumentHelper::getDocumentInstance($id, 'modules_catalog/product');
-		}
-		return $result;
-	}
 }

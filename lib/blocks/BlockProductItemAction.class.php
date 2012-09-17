@@ -12,10 +12,18 @@ class catalog_BlockProductItemAction extends website_BlockAction
 	public function getCacheKeyParameters($request)
 	{
 		$displayConfig = $request->getParameter('displayConfig');
+		$shop = $this->findParameterValue('shop');
+		$shopId = $ba = 0;
+		if ($shop instanceof catalog_persistentdocument_shop)
+		{
+			$shopId = $shop->getId();
+			$ba = $shop->getCurrentBillingArea()->getId();
+		}
 		$keys = array('displayConfig' => $displayConfig,
 			'productid' => $this->getDocumentIdParameter(),
-			'shopId' => $this->findParameterValue('shop')->getId(),
+			'shopId' => $shopId, 'ba' => $ba,
 			'displayMode' => $request->getParameter('displayMode', 'list'));
+		
 		
 		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
 		{
@@ -59,9 +67,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 	 * @return string
 	 */
 	public function execute($request, $response)
-	{
-		Framework::info(__METHOD__ . ' -> ' . $this->getDocumentIdParameter());
-		
+	{		
 		$displayConfig = $request->getParameter('displayConfig', array());
 		if (isset($displayConfig['displayCustomerPrice']) && $displayConfig['displayCustomerPrice'])
 		{
@@ -71,6 +77,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		{
 			$request->setAttribute('customer', null);
 		}
+		
 		/* @var $product catalog_persistentdocument_product */
 		$product = $this->getDocumentParameter();
 		$request->setAttribute('product', $product);
@@ -79,7 +86,7 @@ class catalog_BlockProductItemAction extends website_BlockAction
 		{
 			$shop = $this->findParameterValue('shop');
 			$compiledProduct = $product->getDocumentService()->getPrimaryCompiledProductForShop($product, $shop);
-			$popinPageId = $compiledProduct->getPopinPageId();
+			$popinPageId = $compiledProduct ? $compiledProduct->getPopinPageId() : null;
 			if ($popinPageId)
 			{
 				$request->setAttribute('popinPageId', $popinPageId);

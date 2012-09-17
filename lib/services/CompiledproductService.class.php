@@ -541,13 +541,44 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @var catalog_FacetIndexerStrategy
+	 */
+	private $indexFacetsStrategy = false;
+	
+	/**
 	 * @param catalog_persistentdocument_compiledproduct $compiledProduct
 	 * @param indexer_IndexedDocument $indexDocument
 	 * @return boolean
 	 */
 	public function indexFacets($compiledProduct, $indexDocument)
 	{
-		return catalog_ProductFacetIndexer::getInstance()->populateIndexDocument($indexDocument, $compiledProduct);
+		if ($this->indexFacetsStrategy === false)
+		{
+			$this->indexFacetsStrategy = null;
+			$className = Framework::getConfigurationValue('modules/catalog/productFacetIndexerStrategyClass', false);
+			if ($className !== false && class_exists($className))
+			{
+				$strategy = new $className();
+				if ($strategy instanceof catalog_FacetIndexerStrategy)
+				{
+					$this->indexFacetsStrategy = $strategy;
+				}
+			}
+		}
+		
+		if ($this->indexFacetsStrategy)
+		{
+			try
+			{
+				return $this->indexFacetsStrategy->populateIndexDocument($indexDocument, $compiledProduct);
+			} 
+			catch (Exception $e) 
+			{
+				Framework::exception($e);
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -592,7 +623,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				$indexedDocument->addAggregateText($topShelf->getLabel());
 				$product = $document->getProduct();
 				$product->getDocumentService()->getIndexedDocumentByCompiledProduct($indexedDocument, $document, $product, $indexService);
-				$this->indexFacets($document, $indexedDocument);
+				if (!$this->indexFacets($document, $indexedDocument))
+				{
+					$indexedDocument->foIndexable(false);
+				}
 			}
 			else
 			{
@@ -604,23 +638,5 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			Framework::exception($e);
 			$indexedDocument->foIndexable(false);
 		}
-	}
-
-	/**
-	 * DEPRECATED function
-	 */
-	
-	/**
-	 * @deprecated 
-	 */
-	public function disableCompilation()
-	{
-	}
-	
-	/**
-	 * @deprecated 
-	 */
-	public function enableCompilation()
-	{
 	}
 }

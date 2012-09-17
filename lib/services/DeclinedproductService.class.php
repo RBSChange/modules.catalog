@@ -153,38 +153,41 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			
 			catalog_ProductdeclinationService::getInstance()->copyPricesOnDeclinationIds($prices, $declinationIds);
 		}
-		else if ($document->isPropertyModified('synchronizePrices') && $document->getSynchronizePrices() === false)
+		
+		if ($document->isPropertyModified('synchronizePrices'))
 		{
-			// Update declination prices.
 			$declinationIds = DocumentHelper::getIdArrayFromDocumentArray($document->getDeclinationArray());
-			$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
-			foreach ($query->find() as $lockedPrice)
+			if (count($declinationIds))
 			{
-				$lockedForId = $lockedPrice->getLockedFor();
-				if (intval($lockedForId) > 0)
+				if ($document->getSynchronizePrices() === false)
 				{
-					try 
+					// Update declination prices.
+					$query = catalog_LockedpriceService::getInstance()->createQuery()->add(Restrictions::in('productId', $declinationIds));
+					foreach ($query->find() as $lockedPrice)
 					{
-						$lockForDocument = DocumentHelper::getDocumentInstance($lockedForId);
+						/* @var $lockedPrice catalog_persistentdocument_lockedprice */
+						$lockedForId = $lockedPrice->getLockedFor();
+						$lockForDocument = DocumentHelper::getDocumentInstanceIfExists($lockedForId);
 						if ($lockForDocument instanceof catalog_persistentdocument_price)
 						{
 							$lockForDocument->getDocumentService()->convertToNotReplicated($lockedPrice, $lockForDocument);
 						}
 					}
-					catch (Exception $e)
+					$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
+				}
+				else
+				{
+					foreach ($ps->createQuery()->add(Restrictions::in('productId', $declinationIds))->find() as $price)
 					{
-						//$lockedForId is not a valid document id
-						Framework::exception($e);
-					}
+						if (!($price instanceof catalog_persistentdocument_lockedprice))
+						{
+							$price->delete();
+						}
+					}	
 				}
 			}
-			
-			// Delete existing prices on the declined product.
-			$ps->createQuery()->add(Restrictions::eq('productId', $document->getId()))->delete();
 		}
-		
-		$this->synchronizeFields($document);
-		
+
 		$propertiesNeedDeclinationUpdate = array_merge($this->getSynchronizedPropertiesName(), $this->getAxeManagmentPropertiesName());
 		$array = array_intersect($document->getModifiedPropertyNames(), $propertiesNeedDeclinationUpdate);
 		if (count($array))
@@ -204,66 +207,6 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	{
 		// Delete the declinations.
 		catalog_ProductdeclinationService::getInstance()->createQuery()->add(Restrictions::eq('declinedproduct', $document))->delete();
-	}
-	
-	/**
-	 * WARN: This method does not do anything anymore
-	 * The job is now done in ProductdeclinationService::synchronizePropertiesByDeclinedProduct().
-	 * Please implement getSynchronizedPropertiesName() if you want to deactivate
-	 * or add some synchronization between declinedproduct and productdeclination.
-	 * Cf. http://www.rbschange.fr/tickets-42692.html
-	 * @deprecated will be removed in 4.0
-	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @return boolean
-	 */
-	protected function synchronizeFields($document)
-	{
-		// Nothing there: if similar or complementary modified, this will be done by
-		// declination service because of "touchAllDeclinations" called in preUpdate()
-		
-		return false;
-	}
-	
-	/**
-	 * WARN: is not called anymore
-	 * @param catalog_persistentdocument_declinedproduct $document
-	 * @param string $fieldName
-	 * @deprecated will be removed in 4.0
-	 */
-	protected function synchronizeField($document, $fieldName)
-	{
-		// only there to preserve potential project specific code
-		$ucfirstFieldName = ucfirst($fieldName);
-		$oldIds = $document->{'get'.$ucfirstFieldName.'OldValueIds'}();
-		$currentProducts = $document->{'get'.$ucfirstFieldName.'Array'}();
-		$currentIds = DocumentHelper::getIdArrayFromDocumentArray($currentProducts);		
-		$declinations = catalog_ProductdeclinationService::getInstance()->getArrayByDeclinedProduct($document);
-		$addIds = array_diff($currentIds, $oldIds);
-		$removeIds = array_diff($oldIds, $currentIds);
-		foreach ($declinations as $declination)
-		{
-			if (count($addIds))
-			{
-				// Update added products.
-				foreach ($addIds as $productId)
-				{
-					$product = DocumentHelper::getDocumentInstance($productId);
-					if ($declination === $product) {continue;}
-					$declination->{'add'.$ucfirstFieldName}($product);
-				}
-			}
-			if (count($removeIds))
-			{
-				// Update removed products.
-				foreach ($removeIds as $productId)
-				{
-					$product = DocumentHelper::getDocumentInstance($productId);
-					if ($declination === $product) {continue;}
-					$declination->{'remove'.$ucfirstFieldName}($product);
-				}
-			}
-			$declination->save();
-		}
 	}
 	
 	/**
@@ -300,7 +243,10 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			}
 		}
 	}
-
+	
+	/**
+	 * @return string[]
+	 */
 	public function getSynchronizedPropertiesName()
 	{
 		return array('shelf', 'brand', 'upsell', 'similar', 'complementary',
@@ -308,29 +254,12 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			'pageTitle', 'pageDescription', 'pageKeywords');
 	}
 	
+	/**
+	 * @return string[]
+	 */	
 	public function getAxeManagmentPropertiesName()
 	{
 		return array('axe1', 'axe2', 'axe3', 'showAxeInList'); 
-	}
-	
-	private $showInListInfos;
-	
-	/**
-	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
-	 * @return integer[][]
-	 */	
-	public function getShowInListInfos($declinedProduct)
-	{
-		if ($declinedProduct->getAxesRawConfiguration() === null)
-		{
-			$data = $this->generateShowInListInfos($declinedProduct);
-			$declinedProduct->setAxesRawConfiguration(serialize($data));
-		}
-		else
-		{
-			$data = unserialize($declinedProduct->getAxesRawConfiguration());
-		}
-		return $data;
 	}
 	
 	/**
@@ -339,7 +268,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */	
 	public function generateShowInListInfos($declinedProduct)
 	{
-		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct);
+		$rows = catalog_ProductdeclinationService::getInstance()->getIdAndAxesArrayByDeclinedProduct($declinedProduct, true);
 		$axeVisible = $declinedProduct->getShowAxeInList();
 		$result = array();
 		foreach ($rows as $row) 
@@ -726,10 +655,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $product
-	 * @param string $actionType
+	 * @param string[] $propertiesNames
 	 * @param array $formProperties
+	 * @param integer $parentId
 	 */
-	public function addFormProperties($product, $propertiesNames, &$formProperties)
+	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
 	{
 		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
 		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
@@ -778,5 +708,30 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			return $urlRewritingService->getDocumentLinkForWebsite($defaultDeclination, $website, $lang, $parameters);
 		}
 		return null;
+	}
+	
+	/**
+	 * Moves $document into the destination node identified by $destId.
+	 *
+	 * @param catalog_persistentdocument_declinedproduct $document The document to move.
+	 * @param integer $destId ID of the destination node.
+	 * @param integer $beforeId
+	 * @param integer $afterId
+	 */
+	public function moveTo($document, $destId, $beforeId = null, $afterId = null)
+	{
+		$dest = DocumentHelper::getDocumentInstanceIfExists($destId);
+		if (($dest instanceof catalog_persistentdocument_noshelfproductfolder) && ($document instanceof catalog_persistentdocument_declinedproduct))
+		{
+			if ($document->getShelfCount())
+			{
+				$document->removeAllShelf();
+				$document->save();
+			}
+		}
+		else
+		{
+			parent::moveTo($document, $destId, $beforeId, $afterId);
+		}
 	}
 }

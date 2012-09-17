@@ -24,22 +24,10 @@ class catalog_BlockBundleproductAction extends catalog_BlockProductBaseAction
 		/* @var $product catalog_persistentdocument_bundleproduct */
 		$product = $this->getDocumentParameter();
 		
-		// @deprecated this should not be used anymore. See order_AddToCartAction
-		if ($request->getParameter('addToCart') !== null)
-		{
-			$this->addProductToCartForCurrentBlock($product);
-		}
-		
-		// @deprecated this should not be used anymore. See catalog_UpdateListAction
-		if ($request->getParameter('addToList') !== null)
-		{
-			$this->addProductToFavorites($product);
-		}
-		
 		$shop = catalog_ShopService::getInstance()->getCurrentShop(); 
 		
 		$customer = null;
-		if (catalog_ModuleService::areCustomersEnabled())
+		if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 		{
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}

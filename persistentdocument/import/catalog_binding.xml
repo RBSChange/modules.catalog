@@ -33,4 +33,6 @@
   <binding name="comparablepropertyfolder" className="catalog_ComparablepropertyfolderScriptDocumentElement"/>
   <binding name="billingarea" className="catalog_BillingareaScriptDocumentElement"/>
   <binding name="billingareafolder" className="catalog_BillingareafolderScriptDocumentElement"/>
+  <binding name="crossitem" className="catalog_CrossitemScriptDocumentElement"/>
+  <binding name="compiledcrossitem" className="catalog_CompiledcrossitemScriptDocumentElement"/>
 </script>

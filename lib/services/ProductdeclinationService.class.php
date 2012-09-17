@@ -113,16 +113,21 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
+	 * @param boolean $publishedOnly
 	 * @return array('id', 'axe1', 'axe2', 'axe3')
 	 */
-	public function getIdAndAxesArrayByDeclinedProduct($declinedProduct)
+	public function getIdAndAxesArrayByDeclinedProduct($declinedProduct, $publishedOnly = false)
 	{
 		$query = $this->createQuery()
 			->add(Restrictions::eq('declinedproduct', $declinedProduct))
 			->setProjection(Projections::property('id'), Projections::property('axe1'), Projections::property('axe2'), Projections::property('axe3'));
+		if ($publishedOnly)
+		{
+			$query->add(Restrictions::published());
+		}
 		$query->addOrder(Order::asc('indexInDeclinedproduct'));
 		return $query->find();
-	}	
+	}
 	
 
 	/**
@@ -291,8 +296,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		parent::postInsert($document, $parentNodeId);
 	}	
 	
-	
-	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
 	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
@@ -303,6 +306,15 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		$this->populatesAxes($document);
 	}
 
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 */
+	protected function preDelete($document)
+	{
+		parent::preDelete($document);
+		catalog_CrossitemService::getInstance()->setNeedCompileByTargetOrLinkedDocument($document->getDeclinedproduct());
+	}
+	
 	/**
 	 * @param catalog_persistentdocument_productdeclination $document
 	 */
@@ -412,6 +424,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				$axe->populateAxeValue($productDeclination);
 			}
 		}
+		if ($productDeclination->isPropertyModified('axe1') || $productDeclination->isPropertyModified('axe2') || $productDeclination->isPropertyModified('axe3'))
+		{
+			catalog_CrossitemService::getInstance()->setNeedCompileByTargetOrLinkedDocument($declinedProduct);
+		}
 	}
 	
 	/**
@@ -423,7 +439,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		parent::updateCompiledProduct($product, $compiledProduct);
 		$declinationId = intval($product->getId());
 		
-		$data = catalog_DeclinedproductService::getInstance()->getShowInListInfos($product->getDeclinedProduct());
+		$data = $product->getDeclinedProduct()->getShowInListInfos();
 		$found = false;
 		foreach ($data as $grpIndex => $declinationIds) 
 		{
@@ -529,6 +545,56 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				->add(Restrictions::eq('topicId', $topicId))
 				->add(Restrictions::eq('product.id', $declinationId))
 				->findUnique();
+	}
+	
+	/**
+	 * @param indexer_IndexedDocument $indexedDocument
+	 * @param catalog_persistentdocument_compiledproduct $compildedProduct
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @param indexer_IndexService $indexService
+	 */
+	public function getIndexedDocumentByCompiledProduct(&$indexedDocument, $compildedProduct, $product, $indexService)
+	{
+		parent::getIndexedDocumentByCompiledProduct($indexedDocument, $compildedProduct, $product, $indexService);
+		if ($compildedProduct->getShowInList())
+		{
+			$data = $product->getDeclinedProduct()->getShowInListInfos();
+			foreach ($data as $grpIndex => $declinationIds)
+			{
+				if (in_array($this->getId(), $declinationIds, true))
+				{
+					$texts = array();
+					foreach ($declinationIds as $declinationId)
+					{
+						if ($declinationId != $this->getId())
+						{
+							$ndec = DocumentHelper::getDocumentInstanceIfExists($declinationId);
+							if ($ndec instanceof catalog_persistentdocument_productdeclination)
+							{
+								$text = $ndec->getDocumentService()->getHiddenInListIndexedText($ndec);
+								if ($text)
+								{
+									$texts[] = $text;
+								}
+							}
+						}
+					}
+					if (count($texts))
+					{
+						$indexedDocument->setText($indexedDocument->getText() . ' ' . implode(' ', $texts));
+					}
+				}
+			}
+		}		
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @return string
+	 */
+	public function getHiddenInListIndexedText($product)
+	{
+		return $product->getCodeReference();
 	}
 		
 	/**
@@ -649,8 +715,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		return $axeObject->getLabel();
 	}
 
-	/* (non-PHPdoc)
-	 * @see catalog_ProductService::getRatingAverage()
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param integer $websiteId
+	 * @return float|NULL
 	 */
 	public function getRatingAverage($document, $websiteId = null) 
 	{
@@ -659,5 +727,37 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			return comment_CommentService::getInstance()->getRatingAverageByTargetId($document->getDeclinedproduct()->getId(), $websiteId);
 		}
 		return null;			
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_compiledproduct $cp
+	 * @return catalog_persistentdocument_compiledproduct|null
+	 */
+	public function getShownInListByCompiledProduct($cp)
+	{
+		/* @var $declination catalog_persistentdocument_productdeclination */
+		$declination = $cp->getProduct();
+		$declined = $declination->getDeclinedproduct();
+		$infos = $declined->getShowInListInfos();
+		$declinationIds = array();
+		foreach ($infos as $ids)
+		{
+			if (in_array($declination->getId(), $ids))
+			{
+				$declinationIds = $ids;
+				break;
+			}
+		}
+		if (!count($declinationIds))
+		{
+			return null;
+		}
+	
+		return catalog_CompiledproductService::getInstance()->createQuery()->add(Restrictions::published())
+		->add(Restrictions::eq('lang', $cp->getLang()))
+		->add(Restrictions::eq('shopId', $cp->getShopId()))
+		->add(Restrictions::eq('primary', true))
+		->add(Restrictions::eq('showInList', true))
+		->add(Restrictions::in('product.id', $declinationIds))->findUnique();
 	}
 }

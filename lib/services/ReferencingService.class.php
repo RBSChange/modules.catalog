@@ -117,21 +117,7 @@ class catalog_ReferencingService extends change_BaseService
 	{
 		return $shelf->getPageKeywords();
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return string
-	 */
-	public function getPathForUrlByShelf($shelf)
-	{
-		$topshelf = $shelf->getDocumentService()->getTopShelfByShelf($shelf);
-		if (!is_null($topshelf) && $shelf->getId() != $topshelf->getId())
-		{
-			return $topshelf->getLabel();
-		}
-		return null;
-	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @return string
@@ -193,16 +179,7 @@ class catalog_ReferencingService extends change_BaseService
 		}
 		return null;
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $product
-	 * @return string
-	 */
-	public function getPathForUrlByProduct($product)
-	{
-		return $product->getShopPrimaryTopShelf($this->getCurrentShop())->getLabel();
-	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 */
@@ -277,114 +254,5 @@ class catalog_ReferencingService extends change_BaseService
 	private function getCurrentWebsiteDescription()
 	{
 		return $this->getCurrentWebsite()->getDescription();
-	}
-	
-	// Deprecated Default implementation.
-		
-	/**
-	 * @deprecated (will be removed in 4.0) with no replacement
-	 */
-	public function getComparePageTitle($products)
-	{
-		$website = $this->getCurrentWebsite();
-		$shelfLabel = f_util_ArrayUtils::firstElement($products)->getShopPrimaryShelf($this->getCurrentShop())->getLabel();
-		$parameters = array('shelfLabel' => $shelfLabel, 'websiteLabel' => $website->getLabel());
-		return LocaleService::getInstance()->trans('m.catalog.frontoffice.compare-page-title', array('ucf'), $parameters);
-		
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) with no replacement
-	 */
-	public function getComparePageDescription($products)
-	{
-		$shelfLabel = f_util_ArrayUtils::firstElement($products)->getShopPrimaryShelf($this->getCurrentShop())->getLabel();
-		$productLabels = array();
-		foreach ($products as $product)
-		{
-			$productLabels[] = $product->getFullName();
-		}
-		$parameters = array('shelfLabel' => $shelfLabel, 'productsLabels' => implode(self::DESCRIPTION_SUBDOCUMENTS_SEPARATOR, $productLabels));
-		return LocaleService::getInstance()->trans('m.catalog.frontoffice.compare-page-description', array('ucf'), $parameters);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) with no replacement
-	 */
-	public function setStrategy($strategyClass = '')
-	{
-		throw new Exception("Deprected $strategyClass strategy use service injection");
-	}
-		
-	/**
-	 * @deprecated (will be removed in 4.0) use getPageKeywordsByShop instead
-	 */
-	public function getDefaultPageKeywordsByShop($shop)
-	{
-		return $this->getPageKeywordsByShop($shop);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPageKeywordsByShelf instead
-	 */
-	public function getDefaultPageKeywordsByShelf($shelf)
-	{
-		return $this->getPageKeywordsByShelf($shelf);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPathForUrlByShelf instead
-	 */
-	public function getDefaultPathForUrlByShelf($shelf)
-	{
-		return $this->getPathForUrlByShelf($shelf);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPageTitleByProduct instead
-	 */
-	public function getDefaultPageTitleByProduct($product)
-	{
-		return $this->getPageTitleByProduct($product);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPageDescriptionByProduct instead
-	 */
-	public function getDefaultPageDescriptionByProduct($product)
-	{
-		return $this->getPageDescriptionByProduct($product);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPageKeywordsByProduct instead
-	 */
-	public function getDefaultPageKeywordsByProduct($product)
-	{
-		return $this->getPageKeywordsByProduct($product);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getPathForUrlByProduct instead
-	 */
-	public function getDefaultPathForUrlByProduct($product)
-	{
-		return $this->getPathForUrlByProduct($product);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) with no replacement
-	 */
-	public function getDefaultComparePageTitle($products)
-	{
-		return $this->getComparePageTitle($products);
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) with no replacement
-	 */
-	public function getDefaultComparePageDescription($products)
-	{
-		return $this->getComparePageDescription($products);
 	}
 }

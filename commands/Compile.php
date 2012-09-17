@@ -29,24 +29,59 @@ class commands_Compile extends c_ChangescriptCommand
 	{
 		$this->message("== Compile catalog ==");
 		$this->loadFramework();
-		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
 			
-		$ids = catalog_ProductService::getInstance()->getAllProductIdsToCompile();
-		$count = count($ids);			
-		$this->message('There are '.$count.' products to be compiled.');
-		$index = 0;	
-		foreach (array_chunk($ids, Framework::getConfigurationValue('modules/catalog/compilationChunkSize', 100)) as $chunk)
+		$batchPath = 'modules/catalog/lib/bin/batchCompile.php';
+		$chunkSize = Framework::getConfigurationValue('modules/catalog/compilationChunkSize', 100);
+		$compileAll = 1;
+		$lastId = 0;	
+		while ($lastId >= 0)
 		{
-			$result = f_util_System::execScript($batchPath, $chunk);
-			// Log fatal errors...
-			if ($result != 'OK')
+			$result = f_util_System::execScript($batchPath, array($lastId, $chunkSize, $compileAll));
+			if (!$result)
 			{
-				Framework::error(__METHOD__ . ' ' . $batchPath . ' unexpected result: "' . $result . '"');
+				
+				Framework::error(__METHOD__ , ' No result');
+				break;
 			}
-			$index = $index + count($chunk);
-			echo "Compiling products: $index \n";
-		}
+			$errors = array();
+			$lines = array_reverse(explode(PHP_EOL, $result));
+			$newId = $lastId;
+			foreach ($lines as $line)
+			{
+				if (preg_match('/^id:([0-9-]+)$/', $line, $matches))
+				{
+					$newId = $matches[1];
+					break;
+				}
+				else
+				{
+					$errors[] = $line;
+				}
+			}
 		
-		$this->quitOk("All products are compiled successfully.");
+			if (count($errors))
+			{
+				Framework::error(__METHOD__ , ' ', implode(PHP_EOL, array_reverse($errors)));
+			}
+			
+			if ($newId != $lastId)
+			{
+				$lastId = $newId;
+			}
+			else
+			{
+				$toCompile = catalog_ProductService::getInstance()->getCountProductIdsToCompile();
+				if ($toCompile > 0)
+				{
+					$this->log($toCompile . ' products as marqued to compile. Execute new iteration.');
+					$lastId = 0;
+					$compileAll = 0;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
 	}
 }

@@ -6,32 +6,6 @@
 		<property name="defaultListVisual" type="Document" document-type="modules_media/media" required="true" />
 		<property name="stockAlertThreshold" type="Double" default-value="0" />
 		<property name="stockAlertNotificationUser" type="DocumentArray" document-type="modules_users/user" />
-		<property name="synchronizeComplementary" type="Boolean" default-value="true" />
-		<property name="synchronizeSimilar" type="Boolean" default-value="true" />
-		<property name="suggestComplementaryFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
-		<property name="suggestSimilarFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
-		<property name="suggestUpsellFeederClass" type="String" default-value="none" from-list="modules_catalog/productsuggestionfeeders" />
-		<property name="autoFeedComplementaryMaxCount" type="Integer">
-			<constraint name="min" min="0" />
-		</property>
-		<property name="autoFeedSimilarMaxCount" type="Integer">
-			<constraint name="min" min="0" />
-		</property>
-		<property name="autoFeedUpsellMaxCount" type="Integer">
-			<constraint name="min" min="0" />
-		</property>
-		<property name="autoFeedDelay" type="String" default-value="1d" required="true">
-			<constraint name="min" min="1" />
-		</property>
-		<!-- deprecated property -->
-		<property name="defaultProductsPerPage" type="Integer" default-value="10" required="true">
-			<constraint name="min" min="1" />
-			<constraint name="max" max="50" />
-		</property>
-		<!-- deprecated property -->
-		<property name="enableComments" type="Boolean" default-value="true" />
-		<!-- deprecated property -->
-		<property name="newProductsCount" type="Integer" default-value="10" required="true" />
 	</properties>
 	<statuses default="PUBLICATED" />
 </document>

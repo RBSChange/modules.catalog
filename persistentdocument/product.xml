@@ -7,9 +7,6 @@
 		<property name="additionnalVisual" type="DocumentArray" document-type="modules_media/media" />
 		<property name="shelf" type="DocumentArray" tree-node="true" inverse="true" preserve-old-value="true" document-type="modules_catalog/shelf" />
 		<property name="brand" type="Document" inverse="true" document-type="modules_brand/brand" />
-		<property name="complementary" type="DocumentArray" preserve-old-value="true" document-type="modules_catalog/product" />
-		<property name="similar" type="DocumentArray" preserve-old-value="true" document-type="modules_catalog/product" />
-		<property name="upsell" type="DocumentArray" preserve-old-value="true" document-type="modules_catalog/product" />
 		<property name="codeReference" type="String" db-size="50" indexed="property" />
 		<property name="articleId" type="Integer" />
 		<property name="serializedattributes" type="Lob" />

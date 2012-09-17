@@ -17,7 +17,11 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 		if ($this->taxDocumentId === null)
 		{
 			$shop = $this->getShop();
-			$billingArea = $shop->getCurrentBillingArea();
+			$billingArea = $this->getBillingArea();
+			if ($billingArea === null)
+			{
+				$billingArea = $shop->getDefaultBillingArea();
+			}
 			$taxZone = catalog_TaxService::getInstance()->getCurrentTaxZone($shop);
 			$taxDocument = catalog_TaxService::getInstance()->getTaxDocumentByKey($billingArea->getId(), $this->getTaxCategory(), $taxZone);
 			if ($taxDocument === null)
@@ -76,7 +80,7 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	 */
 	public function getBoValueJSON()
 	{
-		$array = catalog_BillingareaService::getInstance()->buildBoPriceEditInfos($this->getValueWithoutTax(), $this->getShop(), $this->getTaxCategory());
+		$array = catalog_BillingareaService::getInstance()->buildBoPriceEditInfos($this->getValueWithoutTax(), $this->getShop(), $this->getTaxCategory(), $this->getBillingArea());
 		return JsonService::getInstance()->encode($array);
 	}
 	
@@ -85,7 +89,7 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 	 */
 	public function setBoValueJSON($value)
 	{
-		list($valueWithoutTax, $taxCategory) = catalog_BillingareaService::getInstance()->parseBoPriceEditInfos($value, $this->getShop());
+		list($valueWithoutTax, $taxCategory) = catalog_BillingareaService::getInstance()->parseBoPriceEditInfos($value, $this->getShop(), $this->getBillingArea());
 		$this->setTaxCategory($taxCategory);
 		$this->setValueWithoutTax($valueWithoutTax);
 	}
@@ -128,16 +132,5 @@ class catalog_persistentdocument_shippingfilter extends catalog_persistentdocume
 			return order_persistentdocument_fees::getInstanceById($this->getFeesId());
 		}
 		return null;
-	}
-	
-
-	// DEPRECATED
-	
-	/**
-	 * @deprecated
-	 */
-	public function getTaxCode()
-	{
-		return  $this->getTax()->getCode();
 	}
 }

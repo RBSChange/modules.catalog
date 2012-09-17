@@ -26,7 +26,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 	 */
 	protected function displayCustomerPrice()
 	{
-		return catalog_ModuleService::areCustomersEnabled() && $this->getConfigurationParameter('displayCustomerPrice', 'true') === 'true';
+		return catalog_ModuleService::getInstance()->areCustomersEnabled() && $this->getConfigurationParameter('displayCustomerPrice', 'true') === 'true';
 	}
 	
 	/**
@@ -58,12 +58,7 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 		$displayConfig['showBrandOrder'] = $this->getConfigurationValue('Displaybrandorder', false);
 		$displayConfig['controlsmodule'] = 'catalog';
 		$displayConfig['controlstemplate'] = 'Catalog-Inc-ProductListOrderOptions';
-		
-		// @deprecated
-		$displayConfig['showQuantitySelector'] = $this->getConfigurationValue('activatequantityselection', true);
-		// @depreacted
-		$displayConfig['showProductDescription'] = $this->getConfigurationValue('displayproductdescription', false);
-		
+				
 		$globalButtons = array();
 		$displayConfig['showAddToCart'] = $this->getShowAddToCart();
 		if ($displayConfig['showAddToCart'])
@@ -435,104 +430,5 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 			$names[] = 'catalog';
 		}
 		return $names;
-	}
-	
-	// Deprecated.
-		
-	/**
-	 * @deprecated (will be removed in 4.0) use getProductIdArray
-	 */
-	protected function getProductArray($request)
-	{
-		return null;
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	const DISPLAY_MODE_TABLE = 'table';
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	const DISPLAY_MODE_LIST = 'List';
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	const DEFAULT_PRODUCTS_PER_PAGE = 12;	
-		
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	private function addToFavorite($product)
-	{
-		try
-		{
-			if (catalog_ModuleService::getInstance()->addFavoriteProduct($product))
-			{
-				$this->addedProductLabels[] = $product->getLabelAsHtml();
-			}
-		}
-		catch (Exception $e)
-		{
-			$this->notAddedProductLabels[] = $product->getLabelAsHtml();
-			if (Framework::isDebugEnabled())
-			{
-				Framework::debug($e->getMessage());
-			}
-		}
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	protected $addedProductLabels = array();
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	protected $notAddedProductLabels = array();
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	protected function addMessagesToBlock($rootKey)
-	{
-		$message = $this->getMessage($this->addedProductLabels, $rootKey . '-success');
-		if ($message !== null)
-		{
-			$this->addMessage($message);
-		}
-		$this->addedProductLabels = null;
-		$message = $this->getMessage($this->notAddedProductLabels, $rootKey . '-error');
-		if ($message !== null)
-		{
-			$this->addError($message);
-		}
-		$this->notAddedProductLabels = null;
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	private function getMessage($labels, $mode)
-	{
-		$ls = LocaleService::getInstance();
-		switch (count($labels))
-		{
-			case 0 :
-				$message = null;
-				break;
-			case 1 :
-				$message = $ls->trans('m.catalog.frontoffice.' . $mode . '-one', array('ucf', 'html'), array('label' => f_util_ArrayUtils::firstElement($labels)));
-				break;
-			default :
-				$lastLabel = array_pop($labels);
-				$firstLabels = implode(', ', $labels);
-				$message = $ls->trans('m.catalog.frontoffice.' . $mode . '-several', array('ucf', 'html'), array('firstLabels' => $firstLabels, 'lastLabel' => $lastLabel));
-				break;
-		}
-		return $message;
 	}
 }

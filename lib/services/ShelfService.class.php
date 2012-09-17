@@ -161,7 +161,7 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
-	 * @return Array<catalog_persistentdocument_shelf>
+	 * @return catalog_persistentdocument_shelf[]
 	 */
 	public function getSubShelves($shelf)
 	{
@@ -294,16 +294,23 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function addNewTopicToShelfRecursive($shelf, $topicParent)
 	{
-		// Add topic to the current shelf.
-		$topic = $this->addNewTopicToShelf($shelf, $topicParent);
-		$shelf->save();
-		
-		// Add topics to descendants recursively.
-		foreach ($this->getChildrenOf($shelf) as $child)
+		if (catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
 		{
-			if ($child instanceof catalog_persistentdocument_shelf)
+			catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds(array($shelf->getId()));
+		}
+		else
+		{
+			// Add topic to the current shelf.
+			$topic = $this->addNewTopicToShelf($shelf, $topicParent);
+			$this->getPersistentProvider()->updateDocument($shelf);
+			
+			// Add topics to descendants recursively.
+			foreach ($this->getChildrenOf($shelf) as $child)
 			{
-				$this->addNewTopicToShelfRecursive($child, $topic);
+				if ($child instanceof catalog_persistentdocument_shelf)
+				{
+					$this->addNewTopicToShelfRecursive($child, $topic);
+				}
 			}
 		}
 	}
@@ -314,30 +321,37 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function deleteTopicFromShelfRecursive($shelf, $topicParent)
 	{
-		if ($topicParent === null) { throw new Exception('no topic'); }
-		$topic = $this->getRelatedTopicByTopicAncestor($shelf, $topicParent);
-		website_TopicService::getInstance()->removeIndexPage($topic);
-		foreach ($this->getChildrenOf($shelf) as $child)
+		if (catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
 		{
-			if ($child instanceof catalog_persistentdocument_shelf)
-			{
-				$this->deleteTopicFromShelfRecursive($child, $topic);
-			}
+			catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds(array($shelf->getId()));
 		}
-
-		$rc = RequestContext::getInstance();		
-		foreach (array_reverse($topic->getI18nInfo()->getLangs()) as $lang)
+		else
 		{
-			try 
+			if ($topicParent === null) { throw new Exception('no topic'); }
+			$topic = $this->getRelatedTopicByTopicAncestor($shelf, $topicParent);
+			website_TopicService::getInstance()->removeIndexPage($topic);
+			foreach ($this->getChildrenOf($shelf) as $child)
 			{
-				$rc->beginI18nWork($lang);
-				$topic->delete();
-				$rc->endI18nWork();
+				if ($child instanceof catalog_persistentdocument_shelf)
+				{
+					$this->deleteTopicFromShelfRecursive($child, $topic);
+				}
 			}
-			catch (Exception $e)
+	
+			$rc = RequestContext::getInstance();		
+			foreach (array_reverse($topic->getI18nInfo()->getLangs()) as $lang)
 			{
-				$rc->endI18nWork($e);
-			}	
+				try 
+				{
+					$rc->beginI18nWork($lang);
+					$topic->delete();
+					$rc->endI18nWork();
+				}
+				catch (Exception $e)
+				{
+					$rc->endI18nWork($e);
+				}	
+			}
 		}
 	}
 	
@@ -454,15 +468,22 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	protected function postInsert($document, $parentNodeId)
 	{
 		// Generate related topics.
-		$parent = DocumentHelper::getDocumentInstance($parentNodeId);
-		if ($parent instanceof catalog_persistentdocument_shelf)
+		if (catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
 		{
-			foreach ($parent->getTopicArray() as $topic)
+			catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds(array($document->getId()));
+		}
+		else
+		{
+			$parent = DocumentHelper::getDocumentInstanceIfExists($parentNodeId);
+			if ($parent instanceof catalog_persistentdocument_shelf)
 			{
-				$this->addNewTopicToShelf($document, $topic);		
-			}
-			$document->save();	
-		}		
+				foreach ($parent->getTopicArray() as $topic)
+				{
+					$this->addNewTopicToShelf($document, $topic);		
+				}
+				$this->getPersistentProvider()->updateDocument($document);
+			}	
+		}
 	}
 	
 	/**
@@ -567,34 +588,43 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	protected function onMoveToStart($document, $destId)
 	{
-		$sts = website_SystemtopicService::getInstance();
-		
-		// Move or delete existing topics.
-		foreach ($document->getTopicArray() as $topic)
+		if (catalog_ModuleService::getInstance()->useAsyncWebsiteUpdate())
 		{
-			$rootTopic = $sts->createQuery()->add(Restrictions::ancestorOf($topic->getId()))
-				->add(Restrictions::isNotNull('shop.id'))->findUnique();
-			$newParent = $sts->createQuery()->add(Restrictions::descendentOf($rootTopic->getId()))
-				->add(Restrictions::eq('shelf.id', $destId))->findUnique();
-			if ($newParent !== null)
-			{
-				$topic->getDocumentService()->moveTo($topic, $newParent->getId());
-			}
-			else
-			{
-				$this->deleteTopicFromShelfRecursive($document, $sts->getParentOf($topic));
-			}
+			catalog_ModuleService::getInstance()->addAsyncWebsiteUpdateIds(array($document->getId()));
 		}
-		
-		// Create missing topics.
-		$destination = DocumentHelper::getDocumentInstance($destId);
-		foreach ($destination->getTopicArray() as $topic)
+		else
 		{
-			$query = $sts->createQuery()->add(Restrictions::childOf($topic->getId()))
-				->add(Restrictions::eq('shelf.id', $document->getId()));
-			if ($query->findUnique() === null)
+			$sts = website_SystemtopicService::getInstance();
+			
+			// Move or delete existing topics.
+			foreach ($document->getTopicArray() as $topic)
 			{
-				$this->addNewTopicToShelfRecursive($document, $topic);
+				/* @var $topic website_persistentdocument_systemtopic */
+				$rootTopic = $sts->createQuery()->add(Restrictions::ancestorOf($topic->getId()))
+					->add(Restrictions::isNotNull('shop.id'))->findUnique();
+				$newParent = $sts->createQuery()->add(Restrictions::descendentOf($rootTopic->getId()))
+					->add(Restrictions::eq('shelf.id', $destId))->findUnique();
+				
+				if ($newParent !== null)
+				{
+					$topic->getDocumentService()->moveTo($topic, $newParent->getId());
+				}
+				else
+				{
+					$this->deleteTopicFromShelfRecursive($document, $sts->getParentOf($topic));
+				}
+			}
+			
+			// Create missing topics.
+			$destination = DocumentHelper::getDocumentInstance($destId);
+			foreach ($destination->getTopicArray() as $topic)
+			{
+				$query = $sts->createQuery()->add(Restrictions::childOf($topic->getId()))
+					->add(Restrictions::eq('shelf.id', $document->getId()));
+				if ($query->findUnique() === null)
+				{
+					$this->addNewTopicToShelfRecursive($document, $topic);
+				}
 			}
 		}
 	}
@@ -615,52 +645,41 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 * @param website_persistentdocument_systemtopic $topicParent
 	 * @return website_persistentdocument_systemtopic
 	 */
-	private function addNewTopicToShelf($shelf, $topicParent)
+	protected function addNewTopicToShelf($shelf, $topicParent)
 	{
-		$rq = RequestContext::getInstance();
-		try 
+		$rc = RequestContext::getInstance();
+		$topic = null;
+		foreach ($shelf->getI18nInfo()->getLangs() as $lang)
 		{
-			$rq->beginI18nWork($shelf->getLang());	
-			$topic = website_SystemtopicService::getInstance()->getNewDocumentInstance();
-			
-			//Fill VO
-			$topic->setReferenceId($shelf->getId());
-			$topic->setLabel($shelf->getLabel());
-			$topic->setDescription($shelf->getDescription());
-			$topic->setVisual($shelf->getVisual());
-			$topic->save($topicParent->getId());
-
-			$shelf->addTopic($topic);
-			$shelf->save();
-			
-			$langs = $shelf->getI18nInfo()->getLangs();
-			if (count($langs) > 1)
+			try
 			{
-				foreach ($langs as $lang) 
+				$rc->beginI18nWork($lang);
+				
+				if ($topic === null)
 				{
-					if ($lang == $topic->getLang()) {continue;}
-					try 
-					{
-						//Fill other localization
-						$rq->beginI18nWork($lang);	
-						$topic->setLabel($shelf->getLabel());
-						$topic->setDescription($shelf->getDescription());
-						$topic->save();
-						$rq->endI18nWork();
-					} 
-					catch (Exception $e)
-					{
-						$rq->endI18nWork($e);
-					}
+					$topic = website_SystemtopicService::getInstance()->getNewDocumentInstance();	
+					//Fill VO
+					$topic->setReferenceId($shelf->getId());
+					$topic->setLabel($shelf->getLabel());
+					$topic->setDescription($shelf->getDescription());
+					$topic->setVisual($shelf->getVisual());
+					$topic->save($topicParent->getId());
+					
+					$shelf->addTopic($topic);
 				}
+				else
+				{
+					$topic->setLabel($shelf->getLabel());
+					$topic->setDescription($shelf->getDescription());
+					$topic->save();
+				}
+				
+				$rc->endI18nWork();
 			}
-			
-			$rq->endI18nWork();
-			
-		} 
-		catch (Exception $e)
-		{
-			$rq->endI18nWork($e);
+			catch (Exception $e)
+			{
+				$rc->endI18nWork($e);
+			}
 		}
 		return $topic;
 	}
@@ -816,5 +835,203 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 				$attributes['thumbnailsrc'] = MediaHelper::getPublicFormatedUrl($detailVisual, "modules.uixul.backoffice/thumbnaillistitem");
 			}
 		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_product[] $products
+	 */
+	public function removeProducts($shelf, $products)
+	{
+		$tm = $this->getTransactionManager();
+		try
+		{
+			$tm->beginTransaction();
+			foreach ($products as $product)
+			{
+				/* @var $product catalog_persistentdocument_product */
+				$product->removeShelf($shelf);
+				if ($product->isModified())
+				{
+					$product->save();
+				}
+			}
+			$tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$tm->rollback($e);
+			throw $e;
+		}
+	}
+
+	/**
+	 *
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @param catalog_persistentdocument_declinedproduct[] $declinedProducts
+	 */
+	public function removeDeclinedProducts($shelf, $declinedProducts)
+	{
+		$tm = $this->getTransactionManager();
+		try
+		{
+			$tm->beginTransaction();
+			foreach ($declinedProducts as $product)
+			{
+				/* @var $product catalog_persistentdocument_declinedproduct */
+				$product->removeShelf($shelf);
+				if ($product->isModified())
+				{
+					$product->save();
+				}
+			}
+			$tm->commit();
+		}
+		catch (Exception $e)
+		{
+			$tm->rollback($e);
+			throw $e;
+		}
+	}	
+
+	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 * @return integer[integer]
+	 */
+	protected function getParentTopicIds($shelf)
+	{
+		$result = array();
+		$ts = TreeService::getInstance();
+		foreach ($shelf->getTopicArray() as $topic)
+		{
+			/* @var $topic website_persistentdocument_systemtopic */
+			$tn = $ts->getInstanceByDocument($topic);
+			$result[$topic->getId()] = $tn->getParentId();
+		}
+	
+		foreach (website_SystemtopicService::getInstance()->getByReferenceId(-$shelf->getId()) as $topic)
+		{
+			/* @var $topic website_persistentdocument_systemtopic */
+			$tn = $ts->getInstanceByDocument($topic);
+			$result[$topic->getId()] = $tn->getParentId();
+		}
+		return $result;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_shelf $document
+	 * return integer[]
+	 */
+	public function websiteSynchroCheck($document)
+	{
+		$ancestorTopicIds = array();
+		$parentShelf = $this->getParentOf($document)	;
+		if ($parentShelf instanceof catalog_persistentdocument_shelf)
+		{
+			foreach ($parentShelf->getTopicArray() as $topic)
+			{
+				/* @var $topic website_persistentdocument_systemtopic */
+				$ancestorTopicIds[] = $topic->getId();
+			}
+		}
+		return $this->topicsCheck($document, $ancestorTopicIds);
+	}
+	
+	/**
+	 *
+	 * @param catalog_persistentdocument_shelf $document
+	 * @param integer[] $ancestorTopicIds
+	 * @return integer[]
+	 */
+	protected function topicsCheck($document, $ancestorTopicIds)
+	{
+		$shelfId = $document->getId();
+		$result = array();
+		$canUpdate = true;
+		$subShelfArray = $this->getSubShelves($document);
+		$subShelfParentTopicIds = array();
+		if (count($subShelfArray))
+		{
+			foreach ($subShelfArray as $subShelf)
+			{
+				/* @var $subShelf catalog_persistentdocument_shelf */
+				$result[] = $subShelf->getId();
+				foreach ($this->getParentTopicIds($subShelf) as $tid => $tpid)
+				{
+					$subShelfParentTopicIds[$tid] = $tpid;
+				}
+			}
+		}
+	
+		$parentTopicIds = $this->getParentTopicIds($document);
+		$addParentIds = array_diff($ancestorTopicIds, $parentTopicIds);
+	
+		foreach ($addParentIds as $id)
+		{
+			$topicParent = DocumentHelper::getDocumentInstance($id);
+			$this->addNewTopicToShelf($document, $topicParent);
+		}
+	
+		$removeParentIds = array_diff($parentTopicIds, $ancestorTopicIds);
+		$topicsToDelete = array();
+		foreach ($removeParentIds as $topicId => $parentTopicId)
+		{
+			$topic = DocumentHelper::getDocumentInstance($topicId);
+			$document->removeTopic($topic);
+				
+			if (in_array($topicId, $subShelfParentTopicIds))
+			{
+				if ($topic->getReferenceId() == $document->getId())
+				{
+					$topic->setReferenceId(-$document->getId());
+					$topic->save();
+				}
+				$canUpdate = false;
+			}
+			else
+			{
+				$topicsToDelete[] = $topic;
+			}
+		}
+	
+		if (count($addParentIds) || count($removeParentIds))
+		{
+			$this->getPersistentProvider()->updateDocument($document);
+		}
+	
+		foreach ($topicsToDelete as $topic)
+		{
+			/* @var $topic website_persistentdocument_systemtopic */
+			$canDelete = true;
+			foreach ($topic->getDocumentService()->getChildrenOf($topic) as $value)
+			{
+				if (!($value instanceof website_persistentdocument_pagereference))
+				{
+					$canDelete = false;
+					break;
+				}
+			}
+				
+			if ($canDelete)
+			{
+				website_MenuitemdocumentService::getInstance()->deleteByDocument($topic);
+				website_TopicService::getInstance()->removeIndexPage($topic);
+				$topic->getDocumentService()->purgeDocument($topic);
+			}
+			else
+			{
+				$topic->getDocumentService()->transform($topic, 'modules_website/topic');
+			}
+		}
+	
+		if ($canUpdate)
+		{
+			catalog_ProductService::getInstance()->setNeedCompileForShelf($document, false);
+		}
+		else
+		{
+			$result[] = $document->getId();
+		}
+		return $result;
 	}
 }

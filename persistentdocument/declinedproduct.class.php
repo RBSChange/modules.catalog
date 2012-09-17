@@ -4,7 +4,34 @@
  * @package modules.catalog
  */
 class catalog_persistentdocument_declinedproduct extends catalog_persistentdocument_declinedproductbase implements rss_Item 
-{	
+{
+
+	/**
+	 * @var array
+	 */
+	private $showInListInfos;
+	
+	/**
+	 * @return array|null
+	 */
+	public function getShowInListInfos()
+	{
+	
+		if ($this->showInListInfos === null)
+		{
+			$this->setShowInListInfos($this->getDocumentService()->generateShowInListInfos($this));
+		}
+		return $this->showInListInfos;
+	}
+	
+	/**
+	 * @param array $showInListInfos
+	 */
+	public function setShowInListInfos($showInListInfos)
+	{
+		$this->showInListInfos = $showInListInfos;
+	}
+		
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
@@ -76,7 +103,6 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	public function setSynchronizePricesFrom($declinationId)
 	{
 		$declinationId = intval($declinationId);
-		Framework::info(__METHOD__ . "($declinationId)");
 		if ($declinationId > 0)
 		{
 			$this->synchronizePricesFrom = $declinationId;

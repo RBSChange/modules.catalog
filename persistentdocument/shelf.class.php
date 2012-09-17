@@ -41,15 +41,7 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 	{
 		return false;
 	}
-			
-	/**
-	 * @return string
-	 */
-	public function getPathForUrl()
-	{
-		return catalog_ReferencingService::getInstance()->getPathForUrlByShelf($this);
-	}
-	
+				
 	/**
 	 * @return string
 	 */
@@ -137,23 +129,5 @@ class catalog_persistentdocument_shelf extends catalog_persistentdocument_shelfb
 					->add(Restrictions::eq('referenceId', $this->getId()))->findUnique();
 		}
 		return  null;
-	}
-	
-	//DEPRECATED
-	
-	/**
-	 * @deprecated
-	 */
-	public function isVisible()
-	{
-		return true;
-	}
-	
-	/**
-	 * @deprecated use LinkHelper::getDocumentUrl
-	 */
-	public function getUrl()
-	{
-		return LinkHelper::getDocumentUrl($this);
 	}
 }

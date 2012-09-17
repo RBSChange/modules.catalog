@@ -30,13 +30,4 @@ class catalog_ListTaxcategoryService extends change_BaseService implements list_
 	{
 		$this->parameters = $parameters;
 	}
-	
-	/**
-	 * @see list_persistentdocument_dynamiclist::getItemByValue()
-	 * @param string $value;
-	 * @return list_Item
-	 */
-//	public function getItemByValue($value)
-//	{
-//	}
 }

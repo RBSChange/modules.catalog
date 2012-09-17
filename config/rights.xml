@@ -34,6 +34,9 @@
 		<document name="comparablepropertyfolder" />
 		<document name="billingarea" />
 		<document name="billingareafolder" />
+		<document name="crossitem" />
+		<document name="compiledcrossitem" />
+		<action name="RemoveProductsFromShelf" />
 	</actions>
 	<roles>
 		<role name="Admin">
@@ -42,6 +45,7 @@
 			<permission name="SavePermissions.*" />
 			<permission name="InitDefaultStructure.*" />
 			<permission name="GetPreferencesDocument" />
+			<permission name="RemoveProductsFromShelf" />
 		</role>
 		<role name="Writer" extend="Guest">
 			<permission name="Order" />

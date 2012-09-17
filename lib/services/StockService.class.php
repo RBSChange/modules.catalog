@@ -12,14 +12,22 @@ class catalog_StockService extends change_BaseService
 	const STOCK_ALERT_NOTIFICATION_CODENAME = 'modules_catalog/stockalert';
 
 	/**
-	 * @param catalog_persistentdocument_product $document
+	 * @param order_CartInfo $cart
+	 */
+	public function initCartMode($cart)
+	{
+	
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $product
 	 * @return catalog_StockableDocument
 	 */
-	public function getStockableDocument($document)
+	public function getStockableDocument($product)
 	{
-		if ($document instanceof catalog_StockableDocument)
+		if ($product instanceof catalog_StockableDocument)
 		{
-			return $document;
+			return $product;
 		}
 		return null;
 	}
@@ -362,18 +370,33 @@ class catalog_StockService extends change_BaseService
 	 */	
 	public function updateStockInfo($document, $propertiesValue)
 	{
-		if ($document instanceof catalog_persistentdocument_product && isset($propertiesValue['stockQttJSON']))
+		if ($document instanceof catalog_persistentdocument_product)
 		{
-			$infos = JsonService::getInstance()->decode($propertiesValue['stockQttJSON']);
-			if (is_array($infos))
+			$save = false;
+			if ($document->isPropertyModified('codeSKU'))
 			{
-				$stockQuantity = $infos[0]['stockQuantity'];
-				$stockQuantity =  ($stockQuantity === '' || $stockQuantity === '-1') ? null : intval($stockQuantity);
-				$document->setStockQuantity($stockQuantity);
-				
-				$stockAlertThreshold = $infos[0]['stockAlertThreshold'];
-				$stockAlertThreshold =  ($stockQuantity === null || $stockAlertThreshold === '' || $stockAlertThreshold === '-1') ? null : intval($stockAlertThreshold);
-				$document->setStockAlertThreshold($stockAlertThreshold);
+				$save = true;
+			}
+			
+			if (isset($propertiesValue['stockQttJSON']))
+			{
+				$infos = JsonService::getInstance()->decode($propertiesValue['stockQttJSON']);
+				if (is_array($infos))
+				{
+					$stockQuantity = $infos[0]['stockQuantity'];
+					$stockQuantity =  ($stockQuantity === '' || $stockQuantity === '-1') ? null : intval($stockQuantity);
+					$document->setStockQuantity($stockQuantity);
+					
+					$stockAlertThreshold = $infos[0]['stockAlertThreshold'];
+					$stockAlertThreshold =  ($stockQuantity === null || $stockAlertThreshold === '' || $stockAlertThreshold === '-1') ? null : intval($stockAlertThreshold);
+					$document->setStockAlertThreshold($stockAlertThreshold);
+					$save = true;
+				}
+			}
+			
+			if ($save)
+			{
+				$document->setModificationdate(null);
 				$document->save();
 			}
 		} 
@@ -400,15 +423,5 @@ class catalog_StockService extends change_BaseService
 	public function useProductStockProperties()
 	{
 		return true;
-	}
-	
-	// Depreacated.
-	
-	/**
-	 * @deprecated use validateCart or validateCartQuantities
-	 */
-	public function validCartQuantities($productArray, $cart)
-	{
-		return $this->validateCartQuantities($productArray, $cart);
 	}
 }

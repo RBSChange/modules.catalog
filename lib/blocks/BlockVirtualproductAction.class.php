@@ -13,18 +13,6 @@ class catalog_BlockVirtualproductAction extends catalog_BlockProductBaseAction
 	function execute($request, $response)
 	{
 		$product = $this->getDocumentParameter();
-
-		// @deprecated this should not be used anymore. See order_AddToCartAction
-		if ($request->getParameter('addToCart') !== null)
-		{
-			$this->addProductToCartForCurrentBlock($product);
-		}
-		
-		// @deprecated this should not be used anymore. See catalog_UpdateListAction
-		if ($request->getParameter('addToList') !== null)
-		{
-			$this->addProductToFavorites($product);
-		}
 		$request->setAttribute('product', $product);
 		
 		$prices = $product->getPricesForCurrentShopAndCustomer();

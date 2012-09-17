@@ -192,15 +192,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		$shelf = $this->getDocumentService()->getShopPrimaryShelf($this, $shop);
 		return catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf);
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getPathForUrl()
-	{
-		return catalog_ReferencingService::getInstance()->getPathForUrlByProduct($this);
-	}
-	
+		
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
@@ -296,6 +288,8 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		return $this->commentCount;
 	}
 	
+	protected $priceCache = array();	
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @param catalog_persistentdocument_billingarea $billingArea
@@ -305,8 +299,13 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	 */
 	public function getPrice($shop, $billingArea, $customer, $quantity = 1)
 	{
-		$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
-		return $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity);
+		$key = $shop->getId() . '/' .$billingArea->getId() . '/' . ($customer != null ? $customer->getId() : '0') . '/'. $quantity;
+		if (!array_key_exists($key, $this->priceCache))
+		{
+			$targetIds = catalog_PriceService::getInstance()->convertCustomerToTargetIds($customer);
+			$this->priceCache = array($key => $this->getDocumentService()->getPriceByTargetIds($this, $shop, $billingArea, $targetIds, $quantity));
+		}
+		return $this->priceCache[$key];
 	}
 	
 	/**
@@ -477,16 +476,6 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 		}
 		$shop = $price->getShop();
 		return $shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_shop $shop
-	 * @param string $type from list 'modules_catalog/crosssellingtypes'
-	 * @return integer[]
-	 */
-	public function getDisplayableCrossSellingIds($shop, $type = 'complementary')
-	{
-		return $this->getDocumentService()->getDisplayableCrossSellingIds($this, $shop, $type);
 	}
 	
 	/**
@@ -788,24 +777,33 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	}
 	
 	/**
+	 * @var catalog_persistentdocument_compiledproduct | null
+	 */
+	private $contextualCompiledProduct = false;
+	
+	/**
 	 * @return catalog_persistentdocument_compiledproduct | null
 	 */
 	public function getContextualCompiledProduct()
 	{
-		$pageId = website_PageService::getInstance()->getCurrentPageId();
-		if ($pageId)
+		if ($this->contextualCompiledProduct === false)
 		{
-			$ancestors = website_PageService::getInstance()->getCurrentPageAncestors();
-			$topic = f_util_ArrayUtils::lastElement($ancestors);
-			if ($topic instanceof website_persistentdocument_systemtopic)
+			$this->contextualCompiledProduct = null;
+			$pageId = website_PageService::getInstance()->getCurrentPageId();
+			if ($pageId)
 			{
-				return catalog_CompiledproductService::getInstance()->createQuery()
-					->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
-					->add(Restrictions::eq('topicId', $topic->getId()))
-					->add(Restrictions::eq('product', $this))->findUnique();
+				$ancestors = website_PageService::getInstance()->getCurrentPageAncestors();
+				$topic = f_util_ArrayUtils::lastElement($ancestors);
+				if ($topic instanceof website_persistentdocument_systemtopic)
+				{
+					$this->contextualCompiledProduct = catalog_CompiledproductService::getInstance()->createQuery()
+						->add(Restrictions::eq('lang', RequestContext::getInstance()->getLang()))
+						->add(Restrictions::eq('topicId', $topic->getId()))
+						->add(Restrictions::eq('product', $this))->findUnique();
+				}
 			}
 		}
-		return  null;
+		return $this->contextualCompiledProduct;
 	}
 
 	/**
@@ -867,56 +865,5 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 	public function hasMinOrderQuantity()
 	{
 		return $this->getMinOrderQuantity() != 1;
-	}
-	
-	// Deprecated. 
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getBoPrimaryShelf or getShopPrimaryShelf instead
-	 */
-	public function getPrimaryShelf($website = null)
-	{
-		if ($website === null)
-		{
-			return $this->getBoPrimaryShelf();
-		}
-		else 
-		{
-			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-			return $this->getShopPrimaryShelf($shop);
-		}
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getBoPrimaryTopShelf or getShopPrimaryTopShelf instead
-	 */
-	public function getPrimaryTopShelf($website = null)
-	{
-		if ($website === null)
-		{
-			return $this->getBoPrimaryTopShelf();
-		}
-		else 
-		{
-			$shop = catalog_ShopService::getInstance()->getDefaultByWebsite($website);
-			return $this->getShopPrimaryTopShelf($shop);
-		}
-	}
-	
-	/**
-	 * @deprecated use getDisplayableCrossSellingIds
-	 */
-	public function getDisplayableCrossSelling($shop, $type = 'complementary', $sortBy = 'fieldorder')
-	{
-		return $this->getDocumentService()->getDisplayableCrossSelling($this, $shop, $type, $sortBy);
-	}
-		
-	/**
-	 * @deprecated use canBeAddedToCart
-	 */
-	public function canBeOrdered($shop, $quantity = 1)
-	{
-		$cms = catalog_ModuleService::getInstance();
-		return $cms->isCartEnabled() && ($shop->getAllowOrderOutOfStock() || $this->isAvailable($shop, $quantity));
 	}
 }

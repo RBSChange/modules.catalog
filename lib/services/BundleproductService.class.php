@@ -237,22 +237,4 @@ class catalog_BundleproductService extends catalog_ProductService
 			'codeReference' => 'codeReference'
 		));
 	}
-	
-	// Deprecated.
-	
-	/**
-	 * @deprecated use getDisplayableIdsByContainedProduct
-	 */
-	public function getByBundledProduct($shop, $product)
-	{
-		$query = $this->createStrictQuery()
-		->add(Restrictions::published())
-		->add(Restrictions::eq('bundleditem.product', $product));
-	
-		$query->createCriteria('compiledproduct')
-		->add(Restrictions::published())
-		->add(Restrictions::eq('shopId', $shop->getId()));
-	
-		return $query->find();
-	}
 }

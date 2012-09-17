@@ -27,8 +27,6 @@
 		<property name="codeReference" type="String" db-size="50" />
 		<property name="orderProcessClassName" type="String" default-value="order_StandardOrderProcess" from-list="modules_catalog/orderprocess" />
 		<property name="billingAreas" type="DocumentArray" inverse="true" document-type="modules_catalog/billingarea" required="true" />
-		<!-- @deprecated -->
-		<property name="nbproductperpage" type="Integer" default-value="10" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

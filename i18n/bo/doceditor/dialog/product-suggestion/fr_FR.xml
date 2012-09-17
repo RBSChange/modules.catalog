@@ -8,4 +8,6 @@
 	<key id="column-codereference">référence</key>
 	<key id="column-weight">pertinence</key>
 	<key id="search">rechercher</key>
+	<key id="method">méthode</key>
+	<key id="max-result-number">nombre maximum de résultats</key>
 </i18n>

@@ -120,43 +120,32 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 		$this->setValue($value);
 	}
 
-	private $taxDocumentId = false;
 	private $taxRate = false;
+	private $defaultTaxRate = false;
 	
 	/**
 	 * @param boolean $throwsException
-	 * @return catalog_persistentdocument_tax
+	 * @return catalog_persistentdocument_tax|NULL
 	 * @throws Exception
 	 */
 	public function getTax($throwsException = true)
 	{
-		if ($this->taxDocumentId === false)
+		$taxZone = catalog_TaxService::getInstance()->getCurrentTaxZone($this->getShop());
+		$taxDocument = catalog_TaxService::getInstance()->getTaxDocumentByKey($this->getBillingAreaId(), $this->getTaxCategory(), $taxZone);
+		if ($taxDocument === null)
 		{
-			$taxZone = catalog_TaxService::getInstance()->getCurrentTaxZone($this->getShop());
-			$taxDocument = catalog_TaxService::getInstance()->getTaxDocumentByKey($this->getBillingAreaId(), $this->getTaxCategory(), $taxZone);
-			if ($taxDocument === null)
-			{
-				$this->taxDocumentId = null;
-				$this->taxRate = 0.0;
-			}
-			else
-			{
-				$this->taxDocumentId = $taxDocument->getId();
-				$this->taxRate = $taxDocument->getRate();
-				return $taxDocument;
-			}
-		}
-		
-		if ($this->taxDocumentId === null)
-		{
+			$this->taxRate = 0.0;
 			if ($throwsException)
 			{
 				throw new Exception('Tax document not found');
 			}
-			return null;
 		}
-		
-		return DocumentHelper::getDocumentInstance($this->taxDocumentId);
+		else
+		{
+			$this->taxRate = $taxDocument->getRate();
+			return $taxDocument;
+		}
+		return null;
 	}
 	
 	/**
@@ -166,6 +155,20 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	{
 		if ($this->taxRate === false) {$this->getTax(false);}
 		return $this->taxRate;
+	}
+	
+	/**
+	 * @return double
+	 */
+	private function getDefaultTaxRate()
+	{
+		if ($this->defaultTaxRate === false) 
+		{
+			$taxZone = $this->getBillingArea()->getDefaultZone();
+			$taxDocument = catalog_TaxService::getInstance()->getTaxDocumentByKey($this->getBillingAreaId(), $this->getTaxCategory(), $taxZone);
+			$this->defaultTaxRate = ($taxDocument) ? $taxDocument->getRate() : 0.0;
+		}
+		return $this->defaultTaxRate;
 	}
 	
 	/**
@@ -188,6 +191,11 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 		{
 			return catalog_TaxService::getInstance()->addTaxByRate($this->getValue(), $this->getTaxRate());
 		}
+		elseif (abs($this->getDefaultTaxRate() - $this->getTaxRate()) > 0.000001)
+		{
+			$tmpValue = catalog_TaxService::getInstance()->removeTaxByRate($this->getValue(), $this->getDefaultTaxRate());
+			return catalog_TaxService::getInstance()->addTaxByRate($tmpValue, $this->getTaxRate());
+		}
 		return $this->getValue();
 	}
 
@@ -209,7 +217,7 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 	
 		if ($this->getStoreWithTax())
 		{
-			return catalog_TaxService::getInstance()->removeTaxByRate($this->getValue(), $this->getTaxRate());
+			return catalog_TaxService::getInstance()->removeTaxByRate($this->getValue(), $this->getDefaultTaxRate());
 		}
 		return $this->getValue();
 	}
@@ -675,15 +683,5 @@ class catalog_persistentdocument_price extends catalog_persistentdocument_priceb
 			$v = doubleval($oldValueWithTax);
 		}
 		$this->setValueWithoutDiscount($v);
-	}
-	
-	//DEPRECATED
-	
-	/**
-	 * @deprecated
-	 */
-	public function getTaxCode()
-	{
-		return $this->getTax()->getCode();
 	}
 }

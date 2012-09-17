@@ -140,14 +140,4 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 			}
 		}
 	}
-	
-	// Deprecated.
-	
-	/**
-	 * @deprecated use getProductIdArray()
-	 */
-	protected function getProductArray($request)
-	{
-		return catalog_ModuleService::getInstance()->getFavoriteProducts();
-	}
 }

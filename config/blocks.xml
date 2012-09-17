@@ -56,6 +56,16 @@
 		</xul>
 	</block>
 	<block type="modules_catalog_ProductDescription" icon="product" />
+	<block type="modules_catalog_AddProductToCart" icon="product">
+		<parameters>
+			<parameter name="cmpref" type="Document" allow="[modules_catalog_product]" document-type="modules_catalog/product" />
+			<parameter name="displayMode" type="String" />
+			<parameter name="shop" type="Document" document-type="modules_catalog/shop" from-list="modules_catalog/shops" />
+			<parameter name="popinPage" type="Document" document-type="modules_website/page" />
+			<parameter name="showAvailability" type="Boolean" default-value="true" />
+			<parameter name="showAddToCart" type="Boolean" default-value="true" />
+		</parameters>
+	</block>
 	<block type="modules_catalog_standaloneproduct" hidden="true" dropModels="[modules_catalog/product],modules_catalog/declinedproduct">
 		<parameters>
 			<parameter name="shop" type="Document" required="true" document-type="modules_catalog/shop" from-list="modules_catalog/shops" />
@@ -132,14 +142,6 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="true" />
-			<!-- @deprecated -->
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="useCache" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<metas>
 			<meta name="title" allow="title,description" />
@@ -193,14 +195,6 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="useCache" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -221,11 +215,11 @@
 			</javascript>
 		</xul>
 	</block>
-	<block type="modules_catalog_productCrossSelling" icon="list-block" labeli18n="m.catalog.bo.blocks.productcrossselling.block-">
+	<block type="modules_catalog_CrossSelling" icon="list-block">
 		<parameters>
 			<parameter name="blockTitle" type="String" />
-			<parameter name="cmpref" type="Document" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct" document-type="modules_catalog/product" />
-			<parameter name="crossSellingType" type="String" default-value="complementary" min-occurs="1" from-list="modules_catalog/crosssellingtypes" />
+			<parameter name="cmpref" type="Document" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]" document-type="modules_catalog/product" />
+			<parameter name="linkType" type="String" default-value="complementary" min-occurs="1" from-list="modules_catalog/crosssellinglinktypes" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" />
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
@@ -238,24 +232,12 @@
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
 			<parameter name="displayratingaverage" type="Boolean" default-value="false" />
 			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
-			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" hidden="true" />
+			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaysortmenu" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="maxdisplayed" type="Integer" default-value="20" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="useCache" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="sortby" type="String" default-value="fieldorder" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -276,18 +258,22 @@
 			</javascript>
 		</xul>
 	</block>
-	<block type="modules_catalog_productCrossSellingList" icon="list-block" labeli18n="m.catalog.bo.blocks.productcrosssellinglist.block-">
+	<block type="modules_catalog_CrossSellingList" icon="list-block">
 		<parameters>
 			<parameter name="blockTitle" type="String" />
+			<parameter name="cmpref" type="Document" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]" document-type="modules_catalog/product" />
+			<parameter name="linkType" type="String" from-list="modules_catalog/crosssellinglinktypes" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
 			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" />
+			<parameter name="sortRandom" type="Boolean" default-value="false" />
+			<parameter name="addlinktoall" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
 			<parameter name="useAddToCartPopin" type="Boolean" default-value="true" />
 			<parameter name="showaddtofavorite" type="Boolean" default-value="true" />
 			<parameter name="showaddtocomparison" type="Boolean" default-value="true" />
 			<parameter name="displayavailability" type="Boolean" default-value="true" />
-			<parameter name="displayratingaverage" type="Boolean" default-value="true" />
+			<parameter name="displayratingaverage" type="Boolean" default-value="false" />
 			<parameter name="displayproductpicto" type="Boolean" default-value="true" />
 			<parameter name="displayCustomerPrice" type="Boolean" default-value="true" />
 			<parameter name="showshareblock" type="Boolean" default-value="true" />
@@ -295,14 +281,6 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="useCache" type="Boolean" default-value="false" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -356,16 +334,6 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="useCache" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="mode" type="String" default-value="random" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>
@@ -407,16 +375,6 @@
 			<parameter name="displaynbresultsperpage" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaydiscountfilter" type="Boolean" default-value="false" hidden="true" />
 			<parameter name="displaybrandorder" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="activatequantityselection" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displayproductdescription" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="displaydisplaymode" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="useCache" type="Boolean" default-value="false" hidden="true" />
-			<!-- @deprecated -->
-			<parameter name="mode" type="String" default-value="compact" hidden="true" />
 		</parameters>
 		<xul>
 			<javascript>

@@ -112,9 +112,27 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	{
 		if ($this->currentBillingArea === null || $refresh)
 		{
-			$this->currentBillingArea = catalog_BillingareaService::getInstance()->getCurrentBillingAreaForShop($this, $refresh);
+			$this->setCurrentBillingArea(catalog_BillingareaService::getInstance()->getCurrentBillingAreaForShop($this, $refresh));
 		}
 		return $this->currentBillingArea;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_billingarea $billingArea
+	 * @return catalog_persistentdocument_billingarea|NULL previous current billingArea
+	 */
+	public function setCurrentBillingArea($billingArea)
+	{
+		$pba = $this->currentBillingArea;
+		if ($billingArea instanceof catalog_persistentdocument_billingarea)
+		{
+			$this->currentBillingArea = $billingArea;
+		}
+		else
+		{
+			$this->currentBillingArea = null;
+		}
+		return $pba;
 	}
 		
 	/**
@@ -153,91 +171,4 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	{
 		$this->updatedShelfArray = $updatedShelfArray;
 	}
-	
-	// DEPRECATED
-	
-	/**
-	 * @deprecated
-	 */
-	public function getBoTaxZone()
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		if ($this->getDefaultBillingArea()->getBoEditWithTax())
-		{
-			return $this->getDefaultBillingArea()->getDefaultZone();
-		}
-		return null;
-	}	
-	
-	/**
-	 * @deprecated
-	 */
-	public function getCurrencySymbol()
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		return $this->getDefaultBillingArea()->getCurrency()->getSymbol();
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public function getCurrencyCode()
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		return $this->getDefaultBillingArea()->getCurrencyCode();
-	}	
-	
-	/**
-	 * @deprecated
-	 */
-	public function formatPrice($value)
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		return $this->getCurrentBillingArea()->formatPrice($value);
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public function formatTaxRate($taxRate)
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		return catalog_TaxService::getInstance()->formatRate($taxRate);
-	}
-
 }

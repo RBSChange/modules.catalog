@@ -162,10 +162,11 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 				->add(Restrictions::eq('mode.id', $shippingModeId))
 				->addOrder(Order::asc('valueWithoutTax'))
 				->find();
-				
+			
 			$shippingFilter = null;	
 			foreach ($filters as $filter) 
 			{
+				/* @var $filter catalog_persistentdocument_shippingfilter */
 				$cart->setCurrentTestFilter($filter);
 				if ($this->isValidShippingFilter($filter, $cart))
 				{
@@ -173,13 +174,39 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 					break;
 				}
 			}
-			$ok = $ok && ($shippingFilter !== null);
-			$cart->setRequiredShippingFilter($shippingModeId, $shippingFilter);
+			
+			if ($shippingFilter instanceof catalog_persistentdocument_shippingfilter)
+			{
+				$shippingFilter->getDocumentService()->applyShippingFilterToCart($shippingFilter, $cart, false);
+			}
+			else
+			{
+				$ok = false;
+				$cart->setRequiredShippingFilter($shippingModeId, $shippingFilter);
+			}
 		}
 		$cart->setCurrentTestFilter(null);
 		return $ok;
 	}	
-	
+
+	/**
+	 * @param catalog_persistentdocument_shippingfilter $shippingFilter
+	 * @param order_CartInfo $cart
+	 * @param boolean $selectedByCustomer
+	 */
+	public function applyShippingFilterToCart($shippingFilter, $cart, $selectedByCustomer = false)
+	{
+		if ($selectedByCustomer)
+		{
+			$mode = $shippingFilter->getMode();
+			$cart->setRequiredShippingFilter(0, $shippingFilter);
+			$mode->getDocumentService()->completeCart($mode, $cart);
+		}
+		else
+		{
+			$cart->setRequiredShippingFilter($shippingFilter->getMode()->getId(), $shippingFilter);
+		}
+	}	
 	/**
 	 * @param catalog_persistentdocument_shippingfilter $filter
 	 * @param order_CartInfo $cart

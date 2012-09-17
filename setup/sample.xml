@@ -51,6 +51,7 @@
 		</topshelf>
 	</rootfolder>
 	<shop byCodeReference="DEMO" id="shop" topShelf-refids="r1,r2,r5,r6" />
+	<billingarea byCodeReference="FR" id="billingarea" />
 	<mode id="shipping" byLabel="Colissimo" />
 	<chequeconnector id="payment" byLabel="Paiement par chèque" />
 	<freeconnector id="freepayment" byLabel="Pas de paiement" />
@@ -64,54 +65,54 @@
 		<p>Curabitur et libero ut ante porta gravida? Phasellus rhoncus, dolor at consectetuer porta; tortor odio suscipit ante, non congue risus libero eu sapien. Donec ut pede. Suspendisse sapien? Integer arcu metus; bibendum nec, blandit vitae, faucibus quis, odio. Sed euismod sapien a libero. Curabitur placerat scelerisque dui. Praesent convallis dolor quis nisi. Praesent lorem lacus, luctus sed, rutrum non, lacinia non, nisi? Cras et lectus ac nisi eleifend posuere. Suspendisse eu risus luctus ipsum congue fermentum? Praesent eu erat sed nunc ullamcorper vehicula.</p>
 		<p>Morbi id est et erat fringilla vestibulum. Maecenas risus. Ut blandit nibh auctor arcu. Integer iaculis, neque at aliquet consectetuer, nunc purus placerat elit, et ultrices mi neque vel dolor. Fusce porttitor tellus quis nulla. Suspendisse potenti. Aenean et erat. Integer nisl leo, vulputate vel, elementum at, congue ultricies, tellus. Proin id sapien sed mauris vehicula semper. Suspendisse eget eros vitae erat vehicula dignissim. Proin tempus. Pellentesque at velit ac felis tristique faucibus. Donec euismod dui at nisl.</p>]]></attribute>
 	<simpleproduct label="produit 1" id="product1" shelf-refids="r1-1,r2" visual-refid="photo1" brand-refid="brand1" stockQuantity="5" codeReference="P1" description-attr="productDescription">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="1" value="90" valueWithoutDiscount="100" discountDetail="10%" ecoTax="5" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="1" value="89" valueWithoutDiscount="95" ecoTax="5" thresholdMin="5" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="1" value="79" valueWithoutDiscount="85" ecoTax="5" thresholdMin="10" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="1" valueWithTax="90" oldValueWithTax="100" discountDetail="10%" ecoTax="5" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="1" valueWithTax="89" oldValueWithTax="95" ecoTax="5" thresholdMin="5" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="1" valueWithTax="79" oldValueWithTax="85" ecoTax="5" thresholdMin="10" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Super !" rating="5" />
 		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="Moi j'ai eu plein de problèmes avec..." rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Le design est top mais ça ne marche pas toujours bien." rating="3" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</simpleproduct>
 	<simpleproduct label="produit 2" id="product2" shelf-refids="r1-1,r2-1" visual-refid="photo2" brand-refid="brand2" stockQuantity="10" codeReference="P2" description-attr="productDescription">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="125" valueWithoutDiscount="140" thresholdMin="5" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="105" valueWithoutDiscount="130" thresholdMin="10" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="130" oldValueWithTax="150" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="125" oldValueWithTax="140" thresholdMin="5" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="105" oldValueWithTax="130" thresholdMin="10" />
 	</simpleproduct>
-	<declinedproduct label="produit 3" id="product3" shelf-refids="r2-1" visual-refid="photo3" synchronizePrices="false" complementary-refids="product1,product2" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" codeReference="P3" description-attr="productDescription">
+	<declinedproduct label="produit 3" id="product3" shelf-refids="r2-1" visual-refid="photo3" synchronizePrices="false" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" codeReference="P3" description-attr="productDescription">
 		<productdeclination label="produit 3, déclinaison 1" codeReference="P3-1" id="d31">
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="490" oldValueWithTax="500" />
 		</productdeclination>
 		<productdeclination label="produit 3, déclinaison 2" codeReference="P3-2" id="d32">
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="529" valueWithoutDiscount="559" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="529" oldValueWithTax="559" />
 		</productdeclination>
 	</declinedproduct>
 	<simpleproduct label="produit 4" id="product4" shelf-refids="r3,r4" visual-refid="photo4" codeReference="P4" description-attr="productDescription">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="90" valueWithoutDiscount="100" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="90" oldValueWithTax="100" />
 	</simpleproduct>
 	<simpleproduct label="produit 5" id="product5" shelf-refid="r3" visual-refid="photo5" codeReference="P5" description-attr="productDescription">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="130" oldValueWithTax="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 6" id="product6" shelf-refids="r4" complementary-refids="product4,product5" codeReference="P6" synchronizePrices="true" description-attr="productDescription">
+	<declinedproduct label="produit 6" id="product6" shelf-refids="r4" codeReference="P6" synchronizePrices="true" description-attr="productDescription">
 		<productdeclination label="produit 6, déclinaison 1" codeReference="P6-1" />
 		<productdeclination label="produit 6, déclinaison 2" codeReference="P6-2" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="490" oldValueWithTax="500" />
 	</declinedproduct>
 	<simpleproduct label="produit 7" id="product7" shelf-refids="r4,r5" visual-refid="photo1" codeReference="P7">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="90" valueWithoutDiscount="100" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="90" oldValueWithTax="100" />
 	</simpleproduct>
 	<simpleproduct label="produit 8" id="product8" shelf-refids="r4,r5,r6" visual-refid="photo2" codeReference="P8">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="130" oldValueWithTax="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product4,d31,d32" synchronizePrices="false">
+	<declinedproduct label="produit 9" id="product9" shelf-refids="r1-1,r4,r5,r6" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" synchronizePrices="false">
 		<productdeclination label="produit 9, déclinaison 1" codeReference="P9-1">
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="470" valueWithoutDiscount="490" thresholdMin="5" />
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="450" valueWithoutDiscount="480" thresholdMin="10" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="490" oldValueWithTax="500" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="470" oldValueWithTax="490" thresholdMin="5" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="450" oldValueWithTax="480" thresholdMin="10" />
 		</productdeclination>
 		<productdeclination label="produit 9, déclinaison 2" codeReference="P9-2">
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="529" valueWithoutDiscount="559" />
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="499" valueWithoutDiscount="549" thresholdMin="5" />
-			<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="489" valueWithoutDiscount="539" thresholdMin="10" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="529" oldValueWithTax="559" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="499" oldValueWithTax="549" thresholdMin="5" />
+			<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="489" oldValueWithTax="539" thresholdMin="10" />
 		</productdeclination>
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
 		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !" rating="1" />
@@ -119,58 +120,58 @@
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</declinedproduct>
 	<simpleproduct label="produit 13" id="product13" shelf-refids="r4,r5-1,r6-1,r6-2" visual-refid="photo3" codeReference="P13">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="89" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="89" />
 	</simpleproduct>
-	<simpleproduct label="produit 14" id="product14" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P14" complementary-refids="product2,product4">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
+	<simpleproduct label="produit 14" id="product14" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P14">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="130" oldValueWithTax="150" />
 	</simpleproduct>
-	<simpleproduct label="produit 15" id="product15" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo3" codeReference="P15" complementary-refids="product2,product4">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="90" valueWithoutDiscount="100" />
+	<simpleproduct label="produit 15" id="product15" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo3" codeReference="P15">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="90" oldValueWithTax="100" />
 	</simpleproduct>
-	<simpleproduct label="produit 16" id="product16" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P16" complementary-refids="product4,product5">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="129" valueWithoutDiscount="150" />
+	<simpleproduct label="produit 16" id="product16" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P16">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="129" oldValueWithTax="150" />
 	</simpleproduct>
-	<simpleproduct label="produit 17" id="product17" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P17" complementary-refids="product2,product4,d31,d32">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="79" valueWithoutDiscount="100" />
+	<simpleproduct label="produit 17" id="product17" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P17">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="79" oldValueWithTax="100" />
 	</simpleproduct>
-	<simpleproduct label="produit 18" id="product18" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P18" similar-refids="product1,product5,product7,product8,d31,d32">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="125" />
+	<simpleproduct label="produit 18" id="product18" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P18">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="125" />
 	</simpleproduct>
-	<simpleproduct label="produit 20" id="product20" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P20" complementary-refids="product4,product5">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="119" />
+	<simpleproduct label="produit 20" id="product20" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo1" codeReference="P20">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="119" />
 	</simpleproduct>
-	<simpleproduct label="produit 21" id="product21" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P21" complementary-refids="product4,product5">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="140" />
+	<simpleproduct label="produit 21" id="product21" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo2" codeReference="P21">
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="140" />
 	</simpleproduct>
 	<simpleproduct label="produit 23" id="product23" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo4" codeReference="P23">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="129" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="129" />
 	</simpleproduct>
 	<simpleproduct label="produit 24" id="product24" shelf-refids="r1-1,r4,r5,r6" visual-refid="photo5" codeReference="P24">
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="130" valueWithoutDiscount="150" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="130" oldValueWithTax="150" />
 	</simpleproduct>
-	<declinedproduct label="produit 25 (décliné)" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" complementary-refids="product2,product4" similar-refids="product1,product5,product7,product8" upsell-refids="product14,product15" codeReference="P25">
+	<declinedproduct label="produit 25 (décliné)" id="product25" shelf-refids="r1-1,r4,r5,r6" synchronizePrices="true" additionnalVisual-refids="photo1,photo2,photo3,photo4,photo5" codeReference="P25">
 		<productdeclination id="product251" label="produit 25, déclinaison 1" codeReference="P25-1" />
 		<productdeclination label="produit 25, déclinaison 2" codeReference="P25-2" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="470" valueWithoutDiscount="490" thresholdMin="5" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="450" valueWithoutDiscount="480" thresholdMin="10" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="490" oldValueWithTax="500" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="470" oldValueWithTax="490" thresholdMin="5" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="450" oldValueWithTax="480" thresholdMin="10" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
 		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !" rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</declinedproduct>
-	<bundleproduct id="produit26" codeReference="P26" label="produit 26 (bundle)" shelf-refids="r1-1,r4,r5,r6" complementary-refids="product2,product4" similar-refids="product1,product5,product7,product8,d31,d32" upsell-refids="product14,product15">
+	<bundleproduct id="produit26" codeReference="P26" label="produit 26 (bundle)" shelf-refids="r1-1,r4,r5,r6">
 		<bundleditem product-refid="product251" quantity="4" />
 		<bundleditem product-refid="product21" quantity="2" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="490" valueWithoutDiscount="500" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="470" valueWithoutDiscount="490" thresholdMin="5" />
-		<price shop-refid="shop" storeWithTax="true" taxCategory="10" value="450" valueWithoutDiscount="480" thresholdMin="10" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="490" oldValueWithTax="500" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="470" oldValueWithTax="490" thresholdMin="5" />
+		<price shopId-refid="shop" billingAreaId-refid="billingarea" taxCategory="10" valueWithTax="450" oldValueWithTax="480" thresholdMin="10" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />
 		<comment authorName="FanDeChange" email="fandechange@rbs.fr" authorwebsiteurl="http://change.rbs.fr" contentsAsBBCode="C'est nul !" rating="1" />
 		<comment authorName="MacUser" email="macuser@rbs.fr" contentsAsBBCode="Bof..." rating="2" />
 		<comment websiteId="123" authorName="UtilisateurAutreSite" email="autresite@rbs.fr" contentsAsBBCode="Test." rating="3" />
 	</bundleproduct>
-	<kit id="produit27" codeReference="P27" label="produit 27 (kit)" shelf-refids="r1-1,r4,r5,r6" complementary-refids="product2,product4" similar-refids="product1,product5,product7,product8" upsell-refids="product14,product15,d31,d32">
+	<kit id="produit27" codeReference="P27" label="produit 27 (kit)" shelf-refids="r1-1,r4,r5,r6">
 		<kititem product-refid="product23" quantity="9" />
 		<kititem product-refid="product21" quantity="1" />
 		<comment authorName="Toto67" email="toto67@rbs.fr" authorwebsiteurl="http://rbs.fr" contentsAsBBCode="Pas mal du tout !" rating="4" />

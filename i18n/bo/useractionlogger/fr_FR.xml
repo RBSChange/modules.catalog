@@ -148,4 +148,16 @@
 	<key id="log-deactivated-comparableproperty">log deactivated comparableproperty</key>
 	<key id="reactivate-comparableproperty">reactivate.comparableproperty {documentlabel}</key>
 	<key id="log-reactivate-comparableproperty">log reactivate comparableproperty</key>
+	<key id="insert-crossitem">insert.crossitem {documentlabel}</key>
+	<key id="log-insert-crossitem">log insert crossitem</key>
+	<key id="delete-crossitem">delete.crossitem {documentlabel}</key>
+	<key id="log-delete-crossitem">log delete crossitem</key>
+	<key id="update-crossitem">update.crossitem {documentlabel}</key>
+	<key id="log-update-crossitem">log update crossitem</key>
+	<key id="deactivated-crossitem">deactivated.crossitem {documentlabel}</key>
+	<key id="log-deactivated-crossitem">log deactivated crossitem</key>
+	<key id="reactivate-crossitem">reactivate.crossitem {documentlabel}</key>
+	<key id="log-reactivate-crossitem">log reactivate crossitem</key>
+	<key id="insert-productqueryfolder">insert.productqueryfolder {documentlabel}</key>
+	<key id="log-insert-productqueryfolder">log insert productqueryfolder</key>
 </i18n>

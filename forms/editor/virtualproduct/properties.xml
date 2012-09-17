@@ -17,9 +17,6 @@
 	<section labeli18n="m.catalog.bo.general.additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
-		<field name="complementary" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" />
-		<field name="similar" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" />
-		<field name="upsell" type="productSuggestion" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" />
 	</section>
 	<section labeli18n="m.catalog.bo.general.referencing" class="toggle" hidden="true">
 		<field name="pageTitle" class="with-counter" rows="2" />
@@ -29,56 +26,4 @@
 	<section labeli18n="m.catalog.bo.general.extendedattributes" class="toggle" hidden="true">
 		<fieldinput name="attributesJSON" type="attributeslist" />
 	</section>
-	<xul>
-		<javascript>
-			<constructor><![CDATA[
-				this.extendMethod("fireInitializeComplete", this.fireInitializeCompleteExtend);
-			]]></constructor>
-			<method name="fireInitializeCompleteExtend">
-				<parameter name="result" />
-				<body><![CDATA[
-					try
-					{
-						var fields = this.fields;
-						if ('suggestComplementaryFeederClass' in result.contents)
-						{
-							this.setAttributesForSuggestions(fields.complementary, result.contents.suggestComplementaryFeederClass);
-						}
-						if ('suggestSimilarFeederClass' in result.contents)
-						{
-							this.setAttributesForSuggestions(fields.similar, result.contents.suggestSimilarFeederClass);
-						}
-						if ('suggestUpsellFeederClass' in result.contents)
-						{
-							this.setAttributesForSuggestions(fields.upsell, result.contents.suggestUpsellFeederClass);
-						}
-					}
-					catch (e)
-					{
-						wCore.error("virtualproduct.propertiespanel.fireInitializeCompleteExtend", [], e);
-					}
-				]]></body>
-			</method>
-			<method name="setAttributesForSuggestions">
-				<parameter name="field" />
-				<parameter name="feederClass" />
-				<body><![CDATA[
-					var productId = this.documentEditor.documentid;
-					wCore.debug('setAttributesForSuggestions feederClass = '+feederClass);
-					if (productId && feederClass && feederClass != 'none')
-					{
-						field.setAttribute('productId', productId);
-						field.setAttribute('defaultFeederClass', feederClass);
-						field.setAttribute('hideSuggestionButton', false);
-					}
-					else
-					{
-						field.removeAttribute('productId');
-						field.removeAttribute('defaultFeederClass');
-						field.setAttribute('hideSuggestionButton', true);
-					}
-				]]></body>
-			</method>
-		</javascript>
-	</xul>
 </panel>

@@ -295,10 +295,10 @@
 				</xul:hbox>
 				<xul:spacer height="5px" />
 				<xul:hbox align="center">
-					<xul:label value="Méthode" />
+					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.method,ucf,attr}" />
 					<xul:cfield anonid="field_feederClass" name="feederClass" fieldtype="dropdownlist" listid="modules_catalog/productsuggestionfeeders"
 						hidehelp="true" />
-					<xul:label value="Nombre maximum de résultats" />
+					<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.max-result-number,ucf,attr}" />
 					<xul:cfield anonid="field_maxResults" name="maxResults" fieldtype="integer" hidehelp="true" />
 					<xul:toolbarbutton oncommand="search();" image="{IconsBase}/small/search.png" label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.search,ucf,attr}" />
 					<xul:spacer flex="1" />
@@ -706,4 +706,961 @@
 			</vbox>
 		</xbl:content>
 	</binding>
+	
+	
+	<!-- Cross selling panel -->
+	
+	<binding id="cCrossitemsPanel" extends="layout.cDocumentEditor#cDocumentEditorPanel">
+		<resources>
+			<stylesheet src="modules.uixul.cFieldsGroup" />
+		</resources>
+		<content>
+			<xul:vbox flex="1">
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="add_crossitem" oncommand="addCrossitem()" label="${trans:m.catalog.bo.doceditor.crossitems.new,ucf,attr}"
+						image="{IconsBase}/small/add.png" />
+					<xul:button anonid="add_crossitems" oncommand="openAddCrossitemsDialog()" label="${trans:m.catalog.bo.doceditor.crossitems.new-multiple,ucf,attr}"
+						image="{IconsBase}/small/add.png" />
+					<xul:button anonid="add_suggestedcrossitems" oncommand="openAddSuggestedCrossitemsDialog()" label="${trans:m.catalog.bo.doceditor.crossitems.add-suggested-crossitems,ucf,attr}"
+						image="{IconsBase}/small/wand.png" />
+					<xul:spacer flex="1" />
+					<xul:button anonid="sort_compiled" oncommand="openCrossitemsSortingDialog()" label="${trans:m.catalog.bo.doceditor.crossitems.sort,ucf,attr}"
+						image="{IconsBase}/small/sort.png" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:groupbox>
+						<xul:caption flex="1">
+							<xul:label value="${trans:m.catalog.bo.doceditor.crossitems.list-target,ucf,attr}" />
+							<xul:spacer flex="1" />
+							<xul:label anonid="target-result-count" />
+						</xul:caption>
+						<xul:ccrossitemslist anonid="target-crossitems-list" flex="1" hidetarget="true" />
+					</xul:groupbox>
+					<xul:groupbox>
+						<xul:caption flex="1">
+							<xul:label value="${trans:m.catalog.bo.doceditor.crossitems.list-linked,ucf,attr}" />
+							<xul:spacer flex="1" />
+							<xul:label anonid="linked-result-count" />
+						</xul:caption>
+						<xul:ccrossitemslist anonid="linked-crossitems-list" flex="1" hidelinked="true" />
+					</xul:groupbox>
+					<xul:spacer flex="1" />
+				</xul:scrollbox>
+			</xul:vbox>
+		</content>
+		<implementation>
+			<field name="documentInfos">null</field>
+
+			<property name="targetGridList" readonly="true">
+				<getter><![CDATA[
+					return this.getElementByAnonId('target-crossitems-list');
+				]]></getter>
+			</property>
+			
+			<property name="linkedGridList" readonly="true">
+				<getter><![CDATA[
+					return this.getElementByAnonId('linked-crossitems-list');
+				]]></getter>
+			</property>
+			
+			<method name="refresh">
+				<body><![CDATA[
+					this.mInitialized = false;
+					this.documentEditor.executeServerAction('crossitems', 'Initialize');
+				]]></body>
+			</method>	
+
+			<method name="getInitializeParameters">
+				<body><![CDATA[
+					return {
+						action: 'InitializeCrossitemsPanel',
+						cmpref: this.documentEditor.documentid, 
+						lang : this.documentEditor.documentInfos.vo
+					};
+				]]></body>
+			</method>
+
+			<method name="fireInitializeComplete">
+				<parameter name="result" />
+				<body><![CDATA[
+					if (result.status == 'OK')
+					{
+						var contents = result.contents;
+						this.documentInfos = {id: contents.id, isDeclined: contents.isDeclined};
+						
+						var node = this.getElementByAnonId('target-result-count');
+						var resultsCount = contents.targetCount;
+						if (resultsCount == 0)
+						{
+							node.setAttribute('value', "${trans:m.uixul.bo.general.search.noresults,ucf,js}");
+						}
+						else
+						{
+							node.setAttribute('value', "${trans:m.uixul.bo.general.search.searchresultcount,ucf,lab,js} " + resultsCount);
+						}
+						var dataset = (contents.targetNodes.length > 0) ? contents.targetNodes : null;
+						this.targetGridList.initJSONDataset(dataset);
+						
+						var node = this.getElementByAnonId('linked-result-count');
+						var resultsCount = contents.linkedCount;
+						if (resultsCount == 0)
+						{
+							node.setAttribute('value', "${trans:m.uixul.bo.general.search.noresults,ucf,js}");
+						}
+						else
+						{
+							node.setAttribute('value', "${trans:m.uixul.bo.general.search.searchresultcount,ucf,lab,js} " + resultsCount);
+						}
+						var dataset = (contents.linkedNodes.length > 0) ? contents.linkedNodes : null;
+						this.linkedGridList.initJSONDataset(dataset);
+						
+						this.collapseContentZone(false);
+						this.mInitialized = true;
+						this.fireEvent("panelInitializeComplete");
+						this.gotoTop();
+					}
+					else
+					{
+						this.documentInfos = null
+						this.targetGridList.initJSONDataset(null);
+						this.linkedGridList.initJSONDataset(null);
+						this.showErrorMessage(result.contents.errorMessage);
+						this.collapseContentZone(true);						
+						this.mInitialized = true;
+					}
+				]]></body>
+			</method>
+
+			<method name="addCrossitem">
+				<body><![CDATA[
+					var productId = this.documentEditor.documentid;
+					openActionUri(['catalog', 'createCrossitemForProduct', 'modules_catalog_crossitem', productId].join(','));
+				]]></body>
+			</method>
+
+			<method name="openAddCrossitemsDialog">
+				<body><![CDATA[
+					var params = { 
+						id: this.documentEditor.documentid,
+						isDeclined: this.documentInfos.isDeclined
+					}
+					getController().openModalDialog(this, "catalog_addCrossitems", params);
+				]]></body>
+			</method>
+			
+			<method name="openAddSuggestedCrossitemsDialog">
+				<body><![CDATA[
+					var params = { 
+						id: this.documentEditor.documentid,
+						isDeclined: this.documentInfos.isDeclined,
+						defaultMaxResults: 25,
+						excludedIds: []
+					}
+					getController().openModalDialog(this, "catalog_addSuggestedCrossitems", params);
+				]]></body>
+			</method>
+			
+			<method name="openCrossitemsSortingDialog">
+				<body><![CDATA[
+					var params = {
+						id: this.documentEditor.documentid,
+						isDeclined: this.documentInfos.isDeclined
+					} 
+					getController().openModalDialog(this, "catalog_sortLinkedProducts", params);
+				]]></body>
+			</method>
+			
+			<method name="filterAllowed">
+				<parameter name="documentidtype" />
+				<body><![CDATA[
+					var result = [];
+					for (var i = 0; i < documentidtype.length; i++)
+			  		{
+			  			var data = documentidtype[i];
+			  			result.push(data[0]);
+			  		}
+			  		return result;
+				]]></body>
+			</method>
+			
+			<method name="createCrossitems">
+				<parameter name="ids" />
+				<parameter name="linkType" />
+				<body><![CDATA[
+					//wCore.debug('createCrossitems: '+linkType+' - '+ids.join(','));
+					var me = this;
+					var callBack = function(result) {
+						me.refresh();
+						if (result.status == 'OK')
+						{
+							me.messageBox.showInformationMessage(result.contents.successMessage);
+						}
+					};
+					wCore.executeJSON('catalog', 'AddCrossitems', { cmpref: this.documentEditor.documentid, linkedIds: ids.join(','), linkType: linkType }, callBack, true);
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	<binding id="cCrossitemsList" extends="widgets.cGrid#cAbstractSortableGrid">
+		<content>
+			<xul:grid flex="1" anonid="grid" xbl:inherits="disabled" style="padding-left: 5px;padding-right: 5px;">
+				<xul:columns>
+					<xul:column />
+					<xul:column flex="1" xbl:inherits="collapsed=hidetarget" />
+					<xul:column flex="1" xbl:inherits="collapsed=hidelinked" />
+					<xul:column flex="1" />
+					<xul:column />
+					<xul:column />
+					<xul:column />
+					<xul:column />
+				</xul:columns>
+				<xul:rows>
+					<xul:row class="head" anonid="head-row" align="center">
+						<xul:label name="publicationstatus" sortonfield="true" tooltiptext="${trans:m.catalog.bo.doceditor.crossitems.tooltip-publication-status,ucf,attr}"></xul:label>
+						<xul:label name="target" value="${trans:m.catalog.bo.doceditor.crossitems.column-target,ucf,attr}" sortonfield="true" />
+						<xul:label name="linked" value="${trans:m.catalog.bo.doceditor.crossitems.column-linked,ucf,attr}" sortonfield="true" />
+						<xul:label name="linkType" value="${trans:m.catalog.bo.doceditor.crossitems.column-link-type,ucf,attr}" sortonfield="true" />
+						<xul:label name="symetrical" value="${trans:m.catalog.bo.doceditor.crossitems.column-symetrical,ucf,attr}" tooltiptext="${trans:m.catalog.bo.doceditor.crossitems.tooltip-symetrical,ucf,attr}" sortonfield="true" />
+						<xul:label name="autoGenerated" value="${trans:m.catalog.bo.doceditor.crossitems.column-auto-generated,ucf,attr}" tooltiptext="${trans:m.catalog.bo.doceditor.crossitems.tooltip-auto-generated,ucf,attr}" sortonfield="true" />
+						<xul:label name="compiled" value="${trans:m.catalog.bo.doceditor.crossitems.column-compiled,ucf,attr}" tooltiptext="${trans:m.catalog.bo.doceditor.crossitems.tooltip-compiled,ucf,attr}" sortonfield="true" />
+						<xul:label name="actionrow" value="${trans:m.catalog.bo.doceditor.crossitems.column-actions,ucf,attr}" />
+					</xul:row>
+				</xul:rows>
+			</xul:grid>
+			<xul:row anonid="template-row" class="document orderable" align="center" hidden="true">
+				<xul:cpublicationcell value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:label value="" />
+				<xul:toolbar class="action" align="right">
+					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${trans:m.uixul.bo.actions.edit,ucf,attr}" />
+					<xul:toolbarbutton action="activate" image="{IconsBase}/small/activate.png" tooltiptext="${trans:m.uixul.bo.actions.activate,ucf,attr}" />
+					<xul:toolbarbutton action="deactivated" image="{IconsBase}/small/deactivated.png" tooltiptext="${trans:m.uixul.bo.actions.deactivated,ucf,attr}" />
+					<xul:toolbarbutton action="reactivate" image="{IconsBase}/small/reactivate.png" tooltiptext="${trans:m.uixul.bo.actions.reactivate,ucf,attr}" />
+					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${trans:m.uixul.bo.actions.delete,ucf,attr}" />
+					<xul:toolbarbutton action="compile" image="{IconsBase}/small/admin.png" tooltiptext="${trans:m.catalog.bo.doceditor.crossitems.compile-crossitem,ucf,attr}" />
+				</xul:toolbar>
+			</xul:row>
+		</content>
+		<implementation>
+			<constructor><![CDATA[
+				this.fireEvent('gridInitialised');
+			]]></constructor>
+
+			<method name="getDatarowKey">
+				<parameter name="datarow" />
+				<body><![CDATA[
+					return datarow.id;
+				]]></body>
+			</method>
+			
+			<method name="getCrossitemsPanel">
+				<body><![CDATA[
+					var pn = this.parentNode;
+					while (pn && pn.localName != 'ccrossitemspanel') {pn = pn.parentNode;}
+					return pn;
+				]]></body>
+			</method>
+
+			<method name="execute_edit">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var uri = ['catalog', 'openDocument', 'modules_catalog_crossitem', rowData.id, 'properties'].join(',');
+					openActionUri(uri);
+				]]></body>
+			</method>
+			
+			<method name="execute_activate">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var me = this;
+					var callBack = function(result) { me.getCrossitemsPanel().refresh(); };
+					wCore.executeJSON('catalog', 'ActivateJSON', {cmpref: rowData.id}, callBack, true);
+				]]></body>
+			</method>
+			
+			<method name="execute_deactivated">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var me = this;
+					var callBack = function(result) { me.getCrossitemsPanel().refresh(); };
+					wCore.executeJSON('catalog', 'DeactivatedJSON', {cmpref: rowData.id}, callBack, true);
+				]]></body>
+			</method>
+			
+			<method name="execute_reactivate">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var me = this;
+					var callBack = function(result) { me.getCrossitemsPanel().refresh(); };
+					wCore.executeJSON('catalog', 'ReActivateJSON', {cmpref: rowData.id}, callBack, true);
+				]]></body>
+			</method>
+
+			<method name="execute_delete">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					if (confirm("${trans:m.catalog.bo.doceditor.crossitems.confirm-delete-crossitem,ucf,js}"))
+					{
+						var me = this;
+						var callBack = function(result) { me.getCrossitemsPanel().refresh(); };
+						wCore.executeJSON('catalog', 'DeleteJSON', {cmpref: rowData.id}, callBack, true);
+					}
+				]]></body>
+			</method>
+
+			<method name="execute_compile">
+				<parameter name="rowNode" />
+				<parameter name="rowData" />
+				<body><![CDATA[
+					var me = this;
+					var callBack = function(result) { me.getCrossitemsPanel().refresh(); };
+					wCore.executeJSON('catalog', 'CompileCrossitem', {cmpref: rowData.id}, callBack, true);
+				]]></body>
+			</method>
+			
+			<method name="populateRow">
+				<parameter name="rowNode" />
+				<parameter name="dataRow" />
+				<body><![CDATA[
+					var colsInfo = this.getColsInfo();
+					var cols = rowNode.childNodes;
+					for (var name in dataRow)
+					{
+						if (name in colsInfo && cols.length > colsInfo[name])
+						{
+							var col = cols[colsInfo[name]];
+							this.setCellValue(col, name, dataRow);
+						}
+					}
+					
+					var col = cols[colsInfo.actionrow];
+					for (var index in col.childNodes)
+					{
+						if (col.childNodes[index].localName == 'toolbarbutton')
+						{
+							var dataName = 'can' + col.childNodes[index].getAttribute('action');
+							if (dataName in dataRow && dataRow[dataName] === false)
+							{
+								col.childNodes[index].setAttribute('collapsed', 'true');
+							}
+							else
+							{
+								col.childNodes[index].removeAttribute('collapsed');
+							}
+						}
+					}
+					return rowNode;
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+	
+	<binding id="cAddCrossitemsDialog" extends="core.wDialog#cRessourceDialog">
+		<resources>
+			<stylesheet src="modules.uixul.cDocumentEditor" />
+			<stylesheet src="modules.uixul.cOrderChildrenDialog" />
+		</resources>
+		<implementation>
+			<field name="mLinkType" />
+			
+			<method name="onInitialize">
+				<body><![CDATA[
+					// Get allowed types from the editor instead of putting here a hardcoded list.
+					this.selectType(document.getElementById('catalog_crossitem_linkedDocument').getAttribute('allow'));
+					this.selectTree('catalog');
+
+					this.removeAttribute("hide-list");
+					var lst = this.getElementByAnonId("selectedList"); 
+					var me = this;
+					lst.addEventListener("dragenter", function (event) {me.onDragEnter(event);}, false);
+					lst.addEventListener("dragover", function (event) {me.onDragOver(event);}, false);
+					lst.addEventListener("drop", function (event) {me.onDrop(event);}, false);
+					lst.addEventListener("dragleave", function (event) {me.onDragLeave(event);}, false);						
+
+					this.getElementByAnonId("message-box").showHelpMessage("${trans:m.uixul.bo.dialog.ressource-selector-description,ucf,js}");
+					this.refreshCommandUI();
+				]]></body>
+			</method>
+			
+			<method name="onOk">
+				<body><![CDATA[
+					var ids = this.getSelectedIds();
+					this.sender.createCrossitems(ids, this.mLinkType);
+					getController().closeModalDialog(true);
+				]]></body>
+			</method>
+			
+			<method name="refreshCommandUI">
+				<body><![CDATA[
+					if (this.isValid)
+					{
+						this.getElementByAnonId('button_create').removeAttribute('disabled');
+					}
+					else
+					{
+						this.getElementByAnonId('button_create').setAttribute('disabled', 'true');
+					}
+				]]></body>
+			</method>
+			
+			<method name="getSelectedIds">
+				<body><![CDATA[
+					var items = this.getElementByAnonId("selectedList").getElementsByTagName('row');
+					var ids = [];
+					for (var i = 0; i < items.length; i++) 
+					{ 
+						if (items[i].hasAttribute("value"))
+						{
+							ids.push(items[i].getAttribute("value"));
+						}
+					}
+					//wCore.debug('getSelectedIds: '+ids.join(','));
+					return ids;
+				]]></body>
+			</method>
+			
+			<property name="isValid" readonly="true">
+				<getter><![CDATA[
+					return this.getElementByAnonId('mLinkType').valid;	
+				]]></getter>
+			</property>
+		</implementation>
+		<handlers>
+			<handler event="fieldChanged"><![CDATA[
+				if (event.originalTarget.name == 'mLinkType')
+				{
+					this.mLinkType = event.originalTarget.value;
+					this.refreshCommandUI();
+				}
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldError"><![CDATA[
+				this.refreshCommandUI();
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:xbl="http://www.mozilla.org/xbl">
+			<xul:vbox flex="1">
+				<hbox class="dialog-header">
+					<label anonid="title" value="${trans:m.catalog.bo.doceditor.crossitems.linked-product-sorting,ucf,attr}" class="dialog-title" />
+					<spacer flex="1" />
+					<vbox pack="center">
+						<toolbarbutton image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
+					</vbox>
+				</hbox>
+				<xul:cmessageinfo anonid="message-box" />
+				<xul:hbox anonid="filter-bar">
+					<xul:box align="center">
+						<xul:clabel id="cSortLinkedProductsDialog_mLinkType_label" control="cSortLinkedProductsDialog_mLinkType" value="${trans:m.catalog.bo.doceditor.crossitems.column-link-type,ucf,lab,attr}" />
+						<xul:cfield id="cSortLinkedProductsDialog_mLinkType" anonid="mLinkType" name="mLinkType" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/crosssellinglinktypes" initialvalue="" required="true" />
+					</xul:box>
+					<xul:spacer flex="1" />
+				</xul:hbox>
+				<xul:spacer height="10px" />
+				<xul:hbox flex="1" style="padding-left:5px;padding-right:5px;">
+					<xul:vbox width="250" style="border: thin inset #e3e3e3;">
+						<xul:toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
+							<xul:toolbar class="change-toolbar">	
+								<xul:toolbarbutton anonid="multiTreeButton" class="module-selector"  image="{IconsBase}/small/modules.png" oncommand="refresh()" type="menu">
+									<xul:menupopup anonid="multiTreePopup" />
+								</xul:toolbarbutton>
+								<xul:spacer flex="1" />
+								<xul:label anonid="multiTreeTitle" collapsed="true" class="toolbarLabel"  style="font-size: 1.3em;" />
+							</xul:toolbar>
+						</xul:toolbox>
+						<xul:cressourcestreeselector anonid="nav_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader" />
+					</xul:vbox>
+					<xul:spacer width="5"/>
+					<xul:vbox flex="1" style="border: thin inset #e3e3e3; min-width: 200px">
+						<xul:toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
+							<xul:toolbar class="change-toolbar">	
+								<xul:toolbarbutton anonid="searchButton" disabled="true" image="{IconsBase}/small/search.png" oncommand="toggleSearch()" 
+								tooltiptext="${trans:m.uixul.bo.general.togglesearchresourcemode,ucf,etc,attr}"
+								crop="end" label="${trans:m.uixul.bo.general.showsearch,ucf,attr}" />					
+							</xul:toolbar>
+						</xul:toolbox>
+						<xul:cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
+					</xul:vbox>
+					<xul:spacer width="5"/>
+					<xul:vbox width="250" style="border: thin inset #e3e3e3;">
+						<xul:vbox xbl:inherits="collapsed=hide-list" flex="1">
+							<xul:label value="${trans:m.uixul.bo.dialog.ressource-selection,ucf,lab,attr}"/>
+							<xul:grid anonid="selectedList" width="250" flex="1" style="overflow-y: scroll; overflow-x: hidden; margin: 0; padding: 0;">
+								<xul:columns>
+									<xul:column width="200" />
+									<xul:column width="20" />
+								</xul:columns>
+								<xul:rows anonid="document-rows" />
+							</xul:grid>
+							<xul:spacer height="5" />
+						</xul:vbox>						
+						<xul:label value="${trans:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
+						<xul:vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
+							<xul:image anonid="previewimage" src="{IconsBase}/small/document.png" />
+						</xul:vbox>
+					</xul:vbox>
+				</xul:hbox>
+				<xul:hbox pack="end" align="center">
+					<xul:button anonid="button_create" image="{IconsBase}/small/add.png" oncommand="onOk();" label="${trans:m.catalog.bo.doceditor.crossitems.create-crossitems,ucf,attr}" />
+				</xul:hbox>				
+			</xul:vbox>
+		</xbl:content>
+	</binding>
+	
+	<binding id="cCrossitemSuggestionsDialog" extends="core.wDialog#wDialog">
+		<resources>
+			<stylesheet src="modules.uixul.cEditorGrid" />
+			<stylesheet src="modules.uixul.cFieldsGroup" />
+		</resources>
+		<implementation>
+			<field name="mLoadingRequest">null</field>
+			<field name="mCheckboxes">[]</field>
+			<field name="mLinkType" />
+
+			<constructor><![CDATA[
+				//wCore.debug('cProductSuggestionDialog.constructor');
+			]]></constructor>
+
+			<method name="getElementByAnonId">
+				<parameter name="id" />
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, 'anonid', id);
+				]]></body>
+			</method>
+
+			<method name="onInitialize">
+				<body><![CDATA[
+					this.autoResize(900, 600);
+					
+					if ('defaultMaxResults' in this.parameters)
+					{
+						this.getElementByAnonId('field_maxResults').value = this.parameters.defaultMaxResults;
+					}
+					
+					if ('defaultFeederClass' in this.parameters)
+					{
+						this.getElementByAnonId('field_feederClass').value = this.parameters.defaultFeederClass;
+					}
+				]]></body>
+			</method>
+
+			<method name="search">
+				<body><![CDATA[
+					if (this.mLoadingRequest !== null)
+					{
+						wCore.debug('[cCrossitemSuggestionsDialog.search] Already searching.');
+						return;
+					}
+					var maxResultsField = document.getAnonymousElementByAttribute(this, 'anonid', 'field_maxResults');
+					var feederClassField = document.getAnonymousElementByAttribute(this, 'anonid', 'field_feederClass');
+					var parameters = {
+						cmpref: this.parameters.id,
+						excludedIds: this.parameters.excludedIds,
+						maxResults: maxResultsField.value,
+						feederClass: feederClassField.value
+					};
+					
+					var me = this;
+					var callBack = function(result) { me.updateResults(result);	};
+					this.mLoadingRequest = wCore.executeJSON('catalog', 'LoadCrossitemSuggestions', parameters, callBack, true);
+				]]></body>
+			</method>
+
+			<method name="updateResults">
+				<parameter name="result" />
+				<body><![CDATA[
+					try
+					{
+						this.mLoadingRequest = null;					
+						if (result.status === 'OK')
+						{	
+							this.cleanList()
+							var contents = result.contents;
+							for (var i = 0; i < contents.nodes.length; i++)
+							{
+								this.addItem(contents.nodes[i]);
+							}
+						}
+						else
+						{
+							wToolkit.setNotificationMessage(result.contents.errorMessage, wToolkit.ERROR);
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cCrossitemSuggestionsDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+
+			<method name="addItem">
+				<parameter name="jsnode" />
+				<body><![CDATA[
+					var row = document.createElement('row');
+					row.setAttribute('class', 'document');
+					row.setAttribute('documentId', jsnode.id);
+										
+					var cell = row.appendChild(document.createElement('toolbar'));
+					cell.setAttribute('class', 'actions');
+					var checkbox = cell.appendChild(document.createElement('checkbox'));
+					checkbox.setAttribute('checked', 'false');
+					checkbox.setAttribute('label', jsnode.label);
+					checkbox.setAttribute('src', '{IconsBase}/small/'+jsnode.icon+'.png');
+					checkbox.setAttribute('value', jsnode.id);
+					this.mCheckboxes.push(checkbox);
+					
+					cell = row.appendChild(document.createElement('label'));
+					cell.setAttribute('value', jsnode.codeReference);
+					
+					this.getElementByAnonId('document-rows').appendChild(row);
+				]]></body>
+			</method>
+
+			<method name="cleanList">
+				<body><![CDATA[
+					var rows = this.getElementByAnonId('document-rows');
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					{
+						rows.removeChild(rows.lastChild);
+					}
+					this.mCheckboxes = [];
+				]]></body>
+			</method>
+
+			<method name="selectAll">
+				<parameter name="id" />
+				<body><![CDATA[
+					try
+					{
+						var checkboxes = this.mCheckboxes;
+						wCore.debug('cCrossitemSuggestionsDialog.selectAll : checkboxes.length = ' + checkboxes.length);
+						for (var i = 0; i < checkboxes.length; i++)
+						{
+							checkboxes[i].checked = true;
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cCrossitemSuggestionsDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+
+			<method name="unselectAll">
+				<parameter name="id" />
+				<body><![CDATA[
+					try
+					{
+						var checkboxes = this.mCheckboxes;
+						for (var i = 0; i < checkboxes.length; i++)
+						{
+							checkboxes[i].checked = false;
+						}
+					}
+					catch (e)
+					{
+						wCore.error("cCrossitemSuggestionsDialog.updateResults", [], e);
+					}
+				]]></body>
+			</method>
+			
+			<method name="onOk">
+				<body><![CDATA[
+					var ids = this.getSelectedIds();
+					this.sender.createCrossitems(ids, this.mLinkType);
+					getController().closeModalDialog(true);
+				]]></body>
+			</method>
+			
+			<method name="refreshCommandUI">
+				<body><![CDATA[
+					if (this.isValid)
+					{
+						this.getElementByAnonId('button_create').removeAttribute('disabled');
+					}
+					else
+					{
+						this.getElementByAnonId('button_create').setAttribute('disabled', 'true');
+					}
+				]]></body>
+			</method>
+			
+			<method name="getSelectedIds">
+				<body><![CDATA[
+					var checkboxes = this.mCheckboxes;
+					var ids = [];
+					for (var i = 0; i < checkboxes.length; i++)
+					{
+						var checkbox = checkboxes[i];
+						var id = checkbox.getAttribute('value');
+						if (checkbox.checked)
+						{
+							ids.push(id);
+						}
+					}
+					//wCore.debug('getSelectedIds: '+ids.join(','));
+					return ids;
+				]]></body>
+			</method>
+
+			<method name="closeDialog">
+				<parameter name="refesh" />
+				<body><![CDATA[
+					this.controller.closeModalDialog(true);
+					if (refesh && this.sender && 'refresh' in this.sender)
+					{
+						this.sender.refresh();	
+					}
+				]]></body>
+			</method>
+		
+			<property name="isValid" readonly="true">
+				<getter><![CDATA[
+					return this.getElementByAnonId('mLinkType').valid;	
+				]]></getter>
+			</property>
+		</implementation>
+		<handlers>
+			<handler event="fieldChanged"><![CDATA[
+				if (event.originalTarget.name == 'mLinkType')
+				{
+					this.mLinkType = event.originalTarget.value;
+					this.refreshCommandUI();
+				}
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldError"><![CDATA[
+				this.refreshCommandUI();
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+		<content>
+			<xul:vbox flex="1">
+				<xul:hbox class="dialog-header">
+					<xul:label anonid="title" value="${trans:m.catalog.bo.doceditor.crossitems.crossitem-suggestions,ucf,attr}" class="dialog-title" />
+					<xul:spacer flex="1" />
+					<xul:vbox pack="center">
+						<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="closeDialog(false);" tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
+					</xul:vbox>
+				</xul:hbox>
+				<xul:cmessageinfo anonid="message" />
+				<xul:groupbox>
+					<xul:caption flex="1">
+						<xul:label value="${trans:m.catalog.bo.doceditor.crossitems.configurate-suggestions,ucf,attr}" />
+						<xul:spacer flex="1" />
+					</xul:caption>
+					<xul:hbox align="center">
+						<xul:box align="center">
+							<xul:clabel id="cCrossitemSuggestionsDialog_feederClass_label" control="cCrossitemSuggestionsDialog_feederClass" value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.method,ucf,lab,attr}" />
+							<xul:cfield id="cCrossitemSuggestionsDialog_feederClass" anonid="field_feederClass" name="feederClass" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/productsuggestionfeeders" initialvalue="" required="true" />
+						</xul:box>
+						<xul:box align="center">
+							<xul:spacer width="20px" />
+							<xul:clabel id="cSortLinkedProductsDialog_maxResults_label" control="cSortLinkedProductsDialog_maxResults" value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.max-result-number,ucf,lab,attr}" />
+							<xul:cfield id="cSortLinkedProductsDialog_maxResults" anonid="field_maxResults" name="maxResults" fieldtype="integer" hidehelp="true" initialvalue="" required="true" />
+						</xul:box>
+						<xul:box align="center" flex="1">
+							<xul:spacer flex="1" />
+							<xul:button oncommand="search();" image="{IconsBase}/small/search.png" label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.search,ucf,attr}" />
+						</xul:box>
+					</xul:hbox>
+				</xul:groupbox>
+				<xul:groupbox flex="1">
+					<xul:caption flex="1">
+						<xul:label value="${trans:m.catalog.bo.doceditor.crossitems.configurate-suggestions,ucf,attr}" />
+						<xul:spacer flex="1" />
+					</xul:caption>
+					<xul:hbox>
+						<xul:box align="center">
+							<xul:clabel id="cSortLinkedProductsDialog_mLinkType_label" control="cSortLinkedProductsDialog_mLinkType" value="${trans:m.catalog.bo.doceditor.crossitems.column-link-type,ucf,lab,attr}" />
+							<xul:cfield id="cSortLinkedProductsDialog_mLinkType" anonid="mLinkType" name="mLinkType" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/crosssellinglinktypes" initialvalue="" required="true" />
+						</xul:box>
+						<xul:spacer flex="1" />
+						<xul:toolbarbutton oncommand="selectAll();" image="{IconsBase}/small/check-box-check.png"
+							label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.check-all,ucf,attr}" />
+						<xul:toolbarbutton oncommand="unselectAll();" image="{IconsBase}/small/check-box-uncheck.png"
+							label="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.uncheck-all,ucf,attr}" />
+					</xul:hbox>
+					<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+						<xul:grid flex="1">
+							<xul:columns>
+								<xul:column flex="1" />
+								<xul:column flex="1" />
+							</xul:columns>
+							<xul:rows anonid="document-rows">
+								<xul:row class="head">
+									<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.column-label,ucf,attr}" />
+									<xul:label value="${trans:m.catalog.bo.doceditor.dialog.product-suggestion.column-codereference,ucf,attr}" />
+								</xul:row>
+							</xul:rows>
+						</xul:grid>
+					</xul:scrollbox>
+					<xul:hbox pack="end" align="center">
+						<xul:button anonid="button_create" image="{IconsBase}/small/add.png" oncommand="onOk();" label="${trans:m.catalog.bo.doceditor.crossitems.create-crossitems,ucf,attr}" />
+					</xul:hbox>
+				</xul:groupbox>
+			</xul:vbox>
+		</content>
+	</binding>
+	
+	<binding id="cSortLinkedProductsDialog" extends="widgets.cOrderChildrenDialog#cOrderChildrenDialog">
+		<resources>
+			<stylesheet src="modules.uixul.cDocumentEditor" />
+			<stylesheet src="modules.uixul.cOrderChildrenDialog" />
+		</resources>
+		<implementation>
+			<field name="mLinkType" />
+			<field name="mTargetId" />
+			
+			<method name="onInitialize">
+				<body><![CDATA[
+					this.autoResize(900, 600);
+					this.lockCommandsUI();
+					this.initialized = true;
+					var row = document.getElementById('cSortLinkedProductsDialog_mDeclination_row');
+					if (this.parameters.isDeclined)
+					{
+						this.mTargetId = null;
+						row.removeAttribute('collapsed');
+						var field = document.getElementById('cSortLinkedProductsDialog_mDeclination');
+						field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.parameters.id});
+					}
+					else
+					{
+						this.mTargetId = this.parameters.id;
+						row.setAttribute('collapsed', true);
+					}
+				]]></body>
+			</method>
+			
+			<method name="updateCommandsUI">
+				<body><![CDATA[						
+					this.getElementByAnonId('save').disabled = !this.modified;
+					this.getElementByAnonId('applyToAllDeclinations').disabled = !this.modified;
+				]]></body>
+			</method>
+						
+			<method name="lockCommandsUI">
+				<body><![CDATA[													
+					this.getElementByAnonId('save').disabled = true;
+					this.getElementByAnonId('applyToAllDeclinations').disabled = true;
+				]]></body>
+			</method>
+			
+			<method name="loadLinkedProducts">
+				<body><![CDATA[
+					this.mData = wCore.executeJSON('catalog', 'GetLinkedProductsToSort', { targetId: this.mTargetId, linkType: this.mLinkType }, null, true);
+					this.mDataOk = true;
+					this.loadData();
+				]]></body>
+			</method>
+			
+			<method name="clearLinkedProducts">
+				<body><![CDATA[
+					this.mData = {'status': 'OK', 'contents': {'nodes': []}};
+					this.mDataOk = true;
+					this.loadData();
+				]]></body>
+			</method>
+			
+			<method name="onSave">
+				<parameter name="applyToAllDeclinations" />
+				<body><![CDATA[
+					this.showTextMessage("${trans:m.uixul.bo.doceditor.update-in-progress,ucf,js}");
+					
+					var childrenOrder = this.getChildrenOrder();
+					
+					var param = this.parameters;
+					result = wCore.executeJSON('catalog', 'SaveLinkedProductOrder', { targetId: this.mTargetId, linkType: this.mLinkType, applyToAllDeclinations: applyToAllDeclinations, co: childrenOrder }, null, true);
+					if (result.status == 'OK')
+					{
+						this.mData = result;
+						this.mDataOk = true;
+						this.loadData();
+						this.showTextMessage("${trans:m.catalog.bo.doceditor.update-success,ucf,js}");
+					}
+					else
+					{
+						this.showErrorMessage(result.contents.errorMessage);
+					}
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="fieldChanged"><![CDATA[
+				if (event.originalTarget.name == 'mLinkType')
+				{
+					this.mLinkType = event.originalTarget.value;
+					if (this.mTargetId)
+					{
+						this.loadLinkedProducts();
+					}
+				}
+				if (event.originalTarget.name == 'mDeclination')
+				{
+					this.mTargetId = event.originalTarget.value;
+					if (this.mLinkType)
+					{
+						this.loadLinkedProducts();
+					}
+				}
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldModified"><![CDATA[
+				event.stopPropagation();
+			]]></handler>
+			<handler event="fieldRestored"><![CDATA[
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+		<content>
+			<xul:vbox flex="1">
+				<xul:hbox class="dialog-header">
+					<xul:label anonid="title" value="${trans:m.catalog.bo.doceditor.crossitems.linked-product-sorting,ucf,attr}" class="dialog-title" />
+					<xul:spacer flex="1" />
+					<xul:vbox pack="center">
+						<xul:toolbarbutton image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
+					</xul:vbox>
+				</xul:hbox>
+				<xul:cmessageinfo anonid="message" />
+				<xul:hbox anonid="filter-bar">
+					<xul:box align="center">
+						<xul:clabel id="cSortLinkedProductsDialog_mLinkType_label" control="cSortLinkedProductsDialog_mLinkType" value="${trans:m.catalog.bo.doceditor.crossitems.column-link-type,ucf,lab,attr}" />
+						<xul:cfield id="cSortLinkedProductsDialog_mLinkType" anonid="mLinkType" name="mLinkType" fieldtype="dropdownlist" hidehelp="true" listid="modules_catalog/crosssellinglinktypes" initialvalue="" required="true" />
+					</xul:box>
+					<xul:box align="center" id="cSortLinkedProductsDialog_mDeclination_row">
+						<xul:spacer width="20px" />
+						<xul:clabel id="cSortLinkedProductsDialog_mDeclination_label" control="cSortLinkedProductsDialog_mDeclination" value="${trans:m.catalog.bo.doceditor.crossitems.declination,ucf,lab,attr}" />
+						<xul:cfield id="cSortLinkedProductsDialog_mDeclination" anonid="mDeclination" name="mDeclination" fieldtype="dropdownlist" hidehelp="true" initialvalue="" required="true" />
+					</xul:box>
+					<xul:spacer flex="1" />
+				</xul:hbox>
+				<xul:spacer height="10px" />
+				<xul:hbox anonid="action-bar">
+					<xul:button anonid="orderalph" oncommand="onOrderAlpha()" label="${trans:m.uixul.bo.dialog.orderatoz,ucf,attr}" orderby="asc" image="{IconsBase}/small/lexicon.png" />
+					<xul:spacer flex="1" />
+					<xul:button anonid="save" oncommand="onSave(false)" label="${trans:m.uixul.bo.dialog.apply,ucf,attr}" image="{IconsBase}/small/check.png" />
+					<xul:spacer width="10px" />
+					<xul:button anonid="applyToAllDeclinations" oncommand="onSave(true)" label="${trans:m.catalog.bo.doceditor.crossitems.apply-to-all-declinations,ucf,attr}" image="{IconsBase}/small/check.png" />
+					<xul:spacer width="10px" />
+					<xul:button anonid="cancel" oncommand="onCancel()" label="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" image="{IconsBase}/small/undo.png" />
+				</xul:hbox>
+				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
+					<xul:cdocumentlist anonid="documentlist" flex="1" />
+					<xul:spacer flex="1" />
+				</xul:scrollbox>				
+			</xul:vbox>
+		</content>
+	</binding>	
 </bindings>

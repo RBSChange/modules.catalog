@@ -3,6 +3,7 @@
 	<panel name="resume" />
 	<panel name="properties" />
 	<panel name="kititems" icon="product" labeli18n="m.catalog.bo.doceditor.tab.kititems" />
+	<panel name="crossitems" icon="cross-product" labeli18n="m.catalog.bo.doceditor.crossitems.tab-" />
 	<panel name="localization" />
 	<panel name="publication" />
 	<panel name="redirect" />
@@ -13,11 +14,11 @@
 			<constructor><![CDATA[
 				if (getController().hasModule('comment'))
 				{
-					this.addTab('comments', '${trans:m.comment.bo.doceditor.tab.comments,js,ucf}', 'comments');
+					this.addTab('comments', '${trans:m.comment.bo.doceditor.tab.comments,js,ucf}', 'comments', null);
 				}
 				if (getController().hasModule('twitterconnect'))
 				{
-					this.addTab('tweets', "${trans:m.twitterconnect.bo.doceditor.tab.tweets,js,ucf}", 'tweet');
+					this.addTab('tweets', "${trans:m.twitterconnect.bo.doceditor.tab.tweets,js,ucf}", 'tweet', null);
 				}
 			]]></constructor>
 		</javascript>

@@ -5,14 +5,27 @@
  */
 class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 {
+	
+	/**
+	 * @param f_mvc_Request $request
+	 */
+	public function initialize($request)
+	{
+		parent::initialize($request);
+	
+		if ($request->hasNonEmptyParameter('declinationId') && $request->getParameter('declinationId') != $this->getDocumentIdParameter())
+		{
+			$this->redirectToDeclination($request->getParameter('declinationId'));
+		}
+	}
+	
 	/**
 	 * @param f_mvc_Request $request
 	 * @return array
 	 */
 	public function getCacheKeyParameters($request)
 	{
-		return array("declinationId" => $request->getParameter('declinationId'),
-			"quantity" => $request->getParameter('quantity'));
+		return array("quantity" => $request->getParameter('quantity'));
 	}
 	
 	/**
@@ -24,26 +37,18 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 	{
 		$shop = catalog_ShopService::getInstance()->getCurrentShop();
 		$customer = null;
-		if (catalog_ModuleService::areCustomersEnabled())
+		if (catalog_ModuleService::getInstance()->areCustomersEnabled())
 		{
 			$customer = customer_CustomerService::getInstance()->getCurrentCustomer();
 		}
 		
-		if ($request->hasNonEmptyParameter('declinationId'))
+		$product = $this->getDocumentParameter();
+		if ($product instanceof catalog_persistentdocument_productdeclination)
 		{
-			$declination = catalog_persistentdocument_productdeclination::getInstanceById($request->getParameter('declinationId'));
+			$declination = $product;
 			$product = $declination->getDeclinedProduct();
 		}
-		else
-		{
-			$product = $this->getDocumentParameter();
-			if ($product instanceof catalog_persistentdocument_productdeclination)
-			{
-				$declination = $product;
-				$product = $declination->getDeclinedProduct();
-			}
-		}
-				
+			
 		if (!$product || !$declination)
 		{
 			if ($request->getAttribute('isOnDetailPage'))
@@ -53,17 +58,20 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			return website_BlockView::NONE;
 		}
 		
-		// @deprecated this should not be used anymore. See order_AddToCartAction
-  		if ($request->getParameter('addToCart') !== null)
-  		{
-  			$this->addProductToCartForCurrentBlock($declination);
-  		}
-		
-		// @deprecated this should not be used anymore. See catalog_UpdateListAction
-		if ($request->getParameter('addToList') !== null)
+		// Add canonical to default shown in list.
+		if ($request->getAttribute('isOnDetailPage') && Framework::getConfigurationValue('modules/catalog/addCanonicalOnDeclinations', 'true') == 'true')
 		{
-			$this->addProductToFavorites($declination);
+			$cp = $declination->getContextualCompiledProduct();
+			if (!$cp->getShowInList())
+			{
+				$doc = $declination->getDocumentService()->getShownInListByCompiledProduct($cp);
+				if ($doc)
+				{
+					$this->getContext()->addLink('canonical', null, LinkHelper::getDocumentUrl($doc));
+				}
+			}
 		}
+
 		$quantity = max(1, intval($this->findParameterValue('quantity')));	
 		$request->setAttribute('quantity', $quantity);
 		$request->setAttribute('declinedproduct', $product);
@@ -77,7 +85,24 @@ class catalog_BlockDeclinedproductAction extends catalog_BlockProductBaseAction
 			$request->setAttribute('thresholdPrices', $prices);	
 		}
 		
-		$price = array_shift($prices);
 		return website_BlockView::SUCCESS;
+	}
+	
+
+	/**
+	 * @param integer $declinationId
+	 */
+	protected function redirectToDeclination($declinationId)
+	{
+		$declination = DocumentHelper::getDocumentInstanceIfExists($declinationId);
+		if ($declination instanceof catalog_persistentdocument_productdeclination)
+		{
+			$compiledProduct = $declination->getContextualCompiledProduct();
+			if ($compiledProduct)
+			{
+				$this->redirectToUrl(LinkHelper::getDocumentUrl($compiledProduct));
+				exit;
+			}
+		}
 	}
 }

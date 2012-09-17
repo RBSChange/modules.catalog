@@ -410,7 +410,6 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function postSave($document, $parentNodeId)
 	{
-		// Fix referenceId
 		$topic = $document->getTopic();
 		if ($topic->getReferenceId() != $document->getId())
 		{
@@ -555,66 +554,14 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 			$attributes['isDefault'] = LocaleService::getInstance()->trans('f.boolean.' . ($document->getIsDefault() ? 'true' : 'false'));
 		}
 	}
-		
-	// Depreacted
 	
 	/**
-	 * @deprecated
+	 * @param catalog_persistentdocument_shop $document
+	 * return integer[]
 	 */
-	public function getCurrencySymbol($shop)
+	public function websiteSynchroCheck($document)
 	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}		
-		return $shop->getDefaultBillingArea()->getCurrency()->getSymbol();
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public function getPriceFormat($shop)
-	{
-		if (Framework::inDevelopmentMode())
-		{
-			Framework::fatal(f_util_ProcessUtils::getBackTrace());
-		}
-		else
-		{
-			Framework::warn('DEPRECATED Call to: ' . __METHOD__);
-		}
-		if ($shop === null) {return "%s";}
-		return $shop->getDefaultBillingArea()->getPriceFormat();
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
-	 */
-	public function getPublishedByWebsite($website)
-	{
-		return $this->getPublishedByWebsiteId($website->getId());
-	}
-	
-	/**
-	 * @deprecated (will be removed in 4.0)
-	 */
-	private $shopByWebsiteId = array();
-	
-	/**
-	 * @deprecated (will be removed in 4.0) use getDefaultByWebsite
-	 */
-	public function getPublishedByWebsiteId($websiteId)
-	{
-		if (!isset($this->shopByWebsiteId[$websiteId]))
-		{
-			$this->shopByWebsiteId[$websiteId] = $this->createQuery()->add(Restrictions::eq('website.id', $websiteId))
-				->add(Restrictions::published())->findUnique();
-		}
-		return $this->shopByWebsiteId[$websiteId];
+		return catalog_TopshelfService::getInstance()->createQuery()->setProjection(Projections::property('id', 'id'))->findColumn('id');
 	}
 }
 

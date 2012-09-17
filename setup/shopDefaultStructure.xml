@@ -14,14 +14,14 @@
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_product" />
 				<changeblock type="modules_catalog_ProductDescription" />
-				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="complementary" />
-				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="similar" />
-				<changeblock type="modules_catalog_productCrossSelling" __crossSellingType="upsell" />
+				<changeblock type="modules_catalog_CrossSelling" __linkType="complementary" />
+				<changeblock type="modules_catalog_CrossSelling" __linkType="similar" />
+				<changeblock type="modules_catalog_CrossSelling" __linkType="upsell" />
 				<changeblock type="modules_catalog_bundleListByProduct" />
 				<changeblock type="modules_catalog_comments" />
 			</changecontent>
 		</page>
-		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" template-attr="templatePopin" byTag="functional_catalog_configurate-kit">
+		<page label="Configuration d'un kit" navigationVisibility="hidden" indexingstatus="false" template-attr="templateNosidebar" byTag="functional_catalog_configurate-kit">
 			<changecontent for="content-block">
 				<changeblock type="modules_catalog_ConfigurateKit" />
 			</changecontent>
@@ -33,7 +33,7 @@
 		</page>
 		<page label="Liste des produits associés" navigationVisibility="hidden" byTag="functional_catalog_crosssellinglist-page">
 			<changecontent for="content-block">
-				<changeblock type="modules_catalog_productCrossSellingList" />
+				<changeblock type="modules_catalog_CrossSellingList" />
 			</changecontent>
 		</page>
 		<page label="Comparaison de produits" indexingstatus="false" template-attr="templateNosidebar" byTag="functional_catalog_productlist-comparison">

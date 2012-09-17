@@ -5,6 +5,18 @@
  */
 class catalog_ShopScriptDocumentElement extends import_ScriptDocumentElement
 {
+	
+	/**
+	 * @param import_ScriptReader $script
+	 * @param import_ScriptBaseElement $parentElement
+	 * @param string $name
+	 */
+	public function __construct($script, $parentElement, $name)
+	{
+		parent::__construct($script, $parentElement, $name);
+		change_ConfigurationService::getInstance()->addVolatileProjectConfigurationNamedEntry('modules/catalog/useAsyncWebsiteUpdate', 'false');
+	}
+	
 	/**
 	 * @return catalog_persistentdocument_shop
 	 */

@@ -16,8 +16,12 @@ interface catalog_StockableDocument
 	function getCurrentStockLevel();
 	
 	/**
+	 * @return string
+	 */
+	function getAvailability();
+	
+	/**
 	 * @return boolean
 	 */
 	function mustSendStockAlert();
-	
 }

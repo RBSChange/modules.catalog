@@ -1,24 +1,29 @@
 <?php
 /* @var $arguments array */
 $arguments = isset($arguments) ? $arguments : array();
+echo "id:-1";
+$lastId = $arguments[0];
+$chunkSize = $arguments[1];
+$compileAll = $arguments[2] == 1;
 
-$productIdArray = $arguments;
-Framework::info(__FILE__ . ' -> ' . implode(', ', $productIdArray));
 $tm = f_persistentdocument_TransactionManager::getInstance();
-try
+$ids = catalog_ProductService::getInstance()->getProductIdsToCompile($lastId, $chunkSize, $compileAll);
+
+foreach (array_chunk($ids, 50) as $chunk)
 {
-	$tm->beginTransaction();
-	foreach ($productIdArray as $productId)
+	try
 	{
-		Framework::info(date_Calendar::getInstance()->toString() . " Compile $productId ...");
-		$product = DocumentHelper::getDocumentInstance($productId, 'modules_catalog/product');
-		
-		catalog_CompiledproductService::getInstance()->generateForProduct($product);
+		$tm->beginTransaction();
+		foreach ($chunk as $id)
+		{
+			echo PHP_EOL, 'id:', $id;
+			catalog_CompiledproductService::getInstance()->generateForProduct(catalog_persistentdocument_product::getInstanceById($id));
+		}
+		$tm->commit();
 	}
-	$tm->commit();
+	catch (Exception $e)
+	{
+		echo PHP_EOL, 'EXCEPTION: ', $e->getMessage();
+		$tm->rollBack($e);
+	}
 }
-catch (Exception $e)
-{
-	$tm->rollBack($e);
-}
-echo 'OK';

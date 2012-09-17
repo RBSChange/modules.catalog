@@ -45,16 +45,4 @@ abstract class catalog_AvailabilityStrategy extends change_BaseService
 	 * @return string
 	 */
 	public abstract function getAvailability($stockLevel);
-	
-	// Deprecated
-	
-	/**
-	 * @deprecated
-	 */
-//	public abstract function getLabel();
-	
-	/**
-	 * @deprecated
-	 */
-//	public abstract function getDescription();
 }
