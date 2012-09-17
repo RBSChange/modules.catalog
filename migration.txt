@@ -1,0 +1,87 @@
+
+removed function :
+catalog_BlockProductBaseAction / protected function addProductToFavorites
+catalog_BlockProductBaseAction / protected function addProductToCart
+catalog_BlockProductBaseAction / protected function addProductToCartForCurrentBlock
+
+catalog_BlockFavoriteProductListAction / protected function getProductArray
+catalog_BlockLastConsultedProductsAction / protected function getProductArray
+catalog_BlockProductContextualListAction / protected function getProductArray
+
+catalog_BlockProductlistBaseAction / protected function getProductArray
+catalog_BlockProductlistBaseAction / const DISPLAY_MODE_TABLE
+catalog_BlockProductlistBaseAction / const DISPLAY_MODE_LIST
+catalog_BlockProductlistBaseAction / const DEFAULT_PRODUCTS_PER_PAGE
+catalog_BlockProductlistBaseAction / private function addToFavorite
+catalog_BlockProductlistBaseAction / protected $addedProductLabels
+catalog_BlockProductlistBaseAction / protected $notAddedProductLabels
+catalog_BlockProductlistBaseAction / protected function addMessagesToBlock
+catalog_BlockProductlistBaseAction / private function getMessage
+catalog_BlockProductpromotionAction / protected function getProductArray
+
+catalog_BundleproductService / public function getByBundledProduct
+catalog_CompiledproductService / public function disableCompilation
+catalog_CompiledproductService / public function enableCompilation
+catalog_DeclinedproductService / public function getShowInListInfos
+catalog_ModuleService / public function mergeFavoriteProductWithList
+catalog_ModuleService / public function getFavoriteProducts
+
+catalog_PriceService / protected function refreshThresholdMax
+catalog_PriceService / protected function refreshNextThresholdMax
+catalog_PriceService / public static function formatValue
+catalog_PriceService / protected function clonePrice
+catalog_ProductService / public function getPrimaryShelf
+catalog_ProductService / public function getPrimaryCompiledProductForWebsite
+catalog_ProductService / public function generateUrlForShop
+catalog_ProductService / public function getDisplayableCrossSelling
+
+catalog_persistentdocument_price / public function getTaxCode
+
+catalog_persistentdocument_product / public function getPathForUrl
+catalog_persistentdocument_product / public function getPrimaryShelf
+catalog_persistentdocument_product / public function getPrimaryTopShelf
+catalog_persistentdocument_product / public function getDisplayableCrossSelling
+catalog_persistentdocument_product / public function canBeOrdered
+
+catalog_persistentdocument_shelf / public function getPathForUrl
+catalog_persistentdocument_shelf / public function isVisible
+catalog_persistentdocument_shelf / public function getUrl
+
+catalog_persistentdocument_shippingfilter / public function getTaxCode
+
+catalog_persistentdocument_shop / public function getBoTaxZone
+catalog_persistentdocument_shop / public function getCurrencySymbol
+catalog_persistentdocument_shop / public function getCurrencyCode
+catalog_persistentdocument_shop / public function formatPrice
+catalog_persistentdocument_shop / public function formatTaxRate
+catalog_persistentdocument_shop / public function getNbproductperpage
+catalog_persistentdocument_shop / public function setNbproductperpage
+
+catalog_persistentdocument_tax / public function getCode
+
+catalog_ShopService / public function getCurrencySymbol
+catalog_ShopService / public function getPriceFormat
+catalog_ShopService / public function getPublishedByWebsite
+catalog_ShopService / public function getPublishedByWebsiteId
+catalog_StockService / public function validCartQuantities
+
+catalog_TaxService / public function getTaxRate
+catalog_TaxService / public function getTaxDocument
+catalog_TaxService / public function getTaxRateByCode
+catalog_TaxService / public function getTaxZonesForShop
+catalog_TaxService / public function getZonesForShop
+catalog_TaxService / public function addNoTaxForShopAndZone
+catalog_TaxService / public function getBoTaxeInfoForShop
+catalog_TaxService / public function getByShop
+
+
+removed class : 
+catalog_GaugeObject 
+catalog_SessionLists
+catalog_PriceHelper
+
+removed interface
+catalog_PriceFormatStrategy
+
+removed catalog_BlockProductlist Configuration / showQuantitySelector
+removed catalog_BlockProductlist Configuration / showProductDescription

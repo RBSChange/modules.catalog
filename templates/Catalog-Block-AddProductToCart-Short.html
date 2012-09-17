@@ -1,0 +1,19 @@
+<li tal:condition="configuration/getShowAvailability" class="product-availability">
+	<tal:block tal:condition="not: canBeAddedToCart">${trans:m.catalog.fo.add-to-cart-unavaible,ucf}</tal:block>
+	<tal:block tal:condition="canBeAddedToCart">${productStock/getAvailability}</tal:block>
+</li>
+<li class="product-add" tal:condition="configuration/getShowAddToCart">
+	<tal:block tal:condition="canBeAddedToCart">
+		<tal:block tal:condition="configuration/getPopinPageId">
+			<script change:javascript="head 'modules.catalog.lib.js.product-detail'"></script>
+			<button type="submit" name="catalogParam[addToCart][${product/getId}]" class="button primary" value="${product/getMinOrderQuantity}" 
+				onclick="catalog_openAddToCartPopin('${configuration/getPopinPageId}', '${product/getId}'); return false;">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</button>
+		</tal:block>
+		<tal:block tal:condition="not:configuration/getPopinPageId" tal:define="isConfigurable product/isConfigurable">
+			<button tal:condition="not:isConfigurable" type="submit" name="catalogParam[addToCart][${product/getId}]" class="button primary" 
+				value="${product/getMinOrderQuantity}">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</button>
+			<a tal:condition="isConfigurable" class="button primary" change:link="document product/getConfigurationPage; productId product/getId; backurl currenturl:attr">${trans:m.catalog.frontoffice.labelhrefaddtocart,ucf}</a>
+		</tal:block>
+	</tal:block>
+	<input disabled="disabled" tal:condition="not: canBeAddedToCart" type="button" class="button primary" value="${trans:m.catalog.fo.add-to-cart-unavaible,ucf}" />	
+</li>

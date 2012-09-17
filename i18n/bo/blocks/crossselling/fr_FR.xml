@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.bo.blocks.crossselling" lcid="fr_FR">
+	<include id="m.catalog.bo.blocks.productlistbase" />
+	<key id="title">produits liés</key>
+	<key id="cmpref">produit cible</key>
+	<key id="cmpref-help">Produit sur lequel les liaisons sont déclarées.</key>
+	<key id="linktype">type de lien</key>
+	<key id="linktype-help">Type d'association entre les produits.</key>
+</i18n>

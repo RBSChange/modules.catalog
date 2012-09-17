@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+	<section labeli18n="m.uixul.bo.doceditor.fieldsgroup.title">
+		<field name="linkType" />
+		<field name="symetrical" />
+	</section>
+	<section labeli18n="m.catalog.bo.doceditor.crossitems.target-product">
+		<field name="targetDocument" required="true" disabled="true" />
+		<field name="targetAxe1Value" type="dropdownlist" emptylabel="${trans:m.catalog.bo.doceditor.crossitems.all-values,ucf,attr}" />
+		<field name="targetAxe2Value" type="dropdownlist" emptylabel="${trans:m.catalog.bo.doceditor.crossitems.all-values,ucf,attr}" />
+		<field name="targetAxe3Value" type="dropdownlist" emptylabel="${trans:m.catalog.bo.doceditor.crossitems.all-values,ucf,attr}" />
+	</section>
+	<section labeli18n="m.catalog.bo.doceditor.crossitems.linked-product">
+		<field name="linkedDocument" required="true" moduleselector="catalog" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]" />
+		<field name="linkedAxe1Value" type="dropdownlist" emptylabel="${trans:m.catalog.bo.doceditor.crossitems.all-values,ucf,attr}" />
+		<field name="linkedAxe2Value" type="dropdownlist" emptylabel="${trans:m.catalog.bo.doceditor.crossitems.all-values,ucf,attr}" />
+		<field name="linkedAxe3Value" type="dropdownlist" emptylabel="${trans:m.catalog.bo.doceditor.crossitems.all-values,ucf,attr}" />
+	</section>
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				var me = this;
+				this.extendMethod("fireInitializeComplete", this.fireInitializeCompleteExtend);
+				this.fields.linkedDocument.addEventListener('fieldChanged', function (event) {me.onLinkedDocumentChanged();}, true);
+			]]></constructor>
+			<method name="fireInitializeCompleteExtend">
+				<parameter name="result" />
+				<body><![CDATA[
+					try
+					{
+						if (result.status != 'OK')
+						{
+							return;
+						}
+						
+						var targetAxes = result.contents.targetAxes;
+						this.updateAxeField(this.fields.targetAxe1Value, targetAxes, 1);
+						this.updateAxeField(this.fields.targetAxe2Value, targetAxes, 2);
+						this.updateAxeField(this.fields.targetAxe3Value, targetAxes, 3);
+						
+						var linkedAxes = result.contents.linkedAxes;
+						this.updateAxeField(this.fields.linkedAxe1Value, linkedAxes, 1);
+						this.updateAxeField(this.fields.linkedAxe2Value, linkedAxes, 2);
+						this.updateAxeField(this.fields.linkedAxe3Value, linkedAxes, 3);
+					}
+					catch (e)
+					{
+						wCore.error("crossitem.createpanel.fireInitializeCompleteExtend", [result], e);
+					}
+				]]></body>
+			</method>
+			<method name="onLinkedDocumentChanged">
+				<body><![CDATA[
+					try
+					{
+						var linkedAxes = {};
+						var documentId = this.fields.linkedDocument.value;
+						if (documentId > 0)
+						{
+							var result = wCore.executeJSON('catalog', 'GetAxesValuesForDocument', { cmpref: documentId }, null, true);
+							if (result.status != 'OK')
+							{
+								this.showErrorMessage(result.contents.errorMessage);
+								return;
+							}
+							var linkedAxes = result.contents.linkedAxes;
+						}
+						
+						this.updateAxeField(this.fields.linkedAxe1Value, linkedAxes, 1);
+						this.updateAxeField(this.fields.linkedAxe2Value, linkedAxes, 2);
+						this.updateAxeField(this.fields.linkedAxe3Value, linkedAxes, 3);
+					}
+					catch (e)
+					{
+						wCore.error("crossitem.createpanel.onLinkedDocumentChanged", [result], e);
+					}
+				]]></body>
+			</method>
+			<method name="updateAxeField">
+				<parameter name="field" />
+				<parameter name="axesInfos" />
+				<parameter name="axeNumber" />
+				<body><![CDATA[
+					var labelKey = 'axe' + axeNumber + 'Label';
+					if (labelKey in axesInfos)
+					{
+						document.getElementById(field.id + '_label').value = "${trans:m.catalog.bo.doceditor.crossitems.axe,ucf,js} " + axesInfos[labelKey];
+						field.removeItems();
+						field.addEmptyItem();
+						var values = axesInfos['axe' + axeNumber + 'Values'];
+						for (var key in values)
+						{
+							field.appendItem(values[key], key);
+						}
+						field.updateUI();
+						this.getElementByAnonId('row_' + field.name).removeAttribute('collapsed');
+					}
+					else
+					{
+						this.getElementByAnonId('row_' + field.name).setAttribute('collapsed', 'true');
+					}
+				]]></body>
+			</method>
+			<method name="preparePropertiesValues">
+				<parameter name="attributes" />
+				<body><![CDATA[
+					attributes.targetDocument = this.fields.targetDocument.value;
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
+</panel>

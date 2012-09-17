@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.bo.doceditor.crossitems" lcid="fr_FR">
+	<key id="tab-label">produits liés</key>
+	<key id="new">ajouter une liaison</key>
+	<key id="new-multiple">ajouter plusieurs liaisons</key>
+	<key id="add-suggested-crossitems">suggestions d'ajouts de liaisons</key>
+	<key id="create-crossitems">créer les liaisons</key>
+	<key id="sort">ordonner les produits liés</key>
+	<key id="linked-product-sorting">ordonnancement des produits liés</key>
+	<key id="compile-crossitem">compiler cette liaison</key>
+	<key id="confirm-delete-crossitem">Voulez-vous vraiment supprimer cette liaison ?</key>
+	<key id="tooltip-publication-status">statut de publication</key>
+	<key id="column-target">produit cible</key>
+	<key id="column-linked">produit lié</key>
+	<key id="column-link-type">type de liaison</key>
+	<key id="column-symetrical">symétrique</key>
+	<key id="tooltip-symetrical">liaison symétrique : la relation va dans les deux sens</key>
+	<key id="column-compiled">à jour</key>
+	<key id="tooltip-compiled">à jour sur le site</key>
+	<key id="column-auto-generated">généré</key>
+	<key id="tooltip-auto-generated">généré automatiquement par la tâche planifiée</key>
+	<key id="column-actions">actions</key>
+	<key id="target-product">produit cible</key>
+	<key id="linked-product">produit à lier</key>
+	<key id="axe">axe</key>
+	<key id="declination">déclinaison</key>
+	<key id="list-target">liaisons déclarées sur ce produit</key>
+	<key id="list-linked">liaisons vers ce produit</key>
+	<key id="all-values">toutes les valeurs</key>
+	<key id="apply-to-all-declinations">appliquer à toutes les déclinaisons</key>
+	<key id="invalid-target">La cible d'une liaison doit être un produit (hors déclinaison) ou un produit décliné.</key>
+	<key id="invalid-link-type">Une liaison doit avoir un type.</key>
+	<key id="crossitems-successfuly-created">Les liaisons ont bien été créées. Vous pouvez les modifier individuellement pour spécialiser certains aspects (valeurs d'axes ou activation de la symétrie).</key>
+	<key id="crossitem-suggestions">suggestions de liaisons</key>
+	<key id="invalid-feeder">La méthode de suggestion est invalide.</key>
+	<key id="configurate-suggestions">configuration des suggestions</key>
+</i18n>
