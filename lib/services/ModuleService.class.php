@@ -64,50 +64,6 @@ class catalog_ModuleService extends ModuleBaseService
 	}
 	
 	/**
-	 * @return boolean
-	 */
-	public function isComplementarySynchroEnabled()
-	{
-		return ModuleService::getInstance()->getPreferenceValue('catalog', 'synchronizeComplementary');
-	}
-	
-	/**
-	 * @return boolean
-	 */
-	public function isAutoComplementaryEnabled()
-	{
-		return ModuleService::getInstance()->getPreferenceValue('catalog', 'autoFeedComplementaryMaxCount') != null;
-	}
-	
-	/**
-	 * @return boolean
-	 */
-	public function isSimilarSynchroEnabled()
-	{
-		return ModuleService::getInstance()->getPreferenceValue('catalog', 'synchronizeSimilar');
-	}
-	
-	/**
-	 * @return boolean
-	 */
-	public function isAutoSimilarEnabled()
-	{
-		return ModuleService::getInstance()->getPreferenceValue('catalog', 'autoFeedSimilarMaxCount') != null;
-	}
-	
-	/**
-	 * @return boolean
-	 */
-	public function isAutoUpsellEnabled()
-	{
-		return ModuleService::getInstance()->getPreferenceValue('catalog', 'autoFeedUpsellMaxCount') != null;
-	}
-	
-	
-	
-	
-	
-	/**
 	 * @return f_persistentdocument_PersistentDocumentModel[]
 	 */
 	public function getProductModelsThatMayAppearInCarts()

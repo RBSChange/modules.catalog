@@ -39,8 +39,7 @@ class commands_Compile extends c_ChangescriptCommand
 			$result = f_util_System::execScript($batchPath, array($lastId, $chunkSize, $compileAll));
 			if (!$result)
 			{
-				
-				Framework::error(__METHOD__ , ' No result');
+				Framework::error(__METHOD__ . ' No result');
 				break;
 			}
 			$errors = array();
@@ -61,7 +60,7 @@ class commands_Compile extends c_ChangescriptCommand
 		
 			if (count($errors))
 			{
-				Framework::error(__METHOD__ , ' ', implode(PHP_EOL, array_reverse($errors)));
+				Framework::error(__METHOD__ . ' '. implode(PHP_EOL, array_reverse($errors)));
 			}
 			
 			if ($newId != $lastId)

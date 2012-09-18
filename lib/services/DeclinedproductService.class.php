@@ -105,28 +105,6 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$cpds->save($declination, $document->getId());
 		}
 	}
-
-	/**
-	 * @param catalog_persistentdocument_declinedproduct $targetProduct
-	 * @param string $fieldName
-	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_productdeclination $targetDeclination
-	 */
-	public function addProductToTargetField($targetProduct, $fieldName, $product, $targetDeclination = null)
-	{
-		//TODO override this for specific process
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_declinedproduct $targetProduct
-	 * @param string $fieldName
-	 * @param catalog_persistentdocument_product $product
-	 * @param catalog_persistentdocument_productdeclination $targetDeclination
-	 */
-	public function removeProductFromTargetField($targetProduct, $fieldName, $product, $targetDeclination = null)
-	{
-		//TODO override this for specific process
-	}
 	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document

@@ -351,7 +351,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		elseif ($compiledProduct->getShowInList())
 		{
-			indexer_IndexService::getInstance()->update($compiledProduct);
+			indexer_IndexService::getInstance()->toIndex($compiledProduct);
 		}
 		else
 		{

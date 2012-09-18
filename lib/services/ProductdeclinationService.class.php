@@ -131,8 +131,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	
 
 	/**
-	 * Synchronize properties shelf | brand | complementary | similar | upsell
-	 * 		| description | serializedattributes | shippingModeId |
+	 * Synchronize properties shelf | brand | description | serializedattributes | shippingModeId |
 	 * 		| pageTitle | pageDescription | pageKeywords
 	 * @param catalog_persistentdocument_productdeclination $declination
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct								
@@ -151,39 +150,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 						$declination->setShelfArray($declinedProduct->getShelfArray());
 					}
 					break;
-				case 'upsell':
-					if ($cms->isAutoUpsellEnabled())
-					{
-						$this->addRemoveProducts($declination, $declinedProduct, 'upsell');
-					}
-					else if (!DocumentHelper::documentArrayEquals($declination->getUpsellArray(), $declinedProduct->getUpsellArray()))
-					{
-						// Values have only declinedproduct for source 
-						$declination->setUpsellArray($declinedProduct->getUpsellArray());
-					}
-					break;
-				case 'complementary':	
-					if ($cms->isComplementarySynchroEnabled() || $cms->isAutoComplementaryEnabled())
-					{
-						$this->addRemoveProducts($declination, $declinedProduct, 'complementary');
-					}
-					else if (!DocumentHelper::documentArrayEquals($declination->getComplementaryArray(), $declinedProduct->getComplementaryArray()))
-					{
-						// Values have only declinedproduct for source
-						$declination->setComplementaryArray($declinedProduct->getComplementaryArray());
-					}
-					break;
-				case 'similar':	
-					if ($cms->isSimilarSynchroEnabled() || $cms->isAutoSimilarEnabled())
-					{	
-						$this->addRemoveProducts($declination, $declinedProduct, 'similar');
-					}
-					else if (!DocumentHelper::documentArrayEquals($declination->getSimilarArray(), $declinedProduct->getSimilarArray()))
-					{
-						// Values have only declinedproduct for source 
-						$declination->setSimilarArray($declinedProduct->getSimilarArray());
-					}
-					break;
 				case 'brand': $declination->setBrand($declinedProduct->getBrand()); break;	
 				case 'description': $declination->setDescription($declinedProduct->getDescription()); break;	
 				case 'serializedattributes': $declination->setSerializedattributes($declinedProduct->getSerializedattributes());  break;
@@ -193,53 +159,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;	
 			}
 		}		
-	}
-	
-	/**
-	 * Update complementary, similar or upsell property on declination using declinedProduct
-	 * @param catalog_persistentdocument_productdeclination $declination
-	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
-	 * @param string $fieldName
-	 */
-	protected function addRemoveProducts($declination, $declinedProduct, $fieldName)
-	{
-		$ucfirstFieldName = ucfirst($fieldName);
-		$oldDeclinedIds = $declination->getMetaMultiple("catalog_${fieldName}_from_declined");
-		if ($oldDeclinedIds === null)
-		{
-			$oldDeclinedIds = array();
-		}
-		$oldDeclinedIds = array_intersect(DocumentHelper::getIdArrayFromDocumentArray($declination->{'get'.$ucfirstFieldName.'Array'}()), $oldDeclinedIds);
-		$newDeclinedIds = DocumentHelper::getIdArrayFromDocumentArray($declinedProduct->{'get'.$ucfirstFieldName.'Array'}());
-		$addIds = array_diff($newDeclinedIds, $oldDeclinedIds);
-		$removeIds = array_diff($oldDeclinedIds, $newDeclinedIds);
-		if (count($addIds))
-		{
-			// Update added products.
-			foreach ($addIds as $productId)
-			{
-				$product = DocumentHelper::getDocumentInstance($productId);
-				if ($declination === $product)
-				{
-					continue;
-				}
-				$declination->{'add' . $ucfirstFieldName}($product);
-			}
-		}
-		if (count($removeIds))
-		{
-			// Update removed products.
-			foreach ($removeIds as $productId)
-			{
-				$product = DocumentHelper::getDocumentInstance($productId);
-				if ($declination === $product)
-				{
-					continue;
-				}
-				$declination->{'remove' . $ucfirstFieldName}($product);
-			}
-		}
-		$declination->setMetaMultiple("catalog_${fieldName}_from_declined", $newDeclinedIds);
 	}
 	
 	/**
@@ -330,31 +249,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			}
 		}
 		return $result;
-	}
-
-	/**
-	 * @param catalog_persistentdocument_productdeclination $targetProduct
-	 * @param string $fieldName
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function addProductToTargetField($targetProduct, $fieldName, $product)
-	{
-		parent::addProductToTargetField($targetProduct, $fieldName, $product);
-		$declinedProduct = $targetProduct->getDeclinedproduct();
-		$declinedProduct->getDocumentService()->addProductToTargetField($declinedProduct, $fieldName, $product, $targetProduct);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_productdeclination $targetProduct
-	 * @param string $fieldName
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function removeProductFromTargetField($targetProduct, $fieldName, $product)
-	{
-		parent::removeProductFromTargetField($targetProduct, $fieldName, $product);
-		
-		$declinedProduct = $targetProduct->getDeclinedproduct();
-		$declinedProduct->getDocumentService()->removeProductFromTargetField($declinedProduct, $fieldName, $product, $targetProduct);
 	}
 
 	/**

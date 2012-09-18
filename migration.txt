@@ -24,8 +24,16 @@ catalog_BundleproductService / public function getByBundledProduct
 catalog_CompiledproductService / public function disableCompilation
 catalog_CompiledproductService / public function enableCompilation
 catalog_DeclinedproductService / public function getShowInListInfos
+catalog_DeclinedproductService / public function addProductToTargetField
+catalog_DeclinedproductService / public function removeProductFromTargetField
+
 catalog_ModuleService / public function mergeFavoriteProductWithList
 catalog_ModuleService / public function getFavoriteProducts
+catalog_ModuleService / public function isComplementarySynchroEnabled
+catalog_ModuleService / public function isAutoComplementaryEnabled
+catalog_ModuleService / public function isSimilarSynchroEnabled
+catalog_ModuleService / public function isAutoSimilarEnabled
+catalog_ModuleService / public function isAutoUpsellEnabled
 
 catalog_PriceService / protected function refreshThresholdMax
 catalog_PriceService / protected function refreshNextThresholdMax
@@ -35,7 +43,12 @@ catalog_ProductService / public function getPrimaryShelf
 catalog_ProductService / public function getPrimaryCompiledProductForWebsite
 catalog_ProductService / public function generateUrlForShop
 catalog_ProductService / public function getDisplayableCrossSelling
+catalog_ProductService / protected function synchronizeFields
+catalog_ProductService / protected function synchronizeField
+catalog_ProductService / public function addProductToTargetField
+catalog_ProductService / public function removeProductFromTargetField
 
+catalog_ProductdeclinationService / protected function addRemoveProducts
 catalog_persistentdocument_price / public function getTaxCode
 
 catalog_persistentdocument_product / public function getPathForUrl

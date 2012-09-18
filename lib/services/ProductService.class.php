@@ -357,9 +357,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			$this->onShelfPropertyModified($document);
 		}
-		
-		$this->synchronizeFields($document);
-		
+				
 		// Generate compiled products.
 		$this->updateCompiledProperty($document, false);
 		
@@ -395,88 +393,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			}
 		}
 	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 */
-	protected function synchronizeFields($document)
-	{
-		// Handle similar and complementary products synchronization.
-		$cms = catalog_ModuleService::getInstance();
-		if ($document->isPropertyModified('complementary') && $cms->isComplementarySynchroEnabled())
-		{
-			$this->synchronizeField($document, 'complementary');
-		}
-		if ($document->isPropertyModified('similar') && $cms->isSimilarSynchroEnabled())
-		{
-			$this->synchronizeField($document, 'similar');
-		}		
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param string $fieldName
-	 */
-	protected function synchronizeField($document, $fieldName)
-	{
-		$ucfirstFieldName = ucfirst($fieldName);
-		$oldIds = $document->{'get'.$ucfirstFieldName.'OldValueIds'}();
-		$currentProducts = $document->{'get'.$ucfirstFieldName.'Array'}();
 		
-		// Update added products.
-		$currentIds = array();
-		foreach ($currentProducts as $product)
-		{
-			if (!in_array($product->getId(), $oldIds))
-			{
-				$product->getDocumentService()->addProductToTargetField($product, $fieldName, $document);
-			}
-			$currentIds[] = $product->getId();
-		}
-		
-		// Update removed products.
-		foreach ($oldIds as $productId)
-		{
-			if (!in_array($productId, $currentIds))
-			{
-				$product = DocumentHelper::getDocumentInstance($productId);
-				$product->getDocumentService()->removeProductFromTargetField($product, $fieldName, $document);
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 * @param catalog_persistentdocument_product $targetProduct
-	 * @param string $fieldName
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function addProductToTargetField($targetProduct, $fieldName, $product)
-	{
-		if ($targetProduct === $product) {return;}
-		$ucfirstFieldName = ucfirst($fieldName);
-		if ($targetProduct->{'getIndexof'.$ucfirstFieldName}($product) == -1)
-		{
-			$targetProduct->{'add'.$ucfirstFieldName}($product);
-			$this->save($targetProduct);
-		}
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $targetProduct
-	 * @param string $fieldName
-	 * @param catalog_persistentdocument_product $product
-	 */
-	public function removeProductFromTargetField($targetProduct, $fieldName, $product)
-	{
-		$ucfirstFieldName = ucfirst($fieldName);
-		if ($targetProduct->{'getIndexof'.$ucfirstFieldName}($product) != -1)
-		{
-			$targetProduct->{'remove'.$ucfirstFieldName}($product);
-			$this->save($targetProduct);
-		}
-	}
-	
 	/**
 	 * @param catalog_persistentdocument_product $document
 	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
