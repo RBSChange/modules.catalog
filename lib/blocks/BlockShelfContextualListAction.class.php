@@ -76,7 +76,8 @@ class catalog_BlockShelfContextualListAction extends website_BlockAction
 	 */
 	protected function getParentId()
 	{
-		return end($this->getContext()->getAncestorIds());
+		
+		return f_util_ArrayUtils::lastElement($this->getContext()->getAncestorIds());
 	}
 	
 	/**
