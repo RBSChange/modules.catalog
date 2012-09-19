@@ -1,6 +1,7 @@
 <?php
-$lastId = $argv[0];
-$chunkSize = $argv[1];
+$arguments = isset($arguments) ? $arguments : array();
+$lastId = $arguments[0];
+$chunkSize = $arguments[1];
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {

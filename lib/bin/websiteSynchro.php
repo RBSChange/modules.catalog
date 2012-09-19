@@ -1,9 +1,9 @@
 <?php
 /* @var $arguments array */
-$ids = isset($arguments) ? $arguments : array();;
-echo "start:" . f_util_ArrayUtils::firstElement($ids);
+$arguments = isset($arguments) ? $arguments : array();
+echo "start:" . f_util_ArrayUtils::firstElement($arguments);
 $tm = f_persistentdocument_TransactionManager::getInstance();
-foreach ($ids as $id)
+foreach ($arguments as $id)
 {
 	$toCheckIds = null;
 	try

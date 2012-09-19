@@ -1,7 +1,8 @@
 <?php
-$lastId = $argv[0];
-$chunkSize = $argv[1];
-$onlyNotCompiled = $argv[2] == 'true';
+$arguments = isset($arguments) ? $arguments : array();
+$lastId = $arguments[0];
+$chunkSize = $arguments[1];
+$onlyNotCompiled = $arguments[2] == 'true';
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {

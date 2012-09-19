@@ -1,10 +1,11 @@
 <?php
-$linkType = $argv[0];
-$feederClass = $argv[1];
-$maxCount = $argv[2];
-$type = $argv[3];
-$lastId = $argv[4];
-$chunkSize = $argv[5];
+$arguments = isset($arguments) ? $arguments : array();
+$linkType = $arguments[0];
+$feederClass = $arguments[1];
+$maxCount = $arguments[2];
+$type = $arguments[3];
+$lastId = $arguments[4];
+$chunkSize = $arguments[5];
 $tm = f_persistentdocument_TransactionManager::getInstance();
 try
 {
