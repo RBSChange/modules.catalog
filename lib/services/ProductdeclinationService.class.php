@@ -455,12 +455,12 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			$data = $product->getDeclinedProduct()->getShowInListInfos();
 			foreach ($data as $grpIndex => $declinationIds)
 			{
-				if (in_array($this->getId(), $declinationIds, true))
+				if (in_array($product->getId(), $declinationIds, true))
 				{
 					$texts = array();
 					foreach ($declinationIds as $declinationId)
 					{
-						if ($declinationId != $this->getId())
+						if ($declinationId != $product->getId())
 						{
 							$ndec = DocumentHelper::getDocumentInstanceIfExists($declinationId);
 							if ($ndec instanceof catalog_persistentdocument_productdeclination)
