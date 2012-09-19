@@ -43,6 +43,25 @@
 			<valueditem byValue="upsell" label="Produits de gamme supérieure" />
 			<valueditem byValue="similar" label="Produits similaires" />
 		</valuededitablelist>
+		<dynamiclist listid="modules_catalog/axes" label="m.catalog.list.axes-" description="m.catalog.list.axes-description" />
+		<staticlist listid="modules_catalog/axesinlist" label="m.catalog.list.axesinlist-" description="m.catalog.list.axesinlist-description">
+			<staticitem value="0" label="m.catalog.list.axesinlist-0" />
+			<staticitem value="1" label="m.catalog.list.axesinlist-1" />
+			<staticitem value="2" label="m.catalog.list.axesinlist-2" />
+			<staticitem value="3" label="m.catalog.list.axesinlist-3" />
+		</staticlist>
+		<dynamiclist listid="modules_catalog/billingareabyshop" label="m.catalog.list.billingareabyshop-label" description="m.catalog.list.billingareabyshop-description" />
+		<dynamiclist listid="modules_catalog/taxcategory" label="m.catalog.list.taxcategory-" />
+		<valuededitablelist listid="modules_catalog/defaulttaxzones" label="Zones de taxe disponible">
+			<valueditem label="France continentale" byValue="FR-CONTINENTAL" />
+			<valueditem label="Corse" byValue="20" />
+			<valueditem label="Allemagne" byValue="DE" />
+			<valueditem label="Royaume-Uni" byValue="GB" />
+			<valueditem label="Suisse" byValue="CH" />
+		</valuededitablelist>
+		<staticlist listid="modules_catalog/orderprocess" label="m.catalog.list.orderprocess-label">
+			<staticitem value="order_StandardOrderProcess" label="m.catalog.list.orderprocess-standard" />
+		</staticlist>
 	</systemfolder>
 	<systemfolder module="notification" relatedmodule="catalog">
 		<notification label="Alerte concernant le stock" byCodename="modules_catalog/stockalert" template="default" availableparameters="{label}, {description}, {threshold}" subject="Alerte concernant le stock du produit &quot;{label}&quot;" header="Bonjour," body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change." />

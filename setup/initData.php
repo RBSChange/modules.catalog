@@ -3,22 +3,10 @@ class catalog_Setup extends object_InitDataSetup
 {
 	public function install()
 	{
-		try
-		{
-			$scriptReader = import_ScriptReader::getInstance();
-			$scriptReader->executeModuleScript('catalog', 'init.xml');
-			$scriptReader->executeModuleScript('catalog', 'currencies.xml');
-			$scriptReader->executeModuleScript('catalog', 'axes.xml');	
-			$scriptReader->executeModuleScript('catalog', 'list-taxcategory.xml');
-			$scriptReader->executeModuleScript('catalog', 'list-billingareabyshop.xml');
-			$scriptReader->executeModuleScript('catalog', 'order-process.xml');
-			$scriptReader->executeModuleScript('catalog', 'comparableproperty.xml');
-		}
-		catch (Exception $e)
-		{
-			echo "ERROR: " . $e->getMessage() . "\n";
-			Framework::exception($e);
-		}
+		$this->executeModuleScript('init.xml');
+		$this->executeModuleScript('currencies.xml');
+		$this->executeModuleScript('comparableproperty.xml');
+
 		$this->addBackGroundCompileTask();
 		$this->addAlertTasks();
 		$this->addRelatedProductAutoFeedTask();

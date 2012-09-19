@@ -90,9 +90,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			catalog_AlertService::getInstance()->setPendingForPrice($document);
 		}
 	}
-
-
-	
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
