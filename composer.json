@@ -1,0 +1,6 @@
+{
+	"name": "rbschange/catalog",
+	"description": "RBS Change Catalog module",
+	"type": "rbschange-compatibility-module",
+	"license":"AGPL-3.0"
+}
