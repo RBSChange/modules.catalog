@@ -9,7 +9,6 @@ class catalog_Setup extends object_InitDataSetup
 
 		$this->addBackGroundCompileTask();
 		$this->addAlertTasks();
-		$this->addRelatedProductAutoFeedTask();
 		$this->addWebsiteSynchroTask();
 	}
 	
@@ -21,18 +20,6 @@ class catalog_Setup extends object_InitDataSetup
 		$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
 		$task->setSystemtaskclassname('catalog_BackgroundCompileTask');
 		$task->setLabel('catalog_BackgroundCompileTask');
-		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
-	}
-	
-	/**
-	 * @return void
-	 */
-	private function addRelatedProductAutoFeedTask()
-	{
-		$task = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
-		$task->setSystemtaskclassname('catalog_AutoFeedRelatedProductsTask');
-		$task->setLabel('catalog_AutoFeedRelatedProductsTask');
-		$task->setUniqueExecutiondate(date_Calendar::getInstance());
 		$task->save(ModuleService::getInstance()->getSystemFolderId('task', 'catalog'));
 	}
 	

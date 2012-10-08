@@ -42,7 +42,7 @@ class catalog_ModuleService extends ModuleBaseService
 		$currentShop = $shop !== null ? $shop : catalog_ShopService::getInstance()->getCurrentShop();
 		if ($currentShop === null)
 		{
-			return $ms->getPreferenceValue('catalog', 'enableComments');
+			return false;
 		}
 		return $currentShop->getEnableComments();
 	}
