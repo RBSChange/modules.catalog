@@ -1281,7 +1281,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			{
 				$product = DocumentHelper::getDocumentInstance($id, 'modules_catalog/product');
 				$document->{'remove' . ucfirst($propertyName)}($product);
-				unset($metaIds[array_search($productId, $metaIds)]);
+				unset($metaIds[array_search($id, $metaIds)]);
 			}
 			
 			$value = array_values($metaIds);
