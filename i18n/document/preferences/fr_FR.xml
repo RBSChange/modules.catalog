@@ -8,24 +8,4 @@
 	<key id="stockalertnotificationuser">destinataires des notifications liées aux stocks</key>
 	<key id="stockalertthreshold">seuil d'alerte de stock</key>
 	<key id="stockalertthreshold-help">quantité de stock par défaut en dessous de laquelle une alerte doit être envoyée. Cette propriété peut être redéfinie localement sur chaque produit.</key>
-	<key id="enablecomments">activer les commentaires</key>
-	<key id="enablecomments-help">activer ou non les commentaires sur les produits.</key>
-	<key id="synchronizecomplementary">synchroniser les complémentaires</key>
-	<key id="synchronizecomplementary-help">en activant cette option, ajouter un produit A comme complémentaire d'un produit B fera également automatiquement l'ajout inverse : le produit B comme complémentaire du produit A.</key>
-	<key id="synchronizesimilar">synchroniser les similaires</key>
-	<key id="synchronizesimilar-help">en activant cette option, ajouter un produit A comme similaire à un produit B fera également automatiquement l'ajout inverse : le produit B comme similaure au produit A.</key>
-	<key id="suggestcomplementaryfeederclass">suggestion de complémentaires</key>
-	<key id="suggestcomplementaryfeederclass-help">en activant cette option, une bouton apparaitra à côté du champ ″produits complementaires″ permettant de suggérer des produits.</key>
-	<key id="suggestsimilarfeederclass">suggestion de similaires</key>
-	<key id="suggestsimilarfeederclass-help">en activant cette option, une bouton apparaitra à côté du champ ″produits similaires″ permettant de suggérer des produits.</key>
-	<key id="suggestupsellfeederclass">suggestion de gamme supérieure</key>
-	<key id="suggestupsellfeederclass-help">en activant cette option, une bouton apparaitra à côté du champ ″produits de gamme supérieure″ permettant de suggérer des produits.</key>
-	<key id="autofeedcomplementarymaxcount">réactualisation automatique des complémentaires</key>
-	<key id="autofeedcomplementarymaxcount-help">Nombre de produits complémentaires à réactualiser automatiquement. Laisser vide pour ne rien faire automatiquement.</key>
-	<key id="autofeedsimilarmaxcount">réactualisation automatique des similaires</key>
-	<key id="autofeedsimilarmaxcount-help">Nombre de produits similaires à réactualiser automatiquement. Laisser vide pour ne rien faire automatiquement.</key>
-	<key id="autofeedupsellmaxcount">réactualisation automatique des gammes supérieures</key>
-	<key id="autofeedupsellmaxcount-help">Nombre de produits de gamme supérieure à réactualiser automatiquement. Laisser vide pour ne rien faire automatiquement.</key>
-	<key id="autofeeddelay">délai entre deux réactualisations</key>
-	<key id="autofeeddelay-help">Spécifiez le délai entre deux exécutions de la tâche de réactualisation des produits croisés.</key>
 </i18n>

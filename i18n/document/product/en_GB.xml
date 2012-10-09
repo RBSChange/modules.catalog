@@ -17,8 +17,6 @@
 	<key id="brandlabel-help">brand</key>
 	<key id="codesku">SKU code</key>
 	<key id="codesku-help">A unique stock identifier.</key>
-	<key id="complementary">complementary products</key>
-	<key id="complementary-help">Products from the "Catalogue and shops" module used by the "related products" display block. An entry wizard may be activated ("magic wand" icon) by enabling complementary product suggestions in the catalogue and shops module preferences. It is also possible to make it so that if B is a complementary product of A, A is a complementary product of B as well by enabling "Synchronise complementary products" in the catalogue and shops module preferences.</key>
 	<key id="crossselling">crossed products</key>
 	<key id="crossselling-help">list of crossed products (cross-selling)</key>
 	<key id="description">description</key>
@@ -39,8 +37,6 @@
 	<key id="shelf-help">The list of the shelves of the "Catalogue and Shops" module in which the products will appear. When this list contains more than one shelf, the product is "multi-shelf"</key>
 	<key id="shippingmodeid">Special transporter</key>
 	<key id="shippingmodeid-help">Field of type "Shipping method" that allows forcing a specific shipping method for the product.</key>
-	<key id="similar">Similar products</key>
-	<key id="similar-help">Products from the "catalogue and shops" module used by the "related products" display block. An entry wizard may be activated ("magic wand" icon) by enabling similar product suggestions in the catalogue and shops module preferences. It is also possible to make it so that if B is a similar product of A, A is a similar product of B as well by enabling "Synchronise similar products" in the catalogue and shops module preferences.</key>
 	<key id="startpublicationdate">publication start date</key>
 	<key id="startpublicationdate-help">Date from which the product will automatically be published. When left empty, the product will be published until the end publication date (except for manual interventions from the administrator).</key>
 	<key id="stockalertthreshold">stock alert threshold</key>
@@ -48,8 +44,6 @@
 	<key id="stocklevel">stock level</key>
 	<key id="stockquantity">quantity in stock</key>
 	<key id="stockquantity-help">When this field is left empty, stock will not be managed for the product - it will be considered as always in stock. Once filled, it represents the stock quantity of the product. Depending on the shop settings, when this stock quantity reaches zero, the product may be automatically withdrawn from sale.</key>
-	<key id="upsell">Products in the upper range</key>
-	<key id="upsell-help">Product from the "Catalogue and shops" module used by the "Related products" display block. An entry wizard may be activated ("magic wand" icon) by enabling complementary product suggestions in the Catalogue and shops module preferences.</key>
 	<key id="visual">visual element</key>
 	<key id="visual-help">Visual element from the RBS Change media store that matches the product's default visual element. It will be used in the "list of products" display on the website, and also in the product details. This visual element will be automatically re-sized by RBS Change when displayed to match the website graphic charter.</key>
 </i18n>

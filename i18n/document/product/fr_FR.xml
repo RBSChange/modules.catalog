@@ -18,12 +18,6 @@
 	<key id="pictogram-help">médias utilisés dans l’affichage de détail d’un produit sous forme de petits pictogrammes indiquant par exemple une promotion, une nouveauté, etc.</key>
 	<key id="brand">marque</key>
 	<key id="brand-help">document optionnel de type	« marque » du module « Marques ».</key>
-	<key id="complementary">produits complémentaires</key>
-	<key id="complementary-help">produits du module catalogue et boutiques utilisés par le bloc d’affichage « Produits associés ». Un assistant à la saisie peut être activé (icone « baguette magique ») en activant la suggestion des complémentaires dans les préférences du module Catalogue et boutiques. De même il est possible de faire en sorte que si B est un produit complémentaire de A, A soit aussi un produit complémentaire de B en activant « Synchroniser les complémentaires » dans les préférences du module Catalogue et boutiques.</key>
-	<key id="similar">produits similaires</key>
-	<key id="similar-help">produits du module catalogue et boutiques utilisés par le bloc d’affichage « Produits associés ». Un assistant à la saisie peut être activé (icone « baguette magique ») en activant la suggestion des complémentaires dans les préférences du module Catalogue et boutiques. De même il est possible de faire en sorte que si B est un produit similaire à A, A soit aussi un produit similaire de B en activant « Synchroniser les similaires » dans les préférences du module Catalogue et boutiques.</key>
-	<key id="upsell">produits de gamme supérieure</key>
-	<key id="upsell-help">produits du module catalogue et boutiques utilisés par le bloc d’affichage « Produits associés ». Un assistant à la saisie peut être activé (icone « baguette magique ») en activant la suggestion des complémentaires dans les préférences du module Catalogue et boutiques.</key>
 	<key id="articleid">article</key>
 	<key id="articleid-help">article, à sélectionner depuis les ressources.</key>
 	<key id="description">description</key>

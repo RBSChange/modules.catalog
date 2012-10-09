@@ -227,9 +227,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getSynchronizedPropertiesName()
 	{
-		return array('shelf', 'brand', 'upsell', 'similar', 'complementary',
-			'description', 'shippingModeId', 
-			'pageTitle', 'pageDescription', 'pageKeywords');
+		return array('shelf', 'brand', 'description', 'shippingModeId', 'pageTitle', 'pageDescription', 'pageKeywords');
 	}
 	
 	/**
@@ -629,20 +627,6 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$visual = ModuleService::getInstance()->getPreferenceValue('catalog', 'defaultListVisual');
 		}
 		return $visual;
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_declinedproduct $product
-	 * @param string[] $propertiesNames
-	 * @param array $formProperties
-	 * @param integer $parentId
-	 */
-	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
-	{
-		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
-		$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
-		$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
-		$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
 	}
 	
 	/**

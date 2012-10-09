@@ -418,9 +418,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			$document->setCodeSKU(strval($document->getId()));
 		}
-		$this->updateRelatedProductsMetas($document, 'complementary');
-		$this->updateRelatedProductsMetas($document, 'similar');
-		$this->updateRelatedProductsMetas($document, 'upsell');
 	}
 
 	/**
@@ -1110,109 +1107,6 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param integer $complementaryMaxCount
-	 * @param integer $similarMaxCount
-	 * @param integer $upsellMaxCount
-	 */
-	public function feedRelatedProducts($document)
-	{
-		$this->feedField($document, 'complementary');
-		$this->feedField($document, 'similar');
-		$this->feedField($document, 'upsell');
-		$document->save();
-	}
-	
-	/**
-	 * @param string $propertyName
-	 * @return string
-	 */
-	private function getAutoAddedMetaKey($propertyName)
-	{
-		return 'auto-added.' . strtolower($propertyName);
-	}
-	
-	/**
-	 * @param string $propertyName
-	 * @return string
-	 */
-	private function getManuallyExcludedMetaKey($propertyName)
-	{
-		return 'manually-excluded.' . strtolower($propertyName);
-	}
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param string $propertyName
-	 */
-	private function feedField($document, $propertyName)
-	{
-		$ms = ModuleService::getInstance();
-		$feeder = $ms->getPreferenceValue('catalog', 'suggest' . ucfirst($propertyName) . 'FeederClass');
-		$maxCount = $ms->getPreferenceValue('catalog', 'autoFeed' . ucfirst($propertyName) . 'MaxCount');
-		if ($feeder && $feeder != 'none' && $maxCount > 0)
-		{
-			$metaAutoKey = $this->getAutoAddedMetaKey($propertyName);
-			$metaExcludedKey = $this->getManuallyExcludedMetaKey($propertyName);
-			$metaIds = $document->getMetaMultiple($metaAutoKey);
-			$toRemove = $metaIds;
-			$excludedIds = $document->getMetaMultiple($metaExcludedKey);
-			$excludedIds[] = $document->getId();
-			
-			$parameters = array('productId' => $document->getId(), 'excludedId' => $excludedIds, 'maxResults' => $maxCount);
-			$products = f_util_ClassUtils::callMethod($feeder, 'getInstance')->getProductArray($parameters);
-			foreach ($products as $row)
-			{
-				$product = $row[0];
-				$productId = $product->getId();
-				if (!in_array($productId, $metaIds) && !in_array($productId, $excludedIds))
-				{
-					$document->{'add' . ucfirst($propertyName)}($product);
-					$metaIds[] = $productId;
-				}
-				else 
-				{
-					unset($toRemove[array_search($productId, $toRemove)]);
-				}
-			}
-			
-			foreach ($toRemove as $id)
-			{
-				$product = DocumentHelper::getDocumentInstance($id, 'modules_catalog/product');
-				$document->{'remove' . ucfirst($propertyName)}($product);
-				unset($metaIds[array_search($productId, $metaIds)]);
-			}
-			
-			$value = array_values($metaIds);
-			$document->setMetaMultiple($metaAutoKey, f_util_ArrayUtils::isEmpty($value) ? null : $value);
-		}
-	}	
-	
-	/**
-	 * @param catalog_persistentdocument_product $document
-	 * @param string $propertyName
-	 */
-	private function updateRelatedProductsMetas($document, $propertyName)
-	{
-		if (!$document->isPropertyModified($propertyName))
-		{
-			return;
-		}
-		
-		$currentIds = DocumentHelper::getIdArrayFromDocumentArray($document->{'get' . ucfirst($propertyName) . 'Array'}());
-		
-		$metaAutoKey = $this->getAutoAddedMetaKey($propertyName);
-		$idsInMeta = $document->getMetaMultiple($metaAutoKey);
-		$value = array_intersect($idsInMeta, $currentIds);
-		$document->setMetaMultiple($metaAutoKey, f_util_ArrayUtils::isEmpty($value) ? null : $value);
-		
-		$metaExcludedKey = $this->getManuallyExcludedMetaKey($propertyName);
-		$excludedIds = $document->getMetaMultiple($metaExcludedKey);
-		$value = array_merge(array_diff($idsInMeta, $currentIds), array_diff($excludedIds, $currentIds));
-		$document->setMetaMultiple($metaExcludedKey, f_util_ArrayUtils::isEmpty($value) ? null : $value);
-	}
-	
-	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param catalog_persistentdocument_shop $shop
 	 */
@@ -1355,22 +1249,14 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
 	{
-		$preferences = ModuleService::getInstance()->getPreferencesDocument('catalog');
-		if (in_array('complementary', $propertiesNames))
-		{
-			$formProperties['suggestComplementaryFeederClass'] = $preferences->getSuggestComplementaryFeederClass(); 		
-			$formProperties['suggestSimilarFeederClass'] = $preferences->getSuggestSimilarFeederClass(); 		
-			$formProperties['suggestUpsellFeederClass'] = $preferences->getSuggestUpsellFeederClass(); 		
-		}
 		if (in_array('codeSKU', $propertiesNames))
 		{
 			if ($product->getCodeSKU() === null)
 			{
 				$formProperties['codeSKU'] = $product->getId();
-			} 		
+			}
 		}
 	}
-	
 	
 	/**
 	 * @param catalog_persistentdocument_product $document
