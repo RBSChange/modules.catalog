@@ -558,12 +558,12 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 			{
 				$parentShelf->getDocumentService()->publishDocument($parentShelf, array('cause' => 'shelfPublished'));
 			}
-			else if ($oldPublicationStatus === 'PUBLICATED' && $parentShelf->isContextLangAvailable() && $parentShelf->isPublished())
+			else if ($oldPublicationStatus === 'PUBLISHED' && $parentShelf->isContextLangAvailable() && $parentShelf->isPublished())
 			{
 				$parentShelf->getDocumentService()->publishDocument($parentShelf, array('cause' => 'shelfUnpublished'));
 			}
 		}
-		if ($document->isPublished() || $oldPublicationStatus === 'PUBLICATED')
+		if ($document->isPublished() || $oldPublicationStatus === 'PUBLISHED')
 		{
 			// Handle compilation.
 			if (!isset($params['cause']) || $params["cause"] != "delete")

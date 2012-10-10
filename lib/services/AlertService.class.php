@@ -259,7 +259,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	 */
 	public function purgeExpiredAlerts()
 	{
-		return $this->createQuery()->add(Restrictions::ne('publicationstatus', 'PUBLICATED'))->delete();
+		return $this->createQuery()->add(Restrictions::ne('publicationstatus', 'PUBLISHED'))->delete();
 	}
 
 	/**

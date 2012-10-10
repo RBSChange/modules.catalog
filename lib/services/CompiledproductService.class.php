@@ -402,7 +402,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		if ($document->isPublished() || 'PUBLICATED' === $oldPublicationStatus)
+		if ($document->isPublished() || 'PUBLISHED' === $oldPublicationStatus)
 		{
 			if (!isset($params['cause']) || $params['cause'] != 'delete')
 			{

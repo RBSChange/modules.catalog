@@ -81,7 +81,7 @@ class catalog_CrossitemService extends f_persistentdocument_DocumentService
 			'canedit' => isset($permissions['allpermissions']) || isset($permissions['Update']),
 			'candelete' => isset($permissions['allpermissions']) || isset($permissions['Delete']),
 			'canactivate' => (isset($permissions['allpermissions']) || isset($permissions['Activate'])) && ($status == 'DRAFT' || $status == 'CORRECTION'),
-			'candeactivated' => (isset($permissions['allpermissions']) || isset($permissions['Deactivated'])) && ($status == 'ACTIVE' || $status == 'PUBLICATED'),
+			'candeactivated' => (isset($permissions['allpermissions']) || isset($permissions['Deactivated'])) && ($status == 'ACTIVE' || $status == 'PUBLISHED'),
 			'canreactivate' => (isset($permissions['allpermissions']) || isset($permissions['ReActivate'])) && ($status == 'DEACTIVATED'),
 		);
 	}

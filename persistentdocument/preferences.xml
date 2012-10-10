@@ -7,5 +7,5 @@
 		<property name="stockAlertThreshold" type="Double" default-value="0" />
 		<property name="stockAlertNotificationUser" type="DocumentArray" document-type="modules_users/user" />
 	</properties>
-	<statuses default="PUBLICATED" />
+	<statuses default="PUBLISHED" />
 </document>

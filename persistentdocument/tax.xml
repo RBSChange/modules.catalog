@@ -9,5 +9,5 @@
 		<property name="taxZone" type="String" db-size="20" from-list="modules_catalog/defaulttaxzones" required="true" />
 		<property name="billingAreaId" type="Integer" required="true" />
 	</properties>
-	<statuses default="PUBLICATED" />
+	<statuses default="PUBLISHED" />
 </document>

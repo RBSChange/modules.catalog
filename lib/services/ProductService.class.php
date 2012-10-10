@@ -498,7 +498,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		// Handle compilation.
 		if (!isset($params['cause']) || $params["cause"] != "delete")
 		{
-			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLISHED')
 			{	
 				$this->updateCompiledProperty($document, false);
 			}
@@ -511,7 +511,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function refreshShelfPublicationStatus($document, $oldPublicationStatus)
 	{		
-		// Status transit from ACTIVE to PUBLICATED.
+		// Status transit from ACTIVE to PUBLISHED.
 		if ($document->isPublished())
 		{
 			$ss = catalog_ShelfService::getInstance();
@@ -520,8 +520,8 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 				$ss->productPublished($shelf, $document);
 			}
 		}
-		// Status transit from PUBLICATED to ACTIVE.
-		else if ($oldPublicationStatus == 'PUBLICATED')
+		// Status transit from PUBLISHED to ACTIVE.
+		else if ($oldPublicationStatus == 'PUBLISHED')
 		{
 			$ss = catalog_ShelfService::getInstance();
 			foreach ($document->getShelfArray() as $shelf)

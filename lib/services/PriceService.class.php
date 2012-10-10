@@ -494,7 +494,7 @@ class catalog_PriceService extends f_persistentdocument_DocumentService
 		{
 			if (!isset($params['cause']) || $params["cause"] != "delete")
 			{
-				if ($document->isPublished() || $oldPublicationStatus === 'PUBLICATED')
+				if ($document->isPublished() || $oldPublicationStatus === 'PUBLISHED')
 				{
 					catalog_ProductService::getInstance()->setNeedCompileForPrice($document);
 				}

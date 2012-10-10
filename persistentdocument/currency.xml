@@ -4,5 +4,5 @@
 		<property name="symbol" type="String" />
 		<property name="code" type="String" db-size="3" required="true" />
 	</properties>
-	<statuses default="PUBLICATED" />
+	<statuses default="PUBLISHED" />
 </document>

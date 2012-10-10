@@ -309,7 +309,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		if ($document->isPublished() || $oldPublicationStatus === 'PUBLICATED')
+		if ($document->isPublished() || $oldPublicationStatus === 'PUBLISHED')
 		{	
 			$declinations = catalog_ProductdeclinationService::getInstance()->getArrayByDeclinedProduct($document);
 			foreach ($declinations as $declination) 

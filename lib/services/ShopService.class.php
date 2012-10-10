@@ -463,22 +463,22 @@ class catalog_ShopService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		// Status transit from ACTIVE to PUBLICATED.
+		// Status transit from ACTIVE to PUBLISHED.
 		$this->defaultShopForWebsite = array();
 		
 		if ($document->isPublished())
 		{
 			$document->getTopic()->activate();
 		}
-		// Status transit from PUBLICATED to ACTIVE.
-		else if ($oldPublicationStatus == 'PUBLICATED')
+		// Status transit from PUBLISHED to ACTIVE.
+		else if ($oldPublicationStatus == 'PUBLISHED')
 		{
 			$document->getTopic()->deactivate();
 		}
 		
 		if (!isset($params['cause']) || $params["cause"] != "delete")
 		{
-			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLISHED')
 			{					
 				catalog_ProductService::getInstance()->setNeedCompileForShop($document);
 			}
