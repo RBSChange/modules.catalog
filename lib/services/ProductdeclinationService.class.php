@@ -35,7 +35,6 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		return $this->getPersistentProvider()->createQuery('modules_catalog/productdeclination', false);
 	}
 	
-	
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
 	 * @param boolean $ordered
@@ -357,7 +356,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		{
 			$cp = $this->getCompiledDeclinationProduct($compiledProduct->getLang(), $compiledProduct->getTopicId(), $subDeclinationId);
 			if ($cp === null) {continue;}
-			if ($cp->getPublicationCode() == 0 && $cp->getIsAvailable() && $subPotentialDeclination === null)
+			if ($subPotentialDeclination === null && $this->shouldBeChoosenToShowInList($cp))
 			{
 				$subPotentialDeclination = $subDeclinationId;
 			}
@@ -424,7 +423,19 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 		{
 			$this->setNeedCompile($needsCompiles);	
 		}
-	}	
+	}
+	
+	/**
+	 * To choose the declination to show in list, we first call successively this method on each displayable declination. The first declination that
+	 * returns true is choosen. If no declination returns true, the first displayable declination is choosen.
+	 * @see updateCompiledProduct()
+	 * @param catalog_persistentdocument_compiledproduct $cp
+	 * @return boolean
+	 */
+	protected function shouldBeChoosenToShowInList($cp)
+	{
+		return $cp->getPublicationCode() == 0 && $cp->getIsAvailable();
+	}
 	
 	/**
 	 * @param string $lang

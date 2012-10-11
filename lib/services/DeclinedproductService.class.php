@@ -579,7 +579,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getPublishedDefaultDeclinationInShop($declinedProduct, $shop)
 	{
-		return f_util_ArrayUtils::firstElement($this->getPublishedDeclinationsInShop($declinedProduct, $shop));
+		return catalog_ProductdeclinationService::getInstance()->getPublishedDefaultDeclinationInShop($declinedProduct, $shop);
 	}
 	
 	/**
