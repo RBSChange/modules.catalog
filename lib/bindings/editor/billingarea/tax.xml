@@ -15,16 +15,17 @@
 						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
-					<xul:cfield name="taxGridJSON" id="billingarea_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
-						flex="1">
-					</xul:cfield>
-
+					<xul:box>
+						<xul:cfield name="taxGridJSON" id="billingarea_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
+							flex="1">
+						</xul:cfield>
+					</xul:box>
 					<xul:cfieldsgroup label="${trans:m.catalog.bo.doceditor.tax.add-tax,ucf,attr}">
 						<xul:row anonid="row_newTaxLabel">
 							<xul:clabel id="billingarea_tax_newTaxLabel_label" control="billingarea_tax_newTaxLabel"
 								value="${trans:m.catalog.bo.doceditor.tax.newtaxlabel,ucf,attr}" />
 							<xul:cfield name="newTaxLabel" id="billingarea_tax_newTaxLabel" anonid="field_newTaxLabel"
-								fieldtype="text" required="true" shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxlabel-help,ucf,attr}" />	
+								fieldtype="text" required="true" shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxlabel-help,ucf,attr}" />
 						</xul:row>
 						<xul:row anonid="row_newTaxZone">
 							<xul:clabel id="billingarea_tax_newTaxZone_label" control="billingarea_tax_newTaxZone"
@@ -39,14 +40,14 @@
 							<xul:cfield name="newTaxCategory" id="billingarea_tax_newTaxCategory" anonid="field_newTaxCategory"
 								fieldtype="text" required="true" shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxcategory-help,ucf,attr}">
 								<xul:cconstraint name="maxSize" parameter="6" />
-							</xul:cfield>	
+							</xul:cfield>
 						</xul:row>
 						<xul:row anonid="row_newTaxRate">
 							<xul:clabel id="billingarea_tax_newTaxRate_label" control="billingarea_tax_newTaxRate"
 								value="${trans:m.catalog.bo.doceditor.tax.newtaxrate,ucf,attr}" />
 							<xul:cfield name="newTaxRate" id="billingarea_tax_newTaxRate" anonid="field_newTaxRate"
 								fieldtype="double" required="true" increment="0.01" 
-								shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxrate-help,ucf,attr}" />	
+								shorthelp="${trans:m.catalog.bo.doceditor.tax.newtaxrate-help,ucf,attr}" />
 						</xul:row>
 					</xul:cfieldsgroup>
 					<xul:spacer flex="1" />
