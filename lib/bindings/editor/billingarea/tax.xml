@@ -15,10 +15,11 @@
 						image="{IconsBase}/small/next-invalid-field.png" />
 				</xul:hbox>
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
-					<xul:cfield name="taxGridJSON" id="billingarea_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
-						flex="1">
-					</xul:cfield>
-
+					<xul:box>
+						<xul:cfield name="taxGridJSON" id="billingarea_tax_taxGridJSON" anonid="field_taxGridJSON" fieldtype="namedgridlist"
+							flex="1">
+						</xul:cfield>
+					</xul:box>
 					<xul:cfieldsgroup label="${transui:m.catalog.bo.doceditor.tax.Add-tax,ucf,attr}">
 						<xul:row anonid="row_newTaxLabel">
 							<xul:clabel id="billingarea_tax_newTaxLabel_label" control="billingarea_tax_newTaxLabel"
