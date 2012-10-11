@@ -156,4 +156,6 @@
   <key id="log-reactivate-crossitem">log reactivate crossitem</key>
   <key id="insert-productqueryfolder">insert.productqueryfolder {documentlabel}</key>
   <key id="log-insert-productqueryfolder">log insert productqueryfolder</key>
+  <key id="delete-kit">delete.kit {documentlabel} {lang}</key>
+  <key id="log-delete-kit">log delete kit</key>
 </i18n>
