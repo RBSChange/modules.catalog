@@ -130,11 +130,16 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 				$priceItem->setValueWithoutDiscount($priceItem->getValue());
 			}
 
+			if ($price->getEcoTax() !== null)
+			{
+				$priceItem->setEcoTax($price->getEcoTax() * $qtt);
+				$kitPrice->setEcoTax($kitPrice->getEcoTax() + $priceItem->getEcoTax());
+			}
+			
 			$kitPrice->addPricePart($priceItem);
 			
 			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() + $priceItem->getValueWithoutTax());	
 			$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $priceItem->getOldValueWithoutTax());
-			
 
 			$kitPrice->setTaxCategory($price->getTaxCategory());
 			return true;
