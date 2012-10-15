@@ -9,7 +9,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 * @var catalog_KititemService
 	 */
 	private static $instance;
-
+	
 	/**
 	 * @return catalog_KititemService
 	 */
@@ -21,7 +21,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		}
 		return self::$instance;
 	}
-
+	
 	/**
 	 * @return catalog_persistentdocument_kititem
 	 */
@@ -29,7 +29,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	{
 		return $this->getNewDocumentInstanceByModelName('modules_catalog/kititem');
 	}
-
+	
 	/**
 	 * Create a query based on 'modules_catalog/kititem' model.
 	 * Return document that are instance of modules_catalog/kititem,
@@ -75,7 +75,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	{
 		if (f_util_StringUtils::isEmpty($document->getLabel()))
 		{
-			$document->setLabel($document->getProduct()->getVoLabel());	
+			$document->setLabel($document->getProduct()->getVoLabel());
 		}
 	}
 	
@@ -112,7 +112,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	{
 		$product = $kititem->getDefaultProduct();
 		return $product->getDocumentService()->getPriceByTargetIds($product, $shop, $billingArea, $targetIds, $quantity * $kititem->getQuantity());
-		
+	
 	}
 	/**
 	 * @param catalog_persistentdocument_kititem $kititem
@@ -124,7 +124,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 * @return boolean
 	 */
 	public function appendPrice($kititem, $kitPrice, $shop, $billingArea, $targetIds, $quantity)
-	{	
+	{
 		$price = $this->getKititemPrice($kititem, $shop, $billingArea, $targetIds, $quantity);
 		if ($price instanceof catalog_persistentdocument_price)
 		{
@@ -146,13 +146,18 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 			{
 				$priceItem->setValueWithoutDiscount($priceItem->getValue());
 			}
-
+			
+			if ($price->getEcoTax() !== null)
+			{
+				$priceItem->setEcoTax($price->getEcoTax() * $qtt);
+				$kitPrice->setEcoTax($kitPrice->getEcoTax() + $priceItem->getEcoTax());
+			}
+			
 			$kitPrice->addPricePart($priceItem);
 			
-			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() + $priceItem->getValueWithoutTax());	
+			$kitPrice->setValueWithoutTax($kitPrice->getValueWithoutTax() + $priceItem->getValueWithoutTax());
 			$kitPrice->setOldValueWithoutTax($kitPrice->getOldValueWithoutTax() + $priceItem->getOldValueWithoutTax());
 			
-
 			$kitPrice->setTaxCategory($price->getTaxCategory());
 			return true;
 		}
@@ -170,7 +175,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	 */
 	public function transformToArray($kitItem, &$result)
 	{
-		$product = $kitItem->getProduct();	
+		$product = $kitItem->getProduct();
 		$showDeclination = false;
 		$master = $product;
 		if ($product instanceof catalog_DeclinableProduct)
@@ -187,36 +192,20 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		$statusOk = $master->isContextLangAvailable();
 		$label = $statusOk ? $master->getLabel() : $master->getVoLabel();
 		
+		$result[] = array('id' => $kitItem->getId(), 'productType' => str_replace('/', '_', $master->getDocumentModelName()), 
+			'productId' => $master->getId(), 'productCodeReference' => $master->getCodeReference(), 'actionrow' => $showDeclination ? '1' : '0', 
+			'statusOk' => $statusOk ? '' : 'Non disponible', 'label' => $label, 'qtt' => $kitItem->getQuantity());
 		
-		$result[] =  array(
-				'id' => $kitItem->getId(),
-				'productType' => str_replace('/', '_', $master->getDocumentModelName()),
-				'productId' => $master->getId(),
-				'productCodeReference' => $master->getCodeReference(),
-				'actionrow' => $showDeclination ? '1' : '0',
-				'statusOk' => $statusOk ? '': 'Non disponible',
-			    'label' => $label,
-			    'qtt' => $kitItem->getQuantity(),
-		);	
-			
 		if ($showDeclination)
 		{
-			foreach ($product->getDeclinations() as $declination) 
-			{				
+			foreach ($product->getDeclinations() as $declination)
+			{
 				$declinationstatusOk = $declination->isContextLangAvailable();
 				$declinationlabel = $declinationstatusOk ? $declination->getLabel() : $declination->getVoLabel();
-				$result[] =  array(
-					'id' => 0,
-					'productType' => str_replace('/', '_', $declination->getDocumentModelName()),
-					'productId' => $declination->getId(),
-					'statusOk' => $declinationstatusOk ? '': 'Non disponible',
-					'actionrow' => '2',
-				    'label' => $label,
-					'sublabel' => $declinationlabel,
-				    'qtt' => '',
-					'declinable' => false,
-					'productCodeReference' => $declination->getCodeReference(),
-				);
+				$result[] = array('id' => 0, 'productType' => str_replace('/', '_', $declination->getDocumentModelName()), 
+					'productId' => $declination->getId(), 'statusOk' => $declinationstatusOk ? '' : 'Non disponible', 'actionrow' => '2', 
+					'label' => $label, 'sublabel' => $declinationlabel, 'qtt' => '', 'declinable' => false, 
+					'productCodeReference' => $declination->getCodeReference());
 			}
 		}
 	}
@@ -237,10 +226,10 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 			if (!isset($parameters['catalogParam']))
 			{
 				$parameters['catalogParam'] = array('kititemid' => $document->getId());
-			} 
+			}
 			else
 			{
-				$parameters['catalogParam']['kititemid']  = $document->getId();
+				$parameters['catalogParam']['kititemid'] = $document->getId();
 			}
 			return $urlRewritingService->getDocumentLinkForWebsite($kit, $website, $lang, $parameters);
 		}
