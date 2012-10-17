@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.errors.kititem" lcid="fr_FR">
+  <key id="cannot-delete-associated-product">Impossible de supprimer le produit ({product}) utilisé dans le kit : {kitname}</key>
+</i18n>

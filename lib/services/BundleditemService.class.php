@@ -35,6 +35,22 @@ class catalog_BundleditemService extends f_persistentdocument_DocumentService
 		return $this->getPersistentProvider()->createQuery('modules_catalog/bundleditem', false);
 	}
 	
+	/**
+	 * @param catalog_persistentdocument_bundleditem $document
+	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @return void
+	 */
+	protected function preSave($document, $parentNodeId)
+	{
+		$product = $document->getProduct();
+		if ($product == null)
+		{
+			$oldProduct = DocumentHelper::getDocumentInstanceIfExists($document->getProductOldValueId());
+			$kit = array_pop($document->getBundleproductArrayInverse());
+			throw new Exception(LocaleService::getInstance()->transBO('m.catalog.errors.bundleitem.cannot-delete-associated-product', array('ucf'), array(
+				'product' => $oldProduct->getLabel(), 'bundlename' => $kit->getLabel())));
+		}
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_bundleditem $document
