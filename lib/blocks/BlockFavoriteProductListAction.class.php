@@ -6,13 +6,12 @@
 class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBaseAction
 {
 	/**
-	 * @param array $displayConfig
 	 * @param shop_persistentdocument_shop $shop
 	 * @return array
 	 */
-	protected function generateItemDisplayConfig($displayConfig, $shop)
+	protected function generateDisplayConfig($shop)
 	{
-		$displayConfig = parent::generateItemDisplayConfig($displayConfig, $shop);
+		$displayConfig = parent::generateDisplayConfig($shop);
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('removeFromList', 'remove-from-list');
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('replaceList', 'remove-others-from-list');
 		$displayConfig['globalButtons'][] = $this->getButtonInfo('clearList', 'clear-list');
