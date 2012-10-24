@@ -130,7 +130,9 @@
     <parameters>
       <parameter name="blockTitle" type="String"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
       <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
       <parameter name="useAddToCartPopin" type="Boolean" default-value="true"/>
@@ -192,7 +194,9 @@
     <parameters>
       <parameter name="blockTitle" type="String"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
       <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
       <parameter name="useAddToCartPopin" type="Boolean" default-value="true"/>
@@ -240,7 +244,9 @@
       <parameter name="cmpref" type="modules_catalog/product" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]"/>
       <parameter name="linkType" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellinglinktypes"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="sortRandom" type="Boolean" default-value="true"/>
       <parameter name="addlinktoall" type="Boolean" default-value="true"/>
       <parameter name="showmessages" type="Boolean" default-value="false"/>
@@ -283,7 +289,9 @@
       <parameter name="cmpref" type="modules_catalog/product" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]"/>
       <parameter name="linkType" type="String" list-id="modules_catalog/crosssellinglinktypes"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="sortRandom" type="Boolean" default-value="false"/>
       <parameter name="addlinktoall" type="Boolean" default-value="false" hidden="true"/>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
@@ -337,7 +345,9 @@
       <parameter name="products" type="modules_catalog/product" allow="[modules_catalog_product]" max-occurs="-1" moduleselector="catalog" dialog="productselector"/>
       <parameter name="destinationpage" type="modules_website/page"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="sortRandom" type="Boolean" default-value="true"/>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
       <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
@@ -388,7 +398,9 @@
       <parameter name="label" type="String"/>
       <parameter name="destinationpage" type="modules_website/page"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="sortRandom" type="Boolean" default-value="false"/>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
       <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
@@ -438,7 +450,9 @@
     <parameters>
       <parameter name="blockTitle" type="String"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="sortRandom" type="Boolean" default-value="true"/>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
       <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
@@ -537,7 +551,9 @@
       <parameter name="cmpref" type="modules_catalog/product" allow="modules_catalog_simpleproduct,modules_catalog_declinedproduct"/>
       <parameter name="crossSellingType" type="String" default-value="complementary" min-occurs="1" list-id="modules_catalog/crosssellingtypes"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="sortRandom" type="Boolean" default-value="true"/>
       <parameter name="addlinktoall" type="Boolean" default-value="true"/>
       <parameter name="showmessages" type="Boolean" default-value="false"/>
@@ -590,7 +606,9 @@
     <parameters>
       <parameter name="blockTitle" type="String"/>
       <parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist"/>
-      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1"/>
+      <parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+      	<constraints>min:1</constraints>
+      </parameter>
       <parameter name="showmessages" type="Boolean" default-value="true"/>
       <parameter name="displayaddtocart" type="Boolean" default-value="true"/>
       <parameter name="useAddToCartPopin" type="Boolean" default-value="true"/>

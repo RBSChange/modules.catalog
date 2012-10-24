@@ -949,7 +949,7 @@
 				<xul:toolbar class="action" align="right">
 					<xul:toolbarbutton action="edit" image="{IconsBase}/small/edit.png" tooltiptext="${transui:m.uixul.bo.actions.edit,ucf,attr}" />
 					<xul:toolbarbutton action="activate" image="{IconsBase}/small/activate.png" tooltiptext="${transui:m.uixul.bo.actions.activate,ucf,attr}" />
-					<xul:toolbarbutton action="deactivated" image="{IconsBase}/small/deactivated.png" tooltiptext="${transui:m.uixul.bo.actions.deactivated,ucf,attr}" />
+					<xul:toolbarbutton action="deactivated" image="{IconsBase}/small/deactivated.png" tooltiptext="${transui:m.uixul.bo.actions.deactivate,ucf,attr}" />
 					<xul:toolbarbutton action="reactivate" image="{IconsBase}/small/reactivate.png" tooltiptext="${transui:m.uixul.bo.actions.reactivate,ucf,attr}" />
 					<xul:toolbarbutton action="delete" image="{IconsBase}/small/delete.png" tooltiptext="${transui:m.uixul.bo.actions.delete,ucf,attr}" />
 					<xul:toolbarbutton action="compile" image="{IconsBase}/small/admin.png" tooltiptext="${transui:m.catalog.bo.doceditor.crossitems.compile-crossitem,ucf,attr}" />
@@ -1162,7 +1162,7 @@
 		<xbl:content xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:xbl="http://www.mozilla.org/xbl">
 			<xul:vbox flex="1">
 				<hbox class="dialog-header">
-					<label anonid="title" value="${transui:m.catalog.bo.doceditor.crossitems.linked-product-sorting,ucf,attr}" class="dialog-title" />
+					<label anonid="title" value="${transui:m.catalog.bo.doceditor.crossitems.new-multiple-popin-title,ucf,attr}" class="dialog-title" />
 					<spacer flex="1" />
 					<vbox pack="center">
 						<toolbarbutton image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${transui:m.uixul.bo.dialog.cancel,ucf,attr}" />

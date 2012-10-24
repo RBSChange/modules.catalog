@@ -3,6 +3,7 @@
 	<key id="tab-label">produits liés</key>
 	<key id="new">ajouter une liaison</key>
 	<key id="new-multiple">ajouter plusieurs liaisons</key>
+	<key id="new-multiple-popin-title">Sélection des produits à lier</key>
 	<key id="add-suggested-crossitems">suggestions d'ajouts de liaisons</key>
 	<key id="create-crossitems">créer les liaisons</key>
 	<key id="sort">ordonner les produits liés</key>
