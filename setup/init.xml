@@ -62,6 +62,7 @@
 		<staticlist listid="modules_catalog/orderprocess" label="m.catalog.list.orderprocess-label">
 			<staticitem value="order_StandardOrderProcess" label="m.catalog.list.orderprocess-standard" />
 		</staticlist>
+		<dynamiclist listid="modules_catalog/shippingmodeoptions" label="Options pour les filtres sur le mode d'envoi" />
 	</systemfolder>
 	<systemfolder module="notification" relatedmodule="catalog">
 		<notification label="Alerte concernant le stock" byCodename="modules_catalog/stockalert" template="default" availableparameters="{label}, {description}, {threshold}" subject="Alerte concernant le stock du produit &quot;{label}&quot;" header="Bonjour," body="Le produit &quot;{label}&quot; est passé en dessous du seuil d'alerte. Le seuil d'alerte pour ce produit est fixé à {threshold}." footer="L'envoi de cette notification peut être configuré dans les préférénces du module Catalogue de Change." />
