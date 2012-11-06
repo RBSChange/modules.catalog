@@ -9,7 +9,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 	 * @var catalog_CompiledcrossitemService
 	 */
 	private static $instance;
-
+	
 	/**
 	 * @return catalog_CompiledcrossitemService
 	 */
@@ -21,7 +21,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 		}
 		return self::$instance;
 	}
-
+	
 	/**
 	 * @return catalog_persistentdocument_compiledcrossitem
 	 */
@@ -29,7 +29,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 	{
 		return $this->getNewDocumentInstanceByModelName('modules_catalog/compiledcrossitem');
 	}
-
+	
 	/**
 	 * Create a query based on 'modules_catalog/compiledcrossitem' model.
 	 * Return document that are instance of modules_catalog/compiledcrossitem,
@@ -99,17 +99,17 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			
 			// Look for existing items.
 			$toDelete = array();
-			$toToCheck = array();
+			$toCheck = array();
 			foreach ($this->createQuery()->add(Restrictions::eq('generatorId', $crossitem->getId()))->find() as $item)
 			{
 				/* @var $item catalog_persistentdocument_compiledcrossitem */
 				if (in_array($item->getTargetId(), $idsToTarget) && in_array($item->getLinkedId(), $idsToLink))
 				{
-					$toToCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
+					$toCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
 				}
 				elseif ($crossitem->getSymetrical() && in_array($item->getTargetId(), $idsToLink) && in_array($item->getLinkedId(), $idsToTarget))
 				{
-					$toToCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
+					$toCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
 				}
 				else
 				{
@@ -122,10 +122,10 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			{
 				foreach ($idsToLink as $linkedId)
 				{
-					$this->generateItem($targetId, $linkedId, $crossitem, $toDelete, $toToCheck);
+					$this->generateItem($targetId, $linkedId, $crossitem, $toDelete, $toCheck);
 					if ($crossitem->getSymetrical())
 					{
-						$this->generateItem($linkedId, $targetId, $crossitem, $toDelete, $toToCheck);
+						$this->generateItem($linkedId, $targetId, $crossitem, $toDelete, $toCheck);
 					}
 				}
 			}
@@ -135,7 +135,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			{
 				$item->delete();
 			}
-				
+			
 			catalog_CrossitemService::getInstance()->setCompiled($crossitem->getId());
 			$this->tm->commit();
 		}
@@ -257,11 +257,8 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 				continue;
 			}
 			$ids[] = $linked->getId();
-			$infos[] = array(
-				'id' => $linked->getId(),
-				'label' => $linked->getTreeNodeLabel(),
-				'icon' => MediaHelper::getIcon($linked->getPersistentModel()->getIcon(), MediaHelper::SMALL)
-			);
+			$infos[] = array('id' => $linked->getId(), 'label' => $linked->getTreeNodeLabel(), 
+				'icon' => MediaHelper::getIcon($linked->getPersistentModel()->getIcon(), MediaHelper::SMALL));
 		}
 		return $infos;
 	}
@@ -304,7 +301,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 					$doc->save();
 				}
 			}
-				
+			
 			$tm->commit();
 		}
 		catch (Exception $e)
@@ -325,7 +322,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 		$query = $this->createQuery()->add(Restrictions::eq('targetId', $target->getId()))->add(Restrictions::eq('linkType', $linkType));
 		$query->add(Restrictions::published());
 		$criteria1 = $query->createPropertyCriteria('linkedId', 'modules_catalog/product')->add(Restrictions::published());
-		$criteria2 = $criteria1->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));
+		$criteria2 = $criteria1->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()))->add(Restrictions::eq('showInList', true));
 		return $query->addOrder(Order::asc('position'))->setProjection(Projections::property('linkedId'))->findColumn('linkedId');
 	}
 	
