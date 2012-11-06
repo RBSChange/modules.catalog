@@ -81,17 +81,17 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			
 			// Look for existing items.
 			$toDelete = array();
-			$toToCheck = array();
+			$toCheck = array();
 			foreach ($this->createQuery()->add(Restrictions::eq('generatorId', $crossitem->getId()))->find() as $item)
 			{
 				/* @var $item catalog_persistentdocument_compiledcrossitem */
 				if (in_array($item->getTargetId(), $idsToTarget) && in_array($item->getLinkedId(), $idsToLink))
 				{
-					$toToCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
+					$toCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
 				}
 				elseif ($crossitem->getSymetrical() && in_array($item->getTargetId(), $idsToLink) && in_array($item->getLinkedId(), $idsToTarget))
 				{
-					$toToCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
+					$toCheck[$item->getTargetId()][$item->getLinkedId()] = $item;
 				}
 				else
 				{
@@ -104,10 +104,10 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			{
 				foreach ($idsToLink as $linkedId)
 				{
-					$this->generateItem($targetId, $linkedId, $crossitem, $toDelete, $toToCheck);
+					$this->generateItem($targetId, $linkedId, $crossitem, $toDelete, $toCheck);
 					if ($crossitem->getSymetrical())
 					{
-						$this->generateItem($linkedId, $targetId, $crossitem, $toDelete, $toToCheck);
+						$this->generateItem($linkedId, $targetId, $crossitem, $toDelete, $toCheck);
 					}
 				}
 			}
@@ -307,7 +307,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 		$query = $this->createQuery()->add(Restrictions::eq('targetId', $target->getId()))->add(Restrictions::eq('linkType', $linkType));
 		$query->add(Restrictions::published());
 		$criteria1 = $query->createPropertyCriteria('linkedId', 'modules_catalog/product')->add(Restrictions::published());
-		$criteria2 = $criteria1->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()));
+		$criteria2 = $criteria1->createCriteria('compiledproduct')->add(Restrictions::published())->add(Restrictions::eq('shopId', $shop->getId()))->add(Restrictions::eq('showInList', true));
 		return $query->addOrder(Order::asc('position'))->setProjection(Projections::property('linkedId'))->findColumn('linkedId');
 	}
 	

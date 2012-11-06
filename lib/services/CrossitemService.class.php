@@ -531,7 +531,7 @@ class catalog_CrossitemService extends f_persistentdocument_DocumentService
 	public function getAxesInfosByDeclined($declined)
 	{
 		$datas = array();
-		$axes = $declined->getDocumentService()->getAxes($declined);
+		$axes = $declined->getDocumentService()->getAxesInList($declined);
 		foreach ($axes as $index => $axe)
 		{
 			/* @var $axe catalog_ProductAxe */
