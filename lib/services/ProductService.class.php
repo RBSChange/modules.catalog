@@ -344,6 +344,12 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 		{
 			$this->updateStockLevel($document);
 		}
+		
+		// Trim SKU codes.
+		if ($document->isPropertyModified('codeSKU'))
+		{
+			$document->setCodeSKU(trim($document->getCodeSKU()));
+		}
 	}
 	
 	/**
