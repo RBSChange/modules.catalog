@@ -3,8 +3,6 @@
 	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
 	
 	<systemfolder module="list" relatedmodule="catalog">
-		<dynamiclist listid="modules_catalog/taxcategory" label="&amp;modules.catalog.list.Taxcategory-label;"/>
-		
 		<valuededitablelist listid="modules_catalog/defaulttaxzones" label="Zones de taxe disponible">
 			<valueditem label="France continentale" byValue="FR-CONTINENTAL" />
 			<valueditem label="Corse" byValue="20" />

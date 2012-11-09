@@ -1,17 +1,13 @@
 <?php
 /**
- * catalog_ListTaxcategoryService
- * @package modules.catalog.lib.services
+ * @deprecated
  */
 class catalog_ListTaxcategoryService extends BaseService
 {
-	/**
-	 * @var catalog_ListTaxcategoryService
-	 */
 	private static $instance;
-
+	
 	/**
-	 * @return catalog_ListTaxcategoryService
+	 * @deprecated
 	 */
 	public static function getInstance()
 	{
@@ -21,32 +17,27 @@ class catalog_ListTaxcategoryService extends BaseService
 		}
 		return self::$instance;
 	}
-
+	
 	/**
-	 * @see list_persistentdocument_dynamiclist::getItems()
-	 * @return list_Item[]
+	 * @deprecated
 	 */
 	public final function getItems()
 	{
 		$items = array();
 		
 		// Generate the items here.
-		
+
 		return $items;
 	}
-
-	/**
-	 * @var Array
-	 */
+	
 	private $parameters = array();
 	
 	/**
-	 * @see list_persistentdocument_dynamiclist::getListService()
-	 * @param array $parameters
+	 * @deprecated
 	 */
 	public function setParameters($parameters)
 	{
 		$this->parameters = $parameters;
 	}
-	
+
 }
