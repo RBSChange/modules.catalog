@@ -51,7 +51,6 @@
 			<staticitem value="3" label="m.catalog.list.axesinlist-3" />
 		</staticlist>
 		<dynamiclist listid="modules_catalog/billingareabyshop" label="m.catalog.list.billingareabyshop-label" description="m.catalog.list.billingareabyshop-description" />
-		<dynamiclist listid="modules_catalog/taxcategory" label="m.catalog.list.taxcategory-" />
 		<valuededitablelist listid="modules_catalog/defaulttaxzones" label="Zones de taxe disponible">
 			<valueditem label="France continentale" byValue="FR-CONTINENTAL" />
 			<valueditem label="Corse" byValue="20" />
