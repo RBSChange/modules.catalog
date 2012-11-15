@@ -15,6 +15,7 @@
 	<section labeli18n="modules.catalog.bo.general.Prices">
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
+		<field name="displayTax" hidehelp="true" />
 		<field name="billingAreas" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates">

@@ -172,6 +172,11 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 		$this->updatedShelfArray = $updatedShelfArray;
 	}
 	
+	public function getDisplayPrice()
+	{
+		return $this->getDisplayPriceWithoutTax() || $this->getDisplayPriceWithTax();
+	}
+	
 	// DEPRECATED
 	
 	/**
