@@ -171,4 +171,13 @@ class catalog_persistentdocument_shop extends catalog_persistentdocument_shopbas
 	{
 		$this->updatedShelfArray = $updatedShelfArray;
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function getDisplayPrice()
+	{
+		return $this->getDisplayPriceWithoutTax() || $this->getDisplayPriceWithTax();
+	}
+	
 }

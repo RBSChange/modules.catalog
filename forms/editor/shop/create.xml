@@ -13,6 +13,7 @@
 	<section labeli18n="m.catalog.bo.general.prices">
 		<field name="displayPriceWithTax" hidehelp="true" />
 		<field name="displayPriceWithoutTax" hidehelp="true" />
+		<field name="displayTax" hidehelp="true" />
 		<field name="billingAreas" />
 	</section>
 	<section labeli18n="m.catalog.bo.general.validity-dates">

@@ -53,4 +53,5 @@
 	<key id="orderprocessclassname-help">Processus de commande à utiliser</key>
 	<key id="billingareas">zones de facturation</key>
 	<key id="billingareas-help">zones de facturation de la boutique</key>
+	<key id="displaytax">afficher les taxes</key>
 </i18n>
