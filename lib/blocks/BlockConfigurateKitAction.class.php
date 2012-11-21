@@ -93,6 +93,15 @@ class catalog_BlockConfigurateKitAction extends website_BlockAction
 		}
 		$backUrl = $gr->getParameter('backurl');
 		
+		if ($gr->hasParameter('contextId'))
+		{
+			$contextDocument = DocumentHelper::getDocumentInstanceIfExists($gr->getParameter('contextId'));
+		}
+		else
+		{
+			$contextDocument = null;
+		}
+		
 		// If add to cart, redirect to order/AddToCart action.
 		if ($gr->hasParameter('addConfiguredKitToCart'))
 		{
@@ -103,6 +112,10 @@ class catalog_BlockConfigurateKitAction extends website_BlockAction
 				'productId' => $product->getId(),
 				'customitems' => $customItems
 			);
+			if ($contextDocument)
+			{
+				$params['contextId'] = $contextDocument->getId();
+			}
 			return $this->redirectToUrl(LinkHelper::getActionUrl('order', 'AddToCart', $params));
 		}
 		elseif ($gr->hasParameter('updateKitConfigurationInCart') && $gr->hasParameter('cartLineIndex'))
@@ -119,6 +132,7 @@ class catalog_BlockConfigurateKitAction extends website_BlockAction
 		
 		$request->setAttribute('backUrl', $backUrl);
 		$request->setAttribute('quantity', $quantity);
+		$request->setAttribute('contextDocument', $contextDocument);
 		$request->setAttribute('shop', $shop);
 		$request->setAttribute('kit', $product);
 		

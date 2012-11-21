@@ -75,11 +75,11 @@
 				</li>
 			</ol>
 			<p tal:condition="not:updateLine" class="buttons">
-				<tal:block change:addtocartbutton="shop shop; product kit; name 'addConfiguredKitToCart'; backurl backUrl" class="button primary" />
+				<tal:block change:addtocartbutton="shop shop; product kit; name 'addConfiguredKitToCart'; backurl backUrl; context contextDocument" class="button primary" />
 			</p>
 			<p tal:condition="updateLine" class="buttons">
 				<input type="hidden" name="cartLineIndex" value="${cartLineIndex}" />
-				<tal:block change:addtocartbutton="shop shop; product kit; name 'updateKitConfigurationInCart'; backurl backUrl" class="button primary" labeli18n="m.catalog.fo.update-cart" />
+				<tal:block change:addtocartbutton="shop shop; product kit; name 'updateKitConfigurationInCart'; backurl backUrl; context contextDocument" class="button primary" labeli18n="m.catalog.fo.update-cart" />
 			</p>
 		</fieldset>
 	</fieldset>
