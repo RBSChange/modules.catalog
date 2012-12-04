@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.blocks.product" lcid="en_GB">
-  <key id="activatezoom">activate zoom</key>
-  <key id="activatezoom-help">Activates or deactivates the zoom on visual elements for visitors using a web browser with a compatible JavaScript engine.</key>
-  <key id="as-in-shop">As specified in the shop</key>
-  <key id="displaypricewithouttax">display the prices without tax</key>
-  <key id="displaypricewithouttax-help">Shows or hides prices excl. taxes, or uses the settings specified on the shop associated with the current web site.</key>
-  <key id="displaypricewithtax">dsiplay prices incl. taxes</key>
-  <key id="displaypricewithtax-help">Shows or hides the prices incl. taxes, or uses the setting specified on the shop associated to the current website.</key>
-  <key id="no">No</key>
-  <key id="showshareblock">link sharing</key>
-  <key id="showshareblock-help">Shows or hides the link sharing block for social networking sites (requires the "Link sharing" module).</key>
-  <key id="yes">Yes</key>
+	<key id="activatezoom">activate zoom</key>
+	<key id="activatezoom-help">Activates or deactivates the zoom on visual elements for visitors using a web browser with a compatible JavaScript engine.</key>
+	<key id="showaddtocomparison">add to comparison</key>
+	<key id="showaddtocomparison-help">Activates or not add to comparison button.</key>
+	<key id="showaddtofavorite">add to favourite products list</key>
+	<key id="showaddtofavorite-help">Shows or hides add to favourite products list button.</key>
+	<key id="showshareblock">link sharing</key>
+	<key id="showshareblock-help">Shows or hides the link sharing block for social networking sites (requires the "Link sharing" module).</key>
+	<key id="showshortdescription">short description</key>
+	<key id="showshortdescription-help">Shows or hides short description of the product.</key>
+	<key id="displaypricewithtax">dsiplay prices incl. taxes</key>
+	<key id="displaypricewithtax-help">Shows or hides the prices incl. taxes, or uses the setting specified on the shop associated to the current website.</key>
+	<key id="displaypricewithouttax">display the prices without tax</key>
+	<key id="displaypricewithouttax-help">Shows or hides prices excl. taxes, or uses the settings specified on the shop associated with the current web site.</key>
+	<key id="as-in-shop">As specified in the shop</key>
+	<key id="yes">Yes</key>
+	<key id="no">No</key>
+	<key id="showrating">showing ratings</key>
+	<key id="showrating-help">Shows or hides product ratings</key>
+	<key id="linktorealcontainedproductdetail">showing links to products</key>
+	<key id="linktorealcontainedproductdetail-help">For products containing sub-products (kits and product groups), make links to pages these sub-products?</key>
 </i18n>

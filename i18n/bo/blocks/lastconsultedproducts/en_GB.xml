@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.lastconsultedproducts" lcid="en_GB">
+	<include id="m.catalog.bo.blocks.productlistbase" />
+	<key id="title">last viewed products</key>
+	<key id="label">label</key>
+	<key id="label-help">block title</key>
+	<key id="destinationpage">landing page</key>
+	<key id="destinationpage-help">landing page containing a longer list of the last viewed products</key>
+</i18n>

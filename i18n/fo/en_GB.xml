@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.fo" lcid="en_GB">
+	<key id="product-comparison">products comparison</key>
+	<key id="product-added-to-comparison-list">product added to you comparison list</key>
+	<key id="product-already-in-comparison-list">this product is already in your comparison list</key>
+	<key id="product">product</key>
+	<key id="reviews">customer reviews</key>
+	<key id="reviews-count">{count} review</key>
+	<key id="no-review-yet">no review</key>
+	<key id="no-rating" updated="true">not rated</key>
+	<key id="comment-be-first">Be the first to review this product.</key>
+	<key id="selection">selection</key>
+	<key id="clear-list">clear list</key>
+	<key id="no-selected-product">No product selected.</key>	
+	<key id="productlist-favorite-updated">Your favourite products list has been updated.</key>
+	<key id="productlist-favorite-updated-link" format="html"><![CDATA[Votre <a class="link" href="{listUrl}">favourite products list</a> has been updated.]]></key>
+	<key id="productlist-comparison-updated">Your comparison list has been updated.</key>
+	<key id="productlist-comparison-updated-link" format="html"><![CDATA[Votre <a class="link" href="{listUrl}">comparison list</a> has been updated.]]></key>
+	<key id="remove-checked">remove selected products from the list</key>
+	<key id="keep-only-checked">restrict liste to selected products</key>
+	<key id="add-selection-to-cart">add selected products to the basket</key>
+	<key id="warning-restricted-list">Warning, this list is limited to products from this shelve.</key>
+	<key id="remove-this-produit-from-list">remove this product from the list</key>
+	<key id="add-to-comparisons">add to comparison list</key>
+	<key id="category">category</key>
+	<key id="full-description">full description</key>
+	<key id="click-here-for-larger-image">click here to enlarge the picture</key>
+	<key id="image-loading">Picture loading in progress...</key>
+	<key id="image-loading-error">An error has occurred during the picture loading.</key>
+	<key id="next-products">next</key>
+	<key id="next-products-title">see next products</key>
+	<key id="previous-products">previous</key>
+	<key id="previous-products-title">see previous products</key
+	<key id="actions-on-selection">actions on selection</key>
+	<key id="add-to-cart-unavaible">Unavailable for sale</key>
+	<key id="ok">ok</key>
+	<key id="add-to-cart-popin">produit overview</key>
+	<key id="kit-configuration" format="html"><![CDATA[kit configuration <a class="link" href="{url}">{label}</a>]]></key>
+	<key id="configurate-product">configure this product</key>
+	<key id="update-cart">update the basket</key>
+	<key id="product-configuration-updated">Configuration of this product has been updated in the basket.</key>
+	<key id="several-choices-available">several choices available</key>
+	<key id="choice-when-add-to-cart">The choix will be done when you add to the basket.</key>
+	<key id="min-order-quantity">Minimum order quantity : {quantity}</key>
+	<key id="linked-products">related products</key>
+</i18n>

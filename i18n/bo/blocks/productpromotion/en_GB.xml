@@ -7,6 +7,4 @@
   <key id="products-help">products to display</key>
   <key id="destinationpage">landing page</key>
   <key id="destinationpage-help">This landing page may contain the complete list of the promoted products</key>
-  <key id="mode">display mode</key>
-  <key id="mode-help">display mode</key>
 </i18n>

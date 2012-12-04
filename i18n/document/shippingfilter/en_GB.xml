@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.document.shippingfilter" lcid="en_GB">
-  <key id="label">label</key>
-  <key id="label-help">The label used in backoffice to identify the filter.</key>
-  <key id="shop">shop</key>
-  <key id="taxcode">VAT code</key>
-  <key id="startpublicationdate">validity start date</key>
-  <key id="endpublicationdate">validity end date</key>
-  <key id="document-name">shipping filter</key>
-  <key id="endpublicationdate-help">End of validity date for the filter. After this date, the filter will no longer be active.</key>
-  <key id="feesid">Corresponding fees.</key>
-  <key id="feesid-help">Corresponding fees.</key>
-  <key id="mode">shipping method</key>
-  <key id="mode-help">Shipping method linked to the filter. When the filter can be applied, it will be used as the corresponding fees for this shipping method for the current order.</key>
-  <key id="query">Application conditions</key>
-  <key id="query-help">Application conditions of the shipping filter, evaluated at the second step of the standard ordering process.</key>
-  <key id="selectbyproduct">Consider unique product shipping method</key>
-  <key id="selectbyproduct-help">Determines whether the filter should be applied to the shipping method when this mode comes from the "Special transporter" field of one of the products of the order.</key>
-  <key id="startpublicationdate-help">filter validity start date. Before this date, the filter is not active.</key>
-  <key id="taxcode-help">The VAT code used for converting between incl. or excl. taxes, as well as for calculating VAT amounts in orders.</key>
-  <key id="valuewithtax">Shipping fees</key>
-  <key id="valuewithtax-help">Shipping fees incl. taxes for the order when the filter can be applied and the visitor chooses said shipping method.</key>
+	<key id="document-name">shipping filter</key>
+	<key id="label">label</key>
+	<key id="label-help">The label used in backoffice to identify the filter.</key>
+	<key id="shop">shop</key>
+	<key id="mode">shipping method</key>
+	<key id="mode-help">Shipping method linked to the filter. When the filter can be applied, it will be used as the corresponding fees for this shipping method for the current order.</key>
+	<key id="query">Application conditions</key>
+	<key id="query-help">Application conditions of the shipping filter, evaluated at the second step of the standard ordering process.</key>
+	<key id="valuewithtax">Shipping fees</key>
+	<key id="valuewithtax-help">Shipping fees incl. taxes for the order when the filter can be applied and the visitor chooses said shipping method.</key>
+	<key id="taxcode">VAT code</key>
+	<key id="taxcode-help">The VAT code used for converting between incl. or excl. taxes, as well as for calculating VAT amounts in orders.</key>
+	<key id="selectbyproduct">Consider unique product shipping method</key>
+	<key id="selectbyproduct-help">Determines whether the filter should be applied to the shipping method when this mode comes from the "Special transporter" field of one of the products of the order.</key>
+	<key id="startpublicationdate">validity start date</key>
+	<key id="startpublicationdate-help">filter validity start date. Before this date, the filter is not active.</key>
+	<key id="endpublicationdate">validity end date</key>
+	<key id="endpublicationdate-help">End of validity date for the filter. After this date, the filter will no longer be active.</key>
+	
+	<key id="feesid">Corresponding fees.</key>
+	<key id="feesid-help">Corresponding fees.</key>
+  
+	<key id="billingarea">billing area</key>
+	<key id="billingarea-help">basket billing area.</key>
 </i18n>

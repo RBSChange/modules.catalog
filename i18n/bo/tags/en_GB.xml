@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.bo.tags" lcid="en_GB">
-  <key id="favorite-product-list">favourite products list</key>
-  <key id="compare-page">compare products</key>
-  <key id="cross-selling-list">list of associated products</key>
-  <key id="product-alert-management">product notification management</key>
-  <key id="product-detail">product details</key>
-  <key id="product-list">product list</key>
-  <key id="recommand-product-page">recommend a product</key>
-  <key id="shelf-list">list of shelves</key>
+	<key id="product-list">product list</key>
+	<key id="product-detail">product details</key>
+	<key id="product-popin">product popin</key>
+	<key id="compare-page">compare products</key>
+	<key id="recommand-product-page">recommend a product</key>
+	<key id="shelf-list">list of shelves</key>
+	<key id="favorite-product-list">favourite products list</key>
+	<key id="cross-selling-list">list of associated products</key>
+	<key id="product-alert-management">product notification management</key>
 </i18n>

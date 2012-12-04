@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.tasks" lcid="en_GB">
+	<key id="background-crossitems-compile">related products compilation</key>
+	<key id="background-crossitems-generation">automatic generation of related products</key>
+</i18n>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.catalog.document.paymentfilter" lcid="en_GB">
-  <key id="label">label</key>
-  <key id="label-help">The label used in backoffice to identify the filter.</key>
-  <key id="shop">shop</key>
-  <key id="connector">Payment method</key>
-  <key id="connector-help">The payment method associated with the filter. When the filter can be applied, this payment method will be authorised for the current order.</key>
-  <key id="document-name">payment filter</key>
-  <key id="query">Application conditions</key>
-  <key id="query-help">Application conditions for the payment filter, evaluated at the third step of the standard ordering process.</key>
+	<key id="document-name">payment filter</key>
+	<key id="label">label</key>
+	<key id="label-help">The label used in backoffice to identify the filter.</key>
+	<key id="shop">shop</key>
+	<key id="connector">Payment method</key>
+	<key id="connector-help">The payment method associated with the filter. When the filter can be applied, this payment method will be authorised for the current order.</key>
+	<key id="query">Application conditions</key>
+	<key id="query-help">Application conditions for the payment filter, evaluated at the third step of the standard ordering process.</key>
+	
+	<key id="billingarea">billing area</key>
+	<key id="billingarea-help">basket billing area</key>
 </i18n>

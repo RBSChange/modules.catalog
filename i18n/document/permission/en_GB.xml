@@ -16,4 +16,5 @@
   <key id="trusted">trusted user</key>
   <key id="trusted-help">This is a user whose comments will be published directly without going through the validation phase.</key>
   <key id="frontvalidator">validator</key>
+  <key id="frontvalidator-help">user who can validate comments from frontoffice</key>
 </i18n>

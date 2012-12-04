@@ -24,8 +24,8 @@
   <key id="suggestsimilarfeederclass-help">When enabling this option, a button appears next to the "similar products" field allowing product suggestions.</key>
   <key id="suggestupsellfeederclass">upper range product suggestions</key>
   <key id="suggestupsellfeederclass-help">when enabling this option, a button appears next to the "products in the upper range" field allowing product suggestions.</key>
-  <key id="synchronizecomplementary">synchronise complementary products</key>
+  <key id="synchronizecomplementary">synchronize complementary products</key>
   <key id="synchronizecomplementary-help">When enabling this option, adding product A as a complementary product of product B will also trigger the reverse addition: product B will become a complementary product of product A.</key>
-  <key id="synchronizesimilar">synchronise similar products</key>
+  <key id="synchronizesimilar">synchronize similar products</key>
   <key id="synchronizesimilar-help">When enabling this option, adding product A as a similar product of product B will also trigger the reverse addition: product B will become a similar product of product A.</key>
 </i18n>

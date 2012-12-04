@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.productcomparison" lcid="en_GB">
+	<key id="title">product comparison</key>
+	<key id="comparableproperties">comparable properties</key>
+	<key id="comparableproperties-help">Select comparable properties.</key>
+	<key id="restrictproductstocontext">restric to products from the shelve</key>
+	<key id="restrictproductstocontext-help">Select yes to limit the list of compared products that belong to the current shelve or one of its sub-shelve.</key>
+	<key id="displayaddtocart">add to basket</key>
+	<key id="displayaddtocart-help">Shows or hides add to the basket button.</key>
+	<key id="useaddtocartpopin">add to the basket via popin</key>
+	<key id="useaddtocartpopin-help">Shows or hides a popin before adding the product to the basket.</key>
+	<key id="showquantityselector">show quantity selector</key>
+	<key id="showquantityselector-help">Shows or hides a quantity selector. The selector requests javascript activation into user's browser.</key>
+	<key id="showaddtofavorite">add to favourite products list</key>
+	<key id="showaddtofavorite-help">Shows or hides add to favourite products list button.</key>
+	<key id="showproductpictograms">pictograms</key>
+	<key id="showproductpictograms-help">Shows or hides products pictograms.</key>
+</i18n>

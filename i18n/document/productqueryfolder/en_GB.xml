@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.productqueryfolder" lcid="en_GB">
+	<include id="m.filter.document.queryfolder" />
+	<key id="document-name">smart query folder for products</key>
+	<key id="query">query</key>
+	<key id="query-help">The query that finds products in that folder.</key>
+</i18n>

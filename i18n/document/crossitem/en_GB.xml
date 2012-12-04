@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.document.crossitem" lcid="en_GB">
+	<include id="m.generic.document.document" />
+	<key id="document-name">links between products</key>
+	<key id="targetdocument">targeted product</key>
+	<key id="targetaxe1value">axis 1 value for target</key>
+	<key id="targetaxe2value">axis 2 value for target</key>
+	<key id="targetaxe3value">axis 3 value for target</key>
+	<key id="linkeddocument">related product</key>
+	<key id="linkedaxe1value">axis 1 value for related product</key>
+	<key id="linkedaxe2value">axis 2 value for related product</key>
+	<key id="linkedaxe3value">axis 3 value for related product</key>
+	<key id="linktype">link type</key>
+	<key id="symetrical">symetrical link</key>
+	<key id="compiled">up to date on website</key>
+</i18n>

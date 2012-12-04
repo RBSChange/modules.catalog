@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.catalog.bo.blocks.crossselling" lcid="en_GB">
+	<include id="m.catalog.bo.blocks.productlistbase" />
+	<key id="title">related products</key>
+	<key id="cmpref">targeted product</key>
+	<key id="cmpref-help">Product on which the links are declared.</key>
+	<key id="linktype">link type</key>
+	<key id="linktype-help">Assembly type between products.</key>
+</i18n>
