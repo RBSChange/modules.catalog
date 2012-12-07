@@ -41,7 +41,7 @@ class catalog_CompileDeclinedProductAction extends change_JSONAction
 	/**
 	 * @see f_action_BaseJSONAction::getActionName()
 	 */
-	protected function getActionName()
+	public function getActionName()
 	{
 		return 'CompileProduct';
 	}
