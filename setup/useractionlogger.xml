@@ -90,4 +90,6 @@
   <actiondef modulename="catalog" actionname="reactivate.crossitem" label="m.catalog.bo.useractionlogger.reactivate-crossitem"/>
   <actiondef modulename="catalog" actionname="insert.productqueryfolder" label="m.catalog.bo.useractionlogger.insert-productqueryfolder"/>
   <actiondef modulename="catalog" actionname="delete.kit" label="m.catalog.bo.useractionlogger.delete-kit"/>
+  <actiondef modulename="catalog" actionname="deactivated.kit" label="m.catalog.bo.useractionlogger.deactivated-kit"/>
+  <actiondef modulename="catalog" actionname="reactivate.kit" label="m.catalog.bo.useractionlogger.reactivate-kit"/>
 </script>

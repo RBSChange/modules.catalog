@@ -604,13 +604,14 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		$this->refreshShelfPublicationStatus($document, $oldPublicationStatus);			
-		// Handle compilation.
+		$this->refreshShelfPublicationStatus($document, $oldPublicationStatus);
+		// Handle compilation and republish kits.
 		if (!isset($params['cause']) || $params["cause"] != "delete")
 		{
 			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
-			{	
+			{
 				$this->updateCompiledProperty($document, false);
+				catalog_KititemService::getInstance()->publishIfPossibleByProduct($document);
 			}
 		}
 	}
@@ -620,7 +621,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 * @param String $oldPublicationStatus
 	 */
 	protected function refreshShelfPublicationStatus($document, $oldPublicationStatus)
-	{		
+	{
 		// Status transit from ACTIVE to PUBLICATED.
 		if ($document->isPublished())
 		{
@@ -638,7 +639,7 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 			{
 				$ss->productUnpublished($shelf, $document);
 			}
-		}		
+		}
 	}
 	
 	/**

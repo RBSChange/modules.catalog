@@ -4,8 +4,7 @@
  * @package modules.catalog
  */
 class catalog_persistentdocument_declinedproduct extends catalog_persistentdocument_declinedproductbase implements rss_Item 
-{	
-
+{
 	/**
 	 * @var array
 	 */
@@ -30,6 +29,27 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	public function setShowInListInfos($showInListInfos)
 	{
 		$this->showInListInfos = $showInListInfos;
+	}
+	
+	/**
+	 * @var boolean
+	 */
+	private $ignoreDeclinationPublicationStatusChanges = false;
+	
+	/**
+	 * @return boolean
+	 */
+	public function getIgnoreDeclinationPublicationStatusChanges()
+	{
+		return $this->ignoreDeclinationPublicationStatusChanges;
+	}
+	
+	/**
+	 * @param boolean $value
+	 */
+	public function setIgnoreDeclinationPublicationStatusChanges($value)
+	{
+		$this->ignoreDeclinationPublicationStatusChanges = $value;
 	}
 
 	/**

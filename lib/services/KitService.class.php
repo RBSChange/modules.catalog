@@ -149,10 +149,18 @@ class catalog_KitService extends catalog_ProductService
 			{
 				foreach ($document->getKititemArray() as $kitItem)
 				{
-					$product = $kitItem->getProduct();
-					if (!$product->isPublished())
+					if (!$kitItem->isPublished())
 					{
-						$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
+						$lang = RequestContext::getInstance()->getLang();
+						if ($kitItem->hasMeta('ActPubStatInf'.$lang))
+						{
+							$substitutions = null;
+							if ($kitItem->hasMeta('ActPubStatInfSubst'.$lang))
+							{
+								$substitutions = unserialize($kitItem->getMeta('ActPubStatInfSubst'.$lang));
+							}
+							$this->setActivePublicationStatusInfo($document, $kitItem->getMeta('ActPubStatInf'.$lang), $substitutions);
+						}
 						return false;
 					}
 				}

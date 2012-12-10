@@ -158,4 +158,8 @@
   <key id="log-insert-productqueryfolder">log insert productqueryfolder</key>
   <key id="delete-kit">delete.kit {documentlabel} {lang}</key>
   <key id="log-delete-kit">log delete kit</key>
+  <key id="deactivated-kit">deactivated.kit {lang} {documentlabel}</key>
+  <key id="log-deactivated-kit">log deactivated kit</key>
+  <key id="reactivate-kit">reactivate.kit {lang} {documentlabel}</key>
+  <key id="log-reactivate-kit">log reactivate kit</key>
 </i18n>

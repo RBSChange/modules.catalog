@@ -118,6 +118,37 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @return boolean true if the document is publishable, false if it is not.
+	 */
+	public function isPublishable($document)
+	{
+		$result = parent::isPublishable($document);
+		if ($result)
+		{
+			$product = $document->getProduct();
+			if ($document->getDeclinable() && $product instanceof catalog_persistentdocument_productdeclination)
+			{
+				$declined = $product->getDeclinedproduct();
+				if (!$product->isPublished() && !catalog_ProductdeclinationService::getInstance()->getCountByDeclinedProduct($declined, true))
+				{
+					$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.No-published-declination;', array('label' => $declined->getVoLabel()));
+					return false;
+				}
+			}
+			else
+			{
+				if (!$product->isPublished())
+				{
+					$this->setActivePublicationStatusInfo($document, '&modules.catalog.bo.general.Product-not-published;', array('label' => $product->getVoLabel()));
+					return false;
+				}
+			}
+		}
+		return $result;
+	}
+	
+	/**
 	 * @param catalog_persistentdocument_kititem $kititem
 	 * @param catalog_persistentdocument_shop $shop 
 	 * @param catalog_persistentdocument_billingarea $billingArea
@@ -251,5 +282,52 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 			return $urlRewritingService->getDocumentLinkForWebsite($kit, $website, $lang, $parameters);
 		}
 		return null;
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_kititem $document
+	 * @param String $oldPublicationStatus
+	 */
+	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
+	{
+		if (!isset($params['cause']) || $params["cause"] != "delete")
+		{
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			{
+				$kit = f_util_ArrayUtils::firstElement($document->getKitArrayInverse());
+				if ($kit)
+				{
+					/* @var $kit catalog_persistentdocument_kit */
+					$kit->getDocumentService()->publishIfPossible($kit->getId());
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_product $document
+	 */
+	public function publishIfPossibleByProduct($document)
+	{
+		$items = $this->createQuery()->add(Restrictions::eq('product', $document))->add(Restrictions::eq('declinable', false))->find();
+		foreach ($items as $item)
+		{
+			/* @var $kititem catalog_persistentdocument_kititem */
+			$item->getDocumentService()->publishIfPossible($item->getId());
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $document
+	 */
+	public function publishIfPossibleByDeclinedProduct($document)
+	{
+		$declinations = $document->getDeclinationArray();
+		$items = $this->createQuery()->add(Restrictions::in('product', $declinations))->add(Restrictions::eq('declinable', true))->find();
+		foreach ($items as $item)
+		{
+			/* @var $kititem catalog_persistentdocument_kititem */
+			$item->getDocumentService()->publishIfPossible($item->getId());
+		}
 	}
 }

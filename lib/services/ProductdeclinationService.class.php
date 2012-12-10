@@ -738,4 +738,24 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			->add(Restrictions::eq('showInList', true))
 			->add(Restrictions::in('product.id', $declinationIds))->findUnique();
 	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $document
+	 * @param String $oldPublicationStatus
+	 * @return void
+	 */
+	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
+	{
+		parent::publicationStatusChanged($document, $oldPublicationStatus, $params);
+		
+		// Republish kits.
+		if (!isset($params['cause']) || $params["cause"] != "delete")
+		{
+			if ($document->isPublished() || $oldPublicationStatus == 'PUBLICATED')
+			{
+				$declined = $document->getDeclinedproduct();
+				$declined->getDocumentService()->declinationPublicationStatusChanged($declined, $document, $oldPublicationStatus, $params);
+			}
+		}
+	}
 }

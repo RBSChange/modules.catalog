@@ -56,6 +56,7 @@
   <key id="feeder-sameshelvesproductfeeder">dans des mêmes rayons</key>
   <key id="feeder-samebrandproductfeeder">de la même marque</key>
   <key id="product-not-published">le produit {label} n'est pas publié</key>
+  <key id="no-published-declination">le produit {label} n'a aucune déclinaison publiée</key>
   <key id="has-no-item">Ne contient pas de produit</key>
   <key id="confirm-delete-declination">Êtes-vous certain de vouloir supprimer cette déclinaison ?</key>
   <key id="shop-in-website">boutique ″{shop}″ dans le site ″{website}″</key>
