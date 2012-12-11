@@ -305,17 +305,35 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	/**
 	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @param string $oldPublicationStatus
-	 * @return void
+	 * @param array $params
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
 		if ($document->isPublished() || $oldPublicationStatus === 'PUBLISHED')
 		{	
 			$declinations = catalog_ProductdeclinationService::getInstance()->getArrayByDeclinedProduct($document);
+			$document->setIgnoreDeclinationPublicationStatusChanges(true);
 			foreach ($declinations as $declination) 
 			{
-				$declination->getDocumentService()->publishDocumentIfPossible($declination);
+				/* @var $declination catalog_persistentdocument_productdeclination */
+				$declination->getDocumentService()->publishIfPossible($declination->getId());
 			}
+			$document->setIgnoreDeclinationPublicationStatusChanges(false);
+			catalog_KititemService::getInstance()->publishIfPossibleByDeclinedProduct($document);
+		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_declinedproduct $declined
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @param string $oldPublicationStatus
+	 * @param array $params
+	 */
+	public function declinationPublicationStatusChanged($declined, $declination, $oldPublicationStatus, $params)
+	{
+		if (!$declined->getIgnoreDeclinationPublicationStatusChanges())
+		{
+			catalog_KititemService::getInstance()->publishIfPossibleByDeclinedProduct($declined);
 		}
 	}
 	

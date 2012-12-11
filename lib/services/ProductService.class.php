@@ -500,13 +500,14 @@ class catalog_ProductService extends f_persistentdocument_DocumentService
 	 */
 	protected function publicationStatusChanged($document, $oldPublicationStatus, $params)
 	{
-		$this->refreshShelfPublicationStatus($document, $oldPublicationStatus);			
-		// Handle compilation.
+		$this->refreshShelfPublicationStatus($document, $oldPublicationStatus);
+		// Handle compilation and republish kits.
 		if (!isset($params['cause']) || $params["cause"] != "delete")
 		{
 			if ($document->isPublished() || $oldPublicationStatus == 'PUBLISHED')
 			{	
 				$this->updateCompiledProperty($document, false);
+				catalog_KititemService::getInstance()->publishIfPossibleByProduct($document);
 			}
 		}
 	}

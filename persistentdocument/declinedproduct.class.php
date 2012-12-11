@@ -31,7 +31,28 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	{
 		$this->showInListInfos = $showInListInfos;
 	}
-		
+	
+	/**
+	 * @var boolean
+	 */
+	private $ignoreDeclinationPublicationStatusChanges = false;
+	
+	/**
+	 * @return boolean
+	 */
+	public function getIgnoreDeclinationPublicationStatusChanges()
+	{
+		return $this->ignoreDeclinationPublicationStatusChanges;
+	}
+	
+	/**
+	 * @param boolean $value
+	 */
+	public function setIgnoreDeclinationPublicationStatusChanges($value)
+	{
+		$this->ignoreDeclinationPublicationStatusChanges = $value;
+	}
+	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 * @return media_persistentdocument_media
