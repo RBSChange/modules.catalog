@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.general.column" lcid="en_GB">
 	<key id="website">website</key>
-	<key id="endpublicationdate">publication end</key>
 	<key id="isdefault">by default</key>
 	<key id="startpublicationdate">publication start</key>
+	<key id="endpublicationdate">publication end</key>
+	<key id="billingareacolumnlabel">Billing area</key>
 </i18n>

@@ -5,7 +5,7 @@
 	<key id="price-with-tax">price</key>
 	<key id="availability">availability</key>
 	<key id="brand">brand</key>
-	<key id="code-sku">code SKU</key>
+	<key id="code-sku">SKU code</key>
 	<key id="minimum-quantity">minimum purchase quantity</key>
 	<key id="reviews-without-rating">customer reviews (without rating)</key>
 	<key id="reviews-with-rating">customer reviews (with rating)</key>

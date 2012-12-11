@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.document.shopfolder" lcid="en_GB">
-	<key id="label">label</key>
-	<key id="description">description</key>
-	<key id="document-name">shops folder</key>
+	<include id="m.generic.document.folder" />
 	<key id="edition-form-title">shops folder properties</key>
+	<key id="document-name">shops folder</key>
 </i18n>

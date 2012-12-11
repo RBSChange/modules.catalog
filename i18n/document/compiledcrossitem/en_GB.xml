@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.document.compiledcrossitem" lcid="en_GB">
+	<include id="m.generic.document.document" />
+	<key id="document-name">compiledcrossitem</key>
+	<key id="label">[TO TRANSLATE] label</key>
+	<key id="generatorid">[TO TRANSLATE] generatorId</key>
+	<key id="targetid">[TO TRANSLATE] targetId</key>
+	<key id="linkedid">[TO TRANSLATE] linkedId</key>
+	<key id="linktype">[TO TRANSLATE] linkType</key>
+</i18n>

@@ -19,6 +19,6 @@
 	<key id="no">Non</key>
 	<key id="showrating">afficher les notes</key>
 	<key id="showrating-help">afficher ou non les notes attribuées à ce produit</key>
-	<key id="linktorealcontainedproductdetail">lier sous produits vers les fiches</key>
-	<key id="linktorealcontainedproductdetail-help">Dans produits contenant des sous-produits (kits et groupes de produits), faire des liens vers les fiches de ces sous-produits ?</key>
+	<key id="linktorealcontainedproductdetail">afficher les liens vers les sous-produits ?</key>
+	<key id="linktorealcontainedproductdetail-help">Pour les produits contenant des sous-produits (kits et groupes de produits), faire des liens vers les fiches de ces sous-produits ?</key>
 </i18n>

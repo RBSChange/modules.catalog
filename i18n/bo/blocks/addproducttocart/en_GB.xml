@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n baseKey="m.catalog.bo.blocks.addproducttocart" lcid="en_GB">
+	<key id="title">Add to cart button</key>
+	<key id="cmpref">product</key>
+	<key id="cmpref-help">product to add</key>
+	<key id="displaymode">display mode</key>
+	<key id="displaymode-help">[success] or short display mode</key>
+	<key id="shop">Shop</key>
+	<key id="shop-help">Shop</key>
+	<key id="popinpage">Configuration popin</key>
+	<key id="popinpage-help">Before adding to cart configuration popin</key>
+	<key id="showavailability">show availability</key>
+	<key id="showavailability-help">show web availability</key>
+	<key id="showaddtocart">show button</key>
+	<key id="showaddtocart-help">shows the button</key>
+</i18n>

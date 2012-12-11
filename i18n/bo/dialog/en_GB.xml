@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.catalog.bo.dialog" lcid="en_GB">
-	<key id="createtopshelf">create a top-level shelf</key>
-	<key id="column-lang">language</key>
-	<key id="column-price">price</key>
-	<key id="column-publication">publication</key>
-	<key id="column-shelf">shelf</key>
-	<key id="product-not-in-shops">The shops listed below are those in which this product is present on at least one shelf.</key>
 	<key id="publication-in-shops">Details of the publication in the shops</key>
+	<key id="column-lang">language</key>
+	<key id="createtopshelf">create a top-level shelf</key>
+	<key id="column-price">price</key>
+	<key id="column-shelf">shelf</key>
+	<key id="column-publication">publication</key>
+	<key id="product-not-in-shops">The shops listed below are those in which this product is present on at least one shelf.</key>
+	<key id="shop">shop</key>
+	<key id="lang">language</key>
+	<key id="apply-to-all-langs">apply to all languages</key>
 </i18n>
