@@ -25,6 +25,6 @@ try
 }
 catch (Exception $e)
 {
-	echo PHP_EOL, 'EXCEPTION: ', $e->getMessage(); 
+	echo PHP_EOL, 'EXCEPTION: ', $e->getMessage();
 	$tm->rollBack($e);
 }

@@ -127,8 +127,8 @@
 		<parameters>
 			<parameter name="blockTitle" type="String" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
@@ -183,8 +183,8 @@
 		<parameters>
 			<parameter name="blockTitle" type="String" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="showmessages" type="Boolean" default-value="true" />
 			<parameter name="displayaddtocart" type="Boolean" default-value="true" />
@@ -225,8 +225,8 @@
 			<parameter name="cmpref" type="Document" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]" document-type="modules_catalog/product" />
 			<parameter name="linkType" type="String" default-value="complementary" min-occurs="1" from-list="modules_catalog/crosssellinglinktypes" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
 			<parameter name="addlinktoall" type="Boolean" default-value="true" />
@@ -270,8 +270,8 @@
 			<parameter name="cmpref" type="Document" allow="[modules_catalog_product],!modules_catalog_productdeclination,[modules_catalog_declinedproduct]" document-type="modules_catalog/product" />
 			<parameter name="linkType" type="String" from-list="modules_catalog/crosssellinglinktypes" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="List" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="12" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="sortRandom" type="Boolean" default-value="false" />
 			<parameter name="addlinktoall" type="Boolean" default-value="false" hidden="true" />
@@ -326,8 +326,8 @@
 			<parameter name="products" type="DocumentArray" allow="[modules_catalog_product]" moduleselector="catalog" dialog="productselector" document-type="modules_catalog/product" />
 			<parameter name="destinationpage" type="Document" document-type="modules_website/page" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
 			<parameter name="showmessages" type="Boolean" default-value="true" />
@@ -369,8 +369,8 @@
 			<parameter name="label" type="String" />
 			<parameter name="destinationpage" type="Document" document-type="modules_website/page" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="sortRandom" type="Boolean" default-value="false" />
 			<parameter name="showmessages" type="Boolean" default-value="true" />
@@ -411,8 +411,8 @@
 		<parameters>
 			<parameter name="blockTitle" type="String" />
 			<parameter name="displayMode" type="String" min-occurs="1" default-value="Slide" fieldtype="dropdownlist" />
-			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1" >
-				<constraints>min:1</constraints>
+			<parameter name="nbresultsperpage" type="Integer" default-value="24" min-occurs="1">
+				<constraint name="min" min="1" />
 			</parameter>
 			<parameter name="sortRandom" type="Boolean" default-value="true" />
 			<parameter name="showmessages" type="Boolean" default-value="true" />

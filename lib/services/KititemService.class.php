@@ -51,7 +51,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 	
 	/**
 	 * @param catalog_persistentdocument_kititem $document
-	 * @param Integer $parentNodeId Parent node ID where to save the document (optionnal).
+	 * @param integer $parentNodeId Parent node ID where to save the document (optionnal).
 	 * @return void
 	 */
 	protected function preSave($document, $parentNodeId)
@@ -61,7 +61,7 @@ class catalog_KititemService extends f_persistentdocument_DocumentService
 		{
 			$oldProduct = DocumentHelper::getDocumentInstanceIfExists($document->getProductOldValueId());
 			$kit = array_pop($document->getKitArrayInverse());
-			throw new Exception(LocaleService::getInstance()->transBO('m.catalog.errors.kititem.cannot-delete-associated-product', array('ucf'), array(
+			throw new Exception(LocaleService::getInstance()->trans('m.catalog.errors.kititem.cannot-delete-associated-product', array('ucf'), array(
 				'product' => $oldProduct->getLabel(), 'kitname' => $kit->getLabel())));
 		}
 	}

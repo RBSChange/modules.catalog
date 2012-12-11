@@ -13,7 +13,7 @@
 		<property name="defaultListVisual" type="Document" document-type="modules_media/media" />
 		<property name="displayPriceWithTax" type="Boolean" default-value="true" />
 		<property name="displayPriceWithoutTax" type="Boolean" default-value="false" />
-		<property name="displayTax" type="Boolean" default-value="true"/>
+		<property name="displayTax" type="Boolean" default-value="true" />
 		<property name="displayOutOfStock" type="Boolean" default-value="false" />
 		<property name="allowOrderOutOfStock" type="Boolean" default-value="false" />
 		<property name="pageTitle" type="LongString" localized="true" />
