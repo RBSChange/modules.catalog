@@ -50,7 +50,7 @@ class catalog_BlockCrossSellingListAction extends catalog_BlockProductlistBaseAc
 		}
 		else
 		{
-			return LocaleService::getInstance()->trans('m.catalog.fo.linked-products', array('ucf')) . ' - ' . $productLink;
+			return LocaleService::getInstance()->transFO('m.catalog.fo.linked-products', array('ucf')) . ' - ' . $productLink;
 		}
 	}
 	
