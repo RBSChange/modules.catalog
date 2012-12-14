@@ -165,7 +165,11 @@ class catalog_ShelfService extends f_persistentdocument_DocumentService
 	 */
 	public function getSubShelves($shelf)
 	{
-		return $this->getChildrenOf($shelf, 'modules_catalog/shelf');
+		if ($this !== catalog_ShelfService::getInstance())
+		{
+			return catalog_ShelfService::getInstance()->getSubShelves($shelf);
+		}
+		return $this->createQuery()->add(Restrictions::childOf($shelf->getId()))->find();
 	}
 	
 	/**

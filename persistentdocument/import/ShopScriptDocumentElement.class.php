@@ -22,7 +22,7 @@ class catalog_ShopScriptDocumentElement extends import_ScriptDocumentElement
 	 */
 	protected function initPersistentDocument()
 	{
-		$document = catalog_ShopService::getInstance()->getNewDocumentInstance();
+		$document = $this->getDocumentModel()->getDocumentService()->getNewDocumentInstance();
 		$parentDocument = $this->getParentDocument();
 		if ($parentDocument instanceof import_ScriptDocumentElement)
 		{
