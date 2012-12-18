@@ -222,4 +222,7 @@
   <key id="discountornot-title">en promotion / hors promotion</key>
   <key id="discountornot-discount">en promotion</key>
   <key id="discountornot-not-discount">hors promotion</key>
+  
+  <!-- Deprecated locales -->
+  <key id="productpromotion-displaymode">Mode d'affichage pour les promotions</key>
 </i18n>

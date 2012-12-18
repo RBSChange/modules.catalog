@@ -67,4 +67,8 @@
   <key id="no-published-content">aucun contenu publié</key>
   <key id="axes">Axes de déclinaison</key>
   <key id="invalid-target">cible invalide</key>
+  
+   <!-- Deprecated locales -->
+  <key id="search-modes-list-label">Mode de recherche</key>
+  <key id="search-modes-list-desc">Mode de recherche</key>
 </i18n>
