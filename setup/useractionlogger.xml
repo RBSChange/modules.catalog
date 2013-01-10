@@ -92,4 +92,5 @@
   <actiondef modulename="catalog" actionname="delete.kit" label="m.catalog.bo.useractionlogger.delete-kit"/>
   <actiondef modulename="catalog" actionname="deactivated.kit" label="m.catalog.bo.useractionlogger.deactivated-kit"/>
   <actiondef modulename="catalog" actionname="reactivate.kit" label="m.catalog.bo.useractionlogger.reactivate-kit"/>
+  <actiondef modulename="catalog" actionname="deletelocalization.declinedproduct" label="m.catalog.bo.useractionlogger.deletelocalization-declinedproduct"/>
 </script>

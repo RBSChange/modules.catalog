@@ -162,4 +162,6 @@
   <key id="log-deactivated-kit">log deactivated kit</key>
   <key id="reactivate-kit">reactivate.kit {lang} {documentlabel}</key>
   <key id="log-reactivate-kit">log reactivate kit</key>
+  <key id="deletelocalization-declinedproduct">deletelocalization.declinedproduct {documentlabel} {lang}</key>
+  <key id="log-deletelocalization-declinedproduct">log deletelocalization declinedproduct</key>
 </i18n>

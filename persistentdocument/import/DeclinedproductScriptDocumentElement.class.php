@@ -10,10 +10,9 @@ class catalog_DeclinedproductScriptDocumentElement extends import_ScriptDocument
 	 */
 	protected function initPersistentDocument()
 	{
-		$product = catalog_DeclinedproductService::getInstance()->getNewDocumentInstance();
-		return $product;
+		return catalog_DeclinedproductService::getInstance()->getNewDocumentInstance();
 	}
-
+	
 	/**
 	 * @return f_persistentdocument_PersistentDocumentModel
 	 */
@@ -36,7 +35,7 @@ class catalog_DeclinedproductScriptDocumentElement extends import_ScriptDocument
 				$shelf = catalog_ShelfService::getInstance()->createQuery()->add(Restrictions::eq('codeReference', $shelfCodeRef))->findUnique();
 				if ($shelf === null)
 				{
-					throw new Exception("Shelf Code Reference : $shelfCodeRef not found");				
+					throw new Exception("Shelf Code Reference : $shelfCodeRef not found");
 				}
 				$properties['shelf'][] = $shelf;
 			}
@@ -48,13 +47,11 @@ class catalog_DeclinedproductScriptDocumentElement extends import_ScriptDocument
 			$brand = brand_BrandService::getInstance()->createQuery()->add(Restrictions::eq('codeReference', $brandCodeRef))->findUnique();
 			if ($brand === null)
 			{
-				throw new Exception("Brand Code Reference : $brandCodeRef not found");				
-			}	
+				throw new Exception("Brand Code Reference : $brandCodeRef not found");
+			}
 			$properties['brand'] = $brand;
 			unset($properties['brandCodeReference']);
 		}
 		return $properties;
 	}
-
-
 }
