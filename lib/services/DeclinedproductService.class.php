@@ -224,7 +224,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	protected function preDelete($document)
 	{
 		// Delete the declinations.
-		catalog_ProductdeclinationService::getInstance()->createQuery()->add(Restrictions::eq('declinedproduct', $document))->delete();
+		foreach ($document->getDeclinationArray() as $declination)
+		{
+			/* @var $declination catalog_persistentdocument_productdeclination */
+			$declination->getDocumentService()->purgeDocument($declination);
+		}
 	}
 	
 	/**

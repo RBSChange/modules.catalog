@@ -93,4 +93,6 @@
   <actiondef modulename="catalog" actionname="deactivated.kit" label="m.catalog.bo.useractionlogger.deactivated-kit"/>
   <actiondef modulename="catalog" actionname="reactivate.kit" label="m.catalog.bo.useractionlogger.reactivate-kit"/>
   <actiondef modulename="catalog" actionname="deletelocalization.declinedproduct" label="m.catalog.bo.useractionlogger.deletelocalization-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="update.bundleproduct" label="m.catalog.bo.useractionlogger.update-bundleproduct"/>
+  <actiondef modulename="catalog" actionname="updatetranslation.productdeclination" label="m.catalog.bo.useractionlogger.updatetranslation-productdeclination"/>
 </script>
