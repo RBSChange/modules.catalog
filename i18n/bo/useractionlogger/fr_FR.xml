@@ -168,4 +168,6 @@
 	<key id="log-reactivate-kit">log reactivate kit</key>
 	<key id="deletelocalization-declinedproduct">deletelocalization.declinedproduct {documentlabel} {lang}</key>
 	<key id="log-deletelocalization-declinedproduct">log deletelocalization declinedproduct</key>
+	<key id="updatetranslation-productdeclination">updatetranslation.productdeclination {lang} {documentlabel}</key>
+	<key id="log-updatetranslation-productdeclination">log updatetranslation productdeclination</key>
 </i18n>
