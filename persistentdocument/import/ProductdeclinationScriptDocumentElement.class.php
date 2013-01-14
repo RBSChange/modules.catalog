@@ -13,6 +13,17 @@ class catalog_ProductdeclinationScriptDocumentElement extends import_ScriptDocum
 		return catalog_ProductdeclinationService::getInstance()->getNewDocumentInstance();
 	}
 	
+	/**
+	 * @return f_persistentdocument_PersistentDocumentModel
+	 */
+	protected function getDocumentModel()
+	{
+		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/productdeclination');
+	}
+	
+	/**
+	 * @return array
+	 */
 	protected function getDocumentProperties()
 	{
 		$properties = parent::getDocumentProperties();
@@ -22,7 +33,7 @@ class catalog_ProductdeclinationScriptDocumentElement extends import_ScriptDocum
 			$attributes = explode(',', $this->replaceRefIdInString($properties['attributes']));
 			foreach ($attributes as $attribute)
 			{
-				list($key, $value) = explode(':', $attribute);
+				list ($key, $value) = explode(':', $attribute);
 				$attributesToSerialize[$key] = $value;
 			}
 			$properties['attributesJSON'] = json_encode($attributesToSerialize);
@@ -32,10 +43,11 @@ class catalog_ProductdeclinationScriptDocumentElement extends import_ScriptDocum
 	}
 	
 	/**
-	 * @return f_persistentdocument_PersistentDocumentModel
+	 * @param import_ScriptExecuteElement $scriptExecute
+	 * @param array $attr
 	 */
-	protected function getDocumentModel()
+	public function compile($scriptExecute, $attr = null)
 	{
-		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_catalog/productdeclination');
+		catalog_CompiledproductService::getInstance()->generateForProduct($this->getPersistentDocument());
 	}
 }
