@@ -20,8 +20,8 @@
 			<staticitem value="right" label="m.catalog.bo.general.currency-position-right" />
 		</staticlist>
 		<staticlist listid="modules_catalog/discountornot" label="m.catalog.bo.lists.discountornot.label">
-			<staticitem value="discount" label="&amp;modules.catalog.bo.lists.Discountornot-discount" />
-			<staticitem value="not-discount" label="&amp;modules.catalog.bo.lists.Discountornot-not-discount" />
+			<staticitem value="discount" label="m.catalog.bo.lists.Discountornot-discount" />
+			<staticitem value="not-discount" label="m.catalog.bo.lists.Discountornot-not-discount" />
 		</staticlist>
 		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication" description="Liste des champs de date de première/dernière date de publication pour le filtre sur les produits récemment publiées.">
 			<staticitem value="firstpublicationdate" label="m.catalog.document.compiledproduct.firstpublicationdate" />

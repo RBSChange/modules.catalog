@@ -170,4 +170,6 @@
 	<key id="log-deletelocalization-declinedproduct">log deletelocalization declinedproduct</key>
 	<key id="updatetranslation-productdeclination">updatetranslation.productdeclination {lang} {documentlabel}</key>
 	<key id="log-updatetranslation-productdeclination">log updatetranslation productdeclination</key>
+	<key id="updatetranslation-declinedproduct">updatetranslation.declinedproduct {lang} {documentlabel}</key>
+	<key id="log-updatetranslation-declinedproduct">log updatetranslation declinedproduct</key>
 </i18n>

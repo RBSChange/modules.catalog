@@ -99,4 +99,5 @@
 	<actiondef modulename="catalog" actionname="deletelocalization.declinedproduct" label="m.catalog.bo.useractionlogger.deletelocalization-declinedproduct" />
 	<actiondef modulename="catalog" actionname="update.bundleproduct" label="m.catalog.bo.useractionlogger.update-bundleproduct" />
 	<actiondef modulename="catalog" actionname="updatetranslation.productdeclination" label="m.catalog.bo.useractionlogger.updatetranslation-productdeclination" />
+	<actiondef modulename="catalog" actionname="updatetranslation.declinedproduct" label="m.catalog.bo.useractionlogger.updatetranslation-declinedproduct"/>
 </script>
