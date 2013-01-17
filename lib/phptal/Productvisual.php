@@ -24,7 +24,7 @@ class PHPTAL_Php_Attribute_CHANGE_productvisual extends ChangeTalAttribute
 	public function start()
 	{
 		$this->initParams();
-		$method = $this->hasParameter('mode') ? ($this->getParameter('mode') . ' == "list" ? "getListVisual" : "getDefaultVisual"') : 'getDefaultVisual';
+		$method = $this->hasParameter('mode') ? ($this->getParameter('mode') . ' == "list" ? "getListVisual" : "getDefaultVisual"') : '"getDefaultVisual"';
 		$shopCode = $this->hasParameter('shop') ? $this->getParameter('shop') : 'catalog_ShopService::getInstance()->getCurrentShop()';
 		$code = $this->getParameter('product') . '->{' . $method . '}(' . $shopCode . ');';
 		$this->tag->generator->doSetVar('$ctx->{' . $this->getParameter('name') . '}', $code);
