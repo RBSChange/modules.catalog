@@ -33,7 +33,6 @@
 			<tal:block tal:condition="price/isDiscount"><del>${price/getFormattedOldValueWithTax}</del></tal:block>
 		</span>
 	</li>
-	
-	<tal:block change:block="" module="catalog" name="AddProductToCart" __cmpref="${product/getId}" __displayMode="short" __popinPage="${popinPageId}"
+	<tal:block change:block="" container="" module="catalog" name="AddProductToCart" __cmpref="${product/getId}" __displayMode="short" __popinPage="${popinPageId}"
 		__shop="${contextShopId}" __showAvailability="false" __showAddToCart="${displayConfig/showAddToCart}" />
 </ul>
