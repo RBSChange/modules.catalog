@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+	<systemfolder module="list" relatedmodule="catalog">
+		<staticlist listid="modules_catalog/discountornot" label="m.catalog.bo.lists.discountornot.label">
+			<staticitem value="discount" label="m.catalog.frontoffice.discountornot-discount" />
+			<staticitem value="not-discount" label="m.catalog.frontoffice.discountornot-not-discount" />
+		</staticlist>
+	</systemfolder>
+</script>

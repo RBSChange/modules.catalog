@@ -26,9 +26,9 @@
 			<staticitem value="right" label="&amp;modules.catalog.bo.general.Currency-position-right;" />
 		</staticlist>
 		
-		<staticlist listid="modules_catalog/discountornot" label="&amp;modules.catalog.bo.lists.discountornot.Label;">
-			<staticitem value="discount" label="&amp;modules.catalog.bo.lists.Discountornot-discount" />
-			<staticitem value="not-discount" label="&amp;modules.catalog.bo.lists.Discountornot-not-discount" />
+		<staticlist listid="modules_catalog/discountornot" label="m.catalog.bo.lists.discountornot.label">
+			<staticitem value="discount" label="m.catalog.frontoffice.discountornot-discount" />
+			<staticitem value="not-discount" label="m.catalog.frontoffice.discountornot-not-discount" />
 		</staticlist>
 		
 		<staticlist listid="modules_catalog/recentlypublishedfields" label="Champs première/dernière date de publication"
