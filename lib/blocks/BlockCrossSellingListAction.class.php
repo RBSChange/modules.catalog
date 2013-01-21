@@ -69,7 +69,7 @@ class catalog_BlockCrossSellingListAction extends catalog_BlockProductlistBaseAc
 	 */
 	protected function getTarget()
 	{
-		$targetId = $this->findParameterValue('cmpref', null, 'CRPG');
+		$targetId = $this->findParameterValue('cmpref', 'CPG');
 		return DocumentHelper::getDocumentInstanceIfExists($targetId);
 	}
 	
@@ -78,6 +78,14 @@ class catalog_BlockCrossSellingListAction extends catalog_BlockProductlistBaseAc
 	 */
 	protected function getLinkType()
 	{
-		return $this->findParameterValue('linkType', null, 'CRPG');
+		return $this->findParameterValue('linkType', 'CPGD');
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getDefaultLinkType()
+	{
+		return $this->getConfiguration()->getLinkTypeDefaultValue();
 	}
 }
