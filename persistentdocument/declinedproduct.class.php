@@ -367,7 +367,7 @@ class catalog_persistentdocument_declinedproduct extends catalog_persistentdocum
 	 */
 	public function getRSSDescription()
 	{
-		$template = change_TemplateLoader::getNewInstance()->setExtension('html')->getPath('catalog', 'templates', 'Catalog-Inc-Product-RSS');
+		$template = change_TemplateLoader::getNewInstance()->setExtension('html')->load('modules', 'catalog', 'templates', 'Catalog-Inc-Product-RSS');
 		$template->setAttribute('product', $this->getFirstDeclination());
 		$template->setAttribute('shop', catalog_ShopService::getInstance()->getCurrentShop());
 		$template->setAttribute('customer', customer_CustomerService::getInstance()->getCurrentCustomer());
