@@ -6,6 +6,10 @@
 		<field name="description" />
 		<field name="visual" allowfile="true" mediafoldername="Inbox" />
 	</section>
+	<section labeli18n="m.catalog.bo.general.validity-dates">
+		<field name="startpublicationdate" />
+		<field name="endpublicationdate" />
+	</section>
 	<section labeli18n="m.catalog.bo.general.referencing">
 		<field name="pageTitle" type="longtext" class="with-counter" rows="2" />
 		<field name="pageDescription" type="longtext" class="with-counter" rows="2" />
