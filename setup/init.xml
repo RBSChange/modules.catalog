@@ -71,7 +71,7 @@
 		<notification label="Multiples alertes produits (pour le client)" byCodename="modules_catalog/severalalerts" template="default" availableparameters="{alertList}" subject="Multiples alertes produits" header="Bonjour," body="{alertList}" footer="Ces alertes ont été automatiquement supprimées de notre base de données. Pour être informé d'une éventuelle future baisse de prix, il vous faudra réactiver les alertes concernées depuis le site." />
 	</systemfolder>
 	<rootfolder module="media">
-		<folder byLabel="Catalogue">
+		<folder byLabel="m.catalog.bo.general.module-name">
 			<media path="modules/catalog/setup/default-visuals/default-detail-visual.png" byLabel="Visuel par défaut de détail de produit" title="Visuel non-disponible" id="default-detail-visual" />
 			<media path="modules/catalog/setup/default-visuals/default-list-visual.png" byLabel="Visuel par défaut de liste de produit" title="Visuel non-disponible" id="default-list-visual" />
 		</folder>

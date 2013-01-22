@@ -89,6 +89,25 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			catalog_AlertService::getInstance()->setPendingForPrice($document);
 		}
+		
+		$brandId = $document->getBrandId();
+		$brandIdOldValue = $document->getBrandIdOldValue();
+		if ($brandId != $brandIdOldValue)
+		{
+			$brand = DocumentHelper::getDocumentInstanceIfExists($brandId);
+			if ($brand instanceof brand_persistentdocument_brand)
+			{
+				brand_SpaceService::getInstance()->publishSpaceIfPossibleByBrandAndWebsiteId($brand, $document->getWebsiteId());
+			}
+				
+			$oldBrand = DocumentHelper::getDocumentInstanceIfExists($brandIdOldValue);
+			if ($oldBrand instanceof brand_persistentdocument_brand)
+			{
+				brand_SpaceService::getInstance()->publishSpaceIfPossibleByBrandAndWebsiteId($oldBrand, $document->getWebsiteId());
+			}
+		
+		}
+		
 	}
 	
 	/**
@@ -408,6 +427,9 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			{
 				website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
 			}
+			
+			brand_SpaceService::getInstance()->publishSpaceIfPossibleByBrandAndWebsiteId($document->getBrand(), $document->getWebsiteId());
+			
 		}
 	}
 		
