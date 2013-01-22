@@ -167,7 +167,7 @@
 	</systemfolder>
 	
 	<rootfolder module="media">
-		<folder byLabel="Catalogue">
+		<folder byLabel="m.catalog.bo.general.module-name">
 			<media path="modules/catalog/setup/default-visuals/default-detail-visual.png"
 				byLabel="Visuel par défaut de détail de produit" title="Visuel non-disponible" id="default-detail-visual" />
 			<media path="modules/catalog/setup/default-visuals/default-list-visual.png"

@@ -9,7 +9,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 * @var catalog_CompiledproductService
 	 */
 	private static $instance;
-
+	
 	/**
 	 * @return catalog_CompiledproductService
 	 */
@@ -21,7 +21,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		return self::$instance;
 	}
-
+	
 	/**
 	 * @return catalog_persistentdocument_compiledproduct
 	 */
@@ -29,7 +29,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		return $this->getNewDocumentInstanceByModelName('modules_catalog/compiledproduct');
 	}
-
+	
 	/**
 	 * Create a query based on 'modules_catalog/compiledproduct' model.
 	 * Return document that are instance of modules_catalog/compiledproduct,
@@ -60,10 +60,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getByProductInContext($product, $topicId, $lang)
 	{
-		return $this->createQuery()
-			->add(Restrictions::eq('product', $product))
-			->add(Restrictions::eq('topicId', $topicId))
-			->add(Restrictions::eq('lang', $lang))->findUnique();
+		return $this->createQuery()->add(Restrictions::eq('product', $product))->add(Restrictions::eq('topicId', $topicId))->add(Restrictions::eq('lang', $lang))->findUnique();
 	}
 	
 	/**
@@ -89,14 +86,17 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			}
 		}
 	}
-		
+	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @param Integer $parentNodeId
 	 */
 	protected function postUpdate($document, $parentNodeId)
 	{
-		if (!$document->getPrimary()) {return;}
+		if (!$document->getPrimary())
+		{
+			return;
+		}
 		
 		if ($document->isPropertyModified('isAvailable') && $document->getIsAvailable())
 		{
@@ -106,10 +106,26 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			catalog_AlertService::getInstance()->setPendingForPrice($document);
 		}
-	}
-
-
+		
+		$brandId = $document->getBrandId();
+		$brandIdOldValue = $document->getBrandIdOldValue();
+		if ($brandId != $brandIdOldValue)
+		{
+			$brand = DocumentHelper::getDocumentInstanceIfExists($brandId);
+			if ($brand instanceof brand_persistentdocument_brand)
+			{
+				brand_SpaceService::getInstance()->publishSpaceIfPossibleByBrandAndWebsiteId($brand, $document->getWebsiteId());
+			}
+			
+			$oldBrand = DocumentHelper::getDocumentInstanceIfExists($brandIdOldValue);
+			if ($oldBrand instanceof brand_persistentdocument_brand)
+			{
+				brand_SpaceService::getInstance()->publishSpaceIfPossibleByBrandAndWebsiteId($oldBrand, $document->getWebsiteId());
+			}
+		
+		}
 	
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
@@ -127,20 +143,19 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function deleteForProduct($product)
 	{
-		if (!($product instanceof catalog_persistentdocument_product)) 
+		if (!($product instanceof catalog_persistentdocument_product))
 		{
 			return;
-		}	
+		}
 		$this->createQuery()->add(Restrictions::eq('product', $product))->delete();
 	}
-	
 	
 	/**
 	 * @param catalog_persistentdocument_shop $shop
 	 */
 	public function deleteForShop($shop)
-	{	
-		if ($shop instanceof catalog_persistentdocument_shop) 
+	{
+		if ($shop instanceof catalog_persistentdocument_shop)
 		{
 			$this->createQuery()->add(Restrictions::eq('shopId', $shop->getId()))->delete();
 		}
@@ -150,44 +165,44 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 * @param catalog_persistentdocument_shelf $shelf
 	 */
 	public function deleteForShelf($shelf)
-	{	
-		if ($shelf instanceof catalog_persistentdocument_shelf) 
+	{
+		if ($shelf instanceof catalog_persistentdocument_shelf)
 		{
 			$this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->delete();
 		}
 	}
-		
+	
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 */
 	public function generateForProduct($product)
 	{
-		if (!($product instanceof catalog_persistentdocument_product)) 
+		if (!($product instanceof catalog_persistentdocument_product))
 		{
 			return;
 		}
-		try 
+		try
 		{
 			$this->tm->beginTransaction();
 			$container = array();
 			
-			foreach ($product->getShelfArray() as $shelf) 
+			foreach ($product->getShelfArray() as $shelf)
 			{
-				foreach ($shelf->getTopicArray() as $topic) 
+				foreach ($shelf->getTopicArray() as $topic)
 				{
 					$shop = catalog_ShopService::getInstance()->getByTopic($topic);
 					$container[$shop->getId()][$shelf->getId()] = $topic;
 				}
 			}
 			
-			$CPIds = array();	
+			$CPIds = array();
 			$rqc = RequestContext::getInstance();
 			foreach ($product->getI18nInfo()->getLangs() as $lang)
 			{
-				try 
+				try
 				{
-					$rqc->beginI18nWork($lang);	
-					foreach ($container as $shopId => $selfInfos) 
+					$rqc->beginI18nWork($lang);
+					foreach ($container as $shopId => $selfInfos)
 					{
 						$shop = catalog_persistentdocument_shop::getInstanceById($shopId);
 						$primaryCompiled = null;
@@ -205,10 +220,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 				}
 				catch (Exception $rce)
 				{
-					$rqc->endI18nWork($rce);	
+					$rqc->endI18nWork($rce);
 				}
-			}			
-			$query = $this->createQuery()->add(Restrictions::eq('product', $product));			
+			}
+			$query = $this->createQuery()->add(Restrictions::eq('product', $product));
 			if (count($CPIds))
 			{
 				$query->add(Restrictions::notin('id', $CPIds));
@@ -227,7 +242,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 	}
 	
-	
 	/**
 	 * @param catalog_persistentdocument_product $product
 	 * @param website_persistentdocument_topic $topic
@@ -238,12 +252,9 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 * @return catalog_persistentdocument_compiledproduct
 	 */
 	protected function generate($product, $topic, $shelf, $shop, $lang, &$primaryCompiled)
-	{		
-		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product', $product))
-			->add(Restrictions::eq('topicId', $topic->getId()))
-			->add(Restrictions::eq('lang', $lang))
-			->findUnique();
-			
+	{
+		$compiledProduct = $this->createQuery()->add(Restrictions::eq('product', $product))->add(Restrictions::eq('topicId', $topic->getId()))->add(Restrictions::eq('lang', $lang))->findUnique();
+		
 		if ($compiledProduct === null)
 		{
 			$compiledProduct = $this->getNewDocumentInstance();
@@ -252,14 +263,14 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$compiledProduct->setTopicId($topic->getId());
 			$compiledProduct->setPosition($product->getId());
 		}
-
+		
 		$website = $shop->getWebsite();
 		website_WebsiteModuleService::getInstance()->setCurrentWebsite($website);
 		catalog_ShopService::getInstance()->setCurrentShop($shop);
 		
 		$compiledProduct->setShopId($shop->getId());
-		$compiledProduct->setWebsiteId($website->getId());			
-		$compiledProduct->setShelfId($shelf->getId());	
+		$compiledProduct->setWebsiteId($website->getId());
+		$compiledProduct->setShelfId($shelf->getId());
 		$compiledProduct->setShelfIndex($product->getIndexofShelf($shelf));
 		$compiledProduct->setTopshelfId(catalog_ShelfService::getInstance()->getTopShelfByShelf($shelf)->getId());
 		
@@ -276,7 +287,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$publicationCode = 1;
 		}
 		else
-		{	
+		{
 			$compiledProduct->setPrice($price->getValueWithTax());
 			$isDiscount = $price->isDiscount();
 			$compiledProduct->setIsDiscount($isDiscount);
@@ -284,7 +295,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			{
 				$newPrice = $price->getValueWithTax();
 				$oldPrice = $price->getOldValueWithTax();
-				$discountLevel = round((($oldPrice-$newPrice) / $oldPrice) * 100);
+				$discountLevel = round((($oldPrice - $newPrice) / $oldPrice) * 100);
 				$compiledProduct->setDiscountLevel($discountLevel);
 			}
 			else
@@ -304,11 +315,11 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			{
 				$publicationCode = 3;
 			}
-			else if  (!$shelf->isPublished())
+			else if (!$shelf->isPublished())
 			{
 				$publicationCode = 4;
 			}
-			else if  (!$shop->getDisplayOutOfStock() && !$compiledProduct->getIsAvailable())
+			else if (!$shop->getDisplayOutOfStock() && !$compiledProduct->getIsAvailable())
 			{
 				$publicationCode = 5;
 			}
@@ -319,15 +330,10 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			if (!$compiledProduct->isPublished())
 			{
-				$rows = $this->createQuery()->add(Restrictions::eq('product', $product))
-					->add(Restrictions::eq('shopId', $shop->getId()))
-					->add(Restrictions::eq('lang', $lang))
-					->add(Restrictions::isNotNull('firstpublicationdate'))
-					->setProjection(Projections::property('firstpublicationdate'))
-					->findColumn('firstpublicationdate');
+				$rows = $this->createQuery()->add(Restrictions::eq('product', $product))->add(Restrictions::eq('shopId', $shop->getId()))->add(Restrictions::eq('lang', $lang))->add(Restrictions::isNotNull('firstpublicationdate'))->setProjection(Projections::property('firstpublicationdate'))->findColumn('firstpublicationdate');
 				$now = date_Calendar::getInstance()->toString();
 				$date = (count($rows) > 0) ? $rows[0] : $now;
-				$compiledProduct->setFirstpublicationdate($date);		
+				$compiledProduct->setFirstpublicationdate($date);
 				$compiledProduct->setLastpublicationdate($now);
 			}
 		}
@@ -341,13 +347,13 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		{
 			$compiledProduct->setPrimary(false);
 		}
-
+		
 		if (catalog_ModuleService::getInstance()->areCommentsEnabled($shop))
 		{
 			$ratingAverage = $product->getDocumentService()->getRatingAverage($product, $website->getId());
 			$compiledProduct->setRatingAverage($ratingAverage);
 			$product->setRatingMetaForWebsiteid($ratingAverage, $website->getId());
-		}		
+		}
 		
 		$brand = $product->getBrand();
 		if ($brand !== null && $brand->isPublished())
@@ -360,7 +366,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			$compiledProduct->setBrandId(null);
 			$compiledProduct->setBrandLabel(null);
 		}
-
+		
 		$product->getDocumentService()->updateCompiledProduct($product, $compiledProduct);
 		if ($compiledProduct->isNew() || $compiledProduct->isModified())
 		{
@@ -380,7 +386,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		
 		return $compiledProduct;
 	}
-	 
+	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @return boolean true if the document is publishable, false if it is not.
@@ -390,25 +396,25 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$result = parent::isPublishable($document);
 		if ($result)
 		{
-			switch ($document->getPublicationCode()) 
+			switch ($document->getPublicationCode())
 			{
-				case 0:
+				case 0 :
 					return true;
-				case 1:
+				case 1 :
 					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.no-price;');
-					return false;	
-				case 2:
+					return false;
+				case 2 :
 					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.product-not-published;');
-					return false;	
-				case 3:	
+					return false;
+				case 3 :
 					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shop-not-published;');
 					return false;
-				case 4:	
+				case 4 :
 					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.shelf-not-published;');
-					return false;		
-				case 5:
+					return false;
+				case 5 :
 					$this->setActivePublicationStatusInfo($document, '&modules.catalog.document.compiledproduct.publication.product-not-displayable;');
-					return false;				
+					return false;
 			}
 		}
 		return $result;
@@ -428,9 +434,12 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			{
 				website_SystemtopicService::getInstance()->publishIfPossible($document->getTopicId());
 			}
+			
+			brand_SpaceService::getInstance()->publishSpaceIfPossibleByBrandAndWebsiteId($document->getBrand(), $document->getWebsiteId());
+		
 		}
 	}
-		
+	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
 	 * @return integer
@@ -438,7 +447,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	public function getWebsiteId($document)
 	{
 		return $document->getWebsiteId();
-	}	
+	}
 	
 	/**
 	 * @param catalog_persistentdocument_compiledproduct $document
@@ -446,13 +455,9 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getDisplayPage($document)
 	{
-		return website_PageService::getInstance()->createQuery()
-						->add(Restrictions::childOf($document->getTopicId()))
-						->add(Restrictions::published())
-						->add(Restrictions::hasTag('functional_catalog_product-detail'))
-						->findUnique();
+		return website_PageService::getInstance()->createQuery()->add(Restrictions::childOf($document->getTopicId()))->add(Restrictions::published())->add(Restrictions::hasTag('functional_catalog_product-detail'))->findUnique();
 	}
-		
+	
 	/**
 	 * @param website_UrlRewritingService $urlRewritingService
 	 * @param catalog_persistentdocument_compiledproduct $document
@@ -478,7 +483,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		$topic = $document->getTopic();
 		if ($topic && !$document->getPrimary())
 		{
-			$catalogParam['topicId'] = $topic->getId();	
+			$catalogParam['topicId'] = $topic->getId();
 		}
 		else if (isset($catalogParam['topicId']))
 		{
@@ -486,7 +491,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		
 		if (count($catalogParam))
-		{	
+		{
 			$parameters['catalogParam'] = $catalogParam;
 		}
 		else if (isset($parameters['catalogParam']))
@@ -495,7 +500,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		}
 		return $urlRewritingService->getDocumentLinkForWebsite($document->getProduct(), $website, $lang, $parameters);
 	}
-
+	
 	/**
 	 * @param catalog_persistentdocument_shelf $shelf
 	 * @param catalog_persistentdocument_shop $shop
@@ -510,11 +515,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		foreach ($query->find() as $cp)
 		{
 			$product = $cp->getProduct();
-			$infos[] = array(
-				'id' => $product->getId(),
-				'label' => $cp->getTreeNodeLabel(),
-				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
-			);
+			$infos[] = array('id' => $product->getId(), 'label' => $cp->getTreeNodeLabel(), 
+				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL));
 		}
 		return $infos;
 	}
@@ -529,7 +531,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	public function setPositionsByShelfAndShopAndLang($shelf, $shop, $lang, $order, $applyToAllLangs = false)
 	{
 		$tm = $this->getTransactionManager();
-		try 
+		try
 		{
 			$tm->beginTransaction();
 			
@@ -554,7 +556,6 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			throw $e;
 		}
 	}
-	
 	
 	/**
 	 * @var catalog_FacetIndexerStrategy
@@ -587,8 +588,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 			try
 			{
 				return $this->indexFacetsStrategy->populateIndexDocument($indexDocument, $compiledProduct);
-			} 
-			catch (Exception $e) 
+			}
+			catch (Exception $e)
 			{
 				Framework::exception($e);
 				return false;
@@ -606,7 +607,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	{
 		return $document->getPrimary() ? $document->getProduct() : null;
 	}
-		
+	
 	/**
 	 * @param website_persistentdocument_website $website
 	 * @param string $lang
@@ -629,7 +630,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 					->find();
 		*/
 	}
-
+	
 	/**
 	 * DEPRECATED function
 	 */
@@ -647,7 +648,7 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	public function enableCompilation()
 	{
 	}
-
+	
 	/**
 	 * @deprecated (will be removed in 4.0) use getOrderInfosByShelfAndShopAndLang
 	 */
@@ -659,11 +660,8 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		foreach ($query->find() as $cp)
 		{
 			$product = $cp->getProduct();
-			$infos[] = array(
-				'id' => $product->getId(),
-				'label' => $cp->getTreeNodeLabel(),
-				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL)
-			);
+			$infos[] = array('id' => $product->getId(), 'label' => $cp->getTreeNodeLabel(), 
+				'icon' => MediaHelper::getIcon($product->getPersistentModel()->getIcon(), MediaHelper::SMALL));
 		}
 		return $infos;
 	}
@@ -677,14 +675,14 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 		try
 		{
 			$tm->beginTransaction();
-				
+			
 			$query = $this->createQuery()->add(Restrictions::eq('shelfId', $shelf->getId()))->add(Restrictions::eq('shopId', $shop->getId()));
 			foreach ($query->find() as $doc)
 			{
 				$doc->setPosition($order[$doc->getProduct()->getId()]);
 				$doc->save();
 			}
-				
+			
 			$tm->commit();
 		}
 		catch (Exception $e)
