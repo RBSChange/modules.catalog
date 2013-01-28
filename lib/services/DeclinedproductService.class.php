@@ -231,7 +231,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	 */
 	public function getSynchronizedPropertiesName()
 	{
-		return array('shelf', 'brand', 'description', 'shippingModeId', 'pageTitle', 'pageDescription', 'pageKeywords');
+		return array('shelf', 'brand', 'description', 'shippingModeId', 'pictogram', 'pageTitle', 'pageDescription', 'pageKeywords');
 	}
 	
 	/**

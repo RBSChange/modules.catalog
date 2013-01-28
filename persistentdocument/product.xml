@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0" icon="product">
+<document xmlns="http://www.rbs.fr/schema/change-document/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rbs.fr/schema/change-document/1.0 http://www.rbschange.fr/schema/persistentdocument-4.0.xsd" model-version="1.0"
+	icon="product">
 	<properties>
 		<property name="publicationstatus" localized="true" />
 		<property name="description" type="XHTMLFragment" localized="true" indexed="description" />
 		<property name="visual" type="Document" document-type="modules_media/media" />
 		<property name="additionnalVisual" type="DocumentArray" document-type="modules_media/media" />
+		<property name="pictogram" type="DocumentArray" document-type="modules_media/media" />
 		<property name="shelf" type="DocumentArray" tree-node="true" inverse="true" preserve-old-value="true" document-type="modules_catalog/shelf" />
 		<property name="brand" type="Document" inverse="true" document-type="modules_brand/brand" />
 		<property name="codeReference" type="String" db-size="50" indexed="property" />
@@ -20,6 +23,9 @@
 		<property name="minOrderQuantity" type="Integer" default-value="1" required="true">
 			<constraint name="min" min="1" />
 		</property>
+		<property name="pageTitle" type="LongString" localized="true" />
+		<property name="pageDescription" type="LongString" localized="true" />
+		<property name="pageKeywords" type="LongString" localized="true" />
 	</properties>
 	<statuses default="ACTIVE" />
 </document>

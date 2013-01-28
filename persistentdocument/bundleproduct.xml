@@ -3,9 +3,6 @@
 	<properties>
 		<property name="bundleditem" type="DocumentArray" cascade-delete="true" inverse="true" document-type="modules_catalog/bundleditem" />
 		<property name="codeReference" type="String" required="true" />
-		<property name="pageTitle" type="LongString" localized="true" />
-		<property name="pageDescription" type="LongString" localized="true" />
-		<property name="pageKeywords" type="LongString" localized="true" />
 	</properties>
 	<serializedproperties>	
 	</serializedproperties>

@@ -133,7 +133,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 * Synchronize properties shelf | brand | description | serializedattributes | shippingModeId |
 	 * 		| pageTitle | pageDescription | pageKeywords
 	 * @param catalog_persistentdocument_productdeclination $declination
-	 * @param catalog_persistentdocument_declinedproduct $declinedProduct								
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
 	 */
 	protected function synchronizePropertiesByDeclinedProduct($declination, $declinedProduct)
 	{
@@ -149,15 +149,21 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 						$declination->setShelfArray($declinedProduct->getShelfArray());
 					}
 					break;
-				case 'brand': $declination->setBrand($declinedProduct->getBrand()); break;	
-				case 'description': $declination->setDescription($declinedProduct->getDescription()); break;	
+				case 'pictogram':
+					if (!DocumentHelper::documentArrayEquals($declination->getPictogramArray(), $declinedProduct->getPictogramArray()))
+					{
+						$declination->setPictogramArray($declinedProduct->getPictogramArray());
+					}
+					break;
+				case 'brand': $declination->setBrand($declinedProduct->getBrand()); break;
+				case 'description': $declination->setDescription($declinedProduct->getDescription()); break;
 				case 'serializedattributes': $declination->setSerializedattributes($declinedProduct->getSerializedattributes());  break;
 				case 'shippingModeId': $declination->setShippingModeId($declinedProduct->getShippingModeId()); break;
 				case 'pageTitle': $declination->setPageTitle($declinedProduct->getPageTitle()); break;
 				case 'pageDescription': $declination->setPageDescription($declinedProduct->getPageDescription()); break;
-				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;	
+				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;
 			}
-		}		
+		}
 	}
 	
 	/**

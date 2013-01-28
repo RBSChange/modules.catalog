@@ -14,6 +14,7 @@
 	</section>
 	<section labeli18n="m.catalog.bo.general.additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
+		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
 		<field name="shippedIn" />
 		<field name="minOrderQuantity" />
 	</section>
