@@ -152,20 +152,26 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	 * 		| description | serializedattributes | shippingModeId |
 	 * 		| pageTitle | pageDescription | pageKeywords
 	 * @param catalog_persistentdocument_productdeclination $declination
-	 * @param catalog_persistentdocument_declinedproduct $declinedProduct								
+	 * @param catalog_persistentdocument_declinedproduct $declinedProduct
 	 */
 	protected function synchronizePropertiesByDeclinedProduct($declination, $declinedProduct)
 	{
 		$syncPropModified = $declinedProduct->getDocumentService()->getSynchronizedPropertiesName();
 		$cms = catalog_ModuleService::getInstance();
-		foreach ($syncPropModified as $name) 
+		foreach ($syncPropModified as $name)
 		{
-			switch ($name) 
+			switch ($name)
 			{
 				case 'shelf':
 					if (!DocumentHelper::documentArrayEquals($declination->getShelfArray(), $declinedProduct->getShelfArray()))
 					{
 						$declination->setShelfArray($declinedProduct->getShelfArray());
+					}
+					break;
+				case 'pictogram':
+					if (!DocumentHelper::documentArrayEquals($declination->getPictogramArray(), $declinedProduct->getPictogramArray()))
+					{
+						$declination->setPictogramArray($declinedProduct->getPictogramArray());
 					}
 					break;
 				case 'upsell':
@@ -175,41 +181,41 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 					}
 					else if (!DocumentHelper::documentArrayEquals($declination->getUpsellArray(), $declinedProduct->getUpsellArray()))
 					{
-						// Values have only declinedproduct for source 
+						// Values have only declinedproduct for source.
 						$declination->setUpsellArray($declinedProduct->getUpsellArray());
 					}
 					break;
-				case 'complementary':	
+				case 'complementary':
 					if ($cms->isComplementarySynchroEnabled() || $cms->isAutoComplementaryEnabled())
 					{
 						$this->addRemoveProducts($declination, $declinedProduct, 'complementary');
 					}
 					else if (!DocumentHelper::documentArrayEquals($declination->getComplementaryArray(), $declinedProduct->getComplementaryArray()))
 					{
-						// Values have only declinedproduct for source
+						// Values have only declinedproduct for source.
 						$declination->setComplementaryArray($declinedProduct->getComplementaryArray());
 					}
 					break;
-				case 'similar':	
+				case 'similar':
 					if ($cms->isSimilarSynchroEnabled() || $cms->isAutoSimilarEnabled())
 					{	
 						$this->addRemoveProducts($declination, $declinedProduct, 'similar');
 					}
 					else if (!DocumentHelper::documentArrayEquals($declination->getSimilarArray(), $declinedProduct->getSimilarArray()))
 					{
-						// Values have only declinedproduct for source 
+						// Values have only declinedproduct for source.
 						$declination->setSimilarArray($declinedProduct->getSimilarArray());
 					}
 					break;
-				case 'brand': $declination->setBrand($declinedProduct->getBrand()); break;	
-				case 'description': $declination->setDescription($declinedProduct->getDescription()); break;	
+				case 'brand': $declination->setBrand($declinedProduct->getBrand()); break;
+				case 'description': $declination->setDescription($declinedProduct->getDescription()); break;
 				case 'serializedattributes': $declination->setSerializedattributes($declinedProduct->getSerializedattributes());  break;
 				case 'shippingModeId': $declination->setShippingModeId($declinedProduct->getShippingModeId()); break;
 				case 'pageTitle': $declination->setPageTitle($declinedProduct->getPageTitle()); break;
 				case 'pageDescription': $declination->setPageDescription($declinedProduct->getPageDescription()); break;
-				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;	
+				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;
 			}
-		}		
+		}
 	}
 	
 	/**

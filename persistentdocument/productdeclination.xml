@@ -5,10 +5,6 @@
 	model-version="1.0" extend="modules_catalog/product" backoffice-indexable="false">
 	<properties>
 		<add name="codeReference" type="String" min-occurs="1" />
-				
-		<add name="pageTitle" type="LongString" localized="true" />
-		<add name="pageDescription" type="LongString" localized="true" />
-		<add name="pageKeywords" type="LongString" localized="true" />
 
 		<add name="declinedproduct" type="modules_catalog/declinedproduct" min-occurs="1" inverse="true"/>
 		<add name="indexInDeclinedproduct" type="Integer" default-value="-1"/>

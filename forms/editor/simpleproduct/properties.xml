@@ -13,7 +13,7 @@
 		<field name="endpublicationdate" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
-		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
 		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]" />
 		<field name="shippedIn" />
@@ -25,6 +25,6 @@
 		<field name="pageKeywords" class="with-counter" rows="2" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
-		<fieldinput name="attributesJSON" type="attributeslist"/>
+		<fieldinput name="attributesJSON" type="attributeslist" />
 	</section>
 </panel>

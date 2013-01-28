@@ -4,7 +4,7 @@
 		<field name="label" />
 		<field name="codeReference" />
 		<field name="description" />
-		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="visual" allowfile="true" mediafoldername="Inbox" />
 		<field name="brand" />
 		<field name="shelf" allow="[modules_catalog_shelf]" required="true" />
 	</section>
@@ -13,7 +13,8 @@
 		<field name="endpublicationdate" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
-		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
+		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
+		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
 		<field name="shippedIn" />
 		<field name="minOrderQuantity" />
 	</section>
@@ -23,6 +24,6 @@
 		<field name="pageKeywords" class="with-counter" rows="2" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
-		<fieldinput name="attributesJSON" type="attributeslist"/>
+		<fieldinput name="attributesJSON" type="attributeslist" />
 	</section>
 </panel>

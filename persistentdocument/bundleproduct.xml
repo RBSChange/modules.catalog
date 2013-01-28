@@ -7,9 +7,6 @@
 	<properties>
 		<add name="bundleditem" type="modules_catalog/bundleditem" max-occurs="-1" cascade-delete="true" inverse="true" />
 		<add name="codeReference" type="String" min-occurs="1" />
-		<add name="pageTitle" type="LongString" localized="true" />
-		<add name="pageDescription" type="LongString" localized="true" />
-		<add name="pageKeywords" type="LongString" localized="true" />
 	</properties>
 	<serializedproperties>	
 	</serializedproperties>
