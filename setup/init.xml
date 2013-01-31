@@ -31,6 +31,7 @@
 		<dynamiclist listid="modules_catalog/productsuggestionfeeders" label="Méthodes de suggestion des produits" />
 		<dynamiclist listid="modules_catalog/shippingfiltersbyshop" label="Modes de livraison de la boutique" description="Liste des modes de livraison d'une boutique boutique donnée en paramètre." />
 		<dynamiclist listid="modules_catalog/declinationsbyproduct" label="Déclinaisons d'un produit" />
+		<dynamiclist listid="modules_catalog/visibledeclinationsbyproduct" label="m.catalog.list.visibledeclinationsbyproduct-title" />
 		<dynamiclist listid="modules_catalog/extendedattributes" label="Attributs étendus" description="Liste des attributs étendus de produit" />
 		<dynamiclist listid="modules_catalog/shops" label="Boutiques" />
 		<dynamiclist listid="modules_catalog/availablelangsforshop" label="m.catalog.list.availablelangsforshop-label" />

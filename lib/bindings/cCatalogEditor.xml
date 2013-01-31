@@ -20,7 +20,7 @@
 							{
 								property.setAttribute('class', 'link');
 							}
-							property.setAttribute('label', values.label);					
+							property.setAttribute('label', values.label);
 							this.appendChild(property);
 							property.setValue(values.href);
 						}
@@ -149,7 +149,7 @@
 					wCore.debug('cProductSuggestionDialog.updateResults');
 					try
 					{
-						this.mLoadingRequest = null;					
+						this.mLoadingRequest = null;
 						if (result.status === 'OK')
 						{
 							this.cleanList()
@@ -200,7 +200,7 @@
 			<method name="cleanList">
 				<body><![CDATA[
 					var rows = this.getElementByAnonId('document-rows');
-					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')  
+					while (rows.lastChild && rows.lastChild.getAttribute('class') != 'head')
 					{
 						rows.removeChild(rows.lastChild);
 					}
@@ -264,7 +264,7 @@
 								ids.push(id);
 							}
 						}
-						this.parameters.field.value = ids.join(',');						
+						this.parameters.field.value = ids.join(',');
 						this.closeDialog(true);
 					}
 					catch (e)
@@ -280,7 +280,7 @@
 					this.controller.closeModalDialog(true);
 					if (refesh && this.sender && 'refresh' in this.sender)
 					{
-						this.sender.refresh();	
+						this.sender.refresh();
 					}
 				]]></body>
 			</method>
@@ -603,7 +603,7 @@
 	
 	<binding id="cProductSelectorDialog" extends="core.wDialog#cRessourceDialog">
 		<implementation>
-			<field name="mListSubproductConfig">null</field>	
+			<field name="mListSubproductConfig">null</field>
 			<constructor><![CDATA[
 				wCore.debug("cProductSelectorDialog.constructor");
 			]]></constructor>
@@ -650,11 +650,11 @@
 						<toolbarbutton height="16" width="16" image="{IconsBase}/small/delete.png" oncommand="onCancel();" tooltiptexts="${trans:m.uixul.bo.dialog.cancel,ucf,attr}" />
 					</vbox>
 				</hbox>
-				<cmessageinfo anonid="message-box" />	
+				<cmessageinfo anonid="message-box" />
 				<hbox flex="1" style="padding-left:5px;padding-right:5px;">
 					<vbox width="250" style="border: thin inset #e3e3e3;">
 						<toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
-							<toolbar class="change-toolbar">	
+							<toolbar class="change-toolbar">
 								<toolbarbutton anonid="multiTreeButton" class="module-selector"  image="{IconsBase}/small/modules.png" oncommand="refresh()" type="menu">
 									<menupopup anonid="multiTreePopup" />
 								</toolbarbutton>
@@ -670,7 +670,7 @@
 							<toolbar class="change-toolbar">	
 								<toolbarbutton anonid="searchButton" disabled="true" image="{IconsBase}/small/search.png" oncommand="toggleSearch()" 
 								tooltiptext="${trans:m.uixul.bo.general.togglesearchresourcemode,etc,ucf,attr}"
-								crop="end" label="${trans:m.uixul.bo.general.showsearch,ucf,attr}" />					
+								crop="end" label="${trans:m.uixul.bo.general.showsearch,ucf,attr}" />
 							</toolbar>
 						</toolbox>
 						<cressourceslistselector anonid="list_tree" flex="4" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
@@ -693,7 +693,7 @@
 								<rows anonid="document-rows">
 								</rows>
 							</grid>
-						</vbox>		
+						</vbox>
 						<label value="${trans:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
 						<vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
 							<image anonid="previewimage" src="{IconsBase}/small/document.png" />
@@ -769,13 +769,13 @@
 					this.mInitialized = false;
 					this.documentEditor.executeServerAction('crossitems', 'Initialize');
 				]]></body>
-			</method>	
+			</method>
 
 			<method name="getInitializeParameters">
 				<body><![CDATA[
 					return {
 						action: 'InitializeCrossitemsPanel',
-						cmpref: this.documentEditor.documentid, 
+						cmpref: this.documentEditor.documentid,
 						lang : this.documentEditor.documentInfos.vo
 					};
 				]]></body>
@@ -826,7 +826,7 @@
 						this.targetGridList.initJSONDataset(null);
 						this.linkedGridList.initJSONDataset(null);
 						this.showErrorMessage(result.contents.errorMessage);
-						this.collapseContentZone(true);						
+						this.collapseContentZone(true);
 						this.mInitialized = true;
 					}
 				]]></body>
@@ -841,7 +841,7 @@
 
 			<method name="openAddCrossitemsDialog">
 				<body><![CDATA[
-					var params = { 
+					var params = {
 						id: this.documentEditor.documentid,
 						isDeclined: this.documentInfos.isDeclined
 					}
@@ -851,7 +851,7 @@
 			
 			<method name="openAddSuggestedCrossitemsDialog">
 				<body><![CDATA[
-					var params = { 
+					var params = {
 						id: this.documentEditor.documentid,
 						isDeclined: this.documentInfos.isDeclined,
 						defaultMaxResults: 25,
@@ -1086,7 +1086,7 @@
 					lst.addEventListener("dragenter", function (event) {me.onDragEnter(event);}, false);
 					lst.addEventListener("dragover", function (event) {me.onDragOver(event);}, false);
 					lst.addEventListener("drop", function (event) {me.onDrop(event);}, false);
-					lst.addEventListener("dragleave", function (event) {me.onDragLeave(event);}, false);						
+					lst.addEventListener("dragleave", function (event) {me.onDragLeave(event);}, false);
 
 					this.getElementByAnonId("message-box").showHelpMessage("${trans:m.uixul.bo.dialog.ressource-selector-description,ucf,js}");
 					this.refreshCommandUI();
@@ -1118,7 +1118,7 @@
 				<body><![CDATA[
 					var items = this.getElementByAnonId("selectedList").getElementsByTagName('row');
 					var ids = [];
-					for (var i = 0; i < items.length; i++) 
+					for (var i = 0; i < items.length; i++)
 					{ 
 						if (items[i].hasAttribute("value"))
 						{
@@ -1132,7 +1132,7 @@
 			
 			<property name="isValid" readonly="true">
 				<getter><![CDATA[
-					return this.getElementByAnonId('mLinkType').valid;	
+					return this.getElementByAnonId('mLinkType').valid;
 				]]></getter>
 			</property>
 		</implementation>
@@ -1171,7 +1171,7 @@
 				<xul:hbox flex="1" style="padding-left:5px;padding-right:5px;">
 					<xul:vbox width="250" style="border: thin inset #e3e3e3;">
 						<xul:toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
-							<xul:toolbar class="change-toolbar">	
+							<xul:toolbar class="change-toolbar">
 								<xul:toolbarbutton anonid="multiTreeButton" class="module-selector"  image="{IconsBase}/small/modules.png" oncommand="refresh()" type="menu">
 									<xul:menupopup anonid="multiTreePopup" />
 								</xul:toolbarbutton>
@@ -1184,10 +1184,10 @@
 					<xul:spacer width="5"/>
 					<xul:vbox flex="1" style="border: thin inset #e3e3e3; min-width: 200px">
 						<xul:toolbox class="change-toolbox-dark" style="height:25px; padding-top: 0px;">
-							<xul:toolbar class="change-toolbar">	
+							<xul:toolbar class="change-toolbar">
 								<xul:toolbarbutton anonid="searchButton" disabled="true" image="{IconsBase}/small/search.png" oncommand="toggleSearch()" 
 								tooltiptext="${trans:m.uixul.bo.general.togglesearchresourcemode,ucf,etc,attr}"
-								crop="end" label="${trans:m.uixul.bo.general.showsearch,ucf,attr}" />					
+								crop="end" label="${trans:m.uixul.bo.general.showsearch,ucf,attr}" />
 							</xul:toolbar>
 						</xul:toolbox>
 						<xul:cressourceslistselector anonid="list_tree" flex="1" xbl:inherits="disabled,collapsed,hidden,hideheader"/>
@@ -1204,7 +1204,7 @@
 								<xul:rows anonid="document-rows" />
 							</xul:grid>
 							<xul:spacer height="5" />
-						</xul:vbox>						
+						</xul:vbox>
 						<xul:label value="${trans:m.uixul.bo.dialog.ressource-preview,ucf,lab,attr}"/>
 						<xul:vbox width="250" height="200" align="center" pack="center" style="border: thin outset #e3e3e3;margin: 2px">
 							<xul:image anonid="previewimage" src="{IconsBase}/small/document.png" />
@@ -1213,7 +1213,7 @@
 				</xul:hbox>
 				<xul:hbox pack="end" align="center">
 					<xul:button anonid="button_create" image="{IconsBase}/small/add.png" oncommand="onOk();" label="${trans:m.catalog.bo.doceditor.crossitems.create-crossitems,ucf,attr}" />
-				</xul:hbox>				
+				</xul:hbox>
 			</xul:vbox>
 		</xbl:content>
 	</binding>
@@ -1282,7 +1282,7 @@
 				<body><![CDATA[
 					try
 					{
-						this.mLoadingRequest = null;					
+						this.mLoadingRequest = null;
 						if (result.status === 'OK')
 						{	
 							this.cleanList()
@@ -1310,7 +1310,7 @@
 					var row = document.createElement('row');
 					row.setAttribute('class', 'document');
 					row.setAttribute('documentId', jsnode.id);
-										
+					
 					var cell = row.appendChild(document.createElement('toolbar'));
 					cell.setAttribute('class', 'actions');
 					var checkbox = cell.appendChild(document.createElement('checkbox'));
@@ -1420,14 +1420,14 @@
 					this.controller.closeModalDialog(true);
 					if (refesh && this.sender && 'refresh' in this.sender)
 					{
-						this.sender.refresh();	
+						this.sender.refresh();
 					}
 				]]></body>
 			</method>
 		
 			<property name="isValid" readonly="true">
 				<getter><![CDATA[
-					return this.getElementByAnonId('mLinkType').valid;	
+					return this.getElementByAnonId('mLinkType').valid;
 				]]></getter>
 			</property>
 		</implementation>
@@ -1534,7 +1534,7 @@
 						this.mTargetId = null;
 						row.removeAttribute('collapsed');
 						var field = document.getElementById('cSortLinkedProductsDialog_mDeclination');
-						field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.parameters.id});
+						field.replaceItems({cmpref: 'modules_catalog/visibledeclinationsbyproduct', productId: this.parameters.id});
 					}
 					else
 					{
@@ -1545,14 +1545,14 @@
 			</method>
 			
 			<method name="updateCommandsUI">
-				<body><![CDATA[						
+				<body><![CDATA[
 					this.getElementByAnonId('save').disabled = !this.modified;
 					this.getElementByAnonId('applyToAllDeclinations').disabled = !this.modified;
 				]]></body>
 			</method>
-						
+			
 			<method name="lockCommandsUI">
-				<body><![CDATA[													
+				<body><![CDATA[
 					this.getElementByAnonId('save').disabled = true;
 					this.getElementByAnonId('applyToAllDeclinations').disabled = true;
 				]]></body>
@@ -1641,7 +1641,7 @@
 					</xul:box>
 					<xul:box align="center" id="cSortLinkedProductsDialog_mDeclination_row">
 						<xul:spacer width="20px" />
-						<xul:clabel id="cSortLinkedProductsDialog_mDeclination_label" control="cSortLinkedProductsDialog_mDeclination" value="${trans:m.catalog.bo.doceditor.crossitems.declination,ucf,lab,attr}" />
+						<xul:clabel id="cSortLinkedProductsDialog_mDeclination_label" control="cSortLinkedProductsDialog_mDeclination" value="${transui:m.catalog.bo.doceditor.crossitems.visible-declination,ucf,lab,attr}" />
 						<xul:cfield id="cSortLinkedProductsDialog_mDeclination" anonid="mDeclination" name="mDeclination" fieldtype="dropdownlist" hidehelp="true" initialvalue="" required="true" />
 					</xul:box>
 					<xul:spacer flex="1" />
@@ -1659,8 +1659,8 @@
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:cdocumentlist anonid="documentlist" flex="1" />
 					<xul:spacer flex="1" />
-				</xul:scrollbox>				
+				</xul:scrollbox>
 			</xul:vbox>
 		</content>
-	</binding>	
+	</binding>
 </bindings>
