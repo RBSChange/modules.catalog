@@ -45,6 +45,8 @@
 			description="Liste des modes de livraison d'une boutique boutique donnée en paramètre." />
 		
 		<dynamiclist listid="modules_catalog/declinationsbyproduct" label="Déclinaisons d'un produit" />
+		
+		<dynamiclist listid="modules_catalog/visibledeclinationsbyproduct" label="m.catalog.list.visibledeclinationsbyproduct-title" />
 			
 		<dynamiclist listid="modules_catalog/extendedattributes" label="Attributs étendus"
 			description="Liste des attributs étendus de produit" />

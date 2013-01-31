@@ -1543,7 +1543,7 @@
 						this.mTargetId = null;
 						row.removeAttribute('collapsed');
 						var field = document.getElementById('cSortLinkedProductsDialog_mDeclination');
-						field.replaceItems({cmpref: 'modules_catalog/declinationsbyproduct', productId: this.parameters.id});
+						field.replaceItems({cmpref: 'modules_catalog/visibledeclinationsbyproduct', productId: this.parameters.id});
 					}
 					else
 					{
@@ -1554,14 +1554,14 @@
 			</method>
 			
 			<method name="updateCommandsUI">
-				<body><![CDATA[						
+				<body><![CDATA[
 					this.getElementByAnonId('save').disabled = !this.modified;
 					this.getElementByAnonId('applyToAllDeclinations').disabled = !this.modified;
 				]]></body>
 			</method>
-						
+			
 			<method name="lockCommandsUI">
-				<body><![CDATA[													
+				<body><![CDATA[
 					this.getElementByAnonId('save').disabled = true;
 					this.getElementByAnonId('applyToAllDeclinations').disabled = true;
 				]]></body>
@@ -1650,7 +1650,7 @@
 					</xul:box>
 					<xul:box align="center" id="cSortLinkedProductsDialog_mDeclination_row">
 						<xul:spacer width="20px" />
-						<xul:clabel id="cSortLinkedProductsDialog_mDeclination_label" control="cSortLinkedProductsDialog_mDeclination" value="${transui:m.catalog.bo.doceditor.crossitems.declination,ucf,lab,attr}" />
+						<xul:clabel id="cSortLinkedProductsDialog_mDeclination_label" control="cSortLinkedProductsDialog_mDeclination" value="${transui:m.catalog.bo.doceditor.crossitems.visible-declination,ucf,lab,attr}" />
 						<xul:cfield id="cSortLinkedProductsDialog_mDeclination" anonid="mDeclination" name="mDeclination" fieldtype="dropdownlist" hidehelp="true" initialvalue="" required="true" />
 					</xul:box>
 					<xul:spacer flex="1" />
@@ -1668,7 +1668,7 @@
 				<xul:scrollbox anonid="scrollctrl" flex="1" class="editordatacontainer" orient="vertical">
 					<xul:cdocumentlist anonid="documentlist" flex="1" />
 					<xul:spacer flex="1" />
-				</xul:scrollbox>				
+				</xul:scrollbox>
 			</xul:vbox>
 		</content>
 	</binding>

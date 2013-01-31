@@ -247,6 +247,7 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 	{
 		$query = $this->createQuery()->add(Restrictions::eq('targetId', $target->getId()))->add(Restrictions::eq('linkType', $linkType));
 		$ids = array();
+		$decl = array();
 		$infos = array();
 		foreach ($query->addOrder(Order::asc('position'))->find() as $item)
 		{
@@ -257,7 +258,20 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 				continue;
 			}
 			$ids[] = $linked->getId();
-			$infos[] = array('id' => $linked->getId(), 'label' => $linked->getTreeNodeLabel(), 
+			
+			// List only one declination for each values combination of visible axis. Other declinations will have
+			// the same position (@see setPositionsByTargetAndLinkType).
+			if ($linked instanceof catalog_persistentdocument_productdeclination)
+			{
+				$key = $this->getDeclinationKey($linked);
+				if (isset($decl[$key]))
+				{
+					continue;
+				}
+				$decl[$key] = true;
+			}
+			
+			$infos[] = array('id' => $linked->getId(), 'label' => $linked->getNavigationLabel(), 
 				'icon' => MediaHelper::getIcon($linked->getPersistentModel()->getIcon(), MediaHelper::SMALL));
 		}
 		return $infos;
@@ -277,12 +291,26 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			$tm->beginTransaction();
 			
 			$targetIds = array();
-			if ($applyToAllDeclinations && $target instanceof catalog_persistentdocument_productdeclination)
+			if ($target instanceof catalog_persistentdocument_productdeclination)
 			{
-				/* @var $target catalog_persistentdocument_productdeclination */
-				foreach ($target->getDeclinations() as $declination)
+				if ($applyToAllDeclinations)
 				{
-					$targetIds[] = $declination->getId();
+					foreach ($target->getDeclinations() as $declination)
+					{
+						$targetIds[] = $declination->getId();
+					}
+				}
+				else
+				{
+					// Apply sorting on all "equivalent" declinations (same values for visible axes).
+					$key = $this->getDeclinationKey($target);
+					foreach ($target->getDeclinations() as $declination)
+					{
+						if ($this->getDeclinationKey($declination) == $key)
+						{
+							$targetIds[] = $declination->getId();
+						}
+					}
 				}
 			}
 			else
@@ -290,15 +318,46 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 				$targetIds[] = $target->getId();
 			}
 			
+			$declPositions = array();
+			$declList = array();
 			$query = $this->createQuery()->add(Restrictions::in('targetId', $targetIds))->add(Restrictions::eq('linkType', $linkType));
 			foreach ($query->find() as $doc)
 			{
 				/* @var $doc catalog_persistentdocument_compiledcrossitem */
-				$docId = $doc->getLinkedId();
+				$linked = $doc->getLinkedIdInstance();
+				$docId = $linked->getId();
 				if (isset($order[$docId]))
 				{
 					$doc->setPosition($order[$docId]);
 					$doc->save();
+				}
+				
+				// Only one declination for each values combination of visible axes values will have a position
+				// (@see getSortingInfosByTargetAndLinkType), so let's group others to affect them the same position.
+				if ($linked instanceof catalog_persistentdocument_productdeclination)
+				{
+					$key = $this->getDeclinationKey($linked);
+					if (isset($order[$docId]))
+					{
+						$declPositions[$key] = $order[$docId];
+					}
+					else
+					{
+						$declList[$key][] = $doc;
+					}
+				}
+			}
+			
+			// Set position for non-sorted declinations.
+			foreach ($declList as $key => $docs)
+			{
+				if (isset($declPositions[$key]))
+				{
+					foreach ($docs as $doc)
+					{
+						$doc->setPosition($declPositions[$key]);
+						$doc->save();
+					}
 				}
 			}
 			
@@ -309,6 +368,24 @@ class catalog_CompiledcrossitemService extends f_persistentdocument_DocumentServ
 			$tm->rollBack($e);
 			throw $e;
 		}
+	}
+	
+	/**
+	 * @param catalog_persistentdocument_productdeclination $declination
+	 * @return string
+	 */
+	protected function getDeclinationKey($declination)
+	{
+		$declined = $declination->getDeclinedproduct();
+		$key = $declined->getId() . '|';
+		switch ($declined->getShowAxeInList())
+		{
+			case 1: $key .= $declination->getAxe1() . '||'; break;
+			case 2: $key .= $declination->getAxe1() . '|' . $declination->getAxe2() . '|'; break;
+			case 3: $key .= $declination->getAxe1() . '|' . $declination->getAxe2() . '|' . $declination->getAxe3(); break;
+			default: $key .= '||'; break;
+		}
+		return $key;
 	}
 	
 	/**
