@@ -237,7 +237,6 @@
 			</xul:row>
 		</content>
 		<implementation>
-
 			<constructor><![CDATA[
 				this.fireEvent('gridInitialised');
 			]]></constructor>
@@ -253,7 +252,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'properties'].join(',');
+					var uri = ['catalog', 'openDocument', rowData.type, rowData.id, 'properties'].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
@@ -262,7 +261,7 @@
 				<parameter name="rowNode" />
 				<parameter name="rowData" />
 				<body><![CDATA[
-					var uri = ['catalog', 'openDocument', 'modules_catalog_productdeclination', rowData.id, 'prices'].join(',');
+					var uri = ['catalog', 'openDocument', rowData.type, rowData.id, 'prices'].join(',');
 					openActionUri(uri);
 				]]></body>
 			</method>
@@ -277,7 +276,7 @@
 					}
 					var dataset = this.buildDataset();
 					if (dataset.length > 1)
-					{						
+					{
 						this.updateDataset(dataset.filter(function(row, indice, ds){return row !== rowData}));
 					}
 				]]></body>

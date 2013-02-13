@@ -551,6 +551,7 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 			$langAvailable = $declination->getI18nInfo()->isLangAvailable($lang);
 			$data['nodes'][] = array(
 				'id' => $declination->getId(),
+				'type' => $declination->getPersistentModel()->getBackofficeName(),
 				'langAvailable' => $langAvailable,
 				'label' => ($langAvailable ? $declination->getLabel() : ($declination->getVoLabel() . ' [' . f_Locale::translateUI('&modules.uixul.bo.languages.' . ucfirst($declination->getLang()) . ';') . ']')),
 				'codeReference' => $declination->getCodeReference(),

@@ -613,7 +613,9 @@
 	
 	<binding id="cProductSelectorDialog" extends="core.wDialog#cRessourceDialog">
 		<implementation>
-			<field name="mListSubproductConfig">null</field>	
+			<field name="mListSubproductConfig">null</field>
+			<field name="mDeclinedModels">[]</field>
+			<field name="mDeclinationModels">[]</field>
 			<constructor><![CDATA[
 				wCore.debug("cProductSelectorDialog.constructor");
 			]]></constructor>
@@ -623,8 +625,25 @@
 			<handler event="ressourcestreechange"><![CDATA[
 				if (this.mListSubproductConfig == null)
 				{
-					this.mListSubproductConfig = {"module":"catalog", "models":{"modules_catalog/declinedproduct":{"modules_catalog/productdeclination":"product"}}};
-					this.mListTree.mTypeList['modules_catalog/declinedproduct'] = true;
+					var result = wCore.executeJSON('catalog', 'GetModelsInfosForProductSelector', {}, null);
+					this.mDeclinedModels = result.contents.declinedModels;
+					this.mDeclinationModels = result.contents.declinationModels;
+					
+					this.mListSubproductConfig = {'module':'catalog', 'models':{}};
+					
+					var subModels = {};
+					var length = this.mDeclinedModels.length;
+					for (var i = 0; i < length; i++)
+					{
+						subModels[this.mDeclinedModels[i]] = 'product';
+					}
+					
+					var length = this.mDeclinedModels.length;
+					for (var i = 0; i < length; i++)
+					{
+						this.mListSubproductConfig.models[this.mDeclinedModels[i]] = subModels;
+						this.mListTree.mTypeList[this.mDeclinedModels[i]] = true;
+					}
 				}
 			]]></handler>
 			
@@ -639,7 +658,7 @@
 				if (items.length === 1)
 				{
 					var list = this.getElementByAnonId('list_subproduct');
-					if (items[0].modelName === 'modules_catalog/declinedproduct')
+					if (in_array(items[0].modelName, this.mDeclinedModels))
 					{	
 						list.setCurrentConfig(this.mListSubproductConfig);
 						list.loadNode(items[0].id, items[0].modelName);
