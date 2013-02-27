@@ -7,13 +7,17 @@
 			<action name="Trusted" />
 		</document>
 		<document name="attributefolder" />
-		<document name="shelf" />
+		<document name="shelf">
+			<action name="ReIndexProducts" />
+		</document>
 		<document name="simpleproduct" />
 		<document name="declinedproduct" />
 		<document name="productdeclination" />
 		<document name="paymentfilter" />
 		<document name="shippingfilter" />
-		<document name="topshelf" />
+		<document name="topshelf">
+			<action name="ReIndexProducts" />
+		</document>
 		<document name="price" />
 		<document name="shop">
 			<action name="InitDefaultStructure" />
@@ -49,6 +53,7 @@
 			<permission name="Insert.*" />
 			<permission name="Update.*" />
 			<permission name="LoadTags" />
+			<permission name="ReIndexProducts.*" />
 		</role>
 		<role name="Translator" extend="Guest">
 			<permission name="Load.*" />

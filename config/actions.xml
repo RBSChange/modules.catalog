@@ -175,4 +175,15 @@
     <parameter name="listWidget"/>
     <body><![CDATA[this.createDocumentEditor('modules_catalog_tax', listWidget.getSelectedItems()[0].id);]]></body>
   </action>
+	
+	<action name="reIndexProducts">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var items = listWidget.getSelectedItems();
+			for (var i = 0; i < items.length; i++)
+			{
+				this.executeJSON("ReIndexProductsByShelf", {cmpref: items[i].id});
+			}
+		]]></body>
+	</action>
 </actions>
