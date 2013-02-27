@@ -205,11 +205,21 @@
 			this.executeJSON("RemoveProductsFromShelf", {cmpref: shelf, lang: this.getContextLang(), products: products});
 		]]></body>
 	</action>
-	
 	<action name="onRemoveProductsFromShelfSuccess">
 		<parameter name="listWidget" />
 		<body><![CDATA[
 			this.refreshMainViewDeck();
+		]]></body>
+	</action>
+	
+	<action name="reIndexProducts">
+		<parameter name="listWidget" />
+		<body><![CDATA[
+			var items = listWidget.getSelectedItems();
+			for (var i = 0; i < items.length; i++)
+			{
+				this.executeJSON("ReIndexProductsByShelf", {cmpref: items[i].id});
+			}
 		]]></body>
 	</action>
 </actions>

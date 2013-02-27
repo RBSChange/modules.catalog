@@ -96,4 +96,9 @@
   <actiondef modulename="catalog" actionname="update.bundleproduct" label="m.catalog.bo.useractionlogger.update-bundleproduct"/>
   <actiondef modulename="catalog" actionname="updatetranslation.productdeclination" label="m.catalog.bo.useractionlogger.updatetranslation-productdeclination"/>
   <actiondef modulename="catalog" actionname="updatetranslation.declinedproduct" label="m.catalog.bo.useractionlogger.updatetranslation-declinedproduct"/>
+  <actiondef modulename="catalog" actionname="move.holder" label="m.catalog.bo.useractionlogger.move-holder"/>
+  <actiondef modulename="catalog" actionname="move.lens" label="m.catalog.bo.useractionlogger.move-lens"/>
+  <actiondef modulename="catalog" actionname="move.cleaningproduct" label="m.catalog.bo.useractionlogger.move-cleaningproduct"/>
+  <actiondef modulename="catalog" actionname="update.cleaningproduct" label="m.catalog.bo.useractionlogger.update-cleaningproduct"/>
+  <actiondef modulename="catalog" actionname="update.lens" label="m.catalog.bo.useractionlogger.update-lens"/>
 </script>

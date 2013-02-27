@@ -150,6 +150,7 @@
 				<contextaction name="delete" />
 				<contextaction name="openOrderProductsInShelf" />
 				<contextaction name="openTreeNodeOrder" />
+				<contextaction name="reIndexProducts" />
 				<groupactions name="createTopShelf_">
 					<contextaction name="createShelf" />
 					<contextaction name="createSimpleproduct" />
@@ -187,6 +188,7 @@
 				<contextaction name="refresh" />
 				<contextaction name="openOrderProductsInShelf" />
 				<contextaction name="openTreeNodeOrder" />
+				<contextaction name="reIndexProducts" />
 				<groupactions name="createShelf_">
 					<contextaction name="createShelf" />
 					<contextaction name="createSimpleproduct" />
@@ -366,5 +368,5 @@
 		<action name="createProductqueryfolder" single="true" permission="Insert_productqueryfolder" icon="add" />
 		<action name="createBillingarea" single="true" permission="Insert_billingarea" icon="add" />
 		<action name="removeProductsFromShelf" permission="RemoveProductsFromShelf" icon="remove" />
-	</actions>
-</perspective>
+		<action name="reIndexProducts" permission="ReIndexProducts" icon="synchro" />
+	</actions></perspective>

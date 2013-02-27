@@ -632,6 +632,19 @@ class catalog_CompiledproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @param catalog_persistentdocument_shelf $shelf
+	 */
+	public function reIndexByShelf($shelf)
+	{
+		$refreshListTask = task_PlannedtaskService::getInstance()->getNewDocumentInstance();
+		$refreshListTask->setSystemtaskclassname('catalog_ReIndexProductsByShelfTask');
+		$refreshListTask->setLabel('m.catalog.bo.general.re-index-by-shelf-task');
+		$refreshListTask->setParameters(serialize(array('shelfId' => $shelf->getId())));
+		$refreshListTask->setUniqueExecutiondate(date_Calendar::getInstance());
+		$refreshListTask->save();
+	}
+	
+	/**
 	 * DEPRECATED function
 	 */
 	

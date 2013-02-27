@@ -168,4 +168,14 @@
   <key id="log-updatetranslation-productdeclination">log updatetranslation productdeclination</key>
   <key id="updatetranslation-declinedproduct">updatetranslation.declinedproduct {lang} {documentlabel}</key>
   <key id="log-updatetranslation-declinedproduct">log updatetranslation declinedproduct</key>
+  <key id="move-holder">move.holder {destinationlabel} {lang} {documentlabel}</key>
+  <key id="log-move-holder">log move holder</key>
+  <key id="move-lens">move.lens {destinationlabel} {lang} {documentlabel}</key>
+  <key id="log-move-lens">log move lens</key>
+  <key id="move-cleaningproduct">move.cleaningproduct {destinationlabel} {lang} {documentlabel}</key>
+  <key id="log-move-cleaningproduct">log move cleaningproduct</key>
+  <key id="update-cleaningproduct">update.cleaningproduct {lang} {documentlabel}</key>
+  <key id="log-update-cleaningproduct">log update cleaningproduct</key>
+  <key id="update-lens">update.lens {lang} {documentlabel}</key>
+  <key id="log-update-lens">log update lens</key>
 </i18n>
