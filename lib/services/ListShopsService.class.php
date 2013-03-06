@@ -25,7 +25,7 @@ class catalog_ListShopsService extends BaseService
 	/**
 	 * @return array<list_Item>
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array();
 		foreach (catalog_ShopService::getInstance()->createQuery()->find() as $shop)

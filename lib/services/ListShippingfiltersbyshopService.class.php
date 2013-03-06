@@ -24,7 +24,7 @@ class catalog_ListShippingfiltersbyshopService extends BaseService
 	/**
 	 * @return array<list_Item>
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		try 
 		{
@@ -52,7 +52,7 @@ class catalog_ListShippingfiltersbyshopService extends BaseService
 	/**
 	 * @return String
 	 */
-	public final function getDefaultId()
+	public function getDefaultId()
 	{
 		return 'none';
 	}

@@ -24,7 +24,7 @@ class catalog_ListExtendedattributesService extends BaseService
 	/**
 	 * @return list_Item[]
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$attrService = catalog_AttributefolderService::getInstance();
 		$attributes = $attrService->getAttributeFolder()->getAttributes();
@@ -42,7 +42,7 @@ class catalog_ListExtendedattributesService extends BaseService
 	/**
 	 * @return String
 	 */
-	public final function getDefaultId()
+	public function getDefaultId()
 	{
 		return 'none';
 	}

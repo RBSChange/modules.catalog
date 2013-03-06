@@ -24,7 +24,7 @@ class catalog_ListShippingmodeoptionsService extends BaseService
 	/**
 	 * @return list_Item[]
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array();
 		$items [] = new list_Item(f_Locale::translate('&modules.catalog.bo.lists.shippingmodeoptions.Free;'), 'free');
@@ -39,7 +39,7 @@ class catalog_ListShippingmodeoptionsService extends BaseService
 	/**
 	 * @return String
 	 */
-	public final function getDefaultId()
+	public function getDefaultId()
 	{
 		return 'free';
 	}

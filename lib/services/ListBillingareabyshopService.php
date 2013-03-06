@@ -26,7 +26,7 @@ class catalog_ListBillingareabyshopService extends BaseService implements list_L
 	 * @see list_persistentdocument_dynamiclist::getItems()
 	 * @return list_Item[]
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$request = Controller::getInstance()->getContext()->getRequest();
 		$shopId = intval($request->getParameter('shopId', 0));

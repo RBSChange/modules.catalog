@@ -24,7 +24,7 @@ class catalog_ListCurrencyService extends BaseService
 	/**
 	 * @return array<list_Item>
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array();
 		foreach (catalog_CurrencyService::getInstance()->getPublished() as $currency)

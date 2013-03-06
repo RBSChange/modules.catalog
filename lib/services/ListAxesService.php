@@ -26,7 +26,7 @@ class catalog_ListAxesService extends BaseService
 	 * @see list_persistentdocument_dynamiclist::getItems()
 	 * @return list_Item[]
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array();
 		$axes = $this->getAllDeclinationAxes();	

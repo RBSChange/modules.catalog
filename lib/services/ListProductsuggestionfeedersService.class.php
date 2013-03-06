@@ -24,7 +24,7 @@ class catalog_ListProductsuggestionfeedersService extends BaseService
 	/**
 	 * @return array<list_Item>
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array(new list_Item(f_Locale::translateUI('&modules.catalog.bo.lists.product-suggestion-feeder.None;'), 'none'));
 		
@@ -47,7 +47,7 @@ class catalog_ListProductsuggestionfeedersService extends BaseService
 	/**
 	 * @return String
 	 */
-	public final function getDefaultId()
+	public function getDefaultId()
 	{
 		return 'none';
 	}

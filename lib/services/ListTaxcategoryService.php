@@ -21,7 +21,7 @@ class catalog_ListTaxcategoryService extends BaseService
 	/**
 	 * @deprecated
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array();
 		

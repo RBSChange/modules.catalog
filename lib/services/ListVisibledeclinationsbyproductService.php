@@ -26,7 +26,7 @@ class catalog_ListVisibledeclinationsbyproductService extends BaseService implem
 	 * @see list_persistentdocument_dynamiclist::getItems()
 	 * @return list_Item[]
 	 */
-	public final function getItems()
+	public function getItems()
 	{
 		$items = array();
 		foreach ($this->getVisibleDeclinations() as $declination)
@@ -42,7 +42,7 @@ class catalog_ListVisibledeclinationsbyproductService extends BaseService implem
 	/**
 	 * @return string
 	 */
-	public final function getDefaultId()
+	public function getDefaultId()
 	{
 		return 'none';
 	}
