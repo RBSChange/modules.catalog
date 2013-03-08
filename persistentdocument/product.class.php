@@ -52,7 +52,7 @@ class catalog_persistentdocument_product extends catalog_persistentdocument_prod
 			$topShelf = $compildedProduct->getTopShelf();						
 			$indexedDoc = new indexer_IndexedDocument();
 			$indexedDoc->setStringField('documentFamily', 'products');
-			$indexedDoc->setLabel($this->getLabel());
+			$indexedDoc->setLabel($this->getNavigationLabel());
 			$indexedDoc->setLang($compildedProduct->getLang());
 			$indexedDoc->setText(
 				f_util_StringUtils::htmlToText($this->getDescription())
