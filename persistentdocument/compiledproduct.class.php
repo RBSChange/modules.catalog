@@ -23,6 +23,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 					$indexDocument->setId($this->getId());
 					$indexDocument->setDocumentModel("modules_catalog/compiledproduct");	
 					$indexDocument->setDocumentAccessors($userIds);			
+					$indexDocument->setIntegerField('primary', $this->getPrimary() ? 1 : 0);
 					if ($this->getDocumentService()->indexFacets($this, $indexDocument))
 					{
 						return $indexDocument;
@@ -40,19 +41,7 @@ class catalog_persistentdocument_compiledproduct extends catalog_persistentdocum
 	{
 		$page = $this->getDocumentService()->getDisplayPage($this);
 		if ($page === null) {return array();}
-		$userIds = f_permission_PermissionService::getInstance()->getAccessorIdsForRoleByDocumentId('modules_website.AuthenticatedFrontUser', $page->getId());
-		if ($this->getPrimary())
-		{			
-			if (count($userIds) === 0)
-			{
-				$userIds[] = 0;
-			}
-		}
-		else
-		{
-			$userIds[] = -1;
-		}
-		return $userIds;
+		return f_permission_PermissionService::getInstance()->getAccessorIdsForRoleByDocumentId('modules_website.AuthenticatedFrontUser', $page->getId());
 	}
 	
 	/**
