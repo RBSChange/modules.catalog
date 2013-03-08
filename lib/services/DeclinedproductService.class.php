@@ -806,6 +806,26 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
+	 * @param comment_persistentdocument_comment $document
+	 * @return website_persistentdocument_page | NULL
+	 */
+	public function getDisplayPage($document)
+	{
+		$defaultDeclination = $document->getPublishedDefaultDeclinationInShop();
+		return $defaultDeclination->getDocumentService()->getDisplayPage($defaultDeclination);
+	}
+	
+	/**
+	 * @param comment_persistentdocument_comment $document
+	 * @return integer[] | null
+	 */
+	public function getWebsiteIds($document)
+	{
+		$defaultDeclination = $document->getPublishedDefaultDeclinationInShop();
+		return $defaultDeclination->getDocumentService()->getWebsiteIds($defaultDeclination);
+	}
+	
+	/**
 	 * Moves $document into the destination node identified by $destId.
 	 *
 	 * @param catalog_persistentdocument_declinedproduct $document The document to move.
