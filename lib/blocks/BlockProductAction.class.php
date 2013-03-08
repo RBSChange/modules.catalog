@@ -87,7 +87,7 @@ class catalog_BlockProductAction extends catalog_BlockProductBaseAction
 		$displayConfig['showPricesWithoutTax'] = $this->getShowPricesWithoutTax($shop);
 		$displayConfig['showPricesWithAndWithoutTax'] = $displayConfig['showPricesWithTax'] && $displayConfig['showPricesWithoutTax'];
 		$displayConfig['showPrices'] = $displayConfig['showPricesWithTax'] || $displayConfig['showPricesWithoutTax'];
-		$displayConfig['showRating'] = $configuration->getShowRating();
+		$displayConfig['showRating'] = catalog_ModuleService::getInstance()->areCommentsEnabled() ? $configuration->getShowRating() : false;
 		$displayConfig['showAddToFavorite'] = $configuration->getShowAddToFavorite();
 		$displayConfig['showAddToComparison'] = $configuration->getShowAddToComparison();
 		$displayConfig['showAddLinkList'] = $displayConfig['showAddToFavorite'] || $displayConfig['showAddToComparison'];

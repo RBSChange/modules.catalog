@@ -26,5 +26,11 @@
 				<version>3.6.5</version>
 			</versions>
 		</dependency>
+		<dependency>
+			<name>change-module/comment</name>
+			<versions>
+				<version>3.6.5</version>
+			</versions>
+		</dependency>
 	</dependencies>
 </change>
