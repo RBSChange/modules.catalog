@@ -806,23 +806,31 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 	}
 	
 	/**
-	 * @param comment_persistentdocument_comment $document
+	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @return website_persistentdocument_page | NULL
 	 */
 	public function getDisplayPage($document)
 	{
 		$defaultDeclination = $document->getPublishedDefaultDeclinationInShop();
-		return $defaultDeclination->getDocumentService()->getDisplayPage($defaultDeclination);
+		if ($defaultDeclination instanceof catalog_persistentdocument_productdeclination)
+		{
+			return $defaultDeclination->getDocumentService()->getDisplayPage($defaultDeclination);
+		}
+		return null;
 	}
 	
 	/**
-	 * @param comment_persistentdocument_comment $document
+	 * @param catalog_persistentdocument_declinedproduct $document
 	 * @return integer[] | null
 	 */
 	public function getWebsiteIds($document)
 	{
 		$defaultDeclination = $document->getPublishedDefaultDeclinationInShop();
-		return $defaultDeclination->getDocumentService()->getWebsiteIds($defaultDeclination);
+		if ($defaultDeclination instanceof catalog_persistentdocument_productdeclination)
+		{
+			return $defaultDeclination->getDocumentService()->getWebsiteIds($defaultDeclination);
+		}
+		return array();
 	}
 	
 	/**
