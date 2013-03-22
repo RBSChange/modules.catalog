@@ -178,4 +178,10 @@
   <key id="log-update-cleaningproduct">log update cleaningproduct</key>
   <key id="update-lens">update.lens {lang} {documentlabel}</key>
   <key id="log-update-lens">log update lens</key>
+  <key id="deactivated-lens">deactivated.lens {lang} {documentlabel}</key>
+  <key id="log-deactivated-lens">log deactivated lens</key>
+  <key id="compileproduct-lens">compileproduct.lens {lang} {documentlabel}</key>
+  <key id="log-compileproduct-lens">log compileproduct lens</key>
+  <key id="reactivate-lens">reactivate.lens {lang} {documentlabel}</key>
+  <key id="log-reactivate-lens">log reactivate lens</key>
 </i18n>

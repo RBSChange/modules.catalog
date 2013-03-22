@@ -101,4 +101,7 @@
   <actiondef modulename="catalog" actionname="move.cleaningproduct" label="m.catalog.bo.useractionlogger.move-cleaningproduct"/>
   <actiondef modulename="catalog" actionname="update.cleaningproduct" label="m.catalog.bo.useractionlogger.update-cleaningproduct"/>
   <actiondef modulename="catalog" actionname="update.lens" label="m.catalog.bo.useractionlogger.update-lens"/>
+  <actiondef modulename="catalog" actionname="deactivated.lens" label="m.catalog.bo.useractionlogger.deactivated-lens"/>
+  <actiondef modulename="catalog" actionname="compileproduct.lens" label="m.catalog.bo.useractionlogger.compileproduct-lens"/>
+  <actiondef modulename="catalog" actionname="reactivate.lens" label="m.catalog.bo.useractionlogger.reactivate-lens"/>
 </script>

@@ -1073,7 +1073,7 @@
 					}
 					
 					var col = cols[colsInfo.actionrow];
-					for (var index in col.childNodes)
+					for (var index = 0; index < col.childNodes.length; index++)
 					{
 						if (col.childNodes[index].localName == 'toolbarbutton')
 						{
@@ -1095,8 +1095,8 @@
 	</binding>
 	
 	<binding id="cAddCrossitemsDialog" extends="core.wDialog#cRessourceDialog">
-    	<resources>
-    		<stylesheet src="modules.uixul.cDocumentEditor" />
+		<resources>
+			<stylesheet src="modules.uixul.cDocumentEditor" />
 			<stylesheet src="modules.uixul.cOrderChildrenDialog" />
 		</resources>
 		<implementation>
