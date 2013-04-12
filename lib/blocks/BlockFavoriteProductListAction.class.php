@@ -32,6 +32,7 @@ class catalog_BlockFavoriteProductListAction extends catalog_BlockProductlistBas
 			$this->addError($ls->transFO('m.catalog.frontoffice.warning-list-not-persisted', array('ucf')));
 		}
 		$request->setAttribute('blockTitle', $ls->transFO('m.catalog.frontoffice.my-favorite-products', array('ucf')));
+		$request->setAttribute('listType', catalog_ProductList::FAVORITE);
 
 		return catalog_ModuleService::getInstance()->getFavoriteProductIds();
 	}

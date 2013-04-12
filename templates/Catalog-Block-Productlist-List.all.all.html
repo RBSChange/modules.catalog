@@ -21,7 +21,7 @@
 		<ul class="product-list">
 			<li tal:repeat="product products" class="product-line">
 				<tal:block module="catalog" container="" name="ProductItem" displayMode="list"
-					change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop" />
+					change:block="cmpref product; displayConfig displayConfig/itemconfig; shop shop; listType listType" />
 			</li>
 		</ul>
 		<div class="cleaner"></div>
