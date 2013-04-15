@@ -81,7 +81,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_frontenduser $user
+	 * @param users_persistentdocument_frontenduser $user
 	 * @return catalog_persistentdocument_alert[]
 	 */
 	public function getPublishedByUser($user)
@@ -99,7 +99,7 @@ class catalog_AlertService extends f_persistentdocument_DocumentService
 	}
 	
 	/**
-	 * @param users_persistentoducment_frontenduser $user
+	 * @param users_persistentdocument_frontenduser $user
 	 * @param integer[] $productIds
 	 * @return boolean
 	 */
