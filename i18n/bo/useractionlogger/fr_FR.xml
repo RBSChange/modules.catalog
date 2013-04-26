@@ -184,4 +184,14 @@
   <key id="log-compileproduct-lens">log compileproduct lens</key>
   <key id="reactivate-lens">reactivate.lens {lang} {documentlabel}</key>
   <key id="log-reactivate-lens">log reactivate lens</key>
+  <key id="update-productqueryfolder">update.productqueryfolder {documentlabel}</key>
+  <key id="log-update-productqueryfolder">log update productqueryfolder</key>
+  <key id="deactivated-topshelf">deactivated.topshelf {lang} {documentlabel}</key>
+  <key id="log-deactivated-topshelf">log deactivated topshelf</key>
+  <key id="deactivated-shelf">deactivated.shelf {lang} {documentlabel}</key>
+  <key id="log-deactivated-shelf">log deactivated shelf</key>
+  <key id="reactivate-shelf">reactivate.shelf {lang} {documentlabel}</key>
+  <key id="log-reactivate-shelf">log reactivate shelf</key>
+  <key id="reactivate-topshelf">reactivate.topshelf {lang} {documentlabel}</key>
+  <key id="log-reactivate-topshelf">log reactivate topshelf</key>
 </i18n>
