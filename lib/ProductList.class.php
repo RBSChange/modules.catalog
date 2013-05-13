@@ -227,7 +227,8 @@ class catalog_CookieProductList implements catalog_ProductList
 	{
 		$key = 'ProductList'.ucfirst($listName);
 		$this->key = $key;
-		
+		$this->maxCount = $maxCount;
+
 		if (isset($_COOKIE[$key]))
 		{
 			$this->productIds = explode(',', $_COOKIE[$key]);
@@ -246,7 +247,7 @@ class catalog_CookieProductList implements catalog_ProductList
 			$this->productIds = array_merge(array($id), $ids);
 			if ($this->maxCount !== null)
 			{
-				array_slice($this->productIds, 0, $this->maxCount);
+				$this->productIds = array_slice($this->productIds, 0, $this->maxCount);
 			}
 			return true;
 		}

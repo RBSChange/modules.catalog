@@ -330,14 +330,21 @@ abstract class catalog_BlockProductlistBaseAction extends website_BlockAction
 				$page = 1;
 			}
 			$this->getContext()->addCanonicalParam('page', $page > 1 ? $page : null, 'catalog');
-			$paginator = new paginator_Paginator('catalog', $page, $productIds, $maxresults);
-			$request->setAttribute('products', $paginator);
-			
-			// Handle full list link.
-			if (count($productIds) > $maxresults && $this->getConfigurationValue('addlinktoall', false))
+			$itemCount = count($productIds);
+			if (count($productIds) > $maxresults)
 			{
-				$request->setAttribute('fullListLink', $this->getFullListLink());
+				$productIds = array_slice($productIds, ($page - 1) * $maxresults, $maxresults);
+
+				// Handle full list link.
+				if ($this->getConfigurationValue('addlinktoall', false))
+				{
+					$request->setAttribute('fullListLink', $this->getFullListLink());
+				}
 			}
+
+			$paginator = new paginator_Paginator('catalog', $page, $productIds, $maxresults, $itemCount);
+			$request->setAttribute('products', $paginator);
+
 		}
 		elseif ($this->getShowIfNoProduct())
 		{
