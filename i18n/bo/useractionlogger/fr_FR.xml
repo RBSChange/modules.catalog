@@ -194,4 +194,6 @@
   <key id="log-reactivate-shelf">log reactivate shelf</key>
   <key id="reactivate-topshelf">reactivate.topshelf {lang} {documentlabel}</key>
   <key id="log-reactivate-topshelf">log reactivate topshelf</key>
+  <key id="move-topshelf">move.topshelf {destinationlabel} {lang} {documentlabel}</key>
+  <key id="log-move-topshelf">log move topshelf</key>
 </i18n>

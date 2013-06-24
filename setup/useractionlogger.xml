@@ -109,4 +109,5 @@
   <actiondef modulename="catalog" actionname="deactivated.shelf" label="m.catalog.bo.useractionlogger.deactivated-shelf"/>
   <actiondef modulename="catalog" actionname="reactivate.shelf" label="m.catalog.bo.useractionlogger.reactivate-shelf"/>
   <actiondef modulename="catalog" actionname="reactivate.topshelf" label="m.catalog.bo.useractionlogger.reactivate-topshelf"/>
+  <actiondef modulename="catalog" actionname="move.topshelf" label="m.catalog.bo.useractionlogger.move-topshelf"/>
 </script>
