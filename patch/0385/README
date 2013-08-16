@@ -1,0 +1,4 @@
+Version: 3.6.8
+
+Add shippingWeight property on product in order to allow weight calculation on cart, packet...
+This  info is useful for weight sensitive shipping modes.
