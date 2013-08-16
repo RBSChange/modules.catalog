@@ -157,6 +157,10 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 	protected function synchronizePropertiesByDeclinedProduct($declination, $declinedProduct)
 	{
 		$syncPropModified = $declinedProduct->getDocumentService()->getSynchronizedPropertiesName();
+        if ($declinedProduct->getSynchronizeWeight())
+        {
+            $syncPropModified[] = "shippingWeight";
+        }
 		$cms = catalog_ModuleService::getInstance();
 		foreach ($syncPropModified as $name)
 		{
@@ -214,6 +218,7 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 				case 'pageTitle': $declination->setPageTitle($declinedProduct->getPageTitle()); break;
 				case 'pageDescription': $declination->setPageDescription($declinedProduct->getPageDescription()); break;
 				case 'pageKeywords': $declination->setPageKeywords($declinedProduct->getPageKeywords()); break;
+                case 'shippingWeight': $declination->setShippingWeight($declinedProduct->getShippingWeight()); break;
 			}
 		}
 	}
@@ -764,4 +769,24 @@ class catalog_ProductdeclinationService extends catalog_ProductService
 			}
 		}
 	}
+
+	/**
+	 * @param catalog_persistentdocument_productdeclination $product
+	 * @param string[] $propertiesNames
+	 * @param array $formProperties
+	 * @param integer|null $parentId
+	 */
+	public function addFormProperties($product, $propertiesNames, &$formProperties, $parentId = null)
+	{
+		parent::addFormProperties($product, $propertiesNames, $formProperties, $parentId);
+		$declinedProduct = $product->getDeclinedproduct();
+		if (!$declinedProduct)
+		{
+			$declinedProduct = DocumentHelper::getDocumentInstanceIfExists($parentId);
+		}
+
+		$formProperties['_synchronizeWeight'] = $declinedProduct?$declinedProduct->getSynchronizeWeight():true;
+	}
+
+
 }

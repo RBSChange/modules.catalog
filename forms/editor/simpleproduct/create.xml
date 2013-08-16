@@ -7,4 +7,7 @@
 		<field name="visual" allowfile="true" mediafoldername="Inbox" />
 		<field name="brand" />
 	</section>
+	<section labeli18n="modules.catalog.bo.general.shipping">
+		<field name="shippingWeight" />
+	</section>
 </panel>

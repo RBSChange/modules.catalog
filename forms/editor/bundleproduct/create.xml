@@ -9,6 +9,9 @@
 			<field name="brand" />
 		</section>
 	</section>
+	<section labeli18n="modules.catalog.bo.general.shipping">
+		<field name="shippingWeight" />
+	</section>
 	
 	<section labeli18n="modules.catalog.bo.doceditor.First-bundleditems">
 		<field name="newBundledItemProducts" type="documentarray" required="true"

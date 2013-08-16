@@ -1,47 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <panel>
-	<section labeli18n="modules.catalog.bo.general.General">
-		<field name="label" />
-		<field name="codeReference" />
-		<field name="description" />
-		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
-		<field name="brand" />
-		<field name="shelf" moduleselector="catalog" allow="[modules_catalog_shelf]" required="true" />
-	</section>	
-	<section labeli18n="modules.catalog.bo.general.Axes">
-		<field name="axe1" nocache="true" />
-		<field name="axe2" nocache="true" />
-		<field name="axe3" nocache="true" />
-		<field name="showAxeInList" />
+    <section labeli18n="modules.catalog.bo.general.General">
+        <field name="label"/>
+        <field name="codeReference"/>
+        <field name="description"/>
+        <field name="visual" allowfile="true" mediafoldername="Inbox"/>
+        <field name="brand"/>
+        <field name="shelf" moduleselector="catalog" allow="[modules_catalog_shelf]" required="true"/>
+    </section>
+	<section labeli18n="modules.catalog.bo.general.shipping">
+		<field name="synchronizeWeight" />
+		<field name="shippingWeight" />
+		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]"/>
 	</section>
-	<section labeli18n="modules.catalog.bo.general.Validity-dates" class="toggle" hidden="true">
-		<field name="startpublicationdate" />
-		<field name="endpublicationdate" />
-	</section>
-	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
-		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
-		<field name="pictogram" allowfile="true" mediafoldername="Inbox"/>
-		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]" />
-	</section>
-	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
-		<field name="pageTitle" class="with-counter" rows="2" />
-		<field name="pageDescription" class="with-counter" rows="2" />
-		<field name="pageKeywords" class="with-counter" rows="2" />
-	</section>
-	<section labeli18n="modules.catalog.bo.general.Prices" class="toggle" hidden="true">
-		<field name="synchronizePrices" />
-		<field name="synchronizePricesFrom"	labeli18n="modules.catalog.document.declinedproduct.SynchronizePricesFrom" 
-			 type="dropdownlist" disabled="true" shorthelp="${transui:m.catalog.document.declinedproduct.synchronizepricesfrom-help,ucf,attr}" />
-	</section>
-	<xul>
-		<javascript>
-			<constructor><![CDATA[
+    <section labeli18n="modules.catalog.bo.general.Axes">
+        <field name="axe1" nocache="true"/>
+        <field name="axe2" nocache="true"/>
+        <field name="axe3" nocache="true"/>
+        <field name="showAxeInList"/>
+    </section>
+    <section labeli18n="modules.catalog.bo.general.Validity-dates" class="toggle" hidden="true">
+        <field name="startpublicationdate"/>
+        <field name="endpublicationdate"/>
+    </section>
+    <section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
+        <field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
+        <field name="pictogram" allowfile="true" mediafoldername="Inbox"/>
+    </section>
+    <section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">
+        <field name="pageTitle" class="with-counter" rows="2"/>
+        <field name="pageDescription" class="with-counter" rows="2"/>
+        <field name="pageKeywords" class="with-counter" rows="2"/>
+    </section>
+    <section labeli18n="modules.catalog.bo.general.Prices" class="toggle" hidden="true">
+        <field name="synchronizePrices"/>
+        <field name="synchronizePricesFrom" labeli18n="modules.catalog.document.declinedproduct.SynchronizePricesFrom"
+               type="dropdownlist" disabled="true"
+               shorthelp="${transui:m.catalog.document.declinedproduct.synchronizepricesfrom-help,ucf,attr}"/>
+    </section>
+    <xul>
+        <javascript>
+            <constructor><![CDATA[
 				var me = this;
 				this.fields['synchronizePrices'].addEventListener('fieldChanged', function (event) {me.onSynchronizePricesChanged();}, true);
+			    this.fields['synchronizeWeight'].addEventListener('fieldChanged', function (event) {me.onSynchronizeWeightChanged();}, true);
+				this.extendMethod("fireInitializeComplete", this.onSynchronizeWeightChanged);
+
 			]]></constructor>
-			
-			<method name="onSynchronizePricesChanged">
-				<body><![CDATA[
+
+            <method name="onSynchronizePricesChanged">
+                <body><![CDATA[
 					try
 					{
 						var fields = this.fields;
@@ -66,7 +74,31 @@
 						wCore.error("declinedproduct.propertiespanel.onSynchronizePricesChanged", [result], e);
 					}
 				]]></body>
-			</method>
-		</javascript>
-	</xul>
+            </method>
+            <method name="onSynchronizeWeightChanged">
+                <body><![CDATA[
+                try
+                {
+                    var fields = this.fields;
+                    var field = fields['synchronizeWeight'];
+
+					var weightField = fields.shippingWeight;
+					if (field.value == "true")
+					{
+						weightField.disable(false);
+					}
+					else
+					{
+						weightField.value = "";
+						weightField.disable(true);
+					}
+                }
+                catch (e)
+                {
+                    wCore.error("declinedproduct.createpanel.onSynchronizeWeightChanged", [result], e);
+                }
+                ]]></body>
+            </method>
+        </javascript>
+    </xul>
 </panel>

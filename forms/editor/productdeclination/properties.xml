@@ -2,14 +2,37 @@
 <panel>
 	<section labeli18n="modules.catalog.bo.general.General">
 		<field name="label" />
-		<field name="codeReference" />
+        <field name="codeReference" />
 		<field name="visual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox"/>
 		<field name="shippedIn" />
 		<field name="minOrderQuantity" />
 	</section>
-	
+	<section labeli18n="modules.catalog.bo.general.shipping">
+		<field name="shippingWeight" />
+	</section>
 	<section labeli18n="modules.catalog.bo.general.ExtendedAttributes" class="toggle" hidden="true">
 		<fieldinput name="attributesJSON" type="attributeslist"/>
 	</section>
+	<xul>
+		<javascript>
+			<constructor><![CDATA[
+				this.extendMethod("fireInitializeComplete", this.fireInitializeCompleteExtend);
+			]]></constructor>
+
+			<method name="fireInitializeCompleteExtend">
+				<parameter name="result" />
+				<body><![CDATA[
+					try
+					{
+						this.fields.shippingWeight.disabled = '_synchronizeWeight' in result.contents && result.contents._synchronizeWeight;
+					}
+					catch (e)
+					{
+						wCore.error("productdeclination.propertiespanel.fireInitializeCompleteExtend", [result], e);
+					}
+				]]></body>
+			</method>
+		</javascript>
+	</xul>
 </panel>

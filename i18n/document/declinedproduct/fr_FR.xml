@@ -6,6 +6,8 @@
   <key id="synchronizeprices-help">synchroniser ou non les prix entre les déclinaisons de ce produit.</key>
   <key id="synchronizepricesfrom">utiliser les prix de</key>
   <key id="synchronizepricesfrom-help">Ce champ est uniquement actif lorsque le champ « Synchroniser les prix » passe de Non à Oui. Il permet de choisir une déclinaison de référence pour initialiser la synchronisation des prix.</key>
+  <key id="synchronizeweight">synchroniser le poids</key>
+  <key id="synchronizeweight-help">si le poids de colisage est synchronisé, les déclinaisons utiliseront ce poids. Si le poids des déclinsaisons est susceptible de varier, en n'activant pas la synchronisation de poids, il vous sera possible d'indiquer un poids différent pour chacune des déclinaisons.</key>
 
   <key id="no-declination">Aucune déclinaison défini</key>
   <key id="not-published">Le produit décliné n'est pas publié</key>

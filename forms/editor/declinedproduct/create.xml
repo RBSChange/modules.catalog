@@ -8,7 +8,10 @@
 			<field name="visual" allowfile="true" mediafoldername="Inbox"/>
 			<field name="brand" />
 		</section>
-		
+		<section labeli18n="modules.catalog.bo.general.shipping">
+            <field name="synchronizeWeight" />
+            <field name="shippingWeight" />
+		</section>
 		<section labeli18n="modules.catalog.bo.general.Axes">
 			<field name="axe1" />
 			<field name="axe2" />
@@ -37,4 +40,41 @@
 	<section labeli18n="modules.catalog.bo.doceditor.Additional-declination">
 		<label value="${transui:m.catalog.bo.doceditor.Additional-declination-description,ucf,attr}" />
 	</section>
+    <xul>
+        <javascript>
+            <constructor><![CDATA[
+				var me = this;
+				this.fields['synchronizeWeight'].addEventListener('fieldChanged', function (event) {me.onSynchronizeWeightChanged();}, true);
+				this.extendMethod("fireInitializeComplete", this.onSynchronizeWeightChanged);
+			]]></constructor>
+
+            <method name="onSynchronizeWeightChanged">
+                <body><![CDATA[
+					try
+					{
+						var fields = this.fields;
+						var field = fields['synchronizeWeight'];
+
+						if (field.initialvalue == "false" )
+						{
+						    var weightField = fields.shippingWeight;
+							if (field.value == "true")
+							{
+								weightField.disable(false);
+							}
+							else
+							{
+								weightField.value = "";
+								weightField.disable(true);
+							}
+						}
+					}
+					catch (e)
+					{
+						wCore.error("declinedproduct.createpanel.onSynchronizeWeightChanged", [result], e);
+					}
+				]]></body>
+            </method>
+        </javascript>
+    </xul>
 </panel>

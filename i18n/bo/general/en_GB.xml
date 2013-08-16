@@ -62,7 +62,8 @@
 		<key id="has-no-securemedia">Does not contain any files to download</key>
 		<key id="order-product-in-shelf-panel-title">Order the shelf's products</key>
 		<key id="condition-filters">application conditions</key>	 
-		
+		<key id="shipping">shipping informations</key>
+
 		<key id="no-published-content">No published content</key>
 		<key id="axes">Variant options</key>
 		<key id="invalid-target">invalid target</key>

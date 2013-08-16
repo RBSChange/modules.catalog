@@ -92,6 +92,11 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 				$document->setShowAxeInList(2);
 			}
 		}
+
+		if (!$document->getSynchronizeWeight())
+		{
+			$document->setShippingWeight(null);
+		}
 	}	
 	
 	/**
@@ -205,9 +210,13 @@ class catalog_DeclinedproductService extends f_persistentdocument_DocumentServic
 		}
 		
 		$this->synchronizeFields($document);
-		
-		$propertiesNeedDeclinationUpdate = array_merge($this->getSynchronizedPropertiesName(), $this->getAxeManagmentPropertiesName());
-		$array = array_intersect($document->getModifiedPropertyNames(), $propertiesNeedDeclinationUpdate);
+
+        $propertiesNeedDeclinationUpdate = array_merge($this->getSynchronizedPropertiesName(), $this->getAxeManagmentPropertiesName());
+		if ($document->getSynchronizeWeight())
+        {
+            $propertiesNeedDeclinationUpdate[] = "shippingWeight";
+        }
+        $array = array_intersect($document->getModifiedPropertyNames(), $propertiesNeedDeclinationUpdate);
 		if (count($array))
 		{
 			if (Framework::isInfoEnabled())

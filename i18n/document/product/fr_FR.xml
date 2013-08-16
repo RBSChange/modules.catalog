@@ -56,4 +56,6 @@
   <key id="shippedin-help">Délai d'expédition affiché sur le site.</key>
   <key id="minorderquantity">quantité minimum</key>
   <key id="minorderquantity-help">Quantité minimum de ce produit que l'on doit avoir dans son panier pour pouvoir le commander.</key>
+  <key id="shippingweight">poids de colisage (g)</key>
+  <key id="shippingweight-help">poids (en grammes) du produit à prendre en compte par le mode de livraison</key>
 </i18n>

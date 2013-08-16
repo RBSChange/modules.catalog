@@ -237,7 +237,8 @@ class catalog_ShippingfilterService extends f_persistentdocument_DocumentService
 			$addrInfo = $cart->getAddressInfo();
 			if ($addrInfo && $addrInfo->shippingAddress && $addrInfo->shippingAddress->CountryId)
 			{
-				if (!$filter->getMode()->getDocumentService()->isValidForCountryId($filter->getMode(), $addrInfo->shippingAddress->CountryId))
+				if (!$filter->getMode()->getDocumentService()->isValidForCountryId($filter->getMode(), $addrInfo->shippingAddress->CountryId)
+					|| !$filter->getMode()->getDocumentService()->canShipCartLinesWithMode($cart->getCartLineArray(), $filter->getMode()))
 				{
 					return false;
 				}

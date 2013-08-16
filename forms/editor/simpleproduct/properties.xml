@@ -8,6 +8,11 @@
 		<field name="brand" />
 		<field name="shelf" moduleselector="catalog" allow="[modules_catalog_shelf]" required="true" />
 	</section>
+	<section labeli18n="modules.catalog.bo.general.shipping">
+		<field name="shippingWeight" />
+		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]" />
+		<field name="shippedIn" />
+	</section>
 	<section labeli18n="modules.catalog.bo.general.Validity-dates" class="toggle" hidden="true">
 		<field name="startpublicationdate" />
 		<field name="endpublicationdate" />
@@ -15,8 +20,6 @@
 	<section labeli18n="modules.catalog.bo.general.Additionnal-information" class="toggle" hidden="true">
 		<field name="additionnalVisual" allowfile="true" mediafoldername="Inbox" />
 		<field name="pictogram" allowfile="true" mediafoldername="Inbox" />
-		<field name="shippingModeId" type="document" moduleselector="shipping" allow="[modules_shipping_mode]" />
-		<field name="shippedIn" />
 		<field name="minOrderQuantity" />
 	</section>
 	<section labeli18n="modules.catalog.bo.general.Referencing" class="toggle" hidden="true">

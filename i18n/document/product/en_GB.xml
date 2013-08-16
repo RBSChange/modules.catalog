@@ -56,4 +56,6 @@
   <key id="shippedin-help">Shipping time displayed on the website.</key>
   <key id="minorderquantity">minimum quantity</key>
   <key id="minorderquantity-help">Minimum quantity of this product that one should have in the basket to be able to order it.</key>
+  <key id="shippingWeight">shipping weight (g)</key>
+  <key id="shippingWeight-help">product weight (as grams) for shipping modes that needs to know it</key>
 </i18n>
