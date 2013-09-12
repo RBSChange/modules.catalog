@@ -141,16 +141,16 @@ class catalog_PriceFormatter
 		{
 			$symbolPosition = $this->getSymbolPositionByLang($lang);
 		}	
+		if ($this->strategy !== null)
+                {
+                        return $this->strategy->format($value, $currencyCode, $lang, $symbolPosition);
+                }
 		if (class_exists('NumberFormatter', false))
 		{
 			// We have intl support
 			$locale = LocaleService::getInstance()->getLCID($lang);
 			$nf = new NumberFormatter($locale, NumberFormatter::CURRENCY);
 			return $nf->formatCurrency($value, $currencyCode);
-		}
-		if ($this->strategy !== null)
-		{
-			return $this->strategy->format($value, $currencyCode, $lang, $symbolPosition);
 		}
 		return $this->formatDefault($value, $currencyCode, $lang, $symbolPosition);
 	}	
