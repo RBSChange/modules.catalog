@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.rbs.fr/schema/change-component/1.0 http://www.rbschange.fr/static/schema/change-component/1.0.xsd">
 	<name>catalog</name>
 	<type>change-module</type>
-	<version>3.6.8</version>
+	<version>3.6.9</version>
 	<description>Gestion de catalogues produits, articles, prix</description>
 	<license>os</license>
 	<repository>public</repository>
@@ -11,25 +11,25 @@
 		<dependency>
 			<name>change-module/brand</name>
 			<versions>
-				<version>3.6.8</version>
+				<version>3.6.9</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/shipping</name>
 			<versions>
-				<version>3.6.8</version>
+				<version>3.6.9</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/payment</name>
 			<versions>
-				<version>3.6.8</version>
+				<version>3.6.9</version>
 			</versions>
 		</dependency>
 		<dependency>
 			<name>change-module/comment</name>
 			<versions>
-				<version>3.6.8</version>
+				<version>3.6.9</version>
 			</versions>
 		</dependency>
 	</dependencies>
