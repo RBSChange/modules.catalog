@@ -37,7 +37,7 @@ class commands_CompileCatalog extends commands_AbstractChangeCommand
 		$lastId = 0;	
 		while ($lastId >= 0)
 		{
-			$result = f_util_System::execScript($batchPath, array($lastId, $chunkSize, $compileAll));
+			$result = f_util_System::execScriptConsole($batchPath, array($lastId, $chunkSize, $compileAll));
 			if (!$result)
 			{
 				
